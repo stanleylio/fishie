@@ -214,8 +214,8 @@ class BME280(object):
 
 
 class BME280_sl(BME280):
-    def __init__(self,busnum=1,mode=BME280_OSAMPLE_8):
-        BME280.__init__(self,busnum=busnum,mode=mode)
+    def __init__(self,bus=1,mode=BME280_OSAMPLE_8):
+        BME280.__init__(self,busnum=bus,mode=mode)
 
     def read(self):
         # ... wait what? it flips if you read t after p?? Adafruit...
@@ -245,7 +245,7 @@ if '__main__' == __name__:
 
     while True:
         try:
-            bme = BME280_sl(busnum=2)
+            bme = BME280_sl(bus=2)
             print bme.read()
         except KeyboardInterrupt:
             break
