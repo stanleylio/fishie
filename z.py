@@ -46,18 +46,20 @@ def get_action(line):
             #print tmp['from']
             #print tmp['to']
             # it must have an "action", but "from" and "sample count" are optional
-            d = {}
             if tmp['to'] == socket.gethostname():
+                d = {}
                 d['action'] = tmp['payload']['action']
+                try:
+                    d['multi_sample'] = max(0,tmp['payload']['m'])
+                except:
+                    pass
                 try:
                     d['from'] = tmp['from']
                 except:
                     pass
-                try:
-                    d['multi_sample'] = tmp['payload']['m']
-                except:
-                    pass
-            return d
+                return d
+            else:
+                return None
     except:
         #traceback.print_exc()
         pass
