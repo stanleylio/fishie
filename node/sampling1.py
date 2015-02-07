@@ -20,6 +20,7 @@
 from __future__ import with_statement
 import Adafruit_BBIO.UART as UART
 from Adafruit_BMP085 import BMP085
+from lib_si1145 import SI1145
 import serial,time
 from datetime import datetime
 from ConfigParser import SafeConfigParser,NoSectionError
@@ -43,6 +44,7 @@ parser.read('node_config.ini')
 ID = int(parser.get('node','id'))
 
 bmp = BMP085(0x77,3)    # tradeoff of using someone else's library.
+si = SI1145()
 
 try:
     with serial.Serial(serial_name,baud) as s,\
@@ -63,25 +65,32 @@ try:
             orptmp = orp.read()
             mstmp = ms.read()
             antmp = an.read()
+            uvtmp = si.readUVIndex()
+            irtmp = si.readIRLight()
+            ambtmp = si.readAmbientLight()
+
+            print uvtmp,irtmp,ambtmp
             
-            tmp = '{}\t'.format(datetime.fromtimestamp(ts).strftime('%Y-%m-%d %H:%M:%S'))
-            tmp = tmp + 'EC:{}uS, Sal.:{:.2f}\t'.format(ectmp['ec'],ectmp['sal'])
-            tmp = tmp + 'DO:{:.2f}uM\t'.format(dotmp/32e-3)
-            tmp = tmp + 'pH:{:.2f}\t'.format(phtmp)
-            tmp = tmp + 'ORP:{:.2f}mV\t'.format(orptmp)
-            tmp = tmp + 'Baro.P.:{:.2f}kPa, Air T.:{:.02f}Deg.C\t'.format(bmppressure/10.,bmptemp)
-            tmp = tmp + 'Water(MS5803) P.:{}kPa, T.:{:.02f}Deg.C\t'.format(mstmp['p'],mstmp['t'])
-            tmp = tmp + '{:.1f} m/s'.format(antmp)
+            tmp = '{}, '.format(datetime.fromtimestamp(ts).strftime('%Y-%m-%d %H:%M:%S'))
+            tmp = tmp + 'EC:{}uS, Sal.:{:.2f}, '.format(ectmp['ec'],ectmp['sal'])
+            tmp = tmp + 'DO:{:.2f}uM, '.format(dotmp/32e-3)
+            tmp = tmp + 'pH:{:.2f}, '.format(phtmp)
+            tmp = tmp + 'ORP:{:.2f}mV, '.format(orptmp)
+            tmp = tmp + 'Baro.P.:{:.2f}kPa, T.:{:.02f}Deg.C, '.format(bmppressure/10.,bmptemp)
+            tmp = tmp + 'Water P.:{}kPa, T.:{:.02f}Deg.C, '.format(mstmp['p'],mstmp['t'])
+            tmp = tmp + '{:.1f} m/s, '.format(antmp)
+            tmp = tmp + 'UV idx:{:.0f}, IR:{} lux, Amb.:{} lux'.format(uvtmp,irtmp,ambtmp)
             print tmp
             
-            tmp = 'node_{:03d},{},{},{},{},{},{},{},{},{},{},{}'.format(\
+            tmp = 'node_{:03d},{},{},{},{},{},{},{},{},{},{},{},{},{},{}'.format(\
                 ID,ts,ectmp['ec'],ectmp['sal'],
                 dotmp,
                 phtmp,
                 orptmp,
                 bmppressure,bmptemp,
                 mstmp['p'],mstmp['t'],
-                antmp)
+                antmp,
+                uvtmp,irtmp,ambtmp)
 
             tmp = wrap(tmp) + '\n'
             #print tmp
