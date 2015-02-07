@@ -53,11 +53,17 @@ class EZO_DO(EZO):
             PRINT('EZO_DO: configuration file not found. Not syncing S,P and T value')
 
     # see P.38
+    # mg/L
     def read(self):
         tmp = self._r('R').strip().split(',')
         if self.lowpower:
             self.sleep()
         return float(tmp[0])
+
+    def pretty(self,r=None):
+        if r is None:
+            r = self.read()
+        return '{:.02f}mg/L or {:.02f}uM'.format(r,r/32e-3)
 
     # see P.40
     # return a tuple, (value,is_ppt)
@@ -162,7 +168,8 @@ if '__main__' == __name__:
         #do.t(20)      # NOT synced during instantiation
         #print
         print 'A sample read:'
-        print '{:.2f} mg/L'.format(do.read())
+        #print '{:.2f} mg/L'.format(do.read())
+        print do.pretty()
         print
         print 'Current S value (salinity, supplied for calibration, not measured):'
         tmp = do.s()

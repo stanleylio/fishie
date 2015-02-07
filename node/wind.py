@@ -41,7 +41,7 @@ if '__main__' == __name__:
         with Anemometer() as an:    # this thing eats all my exceptions...
             while True:
                 tmp = an.read()
-                print '{:02.1f} m/s'.format(tmp)
+                print '{:.1f} m/s'.format(tmp)
                 # why doesn't it complain about missing library and incorrect use of *?
                 time.sleep(0.5)
     except KeyboardInterrupt:

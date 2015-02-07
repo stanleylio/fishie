@@ -98,7 +98,7 @@ if '__main__' == __name__:
         print 'Reading...'
         try:
             while True:
-                print '{:.2f} mg/L'.format(do.read())
+                print do.pretty()
                 raw_input('Hit ENTER to read another, Ctrl+C to terminate...')
         except KeyboardInterrupt:
             print

@@ -9,7 +9,7 @@ from zlib import crc32
 
 def wrap(s):
     cs = '{:08x}'.format(crc32(s) & 0xffffffff)
-    vcs = '{},{}\n'.format(s,cs)
+    vcs = '{},{}'.format(s,cs)
     return vcs
 
 # not sure if it's the 3:42AM, the coffee, or I'm just not cut for maths
