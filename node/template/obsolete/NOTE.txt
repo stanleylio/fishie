@@ -1,3 +1,0 @@
-html templates for the webpage
-
-the latest CSS is in /var/www. the one here is just a backup. so are the .js.
