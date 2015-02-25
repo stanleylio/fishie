@@ -1,0 +1,16 @@
+sampling.py
+	reads, logs and sends sensor data.
+
+z.py
+	handles communication (CRC).
+
+[comments]
+Bit the bullet and switched to a database from using raw text files. Execute db2csv.py to dump the database to a CSV.
+- this is so that plotting is no long affected by events such as script start/stop
+- python pandas can directly import sqlite database (future-proof)
+- tradeoff: require regular database maintainence (backup, integrity check etc.)
+
+Timestamps are in POSIX floats if db2csv.py is used. They are in yyyy-mm-dd hh:mm:ss.ssssss strings if db2csv.sh is used (which uses native sql commands instead of python).
+
+Old versions of scripts moved to ./obsolete. Current version of scripts no longer use numberical suffix to denote version
+- spare the manual code update when library scripts change version

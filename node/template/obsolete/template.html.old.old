@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="front.css">
+<title>{{ title_text }}</title>
+</head>
+
+<body>
+<h1>{{ header_text }}</h1>
+
+<div style="max-width:640px; margin-left:auto; margin-right:auto;">
+<img src={{ plot_path }} alt="plot" style="max-width:100%;">
+</div>
+
+<br>
+
+<table class="center">
+<caption>Current Readings</caption>
+<tr>
+<th>Variable</th>
+<th>Value</th>
+<th>Unit</th>
+</tr>
+{% for name,value,unit in table %}
+<tr>
+<td>{{ name }}</td>
+<td>{{ value }}</td>
+<td>{{ unit }}</td>
+</tr>
+{% endfor %}
+</table>
+
+<br>
+
+<div id="dropdown">
+<form action="cgi-bin/selected.py">
+<select name="selected_plot">
+{% for k,v in plot_dict.iteritems() %}
+<option value={{ k }}>{{ v }}</option>
+{% endfor %}
+</select>
+<input type="submit" value="Show">
+</form>
+</div>
+
+<p>{{ body_text }}</p>
+</body>
+</html>

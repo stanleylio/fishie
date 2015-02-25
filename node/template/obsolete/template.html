@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="front.css">
+<title>{{ title_str }}</title>
+</head>
+
+<body>
+<script src="jquery.min.js" type="text/javascript"></script>
+<script src="jquery.timeago.js" type="text/javascript"></script>
+<script src="front.js" type="text/javascript"></script>
+
+<h1>{{ node_id }}</h1>
+<p>{{ status_str }}</p>
+<p>{{ setting_str }}</p>
+    
+<table id="latest" class="center">
+<tbody>
+<caption>Current Readings</caption>
+<tr><th>Variable</th><th>Value</th><th>Unit</th></tr>
+{% for name,value,unit in TABLE %}
+<tr><td>{{ name }}</td><td>{{ value }}</td><td>{{ unit }}</td></tr>
+{% endfor %}
+</tbody>
+</table>
+
+<br></br>
+
+<table id="plots" class="center">
+<tbody>
+<tr><th>{{ temperature_header }}</th><th>{{ pressure_header }}</th></tr>
+
+<tr>
+<td><div style="max-width:640px; margin-left:auto; margin-right:auto;">
+<a href="./temperature.png">
+<img src=./temperature.png alt="temperature" style="max-width:100%;">
+</a></div></td>
+
+<td><div style="max-width:640px; margin-left:auto; margin-right:auto;">
+<a href="./pressure.png">
+<img src=./pressure.png alt="pressure" style="max-width:100%;">
+</a></div></td>
+</tr>
+
+</tbody>
+</table>
+
+<br></br>
+<a href=memory_usage.png>Memory Usage</a><br></br><br></br>
+</body>
+</html>

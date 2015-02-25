@@ -2,18 +2,17 @@ import struct
 from zlib import crc32
 # see also: hashlib
 
-# support functions for doing checksum in communication
+# support functions for CRC32 checksum in communication
 
 # Stanley Lio, hlio@usc.edu
 # All Rights Reserved. February 2015
 
 def wrap(s):
     cs = '{:08x}'.format(crc32(s) & 0xffffffff)
-    vcs = '{},{}'.format(s,cs)
-    return vcs
+    return '{},{}'.format(s,cs)
 
-# not sure if it's the 3:42AM, the coffee, or I'm just not cut for maths
-# and algorithm.
+# not sure if it's the late nights, the days of nonstop programming, the coffee
+# overdose, or I'm just not cut out for maths and algorithms.
 def check(s):
     s = s.strip()
     good = False
@@ -32,7 +31,6 @@ def check(s):
         except:
             pass
     return good
-
 
 
 if '__main__' == __name__:

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="front.css">
+<title>{{ title_text }}</title>
+</head>
+
+<body>
+<h1>{{ header_text }}</h1>
+
+<table class="center">
+<caption>Current Readings</caption>
+<tr>
+<th>Variable</th>
+<th>Value</th>
+<th>Unit</th>
+</tr>
+{% for name,value,unit in TABLE %}
+<tr>
+<td>{{ name }}</td>
+<td>{{ value }}</td>
+<td>{{ unit }}</td>
+</tr>
+{% endfor %}
+</table>
+
+<br></br>
+
+{% for plotpath,altstr in PLOTS %}
+<div style="max-width:640px; margin-left:auto; margin-right:auto;">
+<a href="{{ plotpath }}">
+<img src="{{ plotpath }}" alt="{{ altstr }}" style="max-width:100%;">
+</a>
+</div>
+{% endfor %}
+
+<br></br>
+
+<p>{{ body_text }}</p>
+</body>
+</html>
