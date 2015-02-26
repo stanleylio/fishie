@@ -58,13 +58,14 @@ with open(join(log_dir,logfile),'a+',0) as event,\
             log_event = lambda line: log(event,line)
             log_unrecognized = lambda line: log(unrecognized,line)
 
-            log_event('Logging begins')
+            log_event('capture begins')
 
             # not sure about this (s,s,1). The documentation says no.
             # but nothing is being sent from the base station at the moment, so...
             ser.flushInput()
             s = io.TextIOWrapper(io.BufferedRWPair(ser,ser,1),newline=None)
             while True:
+                line = ''
                 try:
                     line = s.readline().strip()
                     if len(line) > 0:
@@ -79,15 +80,16 @@ with open(join(log_dir,logfile),'a+',0) as event,\
                             PRINT('whoa?')
                             log_unrecognized(line)
                 except serial.SerialException:
-                    PRINT('exploratory: USB-to-serial converters are EVIL')
+                    PRINT('capture: USB-to-serial converters are EVIL')
                     log_event('USB-to-serial converters are EVIL')
                 except Exception as e:
                     PRINT('huh?')
                     PRINT(e)
+                    log_unrecognized(line)
                     #raise e
     except KeyboardInterrupt:
-        PRINT('exploratory: user interrupted')
-        log_event('User interrupted')
+        PRINT('capture: user interrupted')
+        log_event('user interrupted')
 
-    log_event('Logging terminated')
+log_event('capture terminated')
 

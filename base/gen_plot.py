@@ -96,6 +96,9 @@ def plot_time_series(d,title,xlabel,ylabel,plotfilename):
                 begin.strftime('%Y-%m-%d'),end.strftime('%Y-%m-%d')))
 
     plt.savefig(plotfilename,bbox_inches='tight',dpi=300)
+    plt.cla()
+    plt.clf()
+    plt.close()
 
 
 if '__main__' == __name__:
@@ -157,11 +160,10 @@ Name of variable is the same as the name of the column in the database.'''
 
             #tmp = store.read_all(node_id,col_name,time_col=time_col)
             #tmp = store.read_latest(node_id,col_name,count=8000,time_col=time_col)
-#            tmp = store.read_latest(node_id,col_name,nhour=3*24,time_col=time_col)
+            #tmp = store.read_latest(node_id,col_name,nhour=3*24,time_col=time_col)
 
-            # hourly_average() gives you a sequence of timestamps, so skip the timestamp column
+            # hourly_average() gives you a sequence of timestamps, so skip the first tag.
             tmp = store.hourly_average(node_id,col_name=col_name[1:],time_col=time_col)
-            
             TS = tmp[time_col]
             readings = tmp[var]
 
