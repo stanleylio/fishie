@@ -93,7 +93,7 @@ class EZO_EC(EZO):
     # super() and MRO... messy.
     def t(self,new=None):
         PRINT('EZO_EC:')
-        super(EZO_EC,self).t(new)
+        return super(EZO_EC,self).t(new)
 
     def pretty_print(self,r=None):
         if r is None:

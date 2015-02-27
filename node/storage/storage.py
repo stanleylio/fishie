@@ -26,6 +26,14 @@ class storage(object):
             self.c = self.conn.cursor()
             self.c.execute('PRAGMA journal_mode = WAL')
 
+            def dict_factory(cursor,row):
+                d = {}
+                for idx,col in enumerate(cursor.description):
+                    d[col[0]] = row[idx]
+                return d
+            #self.c.row_factory = dict_factory
+            self.c.row_factory = sqlite3.Row
+
             self.nodes = read_capability()
             for node_id in self.nodes.keys():
                 dbtag = self.nodes[node_id]['dbtag']
@@ -69,10 +77,13 @@ class storage(object):
         tmp = [list(r) for r in zip(*tmp)]
         return dict(zip(col_name,tmp))
         
-    
+
+    # if nhour is specified, read the records in the last nhour hours
+    # else if count is specified, read the last count records
+    # "last" is determinted by time_col
     def read_latest(self,node_id,col_name=None,nhour=None,count=1,time_col=None):
         assert type(node_id) is int,'storage::read_latest(): node_id must be int'
-        self.c.row_factory = sqlite3.Row
+        assert count >= 1
 
         if col_name is None:
             col_name = self.nodes[node_id]['dbtag']
@@ -124,9 +135,11 @@ class storage(object):
 
 if '__main__' == __name__:
     store = storage()
+
+    tmp = store.read_latest(4,count=2)
+    print tmp
+    
     #from datetime import datetime
     #store.write(1,(datetime.utcnow(),2,3,4))
     #print store.read_latest(1)
-
-
 

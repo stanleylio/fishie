@@ -5,7 +5,7 @@
 
 import matplotlib
 matplotlib.use('Agg')
-import sys,argparse,re
+import sys,re
 sys.path.append('storage')
 import matplotlib.pyplot as plt
 from datetime import datetime,timedelta
@@ -17,6 +17,7 @@ from scipy.signal import medfilt
 from numpy import ndarray
 import numpy as np
 from parse_support import read_capability
+from config_support import read_config
 from ConfigParser import RawConfigParser,NoSectionError
 
 def PRINT(s):
@@ -102,68 +103,45 @@ def plot_time_series(d,title,xlabel,ylabel,plotfilename):
 
 
 if '__main__' == __name__:
-    desc_str = '''Plot a sequence of time series data in a PNG file. Example:
-\tpython gen_plot.py -i 4 -v Temp_BMP180 -p /var/www
-Name of variable is the same as the name of the column in the database.'''
-    parser = argparse.ArgumentParser(formatter_class=argparse.RawTextHelpFormatter,\
-                                     description=desc_str)
-#    parser.add_argument('-f',type=str,metavar='DATA_FILE',help='path to a time series CSV')
-    parser.add_argument('-i','--id',type=int,metavar='ID',help='Node ID, an integer')
-    parser.add_argument('-v','--var',type=str,metavar='VAR',\
-                        help='name of the variable to plot')
-    parser.add_argument('-p',type=str,metavar='PLOT_DIR',help='directory for the plots')
-    args = parser.parse_args()
+    display_config = read_config('display_config.ini',pattern='^node_\d{3}$')
+    node_config = read_config('node_config.ini',pattern='^node_\d{3}$')
 
-    plot_list = {}
-    var = args.var
-    node_id = args.id
-    plot_dir = args.p
-    if node_id is not None:
-        if plot_dir is None:
-            plot_dir = '.'
-        plot_list[node_id] = {}
-        plot_list[node_id]['plot_dir'] = plot_dir
-        plot_list[node_id]['var_list'] = [var]
-        plot_list[node_id]['linestyle'] = ['b']
-    else:
-        parser = RawConfigParser()
-        parser.read(join(dirname(__file__),'display_config.ini'))
-        for s in parser.sections():
-            if re.match('^node_\d{3}$',s):
-                node_id = int(s[5:8])
-                plot_list[node_id] = {}
-                plot_list[node_id]['plot_dir'] = parser.get(s,'plot_dir')
-                plot_list[node_id]['time_col'] = parser.get(s,'time_col')
-                plot_list[node_id]['var_list'] = parser.get(s,'variable').split(',')
-                plot_list[node_id]['linestyle'] = parser.get(s,'linestyle').split(',')
-
-    # - - - - -
-    
     store = storage()
-
-    for node in plot_list.keys():
-        plot_dir = plot_list[node_id]['plot_dir']
-        var_list = plot_list[node_id]['var_list']
-        time_col = plot_list[node_id]['time_col']
-        linestyles = plot_list[node_id]['linestyle']
+    
+    node_list = sorted(display_config.keys())
+    for node in node_list:
+        node_id = int(node[5:8])
+        plot_dir = display_config[node]['plot_dir']
+        time_col = display_config[node]['time_col']
+        var_list = display_config[node]['variable'].split(',')
+        linestyles = display_config[node]['linestyle'].split(',')
 
         if not exists(plot_dir):
             makedirs(plot_dir)
 
+        # if linestyles is missing... default = ... TODO
+
+        dbtag = node_config[node]['dbtag'].split(',')
+        dbunit = node_config[node]['dbunit'].split(',')
+        tag_to_unit_dict = dict(zip(dbtag,dbunit))
+        
         for var,linestyle in zip(var_list,linestyles):
-            #print node_id,var
-            node_capability = read_capability()
-            dbtag = node_capability[node_id]['dbtag']
-            dbunit = node_capability[node_id]['dbunit']
-            unit = dict(zip(dbtag,dbunit))[var]
+            unit = tag_to_unit_dict[var]
             col_name = [time_col,var]
 
             #tmp = store.read_all(node_id,col_name,time_col=time_col)
             #tmp = store.read_latest(node_id,col_name,count=8000,time_col=time_col)
             #tmp = store.read_latest(node_id,col_name,nhour=3*24,time_col=time_col)
 
-            # hourly_average() gives you a sequence of timestamps, so skip the first tag.
+            # hourly_average() gives you a sequence of timestamps, so don't need to specify
+            # the timestamp column in col_name
+
             tmp = store.hourly_average(node_id,col_name=col_name[1:],time_col=time_col)
+
+            if len(tmp) <= 0:
+                PRINT('gen_plot: database contains no record for node_{:03d}. ABORT'.format(node_id))
+                break
+            
             TS = tmp[time_col]
             readings = tmp[var]
 

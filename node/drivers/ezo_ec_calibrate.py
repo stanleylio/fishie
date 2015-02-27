@@ -47,7 +47,7 @@ if '__main__' == __name__:
     print
     # K value should be set in the ezo.ini file.
     print 'Current T value (calibration parameter, not measured):'
-    print '{:.1f} Deg.C'.format(ec.t())
+    print '{:.0f} Deg.C'.format(ec.t())
     print
     print 'A sample read:'
     ec.pretty_print(ec.read())

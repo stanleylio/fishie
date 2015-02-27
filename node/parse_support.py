@@ -1,7 +1,8 @@
 import re,time,glob
 from os.path import join,exists,getmtime,dirname
 from datetime import datetime,timedelta
-from ConfigParser import RawConfigParser,NoSectionError,NoOptionError
+from ConfigParser import RawConfigParser,NoSectionError
+from config_support import read_config
 from z import check
 
 def PRINT(s):
@@ -11,40 +12,39 @@ def PRINT(s):
 # for caching the capabilities of the nodes
 # for efficiency (don't want to read the config file for each message received)
 def read_capability():
-    try:
-        parser = RawConfigParser()
-        parser.read(join(dirname(__file__),'node_config.ini'))
-        nodes = {}
+    node_config = read_config('node_config.ini',pattern='^node_\d{3}$')
+    nodes = {}
         
-        for s in parser.sections():
-            if re.match('^node_\d{3}$',s):
-                #PRINT(s)
-                node_id = int(s[5:])
-                dbtag = [c.strip() for c in parser.get(s,'dbtag').split(',')]
-                dbtype = [c.strip() for c in parser.get(s,'dbtype').split(',')]
-                dbunit = [c.strip() for c in parser.get(s,'dbunit').split(',')]
+    for node in node_config.keys():
+        #PRINT(s)
+        node_id = int(node[5:])
+        name = node_config[node]['name']
+        dbtag = [c.strip() for c in node_config[node]['dbtag'].split(',')]
+        dbtype = [c.strip() for c in node_config[node]['dbtype'].split(',')]
+        dbunit = [c.strip() for c in node_config[node]['dbunit'].split(',')]
+        msgfield = None
+        try:
+            msgfield = [c.strip() for c in node_config[node]['msgfield'].split(',')]
+        except Exception as e:
+            PRINT('read_capability(): msgfield not found (optional for node).')
+        convf = None
+        try:
+            convf = [eval(v) for v in node_config[node]['convf'].split(',')]
+        except Exception as e:
+            PRINT('read_capability(): convf not found (optional for node).')
 
-                msgfield = None;
-                convf = None;
-                try:
-                    msgfield = [c.strip() for c in parser.get(s,'msgfield').split(',')]
-                    convf = [eval(v) for v in parser.get(s,'convf').strip().split(',')]
-                    assert len(dbtag) == len(dbtype),\
-                           'dbtag and dbtype should have the same length'
-                    assert len(msgfield) == len(convf),\
-                           'msgfield and convf should have the same length'
-                except NoOptionError as e1:
-                    PRINT('read_capability(): option not found: ' + str(e1))
+        assert len(dbtag) == len(dbtype),\
+               'dbtag and dbtype should have the same length'
+#        assert len(msgfield) == len(convf),\
+#               'msgfield and convf should have the same length'
 
-                nodes[node_id] = {'dbtag':dbtag,
-                                  'dbtype':dbtype,
-                                  'dbunit':dbunit,
-                                  'msgfield':msgfield,
-                                  'convf':convf}
-        return nodes
-    except NoSectionError as e:
-        PRINT('haha(): configuration file not found.')
-        raise e
+        nodes[node_id] = {'name':name,
+                          'dbtag':dbtag,
+                          'dbtype':dbtype,
+                          'dbunit':dbunit,
+                          'msgfield':msgfield,
+                          'convf':convf}
+    return nodes
     
 
 class NodeMessageParser(object):
@@ -212,3 +212,6 @@ if '__main__' == __name__:
     for k,v in enumerate(p):
         print '{}: {}'.format(v,p[v])
 
+    print '- - - - -'
+    print read_config('node_config.ini')
+    

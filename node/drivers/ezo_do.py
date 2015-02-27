@@ -124,7 +124,7 @@ class EZO_DO(EZO):
     # super() and MRO... messy.
     def t(self,new=None):
         PRINT('EZO_DO:')
-        super(EZO_DO,self).t(new)
+        return super(EZO_DO,self).t(new)
 
 
 if '__main__' == __name__:
