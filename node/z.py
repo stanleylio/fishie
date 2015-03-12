@@ -7,9 +7,11 @@ from zlib import crc32
 # Stanley Lio, hlio@usc.edu
 # All Rights Reserved. February 2015
 
+def get_checksum(s):
+    return'{:08x}'.format(crc32(s) & 0xffffffff)
+
 def wrap(s):
-    cs = '{:08x}'.format(crc32(s) & 0xffffffff)
-    return '{},{}'.format(s,cs)
+    return '{},{}'.format(s,get_checksum(s))
 
 # not sure if it's the late nights, the days of nonstop programming, the coffee
 # overdose, or I'm just not cut out for maths and algorithms.

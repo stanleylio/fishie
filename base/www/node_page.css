@@ -1,0 +1,83 @@
+* {
+	font-family: Arial, Helvetica, sans-serif;
+}
+.center {
+	margin-left: auto;
+	margin-right: auto;
+    text-align: center;
+}
+table {
+	border-collapse: collapse;
+}
+.plot_header {
+    font-weight: bold;
+    border: 0px solid black;
+    background-color: orange;
+    padding: 4px;
+}
+.plot {
+	max-width:100%;
+}
+th,td {
+	border: 0px solid black;
+	text-align: center;
+	padding: 4px
+}
+table th {
+	background: orange;
+}
+table caption {
+	font-weight: normal;
+}
+<!--
+source: http://www.dwuser.com/education/content/creating-responsive-tiled-layout-with-pure-css/
+-->
+#wrap {
+    overflow:auto;
+    <!--overflow:hidden;-->
+}
+@media only screen and (max-width:650px) {
+    .box {
+        width: 100%;
+        padding-bottom: 80%;
+        /*background: #F00;*/
+        background: white;
+        color: black;
+        position: relative;
+        float: left;
+    }
+}
+@media only screen and (max-width:1290px) and (min-width:651px) {
+    .box {
+        width: 50%;
+        padding-bottom: 40%;
+        /*background: #00F;*/
+        background: white;
+        color: black;
+        position: relative;
+        float: left;
+    }
+}
+@media only screen and (min-width: 1291px) {
+    .box {
+        width: 33%;
+        padding-bottom: 28%;
+        /*background: #0F0;*/
+        background: white;
+        color: black;
+        position: relative;
+        float: left;
+    }
+}
+.innerContent {
+    position: absolute;
+    left: 0px;
+    right: 0px;
+    top: 40px;
+    bottom: 0px;
+    /*background: #66F;*/
+    background: white;
+}
+html, body {
+    height: 100%;
+}

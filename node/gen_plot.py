@@ -19,6 +19,7 @@ import numpy as np
 from parse_support import read_capability
 from config_support import read_config
 from ConfigParser import RawConfigParser,NoSectionError
+from matplotlib import colors
 
 def PRINT(s):
     #pass
@@ -30,23 +31,27 @@ def plot_time_series(d,title,xlabel,ylabel,plotfilename):
     x = d['x']
     y = d['y']
     try:
-        linestyle = d['linestyle']
-    except KeyError:
-        linestyle = 'r'
-    try:
         linelabel = d['linelabel']
     except KeyError:
-        linelabel = ''
+        linelabel = ''      # don't think this work for the multi-line case. TODO
+    try:
+        linestyle = d['linestyle']
+    except KeyError:
+        linestyle = ['-' for l in linelabel]
+    try:
+        linecolor = d['linecolor']
+    except KeyError:
+        linecolor = ['r' for l in linelabel]
 
     # y etc. can be list of readings, or could be list of list of readings.
     # in the latter case, one line per list all on the same plot
     plt.figure()
     if type(y[0]) is list or type(y[0]) is ndarray:
-        tmp = zip(y,linestyle,linelabel)
+        tmp = zip(y,linestyle,linelabel,linecolor)
     else:
-        tmp = [(y,linestyle,linelabel)]
+        tmp = [(y,linestyle,linelabel,linecolor)]
     for p in tmp:
-        plt.plot_date(x,p[0],p[1],label=p[2])
+        plt.plot_date(x,p[0],linestyle=p[1],label=p[2],color=p[3],marker=None)
         plt.legend(loc='best',framealpha=0.5)
 
     # min, max, (mean?)
@@ -55,12 +60,13 @@ def plot_time_series(d,title,xlabel,ylabel,plotfilename):
     ymin = min([min(v[0]) for v in tmp])
     ymax = max([max(v[0]) for v in tmp])
     xp = x[int(round(0.3*len(x)))]
-    plt.plot([xmin,xmax],[ymin,ymin],'k--')
-    plt.gca().annotate('{:.2f}'.format(ymax),xy=(xp,ymax),xytext=(xp,ymax),\
-                       va='bottom',ha='center')
-    plt.plot([xmin,xmax],[ymax,ymax],'k--')
-    plt.gca().annotate('{:.2f}'.format(ymin),xy=(xp,ymin),xytext=(xp,ymin),\
-                       va='top',ha='center')
+    if all([v is not None for v in [xmin,xmax,ymin,ymax]]):
+        plt.plot([xmin,xmax],[ymin,ymin],'k--')
+        plt.gca().annotate('{:.2f}'.format(ymax),xy=(xp,ymax),xytext=(xp,ymax),\
+                           va='bottom',ha='center')
+        plt.plot([xmin,xmax],[ymax,ymax],'k--')
+        plt.gca().annotate('{:.2f}'.format(ymin),xy=(xp,ymin),xytext=(xp,ymin),\
+                           va='top',ha='center')
     
     plt.title(title)
     plt.grid(True)
@@ -96,7 +102,7 @@ def plot_time_series(d,title,xlabel,ylabel,plotfilename):
             plt.gca().set_xlabel('Time ({} to {})'.format(\
                 begin.strftime('%Y-%m-%d'),end.strftime('%Y-%m-%d')))
 
-    plt.savefig(plotfilename,bbox_inches='tight',dpi=300)
+    plt.savefig(plotfilename,bbox_inches='tight',dpi=150)
     plt.cla()
     plt.clf()
     plt.close()
@@ -115,6 +121,13 @@ if '__main__' == __name__:
         time_col = display_config[node]['time_col']
         var_list = display_config[node]['variable'].split(',')
         linestyles = display_config[node]['linestyle'].split(',')
+        try:
+            linecolors = display_config[node]['linecolor'].split(',')
+        except KeyError:
+            linecolors = []
+        C = {k:colors.cnames[k] for k in colors.cnames}
+        C.update(colors.ColorConverter.colors)
+        linecolors = [C[c] for c in linecolors]
 
         if not exists(plot_dir):
             makedirs(plot_dir)
@@ -125,28 +138,29 @@ if '__main__' == __name__:
         dbunit = node_config[node]['dbunit'].split(',')
         tag_to_unit_dict = dict(zip(dbtag,dbunit))
         
-        for var,linestyle in zip(var_list,linestyles):
+        for var,linestyle,linecolor in zip(var_list,linestyles,linecolors):
             unit = tag_to_unit_dict[var]
             col_name = [time_col,var]
 
             #tmp = store.read_all(node_id,col_name,time_col=time_col)
             #tmp = store.read_latest(node_id,col_name,count=8000,time_col=time_col)
             #tmp = store.read_latest(node_id,col_name,nhour=3*24,time_col=time_col)
-
             # hourly_average() gives you a sequence of timestamps, so don't need to specify
             # the timestamp column in col_name
+            #tmp = store.hourly_average(node_id,col_name=col_name[1:],time_col=time_col)
+            tmp = store.read(node_id,variables=col_name[1:],nday=7,time_col=time_col,avg='hourly')
 
-            tmp = store.hourly_average(node_id,col_name=col_name[1:],time_col=time_col)
-
-            if len(tmp) <= 0:
+            if len(tmp) <= 0 or len(tmp[time_col]) <= 0:
                 PRINT('gen_plot: database contains no record for node_{:03d}. ABORT'.format(node_id))
                 break
             
             TS = tmp[time_col]
             readings = tmp[var]
+#            print [r is None for r in readings]
+#readings = [r for r in readings if r is not None else numpy.nan]
 
             PRINT('Plotting {} of node_{:03d}...'.format(var,node_id))
-            tmp = {'x':TS,'y':readings,'linestyle':linestyle,'linelabel':var}
+            tmp = {'x':TS,'y':readings,'linestyle':linestyle,'linelabel':var,'linecolor':linecolor}
             plot_time_series(tmp,'{} of node_{:03d}'.\
                      format(var,node_id),None,unit,\
                      join(plot_dir,var + '.png'))

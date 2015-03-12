@@ -1,0 +1,54 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="node_page.css">
+    <title>Environmental Monitoring</title>
+</head>
+<body>
+<script src="jquery.min.js" type="text/javascript"></script>
+<script src="jquery.timeago.js" type="text/javascript"></script>
+<script src="node_page.js" type="text/javascript"></script>
+
+<div id="summary" class="center">
+    <h1>Node #3 (Aanderaa 4330F)</h1>
+    <p>Last reading in plot sampled at 2015-03-12 07:47:10 UTC (<time class="timeago" datetime="2015-03-12T07:47:10.612352+00:00">ago</time>)</p>
+    <p>Median filter: <b>OFF</b><br>Plotting: past 7 days; hourly averages</p>
+</div>
+
+<table id="latest" class="center">
+<tbody>
+<caption>Current Readings</caption>
+<tr><th>Variable</th><th>Value</th><th>Unit</th></tr>
+<tr><td>O2Concentration</td><td>275.50</td><td>uM</td></tr><tr><td>AirSaturation</td><td>98.00</td><td>%</td></tr><tr><td>Temperature</td><td>20.44</td><td>Deg.C</td></tr>
+</tbody>
+</table>
+
+<br></br>
+
+<div id="wrap">
+	
+    <div class="box">
+        <p class="plot_header center">O2Concentration</p>
+        <div class="innerContent">
+            <a href="./node_003/O2Concentration.png"><img class="plot" src="./node_003/O2Concentration.png" alt="O2Concentration"></a>
+        </div>
+    </div>
+	
+    <div class="box">
+        <p class="plot_header center">AirSaturation</p>
+        <div class="innerContent">
+            <a href="./node_003/AirSaturation.png"><img class="plot" src="./node_003/AirSaturation.png" alt="AirSaturation"></a>
+        </div>
+    </div>
+	
+    <div class="box">
+        <p class="plot_header center">Temperature</p>
+        <div class="innerContent">
+            <a href="./node_003/Temperature.png"><img class="plot" src="./node_003/Temperature.png" alt="Temperature"></a>
+        </div>
+    </div>
+	
+</div>
+</body>
+</html>

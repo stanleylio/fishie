@@ -116,6 +116,8 @@ def gen_node_page(node_id,page_template,error_template,output_dir):
     status_str = 'Last reading in plot sampled at {} UTC ({})'.format(ts.strftime('%Y-%m-%d %H:%M:%S'),timeelement)
     #status_str = 'Last reading in plot sampled at {} PST ({})'.format(ts.strftime('%Y-%m-%d %H:%M:%S'),timeelement)
     setting_str = 'Median filter: {}'.format('<b>OFF</b>')
+# TODO: every time you use a magic number god kills a kitten.
+    setting_str = setting_str + '<br>Plotting: past 7 days; hourly averages'
     body_text = '<a href=./memory_usage.png>Memory Usage</a>'
 
     with open(page_template,'r') as f:

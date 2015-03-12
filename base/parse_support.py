@@ -1,3 +1,7 @@
+#!/usr/bin/python
+#
+# Stanley Lio, hlio@usc.edu
+# All Rights Reserved. February 2015
 import re,time,glob
 from os.path import join,exists,getmtime,dirname
 from datetime import datetime,timedelta
@@ -5,18 +9,19 @@ from ConfigParser import RawConfigParser,NoSectionError
 from config_support import read_config
 from z import check
 
+
 def PRINT(s):
-    #pass
-    print(s)
+    pass
+    #print(s)
 
 # for caching the capabilities of the nodes
 # for efficiency (don't want to read the config file for each message received)
 def read_capability():
-    node_config = read_config('node_config.ini',pattern='^node_\d{3}$')
+    node_config = read_config(join(dirname(__file__),'node_config.ini'),pattern='^node_\d{3}$')
     nodes = {}
-        
+
     for node in node_config.keys():
-        #PRINT(s)
+        #PRINT(node)
         node_id = int(node[5:])
         name = node_config[node]['name']
         dbtag = [c.strip() for c in node_config[node]['dbtag'].split(',')]
@@ -45,6 +50,20 @@ def read_capability():
                           'msgfield':msgfield,
                           'convf':convf}
     return nodes
+
+# print to terminal the given dictionary of readings
+def pretty_print(d):
+    # print the units as well? nah...
+    max_len = max([len(k) for k in d.keys()])
+    print '= '*(max_len + 4)
+    if 'node_id' in d.keys():
+        print 'From node_{:03d}:'.format(d['node_id'])
+    if 'ReceptionTime' in d.keys():
+        print 'Received at {}'.format(d['ReceptionTime'])
+    if 'Timestamp' in d.keys():
+        print 'Sampled at {}'.format(d['Timestamp'])
+    for k in [k for k in d.keys() if all([k != t for t in ['Timestamp','node_id','ReceptionTime']])]:
+        print '{}{}{}'.format(k,' '*(max_len + 4 - len(k)),d[k])
     
 
 class NodeMessageParser(object):
@@ -56,7 +75,7 @@ class NodeMessageParser(object):
         line = line.strip()
         node_id = self.id_node(line)
         if node_id is not None:
-            # I HATE magic numbers. They are PURE EVIL!
+            # magic numbers are PURE EVIL
             if node_id in [1,2]:
                 d = self.parse_3835(line,node_id=node_id)
             if 3 == node_id:
@@ -110,18 +129,27 @@ class NodeMessageParser(object):
         assert len(fields) == len(convf),'fields and convf should have the same length'
 
         d = {}
-        d['node_id'] = node_id
-        for p in zip(msgfield,fields,convf):
-            #print p[0],p[1],p[2]
-            d[p[0]] = p[2](p[1])
+        try:
+            d['node_id'] = node_id
+            for p in zip(msgfield,fields,convf):
+                d[p[0]] = p[2](p[1])
+        except:
+            PRINT('parse_support:parse_bbb_node(): error parsing {}'.format(line))
+            pass
         return d
 
     # I hate these magic functions. mixing domain-specific information with the control
     # logic is always bad.
     def parse_4330f(self,line,node_id=None):
+
+# 1. this shouldn't be here at all. this function is for parsing messages from the 4330f
+# it shoudn't concern itself with node id.
         if node_id is None:
             node_id = self.id_node(line)
-        
+
+# 2. if this is specifically designed for 4330f, then these should be included in this
+# function and not be in the config file - it's not like the messages format is going to
+# change and the user needs to update the config file often.
         cols = self.node_capability[node_id]['msgfield']
         convf = self.node_capability[node_id]['convf']
 
@@ -198,20 +226,22 @@ if '__main__' == __name__:
     print nmp.id_node(t8)
     print nmp.id_node(t9)
 
-    print '- - - - -'
-    t = t6
-    print t
-    p = nmp.parse_4330f(t)
-    print '- - -'
-    for k,v in enumerate(p):
-        print '{}: {}'.format(v,p[v])
+#    print '- - - - -'
+#    t = t6
+#    print t
+#    p = nmp.parse_4330f(t)
+#    print '- - -'
+#    for k,v in enumerate(p):
+#        print '{}: {}'.format(v,p[v])
 
-    print '- - - - -'
-    print t4
-    p = nmp.parse_3835(t4)
-    for k,v in enumerate(p):
-        print '{}: {}'.format(v,p[v])
+#    print '- - - - -'
+#    print t4
+#    p = nmp.parse_3835(t4)
+#    for k,v in enumerate(p):
+#        print '{}: {}'.format(v,p[v])
 
     print '- - - - -'
     print read_config('node_config.ini')
-    
+
+    print '- - - - -'
+    print read_capability()    
