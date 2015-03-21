@@ -1,3 +1,0 @@
-
-.output tmp.sql
-.dump

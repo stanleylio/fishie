@@ -5,3 +5,14 @@
 *.tar
 *.gz
 *.exe
+*.csv
+*.png
+*.txt
+
+.obsolete/
+
+node_config.ini
+display_config.ini
+
+sampling.py
+capture.py
