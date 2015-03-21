@@ -57,7 +57,7 @@ class Aanderaa_4330f(Thread):
         self.start()
         PRINT('Aanderaa_4330f: initializing...')
         for i in range(10):
-            PRINT('{}...'.format(30 - i))
+            PRINT('{}...'.format(10 - i))
             if self.read() is not None:
                 break
             time.sleep(1)
