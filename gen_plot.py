@@ -131,6 +131,7 @@ if '__main__' == __name__:
             makedirs(plot_dir)
 
         # if linestyles is missing... default = ... TODO
+        # nah. the next version will use XML/JSON, skipping the CSV altogether.
 
         dbtag = node_config[node]['dbtag'].split(',')
         dbunit = node_config[node]['dbunit'].split(',')

@@ -29,14 +29,19 @@ def PRINT(s):
 # lowpower mode if the LED is need for debugging purpose.
 class EZO_DO(EZO):
 
-    i2c = None
-    MAX_LEN = 32
+    MAX_LEN = 32    # hum... instance variable... how about class attribute?
+
+    # need to think it through. I want to the methods to return the units as well, but
+    # I also want to be able to get just the units without instantiating a class
+    units = {'read':'mg/L','read_uM':'uM'}
+    # but really, should be able to query the nodes for units too...
+    # plotting and processing code shouldn't need to know the existence of THIS driver script.
     
     def __init__(self,address=0x61,lowpower=True):
-
         self.i2c = Adafruit_I2C(address)
         self.address = address
         self.lowpower = lowpower
+        
         try:
             parser = SafeConfigParser()
             parser.read(join(dirname(__file__),'ezo.ini'))
@@ -55,12 +60,21 @@ class EZO_DO(EZO):
             PRINT('EZO_DO: configuration file not found. Not syncing S,P and T value')
 
     # see P.38
-    # mg/L
+    # in mg/L
     def read(self):
         tmp = self._r('R').strip().split(',')
         if self.lowpower:
             self.sleep()
         return float(tmp[0])
+
+    # in uM
+    # if a reading is passed, return it after unit conversion
+    # not used. even with this function, the plotting code will still need to be customized
+    # to know to use this function.
+    def read_uM(self,val=None):
+        if val is None:
+            val = self.read()
+        return val/32e-3
 
     def pretty(self,r=None):
         if r is None:
@@ -161,4 +175,6 @@ if '__main__' == __name__:
         print do.pretty()
         print
         #do.p(101.3)
+        print 'Another read, directly in uM: {} uM'.format(do.read_uM())
+        
 

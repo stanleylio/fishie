@@ -103,7 +103,7 @@ class Aanderaa_4330f(Thread):
                     PRINT('Aanderaa_4330f::run(): unknown exception')
                     raise e
                 
-                time.sleep(1)   # hum... power vs. freshness tradeoff. TODO.
+                time.sleep(10)   # hum... power vs. freshness tradeoff. TODO.
             PRINT('Aanderaa_4330f: stopped')
 
     def stop(self):
