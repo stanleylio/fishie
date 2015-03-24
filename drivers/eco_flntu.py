@@ -38,12 +38,11 @@ def parse_eco_flntu(line):
     return d
 
 class ECO_FLNTU(Thread):
-    def __init__(self,port='/dev/ttyO2',baud=19200,interval=1):
+    def __init__(self,port='/dev/ttyO2',baud=19200):
         super(ECO_FLNTU,self).__init__()
         self._d = None
         self._port = port
         self._baud = baud
-        self._interval = interval
         self._stop = Event()
 
         # so that if no other non-daemonic thread (such as main thread) is alive, this dies
@@ -77,7 +76,7 @@ class ECO_FLNTU(Thread):
                     PRINT('ECO_FLNTU::run(): unknown exception')
                     raise e
                 
-                time.sleep(self._interval)
+                time.sleep(1)
             PRINT('ECO_FLNTU: stopped')
 
     def stop(self):
