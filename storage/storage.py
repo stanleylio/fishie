@@ -3,11 +3,8 @@
 # Stanley Lio, hlio@usc.edu
 # All Rights Reserved. February 2015
 
-import sqlite3,re,sys
-sys.path.append('..')
-from ConfigParser import RawConfigParser,NoSectionError
+import sqlite3
 from os.path import join,dirname
-from parse_support import read_capability
 
 
 def PRINT(s):
@@ -18,7 +15,7 @@ def PRINT(s):
 # one column per variable
 
 class storage(object):
-    def __init__(self):
+    def __init__(self,capability):
         try:
             self.conn = sqlite3.connect(join(dirname(__file__),'sensor_data.db'),\
                                         detect_types=sqlite3.PARSE_DECLTYPES |\
@@ -35,7 +32,7 @@ class storage(object):
             #self.c.row_factory = dict_factory
             self.c.row_factory = sqlite3.Row
 
-            self.node_capability = read_capability()
+            self.node_capability = capability
             for node_id in self.node_capability.keys():
                 dbtag = self.node_capability[node_id]['dbtag']
                 dbtype = self.node_capability[node_id]['dbtype']
