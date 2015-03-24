@@ -45,11 +45,12 @@ def parse_4330f(line):
 
 
 class Aanderaa_4330f(Thread):
-    def __init__(self,port='/dev/ttyUSB0',baud=9600):
+    def __init__(self,port='/dev/ttyUSB0',baud=9600,interval=1):
         super(Aanderaa_4330f,self).__init__()
         self._d = None
         self._port = port
         self._baud = baud
+        self._interval = interval
         self._stop = Event()
         # so that if no other non-daemonic thread (such as main thread) is alive, this dies
         # without having someone else to call stop()
@@ -103,7 +104,7 @@ class Aanderaa_4330f(Thread):
                     PRINT('Aanderaa_4330f::run(): unknown exception')
                     raise e
                 
-                time.sleep(10)   # hum... power vs. freshness tradeoff. TODO.
+                time.sleep(self._interval)
             PRINT('Aanderaa_4330f: stopped')
 
     def stop(self):
