@@ -1,3 +1,7 @@
+#!/usr/bin/python
+#
+# Stanley Lio, hlio@usc.edu
+# All Rights Reserved. February 2015
 import re
 from ConfigParser import RawConfigParser
 from os.path import exists
@@ -14,6 +18,7 @@ def read_config(filename='node_config.ini',pattern='.*'):
         return config
     else:
         raise IOError('read_config(): {} not found'.format(filename));
+
 
 if '__main__' == __name__:
     print read_config('node_config.ini')

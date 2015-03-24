@@ -5,7 +5,6 @@
 import re,time,glob
 from os.path import join,exists,getmtime,dirname
 from datetime import datetime,timedelta
-from ConfigParser import RawConfigParser,NoSectionError
 from config_support import read_config
 from z import check
 
