@@ -112,7 +112,7 @@ if '__main__' == __name__:
     node_config = read_config('node_config.ini',pattern='^node_\d{3}$')
 
     capability = read_capability()
-    store = storage(capability)
+    store = storage()
     
     node_list = sorted(display_config.keys())
     for node in node_list:

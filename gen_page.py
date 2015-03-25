@@ -8,7 +8,6 @@ from os.path import getmtime,dirname,join,isfile,isdir
 from storage import storage
 from datetime import datetime,timedelta
 from config_support import read_config
-from parse_support import read_capability
 
 
 def PRINT(s):
@@ -75,7 +74,7 @@ def gen_node_page(node_id,page_template,error_template,output_dir):
     # Retrieve the latest readings, plus Timestamp/ReceptionTime
     # NOTE: On the base station, all database records have associated ReceptionTime but
     # don't always have Timestamp (reported by sensor nodes); on nodes they may have neither.
-    store = storage(read_capability())
+    store = storage()
     try:
         tmp = store.read_latest(node_id,time_col=time_col)
     except Exception as e:

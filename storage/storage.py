@@ -15,40 +15,52 @@ def PRINT(s):
 # one column per variable
 
 class storage(object):
-    def __init__(self,capability):
-        try:
-            self.conn = sqlite3.connect(join(dirname(__file__),'sensor_data.db'),\
-                                        detect_types=sqlite3.PARSE_DECLTYPES |\
-                                        sqlite3.PARSE_COLNAMES)
-            self.c = self.conn.cursor()
-            self.c.execute('PRAGMA journal_mode = WAL')
-            # auto vacuum? nah. costly.
+    def __init__(self,capability=None):
+        self.conn = sqlite3.connect(join(dirname(__file__),'sensor_data.db'),\
+                                    detect_types=sqlite3.PARSE_DECLTYPES |\
+                                    sqlite3.PARSE_COLNAMES)
+        self.c = self.conn.cursor()
+        self.c.execute('PRAGMA journal_mode = WAL')
 
-            #def dict_factory(cursor,row):
-            #    d = {}
-            #    for idx,col in enumerate(cursor.description):
-            #        d[col[0]] = row[idx]
-            #    return d
-            #self.c.row_factory = dict_factory
-            self.c.row_factory = sqlite3.Row
+        # auto vacuum? nah. costly.
 
-            self.node_capability = capability
-            for node_id in self.node_capability.keys():
-                dbtag = self.node_capability[node_id]['dbtag']
-                dbtype = self.node_capability[node_id]['dbtype']
+        #def dict_factory(cursor,row):
+        #    d = {}
+        #    for idx,col in enumerate(cursor.description):
+        #        d[col[0]] = row[idx]
+        #    return d
+        #self.c.row_factory = dict_factory
+        self.c.row_factory = sqlite3.Row
+
+        # "create table if not exist"
+        if capability is not None:
+            self._capability = capability
+            
+            for node_id in self._capability.keys():
+                dbtag = self._capability[node_id]['dbtag']
+                dbtype = self._capability[node_id]['dbtype']
 
                 table_name = 'node_{:03d}'.format(node_id)
                 schema = '({})'.format(','.join([' '.join(p) for p in zip(dbtag,dbtype)]))
                 cmd = 'CREATE TABLE IF NOT EXISTS {} {}'.format(table_name,schema)
                 self.c.execute(cmd)
+        else:
+            self._capability = {}
+            
+            self.c.execute('select name from sqlite_master where type = "table"')
+            tmp = self.c.fetchall()
+            node_ids = [int(c[0][5:8]) for c in tmp]
 
-                #insertcmd = 'INSERT OR REPLACE INTO {} VALUES{}'.\
-                #         format(table_name,'({})'.format(','.join('?'*len(dbtype))))
-                #self.node_capability[node_id]['insertcmd'] = insertcmd
+            for node_id in node_ids:
+                #self.c.execute('SELECT * FROM node_{:03d}'.format(node_id))
+                #self._capability[node_id] = {}
+                #self._capability[node_id]['dbtag'] = [c[0] for c in self.c.description]
 
-        except NoSectionError as e:
-            PRINT('storage: configuration file not found.')
-            raise e
+                self.c.execute('PRAGMA table_info(node_{:03d})'.format(node_id))
+                tmp = zip(*[(c[1],c[2]) for c in self.c.fetchall()])
+                self._capability[node_id] = {}
+                self._capability[node_id]['dbtag'] = list(tmp[0])
+                self._capability[node_id]['dbunit'] = list(tmp[1])
 
     # readings: a dictionary with keys=column names and vals=readings
     # as long as the caller supply all the required values
@@ -56,7 +68,7 @@ class storage(object):
     # what is "required" for each node is defined in the configuration file, "dbtag"
     def write(self,node_id,readings):
         table_name = 'node_{:03d}'.format(node_id)
-        dbtag = self.node_capability[node_id]['dbtag']
+        dbtag = self._capability[node_id]['dbtag']
         readings = [readings[v] for v in dbtag]
         cmd = 'INSERT OR REPLACE INTO {} ({}) VALUES ({})'.\
               format(table_name,','.join(dbtag),','.join('?'*len(dbtag)))
@@ -81,10 +93,10 @@ class storage(object):
 
     def read_time_range(self,node_id,time_col=None):
         if time_col is None:
-            if 'Timestamp' in self.node_capability[node_id]['dbtag']:
+            if 'Timestamp' in self._capability[node_id]['dbtag']:
                 # only the BBB nodes have Timestamp
                 time_col = 'Timestamp'
-            elif 'ReceptionTime' in self.node_capability[node_id]['dbtag']:
+            elif 'ReceptionTime' in self._capability[node_id]['dbtag']:
                 # ReceptionTime is recorded only at the base station, but is available for all nodes
                 time_col = 'ReceptionTime'
             else:
@@ -121,17 +133,17 @@ class storage(object):
         # auto select time_col:
         # use Timestamp if it exists; otherwise use ReceptionTime
         if time_col is None:
-            if 'Timestamp' in self.node_capability[node_id]['dbtag']:
+            if 'Timestamp' in self._capability[node_id]['dbtag']:
                 # only the BBB nodes have Timestamp
                 time_col = 'Timestamp'
-            elif 'ReceptionTime' in self.node_capability[node_id]['dbtag']:
+            elif 'ReceptionTime' in self._capability[node_id]['dbtag']:
                 # ReceptionTime is recorded only at the base station, but is available for all nodes
                 time_col = 'ReceptionTime'
             else:
                 raise Exception('Neither Timestamp nor ReceptionTime exists - not a time series database.')
 
         if variables is None:
-            variables = self.node_capability[node_id]['dbtag']
+            variables = self._capability[node_id]['dbtag']
             variables = [c for c in variables if c != time_col]
             
         table_name = 'node_{:03d}'.format(node_id)
@@ -190,7 +202,7 @@ class storage(object):
         assert type(node_id) is int,'storage::read_all(): node_id must be int'
         self.c.row_factory = sqlite3.Row
         if col_name is None:
-            col_name = self.node_capability[node_id]['dbtag']
+            col_name = self._capability[node_id]['dbtag']
             #col_name = ['*']
         table_name = 'node_{:03d}'.format(node_id)
 
@@ -208,7 +220,7 @@ class storage(object):
         assert count >= 1
 
         if col_name is None:
-            col_name = self.node_capability[node_id]['dbtag']
+            col_name = self._capability[node_id]['dbtag']
             #col_name = ['*']     # better?
         if time_col is None:
             time_col = 'ReceptionTime'
@@ -238,7 +250,7 @@ class storage(object):
     def OBSOLETE_hourly_average(self,node_id,col_name=None,time_col=None):
         assert type(node_id) is int,'storage::hourly_average(): node_id must be int'
         if col_name is None:
-            col_name = self.node_capability[node_id]['dbtag']
+            col_name = self._capability[node_id]['dbtag']
         if time_col is None:
             time_col = 'ReceptionTime'
         table_name = 'node_{:03d}'.format(node_id)
