@@ -35,6 +35,7 @@ class Anemometer(Thread):
         if len(self._readings) <= 0:
             return None
         tmp = {'average':mean(self._readings),'gust':amax(self._readings)}
+        tmp = {k:float('{:.2f}'.format(tmp[k])) for k in tmp.keys()}    # keep 2 decimal places
         self._readings = []     # avg and gust between consecutive reads
         return tmp
 
