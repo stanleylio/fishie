@@ -98,7 +98,7 @@ def gen_node_page(node_id,page_template,error_template,output_dir):
         return
         
     ts = tmp[time_col][0]
-    values = ['{:.2f}'.format(tmp[v][0]) for v in variables]
+    values = ['{:.2f}'.format(tmp[v][0]) if tmp[v][0] is not None else '-' for v in variables]
     units = [units[v] for v in variables]
     table = zip(variables,values,units)
     
