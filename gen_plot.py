@@ -17,6 +17,7 @@ from scipy.signal import medfilt
 from numpy import ndarray
 import numpy as np
 from config_support import read_config
+from parse_support import read_capability
 from matplotlib import colors
 
 def PRINT(s):
@@ -110,7 +111,8 @@ if '__main__' == __name__:
     display_config = read_config('display_config.ini',pattern='^node_\d{3}$')
     node_config = read_config('node_config.ini',pattern='^node_\d{3}$')
 
-    store = storage()
+    capability = read_capability()
+    store = storage(capability)
     
     node_list = sorted(display_config.keys())
     for node in node_list:
@@ -133,8 +135,8 @@ if '__main__' == __name__:
         # if linestyles is missing... default = ... TODO
         # nah. the next version will use XML/JSON, skipping the CSV altogether.
 
-        dbtag = node_config[node]['dbtag'].split(',')
-        dbunit = node_config[node]['dbunit'].split(',')
+        dbtag = capability[node_id]['dbtag']
+        dbunit = capability[node_id]['dbunit']
         tag_to_unit_dict = dict(zip(dbtag,dbunit))
         
         for var,linestyle,linecolor in zip(var_list,linestyles,linecolors):

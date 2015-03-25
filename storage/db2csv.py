@@ -1,9 +1,10 @@
+import sys,time,argparse
+sys.path.append('..')
 from storage import storage
-from ConfigParser import SafeConfigParser,NoSectionError
+from ConfigParser import SafeConfigParser
+from parse_support import read_capability
 from os.path import join,dirname
 from datetime import datetime
-import time
-import argparse
 
 # dump the database into a CSV file
 # timestamps are in POSIX floats (not human readable strings)
@@ -25,13 +26,12 @@ if '__main__' == __name__:
         print 'ID of the node must be specified. Example: python db2csv.py --node_id 4'
         exit()
 
-    parser = SafeConfigParser()
-    parser.read(join(dirname(__file__),'../node_config.ini'))   # patchy...
-    dbtag = parser.get('node_{:03d}'.format(node_id),'dbtag').split(',')
-
+    capability = read_capability()
+    dbtag = capability[node_id]['dbtag']
+    
     print 'From sensor_data.db reading node_{:03d}...'.format(node_id)
 
-    store = storage()
+    store = storage(capability)
     if last is None:
         print 'Reading entire database... (to get only the last N entries, use the --last switch)'
         tmp = store.read_all(node_id,dbtag)
@@ -50,4 +50,4 @@ if '__main__' == __name__:
             #print tmp
             f.write(tmp + '\n')
             
-    print 'done. see sensor_data.csv'
+    print 'done.'
