@@ -31,7 +31,7 @@ if '__main__' == __name__:
     
     print 'From sensor_data.db reading node_{:03d}...'.format(node_id)
 
-    store = storage(capability)
+    store = storage()
     if last is None:
         print 'Reading entire database... (to get only the last N entries, use the --last switch)'
         tmp = store.read_all(node_id,dbtag)
