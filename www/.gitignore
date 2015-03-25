@@ -1,2 +1,4 @@
 node_*.html
 node_*/
+
+sendWWWtoWeb.sh

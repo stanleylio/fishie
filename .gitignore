@@ -13,9 +13,13 @@
 
 obsolete/
 .obsolete/
+log/
 
 node_config.ini
 display_config.ini
 
 sampling.py
 capture.py
+
+NODE
+BASE
