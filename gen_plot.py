@@ -16,8 +16,7 @@ from storage import storage
 from scipy.signal import medfilt
 from numpy import ndarray
 import numpy as np
-from config_support import read_config
-from parse_support import read_capability
+from parse_support import get_unit,read_config
 from matplotlib import colors
 
 def PRINT(s):
@@ -107,40 +106,59 @@ def plot_time_series(d,title,xlabel,ylabel,plotfilename):
     plt.close()
 
 
-if '__main__' == __name__:
+def read_disp_config():
+    # could have used JSON...
     display_config = read_config('display_config.ini',pattern='^node_\d{3}$')
-    node_config = read_config('node_config.ini',pattern='^node_\d{3}$')
-
-    capability = read_capability()
-    store = storage()
-    
     node_list = sorted(display_config.keys())
+
+    config = {}
     for node in node_list:
         node_id = int(node[5:8])
-        plot_dir = display_config[node]['plot_dir']
-        time_col = display_config[node]['time_col']
-        var_list = display_config[node]['variable'].split(',')
-        linestyles = display_config[node]['linestyle'].split(',')
+        
+        config[node_id] = {}
+        config[node_id]['variable'] = [v.strip() for v in display_config[node]['variable'].split(',')]
+        try:
+            config[node_id]['plot_dir'] = display_config[node]['plot_dir']
+        except KeyError:
+            config[node_id]['plot_dir'] = join('./www',node)
+        try:
+            config[node_id]['time_col'] = display_config[node]['time_col']
+        except KeyError:
+            config[node_id]['time_col'] = 'Timestamp'
+        try:
+            config[node_id]['linestyle'] = display_config[node]['linestyle'].split(',')
+        except KeyError:
+            config[node_id]['linestyle'] = ['-' for v in config[node_id]['variable']]
         try:
             linecolors = display_config[node]['linecolor'].split(',')
         except KeyError:
-            linecolors = []
+            linecolors = ['b' for v in config[node_id]['variable']]
         C = {k:colors.cnames[k] for k in colors.cnames}
         C.update(colors.ColorConverter.colors)
-        linecolors = [C[c] for c in linecolors]
+        config[node_id]['linecolor'] = [C[c] for c in linecolors]
+    return config
+        
+
+if '__main__' == __name__:
+    display_config = read_config('display_config.ini',pattern='^node_\d{3}$')
+
+    store = storage()
+
+    node_list = sorted(display_config.keys())
+    for node in node_list:
+        node_id = int(node[5:8])
+        tmp = read_disp_config()    # can use JSON instead... or pickle.
+        plot_dir = tmp[node_id]['plot_dir']
+        time_col = tmp[node_id]['time_col']
+        var_list = tmp[node_id]['variable']
+        linestyles = tmp[node_id]['linestyle']
+        linecolors = tmp[node_id]['linecolor']
 
         if not exists(plot_dir):
             makedirs(plot_dir)
 
-        # if linestyles is missing... default = ... TODO
-        # nah. the next version will use XML/JSON, skipping the CSV altogether.
-
-        dbtag = capability[node_id]['dbtag']
-        dbunit = capability[node_id]['dbunit']
-        tag_to_unit_dict = dict(zip(dbtag,dbunit))
-        
         for var,linestyle,linecolor in zip(var_list,linestyles,linecolors):
-            unit = tag_to_unit_dict[var]
+            unit = get_unit(node_id,var)
             col_name = [time_col,var]
 
             #tmp = store.read_all(node_id,col_name,time_col=time_col)
@@ -166,8 +184,6 @@ if '__main__' == __name__:
             
             TS = tmp[time_col]
             readings = tmp[var]
-#            print [r is None for r in readings]
-#readings = [r for r in readings if r is not None else numpy.nan]
 
             PRINT('Plotting {} of node_{:03d}...'.format(var,node_id))
             tmp = {'x':TS,'y':readings,'linestyle':linestyle,'linelabel':var,'linecolor':linecolor}

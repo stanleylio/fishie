@@ -5,13 +5,28 @@
 import re,time,glob
 from os.path import join,exists,getmtime,dirname
 from datetime import datetime,timedelta
-from config_support import read_config
+from ConfigParser import RawConfigParser
 from z import check
 
 
 def PRINT(s):
     pass
     #print(s)
+
+
+def read_config(filename='node_config.ini',pattern='.*'):
+    if exists(filename):
+        parser = RawConfigParser(allow_no_value=True)
+        parser.read(filename)
+
+        config = {}
+        for s in parser.sections():
+            if re.match(pattern,s):
+                config[s] = dict(parser.items(s))
+        return config
+    else:
+        raise IOError('read_config(): {} not found'.format(filename));
+
 
 # for caching the capabilities of the nodes
 # for efficiency (don't want to read the config file for each message received)
@@ -49,6 +64,21 @@ def read_capability():
                           'msgfield':msgfield,
                           'convf':convf}
     return nodes
+
+
+# clumsy...
+def get_unit(node_id,tags):
+    if type(tags) is not list:
+        tags = [tags]
+    tmp = read_capability()
+    dbtag = tmp[node_id]['dbtag']
+    dbunit = tmp[node_id]['dbunit']
+    tag_to_unit_dict = dict(zip(dbtag,dbunit))
+    units = [tag_to_unit_dict[v] for v in tags]
+    if len(units) == 1:
+        units = units[0]
+    return units
+
 
 # print to terminal the given dictionary of readings
 def pretty_print(d):
