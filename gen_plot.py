@@ -188,13 +188,16 @@ if '__main__' == __name__:
 
 
             # = = = = = = = = = = = = = = = = = = = =
-            # special case for EZO_DO
+            # special case for EZO_DO and Pressure_BMP180
             # "every time you make a hack god kills a kitten"
             # I have just commited a CRIME
             # but not being able to compare mg/L to uM is really annoying
             if 'EZO_DO' == var:
                 readings = [v/32e-3 for v in readings]
                 unit = 'uM'
+            elif 'Pressure_BMP180' == var:
+                readings = [v/1000. for v in readings]
+                unit = 'kPa'
             else:
                 pass
             # = = = = = = = = = = = = = = = = = = = =

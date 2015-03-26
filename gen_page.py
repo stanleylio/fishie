@@ -105,7 +105,7 @@ def gen_node_page(node_id,page_template,error_template,output_dir):
 
 
     # = = = = = = = = = = = = = = = = = = = =
-    # special case for EZO_DO
+    # special case for EZO_DO and Pressure_BMP180
     # "every time you make a hack god kills a kitten"
     # I have just commited a CRIME
     # but not being able to compare mg/L to uM is really annoying
@@ -113,7 +113,10 @@ def gen_node_page(node_id,page_template,error_template,output_dir):
         if 'EZO_DO' == t[0]:
             print t
             # hack like this is gonna get me sooner or later.
-            table[k] = ('EZO_DO','{:.2f}'.format(float(t[1])/32e-3),'uM')
+            table[k] = (t[0],'{:.2f}'.format(float(t[1])/32e-3),'uM')
+        if 'Pressure_BMP180' == t[0]:
+            print t
+            table[k] = (t[0],'{:.2f}'.format(float(t[1])/1000.),'kPa')
     # = = = = = = = = = = = = = = = = = = = =
 
 
