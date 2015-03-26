@@ -106,7 +106,6 @@ def gen_node_page(node_id,page_template,error_template,output_dir):
 
     # = = = = = = = = = = = = = = = = = = = =
     # special case for EZO_DO and Pressure_BMP180
-    # "every time you make a hack god kills a kitten"
     # I have just commited a CRIME
     # but not being able to compare mg/L to uM is really annoying
     for k,t in enumerate(table):
@@ -141,15 +140,13 @@ def gen_node_page(node_id,page_template,error_template,output_dir):
         setting_str = setting_str + '<br>Plotting: most recent 7 days, hourly average'
     else:
         setting_str = setting_str + '<br>Plotting: <b>raw</b>'
-    body_text = '<a href=./memory_usage.png>Memory Usage</a>'
 
     with open(page_template,'r') as f:
         template = Template(f.read())
     tmp = template.render({'title_str':title_str,
                            'node_id':node_id_str,
                            'status_str':status_str,
-                           'setting_str':setting_str,
-                           'body_text':body_text},
+                           'setting_str':setting_str},
                           TABLE=table,PLOTS=plots)
     with open(output,'w') as f:
         f.write(tmp)
