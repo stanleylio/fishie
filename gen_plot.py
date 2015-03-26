@@ -185,6 +185,22 @@ if '__main__' == __name__:
             TS = tmp[time_col]
             readings = tmp[var]
 
+
+
+            # = = = = = = = = = = = = = = = = = = = =
+            # special case for EZO_DO
+            # "every time you make a hack god kills a kitten"
+            # I have just commited a CRIME
+            # but not being able to compare mg/L to uM is really annoying
+            if 'EZO_DO' == var:
+                readings = [v/32e-3 for v in readings]
+                unit = 'uM'
+            else:
+                pass
+            # = = = = = = = = = = = = = = = = = = = =
+
+
+
             PRINT('Plotting {} of node_{:03d}...'.format(var,node_id))
             tmp = {'x':TS,'y':readings,'linestyle':linestyle,'linelabel':var,'linecolor':linecolor}
             plot_time_series(tmp,'{} of node_{:03d}'.\
