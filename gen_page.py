@@ -113,7 +113,7 @@ def gen_node_page(node_id,page_template,error_template,output_dir):
     node_id_str = 'Node #{} ({})'.format(node_id,node_name)
     title_str = node_id_str
     timeelement = '<time class="timeago" datetime="{}">ago</time>'.format(ts.isoformat())
-    status_str = 'Last reading in plot sampled at {} UTC ({})'.format(ts.strftime('%Y-%m-%d %H:%M:%S'),timeelement)
+    status_str = 'Last reading sampled at {} UTC ({})'.format(ts.strftime('%Y-%m-%d %H:%M:%S'),timeelement)
     #status_str = 'Last reading in plot sampled at {} PST ({})'.format(ts.strftime('%Y-%m-%d %H:%M:%S'),timeelement)
     setting_str = 'Median filter: {}'.format('<b>OFF</b>')
 # TODO: every time you use a magic number god kills a kitten.
