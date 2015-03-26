@@ -154,8 +154,9 @@ if '__main__' == __name__:
             if None not in tmp:
                 if (tmp[1] - tmp[0]) >= timedelta(days=7):
                     tmp = store.read(node_id,variables=col_name[1:],nday=7,time_col=time_col,avg='hourly')
+                    #tmp = store.read(node_id,variables=col_name[1:],nhour=1,time_col=time_col)
                 else:
-                    tmp = store.read(node_id,variables=col_name[1:],nday=7,time_col=time_col)
+                    tmp = store.read(node_id,variables=col_name[1:],time_col=time_col)
             else:
                 tmp = None
 
