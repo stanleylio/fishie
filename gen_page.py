@@ -7,7 +7,7 @@ from jinja2 import Template
 from os.path import getmtime,dirname,join,isfile,isdir
 from storage import storage
 from datetime import datetime,timedelta
-from config_support import read_config
+from parse_support import read_config
 
 
 def PRINT(s):
