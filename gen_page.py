@@ -159,13 +159,7 @@ def gen_node_page(node_id,page_template,error_template,output_dir):
     status_str = 'Last reading sampled at {} UTC ({})'.format(ts.strftime('%Y-%m-%d %H:%M:%S'),timeelement)
     #status_str = 'Last reading in plot sampled at {} PST ({})'.format(ts.strftime('%Y-%m-%d %H:%M:%S'),timeelement)
     setting_str = 'Median filter: {}'.format('<b>OFF</b>')
-# TODO: every time you use a magic number god kills a kitten.
-    tmp = store.read_time_range(node_id=node_id,time_col=time_col)
-    if (tmp[1] - tmp[0]) >= timedelta(days=7):
-        setting_str = setting_str + '<br>Plotting: most recent 7 days, hourly average'
-    else:
-        setting_str = setting_str + '<br>Plotting: <b>raw</b>'
-
+    
     with open(page_template,'r') as f:
         template = Template(f.read())
     tmp = template.render({'title_str':title_str,
