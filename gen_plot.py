@@ -5,7 +5,7 @@
 
 import matplotlib
 matplotlib.use('Agg')
-import sys,re
+import sys,re,json,time
 sys.path.append('storage')
 import matplotlib.pyplot as plt
 from datetime import datetime,timedelta
@@ -16,8 +16,8 @@ from storage import storage
 from scipy.signal import medfilt
 from numpy import ndarray
 import numpy as np
-from parse_support import get_unit,read_config
-from matplotlib import colors
+from parse_support import get_unit,read_config,read_disp_config
+
 
 def PRINT(s):
     #pass
@@ -106,39 +106,6 @@ def plot_time_series(d,title,xlabel,ylabel,plotfilename):
     plt.close()
 
 
-def read_disp_config():
-    # could have used JSON...
-    display_config = read_config('display_config.ini',pattern='^node_\d{3}$')
-    node_list = sorted(display_config.keys())
-
-    config = {}
-    for node in node_list:
-        node_id = int(node[5:8])
-        
-        config[node_id] = {}
-        config[node_id]['variable'] = [v.strip() for v in display_config[node]['variable'].split(',')]
-        try:
-            config[node_id]['plot_dir'] = display_config[node]['plot_dir']
-        except KeyError:
-            config[node_id]['plot_dir'] = join('./www',node)
-        try:
-            config[node_id]['time_col'] = display_config[node]['time_col']
-        except KeyError:
-            config[node_id]['time_col'] = 'Timestamp'
-        try:
-            config[node_id]['linestyle'] = display_config[node]['linestyle'].split(',')
-        except KeyError:
-            config[node_id]['linestyle'] = ['-' for v in config[node_id]['variable']]
-        try:
-            linecolors = display_config[node]['linecolor'].split(',')
-        except KeyError:
-            linecolors = ['b' for v in config[node_id]['variable']]
-        C = {k:colors.cnames[k] for k in colors.cnames}
-        C.update(colors.ColorConverter.colors)
-        config[node_id]['linecolor'] = [C[c] for c in linecolors]
-    return config
-        
-
 if '__main__' == __name__:
     display_config = read_config('display_config.ini',pattern='^node_\d{3}$')
 
@@ -168,12 +135,15 @@ if '__main__' == __name__:
             # the timestamp column in col_name
             #tmp = store.hourly_average(node_id,col_name=col_name[1:],time_col=time_col)
 
-            tmp = store.read_time_range(node_id,time_col=time_col)
-            if None not in tmp:
-                if (tmp[1] - tmp[0]) >= timedelta(days=7):
+            time_range = store.read_time_range(node_id,time_col=time_col)
+            plot_type = '-'
+            if None not in time_range:
+                if (time_range[1] - time_range[0]) >= timedelta(days=7):
+                    plot_type = 'hourly'
                     tmp = store.read(node_id,variables=col_name[1:],nday=7,time_col=time_col,avg='hourly')
-                    #tmp = store.read(node_id,variables=col_name[1:],nhour=1,time_col=time_col)
+#                    tmp = store.read(node_id,variables=col_name[1:],nhour=1,time_col=time_col)
                 else:
+                    plot_type = 'raw'
                     tmp = store.read(node_id,variables=col_name[1:],time_col=time_col)
             else:
                 tmp = None
@@ -184,6 +154,7 @@ if '__main__' == __name__:
             
             TS = tmp[time_col]
             readings = tmp[var]
+
 
 
 
@@ -204,6 +175,16 @@ if '__main__' == __name__:
 
 
 
+
+            # save settings of plot to disk
+            plot_config = {'plot_type':plot_type,
+                           'time_begin':time.mktime(min(TS).timetuple()),
+                           'time_end':time.mktime(max(TS).timetuple())}
+            with open(join(plot_dir,var + '.json'),'w') as f:
+                # json.dump vs. json.dumps...
+                json.dump(plot_config,f,separators=(',',':'))
+                
+            # the beef
             PRINT('Plotting {} of node_{:03d}...'.format(var,node_id))
             tmp = {'x':TS,'y':readings,'linestyle':linestyle,'linelabel':var,'linecolor':linecolor}
             plot_time_series(tmp,'{} of node_{:03d}'.\

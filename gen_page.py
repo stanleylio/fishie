@@ -1,32 +1,35 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-import sys,pytz
+import sys,pytz,json
 sys.path.append('storage')
 from jinja2 import Template
-from os.path import getmtime,dirname,join,isfile,isdir
+from os.path import getmtime,dirname,join,isfile,isdir,exists
 from storage import storage
 from datetime import datetime,timedelta
-from parse_support import read_config
+from parse_support import read_capability,read_disp_config,read_config
 
 
 def PRINT(s):
     #pass
     print(s)
 
+
 def gen_front_page(template_path,output_dir):
     assert isfile(template_path),'gen_front_page(): template_path should point to a file'
     assert isdir(output_dir),'gen_front_page(): output_dir should be a directory'
-    
+
+    # all that to get a node_id:node_name mapping...
     display_config = read_config('display_config.ini',pattern='^node_\d{3}$')
     node_config = read_config('node_config.ini')
 
-    node_list = [k for k in sorted(display_config.keys())]
-    node_ids = [int(k[5:8]) for k in node_list]
-    node_names = [node_config[k]['name'] for k in node_list]
-    #html_list = [display_config[k]['html_dir'] for k in node_list]
-    #links = [join(k[0],'{}.html'.format(k[1])) for k in zip(html_list,node_list)]
-    links = ['{}.html'.format(k) for k in node_list]
+    display_config = read_disp_config()
+    node_ids = display_config.keys()
+
+    capability = read_capability()
+    node_names = [capability[n]['name'] for n in node_ids]
+    
+    links = ['node_{:03d}.html'.format(n) for n in node_ids]
     disp_str = ['Node #{}, {}'.format(k[0],k[1]) for k in zip(node_ids,node_names)]
 
     with open(template_path,'r') as f:
@@ -37,31 +40,19 @@ def gen_front_page(template_path,output_dir):
 
 
 def gen_node_page(node_id,page_template,error_template,output_dir):
-    # read the dbtag:dbunit mapping
-    tmp = read_config('node_config.ini',pattern='^node_\d{3}$') # can be more specific here.
-    tmp = tmp['node_{:03d}'.format(node_id)]
-    node_name = tmp['name']
-    dbtag = tmp['dbtag'].split(',')
-    dbunit = tmp['dbunit'].split(',')
+    capability = read_capability()
+    node_name = capability[node_id]['name']
+    dbtag = capability[node_id]['dbtag']
+    dbunit = capability[node_id]['dbunit']
     units = dict(zip(dbtag,dbunit))
 
     output = join(output_dir,'node_{:03d}.html'.format(node_id))
-    PRINT('Output: ' + output)
+    PRINT('Output to: ' + output)
 
-    # decide the set of variables to tabulate
-    tmp = read_config('display_config.ini',pattern='^node_\d{3}$')
-    tmp = tmp['node_{:03d}'.format(node_id)]
-    variables = []
-    try:
-        variables = tmp['variable'].split(',')
-    except KeyError:
-        PRINT('gen_node_page(): no variable to tabulate')
-    time_col = 'Timestamp'
-    try:
-        time_col = tmp['time_col']
-    except KeyError:
-        PRINT('gen_node_page(): warning: time_col not specified. Default to ' + time_col)
-
+    tmp = read_disp_config()[node_id]
+    variables = tmp['variable']
+    time_col = tmp['time_col']
+    
     if len(variables) <= 0:
         PRINT('gen_node_page(): no variable to tabulate and plot. ABORT')
         with open(error_template,'r') as f:
@@ -79,7 +70,7 @@ def gen_node_page(node_id,page_template,error_template,output_dir):
         tmp = store.read_latest(node_id,time_col=time_col)
     except Exception as e:
         PRINT('gen_node_page(): error retrieving latest readings, ABORT')
-        PRINT(e)
+        PRINT(str(sys.exc_info()))
         with open(error_template,'r') as f:
             template = Template(f.read())
         tmp = template.render({'error_message':'Error retrieving latest readings from database.'})
@@ -104,6 +95,7 @@ def gen_node_page(node_id,page_template,error_template,output_dir):
 
 
 
+
     # = = = = = = = = = = = = = = = = = = = =
     # special case for EZO_DO and Pressure_BMP180
     # I have just commited a CRIME
@@ -119,9 +111,42 @@ def gen_node_page(node_id,page_template,error_template,output_dir):
     # = = = = = = = = = = = = = = = = = = = =
 
 
-    
+
+
     img_src = ['./node_{:03d}/{}.png'.format(node_id,var) for var in variables]
-    img_header = variables
+
+    # another kitten killed.
+    tmp = ['./www/node_{:03d}/{}.json'.format(node_id,v) for v in variables]
+    plot_config = [json.load(open(p,'r')) if exists(p) else None for p in tmp]
+
+    img_header = []
+    for c in plot_config:
+        plot_type = c['plot_type']
+        time_begin = datetime.fromtimestamp(c['time_begin'])
+        time_end = datetime.fromtimestamp(c['time_end'])
+        tmp = (time_end - time_begin).total_seconds()
+        nday,remain = divmod(tmp,24*60*60)
+
+        header_str = ''
+        if nday > 0:
+            header_str = header_str + '{:.0f}d {:.1f}hr'.format(nday,remain/3600.)
+        else:
+            header_str = header_str + '{:.0f}hr'.format(remain/3600.)
+
+        if 'raw' == plot_type:
+            header_str = header_str + ', Raw'
+        elif 'hourly' == plot_type:
+            header_str = header_str + ', Hourly Average'
+        elif 'daily' == plot_type:
+            header_str = header_str + ', Daily Average'
+        else:
+            print 'gen_page: gen_node_page(): huh?'
+            pass
+
+        img_header.append(header_str)
+    
+    #img_header = variables
+    
     img_alt = variables
     plots = zip(img_header,img_src,img_alt)
 

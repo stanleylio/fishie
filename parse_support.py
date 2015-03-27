@@ -7,6 +7,7 @@ from os.path import join,exists,getmtime,dirname
 from datetime import datetime,timedelta
 from ConfigParser import RawConfigParser
 from z import check
+from matplotlib import colors
 
 
 def PRINT(s):
@@ -65,6 +66,39 @@ def read_capability():
                           'convf':convf}
     return nodes
 
+
+def read_disp_config():
+    # could have used JSON...
+    display_config = read_config(join(dirname(__file__),'display_config.ini'),pattern='^node_\d{3}$')
+    node_list = sorted(display_config.keys())
+
+    config = {}
+    for node in node_list:
+        node_id = int(node[5:8])
+        
+        config[node_id] = {}
+        config[node_id]['variable'] = [v.strip() for v in display_config[node]['variable'].split(',')]
+        try:
+            config[node_id]['plot_dir'] = display_config[node]['plot_dir']
+        except KeyError:
+            config[node_id]['plot_dir'] = join('./www',node)
+        try:
+            config[node_id]['time_col'] = display_config[node]['time_col']
+        except KeyError:
+            config[node_id]['time_col'] = 'Timestamp'
+        try:
+            config[node_id]['linestyle'] = display_config[node]['linestyle'].split(',')
+        except KeyError:
+            config[node_id]['linestyle'] = ['-' for v in config[node_id]['variable']]
+        try:
+            linecolors = display_config[node]['linecolor'].split(',')
+        except KeyError:
+            linecolors = ['b' for v in config[node_id]['variable']]
+        C = {k:colors.cnames[k] for k in colors.cnames}
+        C.update(colors.ColorConverter.colors)
+        config[node_id]['linecolor'] = [C[c] for c in linecolors]
+    return config
+        
 
 # clumsy...
 def get_unit(node_id,tags):
