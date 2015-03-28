@@ -130,7 +130,8 @@ if '__main__' == __name__:
 
     import time
     while True:
+        tmp = ec.read()
         print '= = = = = = = = = ='
-        ec.pretty_print(ec.read())
+        ec.pretty_print(tmp)
         time.sleep(1)
     
