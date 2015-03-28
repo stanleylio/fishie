@@ -12,7 +12,7 @@ if [ -e "${PIDFILE}" ] && (ps -u $(whoami) -opid= | grep -P "^\s*$(cat ${PIDFILE
 fi
 
 #/path/to/myprogram > $HOME/tmp/myprogram.log &
-python sampling.py &
+/usr/bin/python /root/node/sampling.py &
 
 echo $! > "${PIDFILE}"
 chmod 644 "${PIDFILE}"
