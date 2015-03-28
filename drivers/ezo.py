@@ -83,7 +83,7 @@ class EZO(object):
             tmp = [ord(c) for c in cmd]
             self.i2c.writeList(tmp[0],tmp[1:])  # awkward...
         else:
-            PRINT('EZO: HUH?')
+            PRINT('EZO::_r(): HUH?')
         time.sleep(wait)
         tmp = self.i2c.readList(self.address,self.MAX_LEN)
         
@@ -93,17 +93,17 @@ class EZO(object):
         if self.Success == tmp[0]:
             return ''.join([chr(c) for c in tmp[1:] if 0 != c])
         elif self.Failed == tmp[0]:
-            PRINT('EZO: read failed')
+            PRINT('EZO::_r(): read failed')
             PRINT(tmp)
             return None
         elif self.Pending == tmp[0]:
-            PRINT('EZO: Pending')
+            PRINT('EZO::_r(): Pending')
             return None
         elif self.NoData == tmp[0]:
-            PRINT('EZO: NoData')
+            PRINT('EZO::_r(): NoData')
             return None
         else:
-            PRINT('EZO: error ({})'.format(tmp[0]))
+            PRINT('EZO::_r(): error ({})'.format(tmp[0]))
             PRINT(tmp)
             return None
 
