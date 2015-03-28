@@ -36,6 +36,7 @@ class EZO_EC_CALIBRATION(EZO_EC):
     def cal_high(self,val):
         self._r('Cal,high,{:.2f}'.format(val),2)
 
+
 if '__main__' == __name__:
     ec = EZO_EC_CALIBRATION(lowpower=False)
 
@@ -141,7 +142,6 @@ if '__main__' == __name__:
                 raw_input('Hit ENTER to read another, Ctrl+C to terminate...')
         except KeyboardInterrupt:
             print
-            pass
     else:
         print('Huh?')
 

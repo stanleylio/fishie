@@ -44,7 +44,7 @@ class EZO(object):
     # almost the same as k(), except for the boundary check and debug messages
     # factoring this function makes code maintenance easier, but I lose the ability
     # to do custom debug print
-    def t(self,new=None):
+    def t(self,new=None,from_=''):
         tmp = self._r('T,?',0.3)    # always do a read first
         if tmp.startswith('?T,'):
             current = float(tmp[3:6])
@@ -57,20 +57,20 @@ class EZO(object):
                 # NOAA says -2 is the lower limit, but said nothing about the upper limit
                 # but it's not my job to judge so proceed anyway
                 if new >= 50 or new <= -10:
-                    PRINT('warning: strange... are you sure about the new temperature?')
+                    PRINT(from_ + 'warning: strange... are you sure about the new temperature?')
 
                 # sensor stores only integer T
                 # better be explicit
-                PRINT('update current T = {:.0f} to new T = {:.0f}'.format(current,new))
+                PRINT(from_ + 'update current T = {:.0f} to new T = {:.0f}'.format(current,new))
                 
                 # inconsistent... sensor accepts only integer but the spec says float.
                 #cmd = 'T,{:.1f}'.format(new)
                 cmd = 'T,{:.0f}'.format(new)
                 self._r(cmd,0.3)    # ignore the response
             else:
-                PRINT('supplied T == current T = {:.0f} Deg.C, no update required'.format(current))
+                PRINT(from_ + 'supplied T == current T = {:.0f} Deg.C, no update required'.format(current))
         else:
-            PRINT('cannot retrieve T value from sensor')
+            PRINT(from_ + 'cannot retrieve T value from sensor')
         if self.lowpower:
             self.sleep()
 
@@ -89,6 +89,8 @@ class EZO(object):
         
         if self.lowpower:
             self.sleep()
+
+        #print ''.join([chr(c) for c in tmp[1:] if 0 != c])
         
         if self.Success == tmp[0]:
             return ''.join([chr(c) for c in tmp[1:] if 0 != c])

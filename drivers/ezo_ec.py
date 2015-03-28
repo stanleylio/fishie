@@ -10,12 +10,12 @@ from os.path import join,dirname
 # <IMPORTANT>
 # SENSOR COMES IN SERIAL MODE. SWITCH TO I2C MODE TO USE WITH BBB
 #
-# See P.32 of the data sheet for instruction
+# See P.32 of the datasheet for instruction
 # Notice on Step 5: "remove the short..." THIS MUST BE DONE WHILE THE LED is still BLUE
 # </IMPORTANT>
 
 
-# from the experiments the sensor protocol seems fairly reliable. impressive work Atlas-Sci.
+# from the experiments the sensor protocol seems fairly reliable. impressive work Atlas Sci.
 
 # Stanley Lio, hlio@usc.edu
 # All Rights Reserved. February 2015
@@ -92,42 +92,45 @@ class EZO_EC(EZO):
 
     # super() and MRO... messy.
     def t(self,new=None):
-        PRINT('EZO_EC:')
-        return super(EZO_EC,self).t(new)
+        return super(EZO_EC,self).t(new,from_='EZO_EC: ')
 
     def pretty_print(self,r=None):
         if r is None:
             r = self.read()
-        print 'Electrical Conductivity: {} uS'.format(r['ec'])
+        print 'Conductivity: {} uS'.format(r['ec'])
         print 'Salinity: {}'.format(r['sal'])           # no defined unit, P.7
         print 'Total Dissolved Solid: {} mg/L'.format(r['tds'])
         print 'Specific Gravity: {}'.format(r['sg'])    # unitless, P.7
 
 
 if '__main__' == __name__:
-    with EZO_EC(lowpower=True) as ec:
-        print 'Device Information (sensor type, firmware version):'
-        print ec.device_information()
-        print
-        print 'Status:'
-        print ec.status()
-        print
-        print 'Supply voltage:'
-        print '{:.3f} volt'.format(ec.supply_v())
-        print
-        print 'Current K value (of probe):'
-        print ec.k()
-        print
-        #print 'Change K value to...'
-        #print ec.k(1.2)    # synced during instantiation, but can be changed during runtime
-        #print
-        print 'Current T value (calibration parameter, not measured):'
-        print '{:.0f} Deg.C'.format(ec.t())
-        print
-        #print 'Change T value to...'
-        #print ec.t(25)      # NOT synced during instantiation
-        #print
-        print 'A sample read:'
+    ec = EZO_EC(lowpower=True)
+    print 'Device Information (sensor type, firmware version):'
+    print ec.device_information()
+    print
+    print 'Status:'
+    print ec.status()
+    print
+    print 'Supply voltage:'
+    print '{:.3f} volt'.format(ec.supply_v())
+    print
+    print 'Current K value (of probe):'
+    print ec.k()
+    print
+    #print 'Change K value to...'
+    #print ec.k(1.2)    # synced during instantiation, but can be changed during runtime
+    #print
+    print 'Current T value (calibration parameter, not measured):'
+    print '{:.0f} Deg.C'.format(ec.t())
+    print
+    #print 'Change T value to...'
+    #print ec.t(25)      # NOT synced during instantiation
+    #print
+    #print 'A sample read:'
+
+    import time
+    while True:
+        print '= = = = = = = = = ='
         ec.pretty_print(ec.read())
-        #ec.sleep()
+        time.sleep(1)
     
