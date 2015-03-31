@@ -47,7 +47,7 @@ class storage(object):
         else:
             self._capability = {}
             
-            self.c.execute('select name from sqlite_master where type = "table"')
+            self.c.execute('SELECT name FROM sqlite_master WHERE type = "table"')
             tmp = self.c.fetchall()
             node_ids = [int(c[0][5:8]) for c in tmp]
 
@@ -188,7 +188,7 @@ class storage(object):
                 groupby,
                 orderby]
         cmd = ' '.join([c for c in tmp if len(c) > 0])
-        #print cmd
+        print cmd
 
         self.c.execute(cmd)
         tmp = self.c.fetchall()
