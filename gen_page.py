@@ -1,13 +1,12 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-
 import sys,pytz,json
 sys.path.append('storage')
 from jinja2 import Template
 from os.path import getmtime,dirname,join,isfile,isdir,exists
 from storage import storage
 from datetime import datetime,timedelta
-from parse_support import read_capability,read_disp_config,read_config
+from config_support import read_config,read_disp_config,read_capability
 
 
 def PRINT(s):

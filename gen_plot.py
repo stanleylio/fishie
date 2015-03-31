@@ -16,7 +16,7 @@ from storage import storage
 from scipy.signal import medfilt
 from numpy import ndarray
 import numpy as np
-from parse_support import get_unit,read_config,read_disp_config
+from config_support import get_unit,read_config,read_disp_config
 
 
 def PRINT(s):
