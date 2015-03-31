@@ -1,7 +1,0 @@
-index.html
-node_*.html
-node_*/
-
-*.json
-
-sendWWWtoWeb.sh

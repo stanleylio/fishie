@@ -6,12 +6,20 @@
 *.gz
 *.exe
 *.csv
-*.png
 *.txt
 *.pdf
 *.old
 *.log
 *.ini
+
+*.png
+*.json
+index.html
+node_*.html
+node_*/
+
+sendWWWtoWeb.sh
+upload.sh
 
 obsolete/
 .obsolete/

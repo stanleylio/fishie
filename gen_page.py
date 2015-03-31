@@ -1,13 +1,12 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-
 import sys,pytz,json
 sys.path.append('storage')
 from jinja2 import Template
 from os.path import getmtime,dirname,join,isfile,isdir,exists
 from storage import storage
 from datetime import datetime,timedelta
-from parse_support import read_capability,read_disp_config,read_config
+from config_support import read_config,read_disp_config,read_capability
 
 
 def PRINT(s):
@@ -153,7 +152,7 @@ def gen_node_page(node_id,page_template,error_template,output_dir):
     ts = ts.replace(tzinfo=pytz.timezone('UTC'))
     #ts = ts.replace(tzinfo=pytz.timezone('America/Los_Angeles'))
 
-    node_id_str = 'Node #{} ({})'.format(node_id,node_name)
+    node_id_str = 'Node #{}, {}'.format(node_id,node_name)
     title_str = node_id_str
     timeelement = '<time class="timeago" datetime="{}">ago</time>'.format(ts.isoformat())
     status_str = 'Last reading sampled at {} UTC ({})'.format(ts.strftime('%Y-%m-%d %H:%M:%S'),timeelement)
@@ -163,7 +162,7 @@ def gen_node_page(node_id,page_template,error_template,output_dir):
     with open(page_template,'r') as f:
         template = Template(f.read())
     tmp = template.render({'title_str':title_str,
-                           'node_id':node_id_str,
+                           'node_id_str':node_id_str,
                            'status_str':status_str,
                            'setting_str':setting_str},
                           TABLE=table,PLOTS=plots)
