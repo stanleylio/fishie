@@ -89,7 +89,7 @@ def gen_node_page(node_id,page_template,error_template,output_dir):
             f.write(tmp)
         return
 
-    if len(tmp) <= 0:
+    if tmp is None or len(tmp.keys()) <= 0 or len(tmp[tmp.keys()[0]]) <= 0:
         err_msg = 'Database contains no record for node_{:03d}.'.format(node_id)
         PRINT('gen_node_page(): {} ABORT'.format(err_msg))
         with open(error_template,'r') as f:
