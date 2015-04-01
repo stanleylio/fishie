@@ -14,6 +14,15 @@ def PRINT(s):
     print(s)
 
 
+def get_timeago_element(ts = None):
+    if ts is None:
+        ts = datetime.utcnow()
+    ts = ts.replace(tzinfo=pytz.timezone('UTC'))
+    #ts = ts.replace(tzinfo=pytz.timezone('America/Los_Angeles'))
+    tmp = '<time class="timeago" datetime="{}">ago</time>'.format(ts.isoformat())
+    return tmp
+
+
 def gen_front_page(template_path,output_dir):
     assert isfile(template_path),'gen_front_page(): template_path should point to a file'
     assert isdir(output_dir),'gen_front_page(): output_dir should be a directory'
@@ -61,9 +70,12 @@ def gen_node_page(node_id,page_template,error_template,output_dir):
             f.write(tmp)
         return
 
+    # table of latest readings
     # Retrieve the latest readings, plus Timestamp/ReceptionTime
     # NOTE: On the base station, all database records have associated ReceptionTime but
-    # don't always have Timestamp (reported by sensor nodes); on nodes they may have neither.
+    # don't always have Timestamp (reported by sensor nodes);
+    # BBB nodes have Timestamp but not ReceptionTime;
+    # Node #1 and #2 have neither (the optode-only "nodes").
     store = storage()
     try:
         tmp = store.read_latest(node_id,time_col=time_col)
@@ -123,6 +135,7 @@ def gen_node_page(node_id,page_template,error_template,output_dir):
         plot_type = c['plot_type']
         time_begin = datetime.fromtimestamp(c['time_begin'])
         time_end = datetime.fromtimestamp(c['time_end'])
+        plot_generated_at = datetime.fromtimestamp(c['plot_generated_at'])
         tmp = (time_end - time_begin).total_seconds()
         nday,remain = divmod(tmp,24*60*60)
 
@@ -133,31 +146,29 @@ def gen_node_page(node_id,page_template,error_template,output_dir):
             header_str = header_str + '{:.0f}hr'.format(remain/3600.)
 
         if 'raw' == plot_type:
-            header_str = header_str + ', Raw'
+            header_str = header_str + ', raw'
         elif 'hourly' == plot_type:
-            header_str = header_str + ', Hourly Average'
+            header_str = header_str + ', hourly average'
         elif 'daily' == plot_type:
-            header_str = header_str + ', Daily Average'
+            header_str = header_str + ', daily average'
         else:
-            print 'gen_page: gen_node_page(): huh?'
+            PRINT('gen_page: gen_node_page(): huh?')
             pass
 
+        header_str = header_str + ' (generated {})'.format(get_timeago_element(plot_generated_at))
+
         img_header.append(header_str)
-    
+
     #img_header = variables
-    
     img_alt = variables
     plots = zip(img_header,img_src,img_alt)
 
-    ts = ts.replace(tzinfo=pytz.timezone('UTC'))
-    #ts = ts.replace(tzinfo=pytz.timezone('America/Los_Angeles'))
-
     node_id_str = 'Node #{}, {}'.format(node_id,node_name)
     title_str = node_id_str
-    timeelement = '<time class="timeago" datetime="{}">ago</time>'.format(ts.isoformat())
+    timeelement = get_timeago_element(ts)
     status_str = 'Last reading sampled at {} UTC ({})'.format(ts.strftime('%Y-%m-%d %H:%M:%S'),timeelement)
-    #status_str = 'Last reading in plot sampled at {} PST ({})'.format(ts.strftime('%Y-%m-%d %H:%M:%S'),timeelement)
-    setting_str = 'Median filter: {}'.format('<b>OFF</b>')
+    #setting_str = 'Median filter: {}'.format('<b>OFF</b>')
+    setting_str = ''
     
     with open(page_template,'r') as f:
         template = Template(f.read())

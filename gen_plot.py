@@ -114,7 +114,7 @@ if '__main__' == __name__:
     node_list = sorted(display_config.keys())
     for node in node_list:
         node_id = int(node[5:8])
-        tmp = read_disp_config()    # can use JSON instead... or pickle.
+        tmp = read_disp_config()    # can use JSON, XML or pickle.
         plot_dir = tmp[node_id]['plot_dir']
         time_col = tmp[node_id]['time_col']
         var_list = tmp[node_id]['variable']
@@ -161,7 +161,6 @@ if '__main__' == __name__:
             # = = = = = = = = = = = = = = = = = = = =
             # special case for EZO_DO and Pressure_BMP180
             # "every time you make a hack god kills a kitten"
-            # I have just commited a CRIME
             # but not being able to compare mg/L to uM is really annoying
             if 'EZO_DO' == var:
                 readings = [v/32e-3 for v in readings]
@@ -176,14 +175,6 @@ if '__main__' == __name__:
 
 
 
-            # save settings of plot to disk
-            plot_config = {'plot_type':plot_type,
-                           'time_begin':time.mktime(min(TS).timetuple()),
-                           'time_end':time.mktime(max(TS).timetuple())}
-            with open(join(plot_dir,var + '.json'),'w') as f:
-                # json.dump vs. json.dumps...
-                json.dump(plot_config,f,separators=(',',':'))
-                
             # the beef
             PRINT('Plotting {} of node_{:03d}...'.format(var,node_id))
             tmp = {'x':TS,'y':readings,'linestyle':linestyle,'linelabel':var,'linecolor':linecolor}
@@ -191,4 +182,13 @@ if '__main__' == __name__:
                      format(var,node_id),None,unit,\
                      join(plot_dir,var + '.png'))
 
-            
+            # save settings of plot to disk
+            plot_config = {'plot_type':plot_type,
+                           'time_begin':time.mktime(min(TS).timetuple()),
+                           'time_end':time.mktime(max(TS).timetuple()),
+                           'plot_generated_at':time.mktime(datetime.utcnow().timetuple())}
+            with open(join(plot_dir,var + '.json'),'w') as f:
+                # json.dump vs. json.dumps...
+                json.dump(plot_config,f,separators=(',',':'))
+                
+
