@@ -27,11 +27,11 @@
 <br></br>
 
 <div id="wrap">
-	{% for img_header,img_src,img_alt in PLOTS %}
+	{% for img_header,img_src,img_alt,img_link_to in PLOTS %}
     <div class="box">
         <p class="plot_header center">{{ img_header }}</p>
         <div class="innerContent">
-            <a href="{{ img_src }}"><img class="plot" src="{{ img_src }}" alt="{{ img_alt }}"></a>
+            <a href="{{ img_link_to }}"><img class="plot" src="{{ img_src }}" alt="{{ img_alt }}"></a>
         </div>
     </div>
 	{% endfor %}

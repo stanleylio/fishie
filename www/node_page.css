@@ -36,7 +36,7 @@ source: http://www.dwuser.com/education/content/creating-responsive-tiled-layout
     overflow:auto;
     <!--overflow:hidden;-->
 }
-@media only screen and (max-width:980px) {
+@media only screen and (max-width:650px) {
     .box {
         width: 100%;
         padding-bottom: 80%;
@@ -47,7 +47,7 @@ source: http://www.dwuser.com/education/content/creating-responsive-tiled-layout
         float: left;
     }
 }
-@media only screen and (max-width:1290px) and (min-width:981px) {
+@media only screen and (max-width:1290px) and (min-width:651px) {
     .box {
         width: 50%;
         padding-bottom: 40%;

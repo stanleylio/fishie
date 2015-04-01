@@ -161,7 +161,8 @@ def gen_node_page(node_id,page_template,error_template,output_dir):
 
     #img_header = variables
     img_alt = variables
-    plots = zip(img_header,img_src,img_alt)
+    img_link_to = ['experimental/gen_var_page.py?node_id={}&nhour=1&var={}'.format(node_id,v) for v in variables]
+    plots = zip(img_header,img_src,img_alt,img_link_to)
 
     node_id_str = 'Node #{}, {}'.format(node_id,node_name)
     title_str = node_id_str
