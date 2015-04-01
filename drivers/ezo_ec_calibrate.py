@@ -51,7 +51,7 @@ if '__main__' == __name__:
     print '{:.0f} Deg.C'.format(ec.t())
     print
     print 'A sample read:'
-    ec.pretty_print(ec.read())
+    print ec.pretty(ec.read())
     print
     #ec.sleep()
 
@@ -138,7 +138,7 @@ if '__main__' == __name__:
         print('Reading...')
         try:
             while True:
-                ec.pretty_print(ec.read())
+                print ec.pretty(ec.read())
                 raw_input('Hit ENTER to read another, Ctrl+C to terminate...')
         except KeyboardInterrupt:
             print

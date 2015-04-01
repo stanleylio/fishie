@@ -142,39 +142,44 @@ class EZO_DO(EZO):
 
 
 if '__main__' == __name__:
-    with EZO_DO(lowpower=True) as do:
-        print 'Device Information (sensor type, firmware version):'
-        print do.device_information()
-        print
-        print 'Status:'
-        print do.status()
-        print
-        print 'Supply voltage:'
-        print '{} volt'.format(do.supply_v())
-        print
-        print 'Current T value (supplied for calibration, not measured):'
-        print '{:.0f} Deg.C'.format(do.t())
-        print
-        print 'Current S value (salinity, supplied for calibration, not measured):'
-        tmp = do.s()
-        if tmp[1]:
-            print '{} ppt'.format(tmp[0])
-        else:
-            print '{} us'.format(tmp[0])
-        #do.s(10,ppt=True)
-        #do.s(0)
-        print
-        print 'Current P value (water pressure, supplied for calibration, not measured):'
-        print '{} kPa'.format(do.p())
-        print
-        #print 'Change T value to...'
-        #do.t(20)      # NOT synced during instantiation
-        #print
-        print 'A sample read:'
-        #print '{:.2f} mg/L'.format(do.read())
-        print do.pretty()
-        print
-        #do.p(101.3)
-        print 'Another read, directly in uM: {} uM'.format(do.read_uM())
-        
-
+    do = EZO_DO(lowpower=True)
+    print 'Device Information (sensor type, firmware version):'
+    print do.device_information()
+    print
+    print 'Status:'
+    print do.status()
+    print
+    print 'Supply voltage:'
+    print '{} volt'.format(do.supply_v())
+    print
+    print 'Current T value (supplied for calibration, not measured):'
+    print '{:.0f} Deg.C'.format(do.t())
+    print
+    print 'Current S value (salinity, supplied for calibration, not measured):'
+    tmp = do.s()
+    if tmp[1]:
+        print '{} ppt'.format(tmp[0])
+    else:
+        print '{} us'.format(tmp[0])
+    #do.s(10,ppt=True)
+    #do.s(0)
+    print
+    print 'Current P value (water pressure, supplied for calibration, not measured):'
+    print '{} kPa'.format(do.p())
+    print
+    #print 'Change T value to...'
+    #do.t(20)      # NOT synced during instantiation
+    #print
+    #print 'A sample read:'
+    #print '{:.2f} mg/L'.format(do.read())
+    #print do.pretty()
+    #print
+    #do.p(101.3)
+    #print 'Another read, directly in uM: {} uM'.format(do.read_uM())
+    
+    import time
+    while True:
+        tmp = do.read()
+        print '= = = = = = = = = ='
+        print do.pretty(tmp)
+        time.sleep(1)

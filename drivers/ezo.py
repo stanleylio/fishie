@@ -90,7 +90,7 @@ class EZO(object):
         if self.lowpower:
             self.sleep()
 
-        print ''.join([chr(c) for c in tmp[1:] if 0 != c])
+#        print ''.join([chr(c) for c in tmp[1:] if 0 != c])
         
         if self.Success == tmp[0]:
             return ''.join([chr(c) for c in tmp[1:] if 0 != c])

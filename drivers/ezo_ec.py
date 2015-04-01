@@ -94,13 +94,14 @@ class EZO_EC(EZO):
     def t(self,new=None):
         return super(EZO_EC,self).t(new,from_='EZO_EC: ')
 
-    def pretty_print(self,r=None):
+    def pretty(self,r=None):
         if r is None:
             r = self.read()
-        print 'Conductivity: {} uS'.format(r['ec'])
-        print 'Salinity: {}'.format(r['sal'])           # no defined unit, P.7
-        print 'Total Dissolved Solid: {} mg/L'.format(r['tds'])
-        print 'Specific Gravity: {}'.format(r['sg'])    # unitless, P.7
+        s = 'Conductivity: {} uS'.format(r['ec'])
+        s = s + '\nSalinity: {}'.format(r['sal'])           # no defined unit, P.7
+        s = s + '\nTotal Dissolved Solid: {} mg/L'.format(r['tds'])
+        s = s + '\nSpecific Gravity: {}'.format(r['sg'])    # unitless, P.7
+        return s
 
 
 if '__main__' == __name__:
@@ -132,6 +133,6 @@ if '__main__' == __name__:
     while True:
         tmp = ec.read()
         print '= = = = = = = = = ='
-        ec.pretty_print(tmp)
+        print ec.pretty(tmp)
         time.sleep(1)
     
