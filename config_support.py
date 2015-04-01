@@ -104,28 +104,30 @@ def read_disp_config(config=None):
 
 # clumsy...
 def get_unit(node_id,tags):
-    if type(tags) is not list:
+    islist = type(tags) is list
+    if not islist:
         tags = [tags]
     tmp = read_capability()
     dbtag = tmp[node_id]['dbtag']
     dbunit = tmp[node_id]['dbunit']
-    tag_to_unit_dict = dict(zip(dbtag,dbunit))
-    units = [tag_to_unit_dict[v] for v in tags]
-    if len(units) == 1:
+    tmp = dict(zip(dbtag,dbunit))
+    units = [tmp[v] for v in tags]
+    if not islist:
         units = units[0]
     return units
 
 
 # extremely clumsy...
 def get_color(node_id,tags):
-    if type(tags) is not list:
+    islist = type(tags) is list
+    if not islist:
         tags = [tags]
     tmp = read_disp_config()
     variable = tmp[node_id]['variable']
     linecolor = tmp[node_id]['linecolor']
     tmp = dict(zip(variable,linecolor))
     colors = [tmp[v] for v in tags]
-    if len(colors) == 1:
+    if not islist:
         colors = colors[0]
     return colors
 
