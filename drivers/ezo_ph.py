@@ -57,8 +57,7 @@ class EZO_pH(EZO):
         
     # super() and MRO... messy.
     def t(self,new=None):
-        PRINT('EZO_pH:')
-        return super(EZO_pH,self).t(new)
+        return super(EZO_pH,self).t(new,from_='EZO_pH: ')
 
 
 if '__main__' == __name__:
