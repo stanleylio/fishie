@@ -4,7 +4,6 @@
 *.db-shm
 *.tar
 *.gz
-*.exe
 *.csv
 *.txt
 *.pdf

@@ -4,7 +4,7 @@
 # All Rights Reserved. February 2015
 
 import sqlite3
-from os.path import join,dirname
+from os.path import join,dirname,exists
 
 
 def PRINT(s):
@@ -16,7 +16,8 @@ def PRINT(s):
 
 class storage(object):
     def __init__(self,capability=None):
-        self.conn = sqlite3.connect(join(dirname(__file__),'sensor_data.db'),\
+        tmp = join(dirname(__file__),'sensor_data.db')
+        self.conn = sqlite3.connect(tmp,\
                                     detect_types=sqlite3.PARSE_DECLTYPES |\
                                     sqlite3.PARSE_COLNAMES)
         self.c = self.conn.cursor()
@@ -116,6 +117,7 @@ class storage(object):
         if len(tmp) > 0:
             max_t = tmp[0][0]
         return [min_t,max_t]
+    
 
     # variables: a list of names of the columns to retrieve
     # time_col: specifies which of the column is the time column
@@ -142,10 +144,11 @@ class storage(object):
             else:
                 raise Exception('Neither Timestamp nor ReceptionTime exists - not a time series database.')
 
+        # if the list of variables is not specified, retrieve all variables defined in the config
         if variables is None:
             variables = self._capability[node_id]['dbtag']
             variables = [c for c in variables if c != time_col]
-            
+        
         table_name = 'node_{:03d}'.format(node_id)
 
         orderby = ''
@@ -188,14 +191,21 @@ class storage(object):
                 groupby,
                 orderby]
         cmd = ' '.join([c for c in tmp if len(c) > 0])
-        print cmd
+#        print cmd
 
         self.c.execute(cmd)
         tmp = self.c.fetchall()
-        vals = [list(r) for r in zip(*tmp)]
-        keys = variables
-        keys.insert(0,time_col)
-        return dict(zip(keys,vals))
+        #vals = [list(r) for r in zip(*tmp)]
+        vals = [tuple(r) for r in zip(*tmp)]
+        # careful there... if list() is not used, the original would be modified
+        #keys = list(variables)
+        #keys.insert(0,time_col)    # this would modify the original if a copy was not made
+        keys = [time_col]
+        keys.extend(variables)
+        tmp = dict(zip(keys,vals))
+        if len(tmp.keys()) <= 0:
+            tmp = None
+        return tmp
 
 
     def OBSOLETE_read_all(self,node_id,col_name=None):
@@ -270,8 +280,8 @@ class storage(object):
 
 if '__main__' == __name__:
 
-    node_id = 3
-    var = 'O2Concentration_4330f'
+    node_id = 4
+    var = 'Pressure_BMP180'
     
     store = storage()
 
