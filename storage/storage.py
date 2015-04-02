@@ -192,7 +192,7 @@ class storage(object):
                orderby,
                countlimit]
         cmd = ' '.join([c for c in tmp if len(c) > 0])
-        print cmd
+#        print cmd
 
         self.c.execute(cmd)
         tmp = self.c.fetchall()
