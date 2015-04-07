@@ -135,12 +135,15 @@ if '__main__' == __name__:
             # the timestamp column in col_name
             #tmp = store.hourly_average(node_id,col_name=col_name[1:],time_col=time_col)
 
+            # TODO move this to config file too
+            plot_range = 7  # days
+
             time_range = store.read_time_range(node_id,time_col=time_col)
             plot_type = '-'
             if None not in time_range:
-                if (time_range[1] - time_range[0]) >= timedelta(days=7):
+                if (time_range[1] - time_range[0]) >= timedelta(days=plot_range):
                     plot_type = 'hourly'
-                    tmp = store.read(node_id,variables=col_name[1:],nday=7,time_col=time_col,avg='hourly')
+                    tmp = store.read(node_id,variables=col_name[1:],nday=plot_range,time_col=time_col,avg='hourly')
 #                    tmp = store.read(node_id,variables=col_name[1:],nhour=1,time_col=time_col)
                 else:
                     plot_type = 'raw'

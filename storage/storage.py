@@ -80,20 +80,20 @@ class storage(object):
     def read_all(self,node_id,col_name=None):
         return self.read(node_id,variables=col_name)
         
-    # retrieve the last "count" readings
-    # result is in a dictionary of list (even if there's only one entry per variable)
     def read_latest(self,node_id,col_name=None,count=1,time_col=None):
+        """retrieve the last "count" readings"""
         return self.read(node_id,variables=col_name,count=count,time_col=time_col)
 
-    # read hourly averages (all time)
     def hourly_average(self,node_id,col_name=None,time_col=None):
+        """read hourly averages (all time)"""
         return self.read(node_id,variables=col_name,time_col=time_col,avg='hourly')
 
-    # read daily averages (all time)
     def daily_average(self,node_id,col_name=None,time_col=None):
+        """read daily averages (all time)"""
         return self.read(node_id,variables=col_name,time_col=time_col,avg='daily')
 
     def read_time_range(self,node_id,time_col=None):
+        """return the earliest and latest timestamps in a list"""
         if time_col is None:
             if 'Timestamp' in self._capability[node_id]['dbtag']:
                 # only the BBB nodes have Timestamp
@@ -105,13 +105,15 @@ class storage(object):
                 raise Exception('Neither Timestamp nor ReceptionTime exists - not a time series database.')
         # this won't work. it gives you a string representation of the time instead (don't ask me why)
         #cmd = 'SELECT min(Timestamp) from node_003'
-        cmd = 'SELECT {time_col} FROM node_{node_id:03d} where {time_col} in (select min({time_col}) from node_{node_id:03d})'.format(node_id=node_id,time_col=time_col)
+        cmd = '''SELECT {time_col} FROM node_{node_id:03d} where {time_col} in
+                (select min({time_col}) from node_{node_id:03d})'''.format(node_id=node_id,time_col=time_col)
         self.c.execute(cmd)
         tmp = self.c.fetchall()
         min_t = None
         if len(tmp) > 0:
             min_t = tmp[0][0]
-        cmd = 'SELECT {time_col} FROM node_{node_id:03d} where {time_col} in (select max({time_col}) from node_{node_id:03d})'.format(node_id=node_id,time_col=time_col)
+        cmd = '''SELECT {time_col} FROM node_{node_id:03d} where {time_col} in
+                (select max({time_col}) from node_{node_id:03d})'''.format(node_id=node_id,time_col=time_col)
         self.c.execute(cmd)
         tmp = self.c.fetchall()
         max_t = None
@@ -119,15 +121,16 @@ class storage(object):
             max_t = tmp[0][0]
         return [min_t,max_t]
     
-
-    # variables: a list of names of the columns to retrieve
-    # time_col: specifies which of the column is the time column
-    # nhour: when specified, retrieve only the last "nhour" hours of data (work with nday)
-    # nday: when specified, retrieve only the last "nday" days of data (work with nhour)
-    # count: when specified, retrieve the last "count" entries
-    # avg: one of {'hourly','daily'}. When specified, return the data as "avg" averages.
-    # Precedence of count, nhour and nday: count > nhour = nday
     def read(self,node_id,variables=None,time_col=None,nhour=None,nday=None,count=None,avg=None):
+        """retrieve samples of a given node for a given duration
+
+        variables: a list of names of the columns to retrieve
+        time_col: specifies which of the column is the time column
+        nhour: when specified, retrieve only the last "nhour" hours of data (work with nday)
+        nday: when specified, retrieve only the last "nday" days of data (work with nhour)
+        count: when specified, retrieve the last "count" entries
+        avg: one of {'hourly','daily'}. When specified, return the data as "avg" averages.
+        """
         assert type(node_id) is int,'storage::read(): node_id must be int'
         assert nhour is None or nhour >= 0
         assert nday is None or nday >= 0
@@ -152,22 +155,19 @@ class storage(object):
         
         table_name = 'node_{:03d}'.format(node_id)
 
-        orderby = ''
+        orderby = 'ORDER BY {} DESC'.format(time_col)
+        countlimit = ''
         if count >= 1:
-            assert nhour is None and nday is None
-            time_range = 'ORDER BY {} DESC LIMIT {}'.format(time_col,count)
-            if count > 1:
-                orderby = 'ORDER BY Timestamp'
+            countlimit = 'LIMIT {}'.format(count)
+        tmp = ['"now"']
+        if nhour is not None:
+            tmp.append('"-{} hours"'.format(nhour))
+        if nday is not None:
+            tmp.append('"-{} days"'.format(nday))
+        if nday is not None or nhour is not None:
+            time_range = 'WHERE {} >= DATETIME({})'.format(time_col,','.join(tmp))
         else:
-            tmp = ['"now"']
-            if nhour is not None:
-                tmp.append('"-{} hours"'.format(nhour))
-            if nday is not None:
-                tmp.append('"-{} days"'.format(nday))
-            if nday is not None or nhour is not None:
-                time_range = 'WHERE {} >= DATETIME({})'.format(time_col,','.join(tmp))
-            else:
-                time_range = ''
+            time_range = ''
         #print time_range
 
         if avg in ['hourly','daily']:
@@ -188,9 +188,10 @@ class storage(object):
         #print orderby
 
         tmp = ['SELECT {cols} FROM {table_name}'.format(cols=cols,table_name=table_name),
-                time_range,
-                groupby,
-                orderby]
+               time_range,
+               groupby,
+               orderby,
+               countlimit]
         cmd = ' '.join([c for c in tmp if len(c) > 0])
 #        print cmd
 
@@ -282,45 +283,52 @@ class storage(object):
 if '__main__' == __name__:
 
     node_id = 4
-    var = 'Pressure_BMP180'
+    var = ['Pressure_BMP180']
     
     store = storage()
 
+    print
+    print 'read_latest()'
     tmp = store.read_latest(node_id)
-    print
     print tmp
-
-    tmp = store.read_time_range(node_id,time_col='Timestamp')
+    
     print
+    print 'read_time_range()'
+    tmp = store.read_time_range(node_id,time_col='Timestamp')
     print tmp
     print type(tmp[0])
 
-    # hourly average of the past 1 day, 3 hours
-    tmp = store.read(node_id,nhour=3,nday=1,avg='hourly')
     print
-    print tmp.keys()
-    print len(tmp[var])
+    print 'read max six entries (should have precedence over nhour)'
+    tmp = store.read(node_id,nhour=10,count=6)
+    print tmp
 
-    # daily average of the past 14 days
+    print
+    print 'hourly average of "{}" in the past 1 day, 3 hours'.format(var)
+    tmp = store.read(node_id,variables=var,nhour=3,nday=1,avg='hourly')
+    print tmp.keys()
+    print len(tmp[var[0]])
+
+    print
+    print 'daily average of the past 14 days, all variables'
     tmp = store.read(node_id,nday=14,avg='daily')
-    print
     print tmp.keys()
-    print len(tmp[var])
+    print len(tmp[var[0]])
 
-    # past 6 hours of data
-    tmp = store.read(node_id,nhour=6)
     print
+    print 'past 6 hours, all variables'
+    tmp = store.read(node_id,nhour=6)
     print tmp.keys()
-    print len(tmp[var])
+    print len(tmp[var[0]])
 
     # read everything
-    tmp = store.read(node_id)
-    print
-    print tmp.keys()
-    print len(tmp[var])
+#    tmp = store.read(node_id)
+#    print
+#    print tmp.keys()
+#    print len(tmp[var])
 
-    tmp = store.read_all(node_id)
-    print
-    print tmp.keys()
-    print len(tmp[var])
+#    tmp = store.read_all(node_id)
+#    print
+#    print tmp.keys()
+#    print len(tmp[var])
     

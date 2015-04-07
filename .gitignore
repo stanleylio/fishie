@@ -23,6 +23,7 @@ upload.sh
 obsolete/
 .obsolete/
 log/
+sandbox/
 
 node_config.ini
 display_config.ini
