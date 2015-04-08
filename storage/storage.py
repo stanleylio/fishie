@@ -61,15 +61,16 @@ class storage(object):
                 tmp = zip(*[(c[1],c[2]) for c in self.c.fetchall()])
                 self._capability[node_id] = {}
                 self._capability[node_id]['dbtag'] = list(tmp[0])
-                self._capability[node_id]['dbunit'] = list(tmp[1])
+#                self._capability[node_id]['dbunit'] = list(tmp[1])
 
     # readings: a dictionary with keys=column names and vals=readings
     # as long as the caller supply all the required values
     # ignore the extra ones (such as Checksum, if exist)
     # what is "required" for each node is defined in the configuration file, "dbtag"
+# when tags are supplied in readings, not all fields need to be present.
     def write(self,node_id,readings):
         table_name = 'node_{:03d}'.format(node_id)
-        dbtag = self._capability[node_id]['dbtag']
+        dbtag = self._capability[node_id]['dbtag']  # TODO
         readings = [readings[v] for v in dbtag]
         cmd = 'INSERT OR REPLACE INTO {} ({}) VALUES ({})'.\
               format(table_name,','.join(dbtag),','.join('?'*len(dbtag)))
