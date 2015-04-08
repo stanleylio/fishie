@@ -7,7 +7,7 @@
 
 import serial
 
-print 'no you don\'t want to run this. (comment me out if you do)'
+print 'This is not the logger script. You don\'t want to run this. (comment me out if you do)'
 exit()
 
 #serial_name = 'COM18'
