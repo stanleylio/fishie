@@ -28,7 +28,7 @@ def gen_front_page(template_path,output_dir):
     assert isdir(output_dir),'gen_front_page(): output_dir should be a directory'
 
     # all that to get a node_id:node_name mapping...
-    display_config = read_config('display_config.ini',pattern='^node_\d{3}$')
+    display_config = read_config(pattern='^node_\d{3}$',configini='display_config.ini')
     node_config = read_config('node_config.ini')
 
     display_config = read_disp_config()
@@ -193,7 +193,7 @@ if '__main__' == __name__:
     page_template = './template/node_template.html'
     error_template = './template/error_template.html'
     
-    display_config = read_config('display_config.ini',pattern='^node_\d{3}$')
+    display_config = read_config(pattern='^node_\d{3}$',configini='display_config.ini')
     node_list = display_config.keys()
     html_dirs = [display_config[k]['html_dir'] for k in node_list]
     

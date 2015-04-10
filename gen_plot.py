@@ -107,13 +107,11 @@ def plot_time_series(d,title,xlabel,ylabel,plotfilename):
 
 
 if '__main__' == __name__:
-    display_config = read_config('display_config.ini',pattern='^node_\d{3}$')
+    display_config = read_disp_config()
 
     store = storage()
 
-    node_list = sorted(display_config.keys())
-    for node in node_list:
-        node_id = int(node[5:8])
+    for node_id in sorted(display_config.keys()):
         tmp = read_disp_config()    # can use JSON, XML or pickle.
         plot_dir = tmp[node_id]['plot_dir']
         time_col = tmp[node_id]['time_col']

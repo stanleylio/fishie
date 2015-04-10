@@ -26,12 +26,14 @@ if not exists(node_config_file):
     node_config_file = join(dirname(__file__),'node_config.ini')
 assert exists(node_config_file)
 
-def read_config(pattern='.*'):
-    if not exists(node_config_file):
-        raise IOError('read_config(): {} not found'.format(filename))
-    
+def read_config(pattern='.*',configini=None):
     parser = RawConfigParser(allow_no_value=True)
-    parser.read(node_config_file)
+    if configini is None:
+        if not exists(node_config_file):
+            raise IOError('read_config(): {} not found'.format(filename))
+        parser.read(node_config_file)
+    else:
+        parser.read(configini)
 
     tmp = {}
     for s in parser.sections():
@@ -139,8 +141,10 @@ def read_capability():
 def read_disp_config(config=None):
     if config is None:
         config = join(dirname(__file__),'display_config.ini')
-    # could have used JSON...
-    display_config = read_config(config,pattern='^node_\d{3}$')
+    if not exists(config):
+        raise IOError('read_disp_config(): {} not found'.format(filename))
+    
+    display_config = read_config(configini=config)
     node_list = sorted(display_config.keys())
 
     config = {}
