@@ -6,6 +6,12 @@ import re
 from os.path import join,exists,getmtime,dirname
 from ConfigParser import RawConfigParser
 from matplotlib import colors
+# do NOT remove this if there is lambda function defined in the config file!
+# or else Python would throw some really cryptic error messages...
+# because who knows when and where that anonymous function is going to be called.
+from datetime import datetime
+# should have used JSON to avoid all this mess. comes with field names and
+# data type. gets rid of convf nicely. TODO
 
 
 def PRINT(s):
@@ -104,24 +110,21 @@ def get_convf(node_id):
 # for caching the capabilities of the nodes
 # for efficiency (don't want to read the config file for each message received)
 def read_capability():
-    node_config = read_config(pattern='^node_\d{3}$')
-    nodes = {}
-
+    capability = {}
     for node_id in get_list_of_node():
-        node_tag = 'node_{:03d}'.format(node_id)
-        name = get_name()
+        name = get_name(node_id=node_id)
         
-        dbtag = get_dbtag()
-        dbtype = get_dbtype()
-        dbunit = get_dbunit()
+        dbtag = get_dbtag(node_id=node_id)
+        dbtype = get_dbtype(node_id=node_id)
+        dbunit = get_dbunit(node_id=node_id)
         msgfield = None
         try:
-            msgfield = get_msgfield()
+            msgfield = get_msgfield(node_id=node_id)
         except Exception as e:
             PRINT('read_capability(): msgfield not found (optional for node).')
         convf = None
         try:
-            convf = get_convf()
+            convf = get_convf(node_id=node_id)
         except Exception as e:
             PRINT('read_capability(): convf not found (optional for node).')
 
@@ -130,13 +133,13 @@ def read_capability():
 #        assert len(msgfield) == len(convf),\
 #               'msgfield and convf should have the same length'
 
-        nodes[node_id] = {'name':name,
+        capability[node_id] = {'name':name,
                           'dbtag':dbtag,
                           'dbtype':dbtype,
                           'dbunit':dbunit,
                           'msgfield':msgfield,
                           'convf':convf}
-    return nodes
+    return capability
 
 def read_disp_config(config=None):
     if config is None:
