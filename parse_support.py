@@ -2,15 +2,16 @@
 #
 # Stanley Lio, hlio@usc.edu
 # All Rights Reserved. February 2015
-import time,glob
+import time,glob,re
 from datetime import datetime,timedelta
 from z import check
 from config_support import read_capability
+import traceback
 
 
 def PRINT(s):
-    pass
-    #print(s)
+    #pass
+    print(s)
 
 
 # print to terminal the given dictionary of readings
@@ -38,7 +39,7 @@ class NodeMessageParser(object):
         node_id = self.id_node(line)
         if node_id is not None:
             # magic numbers are PURE EVIL
-            # those optodes add so many special cases everywhere...
+            # those optodes add special cases everywhere...
             if node_id in [1,2]:
                 d = self.parse_3835(line,node_id=node_id)
             else:
@@ -67,8 +68,6 @@ class NodeMessageParser(object):
                 return 1
             elif all(w in line for w in ['MEASUREMENT','3835','506']):
                 return 2
-            elif all(w in line for w in ['MEASUREMENT','4330F','829']):
-                return 3
             else:
                 return None
         except Exception as e:
@@ -95,7 +94,7 @@ class NodeMessageParser(object):
                 d[p[0]] = p[2](p[1])
         except:
             PRINT('parse_support:parse_bbb_node(): error parsing {}'.format(line))
-            pass
+            traceback.print_exc()
         return d
 
     # I hate these magic functions. mixing domain-specific information with the control
@@ -172,6 +171,7 @@ if '__main__' == __name__:
     t7 = '	MEASUREMENT	  3835	   505	Oxygen: 	   277.17	Saturation: 	    97.14	Temperature: 	    19.70'
     t8 = '	MEASUREMENT	  3835	   599	Oxygen: 	   277.17	Saturation: 	    97.14	Temperature: 	    19.70'
     t9 = 'node_004,1424585261.082,0.0,0.0,3.4,14.0,227.9,100725,25.2,102.23,25.22,0,14,401,290,bb0e2744'
+    t10 = 'node_003,1428655463.930822,271.913,100.005,22.152,27.247,29.814,33.633,3.819,315.8,466.0,224.3,2896,4121,548,fc0d9152'
 
     nmp = NodeMessageParser()
 
@@ -185,23 +185,5 @@ if '__main__' == __name__:
     print nmp.id_node(t7)
     print nmp.id_node(t8)
     print nmp.id_node(t9)
+    print nmp.id_node(t10)
 
-#    print '- - - - -'
-#    t = t6
-#    print t
-#    p = nmp.parse_4330f(t)
-#    print '- - -'
-#    for k,v in enumerate(p):
-#        print '{}: {}'.format(v,p[v])
-
-#    print '- - - - -'
-#    print t4
-#    p = nmp.parse_3835(t4)
-#    for k,v in enumerate(p):
-#        print '{}: {}'.format(v,p[v])
-
-    print '- - - - -'
-    print read_config('node_config.ini')
-
-    print '- - - - -'
-    print read_capability()    

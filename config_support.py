@@ -6,6 +6,12 @@ import re
 from os.path import join,exists,getmtime,dirname
 from ConfigParser import RawConfigParser
 from matplotlib import colors
+# do NOT remove this if there is lambda function defined in the config file!
+# or else Python would throw some really cryptic error messages...
+# because who knows when and where that anonymous function is going to be called.
+from datetime import datetime
+# should have used JSON to avoid all this mess. comes with field names and
+# data type. gets rid of convf nicely. TODO
 
 
 def PRINT(s):
@@ -105,19 +111,18 @@ def get_convf(node_id):
 def read_capability():
     capability = {}
     for node_id in get_list_of_node():
-        name = get_name()
-        
-        dbtag = get_dbtag()
-        dbtype = get_dbtype()
-        dbunit = get_dbunit()
+        name = get_name(node_id=node_id)
+        dbtag = get_dbtag(node_id=node_id)
+        dbtype = get_dbtype(node_id=node_id)
+        dbunit = get_dbunit(node_id=node_id)
         msgfield = None
         try:
-            msgfield = get_msgfield()
+            msgfield = get_msgfield(node_id=node_id)
         except Exception as e:
             PRINT('read_capability(): msgfield not found (optional for node).')
         convf = None
         try:
-            convf = get_convf()
+            convf = get_convf(node_id=node_id)
         except Exception as e:
             PRINT('read_capability(): convf not found (optional for node).')
 
