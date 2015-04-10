@@ -5,6 +5,7 @@
 
 import sqlite3
 from os.path import join,dirname,exists
+#from config_support import get_list_of_node
 
 
 def PRINT(s):
@@ -36,7 +37,8 @@ class storage(object):
         # "create table if not exist"
         if capability is not None:
             self._capability = capability
-            
+
+            #for node_id in get_list_of_node():
             for node_id in self._capability.keys():
                 dbtag = self._capability[node_id]['dbtag']
                 dbtype = self._capability[node_id]['dbtype']
@@ -67,10 +69,10 @@ class storage(object):
     # as long as the caller supply all the required values
     # ignore the extra ones (such as Checksum, if exist)
     # what is "required" for each node is defined in the configuration file, "dbtag"
-# when tags are supplied in readings, not all fields need to be present.
+# when tags are supplied in readings, not all fields need to be present. TODO
     def write(self,node_id,readings):
         table_name = 'node_{:03d}'.format(node_id)
-        dbtag = self._capability[node_id]['dbtag']  # TODO
+        dbtag = self._capability[node_id]['dbtag']
         readings = [readings[v] for v in dbtag]
         cmd = 'INSERT OR REPLACE INTO {} ({}) VALUES ({})'.\
               format(table_name,','.join(dbtag),','.join('?'*len(dbtag)))
