@@ -13,7 +13,6 @@ def PRINT(s):
     #print(s)
 
 
-
 node_config_file = 'node_config.ini'
 if not exists(node_config_file):
     node_config_file = '../node_config.ini'
@@ -104,11 +103,8 @@ def get_convf(node_id):
 # for caching the capabilities of the nodes
 # for efficiency (don't want to read the config file for each message received)
 def read_capability():
-    node_config = read_config(pattern='^node_\d{3}$')
-    nodes = {}
-
+    capability = {}
     for node_id in get_list_of_node():
-        node_tag = 'node_{:03d}'.format(node_id)
         name = get_name()
         
         dbtag = get_dbtag()
@@ -127,16 +123,16 @@ def read_capability():
 
         assert len(dbtag) == len(dbtype),\
                'dbtag and dbtype should have the same length'
-#        assert len(msgfield) == len(convf),\
-#               'msgfield and convf should have the same length'
+        assert convf is None or len(msgfield) == len(convf),\
+               'msgfield and convf should have the same length'
 
-        nodes[node_id] = {'name':name,
+        capability[node_id] = {'name':name,
                           'dbtag':dbtag,
                           'dbtype':dbtype,
                           'dbunit':dbunit,
                           'msgfield':msgfield,
                           'convf':convf}
-    return nodes
+    return capability
 
 def read_disp_config(config=None):
     if config is None:
