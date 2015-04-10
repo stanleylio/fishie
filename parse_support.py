@@ -2,9 +2,9 @@
 #
 # Stanley Lio, hlio@usc.edu
 # All Rights Reserved. February 2015
-import time,glob,re
+import time,glob,re,json
 from datetime import datetime,timedelta
-from z import check
+from z import check,check2
 from config_support import read_capability
 import traceback
 
@@ -57,6 +57,29 @@ class NodeMessageParser(object):
             PRINT('NodeMessageParser::parse_message(): unknown message: ' + line)
             return None
 
+    # JSON
+    def parse_message2(self,line):
+        try:
+            line = line.strip()
+            node_id = self.id_node(line)    # wouldn't need id_node() if there weren't the two exceptions.
+            if node_id in [1,2]:
+                d = self.parse_3835(line,node_id=node_id)
+                if d is not None:
+                    d['node_id'] = node_id
+                    return d
+            if check2(line):        # so even though there is an id_node(), it should not be called unless absolutely necessary.
+                line = line[:-8]
+                tmp = json.loads(line)
+                node_id = int(tmp['from'][5:8])
+                d = tmp['payload']
+                d['node_id'] = node_id
+                d['Timestamp'] = datetime.fromtimestamp(d['Timestamp'])
+                return d
+        except:
+            PRINT('parse_message2(): duh')
+            PRINT(line)
+            return None
+
     # hard-coded magic stuff everywhere...
     def id_node(self,line):
         line = line.strip()
@@ -68,6 +91,8 @@ class NodeMessageParser(object):
                 return 1
             elif all(w in line for w in ['MEASUREMENT','3835','506']):
                 return 2
+            #elif all(w in line for w in ['from','to','payload']):
+                #return json.loads(line[])['from']
             else:
                 return None
         except Exception as e:
@@ -172,6 +197,7 @@ if '__main__' == __name__:
     t8 = '	MEASUREMENT	  3835	   599	Oxygen: 	   277.17	Saturation: 	    97.14	Temperature: 	    19.70'
     t9 = 'node_004,1424585261.082,0.0,0.0,3.4,14.0,227.9,100725,25.2,102.23,25.22,0,14,401,290,bb0e2744'
     t10 = 'node_003,1428655463.930822,271.913,100.005,22.152,27.247,29.814,33.633,3.819,315.8,466.0,224.3,2896,4121,548,fc0d9152'
+    t11 = '{"from":"node_004","payload":{"Temp_MS5803":25.65,"Pressure_BMP180":101117,"Amb_Si1145":287,"EZO_ORP":-26.7,"EZO_DO":3.99,"Pressure_MS5803":102.4,"IR_Si1145":532,"Timestamp":1428690061.93023,"EZO_pH":14.0,"EZO_Sal":0.0,"Temp_BMP180":25.8,"EZO_EC":0.0,"UV_Si1145":13}}f717a449'
 
     nmp = NodeMessageParser()
 
@@ -186,4 +212,6 @@ if '__main__' == __name__:
     print nmp.id_node(t8)
     print nmp.id_node(t9)
     print nmp.id_node(t10)
+
+    print nmp.parse_message2(t11)
 
