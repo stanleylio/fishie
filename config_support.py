@@ -13,43 +13,115 @@ def PRINT(s):
     #print(s)
 
 
-def read_config(filename='node_config.ini',pattern='.*'):
-    if exists(filename):
-        parser = RawConfigParser(allow_no_value=True)
-        parser.read(filename)
 
-        config = {}
-        for s in parser.sections():
-            if re.match(pattern,s):
-                config[s] = dict(parser.items(s))
-        return config
-    else:
-        raise IOError('read_config(): {} not found'.format(filename));
+node_config_file = 'node_config.ini'
+if not exists(node_config_file):
+    node_config_file = '../node_config.ini'
+if not exists(node_config_file):
+    node_config_file = join(dirname(__file__),'node_config.ini')
+assert exists(node_config_file)
+
+def read_config(pattern='.*'):
+    if not exists(node_config_file):
+        raise IOError('read_config(): {} not found'.format(filename))
+    
+    parser = RawConfigParser(allow_no_value=True)
+    parser.read(node_config_file)
+
+    tmp = {}
+    for s in parser.sections():
+        if re.match(pattern,s):
+            tmp[s] = dict(parser.items(s))
+    return tmp
+
+
+def is_node():
+    tmp = read_config()
+    return 'node' in tmp.keys() and 'base' not in tmp.keys()
+
+def is_base():
+    # for now. there could be more than two types of nodes in the future...
+    return not is_node()
+
+def get_node_id():
+    assert is_node()
+    return int(read_config()['node']['id'])
+
+def get_broadcast_port():
+    assert is_node()
+    return read_config()['node']['broadcast_port']
+
+def get_broadcast_baud():
+    assert is_node()
+    return read_config()['node']['broadcast_baud']
+
+# bad name. more like "idle time between consecutive sampling periods"
+def get_interval():
+    assert is_node()
+    return int(read_config()['node']['wait'])
+
+def get_msgfield(node_id=None):
+    assert node_id is not None or is_node()
+    if node_id is None:
+        node_id = get_node_id()
+    node_tag = 'node_{:03d}'.format(node_id)
+    return [s.strip() for s in read_config()[node_tag]['msgfield'].split(',')]
+
+def get_name(node_id=None):
+    assert node_id is not None or is_node()
+    if node_id is None:
+        node_id = get_node_id()
+    node_tag = 'node_{:03d}'.format(node_id)
+    return read_config()[node_tag]['name']
+
+def get_db(name,node_id=None):
+    assert node_id is not None or is_node()
+    if node_id is None:
+        node_id = get_node_id()
+    node_tag = 'node_{:03d}'.format(node_id)
+    return [c.strip() for c in read_config()[node_tag][name].split(',')]
+
+def get_dbtag(node_id=None):
+    return get_db('dbtag',node_id=node_id)
+
+def get_dbtype(node_id=None):
+    return get_db('dbtype',node_id=node_id)
+
+def get_dbunit(node_id=None):
+    return get_db('dbunit',node_id=node_id)
+
+# this one is meaningless for a sensor node. I AM the sensor node, what "list of node"?
+def get_list_of_node():
+    assert is_base()   # I think only base station needs this, but I need to be certain.
+    return [int(k[5:8]) for k in read_config(pattern='^node_\d{3}$').keys()]
+
+def get_convf(node_id):
+    assert is_base()
+    node_tag = 'node_{:03d}'.format(node_id)
+    return [eval(c.strip()) for c in read_config()[node_tag]['convf'].split(',')]
 
 
 # for caching the capabilities of the nodes
 # for efficiency (don't want to read the config file for each message received)
-def read_capability(config=None):
-    if config is None:
-        config = join(dirname(__file__),'node_config.ini')
-    node_config = read_config(config,pattern='^node_\d{3}$')
+def read_capability():
+    node_config = read_config(pattern='^node_\d{3}$')
     nodes = {}
 
-    for node in node_config.keys():
-        #PRINT(node)
-        node_id = int(node[5:])
-        name = node_config[node]['name']
-        dbtag = [c.strip() for c in node_config[node]['dbtag'].split(',')]
-        dbtype = [c.strip() for c in node_config[node]['dbtype'].split(',')]
-        dbunit = [c.strip() for c in node_config[node]['dbunit'].split(',')]
+    for node_id in get_list_of_node():
+        node_tag = 'node_{:03d}'.format(node_id)
+        name = get_name()
+        
+        dbtag = get_dbtag()
+        dbtype = get_dbtype()
+        dbunit = get_dbunit()
         msgfield = None
         try:
-            msgfield = [c.strip() for c in node_config[node]['msgfield'].split(',')]
+            msgfield = get_msgfield()
         except Exception as e:
             PRINT('read_capability(): msgfield not found (optional for node).')
         convf = None
         try:
-            convf = [eval(v) for v in node_config[node]['convf'].split(',')]
+            convf = get_convf()
         except Exception as e:
             PRINT('read_capability(): convf not found (optional for node).')
 
@@ -65,7 +137,6 @@ def read_capability(config=None):
                           'msgfield':msgfield,
                           'convf':convf}
     return nodes
-
 
 def read_disp_config(config=None):
     if config is None:
@@ -107,9 +178,8 @@ def get_unit(node_id,tags):
     islist = type(tags) is list
     if not islist:
         tags = [tags]
-    tmp = read_capability()
-    dbtag = tmp[node_id]['dbtag']
-    dbunit = tmp[node_id]['dbunit']
+    dbtag = get_dbtag(node_id=node_id)
+    dbunit = get_dbunit(node_id=node_id)
     tmp = dict(zip(dbtag,dbunit))
     units = [tmp[v] for v in tags]
     if not islist:
@@ -130,4 +200,32 @@ def get_color(node_id,tags):
     if not islist:
         colors = colors[0]
     return colors
+
+
+if '__main__' == __name__:
+    print is_node()
+    print is_base()
+
+    # node only
+    try:
+        print get_node_id()
+        print get_broadcast_port()
+        print get_broadcast_baud()
+        print get_interval()
+        print get_msgfield()
+        print get_name()
+        print get_dbtag()
+        print get_dbtype()
+        print get_dbunit()
+    except:
+        pass
+
+    # base station only
+    try:
+        print get_convf()
+        print get_list_of_node()
+    except:
+        pass
+
+
 
