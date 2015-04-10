@@ -97,7 +97,7 @@ def get_dbunit(node_id=None):
 
 # this one is meaningless for a sensor node. I AM the sensor node, what "list of node"?
 def get_list_of_node():
-    assert is_base()   # I think only base station needs this, but I need to be certain.
+    #assert is_base()
     return [int(k[5:8]) for k in read_config(pattern='^node_\d{3}$').keys()]
 
 def get_convf(node_id):
@@ -105,9 +105,6 @@ def get_convf(node_id):
     node_tag = 'node_{:03d}'.format(node_id)
     return [eval(c.strip()) for c in read_config()[node_tag]['convf'].split(',')]
 
-
-# for caching the capabilities of the nodes
-# for efficiency (don't want to read the config file for each message received)
 def read_capability():
     capability = {}
     for node_id in get_list_of_node():
