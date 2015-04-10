@@ -150,6 +150,9 @@ class storage(object):
             else:
                 raise Exception('Neither Timestamp nor ReceptionTime exists - not a time series database.')
 
+        if type(variables) is str:
+            variables = [variables]
+            
         # if the list of variables is not specified, retrieve all variables defined in the config
         if variables is None:
             variables = self._capability[node_id]['dbtag']
