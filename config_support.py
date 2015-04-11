@@ -107,6 +107,13 @@ def get_dbtype(node_id=None):
 def get_dbunit(node_id=None):
     return get_db('dbunit',node_id=node_id)
 
+def get_description(node_id=None):
+    assert node_id is not None or is_node()
+    if node_id is None:
+        node_id = get_node_id()
+    node_tag = 'node_{:03d}'.format(node_id)
+    return [c.strip() for c in read_config()[node_tag]['description'].split(',')]
+
 # this one is meaningless for a sensor node. I AM the sensor node, what "list of node"?
 def get_list_of_node():
     #assert is_base()
@@ -204,6 +211,10 @@ def get_unit(node_id,tags):
         units = units[0]
     return units
 
+def tag2description(node_id,tag):
+    tags = get_dbtag(node_id=node_id)
+    desc = get_description(node_id=node_id)
+    return dict(zip(tags,desc))[tag]
 
 # extremely clumsy...
 def get_color(node_id,tags):
@@ -223,6 +234,8 @@ def get_color(node_id,tags):
 if '__main__' == __name__:
     print is_node()
     print is_base()
+
+    print tag2description(4,'Pressure_MS5803')
 
     # node only
     try:
