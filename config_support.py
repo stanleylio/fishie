@@ -67,6 +67,16 @@ def get_interval():
     assert is_node()
     return int(read_config()['node']['wait'])
 
+def get_optode_port():
+    assert is_node()
+    try:
+        tmp = read_config()['node']['optode_port']
+        if exists(tmp):
+            return tmp
+    except KeyError:
+        pass
+    return None
+    
 def get_msgfield(node_id=None):
     assert node_id is not None or is_node()
     if node_id is None:
