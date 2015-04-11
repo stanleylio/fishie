@@ -4,15 +4,15 @@ import sys,pytz,json
 sys.path.append('storage')
 from jinja2 import Template
 from os.path import getmtime,dirname,join,isfile,isdir,exists
+from os import remove,rename
 from storage import storage
 from datetime import datetime,timedelta
-from config_support import read_config,read_disp_config,read_capability
+from config_support import read_config,read_disp_config,read_capability,is_base,is_node,get_name,get_unit
 
 
 def PRINT(s):
     #pass
     print(s)
-
 
 def get_timeago_element(ts = None):
     if ts is None:
@@ -42,17 +42,14 @@ def gen_front_page(template_path,output_dir):
 
     with open(template_path,'r') as f:
         template = Template(f.read())
-    tmp = template.render(NODE_PAGES=zip(links,disp_str))
+    html = template.render(NODE_PAGES=zip(links,disp_str))
     with open(join(output_dir,'index.html'),'w') as f:
-        f.write(tmp)
+        f.write(html)
 
 
 def gen_node_page(node_id,page_template,error_template,output_dir):
     capability = read_capability()
-    node_name = capability[node_id]['name']
-    dbtag = capability[node_id]['dbtag']
-    dbunit = capability[node_id]['dbunit']
-    units = dict(zip(dbtag,dbunit))
+    node_name = get_name(node_id=node_id)
 
     output = join(output_dir,'node_{:03d}.html'.format(node_id))
     PRINT('Output to: ' + output)
@@ -101,7 +98,7 @@ def gen_node_page(node_id,page_template,error_template,output_dir):
         
     ts = tmp[time_col][0]
     values = ['{:.2f}'.format(tmp[v][0]) if tmp[v][0] is not None else '-' for v in variables]
-    units = [units[v] for v in variables]
+    units = get_unit(node_id,variables)
     table = zip(variables,values,units)
 
 
@@ -113,11 +110,11 @@ def gen_node_page(node_id,page_template,error_template,output_dir):
     # but not being able to compare mg/L to uM is really annoying
     for k,t in enumerate(table):
         if 'EZO_DO' == t[0]:
-            print t
+            #print t
             # hack like this is gonna get me sooner or later.
             table[k] = (t[0],'{:.2f}'.format(float(t[1])/32e-3),'uM')
         if 'Pressure_BMP180' == t[0]:
-            print t
+            #print t
             table[k] = (t[0],'{:.2f}'.format(float(t[1])/1000.),'kPa')
     # = = = = = = = = = = = = = = = = = = = =
 
@@ -180,25 +177,33 @@ def gen_node_page(node_id,page_template,error_template,output_dir):
                           TABLE=table,PLOTS=plots)
     with open(output,'w') as f:
         f.write(tmp)
+    return output
 
 
 if '__main__' == __name__:
     # don't forget the .css and .js etc.
     output_dir = './www'
 
-    page_template = './template/front_template.html'
-    print('Generating front page...')
-    gen_front_page(page_template,output_dir)
-    
     page_template = './template/node_template.html'
     error_template = './template/error_template.html'
-    
-    display_config = read_config(pattern='^node_\d{3}$',configini='display_config.ini')
-    node_list = display_config.keys()
-    html_dirs = [display_config[k]['html_dir'] for k in node_list]
-    
-    for s,output_path in zip(node_list,html_dirs):
-        node_id = int(s[5:8])
-        print('Generating webpage for node {}...'.format(node_id))
-        gen_node_page(node_id,page_template,error_template,output_path)
-    
+    tmp = read_disp_config()
+    node_ids = tmp.keys()
+    html_dirs = [tmp[k]['html_dir'] for k in node_ids]
+    node_page_file = '' # if is_node(), this loop runs only once
+    for node_id,output_path in zip(node_ids,html_dirs):
+        PRINT('Generating webpage for node {}...'.format(node_id))
+        node_page_file = gen_node_page(node_id,page_template,error_template,output_path)
+    if is_base():
+        page_template = './template/front_template.html'
+        PRINT('Generating front page...')
+        gen_front_page(page_template,output_dir)
+    elif is_node():
+        tmp = join(output_dir,'index.html')
+        try:
+            remove(tmp)
+        except:
+            pass
+        rename(node_page_file,tmp)
+    else:
+        print('sobbing mathematically')
+        

@@ -154,9 +154,13 @@ def read_disp_config(config=None):
         config[node_id] = {}
         config[node_id]['variable'] = [v.strip() for v in display_config[node]['variable'].split(',')]
         try:
+            config[node_id]['html_dir'] = display_config[node]['html_dir']
+        except KeyError:
+            config[node_id]['html_dir'] = join('./www',node)
+        try:
             config[node_id]['plot_dir'] = display_config[node]['plot_dir']
         except KeyError:
-            config[node_id]['plot_dir'] = join('./www',node)
+            config[node_id]['plot_dir'] = join('./www/node_{:03d}'.format(node_id),node)
         try:
             config[node_id]['time_col'] = display_config[node]['time_col']
         except KeyError:
@@ -175,6 +179,8 @@ def read_disp_config(config=None):
     return config
         
 
+# given dbtag, return dbunit
+# input can be a list of tag or just one tag
 # clumsy...
 def get_unit(node_id,tags):
     islist = type(tags) is list
