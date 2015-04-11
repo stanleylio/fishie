@@ -107,15 +107,15 @@ class storage(object):
                 raise Exception('Neither Timestamp nor ReceptionTime exists - not a time series database.')
         # this won't work. it gives you a string representation of the time instead (don't ask me why)
         #cmd = 'SELECT min(Timestamp) from node_003'
-        cmd = '''SELECT {time_col} FROM node_{node_id:03d} where {time_col} in
-                (select min({time_col}) from node_{node_id:03d})'''.format(node_id=node_id,time_col=time_col)
+        cmd = '''SELECT {time_col} FROM node_{node_id:03d} where {time_col} in 
+(select min({time_col}) from node_{node_id:03d})'''.format(node_id=node_id,time_col=time_col)
         self.c.execute(cmd)
         tmp = self.c.fetchall()
         min_t = None
         if len(tmp) > 0:
             min_t = tmp[0][0]
-        cmd = '''SELECT {time_col} FROM node_{node_id:03d} where {time_col} in
-                (select max({time_col}) from node_{node_id:03d})'''.format(node_id=node_id,time_col=time_col)
+        cmd = '''SELECT {time_col} FROM node_{node_id:03d} where {time_col} in 
+(select max({time_col}) from node_{node_id:03d})'''.format(node_id=node_id,time_col=time_col)
         self.c.execute(cmd)
         tmp = self.c.fetchall()
         max_t = None
@@ -336,4 +336,7 @@ if '__main__' == __name__:
 #    print
 #    print tmp.keys()
 #    print len(tmp[var])
+
+
+
     
