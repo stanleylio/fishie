@@ -42,6 +42,10 @@ def read_config(pattern='.*',configini=None):
     return tmp
 
 
+# these look clumsy and redundant, but only because ini is used.
+# the next iteration should probably use py or at least json, even xml.
+# data structure that has hierarchy.
+
 def is_node():
     tmp = read_config()
     return 'node' in tmp.keys() and 'base' not in tmp.keys()
@@ -90,6 +94,13 @@ def get_name(node_id=None):
         node_id = get_node_id()
     node_tag = 'node_{:03d}'.format(node_id)
     return read_config()[node_tag]['name']
+
+def get_note(node_id=None):
+    assert node_id is not None or is_node()
+    if node_id is None:
+        node_id = get_node_id()
+    node_tag = 'node_{:03d}'.format(node_id)
+    return read_config()[node_tag]['note']
 
 def get_db(name,node_id=None):
     assert node_id is not None or is_node()
