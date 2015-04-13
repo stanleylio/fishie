@@ -203,13 +203,15 @@ def read_disp_config(config=None):
             linecolors = ['b' for v in config[node_id]['variable']]
         C = {k:colors.cnames[k] for k in colors.cnames}
         C.update(colors.ColorConverter.colors)
-        config[node_id]['linecolor'] = [C[c] for c in linecolors]
+        config[node_id]['linecolor'] = [C[c.lower()] for c in linecolors]
     return config
         
 
 # given dbtag, return dbunit
 # input can be a list of tag or just one tag
-# clumsy...
+# clumsy... inefficient...
+# also should keep this simple: accept only one tag, not list of tags.
+# use list comprehension for the list case.
 def get_unit(node_id,tags):
     islist = type(tags) is list
     if not islist:
