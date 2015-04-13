@@ -6,35 +6,35 @@
     <title>{{ title_str }}</title>
 </head>
 <body>
-<script src="jquery/jquery.min.js" type="text/javascript"></script>
-<script src="jquery.timeago.js" type="text/javascript"></script>
-<script src="node_page.js" type="text/javascript"></script>
+	<script src="jquery/jquery.min.js" type="text/javascript"></script>
+	<script src="jquery.timeago.js" type="text/javascript"></script>
+	<script src="node_page.js" type="text/javascript"></script>
 
-<div id="summary" class="center">
-    <h1>{{ node_id_str }}</h1>
-    <p>{{ status_str }}</p>
-    <p>{{ setting_str }}</p>
-</div>
+	<div id="summary" class="center">
+		<h1>{{ node_id_str }}</h1>
+		<p>{{ status_str }}</p>
+		<p>{{ setting_str }}</p>
+	</div>
 
-<table id="latest" class="center">
-<tbody>
-<caption>Current Readings</caption>
-<tr><th>Variable</th><th>Value</th><th>Unit</th></tr>
-{% for name,value,unit in TABLE %}<tr><td>{{ name }}</td><td>{{ value }}</td><td>{{ unit }}</td></tr>{% endfor %}
-</tbody>
-</table>
+	<table id="latest" class="center">
+		<tbody>
+			<caption>Current Readings</caption>
+			<tr><th>Variable</th><th>Value</th><th>Unit</th></tr>
+			{% for name,value,unit in TABLE %}<tr><td>{{ name }}</td><td>{{ value }}</td><td>{{ unit }}</td></tr>{% endfor %}
+		</tbody>
+	</table>
 
-<br></br>
+	<br></br>
 
-<div id="wrap">
-	{% for img_header,img_src,img_alt,img_link_to in PLOTS %}
-    <div class="box">
-        <p class="plot_header center">{{ img_header }}</p>
-        <div class="innerContent">
-            <a href="{{ img_link_to }}"><img class="plot" src="{{ img_src }}" alt="{{ img_alt }}"></a>
-        </div>
-    </div>
-	{% endfor %}
-</div>
+	<div id="wrap">
+		{% for img_header,img_src,img_alt,img_link_to in PLOTS %}
+		<div class="box">
+			<p class="plot_header center">{{ img_header }}</p>
+			<div class="innerContent">
+				<a href="{{ img_link_to }}"><img class="plot" src="{{ img_src }}" alt="{{ img_alt }}"></a>
+			</div>
+		</div>
+		{% endfor %}
+	</div>
 </body>
 </html>

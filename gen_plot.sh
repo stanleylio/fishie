@@ -3,4 +3,4 @@
 clear
 
 python gen_plot.py
-cp -r ./www /var
+#cp -r ./www /var

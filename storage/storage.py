@@ -16,9 +16,10 @@ def PRINT(s):
 # one column per variable
 
 class storage(object):
-    def __init__(self,capability=None):
-        tmp = join(dirname(__file__),'sensor_data.db')
-        self.conn = sqlite3.connect(tmp,\
+    def __init__(self,dbfile=None,capability=None):
+        if dbfile is None:
+            dbfile = join(dirname(__file__),'sensor_data.db')
+        self.conn = sqlite3.connect(dbfile,\
                                     detect_types=sqlite3.PARSE_DECLTYPES |\
                                     sqlite3.PARSE_COLNAMES)
         self.c = self.conn.cursor()
