@@ -92,7 +92,7 @@ if '__main__' == __name__:
     #print parse_eco_flntu(line)
     #exit()
     
-    flntu = ECO_FLNTU()
+    flntu = ECO_FLNTU(port='/dev/ttyO2')
     try:
         #for i in range(60):
         while True:
