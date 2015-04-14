@@ -100,7 +100,10 @@ def get_note(node_id=None):
     if node_id is None:
         node_id = get_node_id()
     node_tag = 'node_{:03d}'.format(node_id)
-    return read_config()[node_tag]['note']
+    try:
+        return read_config()[node_tag]['note']
+    except KeyError:
+        return None
 
 def get_db(name,node_id=None):
     assert node_id is not None or is_node()
