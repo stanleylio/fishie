@@ -126,7 +126,10 @@ def get_description(node_id=None):
     if node_id is None:
         node_id = get_node_id()
     node_tag = 'node_{:03d}'.format(node_id)
-    return [c.strip() for c in read_config()[node_tag]['description'].split(',')]
+    try:
+        return [c.strip() for c in read_config()[node_tag]['description'].split(',')]
+    except KeyError:
+        return None
 
 # this one is meaningless for a sensor node. I AM the sensor node, what "list of node"?
 def get_list_of_node():
