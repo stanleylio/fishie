@@ -1,0 +1,31 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Experimental Work...</title>
+
+        <link rel="stylesheet" type="text/css" href="index.css">
+		
+		<script language="javascript" type="text/javascript" src="../jquery/jquery.min.js"></script>
+		<script language="javascript" type="text/javascript" src="../flot/jquery.flot.min.js"></script>
+        <script language="javascript" type="text/javascript" src="../flot/jquery.flot.time.min.js"></script>
+		<script language="javascript" type="text/javascript" src="../flot/jquery.flot.selection.min.js"></script>
+        <script language="javascript" type="text/javascript" src="plot.js"></script>
+	</head>
+	<body>
+		<h2>"What am I looking at?"</h2>
+		<p>These plots are generated in your browser rather than in the BBB. Data are retrieved directly from the database.</p>
+		<p>The data points are embedded in the html file (try "view page source"). Also check out the URL... just imagine the possibilities.</p>
+		<p>Laying the groundwork for interactive/realtime plots... gotta do the exploratory work before imagination outgrows the architecture...</p>
+		<br>
+		
+		{% for title_str,dbtag,unit,linecolor,data in PLOTS %}
+		<div>
+			<div class="plot-title"><h3>{{ title_str }}</h3></div>
+			<div class="plot-container">
+				<div class="plot-placeholder" data-dbtag="{{ dbtag }}" data-unit="{{ unit }}" data-linecolor="{{ linecolor }}" data-string="{{ data }}"></div>
+			</div>
+		</div>
+		{% endfor %}
+	</body>
+</html>
