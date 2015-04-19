@@ -45,7 +45,7 @@ def parse_4330f(line):
 
 
 class Aanderaa_4330f(Thread):
-    def __init__(self,port='/dev/ttyUSB0',baud=9600,interval=1):
+    def __init__(self,port='/dev/ttyO4',baud=9600,interval=1):
         super(Aanderaa_4330f,self).__init__()
         self._d = None
         self._port = port
@@ -116,7 +116,7 @@ class Aanderaa_4330f(Thread):
 
 if '__main__' == __name__:
     print 'born'
-    optode = Aanderaa_4330f()
+    optode = Aanderaa_4330f(port='/dev/ttyO4')
     try:
         #for i in range(60):
         while True:
