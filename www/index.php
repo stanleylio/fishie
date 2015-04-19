@@ -11,6 +11,10 @@
 		<link href="index.css" rel="stylesheet" type="text/css">
 		
 		<?php
+			// not yet ready for base station and web server deployment. need path to database and configs at least.
+		?>
+		
+		<?php
 			// initialize the variables (node id, name, note etc.)
 			$dbfile = '../storage/sensor_data.db';
 			$node_config_file = '../node_config.ini';
