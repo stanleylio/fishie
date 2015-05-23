@@ -106,7 +106,7 @@ def gen_node_page(node_id,page_template,error_template,output_dir):
 
     # = = = = = = = = = = = = = = = = = = = =
     # special case for EZO_DO and Pressure_BMP180
-    # I have just commited a CRIME
+    # hack... this is a crime...
     # but not being able to compare mg/L to uM is really annoying
     for k,t in enumerate(table):
         if 'EZO_DO' == t[0]:
@@ -150,7 +150,6 @@ def gen_node_page(node_id,page_template,error_template,output_dir):
             header_str = header_str + ', daily average'
         else:
             PRINT('gen_page: gen_node_page(): huh?')
-            pass
 
         header_str = header_str + ' (generated {})'.format(get_timeago_element(plot_generated_at))
 

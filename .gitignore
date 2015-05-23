@@ -1,7 +1,4 @@
 *.py[cod]
-*.db
-*.db-wal
-*.db-shm
 *.tar
 *.gz
 *.csv
@@ -10,7 +7,6 @@
 *.old
 *.log
 *.ini
-*.bak
 
 *.png
 *.json

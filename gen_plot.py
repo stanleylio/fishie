@@ -139,6 +139,11 @@ if '__main__' == __name__:
             time_range = store.read_time_range(node_id,time_col=time_col)
             plot_type = '-'
             if None not in time_range:
+
+                # This is tricky. when a new variable is added, the number of valid entries is certainly less than
+                # the time range of the database. Time range alone doesn't tell you how much plot-able data there
+                # are.
+                # replace all None with numpy.nan? still.
                 if (time_range[1] - time_range[0]) >= timedelta(days=plot_range):
                     plot_type = 'hourly'
                     tmp = store.read(node_id,variables=col_name[1:],nday=plot_range,time_col=time_col,avg='hourly')

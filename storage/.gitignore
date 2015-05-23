@@ -1,1 +1,7 @@
+*.db
+*.db-wal
+*.db-shm
+*.bak
+*.db-journal
+
 gen_csv4www.sh
