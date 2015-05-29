@@ -8,7 +8,7 @@
 		<script src="../jquery/jquery.min.js" type="text/javascript"></script>
 		<script src="../jquery.timeago.js" type="text/javascript"></script>
 		
-		<link href="index.css" rel="stylesheet" type="text/css">
+		<link href="node_page.css" rel="stylesheet" type="text/css">
 		
 		<?php
 			// not yet ready for base station and web server deployment. need path to database and configs at least.
