@@ -143,6 +143,9 @@ if '__main__' == __name__:
                 # This is tricky. when a new variable is added, the number of valid entries is certainly less than
                 # the time range of the database. Time range alone doesn't tell you how much plot-able data there
                 # are.
+                # Also, checking the portion of Null in the selected time range in the database takes about
+                # the same amount of work as retrieving them all... can't check before read. Hum...
+                # 
                 # replace all None with numpy.nan? still.
                 if (time_range[1] - time_range[0]) >= timedelta(days=plot_range):
                     plot_type = 'hourly'
@@ -155,7 +158,7 @@ if '__main__' == __name__:
                 tmp = None
 
             if tmp is None or len(tmp) <= 0 or len(tmp[time_col]) <= 0:
-                PRINT('gen_plot: database contains no record for node_{:03d}. ABORT'.format(node_id))
+                PRINT('gen_plot: database contains no (recent) record for node_{:03d}. ABORT'.format(node_id))
                 break
             
             TS = tmp[time_col]
@@ -192,7 +195,8 @@ if '__main__' == __name__:
             plot_config = {'plot_type':plot_type,
                            'time_begin':time.mktime(min(TS).timetuple()),
                            'time_end':time.mktime(max(TS).timetuple()),
-                           'plot_generated_at':time.mktime(datetime.utcnow().timetuple())}
+                           'plot_generated_at':time.mktime(datetime.utcnow().timetuple()),
+                           'data_point_count':len(readings)}
             with open(join(plot_dir,var + '.json'),'w') as f:
                 # json.dump vs. json.dumps...
                 json.dump(plot_config,f,separators=(',',':'))
