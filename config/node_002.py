@@ -58,6 +58,22 @@ conf = [
         'plot':True
     },
     {
+        'dbtag':'ec',
+        'dbtype':'REAL',
+        'comtag':'ec',
+        'unit':'uS',
+        'description':'Conductivity',
+        'plot':True
+    },
+    {
+        'dbtag':'sal',
+        'dbtype':'REAL',
+        'comtag':'sal',
+        'unit':'-',
+        'description':'Salinity',
+        'plot':False
+    },
+    {
         'dbtag':'O2Concentration',
         'dbtype':'REAL',
         'comtag':'O2',
