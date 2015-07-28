@@ -2,7 +2,7 @@
 #
 # Stanley Lio, hlio@usc.edu
 # All Rights Reserved. August 2015
-import serial,re
+import serial,re,traceback
 
 
 def PRINT(s):

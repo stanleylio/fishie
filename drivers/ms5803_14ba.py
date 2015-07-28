@@ -88,6 +88,7 @@ if '__main__' == __name__:
     PRINT('raw_temperature: {}'.format(ms._raw_temperature()))
 
     while True:
+        #print('\x1b[2J\x1b[;H')
         print ms.pretty(ms.read())
         time.sleep(0.1)
 

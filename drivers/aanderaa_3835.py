@@ -2,7 +2,7 @@
 #
 # Stanley Lio, hlio@usc.edu
 # All Rights Reserved. September 2015
-import re
+import serial,re,traceback
 
 def PRINT(s):
     #pass
@@ -11,6 +11,34 @@ def PRINT(s):
 class Aanderaa_3835(object):
     msgfield = ['Oxygen','Saturation','Temperature']
     convf = [float,float,float]
+
+    '''def __init__(self,port='/dev/ttyO2'):
+        self._port = port
+        with serial.Serial(self._port,9600,timeout=1) as s:
+            s.write('\r\nreset\r\n')
+            s.write('\r\ndo stop\r\n')
+            s.flushInput()
+            s.flushOutput()
+
+    def read(self):
+        try:
+            with serial.Serial(self._port,9600,timeout=1) as s:
+                s.flushInput()
+                s.flushOutput()
+                s.write('do stop\r\n')
+                for j in range(5):
+                    PRINT('{} try'.format(j+1))
+                    s.write('do sample\r\n')
+                    for i in range(5):
+                        line = s.readline()
+                        #print line
+                        tmp = Aanderaa_3835.parse_3835(line)
+                        if tmp is not None:
+                            return tmp
+                PRINT('Aanderaa_3835::read(): no valid response from optode')
+        except Exception:
+            traceback.print_exc()
+        return None'''
 
     @staticmethod
     def parse_3835(line):
@@ -41,4 +69,11 @@ if '__main__' == __name__:
     print optode.parse_3835(c1)
     print optode.parse_3835(c2)
     print optode.parse_3835(c3)
+
+    optode = Aanderaa_3835(port='/dev/ttyO2')
+    try:
+        while True:
+            print optode.read()
+    except KeyboardInterrupt:
+        print 'user interrupted'
 
