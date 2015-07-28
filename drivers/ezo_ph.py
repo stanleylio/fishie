@@ -1,4 +1,3 @@
-from Adafruit_I2C import Adafruit_I2C
 import time
 from ConfigParser import SafeConfigParser,NoSectionError
 from ezo import EZO
@@ -33,10 +32,8 @@ class EZO_pH(EZO):
     i2c = None
     MAX_LEN = 32
     
-    def __init__(self,address=0x63,lowpower=True):
-        self.i2c = Adafruit_I2C(address)
-        self.address = address
-        self.lowpower = lowpower
+    def __init__(self,address=0x63,lowpower=False,i2c=None,bus=1):
+        EZO.__init__(self,address=address,lowpower=lowpower,i2c=i2c,bus=bus)
         try:
             parser = SafeConfigParser()
             parser.read(join(dirname(__file__),'ezo.ini'))
@@ -61,7 +58,7 @@ class EZO_pH(EZO):
 
 
 if '__main__' == __name__:
-    ph = EZO_pH(lowpower=True)
+    ph = EZO_pH(lowpower=False)
     print 'Device Information (sensor type, firmware version):'
     print ph.device_information()
     print
@@ -78,7 +75,7 @@ if '__main__' == __name__:
     #print 'Change T value to...'
     #print ph.t(25)      # NOT synced during instantiation
     #print
-    print 'A sample read:'
-    ph.pretty_print()
-    #ph.sleep()
+
+    while True:
+        ph.pretty_print()
     
