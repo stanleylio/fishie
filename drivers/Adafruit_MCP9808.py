@@ -87,7 +87,7 @@ class MCP9808(object):
 		return temp
 
 
-if __name__ == '__main__':
+if '__main__' == __name__:
         import time
         
         sensor = MCP9808()

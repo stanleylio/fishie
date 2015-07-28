@@ -46,12 +46,12 @@ class MS5803_14BA:
         P = (long(D1)*SENS/(2**21) - OFF)/(2**15)
         P = P/100.
         TEMP = TEMP/100.
-        return {'p':P,'t':TEMP}
+        return {'Pressure_MS5803':P,'Temp_MS5803':TEMP}
 
     def pretty(self,r=None):
         if r is None:
             r = self.read()
-        return '{} kPa, {} Deg.C'.format(r['p'],r['t'])
+        return '{} kPa, {} Deg.C'.format(r['Pressure_MS5803'],r['Temp_MS5803'])
 
     # read factory calibration parameters, C[6]
     def _read_prom(self):
