@@ -7,7 +7,7 @@
 *.log
 
 log/
-www/
+#www/
 
 #upload.sh
 

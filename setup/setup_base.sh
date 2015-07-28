@@ -1,8 +1,8 @@
 #!/bin/bash
 
 NODE_TAG="base-004"
-LOGGER_DIR="~/node"
-SETUP_DIR="~/node/setup"
+LOGGER_DIR="/home/nuc/node"
+SETUP_DIR="/home/nuc/node/setup"
 
 
 echo "Creating folders"
@@ -16,22 +16,23 @@ sudo usermod -a -G dialout nuc
 
 
 echo "Setting hostname"
-echo $NODE_TAG > /etc/hostname
-echo "127.0.0.1       $NODE_TAG" >> /etc/hosts
+sudo echo $NODE_TAG > /etc/hostname
+sudo echo "127.0.0.1       $NODE_TAG" >> /etc/hosts
 
 
-apt-get update
+sudo apt-get update
 
 
 echo "Setting system clock and timezone"
 #dpkg-reconfigure tzdata
-apt-get install ntp -y
+sudo apt-get install ntp -y
 
 
 # Le boeuf
 echo "git init"
 sudo apt-get install git -y
-git clone https://github.com/stanleylio/fishie.git $LOGGER_DIR
+#git clone https://github.com/stanleylio/fishie.git $LOGGER_DIR
+git clone git@github.com:stanleylio/fishie.git $LOGGER_DIR
 
 
 # Install Python libaries
@@ -40,6 +41,10 @@ sudo apt-get install build-essential python-dev python-setuptools python-pip pyt
 pip install --upgrade setuptools
 pip install Adafruit_BBIO tzlocal pytz pyserial numpy python-dateutil pyparsing six --force-reinstall --upgrade
 
+sudo apt-get build-dep python-matplotlib
+#sudo apt-get install libpng-dev -y
+#sudo apt-get install libfreetype6-dev -y
+#sudo ln -s /usr/local/opt/freetype/include/freetype2 /usr/local/include/freetype
 
 # matplotlib
 #git clone git://github.com/matplotlib/matplotlib.git
