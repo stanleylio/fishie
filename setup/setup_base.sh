@@ -11,6 +11,9 @@ mkdir -p $LOGGER_DIR
 
 #passwd
 
+# enable serial port access for user nuc
+sudo usermod -a -G dialout nuc
+
 
 echo "Setting hostname"
 echo $NODE_TAG > /etc/hostname
