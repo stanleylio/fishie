@@ -269,7 +269,7 @@ if '__main__' == __name__:
       pressure = bmp.readPressure()
       tmp = '{:.1f}Deg.C, {:.2f}kPa'.format(bmptemp,pressure/1000.)
       print tmp
-      time.sleep(1)
+      time.sleep(0.1)
   except KeyboardInterrupt:
       print 'user interrupted'
 
