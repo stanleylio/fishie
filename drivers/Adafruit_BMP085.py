@@ -257,3 +257,24 @@ class BMP085 :
     return altitude
 
     return 0
+
+
+if '__main__' == __name__:
+  import time
+  bmp = BMP085(0x77,3)   # ULTRAHIRES Mode
+
+  try:
+    while True:
+      bmptemp = bmp.readTemperature()
+      pressure = bmp.readPressure()
+      tmp = '{:.1f}Deg.C, {:.2f}kPa'.format(bmptemp,pressure/1000.)
+      print tmp
+      time.sleep(1)
+  except KeyboardInterrupt:
+      print 'user interrupted'
+
+  
+
+
+
+
