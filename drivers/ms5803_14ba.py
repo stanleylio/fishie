@@ -1,14 +1,14 @@
 import smbus,time,struct
 
 # Driver for the MS5803-14BA pressure sensor
-# Tested working on Beaglebone Black (rev.B, 2GB) and  Raspberry Pi A+ (256MB)
+# Tested working on Beaglebone Black (rev.B, 2GB) and Raspberry Pi A+ (256MB)
 
 # Stanley Lio, hlio@usc.edu
 # All Rights Reserved. February 2015
 
 def PRINT(s):
-    #pass
-    print(s)
+    pass
+    #print(s)
 
 class MS5803_14BA:
 
