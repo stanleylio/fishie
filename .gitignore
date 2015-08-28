@@ -18,6 +18,8 @@ obsolete/
 log/
 sandbox/
 
+optodeData/
+
 node_config.ini
 display_config.ini
 
