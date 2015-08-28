@@ -57,8 +57,9 @@ class Aanderaa_4330f(Thread):
         self.daemon = True
         self.start()
         PRINT('Aanderaa_4330f: initializing...')
-        for i in range(10):
-            PRINT('{}...'.format(10 - i))
+        L = 20
+        for i in range(L):
+            PRINT('{}...'.format(L - i))
             if self.read() is not None:
                 break
             time.sleep(1)
@@ -69,6 +70,7 @@ class Aanderaa_4330f(Thread):
         return self._d
     
     def run(self):
+        PRINT('Aanderaa_4330f: started')
         with serial.Serial(self._port,self._baud,timeout=2) as ser:
             ser.flushInput()
             ser.flushOutput()
@@ -115,8 +117,7 @@ class Aanderaa_4330f(Thread):
 
 
 if '__main__' == __name__:
-    print 'born'
-    optode = Aanderaa_4330f(port='/dev/ttyO4')
+    optode = Aanderaa_4330f(port='/dev/ttyUSB0')
     try:
         #for i in range(60):
         while True:
@@ -125,12 +126,11 @@ if '__main__' == __name__:
                 print tmp
             time.sleep(1)
     except KeyboardInterrupt:
+        optode.stop()
         print 'user interrupted'
 
-    print 'die'
     # setting it as a daemon makes it terminates after main automatically so I don't even need
     # to call stop(). neat.
     #optode.stop()
     #print 'dead'
-
 
