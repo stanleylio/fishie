@@ -12,8 +12,8 @@ from datetime import datetime
 from threading import Thread,Event
 
 def PRINT(s):
-    #pass
-    print(s)
+    pass
+    #print(s)
 
 def parse_4330f(line):
     msgfield = ['SN','O2Concentration','AirSaturation','Temperature','CalPhase','TCPhase','C1RPh','C2RPh','C1Amp','C2Amp','RawTemp']
