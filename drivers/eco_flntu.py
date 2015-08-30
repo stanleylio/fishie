@@ -55,6 +55,7 @@ class ECO_FLNTU(Thread):
         return self._d
     
     def run(self):
+        PRINT('ECO_FLNTU: started')
         with serial.Serial(self._port,self._baud,timeout=2) as ser:
             ser.flushInput()
             ser.flushOutput()
@@ -87,12 +88,11 @@ class ECO_FLNTU(Thread):
 
 
 if '__main__' == __name__:
-    print 'born'
     #line = '03/13/15        07:48:50        695     3941    700     4121    549'
     #print parse_eco_flntu(line)
     #exit()
     
-    flntu = ECO_FLNTU(port='/dev/ttyO2')
+    flntu = ECO_FLNTU(port='COM50')
     try:
         #for i in range(60):
         while True:
@@ -100,12 +100,11 @@ if '__main__' == __name__:
             print tmp
             time.sleep(1)
     except KeyboardInterrupt:
+        flntu.stop()
         print 'user interrupted'
 
-    print 'die'
     # setting it as a daemon makes it terminates after main automatically so I don't even need
     # to call stop(). neat.
     #optode.stop()
     #print 'dead'
-
 
