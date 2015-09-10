@@ -132,7 +132,6 @@ def get_flntu_port():
     except KeyError:
         return None
 
-
 # STUFF FOR THE WEB PAGE ONLY
 def get_name(node_id=None):
     assert node_id is not None or is_node()
