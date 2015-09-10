@@ -73,7 +73,7 @@ if '__main__' == __name__:
         while True:
             tmp = optode.read()
             print tmp
-            time.sleep(5)
+            time.sleep(1)
     except KeyboardInterrupt:
         print 'user interrupted'
 

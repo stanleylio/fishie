@@ -8,13 +8,17 @@ matplotlib.use('Agg')
 import sys,re,json,time
 sys.path.append('../storage')
 import matplotlib.pyplot as plt
-from datetime import timedelta
+from datetime import datetime,timedelta
 from matplotlib.dates import DateFormatter,HourLocator
+#from scipy.signal import medfilt
+#from numpy import ndarray
+#import numpy as np
+
 from storage import storage
 from config_support import *
+from os.path import abspath
 from os.path import exists,join
 from os import makedirs
-#from scipy.signal import medfilt
 
 
 def plot_time_series(x,y,plotfilename,title='',xlabel='',ylabel='',linelabel=None):
@@ -67,11 +71,10 @@ def plot_time_series(x,y,plotfilename,title='',xlabel='',ylabel='',linelabel=Non
 if '__main__' == __name__:
     import traceback,logging,logging.handlers,sqlite3
 
-    # LOGGING
-    '''DEBUG,INFO,WARNING,ERROR,CRITICAL'''
+    # DEBUG,INFO,WARNING,ERROR,CRITICAL
     logging.basicConfig(level=logging.INFO)
     logger = logging.getLogger(__name__)
-    handler = logging.handlers.RotatingFileHandler('gen_plot.log',
+    handler = logging.handlers.RotatingFileHandler('example.log',
                                          maxBytes=1e6,
                                          backupCount=10)
     logger.addHandler(handler)
@@ -87,12 +90,13 @@ if '__main__' == __name__:
 
     assert time_col is not None
 
+    plot_type = 'raw'
+
     for node_id in IDs:
         node_tag = 'node_{:03d}'.format(node_id)
         config_file = '../config/{}.ini'.format(node_tag)
-        assert exists(config_file)
         #plot_range = 2  # days
-        count = 500
+        count = 1e3
 
         tags = get_tag(node_id)
         units = get_unit(node_id)
@@ -111,7 +115,6 @@ if '__main__' == __name__:
             unit = mapping[var]
             
             title = '{} of {}'.format(var,node_tag)
-# better be sure the folder exists...
             plotfilename = '../www/{}/{}.png'.format(node_tag,var)
 
             try:
@@ -121,9 +124,18 @@ if '__main__' == __name__:
 
                 plot_time_series(x,y,plotfilename,title,ylabel=unit,linelabel=var)
 
+                # save settings of plot to JSON file
+                plot_config = {'plot_type':plot_type,
+                               'time_begin':time.mktime(min(x).timetuple()),
+                               'time_end':time.mktime(max(x).timetuple()),
+                               'plot_generated_at':time.mktime(datetime.utcnow().timetuple()),
+                               'data_point_count':len(y)}
+                with open(join(plot_dir,var + '.json'),'w') as f:
+                    # json.dump vs. json.dumps...
+                    json.dump(plot_config,f,separators=(',',':'))
+
             except (TypeError,sqlite3.OperationalError) as e:
                 #print traceback.print_exc()
                 logger.warning('SQLite error (no record of {} for {}?)'.\
                                format(var,node_tag))
 
-                
