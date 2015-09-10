@@ -54,12 +54,17 @@ class storage(object):
         self.c.execute(cmd,vals)
         self.conn.commit()
 
-#    def read_all(self,node_id,col_name=None):
-#        return self.read(node_id,variables=col_name)
-        
+
+# hum... may as well make this read-only. All this mess just to support plotting.
+# if this is read-only __init__() doesn't even need the capabilities
+# TODO
+class storage_rw(storage):
     def read_latest(self,node_id,time_col,variables,count=1):
         """retrieve the last "count" readings"""
         return self.read(node_id,time_col=time_col,variables=variables,count=count)
+
+#    def read_all(self,node_id,col_name=None):
+#        return self.read(node_id,variables=col_name)
 
 #    def hourly_average(self,node_id,col_name=None,time_col=None):
 #        """read hourly averages (all time)"""
@@ -193,46 +198,47 @@ class storage(object):
 if '__main__' == __name__:
     #from datetime import datetime
     from config_support import read_capabilities
-    store = storage(read_capabilities())
+    store = storage_rw(read_capabilities())
     #store.write(1,{'Timestamp':datetime.utcnow(),'Oxygen':123.456,'Temp_MS5803':99.9,'bug':32768})
     #exit()
 
     node_id = 3
+    time_col = 'Timestamp'
     var = ['Temp_MS5803']
 
     print
     print 'read_latest()'
-    tmp = store.read_latest(node_id)
+    tmp = store.read_latest(node_id,time_col,var,count=1)
     print tmp
     
-    print
+    '''print
     print 'read_time_range()'
     tmp = store.read_time_range(node_id,time_col='Timestamp')
     print tmp
-    print type(tmp[0])
+    print type(tmp[0])'''
 
     print
     print 'read max six entries (should have precedence over nhour)'
-    tmp = store.read(node_id,nhour=10,count=6)
+    tmp = store.read(node_id,time_col,var,nhour=10,count=6)
     print tmp
 
     print
     print 'hourly average of "{}" in the past 1 day, 3 hours'.format(var)
-    tmp = store.read(node_id,variables=var,nhour=3,nday=1,avg='hourly')
+    tmp = store.read(node_id,time_col,var,nhour=3,nday=1,avg='hourly')
     print tmp.keys()
     print len(tmp[var[0]])
 
-    print
+    '''print
     print 'daily average of the past 14 days, all variables'
-    tmp = store.read(node_id,nday=14,avg='daily')
+    tmp = store.read(node_id,time_col,var,nday=14,avg='daily')
     print tmp.keys()
     print len(tmp[var[0]])
 
     print
     print 'past 6 hours, all variables'
-    tmp = store.read(node_id,nhour=6)
+    tmp = store.read(node_id,time_col,var,nhour=6)
     print tmp.keys()
-    print len(tmp[var[0]])
+    print len(tmp[var[0]])'''
 
     # read everything
 #    tmp = store.read(node_id)

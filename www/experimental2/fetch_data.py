@@ -3,7 +3,7 @@ import cgi,cgitb,json,time,sys
 sys.path.append('../../')
 sys.path.append('../../storage')
 sys.path.append('../../config')
-from storage import storage
+from storage import storage_rw
 from config_support import *
 
 cgitb.enable(display=1)
@@ -26,7 +26,7 @@ try:
 except:
     pass
 
-store = storage()
+store = storage_rw()
 
 name = get_name()
 note = get_note()

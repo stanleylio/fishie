@@ -14,7 +14,7 @@ from matplotlib.dates import DateFormatter,HourLocator
 #from numpy import ndarray
 #import numpy as np
 
-from storage import storage
+from storage import storage_rw
 from config_support import *
 from os.path import abspath
 from os.path import exists,join
@@ -102,7 +102,7 @@ if '__main__' == __name__:
         units = get_unit(node_id)
         mapping = dict(zip(tags,units))
 
-        store = storage()
+        store = storage_rw()
         
         config = read_ini(config_file)['display']
         plot_dir = config['plot_dir']
