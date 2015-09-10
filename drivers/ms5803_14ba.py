@@ -88,5 +88,5 @@ if '__main__' == __name__:
 
     while True:
         print ms.pretty(ms.read())
-        time.sleep(1)
+        time.sleep(0.1)
 
