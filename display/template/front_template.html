@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en-US">
+    <head>
+        <meta charset="UTF-8">
+        <style>
+            ul li {
+                padding: 10px;
+                list-style-type: none;
+                font-weight: bolder;
+                font-size: 18pt;
+            }
+        </style>
+    </head>
+    <body>
+        <ul>
+            {% for node_page_link,node_name in NODE_PAGES %}
+            <li>
+                <a href="{{ node_page_link }}">{{ node_name }}</a><br>
+                <!--<p>{{ status }}</p>-->
+            </li>
+            {% endfor %}
+        </ul>
+    </body>
+</html>
