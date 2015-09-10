@@ -15,34 +15,12 @@ def PRINT(s):
 def get_checksum(s):
     return '{:08x}'.format(crc32(s) & 0xffffffff)
 
-# schedule for deletion. error detection script should not be concerned with message format.
-def wrap(s):
-    return '{},{}'.format(s,get_checksum(s))
-
-# not sure if it's the late nights, the nonstop programming, the coffee
-# overdose, or I'm just not cut out for maths and algorithms.
 def check(s):
-    s = s.strip()
-    good = False
-    if len(s) > 9:
-        try:
-            ss = s[:-9]
-            cs = s[-8:]
-            good = (crc32(ss) & 0xffffffff) == int(cs,16)
-        except:
-            return False
-    else:
-        return False
-    return good
-
-# that one above is just bad. that comma... should not be part of the msg or be check()'s concern.
-# the last 8 characters are the checksum digits
-def check2(s):
     s = s.strip()
     try:
         return get_checksum(s[:-8]) == s[-8:]
     except:
-        PRINT('check2(): duh')
+        PRINT('check(): duh')
         return False
 
 
@@ -54,7 +32,6 @@ if '__main__' == __name__:
     s3 = 'node_004,1428688771.165071,0.0,0.0,3.77,14.0,-54.5,101126,25.4,102.44,25.31,10,540,281,c5e55b3d'
     
     #print len(struct.pack('>I',v))
-    vcs = wrap(s1)
     print s1
     print vcs
 

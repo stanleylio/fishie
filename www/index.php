@@ -17,9 +17,8 @@
 		<?php
 			// initialize the variables (node id, name, note etc.)
 			$dbfile = '../storage/sensor_data.db';
-			$node_config_file = '../node_config.ini';
-			$display_config_file = '../display_config.ini';
-			if (!file_exists($dbfile) || !file_exists($node_config_file) || !file_exists($display_config_file)) {
+			$node_config_file = '../config/node_config.ini';
+			if (!file_exists($dbfile) || !file_exists($node_config_file)) {
 				echo "<br>";
 				echo "debug: database or config file not found. Make sure the following exist:";
 				echo "<br>";
@@ -27,28 +26,35 @@
 				echo "<br>";
 				echo $node_config_file;
 				echo "<br>";
-				echo $display_config_file;
-				echo "<br>";
 				exit();
 			}
 
 			$ini = parse_ini_file($node_config_file,true,INI_SCANNER_RAW);
 			$node_id = $ini['node']['id'];
 			$node_tag = sprintf("node_%03d",$node_id);
-			$node_name = $ini[$node_tag]['name'];
-			$node_note = $ini[$node_tag]['note'];
-			
+			$node_name = $ini['node']['name'];
+			$node_note = $ini['node']['note'];
 			$table_name = $node_tag;
+			$shared_config_file = '../config/' . $node_tag . '.ini';
+			if (!file_exists($shared_config_file)) {
+				echo "<br>";
+				echo "debug: the node-specific config file is missing:";
+				echo "<br>";
+				echo $shared_config_file;
+				echo "<br>";
+				exit();
+			}
 			$time_col = "Timestamp";
 			
 			echo "<title>Node #" . $node_id . "</title>";
 
+			// should set up a service for these things...
 			// get an associative array of [dbtag=>dbunit]
 			function get_tag2unit_map($node_id) {
 				$node_tag = sprintf('node_%03d',$node_id);
-				$ini = parse_ini_file($GLOBALS['node_config_file'],true,INI_SCANNER_RAW);
-				$dbtags = explode(',',$ini[$node_tag]['dbtag']);
-				$dbunits = explode(',',$ini[$node_tag]['dbunit']);
+				$ini = parse_ini_file($GLOBALS['shared_config_file'],true,INI_SCANNER_RAW);
+				$dbtags = explode(',',$ini['database']['tag']);
+				$dbunits = explode(',',$ini['database']['unit']);
 				$mapping = array();
 				foreach ($dbtags as $k=>$v) {
 					$mapping[$v] = $dbunits[$k];
@@ -105,7 +111,7 @@
 					<table class="table table-striped table-hover table-condensed">
 						<?php
 							// the list of variables to display
-							$ini = parse_ini_file($display_config_file,false,INI_SCANNER_RAW);
+							$ini = parse_ini_file($GLOBALS['shared_config_file'],false,INI_SCANNER_RAW);
 							$variables = explode(',',$ini['variable']);
 							
 							echo "<tr><th>Variable</th><th>Value</th><th>unit</th></tr>";
@@ -157,7 +163,7 @@
 								// The plot images are of slightly different sizes, and bootstrap doesn't like that.
 								// But if I force it by using "row" and put two or three columns depending on width, I
 								// may as well do my own layout.
-								echo "<div class=\"col-xs-12 col-sm-6 col-lg-4\"><div class=\"staticplot\" data-tag=\"$v\" data-src=\"$imgsrc\" data-link=\"$link\" data-timespan=\"$time_span\" data-plottype=\"$plot_type\" data-generatedat=\"$plot_generated_at\"></div></div>";
+								echo "<div class=\"col-xs-12 col-sm-6 col-lg-4\"><div class=\"staticplot\" data-tag=\"$v\" data-src=\"$imgsrc\" data-link=\"$link\" data-timespan=\"$time_span\" data-generatedate=\"$plot_generated_at\"></div></div>";
 							}
 						?>
 						<!--<div class="col-xs-12 col-sm-6 col-lg-4">
@@ -244,14 +250,14 @@
 				
 				// render the timeago elements in the caption of every plot
 				$("div.staticplot").each(function(index,element) {
-					var d = new Date($(element).attr('data-generatedat')*1000);
+					var d = new Date($(element).attr('data-generatedate')*1000);
 					var ts = $('<time></time>').attr('class','timeago').attr('datetime',d.toISOString()).html('ago');
 					
 					var tmp = $('<a class="thumbnail" target="_blank" href="' + $(element).attr('data-link') + '"></a>')
 					.append($('<img class="img-responsive" src="' + $(element).attr('data-src') + '" alt="' + $(element).attr('data-tag') + '"></img>'))
 					.append($('<div class="caption"></div>')
 					.append('<h4>' + $(element).attr('data-tag') + '</h4>')
-					.append($('<p>' + $(element).attr('data-timespan') + ' | ' + $(element).attr('data-plottype') + ' | Generated ' + ts.prop('outerHTML') + '</p>')));
+					.append($('<p>' + $(element).attr('data-timespan') + ' | ' + 'Generated ' + ts.prop('outerHTML') + '</p>')));
 					
 					//$('<div class="col-xs-12 col-sm-6 col-lg-4"></div>').append(tmp).appendTo($(element));
 					$(element).append(tmp);
