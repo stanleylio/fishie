@@ -17,18 +17,21 @@ class Aanderaa_4330f(object):
     def __init__(self,port='/dev/ttyO4'):
         self._port = port
         with serial.Serial(self._port,9600,timeout=1) as s:
-            s.write('\r\n\r\n\r\n\r\n\r\n')
+            s.write('\r\nreset\r\n')
+            s.write('\r\ndo stop\r\n')
+            s.flushInput()
+            s.flushOutput()
 
     def read(self):
         try:
             with serial.Serial(self._port,9600,timeout=1) as s:
                 s.flushInput()
                 s.flushOutput()
-                #s.write('\r\nreset\r\n')
-                s.write('\r\n\r\n\r\n\r\n\r\n')
+                s.write('do stop\r\n')
                 s.write('do sample\r\n')
                 for i in range(5):
                     line = s.readline()
+                    #print line
                     tmp = Aanderaa_4330f.parse_4330f(line)
                     if tmp is not None:
                         return tmp
@@ -71,9 +74,8 @@ if '__main__' == __name__:
     optode = Aanderaa_4330f(port='/dev/ttyO4')
     try:
         while True:
-            tmp = optode.read()
-            print tmp
-            time.sleep(1)
+            print optode.read()
+            #time.sleep(1)
     except KeyboardInterrupt:
         print 'user interrupted'
 
