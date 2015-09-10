@@ -42,20 +42,20 @@
 		<script type="text/javascript" src="support.js"></script>
 
 		<?php
-			$ini = parse_ini_file('../node_config.ini',true,INI_SCANNER_RAW);
+			$node_config_file = '../../config/node_config.ini';
+			$ini = parse_ini_file($node_config_file,true,INI_SCANNER_RAW);
+
 			//print_r($ini);
 			//print_r($ini['id']);
 		
-			//$node_id = 4;	// should retrieve the node_id of THIS node
 			$node_id = $ini['node']['id'];
 			if (isset($_GET['id'])) {
 				$node_id = $_GET{'id'};
 			}
-			//$tag = "Temp_BMP180";
 			if (isset($_GET['tag'])) {
 				$tag = $_GET{'tag'};
 			} else {
-				echo "tag (name of variable) is mandatory.";
+				echo "must specific name of variable using tag=name";
 				exit();
 			}
 			$nhour = 24;
@@ -112,7 +112,7 @@
 					$('#header').append('<h1>Node #' + node_id + '</h1>');
 					$('#header').append('<h3>' + node_name + '</h3>');
 					$('#header').append('<p>' + node_note + '</p>');
-					$('#header').append('<p>(Plot auto refreshes every minute)</p>');
+					$('#header').append('<p>(Plot refreshes every minute)</p>');
 					
 					if (var_datapoints.length <= 0) {
 						alert('no data point fits the criteria');

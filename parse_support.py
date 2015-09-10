@@ -2,17 +2,15 @@
 #
 # Stanley Lio, hlio@usc.edu
 # All Rights Reserved. February 2015
-import time,glob,re,json
+import sys,traceback,time,glob,re,json
+sys.path.append('drivers')
 from datetime import datetime,timedelta
-from z import check,check2
-from config_support import read_capability
-import traceback
-
+from z import check
+from aanderaa_3835 import Aanderaa_3835
 
 def PRINT(s):
     #pass
     print(s)
-
 
 # print to terminal the given dictionary of readings
 def pretty_print(d):
@@ -22,168 +20,82 @@ def pretty_print(d):
     if 'node_id' in d.keys():
         print 'From node_{:03d}:'.format(d['node_id'])
     if 'ReceptionTime' in d.keys():
-        print 'Received at {}'.format(d['ReceptionTime'])
+        tmp = d['ReceptionTime']
+        if isinstance(tmp,float):
+            tmp = datetime.fromtimestamp(tmp)
+        print 'Received at {}'.format(tmp)
     if 'Timestamp' in d.keys():
-        print 'Sampled at {}'.format(d['Timestamp'])
+        tmp = d['Timestamp']
+        if isinstance(tmp,float):
+            tmp = datetime.fromtimestamp(tmp)
+        print 'Sampled at {}'.format(tmp)
     for k in [k for k in sorted(d.keys()) if all([k != t for t in ['Timestamp','node_id','ReceptionTime']])]:
         print '{}{}{}'.format(k,' '*(max_len + 4 - len(k)),d[k])
     
-
-class NodeMessageParser(object):
-    def __init__(self):
-        # parse and cache the message formats of known nodes using the configuration ini file
-        self.node_capability = read_capability()
-
-    def parse_message(self,line):
+def parse_message(line):
+    try:
         line = line.strip()
-        node_id = self.id_node(line)
-        if node_id is not None:
-            # magic numbers are PURE EVIL
-            # those optodes add special cases everywhere...
-            if node_id in [1,2]:
-                d = self.parse_3835(line,node_id=node_id)
-            else:
-                if check(line):
-                    d = self.parse_bbb_node(line)
-                else:
-                    PRINT('NodeMessageParser::parse_message(): CRC error: ' + line)
-            # bonus: node_id
+        node_id = id_node(line)    # wouldn't need id_node() if there weren't the two exceptions.
+        if node_id in [1,2]:
+            d = Aanderaa_3835.parse_3835(line)
             if d is not None:
-                d['node_id'] = node_id
+                d['node_id'] = id_node(line)
                 return d
-            else:
-                return None
+        if check(line):
+            line = line[:-8]
+            tmp = json.loads(line)
+            node_id = int(tmp['from'][5:8])
+            d = tmp['payload']
+            d['node_id'] = node_id
+            d['Timestamp'] = datetime.fromtimestamp(d['Timestamp'])
+            return d
         else:
-            PRINT('NodeMessageParser::parse_message(): unknown message: ' + line)
-            return None
+            PRINT('CRC failure')
+    except:
+        PRINT('parse_message(): duh')
+        PRINT(line)
+        traceback.print_exc()
+        return None
 
-    # JSON
-    def parse_message2(self,line):
-        try:
-            line = line.strip()
-            node_id = self.id_node(line)    # wouldn't need id_node() if there weren't the two exceptions.
-            if node_id in [1,2]:
-                d = self.parse_3835(line,node_id=node_id)
-                if d is not None:
-                    d['node_id'] = node_id
-                    return d
-            if check2(line):        # so even though there is an id_node(), it should not be called unless absolutely necessary.
-                line = line[:-8]
-                tmp = json.loads(line)
-                node_id = int(tmp['from'][5:8])
-                d = tmp['payload']
-                d['node_id'] = node_id
-                d['Timestamp'] = datetime.fromtimestamp(d['Timestamp'])
-                return d
-        except:
-            PRINT('parse_message2(): duh')
-            PRINT(line)
+def id_node(line):
+    line = line.strip()
+    try:
+        if re.match('^node_\d{3}',line):
+            return int(line[5:8])
+        # in a perfect world, this function ends here
+        elif all(w in line for w in ['MEASUREMENT','3835','505']):
+            return 1
+        elif all(w in line for w in ['MEASUREMENT','3835','506']):
+            return 2
+        else:
             return None
+    except Exception as e:
+        PRINT('id_node(): error identifying: ' + line)
+        PRINT(e)
+        return None
 
-    # hard-coded magic stuff everywhere...
-    def id_node(self,line):
-        line = line.strip()
-        try:
-            if re.match('^node_\d{3}',line):
-                return int(line[5:8])
-            # in a perfect world, this ends here
-            elif all(w in line for w in ['MEASUREMENT','3835','505']):
-                return 1
-            elif all(w in line for w in ['MEASUREMENT','3835','506']):
-                return 2
-            #elif all(w in line for w in ['from','to','payload']):
-                #return json.loads(line[])['from']
-            else:
-                return None
-        except Exception as e:
-            PRINT('NodeMessageParser::id_node(): error identifying: ' + line)
-            PRINT(e)
-            return None
 
-    # parse a BBB node message
+    '''# parse a BBB node message
     def parse_bbb_node(self,line):
         line = line.strip()
         node_id = int(line[5:8])
         
         fields = line.split(',')[1:]        # omit the 'node_nnn' field
         # would be nice to define a conversion function for the node_nnn field as well...
-        msgfield = self.node_capability[node_id]['msgfield']
-        convf = self.node_capability[node_id]['convf']
+        msgfield = get_msgfield(node_id)
+        convf = get_convf(node_id)
         assert len(msgfield) == len(fields),'msgfield and fields should have the same length'
         assert len(fields) == len(convf),'fields and convf should have the same length'
 
         d = {}
         try:
             d['node_id'] = node_id
-            for p in zip(msgfield,fields,convf):
+            for p in zip(4,fields,convf):
                 d[p[0]] = p[2](p[1])
         except:
             PRINT('parse_support:parse_bbb_node(): error parsing {}'.format(line))
             traceback.print_exc()
-        return d
-
-    # I hate these magic functions. mixing domain-specific information with the control
-    # logic is always bad.
-    def parse_4330f(self,line,node_id=None):
-
-# 1. this shouldn't be here at all. this function is for parsing messages from the 4330f
-# it shoudn't concern itself with node id.
-        if node_id is None:
-            node_id = self.id_node(line)
-
-# 2. if this is specifically designed for 4330f, then these should be included in this
-# function and not be in the config file - it's not like the messages format is going to
-# change and the user needs to update the config file often.
-        cols = self.node_capability[node_id]['msgfield']
-        convf = self.node_capability[node_id]['convf']
-
-        d = None
-        try:
-            line = line.strip()
-            r = '.*MEASUREMENT\s+4330F\s+(?P<SN>\d+)\s+' +\
-                  'O2Concentration\(uM\)\s+(?P<O2Concentration>[+-]*\d+\.*\d*)\s+' +\
-                  'AirSaturation\(\%\)\s+(?P<AirSaturation>[+-]*\d+\.*\d*)\s+' +\
-                  'Temperature\(Deg\.C\)\s+(?P<Temperature>[+-]*\d+\.*\d*)\s+' +\
-                  'CalPhase\(Deg\)\s+(?P<CalPhase>[+-]*\d+\.*\d*)\s+' +\
-                  'TCPhase\(Deg\)\s+(?P<TCPhase>[+-]*\d+\.*\d*)\s+' +\
-                  'C1RPh\(Deg\)\s+(?P<C1RPh>[+-]*\d+\.*\d*)\s+' +\
-                  'C2RPh\(Deg\)\s+(?P<C2RPh>[+-]*\d+\.*\d*)\s+' +\
-                  'C1Amp\(mV\)\s+(?P<C1Amp>[+-]*\d+\.*\d*)\s+' +\
-                  'C2Amp\(mV\)\s+(?P<C2Amp>[+-]*\d+\.*\d*)\s+' +\
-                  'RawTemp\(mV\)\s+(?P<RawTemp>[+-]*\d+\.*\d*).*'
-            r = re.match(r,line)
-            if r is not None:
-                d = {}
-                for k,c in enumerate(cols):
-                    d[c] = convf[k](r.group(c))
-        except Exception as e:
-            PRINT('parse_4330f(): cannot parse: {}'.format(line))
-            PRINT(e)
-        return d
-
-    def parse_3835(self,line,node_id=None):
-        if node_id is None:
-            node_id = self.id_node(line)
-        
-        cols = self.node_capability[node_id]['msgfield']
-        convf = self.node_capability[node_id]['convf']
-
-        d = None
-        try:
-            line = line.strip()
-            r = '.*MEASUREMENT\s+3835\s+(?P<SN>\d+)\s+' +\
-                  'Oxygen\:\s+(?P<Oxygen>[+-]*\d+\.*\d*)\s+' +\
-                  'Saturation\:\s+(?P<Saturation>[+-]*\d+\.*\d*)\s+' +\
-                  'Temperature\:\s+(?P<Temperature>[+-]*\d+\.*\d*).*'
-            r = re.match(r,line)
-            if r is not None:
-                d = {}
-                for k,c in enumerate(cols):
-                    d[c] = convf[k](r.group(c))
-        except Exception as e:
-            PRINT('parse_3835(): cannot parse: {}'.format(line))
-            PRINT(e)
-        return d
+        return d'''
 
 
 if '__main__' == __name__:
@@ -213,5 +125,5 @@ if '__main__' == __name__:
     print nmp.id_node(t9)
     print nmp.id_node(t10)
 
-    print nmp.parse_message2(t11)
+    print nmp.parse_message(t11)
 

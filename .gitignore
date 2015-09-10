@@ -6,27 +6,15 @@
 *.pdf
 *.old
 *.log
-*.ini
-
-*.png
 *.json
 
+www/
 backup/
 .backup/
 obsolete/
 .obsolete/
 log/
 sandbox/
-optodeData/
-
-node_config.ini
-display_config.ini
 
 sampling.py
-capture.py
-
-NODE
-BASE
-
-dtc.sh
 

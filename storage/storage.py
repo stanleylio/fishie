@@ -3,20 +3,20 @@
 # Stanley Lio, hlio@usc.edu
 # All Rights Reserved. February 2015
 
-import sqlite3
+import sqlite3,sys
+sys.path.append('../config')
 from os.path import join,dirname,exists
-#from config_support import get_list_of_node
 
 
 def PRINT(s):
     #pass
     print(s)
 
+
 # one table per node
 # one column per variable
-
 class storage(object):
-    def __init__(self,capability=None,dbfile=None):
+    def __init__(self,schema=None,dbfile=None):
         if dbfile is None:
             dbfile = join(dirname(__file__),'sensor_data.db')
         self.conn = sqlite3.connect(dbfile,\
@@ -24,84 +24,58 @@ class storage(object):
                                     sqlite3.PARSE_COLNAMES)
         self.c = self.conn.cursor()
         self.c.execute('PRAGMA journal_mode = WAL')
-
-        # auto vacuum? nah. costly.
-
-        #def dict_factory(cursor,row):
-        #    d = {}
-        #    for idx,col in enumerate(cursor.description):
-        #        d[col[0]] = row[idx]
-        #    return d
-        #self.c.row_factory = dict_factory
         self.c.row_factory = sqlite3.Row
+        self._schema = schema
 
-        # "create table if not exist"
-        if capability is not None:
-            self._capability = capability
-
-            #for node_id in get_list_of_node():
-            for node_id in self._capability.keys():
-                dbtag = self._capability[node_id]['dbtag']
-                dbtype = self._capability[node_id]['dbtype']
-
+        if self._schema is not None:
+            for node_id,v in self._schema.iteritems():
                 table_name = 'node_{:03d}'.format(node_id)
-                schema = '({})'.format(','.join([' '.join(p) for p in zip(dbtag,dbtype)]))
-                cmd = 'CREATE TABLE IF NOT EXISTS {} {}'.format(table_name,schema)
+                dbtag = v['tag']
+                dbtype = v['type']
+                tmp = '({})'.format(','.join([' '.join(p) for p in zip(dbtag,dbtype)]))
+                cmd = 'CREATE TABLE IF NOT EXISTS {} {}'.format(table_name,tmp)
                 self.c.execute(cmd)
-        else:
-            self._capability = {}
-            
-            self.c.execute('SELECT name FROM sqlite_master WHERE type = "table"')
-            tmp = self.c.fetchall()
-            node_ids = [int(c[0][5:8]) for c in tmp]
 
-            for node_id in node_ids:
-                #self.c.execute('SELECT * FROM node_{:03d}'.format(node_id))
-                #self._capability[node_id] = {}
-                #self._capability[node_id]['dbtag'] = [c[0] for c in self.c.description]
-
-                self.c.execute('PRAGMA table_info(node_{:03d})'.format(node_id))
-                tmp = zip(*[(c[1],c[2]) for c in self.c.fetchall()])
-                self._capability[node_id] = {}
-                self._capability[node_id]['dbtag'] = list(tmp[0])
-#                self._capability[node_id]['dbunit'] = list(tmp[1])
-
-    # readings: a dictionary with keys=column names and vals=readings
-    # as long as the caller supply all the required values
-    # ignore the extra ones (such as Checksum, if exist)
-    # what is "required" for each node is defined in the configuration file, "dbtag"
-# when tags are supplied in readings, not all fields need to be present. TODO
+# three cases:
+#   more keys than columns [keys not in the db are filtered out]
+#   set of keys matches set of columns
+#   more columns than keys  [handled by the db, missing values stored as NULL]
     def write(self,node_id,readings):
+        assert self._schema is not None
+        assert 'ReceptionTime' in readings.keys() or 'Timestamp' in readings.keys()
+
+        # filter out readings that are not recorded by the database
+        keys = [k for k in readings.keys() if k in self._schema[node_id]['tag']]
+        vals = [readings[k] for k in keys]
         table_name = 'node_{:03d}'.format(node_id)
-        dbtag = self._capability[node_id]['dbtag']
-        readings = [readings[v] for v in dbtag]
         cmd = 'INSERT OR REPLACE INTO {} ({}) VALUES ({})'.\
-              format(table_name,','.join(dbtag),','.join('?'*len(dbtag)))
-        self.c.execute(cmd,readings)
+              format(table_name,','.join(keys),','.join('?'*len(keys)))
+
+        self.c.execute(cmd,vals)
         self.conn.commit()
 
-    def read_all(self,node_id,col_name=None):
-        return self.read(node_id,variables=col_name)
+#    def read_all(self,node_id,col_name=None):
+#        return self.read(node_id,variables=col_name)
         
-    def read_latest(self,node_id,col_name=None,count=1,time_col=None):
+    def read_latest(self,node_id,time_col,variables,count=1):
         """retrieve the last "count" readings"""
-        return self.read(node_id,variables=col_name,count=count,time_col=time_col)
+        return self.read(node_id,time_col=time_col,variables=variables,count=count)
 
-    def hourly_average(self,node_id,col_name=None,time_col=None):
-        """read hourly averages (all time)"""
-        return self.read(node_id,variables=col_name,time_col=time_col,avg='hourly')
+#    def hourly_average(self,node_id,col_name=None,time_col=None):
+#        """read hourly averages (all time)"""
+#        return self.read(node_id,variables=col_name,time_col=time_col,avg='hourly')
 
-    def daily_average(self,node_id,col_name=None,time_col=None):
-        """read daily averages (all time)"""
-        return self.read(node_id,variables=col_name,time_col=time_col,avg='daily')
+#    def daily_average(self,node_id,col_name=None,time_col=None):
+#        """read daily averages (all time)"""
+#        return self.read(node_id,variables=col_name,time_col=time_col,avg='daily')
 
-    def read_time_range(self,node_id,time_col=None):
+    def WHAT_____________read_time_range(self,node_id,time_col=None):
         """return the earliest and latest timestamps in a list"""
         if time_col is None:
-            if 'Timestamp' in self._capability[node_id]['dbtag']:
+            if 'Timestamp' in self._capability[node_id]['tag']:
                 # only the BBB nodes have Timestamp
                 time_col = 'Timestamp'
-            elif 'ReceptionTime' in self._capability[node_id]['dbtag']:
+            elif 'ReceptionTime' in self._capability[node_id]['tag']:
                 # ReceptionTime is recorded only at the base station, but is available for all nodes
                 time_col = 'ReceptionTime'
             else:
@@ -124,7 +98,7 @@ class storage(object):
             max_t = tmp[0][0]
         return [min_t,max_t]
     
-    def read(self,node_id,variables=None,time_col=None,nhour=None,nday=None,count=None,avg=None):
+    def read(self,node_id,time_col,variables,nhour=None,nday=None,count=None,avg=None):
         """retrieve samples of a given node for a given duration
 
         variables: a list of names of the columns to retrieve
@@ -139,25 +113,25 @@ class storage(object):
         assert nday is None or nday >= 0
         assert count is None or count >= 1
 
-        # auto select time_col:
+        '''# auto select time_col:
         # use Timestamp if it exists; otherwise use ReceptionTime
         if time_col is None:
-            if 'Timestamp' in self._capability[node_id]['dbtag']:
+            if 'Timestamp' in self._schema[node_id]['tag']:
                 # only the BBB nodes have Timestamp
                 time_col = 'Timestamp'
-            elif 'ReceptionTime' in self._capability[node_id]['dbtag']:
+            elif 'ReceptionTime' in self._schema[node_id]['tag']:
                 # ReceptionTime is recorded only at the base station, but is available for all nodes
                 time_col = 'ReceptionTime'
             else:
-                raise Exception('Neither Timestamp nor ReceptionTime exists - not a time series database.')
+                raise Exception('Neither Timestamp nor ReceptionTime exists - not a time series database.')'''
 
         if type(variables) is str:
             variables = [variables]
             
-        # if the list of variables is not specified, retrieve all variables defined in the config
+        '''# if the list of variables is not specified, retrieve all variables defined in the config
         if variables is None:
-            variables = self._capability[node_id]['dbtag']
-            variables = [c for c in variables if c != time_col]
+            variables = self._capability[node_id]['tag']
+            variables = [c for c in variables if c != time_col]'''
         
         table_name = 'node_{:03d}'.format(node_id)
 
@@ -217,11 +191,14 @@ class storage(object):
 
 
 if '__main__' == __name__:
+    #from datetime import datetime
+    from config_support import read_capabilities
+    store = storage(read_capabilities())
+    #store.write(1,{'Timestamp':datetime.utcnow(),'Oxygen':123.456,'Temp_MS5803':99.9,'bug':32768})
+    #exit()
 
-    node_id = 4
-    var = ['Pressure_BMP180']
-    
-    store = storage()
+    node_id = 3
+    var = ['Temp_MS5803']
 
     print
     print 'read_latest()'
@@ -268,6 +245,3 @@ if '__main__' == __name__:
 #    print tmp.keys()
 #    print len(tmp[var])
 
-
-
-    

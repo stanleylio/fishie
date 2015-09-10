@@ -52,6 +52,8 @@ function plot_this(element) {
 	var unit = $(element).attr("data-unit");
 	var color = $(element).attr("data-linecolor");
 	
+	//console.log(color);
+	
 	$(element).removeAttr("data-points");
 	
 // TODO: handle the no data case

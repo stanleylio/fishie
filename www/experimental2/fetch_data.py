@@ -2,8 +2,9 @@
 import cgi,cgitb,json,time,sys
 sys.path.append('../../')
 sys.path.append('../../storage')
+sys.path.append('../../config')
 from storage import storage
-from config_support import get_node_id,get_name,get_note,get_unit,tag2description,get_color
+from config_support import *
 
 cgitb.enable(display=1)
 
@@ -32,9 +33,18 @@ note = get_note()
 if note is None:
     note = ''
 time_col = 'Timestamp'
-unit = get_unit(node_id,tag)
-description = tag2description(node_id,tag)
-linecolor = get_color(node_id,tag)
+
+# get the unit of the variable
+tags = get_tag(node_id)
+units = get_unit(node_id)
+mapping = dict(zip(tags,units))
+unit = mapping[tag]
+
+# get the description of the variable
+tags = get_tag(node_id)
+descriptions = get_description(node_id)
+mapping = dict(zip(tags,descriptions))
+description = mapping[tag]
 
 avg = None
 if nhour > 24*7:
@@ -50,7 +60,6 @@ tmp = {'id':node_id,
        'tag':tag,
        'unit':unit,
        'description':description,
-       'linecolor':linecolor,
        'points':json.dumps(tp,separators=(',',':'))}
 
 jsonstr = json.dumps(tmp,separators=(',',':'))
