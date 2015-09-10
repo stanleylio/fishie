@@ -74,7 +74,7 @@ if '__main__' == __name__:
     # DEBUG,INFO,WARNING,ERROR,CRITICAL
     logging.basicConfig(level=logging.INFO)
     logger = logging.getLogger(__name__)
-    handler = logging.handlers.RotatingFileHandler('example.log',
+    handler = logging.handlers.RotatingFileHandler('gen_plot.log',
                                          maxBytes=1e6,
                                          backupCount=10)
     logger.addHandler(handler)
