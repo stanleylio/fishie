@@ -2,9 +2,9 @@
 #
 # Stanley Lio, hlio@usc.edu
 # All Rights Reserved. February 2015
-import sys,traceback,time,glob,re,json
+import sys,traceback,re,json
 sys.path.append('drivers')
-from datetime import datetime,timedelta
+from datetime import datetime
 from z import check
 from aanderaa_3835 import Aanderaa_3835
 
@@ -35,12 +35,18 @@ def pretty_print(d):
 def parse_message(line):
     try:
         line = line.strip()
-        node_id = id_node(line)    # wouldn't need id_node() if there weren't the two exceptions.
+        # - - - - -
+        # wouldn't need id_node() if there weren't the two exceptions.
+        # even forced the AAnderra driver here... they don't belong here.
+        node_id = id_node(line)
         if node_id in [1,2]:
             d = Aanderaa_3835.parse_3835(line)
             if d is not None:
                 d['node_id'] = id_node(line)
                 return d
+        # - - - - -
+        # handle the BBB messages
+        # BBB messages have crc32 checksums
         if check(line):
             line = line[:-8]
             tmp = json.loads(line)
@@ -50,52 +56,28 @@ def parse_message(line):
             d['Timestamp'] = datetime.fromtimestamp(d['Timestamp'])
             return d
         else:
-            PRINT('CRC failure')
+            PRINT('parse_message(): CRC failure')
     except:
         PRINT('parse_message(): duh')
         PRINT(line)
         traceback.print_exc()
         return None
 
+# handle the identification of the non-BBB nodes
+# does NOT handle id-ing the BBB nodes
 def id_node(line):
     line = line.strip()
     try:
-        if re.match('^node_\d{3}',line):
-            return int(line[5:8])
-        # in a perfect world, this function ends here
-        elif all(w in line for w in ['MEASUREMENT','3835','505']):
+        if all(w in line for w in ['MEASUREMENT','3835','505']):
             return 1
         elif all(w in line for w in ['MEASUREMENT','3835','506']):
             return 2
         else:
             return None
-    except Exception as e:
+    except:
         PRINT('id_node(): error identifying: ' + line)
-        PRINT(e)
+        traceback.print_exc()
         return None
-
-
-    '''# parse a BBB node message
-    def parse_bbb_node(self,line):
-        line = line.strip()
-        node_id = int(line[5:8])
-        
-        fields = line.split(',')[1:]        # omit the 'node_nnn' field
-        # would be nice to define a conversion function for the node_nnn field as well...
-        msgfield = get_msgfield(node_id)
-        convf = get_convf(node_id)
-        assert len(msgfield) == len(fields),'msgfield and fields should have the same length'
-        assert len(fields) == len(convf),'fields and convf should have the same length'
-
-        d = {}
-        try:
-            d['node_id'] = node_id
-            for p in zip(4,fields,convf):
-                d[p[0]] = p[2](p[1])
-        except:
-            PRINT('parse_support:parse_bbb_node(): error parsing {}'.format(line))
-            traceback.print_exc()
-        return d'''
 
 
 if '__main__' == __name__:
@@ -112,20 +94,7 @@ if '__main__' == __name__:
     t11 = '{"from":"node_004","payload":{"Temp_MS5803":25.65,"Pressure_BMP180":101117,"Amb_Si1145":287,"EZO_ORP":-26.7,"EZO_DO":3.99,"Pressure_MS5803":102.4,"IR_Si1145":532,"Timestamp":1428690061.93023,"EZO_pH":14.0,"EZO_Sal":0.0,"Temp_BMP180":25.8,"EZO_EC":0.0,"UV_Si1145":13}}f717a449'
     t12 = 'MEASUREMENT	  3835	   599	Oxygen: 	   277.17	Saturation: 	    97.14	Temperature: 	    19.70'
 
-    nmp = NodeMessageParser()
-
-    print '- - - - -'
-    print nmp.id_node(t1)
-    print nmp.id_node(t2)
-    print nmp.id_node(t3)
-    print nmp.id_node(t4)
-    print nmp.id_node(t5)
-    print nmp.id_node(t6)
-    print nmp.id_node(t7)
-    print nmp.id_node(t8)
-    print nmp.id_node(t9)
     print nmp.id_node(t10)
-
     print nmp.parse_message(t11)
     print nmp.parse_message(t12)
 
