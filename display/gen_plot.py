@@ -16,21 +16,27 @@ from matplotlib.dates import DateFormatter,HourLocator
 
 from storage import storage_rw
 from config_support import *
-from os.path import abspath
 from os.path import exists,join
 from os import makedirs
 
 
 def plot_time_series(x,y,plotfilename,title='',xlabel='',ylabel='',linelabel=None):
     plt.figure()
-    plt.plot_date(x,y,linestyle='-',label=linelabel,color='r',marker=None)
+    plt.plot_date(x,y,linestyle='-',label=linelabel,color='r',marker='.',markersize=5)
     plt.legend(loc='best',framealpha=0.5)
     plt.title(title)
     plt.grid(True)
 
     # major tick labels
-    begin = x[0]
-    end = x[-1]
+    # not x[0] and x[-1] because x is not always sorted in ascending order
+    # ... ORDER BY ... DESC... because otherwise sqlite will return the first
+    # N readings - so if the latest N readings are wanted, they should be at
+    # the first N readings (even though they are sorted in descending order)
+    # For plotting the oder doesn't matter because every sample has its
+    # corresponding timestamp.
+    begin = min(x)
+    end = max(x)
+
     timespan = end - begin
     if begin.date() == end.date():
         plt.gca().xaxis.set_major_formatter(DateFormatter('%H:%M'))
@@ -96,7 +102,7 @@ if '__main__' == __name__:
         node_tag = 'node_{:03d}'.format(node_id)
         config_file = '../config/{}.ini'.format(node_tag)
         #plot_range = 2  # days
-        count = 1e3
+        count = 2e3
 
         tags = get_tag(node_id)
         units = get_unit(node_id)
