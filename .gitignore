@@ -16,5 +16,7 @@ obsolete/
 log/
 sandbox/
 
+upload.sh
+
 sampling.py
 
