@@ -6,12 +6,13 @@ import serial,re
 
 
 def PRINT(s):
-    pass
-    #print(s)
+    #pass
+    print(s)
 
 
 class Aanderaa_4330f(object):
-    msgfield = ['SN','O2Concentration','AirSaturation','Temperature','CalPhase','TCPhase','C1RPh','C2RPh','C1Amp','C2Amp','RawTemp']
+    msgfield = ['SN','O2Concentration','AirSaturation','Temperature','CalPhase',\
+                'TCPhase','C1RPh','C2RPh','C1Amp','C2Amp','RawTemp']
     convf = [int,float,float,float,float,float,float,float,float,float,float]
 
     def __init__(self,port='/dev/ttyO4'):
@@ -27,16 +28,22 @@ class Aanderaa_4330f(object):
             with serial.Serial(self._port,9600,timeout=1) as s:
                 s.flushInput()
                 s.flushOutput()
-                s.write('do stop\r\n')
-                s.write('do sample\r\n')
-                for i in range(5):
-                    line = s.readline()
-                    #print line
-                    tmp = Aanderaa_4330f.parse_4330f(line)
-                    if tmp is not None:
-                        return tmp
-                    else:
-                        PRINT('4330f(): waiting for sensor...')
+                # optode does not respond immediately after it wake up
+                # so the first few commands will probably be lost
+                # retry several times til a successful read is returned
+                for j in range(5):
+                    PRINT('{} try'.format(j+1))
+                    s.write('do stop\r\n')
+                    s.write('do sample\r\n')
+                    # read a few lines from the optode until a valid
+                    # response is received
+                    for i in range(5):
+                        line = s.readline()
+                        #print line
+                        tmp = Aanderaa_4330f.parse_4330f(line)
+                        if tmp is not None:
+                            return tmp
+                PRINT('Aanderaa_4330f::read(): no valid response from optode')
         except Exception as e:
             PRINT(e)
         return None
@@ -70,8 +77,14 @@ class Aanderaa_4330f(object):
 
 if '__main__' == __name__:
     import time
-    #optode = Aanderaa_4330f(port='COM11')
-    optode = Aanderaa_4330f(port='/dev/ttyO4')
+    from os.path import exists
+
+    optode = None
+    if exists('/dev/ttyO4'):
+        optode = Aanderaa_4330f(port='/dev/ttyO4')
+    else:
+        optode = Aanderaa_4330f(port='COM11')
+        
     try:
         while True:
             print optode.read()
