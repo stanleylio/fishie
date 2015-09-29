@@ -6,8 +6,8 @@ import serial,re
 
 
 def PRINT(s):
-    #pass
-    print(s)
+    pass
+    #print(s)
 
 
 class Aanderaa_4330f(object):
