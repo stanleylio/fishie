@@ -1,4 +1,7 @@
 #!/usr/bin/python
+#
+# Stanley Hou In Lio, hlio@hawaii.edu
+# October 1, 2015
 import sys,time
 sys.path.append('Adafruit_GPIO')
 from I2C import Device
@@ -20,11 +23,16 @@ class Anemometer(object):
         if len(S) > 0:
             v = sum(S)/len(S)
             v = self.conv(v)
+            
+            # What does "negative wind speed" even mean?
+            # happens when the anemometer lose power. "0m/s" is at 0.4V.
+            v = max([v,0])
         else:
             v = None
 
         g = self._i2c.readU16(gust_reg)
         g = self.conv(g)
+        g = max([g,0])  # see v above.
         return {'speed':v,'gust':g}
 
     @staticmethod
@@ -40,6 +48,7 @@ if '__main__' == __name__:
     
     while True:
         r = a.read()
+        print("\x1b[2J\x1b[;H")
         #print '{:.2f} m/s'.format(a.read())
         print '{},{:.2f},{:.2f}'.format(time.time(),r['speed'],r['gust'])
         #time.sleep(1)
