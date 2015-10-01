@@ -11,8 +11,8 @@
 www/
 backup/
 .backup/
-obsolete/
-.obsolete/
+#obsolete/
+#.obsolete/
 log/
 sandbox/
 
