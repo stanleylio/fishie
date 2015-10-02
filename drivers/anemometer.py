@@ -7,6 +7,7 @@ sys.path.append(os.path.join(os.path.dirname(__file__),'Adafruit_GPIO'))
 from I2C import Device
 from scipy.signal import medfilt
 
+
 class Anemometer(object):
     def __init__(self,addr=0x50):
         self._i2c = Device(addr,busnum=1)
@@ -55,7 +56,8 @@ if '__main__' == __name__:
     
     while True:
         r = a.read()
-        #print("\x1b[2J\x1b[;H")
-        #print '{:.2f} m/s'.format(a.read())
-        print '{},{:.2f},{:.2f}'.format(time.time(),r['speed'],r['gust'])
+        print('\x1b[2J\x1b[;H')
+        print('Speed={:.2f}m/s\tGust={:.2f}m/s'.format(r['speed'],r['gust']))
+        #print '{},{:.2f},{:.2f}'.format(time.time(),r['speed'],r['gust'])
         #time.sleep(1)
+

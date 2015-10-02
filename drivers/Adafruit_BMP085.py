@@ -267,7 +267,8 @@ if '__main__' == __name__:
     while True:
       bmptemp = bmp.readTemperature()
       pressure = bmp.readPressure()
-      tmp = '{:.1f}Deg.C, {:.2f}kPa'.format(bmptemp,pressure/1000.)
+      tmp = '{:.1f} Deg.C, {:.2f} kPa'.format(bmptemp,pressure/1000.)
+      print('\x1b[2J\x1b[;H')
       print tmp
       time.sleep(0.1)
   except KeyboardInterrupt:

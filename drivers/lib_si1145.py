@@ -98,6 +98,7 @@ if '__main__' == __name__:
         while True:
                 tmp = 'UV index: {:.0f}\tIR: {} lux\tAmbient: {} lux'.\
                     format(si.readUVIndex(),si.readIRLight(),si.readAmbientLight())
-                print tmp
+                print('\x1b[2J\x1b[;H')
+                print(tmp)
                 time.sleep(0.1)
         
