@@ -2,8 +2,8 @@
 #
 # Stanley Hou In Lio, hlio@hawaii.edu
 # October 1, 2015
-import sys,time
-sys.path.append('Adafruit_GPIO')
+import sys,time,os
+sys.path.append(os.path.join(os.path.dirname(__file__),'Adafruit_GPIO'))
 from I2C import Device
 
 class Anemometer(object):
