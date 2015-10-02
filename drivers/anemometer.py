@@ -35,12 +35,14 @@ class Anemometer(object):
             # What does "negative wind speed" even mean?
             # happens when the anemometer lose power. "0m/s" is at 0.4V.
             v = max([v,0])
+            v = round(v*100)/100
         else:
             v = None
 
         g = self._i2c.readU16(gust_reg)
         g = self.conv(g)
         g = max([g,0])  # see v above.
+        g = round(g*100)/100
         return {'speed':v,'gust':g}
 
     @staticmethod
