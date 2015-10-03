@@ -9,40 +9,31 @@ from scipy.signal import medfilt
 
 
 class Anemometer(object):
+    max_speed = 32.4
+    
     def __init__(self,addr=0x50):
         self._i2c = Device(addr,busnum=1)
 
     def read(self):
         speed_reg = 10
         gust_reg = 11
-        
-        S = []
-        for i in range(100):
-            # These kinds of low-level calls never "fail" - only the
-            # application tell whether the return values make sense
-            # or not.
-            v = self._i2c.readU16(speed_reg)
-            S.append(v)
-            time.sleep(0.001)
 
-        if len(S) > 0:
-            # A cheap way to get rid of the failed values is the
-            # median filter.
-            S = medfilt(S,7)
-            v = sum(S)/len(S)
-            v = self.conv(v)
-
-            # What does "negative wind speed" even mean?
-            # happens when the anemometer lose power. "0m/s" is at 0.4V.
-            v = max([v,0])
-            v = round(v*100)/100
-        else:
+        for i in range(5):
+            v = self.conv(self._i2c.readU16(speed_reg))
+            if v >= 0 and v <= self.max_speed:
+                v = round(v*100)/100
+                break
+        if v < 0 or v > self.max_speed:
             v = None
 
-        g = self._i2c.readU16(gust_reg)
-        g = self.conv(g)
-        g = max([g,0])  # see v above.
-        g = round(g*100)/100
+        for i in range(5):
+            g = self.conv(self._i2c.readU16(gust_reg))
+            if g >= 0 and g <= self.max_speed:
+                g = round(g*100)/100
+                break
+        if g < 0 or g > self.max_speed:
+            g = None
+        
         return {'speed':v,'gust':g}
 
     @staticmethod
@@ -55,11 +46,12 @@ class Anemometer(object):
 if '__main__' == __name__:
 
     a = Anemometer()
-    
+
     while True:
         r = a.read()
-        print('\x1b[2J\x1b[;H')
-        print('Speed={:.2f}m/s\tGust={:.2f}m/s'.format(r['speed'],r['gust']))
-        #print '{},{:.2f},{:.2f}'.format(time.time(),r['speed'],r['gust'])
-        #time.sleep(1)
+        if r['speed'] is not None and r['gust'] is not None:
+            print('\x1b[2J\x1b[;H')
+            print('Speed={:.2f}m/s\tGust={:.2f}m/s\t'.format(r['speed'],r['gust']))
+            #print '{},{:.2f},{:.2f}'.format(time.time(),r['speed'],r['gust'])
+            time.sleep(5)
 
