@@ -27,6 +27,8 @@ class storage_read_only(object):
     def read_time_range(self,node_id,time_col,cols,timerange):
         assert type(node_id) is int,'storage::read_time_range(): node_id must be int'
         assert type(cols) is list,'storage::read_time_range(): cols must be a list of string'
+        #if 'Timestamp' not in cols and 'ReceptionTime' not in cols:
+        #    print('Sure you don''t need any timestamps?')
 
         nday = timerange.days
         nhour = timerange.seconds//3600
@@ -44,20 +46,26 @@ class storage_read_only(object):
                        'node_{:03d}'.format(node_id),
                        time_range,
                        time_col)
-        return self._execute(cmd)
+        #print cmd
+        self.c.execute(cmd)
+        tmp = self.c.fetchall()
+        vals = [tuple(r) for r in zip(*tmp)]
+        tmp = dict(zip(cols,vals))
+        if len(tmp.keys()) <= 0:
+            tmp = None
+        return tmp
 
     def read_last_N(self,node_id,time_col,cols,count):
         assert type(node_id) is int,'storage::read_last_N(): node_id must be int'
         assert type(cols) is list,'storage::read_last_N(): cols must be a list of string'
+        #if 'Timestamp' not in cols and 'ReceptionTime' not in cols:
+        #    print('Sure you don''t need any timestamps?')
 
         cmd = 'SELECT {} FROM {} ORDER BY {} DESC LIMIT {}'.\
                 format(','.join(cols),
                        'node_{:03d}'.format(node_id),
                        time_col,
                        count)
-        return self._execute(cmd)
-
-    def _execute(self,cmd):
         #print cmd
         self.c.execute(cmd)
         tmp = self.c.fetchall()

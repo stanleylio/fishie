@@ -10,14 +10,18 @@ sys.path.append('../storage')
 import matplotlib.pyplot as plt
 from datetime import datetime,timedelta
 from matplotlib.dates import DateFormatter,HourLocator
-#from scipy.signal import medfilt
 #from numpy import ndarray
 #import numpy as np
 
-from storage import storage_rw
+from storage import storage_read_only
 from config_support import *
 from os.path import exists,join
 from os import makedirs
+
+
+def PRINT(s):
+    print(s)
+    #pass
 
 
 def plot_time_series(x,y,plotfilename,title='',xlabel='',ylabel='',linelabel=None):
@@ -75,15 +79,9 @@ def plot_time_series(x,y,plotfilename,title='',xlabel='',ylabel='',linelabel=Non
 
 
 if '__main__' == __name__:
-    import traceback,logging,logging.handlers,sqlite3
-
-    # DEBUG,INFO,WARNING,ERROR,CRITICAL
-    logging.basicConfig(level=logging.INFO)
-    logger = logging.getLogger(__name__)
-    handler = logging.handlers.RotatingFileHandler('gen_plot.log',
-                                         maxBytes=1e6,
-                                         backupCount=10)
-    logger.addHandler(handler)
+    import traceback,sqlite3
+    from scipy.signal import medfilt
+    from datetime import timedelta
 
     IDs = []
     time_col = None
@@ -96,19 +94,15 @@ if '__main__' == __name__:
 
     assert time_col is not None
 
-    plot_type = 'raw'
-
     for node_id in IDs:
         node_tag = 'node_{:03d}'.format(node_id)
         config_file = '../config/{}.ini'.format(node_tag)
-        #plot_range = 2  # days
-        count = 2e3
 
         tags = get_tag(node_id)
         units = get_unit(node_id)
         mapping = dict(zip(tags,units))
 
-        store = storage_rw()
+        store = storage_read_only()
         
         config = read_ini(config_file)['display']
         plot_dir = config['plot_dir']
@@ -117,22 +111,27 @@ if '__main__' == __name__:
 
         variables = [c.strip() for c in config['variable'].split(',')]
         for var in variables:
-            logger.info('Plotting {} of {}'.format(var,node_tag))
             unit = mapping[var]
+
+            timerange = timedelta(days=3)
+            cols = [time_col,var]
             
             title = '{} of {}'.format(var,node_tag)
             plotfilename = '../www/{}/{}.png'.format(node_tag,var)
 
             try:
-                tmp = store.read_latest(node_id,time_col,variables,count)
+                #tmp = store.read_latest(node_id,time_col,variables,count)
+                tmp = store.read_time_range(node_id,time_col,cols,timerange)
                 x = tmp[time_col]
                 y = [l if l is not None else float('NaN') for l in tmp[var]]
 
+                y = medfilt(y,7)
+
+                PRINT('Plotting {} of {}...'.format(var,node_tag))
                 plot_time_series(x,y,plotfilename,title,ylabel=unit,linelabel=var)
 
                 # save settings of plot to JSON file
-                plot_config = {'plot_type':plot_type,
-                               'time_begin':time.mktime(min(x).timetuple()),
+                plot_config = {'time_begin':time.mktime(min(x).timetuple()),
                                'time_end':time.mktime(max(x).timetuple()),
                                'plot_generated_at':time.mktime(datetime.utcnow().timetuple()),
                                'data_point_count':len(y)}
@@ -142,6 +141,6 @@ if '__main__' == __name__:
 
             except (TypeError,sqlite3.OperationalError) as e:
                 #print traceback.print_exc()
-                logger.warning('SQLite error (no record of {} for {}?)'.\
-                               format(var,node_tag))
+                PRINT('No data for {} of {} in the selected range'.\
+                      format(var,node_tag))
 
