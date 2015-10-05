@@ -1,4 +1,4 @@
-import struct,json
+import struct,json,socket,re
 from zlib import crc32
 # see also: hashlib
 
@@ -36,6 +36,27 @@ def check(s):
         PRINT('Exception in z::check()')
         PRINT(e)
         return False
+
+def get_action(line):
+    try:
+        line = line.strip()
+        if check(line):
+            line = line[:-8]
+            tmp = json.loads(line)
+            #print tmp['from']
+            #print tmp['to']
+
+            if tmp['to'] == socket.gethostname() and \
+               re.match('base_\d{3}',tmp['from']):
+                #print 'addressed by {}'.format(tmp['from'])
+                return tmp['payload']['action']
+    except:
+        return None
+
+def send(channel,dest,sample):
+    tmp = {'from':socket.gethostname(),'to':dest,'payload':sample}
+    tmp = json.dumps(tmp,separators=(',',':'))
+    channel.write('{}{}\n'.format(tmp,get_checksum(tmp)))
 
 
 if '__main__' == __name__:

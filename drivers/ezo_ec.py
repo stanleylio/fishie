@@ -20,9 +20,11 @@ from os.path import join,dirname
 # Stanley Lio, hlio@usc.edu
 # All Rights Reserved. February 2015
 
+
 def PRINT(s):
     #pass
     print(s)
+
 
 # Communication handler for the EZO EC sensor
 # K and T values are set in the .ini file. They are sent to the sensor during
