@@ -23,8 +23,12 @@ with serial.Serial(xbee_port,xbee_baud,timeout=1) as s:
         tmp['action'] = 'do sample'
         tmp = {'from':from_tag,'to':to_tag,'payload':tmp}
         tmp = json.dumps(tmp,separators=(',',':'))
-        s.write('{}{}\n'.format(tmp,get_checksum(tmp)))
+        tmp = '{}{}\n'.format(tmp,get_checksum(tmp))
+        print 'Command:'
+        print tmp
+        s.write(tmp)
 
+        print 'Response:'
         for i in range(3):
             line = s.readline()
             if len(line) > 0:
