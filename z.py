@@ -56,8 +56,10 @@ def get_action(line):
         pass
     return None
 
-def send(channel,dest,sample):
-    tmp = {'from':socket.gethostname(),'to':dest,'payload':sample}
+def send(channel,sample,dest=None):
+    tmp = {'from':socket.gethostname(),'payload':sample}
+    if dest is not None:
+        tmp['to'] = dest
     tmp = json.dumps(tmp,separators=(',',':'))
     channel.write('{}{}\n'.format(tmp,get_checksum(tmp)))
 
