@@ -59,13 +59,13 @@ def get_log_dir():
         return read_config()['base']['log_dir']
 
 def get_list_of_nodes():
-    return sorted([int(l[5:8]) for l in listdir(dirname(realpath(__file__))) if re.match('^node_\d{3}\.ini$',l)])
+    return sorted([int(l[5:8]) for l in listdir(dirname(realpath(__file__))) if re.match('^node-\d{3}\.ini$',l)])
 
 def get_db(name,node_id=None):
     assert node_id is not None or is_node()
     if node_id is None:
         node_id = get_node_id()
-    node_tag = 'node_{:03d}'.format(node_id)
+    node_tag = 'node-{:03d}'.format(node_id)
     configfile = join(dirname(__file__),node_tag + '.ini')
     assert exists(configfile),'get_db(): something something missing...'
     return [c.strip() for c in read_ini(configfile)['database'][name].split(',')]

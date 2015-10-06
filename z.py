@@ -47,7 +47,7 @@ def get_action(line):
             #print tmp['to']
 
             if tmp['to'] == socket.gethostname() and \
-               re.match('base_\d{3}',tmp['from']):
+               re.match('base-\d{3}',tmp['from']):
                 #print 'addressed by {}'.format(tmp['from'])
                 return {'action':tmp['payload']['action'],\
                         'from':tmp['from']}

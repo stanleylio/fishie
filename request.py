@@ -12,12 +12,12 @@ xbee_baud = get_xbee_baud()
 with serial.Serial(xbee_port,xbee_baud,timeout=1) as s:
 
     from_tag = socket.gethostname()
-    #to_tag = 'node_004'
+    #to_tag = 'node-004'
 
     while True:
 
         tmp = raw_input('\nEnter node ID to request sample from...')
-        to_tag = 'node_{:03d}'.format(int(tmp))
+        to_tag = 'node-{:03d}'.format(int(tmp))
         
         tmp = {}
         tmp['action'] = 'do sample'

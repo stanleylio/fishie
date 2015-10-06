@@ -17,8 +17,8 @@ def pretty_print(d):
     # print the units as well? nah...
     max_len = max([len(k) for k in d.keys()])
     print '= '*(max_len + 4)
-    if 'node_id' in d.keys():
-        print 'From node_{:03d}:'.format(d['node_id'])
+    if 'node-id' in d.keys():
+        print 'From node-{:03d}:'.format(d['node-id'])
     if 'ReceptionTime' in d.keys():
         tmp = d['ReceptionTime']
         if isinstance(tmp,float):
@@ -29,7 +29,7 @@ def pretty_print(d):
         if isinstance(tmp,float):
             tmp = datetime.fromtimestamp(tmp)
         print 'Sampled at {}'.format(tmp)
-    for k in [k for k in sorted(d.keys()) if all([k != t for t in ['Timestamp','node_id','ReceptionTime']])]:
+    for k in [k for k in sorted(d.keys()) if all([k != t for t in ['Timestamp','node-id','ReceptionTime']])]:
         print '{}{}{}'.format(k,' '*(max_len + 4 - len(k)),d[k])
     
 def parse_message(line):
@@ -42,7 +42,7 @@ def parse_message(line):
         if node_id in [1,2]:
             d = Aanderaa_3835.parse_3835(line)
             if d is not None:
-                d['node_id'] = id_node(line)
+                d['node-id'] = id_node(line)
                 return d
         # - - - - -
         # handle the BBB messages
@@ -52,7 +52,7 @@ def parse_message(line):
             tmp = json.loads(line)
             node_id = int(tmp['from'][5:8])
             d = tmp['payload']
-            d['node_id'] = node_id
+            d['node-id'] = node_id
             d['Timestamp'] = datetime.fromtimestamp(d['Timestamp'])
             return d
         else:
