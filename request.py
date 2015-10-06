@@ -16,8 +16,8 @@ with serial.Serial(xbee_port,xbee_baud,timeout=1) as s:
 
     while True:
 
-        tmp = raw_input('\nEnter node ID to request sample from...')
-        to_tag = 'node-{:03d}'.format(int(tmp))
+        node_id = raw_input('\nEnter node ID to request sample from...')
+        to_tag = 'node-{:03d}'.format(int(node_id))
         
         tmp = {}
         tmp['action'] = 'do sample'
@@ -35,7 +35,7 @@ with serial.Serial(xbee_port,xbee_baud,timeout=1) as s:
                 line = line.strip()
                 print line
                 d = parse_message(line)
-                if d is not None:
+                if d is not None and node_id == d['node-id']:
                     pretty_print(d)
                     break
         s.flushInput()
