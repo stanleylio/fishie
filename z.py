@@ -1,4 +1,4 @@
-import struct,json,socket,re
+import struct,json,socket,re,traceback
 from zlib import crc32
 # see also: hashlib
 
@@ -49,9 +49,12 @@ def get_action(line):
             if tmp['to'] == socket.gethostname() and \
                re.match('base_\d{3}',tmp['from']):
                 #print 'addressed by {}'.format(tmp['from'])
-                return tmp['payload']['action']
+                return {'action':tmp['payload']['action'],\
+                        'from':tmp['from']}
     except:
-        return None
+        #traceback.print_exc()
+        pass
+    return None
 
 def send(channel,dest,sample):
     tmp = {'from':socket.gethostname(),'to':dest,'payload':sample}

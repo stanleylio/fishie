@@ -29,7 +29,7 @@ with serial.Serial(xbee_port,xbee_baud,timeout=1) as s:
         s.write(tmp)
 
         print 'Response:'
-        for i in range(3):
+        for i in range(5):
             line = s.readline()
             if len(line) > 0:
                 line = line.strip()
@@ -38,5 +38,7 @@ with serial.Serial(xbee_port,xbee_baud,timeout=1) as s:
                 if d is not None:
                     pretty_print(d)
                     break
+        s.flushInput()
+        s.flushOutput()
 
 
