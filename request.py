@@ -28,6 +28,8 @@ with serial.Serial(xbee_port,xbee_baud,timeout=1) as s:
         tmp = '{}{}\n'.format(tmp,get_checksum(tmp))
         print 'Command:'
         print tmp
+        s.flushInput()
+        s.flushOutput()
         s.write(tmp)
 
         print 'Response:'
