@@ -134,25 +134,53 @@ def get_flntu_port():
 
 # STUFF FOR THE WEB PAGE ONLY
 def get_name(node_id=None):
-    assert node_id is not None or is_node()
-    if node_id is None:
-        node_id = get_node_id()
     try:
-        return read_config()['node']['name']
+        # These really are two different tasks:
+        # one asks what the name of THIS node is
+        # one asks what the name of the node with the given ID is
+        # not sure I should put them both here.
+        if node_id is None:
+            if is_node():
+                return read_config()['node']['name']
+            elif is_base():
+                return read_config()['base']['name']
+        else:
+            node_tag = 'node-{:03d}'.format(node_id)
+            configfile = join(dirname(__file__),node_tag + '.ini')
+            assert exists(configfile),'get_name(): something something missing...'
+            return read_ini(configfile)['node']['name']
     except KeyError:
         return None
 
 def get_note(node_id=None):
-    assert node_id is not None or is_node()
-    if node_id is None:
-        node_id = get_node_id()
+    # same as get_name, refactor them? TODO
     try:
-        return read_config()['node']['note']
+        if node_id is None:
+            if is_node():
+                return read_config()['node']['note']
+            elif is_base():
+                return read_config()['base']['note']
+        else:
+            node_tag = 'node-{:03d}'.format(node_id)
+            configfile = join(dirname(__file__),node_tag + '.ini')
+            assert exists(configfile),'get_note(): something something missing...'
+            return read_ini(configfile)['node']['note']
     except KeyError:
         return None
 
 def get_description(node_id=None):
     return get_db('description',node_id=node_id)
+
+# get the list of variables to display
+# TODO: merge this with get_db()?
+def get_list_of_disp_vars(node_id=None):
+    assert node_id is not None or is_node()
+    if node_id is None:
+        node_id = get_node_id()
+    node_tag = 'node-{:03d}'.format(node_id)
+    configfile = join(dirname(__file__),node_tag + '.ini')
+    assert exists(configfile),'get_db(): something something missing...'
+    return [c.strip() for c in read_ini(configfile)['display']['variable'].split(',')]
 
 
 if '__main__' == __name__:

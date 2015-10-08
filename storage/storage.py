@@ -24,6 +24,10 @@ class storage_read_only(object):
         self.c.execute('PRAGMA journal_mode = WAL')
         self.c.row_factory = sqlite3.Row
 
+    def get_list_of_columns(self,node_id):
+        cursor = self.c.execute('SELECT * FROM node_{:03d}'.format(node_id))
+        return [d[0] for d in cursor.description]
+
     def read_time_range(self,node_id,time_col,cols,timerange):
         assert type(node_id) is int,'storage::read_time_range(): node_id must be int'
         assert type(cols) is list,'storage::read_time_range(): cols must be a list of string'
@@ -55,11 +59,15 @@ class storage_read_only(object):
             tmp = None
         return tmp
 
-    def read_last_N(self,node_id,time_col,cols,count):
+    def read_last_N(self,node_id,time_col,count,cols=None):
         assert type(node_id) is int,'storage::read_last_N(): node_id must be int'
-        assert type(cols) is list,'storage::read_last_N(): cols must be a list of string'
-        #if 'Timestamp' not in cols and 'ReceptionTime' not in cols:
-        #    print('Sure you don''t need any timestamps?')
+        assert cols is None or type(cols) is list,'storage::read_last_N(): cols, if not None, must be a list of string'
+        if cols is not None:
+            if 'Timestamp' not in cols and 'ReceptionTime' not in cols:
+                print('Sure you don''t want any timestamps?')
+
+        if cols is None:
+            cols = self.get_list_of_columns(node_id)
 
         cmd = 'SELECT {} FROM {} ORDER BY {} DESC LIMIT {}'.\
                 format(','.join(cols),
