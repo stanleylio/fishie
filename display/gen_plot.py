@@ -106,9 +106,10 @@ if '__main__' == __name__:
         
         config = read_ini(config_file)['display']
         plot_dir = config['plot_dir']
+        plot_dir = join(plot_dir,node_tag)
         if not exists(plot_dir):
             makedirs(plot_dir)
-
+        
         variables = [c.strip() for c in config['variable'].split(',')]
         for var in variables:
             unit = mapping[var]
@@ -117,7 +118,7 @@ if '__main__' == __name__:
             cols = [time_col,var]
             
             title = '{} of {}'.format(var,node_tag)
-            plotfilename = '../www/{}/{}.png'.format(node_tag,var)
+            plotfilename = join(plot_dir,'{}.png'.format(var))
 
             try:
                 #tmp = store.read_latest(node_id,time_col,variables,count)
@@ -139,7 +140,10 @@ if '__main__' == __name__:
                     # json.dump vs. json.dumps...
                     json.dump(plot_config,f,separators=(',',':'))
 
-            except (TypeError,sqlite3.OperationalError) as e:
+            except (TypeError,sqlite3.OperationalError,ValueError) as e:
+                # TypeError: ... I don't remember.
+                # sqlite3.OperationalError: db is empty
+                # ValueError: db has the variable, but all NaN
                 #print traceback.print_exc()
                 PRINT('No data for {} of {} in the selected range'.\
                       format(var,node_tag))
