@@ -102,7 +102,6 @@ def read_capabilities():
 pass
 
 
-
 # NODE-ONLY
 def get_node_id():
     assert is_node()
