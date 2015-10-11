@@ -5,7 +5,7 @@
 # to test:
 # http://192.168.1.102/node_config.py?p=latest_sample&id=7
 
-cd /root/node/storage
+cd ~/node/storage
 
 sudo chgrp www-data sensor_data.db
 sudo chgrp www-data sensor_data.db-shm
