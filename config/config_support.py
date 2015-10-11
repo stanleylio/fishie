@@ -30,9 +30,7 @@ if is_node():
     node_id = int(node_tag[5:8])
 
 node_config_file = join(dirname(__file__),node_tag + '.ini')
-# later, perhaps this won't be true if base stations start to have their
-# own config files
-assert is_base() or exists(node_config_file)
+assert exists(node_config_file)
 
 
 # given the path to an ini file, return its content as dict of dicts
