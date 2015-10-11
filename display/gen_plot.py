@@ -81,7 +81,6 @@ def plot_time_series(x,y,plotfilename,title='',xlabel='',ylabel='',linelabel=Non
 if '__main__' == __name__:
     import traceback,sqlite3
     from scipy.signal import medfilt
-    from datetime import timedelta
 
     IDs = []
     time_col = None
@@ -109,12 +108,18 @@ if '__main__' == __name__:
         plot_dir = join(plot_dir,node_tag)
         if not exists(plot_dir):
             makedirs(plot_dir)
+
+        try:
+            plot_range = int(config['plot_range'])
+        except:
+            PRINT('gen_plot.py: plot_range not specified. Use default')
+            plot_range = 3*24
         
         variables = [c.strip() for c in config['variable'].split(',')]
         for var in variables:
             unit = mapping[var]
 
-            timerange = timedelta(days=3)
+            timerange = timedelta(hours=plot_range)
             cols = [time_col,var]
             
             title = '{} of {}'.format(var,node_tag)
@@ -126,7 +131,7 @@ if '__main__' == __name__:
                 x = tmp[time_col]
                 y = [l if l is not None else float('NaN') for l in tmp[var]]
 
-                y = medfilt(y,7)
+                #y = medfilt(y,7)
 
                 PRINT('Plotting {} of {}...'.format(var,node_tag))
                 plot_time_series(x,y,plotfilename,title,ylabel=unit,linelabel=var)

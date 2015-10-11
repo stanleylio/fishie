@@ -112,7 +112,7 @@ pass
 # NODE-ONLY
 def get_node_id():
     assert is_node()
-    return int(read_config()['node']['id'])
+    return node_id
 
 # bad name. more like "idle time between consecutive sampling periods"
 def get_interval():
