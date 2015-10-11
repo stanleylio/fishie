@@ -72,7 +72,7 @@ def plot_time_series(x,y,plotfilename,title='',xlabel='',ylabel='',linelabel=Non
         
     plt.gca().set_ylabel(ylabel)
         
-    plt.savefig(plotfilename,bbox_inches='tight',dpi=150)
+    plt.savefig(plotfilename,bbox_inches='tight',dpi=300)
     plt.cla()
     plt.clf()
     plt.close()
