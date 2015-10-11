@@ -2,7 +2,7 @@
 #
 # Stanley Lio, hlio@usc.edu
 # All Rights Reserved. August 2015
-import re
+import re,socket
 from os import listdir
 from os.path import join,exists,dirname,realpath
 from ConfigParser import RawConfigParser
@@ -13,9 +13,26 @@ def PRINT(s):
     #print(s)
 
 
-node_config_filename = 'node_config.ini'
-node_config_file = join(dirname(__file__),node_config_filename)
-assert exists(node_config_file)
+node_tag = socket.gethostname()
+PRINT(node_tag)
+
+def is_node():
+    return re.match('^node-\d{3}$',node_tag)
+
+def is_base():
+    return re.match('^base-\d{3}$',node_tag)
+
+assert is_node() or is_base(),\
+       'config_support.py: Cannot identify this node.'
+
+node_id = None
+if is_node():
+    node_id = int(node_tag[5:8])
+
+node_config_file = join(dirname(__file__),node_tag + '.ini')
+# later, perhaps this won't be true if base stations start to have their
+# own config files
+assert is_base() or exists(node_config_file)
 
 
 # given the path to an ini file, return its content as dict of dicts
@@ -31,14 +48,6 @@ def read_ini(inifile,pattern='.*'):
 
 def read_config():
     return read_ini(node_config_file)
-
-def is_node():
-    tmp = read_config()
-    return 'node' in tmp.keys() and 'base' not in tmp.keys()
-
-def is_base():
-    # for now. there could be more than two types of nodes in the future
-    return not is_node()
 
 def get_xbee_port():
     if is_node():
@@ -112,7 +121,8 @@ def get_interval():
     assert is_node()
     return int(read_config()['node']['wait'])
 
-# only make sense for those that have optodes... TODO
+# only make sense for those that have optodes...
+# should not put them here.
 def get_optode_port():
     assert is_node()
     try:
@@ -183,8 +193,8 @@ def get_list_of_disp_vars(node_id=None):
 
 
 if '__main__' == __name__:
-    print 'is_node(): ',is_node()
-    print 'is_base(): ',is_base()
+    print 'is_node(): ',bool(is_node())
+    print 'is_base(): ',bool(is_base())
 
     print read_config()
     print 'get_xbee_port(): ',get_xbee_port()

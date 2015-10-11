@@ -80,7 +80,9 @@ if '__main__' == __name__:
     from os.path import exists
 
     optode = None
-    if exists('/dev/ttyO4'):
+    if exists('/dev/ttyO2'):
+        optode = Aanderaa_4330f(port='/dev/ttyO2')
+    elif exists('/dev/ttyO4'):
         optode = Aanderaa_4330f(port='/dev/ttyO4')
     else:
         optode = Aanderaa_4330f(port='COM11')
