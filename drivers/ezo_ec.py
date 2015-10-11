@@ -134,7 +134,8 @@ if '__main__' == __name__:
     import time
     while True:
         tmp = ec.read()
-        print '= = = = = = = = = ='
-        print ec.pretty(tmp)
+        print('\x1b[2J\x1b[;H')
+        print('= = = = = = = = = =')
+        print(ec.pretty(tmp))
         time.sleep(1)
     
