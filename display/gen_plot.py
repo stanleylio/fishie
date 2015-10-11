@@ -94,6 +94,7 @@ if '__main__' == __name__:
     assert time_col is not None
 
     for node_id in IDs:
+        PRINT('- - - - -')
         node_tag = 'node-{:03d}'.format(node_id)
         config_file = '../config/{}.ini'.format(node_tag)
 
