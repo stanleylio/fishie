@@ -10,9 +10,6 @@ sys.path.append('../storage')
 import matplotlib.pyplot as plt
 from datetime import datetime,timedelta
 from matplotlib.dates import DateFormatter,HourLocator
-#from numpy import ndarray
-#import numpy as np
-
 from storage import storage_read_only
 from config_support import *
 from os.path import exists,join
@@ -82,14 +79,16 @@ if '__main__' == __name__:
     import traceback,sqlite3
     from scipy.signal import medfilt
 
+    # node and base station are not the only two types of device that
+    # may run this script, hence the else
     IDs = []
     time_col = None
-    if is_base():
-        IDs = get_list_of_nodes()
-        time_col = 'ReceptionTime'
-    elif is_node():
+    if is_node():
         IDs = [get_node_id()]
         time_col = 'Timestamp'
+    else:
+        IDs = get_list_of_nodes()
+        time_col = 'ReceptionTime'
 
     assert time_col is not None
 
