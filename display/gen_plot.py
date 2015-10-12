@@ -23,7 +23,7 @@ def PRINT(s):
 
 def plot_time_series(x,y,plotfilename,title='',xlabel='',ylabel='',linelabel=None):
     plt.figure()
-    plt.plot_date(x,y,linestyle='-',label=linelabel,color='b',marker='.',markersize=4)
+    plt.plot_date(x,y,linestyle='',label=linelabel,color='b',marker='.',markersize=4)
     plt.legend(loc='best',framealpha=0.5)
     plt.title(title)
     plt.grid(True)
