@@ -8,13 +8,13 @@
 *.log
 *.json
 
+log/
 www/
-backup/
-.backup/
+#backup/
+#.backup/
 #obsolete/
 #.obsolete/
-log/
-sandbox/
+#sandbox/
 
 upload.sh
 
