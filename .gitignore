@@ -16,7 +16,7 @@ www/
 #.obsolete/
 #sandbox/
 
-upload.sh
+#upload.sh
 
 sampling.py
 
