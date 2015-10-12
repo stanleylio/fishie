@@ -132,7 +132,7 @@ if '__main__' == __name__:
                 x = tmp[time_col]
                 y = [l if l is not None else float('NaN') for l in tmp[var]]
 
-                #y = medfilt(y,7)
+                y = medfilt(y,9)
 
                 PRINT('Plotting {} of {}...'.format(var,node_tag))
                 plot_time_series(x,y,plotfilename,title,ylabel=unit,linelabel=var)
