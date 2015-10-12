@@ -7,13 +7,30 @@
 
 cd ~/node/storage
 
-# this works:
-chmod a+w sensor_data.db
-chmod a+w sensor_data.db-shm
-chmod a+w sensor_data.db-wal
+# - - - - -
+# add www-data (Apache's user) to the group sampling.py is run with (nuc)
+# http://www.cyberciti.biz/faq/howto-linux-add-user-to-group/
+groups www-data
+sudo usermod -a -G nuc www-data
+# I think it takes effect on the next login (so reboot)
+groups www-data
+sudo chmod g+w sensor_data.db
+sudo chmod g+w sensor_data.db-wal
+sudo chmod g+w sensor_data.db-shm
 
+cd
 exit 0
 
+# - - - - -
+# cheats, but works:
+sudo chmod a+w sensor_data.db
+sudo chmod a+w sensor_data.db-wal
+sudo chmod a+w sensor_data.db-shm
+
+cd
+exit 0
+
+# - - - - -
 # this also works, but only for as long as the -shm and -wal
 # persist once they are deleted and recreated by sampling.py
 # again, their group ownership return back to that of the user
