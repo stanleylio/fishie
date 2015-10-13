@@ -24,3 +24,18 @@ rsync -avzhe ssh --rsync-path=$REMOTE_RSYNC_PATH --progress ./www/* $BENCHTEST_D
 echo "upload log"
 tail ./log/raw.txt -n 100 > ./log/tail.txt
 rsync -avzhe ssh --rsync-path=$REMOTE_RSYNC_PATH --progress ./log/* $BENCHTEST_DIR/log/
+
+
+#BENCHTEST_DIR="glazer@imina.soest.hawaii.edu:/export/imina2/httpd/htdocs/oceanography/glazer/Brian_T._Glazer/research/DataLoggers/PoH"
+BENCHTEST_DIR="glazer@128.171.151.240:/export/imina2/httpd/htdocs/oceanography/glazer/Brian_T._Glazer/research/DataLoggers/PoH/$(hostname)"
+
+echo "upload database"
+rsync -avzhe ssh --progress ./storage/sensor_data.db* $BENCHTEST_DIR/storage/
+
+echo "upload webpage"
+rsync -avzhe ssh --progress ./www/* $BENCHTEST_DIR/www/
+
+echo "upload log"
+tail ./log/raw.txt -n 100 > ./log/tail.txt
+rsync -avzhe ssh --progress ./log/* $BENCHTEST_DIR/log/
+
