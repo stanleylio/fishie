@@ -14,8 +14,8 @@ class MS5803_14BA:
 
     osr = {256:0,512:2,1024:4,2048:6,4096:8}
 
-    def __init__(self,address=0x76):
-        self.bus = smbus.SMBus(1)
+    def __init__(self,address=0x76,bus=1):
+        self.bus = smbus.SMBus(bus)
         self.address = address
 
         self.reset()
@@ -46,12 +46,12 @@ class MS5803_14BA:
         P = (long(D1)*SENS/(2**21) - OFF)/(2**15)
         P = P/100.
         TEMP = TEMP/100.
-        return {'Pressure_MS5803':P,'Temp_MS5803':TEMP}
+        return {'p':P,'t':TEMP}
 
     def pretty(self,r=None):
         if r is None:
             r = self.read()
-        return '{} kPa, {} Deg.C'.format(r['Pressure_MS5803'],r['Temp_MS5803'])
+        return '{} kPa, {} Deg.C'.format(r['p'],r['t'])
 
     # read factory calibration parameters, C[6]
     def _read_prom(self):
@@ -81,7 +81,8 @@ class MS5803_14BA:
 if '__main__' == __name__:
 
     ms = MS5803_14BA()
-
+    #ms = MS5803_14BA(bus=2)
+    
     PRINT(ms._C)
     PRINT('raw pressure: {}'.format(ms._raw_pressure()))
     PRINT('raw_temperature: {}'.format(ms._raw_temperature()))

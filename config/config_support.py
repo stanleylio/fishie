@@ -47,60 +47,42 @@ def read_ini(inifile,pattern='.*'):
 def read_config():
     return read_ini(node_config_file)
 
-def get_xbee_port():
-    if is_node():
-        return read_config()['node']['xbee_port']
-    if is_base():
-        return read_config()['base']['xbee_port']
-
-def get_xbee_baud():
-    if is_node():
-        return int(read_config()['node']['xbee_baud'])
-    if is_base():
-        return int(read_config()['base']['xbee_baud'])
-
-def get_log_dir():
-    if is_node():
-        return read_config()['node']['log_dir']
-    if is_base():
-        return read_config()['base']['log_dir']
-
 def get_list_of_nodes():
-    return sorted([int(l[5:8]) for l in listdir(dirname(realpath(__file__))) if re.match('^node-\d{3}\.ini$',l)])
+    #return sorted([int(l[5:8]) for l in listdir(dirname(realpath(__file__))) if re.match('^node-\d{3}\.ini$',l)])
+    return sorted([int(l[5:8]) for l in listdir(dirname(realpath(__file__))) if re.match('^node_\d{3}\.py$',l)])
 
-def get_db(name,node_id=None):
-    assert node_id is not None or is_node()
-    if node_id is None:
-        node_id = get_node_id()
-    node_tag = 'node-{:03d}'.format(node_id)
-    configfile = join(dirname(__file__),node_tag + '.ini')
-    assert exists(configfile),'get_db(): something something missing...'
-    return [c.strip() for c in read_ini(configfile)['database'][name].split(',')]
+#def get_db(name,node_id=None):
+#    assert node_id is not None or is_node()
+#    if node_id is None:
+#        node_id = get_node_id()
+#    node_tag = 'node-{:03d}'.format(node_id)
+#    configfile = join(dirname(__file__),node_tag + '.ini')
+#    assert exists(configfile),'get_db(): something something missing...'
+#    return [c.strip() for c in read_ini(configfile)['database'][name].split(',')]
 
-def get_tag(node_id=None):
-    return get_db('tag',node_id=node_id)
+def get_tag(node_id):
+    exec('import node_{:03d} as node'.format(node_id))
+    return [c['dbtag'] for c in node.conf]
 
-def get_type(node_id=None):
-    return get_db('type',node_id=node_id)
+def get_type(node_id):
+    exec('import node_{:03d} as node'.format(node_id))
+    return [c['dbtype'] for c in node.conf]
 
-def get_unit(node_id=None):
-    return get_db('unit',node_id=node_id)
+def get_unit(node_id):
+    exec('import node_{:03d} as node'.format(node_id))
+    return [c['unit'] for c in node.conf]
 
 def read_capabilities():
     capabilities = {}
     for node_id in get_list_of_nodes():
         dbtag = get_tag(node_id=node_id)
         dbtype = get_type(node_id=node_id)
-        dbunit = get_unit(node_id=node_id)
         assert len(dbtag) == len(dbtype),\
-               'tag and type should have the same length'
-        assert len(dbtag) == len(dbunit),\
-               'tag and unit should have the same length'
+               'each tag defined should have a corresponding type and vice versa'
 
         capabilities[node_id] = {
             'tag':dbtag,
-            'type':dbtype,
-            'unit':dbunit}
+            'type':dbtype}
     assert len(capabilities.keys()) > 0
     return capabilities
 
@@ -110,34 +92,15 @@ pass
 
 
 # NODE-ONLY
-def get_node_id():
-    assert is_node()
-    return int(read_config()['node']['id'])
-
-# bad name. more like "idle time between consecutive sampling periods"
-def get_interval():
-    assert is_node()
-    return int(read_config()['node']['wait'])
-
-# only make sense for those that have optodes...
-# should not put them here.
-def get_optode_port():
-    assert is_node()
-    try:
-        tmp = read_config()['node']['optode_port']
-        if exists(tmp):
-            return tmp
-    except KeyError:
-        return None
-
-def get_flntu_port():
+'''def get_flntu_port():
     assert is_node()
     try:
         tmp = read_config()['node']['flntu_port']
         if exists(tmp):
             return tmp
     except KeyError:
-        return None
+        return None'''
+
 
 # STUFF FOR THE WEB PAGE ONLY
 def get_name(node_id=None):
