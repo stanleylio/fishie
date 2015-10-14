@@ -7,6 +7,7 @@ import matplotlib
 matplotlib.use('Agg')
 import sys,re,json,time
 sys.path.append('../storage')
+sys.path.append('../config')
 import matplotlib.pyplot as plt
 from datetime import datetime,timedelta
 from matplotlib.dates import DateFormatter,HourLocator
@@ -94,8 +95,8 @@ if '__main__' == __name__:
 
     for node_id in IDs:
         PRINT('- - - - -')
+        exec('import node_{:03d} as node'.format(node_id))
         node_tag = 'node-{:03d}'.format(node_id)
-        config_file = '../config/{}.ini'.format(node_tag)
 
         tags = get_tag(node_id)
         units = get_unit(node_id)
@@ -103,19 +104,14 @@ if '__main__' == __name__:
 
         store = storage_read_only()
         
-        config = read_ini(config_file)['display']
-        plot_dir = config['plot_dir']
+        plot_dir = node.plot_dir
         plot_dir = join(plot_dir,node_tag)
         if not exists(plot_dir):
             makedirs(plot_dir)
 
-        try:
-            plot_range = int(config['plot_range'])
-        except:
-            PRINT('gen_plot.py: plot_range not specified. Use default')
-            plot_range = 3*24
-        
-        variables = [c.strip() for c in config['variable'].split(',')]
+        plot_range = node.plot_range
+
+        variables = [c['dbtag'] for c in node.conf if c['plot']]
         for var in variables:
             unit = mapping[var]
 

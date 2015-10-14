@@ -20,6 +20,7 @@ conf = [
         'comtag':'ts',
         'unit':'',
         'description':'Time of sampling',
+        'plot':False
     },
     {
         'dbtag':'P_180',

@@ -31,55 +31,32 @@ node_id = None
 if is_node():
     node_id = int(node_tag[5:8])
 
-node_config_file = join(dirname(__file__),node_tag + '.ini')
-if not exists(node_config_file):
-    PRINT('config_support.py: Warning: {} not found'.format(node_config_file))
+config_file = join(dirname(__file__),node_tag + '.py')
+if not exists(config_file):
+    PRINT('config_support.py: Warning: {} not found'.format(config_file))
 
-
-# given the path to an ini file, return its content as dict of dicts
-def read_ini(inifile,pattern='.*'):
-    parser = RawConfigParser(allow_no_value=True)
-    parser.read(inifile)
-
-    tmp = {}
-    for s in parser.sections():
-        if re.match(pattern,s):
-            tmp[s] = dict(parser.items(s))
-    return tmp
-
-def read_config():
-    return read_ini(node_config_file)
 
 def get_list_of_nodes():
     #return sorted([int(l[5:8]) for l in listdir(dirname(realpath(__file__))) if re.match('^node-\d{3}\.ini$',l)])
     return sorted([int(l[5:8]) for l in listdir(dirname(realpath(__file__))) if re.match('^node_\d{3}\.py$',l)])
 
-#def get_db(name,node_id=None):
-#    assert node_id is not None or is_node()
-#    if node_id is None:
-#        node_id = get_node_id()
-#    node_tag = 'node-{:03d}'.format(node_id)
-#    configfile = join(dirname(__file__),node_tag + '.ini')
-#    assert exists(configfile),'get_db(): something something missing...'
-#    return [c.strip() for c in read_ini(configfile)['database'][name].split(',')]
-
-def get_tag(node_id):
-    exec('import node_{:03d} as node'.format(node_id))
+def get_tag(i):
+    exec('import node_{:03d} as node'.format(i))
     return [c['dbtag'] for c in node.conf]
 
-def get_type(node_id):
-    exec('import node_{:03d} as node'.format(node_id))
+def get_type(i):
+    exec('import node_{:03d} as node'.format(i))
     return [c['dbtype'] for c in node.conf]
 
-def get_unit(node_id):
-    exec('import node_{:03d} as node'.format(node_id))
+def get_unit(i):
+    exec('import node_{:03d} as node'.format(i))
     return [c['unit'] for c in node.conf]
 
 def read_capabilities():
     capabilities = {}
     for node_id in get_list_of_nodes():
-        dbtag = get_tag(node_id=node_id)
-        dbtype = get_type(node_id=node_id)
+        dbtag = get_tag(node_id)
+        dbtype = get_type(node_id)
         assert len(dbtag) == len(dbtype),\
                'each tag defined should have a corresponding type and vice versa'
 
@@ -103,6 +80,10 @@ pass
             return tmp
     except KeyError:
         return None'''
+
+def get_node_id():
+    assert is_node()
+    return node_id
 
 
 # STUFF FOR THE WEB PAGE ONLY
@@ -160,7 +141,6 @@ if '__main__' == __name__:
     print 'is_node(): ',bool(is_node())
     print 'is_base(): ',bool(is_base())
 
-    print read_config()
     print 'get_xbee_port(): ',get_xbee_port()
     print 'get_xbee_baud(): ',get_xbee_baud()
 
