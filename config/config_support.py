@@ -22,15 +22,18 @@ def is_node():
 def is_base():
     return re.match('^base-\d{3}$',node_tag)
 
-assert is_node() or is_base(),\
-       'config_support.py: Cannot identify this node.'
+# node and base station are not the only two types of device that
+# need this script - for example, plotting on laptop
+if not (is_node() or is_base()):
+    PRINT('config_support.py: Warning: Cannot identify this node.')
 
 node_id = None
 if is_node():
     node_id = int(node_tag[5:8])
 
 node_config_file = join(dirname(__file__),node_tag + '.ini')
-assert exists(node_config_file)
+if not exists(node_config_file):
+    PRINT('config_support.py: Warning: {} not found'.format(node_config_file))
 
 
 # given the path to an ini file, return its content as dict of dicts
@@ -92,7 +95,31 @@ pass
 
 
 # NODE-ONLY
+<<<<<<< HEAD
 '''def get_flntu_port():
+=======
+def get_node_id():
+    assert is_node()
+    return node_id
+
+# bad name. more like "idle time between consecutive sampling periods"
+def get_interval():
+    assert is_node()
+    return int(read_config()['node']['wait'])
+
+# only make sense for those that have optodes...
+# should not put them here.
+def get_optode_port():
+    assert is_node()
+    try:
+        tmp = read_config()['node']['optode_port']
+        if exists(tmp):
+            return tmp
+    except KeyError:
+        return None
+
+def get_flntu_port():
+>>>>>>> origin/master
     assert is_node()
     try:
         tmp = read_config()['node']['flntu_port']

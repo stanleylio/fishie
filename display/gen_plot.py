@@ -10,9 +10,6 @@ sys.path.append('../storage')
 import matplotlib.pyplot as plt
 from datetime import datetime,timedelta
 from matplotlib.dates import DateFormatter,HourLocator
-#from numpy import ndarray
-#import numpy as np
-
 from storage import storage_read_only
 from config_support import *
 from os.path import exists,join
@@ -26,7 +23,7 @@ def PRINT(s):
 
 def plot_time_series(x,y,plotfilename,title='',xlabel='',ylabel='',linelabel=None):
     plt.figure()
-    plt.plot_date(x,y,linestyle='-',label=linelabel,color='b',marker='.',markersize=4)
+    plt.plot_date(x,y,linestyle='',label=linelabel,color='b',marker='.',markersize=4)
     plt.legend(loc='best',framealpha=0.5)
     plt.title(title)
     plt.grid(True)
@@ -72,7 +69,7 @@ def plot_time_series(x,y,plotfilename,title='',xlabel='',ylabel='',linelabel=Non
         
     plt.gca().set_ylabel(ylabel)
         
-    plt.savefig(plotfilename,bbox_inches='tight',dpi=150)
+    plt.savefig(plotfilename,bbox_inches='tight',dpi=300)
     plt.cla()
     plt.clf()
     plt.close()
@@ -81,20 +78,22 @@ def plot_time_series(x,y,plotfilename,title='',xlabel='',ylabel='',linelabel=Non
 if '__main__' == __name__:
     import traceback,sqlite3
     from scipy.signal import medfilt
-    from datetime import timedelta
 
+    # node and base station are not the only two types of device that
+    # may run this script, hence the else
     IDs = []
     time_col = None
-    if is_base():
-        IDs = get_list_of_nodes()
-        time_col = 'ReceptionTime'
-    elif is_node():
+    if is_node():
         IDs = [get_node_id()]
         time_col = 'Timestamp'
+    else:
+        IDs = get_list_of_nodes()
+        time_col = 'ReceptionTime'
 
     assert time_col is not None
 
     for node_id in IDs:
+        PRINT('- - - - -')
         node_tag = 'node-{:03d}'.format(node_id)
         config_file = '../config/{}.ini'.format(node_tag)
 
@@ -109,12 +108,18 @@ if '__main__' == __name__:
         plot_dir = join(plot_dir,node_tag)
         if not exists(plot_dir):
             makedirs(plot_dir)
+
+        try:
+            plot_range = int(config['plot_range'])
+        except:
+            PRINT('gen_plot.py: plot_range not specified. Use default')
+            plot_range = 3*24
         
         variables = [c.strip() for c in config['variable'].split(',')]
         for var in variables:
             unit = mapping[var]
 
-            timerange = timedelta(days=3)
+            timerange = timedelta(hours=plot_range)
             cols = [time_col,var]
             
             title = '{} of {}'.format(var,node_tag)
@@ -126,7 +131,7 @@ if '__main__' == __name__:
                 x = tmp[time_col]
                 y = [l if l is not None else float('NaN') for l in tmp[var]]
 
-                y = medfilt(y,7)
+                #y = medfilt(y,9)
 
                 PRINT('Plotting {} of {}...'.format(var,node_tag))
                 plot_time_series(x,y,plotfilename,title,ylabel=unit,linelabel=var)

@@ -6,6 +6,8 @@ note = 'CTD with Atlas Scientific sensor(s)'
 log_dir = './log'
 plot_dir = '../www'
 
+plot_range=72
+
 xbee_port = '/dev/ttyO1'
 xbee_baud = 115200
 

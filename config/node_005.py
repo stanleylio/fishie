@@ -6,11 +6,12 @@ note = 'MS5803 + BMP180 + MCP9808 temperature sensor comparison'
 log_dir = './log'
 plot_dir = '../www'
 
+plot_range = 72
+
 xbee_port = None
 xbee_baud = None
 
 wait = 30
-
 
 conf = [
     {

@@ -1,6 +1,0 @@
-# putting a / in front limits the scope to the current dir. subfolders containing other index.html are not affected by this.
-/index.html
-node_*.html
-node_*/
-sendWWWtoWeb.sh
-upload.sh

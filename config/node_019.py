@@ -6,6 +6,8 @@ note = 'UH MSB rm 228'
 log_dir = './log'
 plot_dir = '../www'
 
+plot_range = 72
+
 xbee_port = None
 xbee_baud = None
 
