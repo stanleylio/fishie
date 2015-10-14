@@ -95,31 +95,7 @@ pass
 
 
 # NODE-ONLY
-<<<<<<< HEAD
 '''def get_flntu_port():
-=======
-def get_node_id():
-    assert is_node()
-    return node_id
-
-# bad name. more like "idle time between consecutive sampling periods"
-def get_interval():
-    assert is_node()
-    return int(read_config()['node']['wait'])
-
-# only make sense for those that have optodes...
-# should not put them here.
-def get_optode_port():
-    assert is_node()
-    try:
-        tmp = read_config()['node']['optode_port']
-        if exists(tmp):
-            return tmp
-    except KeyError:
-        return None
-
-def get_flntu_port():
->>>>>>> origin/master
     assert is_node()
     try:
         tmp = read_config()['node']['flntu_port']
