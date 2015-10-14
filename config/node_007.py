@@ -6,7 +6,7 @@ note = 'RPi Meteorological Station'
 log_dir = './log'
 plot_dir = '../www'
 
-plot_range = 72
+plot_range = 1
 
 xbee_port = '/dev/ttyAMA0'
 xbee_baud = 115200
@@ -36,8 +36,8 @@ conf = [
         'dbtype':'REAL',
         'comtag':'T_180',
         'unit':'Deg.C',
-        'description':'Casing Temperature',
-        'plot':False
+        'description':'Air Temperature',
+        'plot':True
     },
     {
         'dbtag':'UV_Si1145',
