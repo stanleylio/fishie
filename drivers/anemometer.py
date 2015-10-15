@@ -23,16 +23,16 @@ class Anemometer(object):
             if v >= 0 and v <= self.max_speed:
                 v = round(v*100)/100
                 break
-        if v < 0 or v > self.max_speed:
-            v = None
+        #if v < 0 or v > self.max_speed:
+        #    v = None
 
         for i in range(5):
             g = self.conv(self._i2c.readU16(gust_reg))
             if g >= 0 and g <= self.max_speed:
                 g = round(g*100)/100
                 break
-        if g < 0 or g > self.max_speed:
-            g = None
+        #if g < 0 or g > self.max_speed:
+        #    g = None
         
         return {'speed':v,'gust':g}
 
