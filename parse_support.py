@@ -60,6 +60,7 @@ def parse_message(line):
                 d['ts'] = datetime.fromtimestamp(d['ts'])
 
             exec('import node_{:03d} as node'.format(node_id))
+            #tmp = {c['dbtag']:d[c['comtag']] for c in node.conf}
             tmp = {}
             for c in node.conf:
                 tmp[c['dbtag']] = d[c['comtag']]
