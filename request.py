@@ -10,13 +10,15 @@ base = importlib.import_module('base_{}'.format(from_tag[5:8]))
 
 with serial.Serial(base.xbee_port,base.xbee_baud,timeout=1) as s:
 
-    if len(sys.argv) > 1:
-        node_id = int(sys.argv[1])
-    else:
+    if len(sys.argv) <= 1:
         print('To query node N, python request.py N')
-        
-    #while True:
-    if True:
+        exit()
+
+    IDs = []
+    for i in range(1,len(sys.argv)):
+        IDs.append(int(sys.argv[i]))
+
+    for node_id in IDs:        
         print
         print '= = = = ='
         
@@ -34,7 +36,7 @@ with serial.Serial(base.xbee_port,base.xbee_baud,timeout=1) as s:
         s.flushOutput()
         s.write(tmp)
 
-        exit()
+        continue
         
         print 'Response:'
         for i in range(5):
