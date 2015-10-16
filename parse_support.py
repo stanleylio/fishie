@@ -2,7 +2,7 @@
 #
 # Stanley Lio, hlio@usc.edu
 # All Rights Reserved. February 2015
-import sys,traceback,re,json
+import sys,traceback,re,json,importlib
 sys.path.append('config')
 sys.path.append('drivers')
 from datetime import datetime
@@ -51,30 +51,37 @@ def parse_message(line):
         if check(line):
             line = line[:-8]
             tmp = json.loads(line)
-            node_id = int(tmp['from'][5:8])
-            d = tmp['payload']
+            if re.match('^node[-_]\d{3}$',tmp['from']):
+                node_id = int(tmp['from'][5:8])
+                d = tmp['payload']
 
-            if 'Timestamp' in d.keys():
-                d['Timestamp'] = datetime.fromtimestamp(d['Timestamp'])
-            elif 'ts' in d.keys():
-                d['ts'] = datetime.fromtimestamp(d['ts'])
+                if 'Timestamp' in d.keys():
+                    d['Timestamp'] = datetime.fromtimestamp(d['Timestamp'])
+                if 'ts' in d.keys():
+                    d['ts'] = datetime.fromtimestamp(d['ts'])
 
-            exec('import node_{:03d} as node'.format(node_id))
-            #tmp = {c['dbtag']:d[c['comtag']] for c in node.conf}
-            tmp = {}
-            for c in node.conf:
-                tmp[c['dbtag']] = d[c['comtag']]
-            d = tmp
-            
-            d['node-id'] = node_id
-            return d
+                #__import__('node_{:03d}'.format(node_id))
+                node = importlib.import_module('node_{:03d}'.format(node_id))
+                #exec('import node_{:03d} as node'.format(node_id))
+                #tmp = {c['dbtag']:d[c['comtag']] for c in node.conf}
+                tmp = {}
+                for c in node.conf:
+                    tmp[c['dbtag']] = d[c['comtag']]
+                d = tmp
+                
+                d['node-id'] = node_id
+                return d
+            elif re.match('^base[-_]\d{3}$',tmp['from']):
+                PRINT('cmd from base station {}; ignore.'.format(tmp['from']))
+            else:
+                PRINT('not a sensor node broadcast')
         else:
             PRINT('parse_message(): CRC failure')
     except:
         PRINT('parse_message(): duh')
         PRINT(line)
         traceback.print_exc()
-        return None
+    return None
 
 # handle the identification of the non-BBB nodes
 # does NOT handle id-ing the BBB nodes
