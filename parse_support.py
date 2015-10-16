@@ -54,6 +54,11 @@ def parse_message(line):
             node_id = int(tmp['from'][5:8])
             d = tmp['payload']
 
+            if 'Timestamp' in d.keys():
+                d['Timestamp'] = datetime.fromtimestamp(d['Timestamp'])
+            elif 'ts' in d.keys():
+                d['ts'] = datetime.fromtimestamp(d['ts'])
+
             exec('import node_{:03d} as node'.format(node_id))
             tmp = {}
             for c in node.conf:
@@ -61,10 +66,6 @@ def parse_message(line):
             d = tmp
             
             d['node-id'] = node_id
-            if 'Timestamp' in d.keys():
-                d['Timestamp'] = datetime.fromtimestamp(d['Timestamp'])
-            elif 'ts' in d.keys():
-                d['Timestamp'] = datetime.fromtimestamp(d['ts'])
             return d
         else:
             PRINT('parse_message(): CRC failure')
