@@ -6,10 +6,9 @@ from z import get_checksum
 from config_support import *
 from parse_support import parse_message,pretty_print
 
-xbee_port = get_xbee_port()
-xbee_baud = get_xbee_baud()
+import base_003 as base
 
-with serial.Serial(xbee_port,xbee_baud,timeout=1) as s:
+with serial.Serial(base.xbee_port,base.xbee_baud,timeout=1) as s:
 
     from_tag = socket.gethostname()
     #to_tag = 'node-004'

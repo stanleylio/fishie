@@ -3,6 +3,7 @@ name = 'Ocean Break'
 note = 'Aanderaa 4330F + FLNTU'
 
 log_dir = './log'
+plot_dir ='../www'
 
 plot_range = 72
 
@@ -26,17 +27,17 @@ conf = [
         'plot':False
     },
     {
-        'dbtag':'P_5803',
+        'dbtag':'Pressure_MS5803',
         'dbtype':'REAL',
-        'comtag':'P_5803',
+        'comtag':'Pressure_MS5803',
         'unit':'kPa',
         'description':'Water Pressure',
         'plot':True
     },
     {
-        'dbtag':'T_5803',
+        'dbtag':'Temp_MS5803',
         'dbtype':'REAL',
-        'comtag':'T_5803',
+        'comtag':'Temp_MS5803',
         'unit':'Deg.C',
         'description':'Water Temperature (MS5803-14BA)',
         'plot':True

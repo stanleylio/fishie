@@ -15,6 +15,7 @@ def PRINT(s):
 
 node_tag = socket.gethostname()
 PRINT(node_tag)
+node_id = int(node_tag[5:8])
 
 def is_node():
     return re.match('^node-\d{3}$',node_tag)
@@ -26,10 +27,6 @@ def is_base():
 # need this script - for example, plotting on laptop
 if not (is_node() or is_base()):
     PRINT('config_support.py: Warning: Cannot identify this node.')
-
-node_id = None
-if is_node():
-    node_id = int(node_tag[5:8])
 
 config_file = join(dirname(__file__),node_tag + '.py')
 if not exists(config_file):
@@ -82,45 +79,17 @@ pass
         return None'''
 
 def get_node_id():
-    assert is_node()
     return node_id
 
 
 # STUFF FOR THE WEB PAGE ONLY
-def get_name(node_id=None):
-    try:
-        # These really are two different tasks:
-        # one asks what the name of THIS node is
-        # one asks what the name of the node with the given ID is
-        # not sure I should put them both here.
-        if node_id is None:
-            if is_node():
-                return read_config()['node']['name']
-            elif is_base():
-                return read_config()['base']['name']
-        else:
-            node_tag = 'node-{:03d}'.format(node_id)
-            configfile = join(dirname(__file__),node_tag + '.ini')
-            assert exists(configfile),'get_name(): something something missing...'
-            return read_ini(configfile)['node']['name']
-    except KeyError:
-        return None
+def get_name(node_tag=None):
+    exec('import {} as n'.format(node_tag))
+    return n.name
 
-def get_note(node_id=None):
-    # same as get_name, refactor them? TODO
-    try:
-        if node_id is None:
-            if is_node():
-                return read_config()['node']['note']
-            elif is_base():
-                return read_config()['base']['note']
-        else:
-            node_tag = 'node-{:03d}'.format(node_id)
-            configfile = join(dirname(__file__),node_tag + '.ini')
-            assert exists(configfile),'get_note(): something something missing...'
-            return read_ini(configfile)['node']['note']
-    except KeyError:
-        return None
+def get_note(node_tag):
+    exec('import {} as n'.format(node_tag))
+    return n.note
 
 def get_description(node_id=None):
     return get_db('description',node_id=node_id)
@@ -138,6 +107,9 @@ def get_list_of_disp_vars(node_id=None):
 
 
 if '__main__' == __name__:
+
+    print get_name()
+    exit()
     print 'is_node(): ',bool(is_node())
     print 'is_base(): ',bool(is_base())
 
