@@ -65,7 +65,7 @@ conf = [
         'comtag':'T_180',
         'unit':'Deg.C',
         'description':'Casing Temperature',
-        'plot':False
+        'plot':True
     },
     {
         'dbtag':'P_5803',
