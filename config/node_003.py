@@ -21,7 +21,7 @@ conf = [
     {
         'dbtag':'Timestamp',
         'dbtype':'TIMESTAMP',
-        'comtag':'ts',
+        'comtag':'Timestamp',
         'unit':None,
         'description':'Time of sampling',
         'plot':False
@@ -45,7 +45,7 @@ conf = [
     {
         'dbtag':'Chlorophyll_FLNTU',
         'dbtype':'REAL',
-        'comtag':'chlorophyll',
+        'comtag':'Chlorophyll_FLNTU',
         'unit':'-',
         'description':'Chlorophyll (raw count)',
         'plot':True
@@ -53,7 +53,7 @@ conf = [
     {
         'dbtag':'Turbidity_FLNTU',
         'dbtype':'REAL',
-        'comtag':'turbidity',
+        'comtag':'Turbidity_FLNTU',
         'unit':'-',
         'description':'Turbidity (raw)',
         'plot':True
@@ -61,7 +61,7 @@ conf = [
     {
         'dbtag':'Thermistor_FLNTU',
         'dbtype':'REAL',
-        'comtag':'thermistor',
+        'comtag':'Thermistor_FLNTU',
         'unit':'-',
         'description':'Thermistor (raw)',
         'plot':True
@@ -69,7 +69,7 @@ conf = [
     {
         'dbtag':'O2Concentration',
         'dbtype':'REAL',
-        'comtag':'O2',
+        'comtag':'O2Concentration_4330f',
         'unit':'uM',
         'description':'Oxygen Concentration',
         'plot':True
@@ -77,7 +77,7 @@ conf = [
     {
         'dbtag':'AirSaturation',
         'dbtype':'REAL',
-        'comtag':'Air',
+        'comtag':'AirSaturation_4330f',
         'unit':'%',
         'description':'Air Saturation',
         'plot':True
@@ -85,7 +85,7 @@ conf = [
     {
         'dbtag':'Temperature',
         'dbtype':'REAL',
-        'comtag':'T_4330f',
+        'comtag':'Temperature_4330f',
         'unit':'Deg.C',
         'description':'Water Temperature (Aanderaa 4330F)',
         'plot':True
@@ -93,7 +93,7 @@ conf = [
     {
         'dbtag':'CalPhase',
         'dbtype':'REAL',
-        'comtag':'CalPhase',
+        'comtag':'CalPhase_4330f',
         'unit':'Deg',
         'description':'CalPhase',
         'plot':False
@@ -101,7 +101,7 @@ conf = [
     {
         'dbtag':'TCPhase',
         'dbtype':'REAL',
-        'comtag':'TCPhase',
+        'comtag':'TCPhase_4330f',
         'unit':'Deg',
         'description':'TCPhase',
         'plot':False
@@ -109,7 +109,7 @@ conf = [
     {
         'dbtag':'C1RPh',
         'dbtype':'REAL',
-        'comtag':'C1RPh',
+        'comtag':'C1RPh_4330f',
         'unit':'Deg',
         'description':'C1RPh',
         'plot':False
@@ -117,7 +117,7 @@ conf = [
     {
         'dbtag':'C2RPh',
         'dbtype':'REAL',
-        'comtag':'C2RPh',
+        'comtag':'C2RPh_4330f',
         'unit':'Deg',
         'description':'C2RPh',
         'plot':False
@@ -125,7 +125,7 @@ conf = [
     {
         'dbtag':'C1Amp',
         'dbtype':'REAL',
-        'comtag':'C1Amp',
+        'comtag':'C1Amp_4330f',
         'unit':'mV',
         'description':'C1Amp',
         'plot':False
@@ -133,7 +133,7 @@ conf = [
     {
         'dbtag':'C2Amp',
         'dbtype':'REAL',
-        'comtag':'C2Amp',
+        'comtag':'C2Amp_4330f',
         'unit':'mV',
         'description':'C2Amp',
         'plot':False
@@ -141,7 +141,7 @@ conf = [
     {
         'dbtag':'RawTemp',
         'dbtype':'REAL',
-        'comtag':'RawTemp',
+        'comtag':'RawTemp_4330f',
         'unit':'mV',
         'description':'RawTemp',
         'plot':False
