@@ -89,7 +89,7 @@ def get_note(node_tag=None):
 
 def get_description(node_id,tag):
     node = importlib.import_module('node_{:03d}'.format(node_id))
-    return [c for c in node.conf if c['dbtag'] == tag][0]
+    return [c for c in node.conf if c['dbtag'] == tag][0]['description']
 
 # get the list of variables to display
 # TODO: merge this with get_db()?

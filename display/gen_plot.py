@@ -6,13 +6,13 @@
 import matplotlib
 matplotlib.use('Agg')
 import sys,re,json,time
-sys.path.append('../storage')
-sys.path.append('../config')
+sys.path.append('..')
+import config,storage
 import matplotlib.pyplot as plt
 from datetime import datetime,timedelta
 from matplotlib.dates import DateFormatter,HourLocator
-from storage import storage_read_only
-from config_support import *
+from storage.storage import storage_read_only
+from config.config_support import *
 from os.path import exists,join
 from os import makedirs
 
@@ -117,8 +117,10 @@ if '__main__' == __name__:
 
             timerange = timedelta(hours=plot_range)
             cols = [time_col,var]
-            
-            title = '{} of {}'.format(var,node_tag)
+
+            var_desc = get_description(node_id,var)
+            #title = '{} of {}'.format(var,node_tag)
+            title = '{} ({} of {})'.format(var_desc,var,node_tag)
             plotfilename = join(plot_dir,'{}.png'.format(var))
 
             try:
