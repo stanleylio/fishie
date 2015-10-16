@@ -8,8 +8,6 @@ from parse_support import parse_message,pretty_print
 from_tag = socket.gethostname()
 base = importlib.import_module('base_{}'.format(from_tag[5:8]))
 
-print sys.argv
-
 with serial.Serial(base.xbee_port,base.xbee_baud,timeout=1) as s:
 
     if len(sys.argv) > 1:
