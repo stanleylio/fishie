@@ -7,7 +7,6 @@ from os import listdir
 from os.path import join,exists,dirname,realpath
 from ConfigParser import RawConfigParser
 
-
 def PRINT(s):
     pass
     #print(s)
