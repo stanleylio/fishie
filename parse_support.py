@@ -53,7 +53,10 @@ def parse_message(line):
             node_id = int(tmp['from'][5:8])
             d = tmp['payload']
             d['node-id'] = node_id
-            d['Timestamp'] = datetime.fromtimestamp(d['Timestamp'])
+            if 'Timestamp' in d.keys():
+                d['Timestamp'] = datetime.fromtimestamp(d['Timestamp'])
+            elif 'ts' in d.keys():
+                d['Timestamp'] = datetime.fromtimestamp(d['ts'])
             return d
         else:
             PRINT('parse_message(): CRC failure')
@@ -93,4 +96,7 @@ if '__main__' == __name__:
     t10 = 'node_003,1428655463.930822,271.913,100.005,22.152,27.247,29.814,33.633,3.819,315.8,466.0,224.3,2896,4121,548,fc0d9152'
     t11 = '{"from":"node_004","payload":{"Temp_MS5803":25.65,"Pressure_BMP180":101117,"Amb_Si1145":287,"EZO_ORP":-26.7,"EZO_DO":3.99,"Pressure_MS5803":102.4,"IR_Si1145":532,"Timestamp":1428690061.93023,"EZO_pH":14.0,"EZO_Sal":0.0,"Temp_BMP180":25.8,"EZO_EC":0.0,"UV_Si1145":13}}f717a449'
     t12 = 'MEASUREMENT	  3835	   599	Oxygen: 	   277.17	Saturation: 	    97.14	Temperature: 	    19.70'
+    t13 = '{"from":"node-004","payload":{"C2Amp":1180.9,"T_180":34.7,"T_4330f":36.386,"sal":0.0,"T_5803":34.69,"TCPhase":27.952,"ts":1444958592.790913,"ec":7.28,"Air":90.86,"C2RPh":4.402,"P_180":101664,"P_5803":101.57,"C1RPh":32.354,"CalPhase":25.823,"C1Amp":702.4,"RawTemp":-295.9,"O2":192.554}}e002b5aa'
+
+    print parse_message(t13)
 

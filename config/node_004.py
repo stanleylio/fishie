@@ -51,7 +51,7 @@ conf = [
         'plot':False
     },
     {
-        'dbtag':'P_180',
+        'dbtag':'Pressure_BMP180',
         'dbtype':'REAL',
         'comtag':'P_180',
         'unit':'Pa',
@@ -60,7 +60,7 @@ conf = [
         'convf':lambda (x): x/1000.
     },
     {
-        'dbtag':'T_180',
+        'dbtag':'Temp_BMP180',
         'dbtype':'REAL',
         'comtag':'T_180',
         'unit':'Deg.C',
@@ -68,7 +68,7 @@ conf = [
         'plot':False
     },
     {
-        'dbtag':'P_5803',
+        'dbtag':'Pressure_MS5803',
         'dbtype':'REAL',
         'comtag':'P_5803',
         'unit':'kPa',
@@ -76,7 +76,7 @@ conf = [
         'plot':True
     },
     {
-        'dbtag':'T_5803',
+        'dbtag':'Temp_MS5803',
         'dbtype':'REAL',
         'comtag':'T_5803',
         'unit':'Deg.C',
