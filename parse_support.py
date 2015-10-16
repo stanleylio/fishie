@@ -60,13 +60,12 @@ def parse_message(line):
                 if 'ts' in d.keys():
                     d['ts'] = datetime.fromtimestamp(d['ts'])
 
-                #__import__('node_{:03d}'.format(node_id))
                 node = importlib.import_module('node_{:03d}'.format(node_id))
                 #exec('import node_{:03d} as node'.format(node_id))
-                #tmp = {c['dbtag']:d[c['comtag']] for c in node.conf}
-                tmp = {}
-                for c in node.conf:
-                    tmp[c['dbtag']] = d[c['comtag']]
+                tmp = {c['dbtag']:d[c['comtag']] for c in node.conf}
+                #tmp = {}
+                #for c in node.conf:
+                #    tmp[c['dbtag']] = d[c['comtag']]
                 d = tmp
                 
                 d['node-id'] = node_id
@@ -74,7 +73,8 @@ def parse_message(line):
             elif re.match('^base[-_]\d{3}$',tmp['from']):
                 PRINT('cmd from base station {}; ignore.'.format(tmp['from']))
             else:
-                PRINT('not a sensor node broadcast')
+                PRINT('not a sensor node broadcast:')
+                PRINT(line)
         else:
             PRINT('parse_message(): CRC failure')
     except:
