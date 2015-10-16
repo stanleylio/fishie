@@ -3,6 +3,7 @@
 # Stanley Lio, hlio@usc.edu
 # All Rights Reserved. February 2015
 import sys,traceback,re,json
+sys.path.append('config')
 sys.path.append('drivers')
 from datetime import datetime
 from z import check
@@ -52,6 +53,13 @@ def parse_message(line):
             tmp = json.loads(line)
             node_id = int(tmp['from'][5:8])
             d = tmp['payload']
+
+            exec('import node_{:03d} as node'.format(node_id))
+            tmp = {}
+            for c in node.conf:
+                tmp[c['dbtag']] = d[c['comtag']]
+            d = tmp
+            
             d['node-id'] = node_id
             if 'Timestamp' in d.keys():
                 d['Timestamp'] = datetime.fromtimestamp(d['Timestamp'])
@@ -98,5 +106,6 @@ if '__main__' == __name__:
     t12 = 'MEASUREMENT	  3835	   599	Oxygen: 	   277.17	Saturation: 	    97.14	Temperature: 	    19.70'
     t13 = '{"from":"node-004","payload":{"C2Amp":1180.9,"T_180":34.7,"T_4330f":36.386,"sal":0.0,"T_5803":34.69,"TCPhase":27.952,"ts":1444958592.790913,"ec":7.28,"Air":90.86,"C2RPh":4.402,"P_180":101664,"P_5803":101.57,"C1RPh":32.354,"CalPhase":25.823,"C1Amp":702.4,"RawTemp":-295.9,"O2":192.554}}e002b5aa'
 
-    print parse_message(t13)
+    #print parse_message(t13)
+    parse_message(t13)
 
