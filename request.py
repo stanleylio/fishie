@@ -6,11 +6,13 @@ from z import get_checksum
 from config_support import *
 from parse_support import parse_message,pretty_print
 
-import base_003 as base
+from_tag = socket.gethostname()
+
+node_id = int(from_tag[5:8])
+exec('import base_{:03d} as base'.format(node_id))
 
 with serial.Serial(base.xbee_port,base.xbee_baud,timeout=1) as s:
-
-    from_tag = socket.gethostname()
+    
     #to_tag = 'node-004'
 
     while True:
