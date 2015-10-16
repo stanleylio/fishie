@@ -5,7 +5,7 @@ note = 'Aanderaa 3835'
 
 plot_dir = '../www'
 
-plot_range = 72
+plot_range = 168
 
 conf = [
     {
