@@ -3,20 +3,12 @@
 *.gz
 *.csv
 *.txt
-*.pdf
 *.old
 *.log
-*.json
 
 log/
 www/
-#backup/
-#.backup/
-#obsolete/
-#.obsolete/
-#sandbox/
 
 #upload.sh
 
 sampling.py
-
