@@ -9,14 +9,6 @@ plot_range = 168
 
 conf = [
     {
-        'dbtag':'Timestamp',
-        'dbtype':'TIMESTAMP',
-        'comtag':'ts',
-        'unit':'',
-        'description':'Time of sampling',
-        'plot':False
-    },
-    {
         'dbtag':'Oxygen',
         'dbtype':'REAL',
         'comtag':'O2',
