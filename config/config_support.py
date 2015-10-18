@@ -11,12 +11,6 @@ def PRINT(s):
     print(s)
     #pass
 
-def id2tag(id):
-    return 'node-{:03d}'.format(id)
-
-def tag2id(tag):
-    return int(tag[5:8])
-
 def is_node():
     return re.match('^node-\d{3}$',socket.gethostname())
 
@@ -33,15 +27,15 @@ def get_list_of_nodes():
     return sorted([int(l[5:8]) for l in listdir(dirname(realpath(__file__))) if re.match('^node_\d{3}\.py$',l)])
 
 def get_tag(node_id):
-    node = importlib.import_module('node_{:03d}'.format(node_id))
+    node = importlib.import_module('config.node_{:03d}'.format(node_id))
     return [c['dbtag'] for c in node.conf]
 
 def get_type(node_id):
-    node = importlib.import_module('node_{:03d}'.format(node_id))
+    node = importlib.import_module('config.node_{:03d}'.format(node_id))
     return [c['dbtype'] for c in node.conf]
 
 def get_unit(node_id):
-    node = importlib.import_module('node_{:03d}'.format(node_id))
+    node = importlib.import_module('config.node_{:03d}'.format(node_id))
     return [c['unit'] for c in node.conf]
 
 def read_capabilities():
@@ -65,6 +59,7 @@ pass
 
 # NODE-ONLY
 def get_node_id():
+    assert is_node()
     return int(socket.gethostname()[5:8])
 
 
@@ -84,7 +79,7 @@ def get_note(node_tag=None):
     return node.note
 
 def get_description(node_id,tag):
-    node = importlib.import_module('node_{:03d}'.format(node_id))
+    node = importlib.import_module('config.node_{:03d}'.format(node_id))
     return [c for c in node.conf if c['dbtag'] == tag][0]['description']
 
 # get the list of variables to display

@@ -4,10 +4,9 @@
 # but avg() is nice though.
 #
 # Stanley Hou In Lio, hlio@hawaii.edu
-# October 2015
+# October, 2015
 
 import sqlite3,sys
-sys.path.append('../config')
 from os.path import join,dirname
 from datetime import timedelta
 
@@ -24,8 +23,12 @@ class storage_read_only(object):
         self.c.execute('PRAGMA journal_mode = WAL')
         self.c.row_factory = sqlite3.Row
 
+    def get_list_of_tables(self):
+        cursor = self.c.execute("SELECT name FROM sqlite_master WHERE type='table';")
+        return tuple(t[0] for t in cursor.fetchall())
+
     def get_list_of_columns(self,node_id):
-        cursor = self.c.execute('SELECT * FROM node_{:03d}'.format(node_id))
+        cursor = self.c.execute('SELECT * FROM node_{:03d};'.format(node_id))
         return [d[0] for d in cursor.description]
 
     def read_time_range(self,node_id,time_col,cols,timerange):
@@ -132,7 +135,8 @@ if '__main__' == __name__:
     print s.read_time_range(node_id,time_col,cols,timedelta(days=0,minutes=5))
     print
 
-    from config_support import read_capabilities
+    import config
+    from config.config_support import read_capabilities
     s = storage(read_capabilities())
     
 

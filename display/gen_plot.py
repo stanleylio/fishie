@@ -77,37 +77,43 @@ def plot_time_series(x,y,plotfilename,title='',xlabel='',ylabel='',linelabel=Non
 
 
 if '__main__' == __name__:
-    import traceback,sqlite3
+    import sys,traceback,sqlite3,re,importlib
+    sys.path.append('..')
+    import config
     from scipy.signal import medfilt
 
-    # node and base station are not the only two types of device that
-    # may run this script, hence the else
     IDs = []
-    time_col = None
+    store = storage_read_only()
+
     if is_node():
         IDs = [get_node_id()]
-        time_col = 'Timestamp'
     else:
-        IDs = get_list_of_nodes()
-        time_col = 'ReceptionTime'
-
-    assert time_col is not None
+        tmp = store.get_list_of_tables()
+        IDs = [int(t[5:8]) for t in tmp if re.match('^node_\d{3}$',t)]
 
     for node_id in IDs:
         PRINT('- - - - -')
-        exec('import node_{:03d} as node'.format(node_id))
+        node = importlib.import_module('config.node_{:03d}'.format(node_id),package='config')
+
         node_tag = 'node-{:03d}'.format(node_id)
 
         tags = get_tag(node_id)
         units = get_unit(node_id)
         mapping = dict(zip(tags,units))
 
-        store = storage_read_only()
-        
         plot_dir = node.plot_dir
         plot_dir = join(plot_dir,node_tag)
         if not exists(plot_dir):
             makedirs(plot_dir)
+
+        time_col = None
+        tmp = store.get_list_of_columns(node_id)
+        if 'ReceptionTime' in tmp:
+            time_col = 'ReceptionTime'
+        elif 'Timestamp' in tmp:
+            time_col = 'Timestamp'
+        else:
+            PRINT('gen_plot.py: no timestamp column found')
 
         plot_range = node.plot_range
 
@@ -147,7 +153,7 @@ if '__main__' == __name__:
                 # TypeError: ... I don't remember.
                 # sqlite3.OperationalError: db is empty
                 # ValueError: db has the variable, but all NaN
-                #print traceback.print_exc()
+                traceback.print_exc()
                 PRINT('No data for {} of {} in the selected range'.\
                       format(var,node_tag))
 
