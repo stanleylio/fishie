@@ -101,10 +101,7 @@ if '__main__' == __name__:
         units = get_unit(node_id)
         mapping = dict(zip(tags,units))
 
-        plot_dir = node.plot_dir
-        plot_dir = join(plot_dir,node_tag)
-        if not exists(plot_dir):
-            makedirs(plot_dir)
+        plot_dir = join(node.plot_dir,node_tag)
 
         time_col = None
         tmp = store.get_list_of_columns(node_id)
@@ -137,6 +134,9 @@ if '__main__' == __name__:
 
                 y = medfilt(y,7)
 
+                if not exists(plot_dir):
+                    makedirs(plot_dir)
+                    
                 PRINT('Plotting {} of {}...'.format(var,node_tag))
                 plot_time_series(x,y,plotfilename,title,ylabel=unit,linelabel=var)
 
