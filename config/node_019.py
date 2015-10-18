@@ -6,12 +6,9 @@ note = 'UH MSB rm 228'
 log_dir = './log'
 plot_dir = '../www'
 
-plot_range = 168
+plot_range = 24*3
 
-xbee_port = None
-xbee_baud = None
-
-wait = 30
+wait = 60
 
 conf = [
 #    {
@@ -47,7 +44,7 @@ conf = [
         'plot':True
     },
     {
-        'dbtag':'Humidity_HTU21D',
+        'dbtag':'RH_HTU21D',
         'dbtype':'REAL',
         'comtag':None,
         'unit':'%RH',
@@ -55,7 +52,7 @@ conf = [
         'plot':True
     },
     {
-        'dbtag':'Temp_HTU21D',
+        'dbtag':'T_HTU21D',
         'dbtype':'REAL',
         'comtag':None,
         'unit':'Deg.C',

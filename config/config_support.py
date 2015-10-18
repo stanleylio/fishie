@@ -8,9 +8,14 @@ from os.path import join,exists,dirname,realpath
 from ConfigParser import RawConfigParser
 
 def PRINT(s):
-    pass
-    #print(s)
+    print(s)
+    #pass
 
+def id2tag(id):
+    return 'node-{:03d}'.format(id)
+
+def tag2id(tag):
+    return int(tag[5:8])
 
 def is_node():
     return re.match('^node-\d{3}$',socket.gethostname())
@@ -23,27 +28,19 @@ def is_base():
 if not (is_node() or is_base()):
     PRINT('config_support.py: Warning: Cannot identify this node.')
 
-config_file = join(dirname(__file__),socket.gethostname() + '.py')
-if not exists(config_file):
-    PRINT('config_support.py: Warning: {} not found'.format(config_file))
-
-
 def get_list_of_nodes():
     #return sorted([int(l[5:8]) for l in listdir(dirname(realpath(__file__))) if re.match('^node-\d{3}\.ini$',l)])
     return sorted([int(l[5:8]) for l in listdir(dirname(realpath(__file__))) if re.match('^node_\d{3}\.py$',l)])
 
 def get_tag(node_id):
     node = importlib.import_module('node_{:03d}'.format(node_id))
-    #exec('import node_{:03d} as node'.format(node_id))
     return [c['dbtag'] for c in node.conf]
 
 def get_type(node_id):
-    #exec('import node_{:03d} as node'.format(node_id))
     node = importlib.import_module('node_{:03d}'.format(node_id))
     return [c['dbtype'] for c in node.conf]
 
 def get_unit(node_id):
-    #exec('import node_{:03d} as node'.format(node_id))
     node = importlib.import_module('node_{:03d}'.format(node_id))
     return [c['unit'] for c in node.conf]
 
