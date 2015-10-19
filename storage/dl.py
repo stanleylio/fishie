@@ -1,7 +1,8 @@
 #!/usr/bin/python
 import urllib2
 
-baseurl = 'http://www.soest.hawaii.edu/oceanography/glazer/Brian_T._Glazer/research/DataLoggers/PoH/'
+#baseurl = 'http://www.soest.hawaii.edu/oceanography/glazer/Brian_T._Glazer/research/DataLoggers/PoH/'
+baseurl = 'http://www2.hawaii.edu/~hlio/base-003/storage/'
 
 def fetch_db():
     files = ['sensor_data.db','sensor_data.db-shm','sensor_data.db-wal']
@@ -17,6 +18,7 @@ def fetch_db():
             f.write(html)
 
     print('Done.')
+
 
 def fetch_raw():
     url = baseurl + 'raw.txt'
@@ -34,5 +36,5 @@ if '__main__' == __name__:
     raw_input('comment these out if you want to run this')
     exit()
     fetch_db()
-    fetch_raw()
+#    fetch_raw()
 

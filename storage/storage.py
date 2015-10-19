@@ -56,11 +56,15 @@ class storage_read_only(object):
         #print cmd
         self.c.execute(cmd)
         tmp = self.c.fetchall()
-        vals = [tuple(r) for r in zip(*tmp)]
-        tmp = dict(zip(cols,vals))
-        if len(tmp.keys()) <= 0:
-            tmp = None
-        return tmp
+        try:
+            return {v:tuple(r[v] for r in tmp) for v in cols}
+        except:
+            return None
+        #vals = [tuple(r) for r in zip(*tmp)]
+        #tmp = dict(zip(cols,vals))
+        #if len(tmp.keys()) <= 0:
+        #    tmp = None
+        #return tmp
 
     def read_last_N(self,node_id,time_col,count,cols=None):
         assert type(node_id) is int,'storage::read_last_N(): node_id must be int'
@@ -80,11 +84,15 @@ class storage_read_only(object):
         #print cmd
         self.c.execute(cmd)
         tmp = self.c.fetchall()
-        vals = [tuple(r) for r in zip(*tmp)]
-        tmp = dict(zip(cols,vals))
-        if len(tmp.keys()) <= 0:
-            tmp = None
-        return tmp
+        try:
+            return {v:tuple(r[v] for r in tmp) for v in cols}
+        except:
+            return None
+        #vals = [tuple(r) for r in zip(*tmp)]
+        #tmp = dict(zip(cols,vals))
+        #if len(tmp.keys()) <= 0:
+        #    tmp = None
+        #return tmp
 
 
 class storage(storage_read_only):
