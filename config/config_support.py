@@ -20,7 +20,7 @@ def is_base():
 # node and base station are not the only two types of device that
 # need this script - for example, plotting on laptop
 if not (is_node() or is_base()):
-    PRINT('config_support.py: Warning: Cannot identify this node.')
+    PRINT('config_support.py: Warning: Cannot identify this node: ' + socket.gethostname())
 
 def get_list_of_nodes():
     #return sorted([int(l[5:8]) for l in listdir(dirname(realpath(__file__))) if re.match('^node-\d{3}\.ini$',l)])
