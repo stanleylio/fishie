@@ -25,7 +25,7 @@ class storage_read_only(object):
 
     def get_list_of_tables(self):
         cursor = self.c.execute("SELECT name FROM sqlite_master WHERE type='table';")
-        return tuple(t[0] for t in cursor.fetchall())
+        return sorted(tuple(t[0] for t in cursor.fetchall()))
 
     def get_list_of_columns(self,node_id):
         cursor = self.c.execute('SELECT * FROM node_{:03d};'.format(node_id))
