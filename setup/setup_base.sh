@@ -1,8 +1,8 @@
 #!/bin/bash
 
 NODE_TAG="base-004"
-LOGGER_DIR="~/node"
-SETUP_DIR="~/node/setup"
+LOGGER_DIR="/home/nuc/node"
+SETUP_DIR="/home/nuc/node/setup"
 
 
 echo "Creating folders"
@@ -13,22 +13,23 @@ mkdir -p $LOGGER_DIR
 
 
 echo "Setting hostname"
-echo $NODE_TAG > /etc/hostname
-echo "127.0.0.1       $NODE_TAG" >> /etc/hosts
+sudo echo $NODE_TAG > /etc/hostname
+sudo echo "127.0.0.1       $NODE_TAG" >> /etc/hosts
 
 
-apt-get update
+sudo apt-get update
 
 
 echo "Setting system clock and timezone"
 #dpkg-reconfigure tzdata
-apt-get install ntp -y
+sudo apt-get install ntp -y
 
 
 # Le boeuf
 echo "git init"
 sudo apt-get install git -y
-git clone https://github.com/stanleylio/fishie.git $LOGGER_DIR
+#git clone https://github.com/stanleylio/fishie.git $LOGGER_DIR
+git clone git@github.com:stanleylio/fishie.git $LOGGER_DIR
 
 
 # Install Python libaries
