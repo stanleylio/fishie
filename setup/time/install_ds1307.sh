@@ -15,7 +15,7 @@ cat rc.local.txt > /etc/rc.local
 echo "Getting time via NTP..."
 #ntpdate -b -s -u pool.ntp.org
 service ntp stop
-ntpdate ntp.soest.hawaii.edu
+ntpdate ntp.hawaii.edu
 service ntp start
 #date -s "10 SEP 2015 22:00:30"
 date
