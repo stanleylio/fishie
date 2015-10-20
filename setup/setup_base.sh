@@ -38,6 +38,8 @@ sudo apt-get install build-essential python-dev python-setuptools python-pip pyt
 pip install --upgrade setuptools
 pip install Adafruit_BBIO tzlocal pytz pyserial numpy python-dateutil pyparsing six --force-reinstall --upgrade
 
+sudo apt-get install libpng-dev -y
+sudo apt-get install libfreetype6-dev -y
 
 # matplotlib
 #git clone git://github.com/matplotlib/matplotlib.git
