@@ -11,6 +11,11 @@ from os.path import join,dirname
 from datetime import timedelta
 
 
+def PRINT(s):
+    #pass
+    print(s)
+
+
 # this one doesn't require you to supply the database schema
 class storage_read_only(object):
     def __init__(self,dbfile=None):
@@ -120,6 +125,13 @@ class storage(storage_read_only):
         assert self._schema is not None
         assert 'ReceptionTime' in readings.keys() or 'Timestamp' in readings.keys()
 
+        if len(readings.keys()) > len(self._schema[node_id]['tag']):
+            PRINT('storage.py::write(): Warning: some supplied readings are not defined in the db')
+            PRINT('Expected:')
+            PRINT(','.join(sorted(self._schema[node_id]['tag'])))
+            PRINT('Supplied:')
+            PRINT(','.join(sorted(readings.keys())))
+        
         # filter out readings that are not recorded by the database
         keys = [k for k in readings.keys() if k in self._schema[node_id]['tag']]
         vals = [readings[k] for k in keys]

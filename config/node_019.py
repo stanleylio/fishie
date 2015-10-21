@@ -38,7 +38,7 @@ conf = [
     {
         'dbtag':'T_180',
         'dbtype':'REAL',
-        'comtag':None,
+        'comtag':'T_180',
         'unit':'Deg.C',
         'description':'Temperature',
         'plot':True
@@ -46,7 +46,7 @@ conf = [
     {
         'dbtag':'RH_HTU21D',
         'dbtype':'REAL',
-        'comtag':None,
+        'comtag':'RH_HTU21D',
         'unit':'%RH',
         'description':'Humidity',
         'plot':True
@@ -54,7 +54,7 @@ conf = [
     {
         'dbtag':'T_HTU21D',
         'dbtype':'REAL',
-        'comtag':None,
+        'comtag':'T_HTU21D',
         'unit':'Deg.C',
         'description':'Temperature',
         'plot':True

@@ -26,7 +26,7 @@ import time
 
 
 # BME280 default address.
-BME280_I2CADDR = 0x77
+BME280_I2CADDR = 0x76
 
 # Operating Modes
 BME280_OSAMPLE_1 = 1
@@ -72,7 +72,7 @@ BME280_REGISTER_HUMIDITY_DATA = 0xFD
 
 
 class BME280(object):
-    def __init__(self, mode=BME280_OSAMPLE_1, address=BME280_I2CADDR, i2c=None,
+    def __init__(self, mode=BME280_OSAMPLE_1, address=BME280_I2CADDR, busnum=1, i2c=None,
                  **kwargs):
         self._logger = logging.getLogger('Adafruit_BMP.BMP085')
         # Check that mode is valid.
@@ -85,7 +85,7 @@ class BME280(object):
         if i2c is None:
             import Adafruit_GPIO.I2C as I2C
             i2c = I2C
-        self._device = i2c.get_i2c_device(address, **kwargs)
+        self._device = i2c.get_i2c_device(address, busnum=busnum, **kwargs)
         # Load calibration values.
         self._load_calibration()
         self._device.write8(BME280_REGISTER_CONTROL, 0x3F)
@@ -212,9 +212,25 @@ class BME280(object):
             h = 0
         return h
 
-if '__main__' == __name__:
-    sensor = BME280(mode=BME280_OSAMPLE_8)
 
+class BME280_sl(BME280):
+    def __init__(self,busnum=1,mode=BME280_OSAMPLE_8):
+        BME280.__init__(self,busnum=busnum,mode=mode)
+
+    def read(self):
+        # ... wait what? it flips if you read t after p?? Adafruit...
+        t = super(BME280_sl,self).read_temperature()
+        p = super(BME280_sl,self).read_pressure()/1000.
+        rh = super(BME280_sl,self).read_humidity()
+        p = round(1000*p)/1000
+        t = round(1000*t)/1000
+        rh = round(1000*rh)/1000
+        return {'p':p,'t':t,'rh':rh}
+
+
+if '__main__' == __name__:
+
+    '''sensor = BME280(busnum=2,mode=BME280_OSAMPLE_8)
     degrees = sensor.read_temperature()
     pascals = sensor.read_pressure()
     hectopascals = pascals / 100
@@ -223,5 +239,8 @@ if '__main__' == __name__:
     print 'Timestamp = {0:0.3f}'.format(sensor.t_fine)
     print 'Temp      = {0:0.3f} deg C'.format(degrees)
     print 'Pressure  = {0:0.2f} hPa'.format(hectopascals)
-    print 'Humidity  = {0:0.2f} %'.format(humidity)
+    print 'Humidity  = {0:0.2f} %'.format(humidity)'''
+
+    bme = BME280_sl(busnum=2)
+    print bme.read()
 
