@@ -35,12 +35,13 @@ class Anemometer(object):
         #if g < 0 or g > self.max_speed:
         #    g = None
         g = max(g,0)
-        
         return {'speed':v,'gust':g}
 
     @staticmethod
     def conv(v):
+        # 0.4V ~ 2V -> 0m/s ~ 32.4m/s
         s = v/1023.0*2.56;
+        # todo: replace 32.4 with max_speed
         s = 32.4/1.6*(s - 0.4);
         return s
 
