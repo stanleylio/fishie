@@ -1,0 +1,23 @@
+
+table tr th,table tr td {
+	text-align: center;
+}
+
+/* got this from SO. no idea how it work. TODO */
+/* nah, never mind. my mistake again. didn't wrap all rows inside container-fluid. */
+/* nope, even with the fix bootstrap still can't handle columns of different heights. */
+.thumbnail {
+	display: block;
+	padding-bottom: 100%;
+	position: relative;
+}
+.thumbnail > .img-responsive {
+	max-width: 100%;
+	max-height: 100%;
+	position: absolute;
+	left: 0;
+	right: 0;
+	top: 0;
+	bottom: 0;
+	margin: auto;
+}
