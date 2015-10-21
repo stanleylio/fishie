@@ -7,7 +7,7 @@ note = 'Aanderaa 4330f + MS5803-14BA + BMP180'
 log_dir = './log'
 plot_dir = '../www'
 
-plot_range = 168
+plot_range = 24*7
 
 xbee_port = '/dev/ttyO1'
 xbee_baud = 115200
@@ -70,9 +70,9 @@ conf = [
         'dbtag':'sal',
         'dbtype':'REAL',
         'comtag':'sal',
-        'unit':'-',
+        'unit':'',
         'description':'Salinity',
-        'plot':False
+        'plot':True
     },
     {
         'dbtag':'O2Concentration',
