@@ -26,6 +26,13 @@ tail ./log/raw.txt -n 100 > ./log/tail.txt
 rsync -avzhe ssh --rsync-path=$REMOTE_RSYNC_PATH --progress ./log/* $BENCHTEST_DIR/log/
 
 
+
+# = = = = =
+exit 0
+# = = = = =
+
+
+
 #BENCHTEST_DIR="glazer@imina.soest.hawaii.edu:/export/imina2/httpd/htdocs/oceanography/glazer/Brian_T._Glazer/research/DataLoggers/PoH"
 BENCHTEST_DIR="glazer@128.171.151.240:/export/imina2/httpd/htdocs/oceanography/glazer/Brian_T._Glazer/research/DataLoggers/PoH/$(hostname)"
 
