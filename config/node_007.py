@@ -1,5 +1,6 @@
 
 id = 7
+#tag = 'node-007'
 name = 'Met. Station'
 note = 'RPi Meteorological Station'
 

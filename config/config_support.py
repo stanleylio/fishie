@@ -11,19 +11,21 @@ def PRINT(s):
     print(s)
     #pass
 
+def get_node_tag():
+    return socket.gethostname()
+
 def is_node():
-    return re.match('^node-\d{3}$',socket.gethostname())
+    return re.match('^node-\d{3}$',get_node_tag())
 
 def is_base():
-    return re.match('^base-\d{3}$',socket.gethostname())
+    return re.match('^base-\d{3}$',get_node_tag())
 
 # node and base station are not the only two types of device that
 # need this script - for example, plotting on laptop
 if not (is_node() or is_base()):
-    PRINT('config_support.py: Warning: Cannot identify this node: ' + socket.gethostname())
+    PRINT('config_support.py: Warning: Cannot identify the current device: ' + get_node_tag())
 
 def get_list_of_nodes():
-    #return sorted([int(l[5:8]) for l in listdir(dirname(realpath(__file__))) if re.match('^node-\d{3}\.ini$',l)])
     return sorted([int(l[5:8]) for l in listdir(dirname(realpath(__file__))) if re.match('^node_\d{3}\.py$',l)])
 
 def get_tag(node_id):
@@ -60,7 +62,7 @@ pass
 # NODE-ONLY
 def get_node_id():
     assert is_node()
-    return int(socket.gethostname()[5:8])
+    return int(get_node_tag()[5:8])
 
 
 # STUFF FOR THE WEB PAGE ONLY

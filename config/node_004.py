@@ -1,5 +1,6 @@
 
 id = 4
+#tag = 'node-004'
 name = 'CTD'
 note = 'CTD with Atlas Scientific sensor(s)'
 
