@@ -1,8 +1,5 @@
 *.py[cod]
-*.tar
-*.gz
 *.csv
-*.txt
 *.old
 *.log
 
