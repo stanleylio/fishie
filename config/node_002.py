@@ -16,6 +16,8 @@ optode_port = '/dev/ttyO2'
 
 wait = 592
 
+multi_sample = 7
+
 conf = [
     {
         'dbtag':'Timestamp',
