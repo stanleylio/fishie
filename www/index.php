@@ -3,12 +3,14 @@
 	<head>
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta http-equiv="refresh" content="60">
 		<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css">
 		<link href="jquery-ui/jquery-ui.min.css" rel="stylesheet" type="text/css">
 		<script src="jquery/jquery.min.js" type="text/javascript"></script>
 		<script src="jquery.timeago.js" type="text/javascript"></script>
 		
 		<link href="node_page.css" rel="stylesheet" type="text/css">
+		<title>PoH</title>
 	</head>
 	<body>
 		<div class="container-fluid">
