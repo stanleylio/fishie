@@ -9,7 +9,7 @@ i2cdetect -y -r 1
 echo ds1307 0x68 > /sys/class/i2c-adapter/i2c-1/new_device
 hwclock -r -f /dev/rtc1
 
-cat rc.local.txt > /etc/rc.local
+#cat rc.local.txt > /etc/rc.local
 
 # sync NTP time
 echo "Getting time via NTP..."
@@ -34,8 +34,7 @@ hwclock --show --rtc=/dev/rtc1
 
 echo "Installing service..."
 # whichever works... oh man.
-cp ./rtc-ds1307.service /lib/systemd/system/rtc-ds1307.service
-cp ./time/rtc-ds1307.service /lib/systemd/system/rtc-ds1307.service
+cp /root/node/setup/time/rtc-ds1307.service /lib/systemd/system/rtc-ds1307.service
 systemctl enable rtc-ds1307.service
 systemctl start rtc-ds1307.service
 
