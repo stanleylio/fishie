@@ -41,8 +41,7 @@ class Anemometer(object):
     def conv(v):
         # 0.4V ~ 2V -> 0m/s ~ 32.4m/s
         s = v/1023.0*2.56;
-        # todo: replace 32.4 with max_speed
-        s = 32.4/1.6*(s - 0.4);
+        s = self.max_speed/1.6*(s - 0.4);
         return s
 
 

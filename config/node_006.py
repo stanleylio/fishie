@@ -7,12 +7,14 @@ note = 'EZO...'
 log_dir = './log'
 plot_dir = '../www'
 
-plot_range = 24*1
+plot_range = 1
 
 xbee_port = '/dev/ttyO1'
 xbee_baud = 115200
 
 wait = 0
+
+multi_sample = 7
 
 conf = [
     {
@@ -35,16 +37,34 @@ conf = [
         'dbtag':'sal',
         'dbtype':'REAL',
         'comtag':'sal',
-        'unit':'-',
+        'unit':'',
         'description':'Salinity',
         'plot':True
     },
-
-
-
-
-
-    
+    {
+        'dbtag':'do',
+        'dbtype':'REAL',
+        'comtag':'do',
+        'unit':'uM',
+        'description':'Dissolved Oxygen',
+        'plot':True
+    },
+    {
+        'dbtag':'ph',
+        'dbtype':'REAL',
+        'comtag':'ph',
+        'unit':'',
+        'description':'pH',
+        'plot':True
+    },
+    {
+        'dbtag':'orp',
+        'dbtype':'REAL',
+        'comtag':'orp',
+        'unit':'',
+        'description':'Oxygen Reduction Potential',
+        'plot':True
+    },
     {
         'dbtag':'UV_Si1145',
         'dbtype':'REAL',

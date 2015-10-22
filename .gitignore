@@ -8,4 +8,5 @@ log/
 
 #upload.sh
 
-sampling.py
+#sampling.py
+sampling_core.py

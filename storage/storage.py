@@ -73,7 +73,7 @@ class storage_read_only(object):
         #    tmp = None
         #return tmp
 
-    def read_last_N(self,node_id,time_col,count,cols=None):
+    def read_last_N(self,node_id,time_col,count=1,cols=None):
         assert type(node_id) is int,'storage::read_last_N(): node_id must be int'
         assert cols is None or type(cols) is list,'storage::read_last_N(): cols, if not None, must be a list of string'
         if cols is not None:
