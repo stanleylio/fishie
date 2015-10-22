@@ -11,6 +11,8 @@ plot_range = 24*3
 
 wait = 60
 
+multi_sample = 7
+
 conf = [
 #    {
 #        'dbtag':'How it is referenced in sampling.py and in the drivers',
