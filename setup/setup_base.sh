@@ -50,11 +50,11 @@ sudo apt-get build-dep python-matplotlib
 #git clone git://github.com/matplotlib/matplotlib.git
 echo "Getting matplotlib plotting library"
 #wget http://softlayer-dal.dl.sourceforge.net/project/matplotlib/matplotlib/matplotlib-1.4.3/matplotlib-1.4.3.tar.gz
-#wget http://skylineservers.dl.sourceforge.net/project/matplotlib/matplotlib/matplotlib-1.4.3/matplotlib-1.4.3.tar.gz
+wget http://skylineservers.dl.sourceforge.net/project/matplotlib/matplotlib/matplotlib-1.4.3/matplotlib-1.4.3.tar.gz
 tar -xvzf matplotlib-1.4.3.tar.gz
 cd matplotlib-1.4.3
-sudo python setup.py install
+python setup.py install
 cd ..
 rm -r matplotlib-1.4.3
-#rm matplotlib-1.4.3.tar.gz
+rm matplotlib-1.4.3.tar.gz
 

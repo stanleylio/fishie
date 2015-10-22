@@ -3,8 +3,8 @@ Description=DS1307 RTC Service
  
 [Service]
 Type=simple
-WorkingDirectory=/root/setup/time
-ExecStart=/bin/bash /root/setup/time/clock_init.sh
+WorkingDirectory=/root/node/setup/time
+ExecStart=/bin/bash /root/node/setup/time/clock_init.sh
 SyslogIdentifier=rtc_ds1307
  
 [Install]
