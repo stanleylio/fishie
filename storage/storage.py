@@ -62,6 +62,8 @@ class storage_read_only(object):
         self.c.execute(cmd)
         tmp = self.c.fetchall()
         try:
+            if len(tmp) <= 0:
+                return None
             return {v:tuple(r[v] for r in tmp) for v in cols}
         except:
             return None
@@ -90,6 +92,8 @@ class storage_read_only(object):
         self.c.execute(cmd)
         tmp = self.c.fetchall()
         try:
+            if len(tmp) <= 0:
+                return None
             return {v:tuple(r[v] for r in tmp) for v in cols}
         except:
             return None
@@ -145,20 +149,32 @@ class storage(storage_read_only):
 
 if '__main__' == __name__:
 
-    node_id = 7
+    store = storage_read_only()
+    print store.read_last_N(2,'ReceptionTime',1)
+    exit()
+    
+
+    node_id = 5
     time_col = 'Timestamp'
-    cols = ['Timestamp','Temp_BMP180','Wind_average']
+    cols = ['Timestamp','P_280']
 
     s = storage_read_only()
-    print s.read_last_N(node_id,time_col,cols,5)
+    #print s.read_last_N(node_id,time_col,cols,5)
+    #print
+    tmp = s.read_time_range(node_id,time_col,cols,timedelta(days=3))
     print
-    print s.read_time_range(node_id,time_col,cols,timedelta(days=0,minutes=5))
-    print
+    m = min(tmp['Timestamp'])
+    M = max(tmp['Timestamp'])
+    print m
+    print M
+    mi = tmp['Timestamp'].index(m)
+    Mi = tmp['Timestamp'].index(M)
+    print mi
+    print Mi
+    print tmp['P_280'][mi]
+    print tmp['P_280'][Mi]
 
-    import config
-    from config.config_support import read_capabilities
-    s = storage(read_capabilities())
-    
-
-    
+    #import config
+    #from config.config_support import read_capabilities
+    #s = storage(read_capabilities())
     

@@ -3,5 +3,7 @@
 *.db-shm
 *.bak
 *.db-journal
+*.tar
+*.gz
 
 gen_csv4www.sh

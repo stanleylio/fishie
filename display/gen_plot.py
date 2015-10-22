@@ -36,10 +36,9 @@ def plot_time_series(x,y,plotfilename,title='',xlabel='',ylabel='',linelabel=Non
     # the first N readings (even though they are sorted in descending order)
     # For plotting the oder doesn't matter because every sample has its
     # corresponding timestamp.
-    begin = min(x)
+    begin = min([z[0] for z in zip(x,y) if z[1] is not None])
     end = max(x)
 
-    timespan = end - begin
     if begin.date() == end.date():
         plt.gca().xaxis.set_major_formatter(DateFormatter('%H:%M'))
     else:
@@ -48,6 +47,7 @@ def plot_time_series(x,y,plotfilename,title='',xlabel='',ylabel='',linelabel=Non
 
     # minor tick density
     plt.gca().yaxis.get_major_formatter().set_useOffset(False)
+    timespan = end - begin
     if timespan <= timedelta(days=2):
         plt.gca().xaxis.set_minor_locator(HourLocator(interval=1))
     elif timespan <= timedelta(days=7):
@@ -93,6 +93,7 @@ if '__main__' == __name__:
 
     for node_id in IDs:
         PRINT('- - - - -')
+        PRINT('Node #{}'.format(node_id))
         node = importlib.import_module('config.node_{:03d}'.format(node_id),package='config')
 
         node_tag = 'node-{:03d}'.format(node_id)
@@ -115,6 +116,7 @@ if '__main__' == __name__:
         plot_range = node.plot_range
 
         variables = [c['dbtag'] for c in node.conf if c['plot']]
+        plotted = []
         for var in variables:
             unit = mapping[var]
 
@@ -122,22 +124,22 @@ if '__main__' == __name__:
             cols = [time_col,var]
 
             var_desc = get_description(node_id,var)
-            #title = '{} of {}'.format(var,node_tag)
             title = '{} ({} of {})'.format(var_desc,var,node_tag)
             plotfilename = join(plot_dir,'{}.png'.format(var))
 
             try:
+                PRINT('\t{}'.format(var))
+
                 #tmp = store.read_latest(node_id,time_col,variables,count)
                 tmp = store.read_time_range(node_id,time_col,cols,timerange)
                 x = tmp[time_col]
                 y = [l if l is not None else float('NaN') for l in tmp[var]]
 
-                y = medfilt(y,7)
+                y = medfilt(y,11)
 
                 if not exists(plot_dir):
                     makedirs(plot_dir)
-                    
-                PRINT('Plotting {} of {}...'.format(var,node_tag))
+
                 plot_time_series(x,y,plotfilename,title,ylabel=unit,linelabel=var)
 
                 # save settings of plot to JSON file
@@ -149,6 +151,8 @@ if '__main__' == __name__:
                     # json.dump vs. json.dumps...
                     json.dump(plot_config,f,separators=(',',':'))
 
+                plotted.append(var)
+
             except (TypeError,sqlite3.OperationalError,ValueError) as e:
                 # TypeError: ... I don't remember.
                 # sqlite3.OperationalError: db is empty
@@ -156,4 +160,9 @@ if '__main__' == __name__:
                 traceback.print_exc()
                 PRINT('No data for {} of {} in the selected range'.\
                       format(var,node_tag))
+
+        # website helper
+        with open(join(plot_dir,'plotted_var_list.json'),'w') as f:
+            tmp = [v + '.png' for v in plotted]
+            json.dump(tmp,f,separators=(',',':'))
 

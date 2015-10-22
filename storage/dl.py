@@ -32,9 +32,14 @@ def fetch_raw():
 
 
 if '__main__' == __name__:
-    # will overwrite the existing database files (if any)!
-    raw_input('comment these out if you want to run this')
-    exit()
-    fetch_db()
-#    fetch_raw()
+    import sys
+    sys.path.append('..')
+    import config
+    from config.config_support import *
+    
+    if not is_node() and not is_base():
+        fetch_db()
+    else:
+        # will overwrite the existing database files (if any)!
+        raw_input('comment these out if you want to run this')
 

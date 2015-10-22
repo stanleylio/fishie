@@ -1,12 +1,12 @@
 
-$.get("node_config.py?p=node_name",function(data) {
+/*$.get("node_config.py?p=node_name",function(data) {
 	$("#node_name").html(data.node_name);
 	document.title = data.node_name;
-});
+});*/
 
-$.get("node_config.py?p=node_note",function(data) {
+/*$.get("node_config.py?p=node_note",function(data) {
 	$("#node_note").append(data.node_note);
-});
+});*/
 
 // make a list of nodes
 // 	sorted

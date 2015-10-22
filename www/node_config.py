@@ -1,11 +1,10 @@
 #!/usr/bin/python
-import cgi,cgitb,sys,json
-sys.path.append('../storage')
-sys.path.append('../config')
-from config_support import *
-from storage import storage_read_only
+import cgi,cgitb,sys,json,time
+sys.path.append('..')
+import config,storage
+from config.config_support import *
+from storage.storage import storage_read_only
 from datetime import datetime
-import time
 
 #import cgi
 #cgi.test()
@@ -13,17 +12,13 @@ import time
 cgitb.enable(display=1)
 form = cgi.FieldStorage()
 
-#print 'Content-Type: text/plain; charset=utf8'
-print 'Content-Type: application/json; charset=utf8'
-print
-
 #print form.getlist('p')
 #exit()
 
 d = {}
 
+# get a list of nodes from which the database has data
 # http://192.168.1.102/node_config.py?p=list_of_nodes
-# get the list of nodes of which the database has data
 if 'list_of_nodes' in form.getlist('p'):
     store = storage_read_only()
     nodes = []
@@ -71,21 +66,16 @@ if 'list_of_disp_vars' in form.getlist('p'):
     r = get_list_of_disp_vars(node_id)
     d.update({'list_of_disp_vars':r})
 
+# get name of the node with the given ID
 # http://192.168.1.102/node_config.py?p=node_name&id=4
 if 'node_name' in form.getlist('p'):
     tmp = form.getlist('id')
-    if len(tmp) > 0:
-        d.update({'node_name':get_name('node_{:03d}'.format(tmp[0]))})
-    else:
-        d.update({'node_name':get_name()})
+    d.update({'node_name':get_name(int(tmp[0]))})
 
 # http://192.168.1.102/node_config.py?p=node_note&id=4
 if 'node_note' in form.getlist('p'):
     tmp = form.getlist('id')
-    if len(tmp) > 0:
-        d.update({'node_note':get_note('node_' + tmp[0])})
-    else:
-        d.update({'node_note':get_note()})
+    d.update({'node_note':get_note(int(tmp[0]))})
 
 # http://192.168.1.102/node_config.py?p=node_id
 if 'node_id' in form.getlist('p'):
@@ -93,5 +83,8 @@ if 'node_id' in form.getlist('p'):
     d.update({'node_id':get_node_id()})
 
 jsonstr = json.dumps(d,separators=(',',':'))
+#print 'Content-Type: text/plain; charset=utf8'
+print 'Content-Type: application/json; charset=utf8'
+print
 print jsonstr
 
