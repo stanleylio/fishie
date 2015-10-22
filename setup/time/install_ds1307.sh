@@ -33,7 +33,9 @@ hwclock --show --rtc=/dev/rtc1
 #chmod +x clock_init.sh
 
 echo "Installing service..."
-cp /root/setup/time/rtc-ds1307.service /lib/systemd/system/rtc-ds1307.service
+# whichever works... oh man.
+cp ./rtc-ds1307.service /lib/systemd/system/rtc-ds1307.service
+cp ./time/rtc-ds1307.service /lib/systemd/system/rtc-ds1307.service
 systemctl enable rtc-ds1307.service
 systemctl start rtc-ds1307.service
 
