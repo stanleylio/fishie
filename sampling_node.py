@@ -23,6 +23,11 @@ if not is_node():
     print('Not configured as a sensor node (see node_config.ini). Terminating.')
     sys.exit()
 
+UART.setup('UART1')
+UART.setup('UART2')
+UART.setup('UART3')
+UART.setup('UART4')
+
 import sampling_core
 
 def PRINT(s):
@@ -65,11 +70,6 @@ event = open(join(log_dir,'capture.log'),'a+',0)
 def log_event(line):
     PRINT(line)
     log(event,line)
-
-UART.setup('UART1')
-UART.setup('UART2')
-UART.setup('UART3')
-UART.setup('UART4')
 
 indicators_setup()
 
