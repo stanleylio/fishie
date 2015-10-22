@@ -1,5 +1,5 @@
 #!/usr/bin/python
-import cgi,cgitb,sys,json,time
+import cgi,cgitb,sys,json,time,traceback
 sys.path.append('..')
 import config,storage
 from config.config_support import *
@@ -24,9 +24,16 @@ if 'list_of_nodes' in form.getlist('p'):
     nodes = []
     time_col = 'ReceptionTime'
     for node_id in read_capabilities().keys():
-        r = store.read_last_N(node_id,time_col,1)
-        if r is not None:
-            nodes.append(node_id)
+        try:
+            r = store.read_last_N(node_id,time_col,1)
+            if r is not None:
+                nodes.append(node_id)
+            #else:
+            #    print 'Content-Type: text/plain; charset=utf8'
+            #    print
+            #    print node_id
+        except:
+            traceback.print_exc()
     d.update({'list_of_nodes':nodes})
 
 # http://192.168.1.102/node_config.py?p=list_of_variables&id=4

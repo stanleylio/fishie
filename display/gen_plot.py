@@ -3,7 +3,7 @@
 # Stanley Lio, hlio@usc.edu
 # All Rights Reserved. February 2015
 
-import matplotlib
+import matplotlib,numpy
 matplotlib.use('Agg')
 import sys,re,json,time
 sys.path.append('..')
@@ -36,7 +36,11 @@ def plot_time_series(x,y,plotfilename,title='',xlabel='',ylabel='',linelabel=Non
     # the first N readings (even though they are sorted in descending order)
     # For plotting the oder doesn't matter because every sample has its
     # corresponding timestamp.
-    begin = min([z[0] for z in zip(x,y) if z[1] is not None])
+
+    # "locate the earliest timestamp at which the sample is not an NaN"
+    # tricky bastard... nan in numpy.float64 is not float('nan')... and
+    # certainly not None, and "is not" won't work either
+    begin = min([z[0] for z in zip(x,y) if not numpy.isnan(z[1])])
     end = max(x)
 
     if begin.date() == end.date():
