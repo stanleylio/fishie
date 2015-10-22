@@ -62,6 +62,8 @@ class storage_read_only(object):
         self.c.execute(cmd)
         tmp = self.c.fetchall()
         try:
+            if len(tmp) <= 0:
+                return None
             return {v:tuple(r[v] for r in tmp) for v in cols}
         except:
             return None
@@ -90,6 +92,8 @@ class storage_read_only(object):
         self.c.execute(cmd)
         tmp = self.c.fetchall()
         try:
+            if len(tmp) <= 0:
+                return None
             return {v:tuple(r[v] for r in tmp) for v in cols}
         except:
             return None
@@ -144,6 +148,11 @@ class storage(storage_read_only):
 
 
 if '__main__' == __name__:
+
+    store = storage_read_only()
+    print store.read_last_N(2,'ReceptionTime',1)
+    exit()
+    
 
     node_id = 5
     time_col = 'Timestamp'

@@ -66,18 +66,12 @@ def get_node_id():
 
 
 # STUFF FOR THE WEB PAGE ONLY
-def get_name(node_tag=None):
-    #exec('import {} as n'.format(node_tag))
-    if node_tag is None:
-        node_tag = socket.gethostname()
-    node = importlib.import_module(node_tag)
+def get_name(node_id):
+    node = importlib.import_module('config.node_{:03d}'.format(node_id))
     return node.name
 
-def get_note(node_tag=None):
-    #exec('import {} as n'.format(node_tag))
-    if node_tag is None:
-        node_tag = socket.gethostname()
-    node = importlib.import_module(node_tag)
+def get_note(node_id):
+    node = importlib.import_module('config.node_{:03d}'.format(node_id))
     return node.note
 
 def get_description(node_id,tag):
@@ -90,7 +84,7 @@ def get_list_of_disp_vars(node_id=None):
     assert node_id is not None or is_node()
     if node_id is None:
         node_id = get_node_id()
-    node = importlib.import_module('node_{:03d}'.format(node_id))
+    node = importlib.import_module('config.node_{:03d}'.format(node_id))
     return [c['dbtag'] for c in node.conf if c['plot']]
 
 

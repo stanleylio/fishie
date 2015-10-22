@@ -25,7 +25,7 @@
 
 			<div class="row">
 				<div class="col-xs-10 col-xs-offset-1 col-md-4">
-					<div id="list_of_nodes">placeholder for list of nodes</div>
+					<div id="list_of_nodes">list of nodes</div>
 				</div>
 			</div>
 			
