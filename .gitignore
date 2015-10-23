@@ -1,22 +1,12 @@
 *.py[cod]
-*.tar
-*.gz
 *.csv
-*.txt
-*.pdf
 *.old
 *.log
-*.json
 
 log/
-www/
-#backup/
-#.backup/
-#obsolete/
-#.obsolete/
-#sandbox/
+#www/
 
 #upload.sh
 
-sampling.py
-
+#sampling.py
+sampling_core.py

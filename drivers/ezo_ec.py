@@ -35,8 +35,8 @@ class EZO_EC(EZO):
     i2c = None
     MAX_LEN = 32
     
-    def __init__(self,address=0x64,lowpower=True):
-        self.i2c = Adafruit_I2C(address)
+    def __init__(self,address=0x64,bus=-1,lowpower=True):
+        self.i2c = Adafruit_I2C(address,busnum=bus)
         self.address = address
         self.lowpower = lowpower
         try:
@@ -107,7 +107,10 @@ class EZO_EC(EZO):
 
 
 if '__main__' == __name__:
-    ec = EZO_EC(lowpower=True)
+
+    bus = 2
+    
+    ec = EZO_EC(bus=bus,lowpower=True)
     print 'Device Information (sensor type, firmware version):'
     print ec.device_information()
     print
@@ -134,7 +137,7 @@ if '__main__' == __name__:
     import time
     while True:
         tmp = ec.read()
-        print('\x1b[2J\x1b[;H')
+        #print('\x1b[2J\x1b[;H')
         print('= = = = = = = = = =')
         print(ec.pretty(tmp))
         time.sleep(1)

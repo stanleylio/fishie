@@ -4,12 +4,16 @@
 # but avg() is nice though.
 #
 # Stanley Hou In Lio, hlio@hawaii.edu
-# October 2015
+# October, 2015
 
 import sqlite3,sys
-sys.path.append('../config')
 from os.path import join,dirname
 from datetime import timedelta
+
+
+def PRINT(s):
+    #pass
+    print(s)
 
 
 # this one doesn't require you to supply the database schema
@@ -24,8 +28,12 @@ class storage_read_only(object):
         self.c.execute('PRAGMA journal_mode = WAL')
         self.c.row_factory = sqlite3.Row
 
+    def get_list_of_tables(self):
+        cursor = self.c.execute("SELECT name FROM sqlite_master WHERE type='table';")
+        return sorted(tuple(t[0] for t in cursor.fetchall()))
+
     def get_list_of_columns(self,node_id):
-        cursor = self.c.execute('SELECT * FROM node_{:03d}'.format(node_id))
+        cursor = self.c.execute('SELECT * FROM node_{:03d};'.format(node_id))
         return [d[0] for d in cursor.description]
 
     def read_time_range(self,node_id,time_col,cols,timerange):
@@ -53,13 +61,19 @@ class storage_read_only(object):
         #print cmd
         self.c.execute(cmd)
         tmp = self.c.fetchall()
-        vals = [tuple(r) for r in zip(*tmp)]
-        tmp = dict(zip(cols,vals))
-        if len(tmp.keys()) <= 0:
-            tmp = None
-        return tmp
+        try:
+            if len(tmp) <= 0:
+                return None
+            return {v:tuple(r[v] for r in tmp) for v in cols}
+        except:
+            return None
+        #vals = [tuple(r) for r in zip(*tmp)]
+        #tmp = dict(zip(cols,vals))
+        #if len(tmp.keys()) <= 0:
+        #    tmp = None
+        #return tmp
 
-    def read_last_N(self,node_id,time_col,count,cols=None):
+    def read_last_N(self,node_id,time_col,count=1,cols=None):
         assert type(node_id) is int,'storage::read_last_N(): node_id must be int'
         assert cols is None or type(cols) is list,'storage::read_last_N(): cols, if not None, must be a list of string'
         if cols is not None:
@@ -77,11 +91,17 @@ class storage_read_only(object):
         #print cmd
         self.c.execute(cmd)
         tmp = self.c.fetchall()
-        vals = [tuple(r) for r in zip(*tmp)]
-        tmp = dict(zip(cols,vals))
-        if len(tmp.keys()) <= 0:
-            tmp = None
-        return tmp
+        try:
+            if len(tmp) <= 0:
+                return None
+            return {v:tuple(r[v] for r in tmp) for v in cols}
+        except:
+            return None
+        #vals = [tuple(r) for r in zip(*tmp)]
+        #tmp = dict(zip(cols,vals))
+        #if len(tmp.keys()) <= 0:
+        #    tmp = None
+        #return tmp
 
 
 class storage(storage_read_only):
@@ -109,6 +129,13 @@ class storage(storage_read_only):
         assert self._schema is not None
         assert 'ReceptionTime' in readings.keys() or 'Timestamp' in readings.keys()
 
+        if len(readings.keys()) > len(self._schema[node_id]['tag']):
+            PRINT('storage.py::write(): Warning: some supplied readings are not defined in the db')
+            PRINT('Expected:')
+            PRINT(','.join(sorted(self._schema[node_id]['tag'])))
+            PRINT('Supplied:')
+            PRINT(','.join(sorted(readings.keys())))
+        
         # filter out readings that are not recorded by the database
         keys = [k for k in readings.keys() if k in self._schema[node_id]['tag']]
         vals = [readings[k] for k in keys]
@@ -122,19 +149,32 @@ class storage(storage_read_only):
 
 if '__main__' == __name__:
 
-    node_id = 7
+    store = storage_read_only()
+    print store.read_last_N(2,'ReceptionTime',1)
+    exit()
+    
+
+    node_id = 5
     time_col = 'Timestamp'
-    cols = ['Timestamp','Temp_BMP180','Wind_average']
+    cols = ['Timestamp','P_280']
 
     s = storage_read_only()
-    print s.read_last_N(node_id,time_col,cols,5)
+    #print s.read_last_N(node_id,time_col,cols,5)
+    #print
+    tmp = s.read_time_range(node_id,time_col,cols,timedelta(days=3))
     print
-    print s.read_time_range(node_id,time_col,cols,timedelta(days=0,minutes=5))
-    print
+    m = min(tmp['Timestamp'])
+    M = max(tmp['Timestamp'])
+    print m
+    print M
+    mi = tmp['Timestamp'].index(m)
+    Mi = tmp['Timestamp'].index(M)
+    print mi
+    print Mi
+    print tmp['P_280'][mi]
+    print tmp['P_280'][Mi]
 
-    from config_support import read_capabilities
-    s = storage(read_capabilities())
-    
-
-    
+    #import config
+    #from config.config_support import read_capabilities
+    #s = storage(read_capabilities())
     

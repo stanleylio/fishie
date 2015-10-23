@@ -1,12 +1,13 @@
 
 id = 4
+#tag = 'node-004'
 name = 'CTD'
 note = 'CTD with Atlas Scientific sensor(s)'
 
 log_dir = './log'
 plot_dir = '../www'
 
-plot_range=72
+plot_range = 168
 
 xbee_port = '/dev/ttyO1'
 xbee_baud = 115200
@@ -65,7 +66,7 @@ conf = [
         'comtag':'T_180',
         'unit':'Deg.C',
         'description':'Casing Temperature',
-        'plot':False
+        'plot':True
     },
     {
         'dbtag':'P_5803',

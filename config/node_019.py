@@ -1,17 +1,20 @@
 
 id = 19
+#tag = 'node-019'
 name = 'SL personal'
 note = 'UH MSB rm 228'
 
 log_dir = './log'
 plot_dir = '../www'
 
-plot_range = 72
+plot_range = 24*3
 
-xbee_port = None
-xbee_baud = None
+xbee_port = '/dev/ttyO1'
+xbee_baud = 115200
 
-wait = 30
+wait = 60
+
+multi_sample = 7
 
 conf = [
 #    {
@@ -41,23 +44,23 @@ conf = [
     {
         'dbtag':'T_180',
         'dbtype':'REAL',
-        'comtag':None,
+        'comtag':'T_180',
         'unit':'Deg.C',
         'description':'Temperature',
         'plot':True
     },
     {
-        'dbtag':'Humidity_HTU21D',
+        'dbtag':'RH_HTU21D',
         'dbtype':'REAL',
-        'comtag':None,
+        'comtag':'RH_HTU21D',
         'unit':'%RH',
         'description':'Humidity',
         'plot':True
     },
     {
-        'dbtag':'Temp_HTU21D',
+        'dbtag':'T_HTU21D',
         'dbtype':'REAL',
-        'comtag':None,
+        'comtag':'T_HTU21D',
         'unit':'Deg.C',
         'description':'Temperature',
         'plot':True

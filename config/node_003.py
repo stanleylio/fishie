@@ -1,11 +1,13 @@
 
+id = 3
+#tag = 'node-003'
 name = 'Ocean Break'
 note = 'Aanderaa 4330F + FLNTU'
 
 log_dir = './log'
 plot_dir ='../www'
 
-plot_range = 72
+plot_range = 168
 
 xbee_port = '/dev/ttyO1'
 xbee_baud = 115200
@@ -27,25 +29,42 @@ conf = [
         'plot':False
     },
     {
-        'dbtag':'Pressure_MS5803',
+        'dbtag':'P_5803',
         'dbtype':'REAL',
-        'comtag':'Pressure_MS5803',
+        'comtag':'P_5803',
         'unit':'kPa',
         'description':'Water Pressure',
         'plot':True
     },
     {
-        'dbtag':'Temp_MS5803',
+        'dbtag':'T_5803',
         'dbtype':'REAL',
-        'comtag':'Temp_MS5803',
+        'comtag':'T_5803',
         'unit':'Deg.C',
         'description':'Water Temperature (MS5803-14BA)',
         'plot':True
     },
     {
+        'dbtag':'P_180',
+        'dbtype':'REAL',
+        'comtag':'P_180',
+        'unit':'Pa',
+        'description':'Barometric Pressure',
+        'plot':True,
+        'convf':lambda (x): x/1000.
+    },
+    {
+        'dbtag':'T_180',
+        'dbtype':'REAL',
+        'comtag':'T_180',
+        'unit':'Deg.C',
+        'description':'Casing Temperature',
+        'plot':True
+    },
+    {
         'dbtag':'Chlorophyll_FLNTU',
         'dbtype':'REAL',
-        'comtag':'chlorophyll',
+        'comtag':'Chlorophyll',
         'unit':'-',
         'description':'Chlorophyll (raw count)',
         'plot':True
@@ -53,7 +72,7 @@ conf = [
     {
         'dbtag':'Turbidity_FLNTU',
         'dbtype':'REAL',
-        'comtag':'turbidity',
+        'comtag':'Turbidity',
         'unit':'-',
         'description':'Turbidity (raw)',
         'plot':True
@@ -61,7 +80,7 @@ conf = [
     {
         'dbtag':'Thermistor_FLNTU',
         'dbtype':'REAL',
-        'comtag':'thermistor',
+        'comtag':'Thermistor',
         'unit':'-',
         'description':'Thermistor (raw)',
         'plot':True
@@ -85,7 +104,7 @@ conf = [
     {
         'dbtag':'Temperature',
         'dbtype':'REAL',
-        'comtag':'T_4330f',
+        'comtag':'Temperature',
         'unit':'Deg.C',
         'description':'Water Temperature (Aanderaa 4330F)',
         'plot':True

@@ -1,25 +1,28 @@
 #!/usr/bin/python
-import serial,sys,json,time,socket
-sys.path.append('config')
+import serial,sys,json,time,socket,config,importlib
 from datetime import datetime,timedelta
 from z import get_checksum
-from config_support import *
+from config.config_support import *
 from parse_support import parse_message,pretty_print
 
 from_tag = socket.gethostname()
-
-node_id = int(from_tag[5:8])
-exec('import base_{:03d} as base'.format(node_id))
+base = importlib.import_module('base_{}'.format(from_tag[5:8]))
 
 with serial.Serial(base.xbee_port,base.xbee_baud,timeout=1) as s:
-    
-    #to_tag = 'node-004'
 
-    while True:
+    if len(sys.argv) <= 1:
+        print('To query node N, python request.py N')
+        exit()
 
+    IDs = []
+    for i in range(1,len(sys.argv)):
+        IDs.append(int(sys.argv[i]))
+
+    for node_id in IDs:        
         print
         print '= = = = ='
-        node_id = int(raw_input('\nEnter node ID to request sample from...'))
+        
+        #node_id = int(raw_input('\nEnter node ID to request sample from...'))
         to_tag = 'node-{:03d}'.format(node_id)
         
         tmp = {}
@@ -33,6 +36,8 @@ with serial.Serial(base.xbee_port,base.xbee_baud,timeout=1) as s:
         s.flushOutput()
         s.write(tmp)
 
+        continue
+        
         print 'Response:'
         for i in range(5):
             line = s.readline()

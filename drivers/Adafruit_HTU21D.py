@@ -10,7 +10,7 @@ from Adafruit_I2C import Adafruit_I2C
 # It has been reported that an I2C address issue was seen on a Pi.
 # ===========================================================================
 
-class HTU21D:
+class HTU21D(object):
 	i2c = None
   
 	# HTU21D Address

@@ -2,7 +2,7 @@
 #
 # Stanley Lio, hlio@usc.edu
 # All Rights Reserved. February 2015
-import sys,traceback,re,json
+import sys,traceback,re,json,importlib
 sys.path.append('config')
 sys.path.append('drivers')
 from datetime import datetime
@@ -51,30 +51,37 @@ def parse_message(line):
         if check(line):
             line = line[:-8]
             tmp = json.loads(line)
-            node_id = int(tmp['from'][5:8])
-            d = tmp['payload']
+            if re.match('^node[-_]\d{3}$',tmp['from']):
+                node_id = int(tmp['from'][5:8])
+                d = tmp['payload']
 
-            if 'Timestamp' in d.keys():
-                d['Timestamp'] = datetime.fromtimestamp(d['Timestamp'])
-            elif 'ts' in d.keys():
-                d['ts'] = datetime.fromtimestamp(d['ts'])
+                if 'Timestamp' in d.keys():
+                    d['Timestamp'] = datetime.fromtimestamp(d['Timestamp'])
+                if 'ts' in d.keys():
+                    d['ts'] = datetime.fromtimestamp(d['ts'])
 
-            exec('import node_{:03d} as node'.format(node_id))
-            #tmp = {c['dbtag']:d[c['comtag']] for c in node.conf}
-            tmp = {}
-            for c in node.conf:
-                tmp[c['dbtag']] = d[c['comtag']]
-            d = tmp
-            
-            d['node-id'] = node_id
-            return d
+                node = importlib.import_module('node_{:03d}'.format(node_id))
+                #exec('import node_{:03d} as node'.format(node_id))
+                tmp = {c['dbtag']:d[c['comtag']] for c in node.conf}
+                #tmp = {}
+                #for c in node.conf:
+                #    tmp[c['dbtag']] = d[c['comtag']]
+                d = tmp
+                
+                d['node-id'] = node_id
+                return d
+            elif re.match('^base[-_]\d{3}$',tmp['from']):
+                PRINT('cmd from base station {}; ignore.'.format(tmp['from']))
+            else:
+                PRINT('not a sensor node broadcast:')
+                PRINT(line)
         else:
             PRINT('parse_message(): CRC failure')
     except:
         PRINT('parse_message(): duh')
         PRINT(line)
         traceback.print_exc()
-        return None
+    return None
 
 # handle the identification of the non-BBB nodes
 # does NOT handle id-ing the BBB nodes
@@ -107,7 +114,9 @@ if '__main__' == __name__:
     t11 = '{"from":"node_004","payload":{"Temp_MS5803":25.65,"Pressure_BMP180":101117,"Amb_Si1145":287,"EZO_ORP":-26.7,"EZO_DO":3.99,"Pressure_MS5803":102.4,"IR_Si1145":532,"Timestamp":1428690061.93023,"EZO_pH":14.0,"EZO_Sal":0.0,"Temp_BMP180":25.8,"EZO_EC":0.0,"UV_Si1145":13}}f717a449'
     t12 = 'MEASUREMENT	  3835	   599	Oxygen: 	   277.17	Saturation: 	    97.14	Temperature: 	    19.70'
     t13 = '{"from":"node-004","payload":{"C2Amp":1180.9,"T_180":34.7,"T_4330f":36.386,"sal":0.0,"T_5803":34.69,"TCPhase":27.952,"ts":1444958592.790913,"ec":7.28,"Air":90.86,"C2RPh":4.402,"P_180":101664,"P_5803":101.57,"C1RPh":32.354,"CalPhase":25.823,"C1Amp":702.4,"RawTemp":-295.9,"O2":192.554}}e002b5aa'
+    t14 = '{"to":"base","from":"node_003","payload":{"Thermistor_FLNTU":533,"Temp_MS5803":25.9,"C2Amp_4330f":457.8,"O2Concentration_4330f":355.968,"C1RPh_4330f":30.444,"Chlorophyll_FLNTU":210,"Pressure_MS5803":111.87,"RawTemp_4330f":80.0,"AirSaturation_4330f":142.241,"Turbidity_FLNTU":563,"Timestamp":1444965312.228783,"Temperature_4330f":26.599,"C1Amp_4330f":255.7,"CalPhase_4330f":22.899,"TCPhase_4330f":26.351,"C2RPh_4330f":4.093}}457b3a41'
 
     #print parse_message(t13)
-    parse_message(t13)
+    print parse_message(t14)
+    
 

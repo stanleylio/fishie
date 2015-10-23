@@ -3,16 +3,16 @@
 # Stanley Lio, hlio@usc.edu
 # All Rights Reserved. February 2015
 
-import matplotlib
+import matplotlib,numpy
 matplotlib.use('Agg')
 import sys,re,json,time
-sys.path.append('../storage')
-sys.path.append('../config')
+sys.path.append('..')
+import config,storage
 import matplotlib.pyplot as plt
 from datetime import datetime,timedelta
 from matplotlib.dates import DateFormatter,HourLocator
-from storage import storage_read_only
-from config_support import *
+from storage.storage import storage_read_only
+from config.config_support import *
 from os.path import exists,join
 from os import makedirs
 
@@ -36,10 +36,13 @@ def plot_time_series(x,y,plotfilename,title='',xlabel='',ylabel='',linelabel=Non
     # the first N readings (even though they are sorted in descending order)
     # For plotting the oder doesn't matter because every sample has its
     # corresponding timestamp.
-    begin = min(x)
+
+    # "locate the earliest timestamp at which the sample is not an NaN"
+    # tricky bastard... nan in numpy.float64 is not float('nan')... and
+    # certainly not None, and "is not" won't work either
+    begin = min([z[0] for z in zip(x,y) if not numpy.isnan(z[1])])
     end = max(x)
 
-    timespan = end - begin
     if begin.date() == end.date():
         plt.gca().xaxis.set_major_formatter(DateFormatter('%H:%M'))
     else:
@@ -48,6 +51,7 @@ def plot_time_series(x,y,plotfilename,title='',xlabel='',ylabel='',linelabel=Non
 
     # minor tick density
     plt.gca().yaxis.get_major_formatter().set_useOffset(False)
+    timespan = end - begin
     if timespan <= timedelta(days=2):
         plt.gca().xaxis.set_minor_locator(HourLocator(interval=1))
     elif timespan <= timedelta(days=7):
@@ -77,59 +81,69 @@ def plot_time_series(x,y,plotfilename,title='',xlabel='',ylabel='',linelabel=Non
 
 
 if '__main__' == __name__:
-    import traceback,sqlite3
+    import sys,traceback,sqlite3,re,importlib
+    sys.path.append('..')
+    import config
     from scipy.signal import medfilt
 
-    # node and base station are not the only two types of device that
-    # may run this script, hence the else
     IDs = []
-    time_col = None
+    store = storage_read_only()
+
     if is_node():
         IDs = [get_node_id()]
-        time_col = 'Timestamp'
     else:
-        IDs = get_list_of_nodes()
-        time_col = 'ReceptionTime'
-
-    assert time_col is not None
+        tmp = store.get_list_of_tables()
+        IDs = [int(t[5:8]) for t in tmp if re.match('^node_\d{3}$',t)]
 
     for node_id in IDs:
         PRINT('- - - - -')
-        exec('import node_{:03d} as node'.format(node_id))
+        PRINT('Node #{}'.format(node_id))
+        node = importlib.import_module('config.node_{:03d}'.format(node_id),package='config')
+
         node_tag = 'node-{:03d}'.format(node_id)
 
         tags = get_tag(node_id)
         units = get_unit(node_id)
         mapping = dict(zip(tags,units))
 
-        store = storage_read_only()
-        
-        plot_dir = node.plot_dir
-        plot_dir = join(plot_dir,node_tag)
-        if not exists(plot_dir):
-            makedirs(plot_dir)
+        plot_dir = join(node.plot_dir,node_tag)
+
+        time_col = None
+        tmp = store.get_list_of_columns(node_id)
+        if 'ReceptionTime' in tmp:
+            time_col = 'ReceptionTime'
+        elif 'Timestamp' in tmp:
+            time_col = 'Timestamp'
+        else:
+            PRINT('gen_plot.py: no timestamp column found')
 
         plot_range = node.plot_range
 
         variables = [c['dbtag'] for c in node.conf if c['plot']]
+        plotted = []
         for var in variables:
             unit = mapping[var]
 
             timerange = timedelta(hours=plot_range)
             cols = [time_col,var]
-            
-            title = '{} of {}'.format(var,node_tag)
+
+            var_desc = get_description(node_id,var)
+            title = '{} ({} of {})'.format(var_desc,var,node_tag)
             plotfilename = join(plot_dir,'{}.png'.format(var))
 
             try:
+                PRINT('\t{}'.format(var))
+
                 #tmp = store.read_latest(node_id,time_col,variables,count)
                 tmp = store.read_time_range(node_id,time_col,cols,timerange)
                 x = tmp[time_col]
                 y = [l if l is not None else float('NaN') for l in tmp[var]]
 
-                y = medfilt(y,7)
+                y = medfilt(y,11)
 
-                PRINT('Plotting {} of {}...'.format(var,node_tag))
+                if not exists(plot_dir):
+                    makedirs(plot_dir)
+
                 plot_time_series(x,y,plotfilename,title,ylabel=unit,linelabel=var)
 
                 # save settings of plot to JSON file
@@ -141,11 +155,18 @@ if '__main__' == __name__:
                     # json.dump vs. json.dumps...
                     json.dump(plot_config,f,separators=(',',':'))
 
+                plotted.append(var)
+
             except (TypeError,sqlite3.OperationalError,ValueError) as e:
                 # TypeError: ... I don't remember.
                 # sqlite3.OperationalError: db is empty
                 # ValueError: db has the variable, but all NaN
-                #print traceback.print_exc()
+                traceback.print_exc()
                 PRINT('No data for {} of {} in the selected range'.\
                       format(var,node_tag))
+
+        # website helper
+        with open(join(plot_dir,'plotted_var_list.json'),'w') as f:
+            tmp = [v + '.png' for v in plotted]
+            json.dump(tmp,f,separators=(',',':'))
 

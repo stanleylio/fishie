@@ -1,21 +1,14 @@
 
 id = 1
+#tag = 'node-001'   # slated to repalce the numerical node ID
 name = 'Triple Makaha'
 note = 'Aanderaa 3835'
 
 plot_dir = '../www'
 
-plot_range = 72
+plot_range = 168
 
 conf = [
-    {
-        'dbtag':'Timestamp',
-        'dbtype':'TIMESTAMP',
-        'comtag':'ts',
-        'unit':'',
-        'description':'Time of sampling',
-        'plot':False
-    },
     {
         'dbtag':'Oxygen',
         'dbtype':'REAL',
