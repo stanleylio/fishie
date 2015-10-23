@@ -8,7 +8,7 @@ import importlib
 import config
 from config.config_support import *
 
-node = importlib.import_module('config.node_{:03d}'.format(get_node_id()))
+#node = importlib.import_module('config.node_{:03d}'.format(get_node_id()))
 
 if is_node():
     import sampling_node
