@@ -45,7 +45,9 @@ $.get("../node_config.py?p=list_of_disp_vars&id=" + node_id,function(data) {
 		// generate the caption (plot generation time, plot time span etc.)
 		$.get(img_prop,function(data) {
 			var d = new Date(data['plot_generated_at']*1000);
-			var ts = $('<time></time>').attr('class','timeago').attr('datetime',d.toISOString()).html('ago');
+			var ts_plot = $('<time></time>').attr('class','timeago').attr('datetime',d.toISOString()).html('ago');
+			d = new Date(data['time_end']*1000);
+			var ts_sample = $('<time></time>').attr('class','timeago').attr('datetime',d.toISOString()).html('ago');
 			
 			var span = data['time_end'] - data['time_begin'];
 			var nday = Math.floor(span/24/60/60);
@@ -58,7 +60,8 @@ $.get("../node_config.py?p=list_of_disp_vars&id=" + node_id,function(data) {
 
 			var caption = $('<div class="caption"></div>')
 			.append("<h4>" + v + "</h4>")
-			.append("<p>" + 'Generated ' + ts.prop('outerHTML') + "</p>")
+			.append("<p>" + 'Last sample at ' + ts_sample.prop('outerHTML') + "</p>")
+			.append("<p>" + 'Plot generated ' + ts_plot.prop('outerHTML') + "</p>")
 			.append('<p>' + data["data_point_count"] + " points | " + span + '</p>');
 
 			var tmp = $('<div class="col-xs-12 col-sm-6 col-lg-4"></div>');

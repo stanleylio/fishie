@@ -9,7 +9,7 @@
 		<script src="jquery/jquery.min.js" type="text/javascript"></script>
 		<script src="jquery.timeago.js" type="text/javascript"></script>
 		
-		<link href="node_page.css" rel="stylesheet" type="text/css">
+		<!--link href="node_page.css" rel="stylesheet" type="text/css"-->
 		<title>PoH</title>
 	</head>
 	<body>
