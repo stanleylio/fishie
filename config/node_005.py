@@ -14,6 +14,8 @@ xbee_baud = 115200
 
 wait = 60
 
+multi_sample = 7
+
 conf = [
     {
         'dbtag':'Timestamp',

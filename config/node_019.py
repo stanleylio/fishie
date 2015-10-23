@@ -9,7 +9,12 @@ plot_dir = '../www'
 
 plot_range = 24*3
 
+xbee_port = '/dev/ttyO1'
+xbee_baud = 115200
+
 wait = 60
+
+multi_sample = 7
 
 conf = [
 #    {
