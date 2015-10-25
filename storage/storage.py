@@ -59,9 +59,9 @@ class storage_read_only(object):
                        time_range,
                        time_col)
         #print cmd
-        self.c.execute(cmd)
-        tmp = self.c.fetchall()
         try:
+            self.c.execute(cmd)
+            tmp = self.c.fetchall()
             if len(tmp) <= 0:
                 return None
             return {v:tuple(r[v] for r in tmp) for v in cols}
@@ -89,9 +89,9 @@ class storage_read_only(object):
                        time_col,
                        count)
         #print cmd
-        self.c.execute(cmd)
-        tmp = self.c.fetchall()
         try:
+            self.c.execute(cmd)
+            tmp = self.c.fetchall()
             if len(tmp) <= 0:
                 return None
             return {v:tuple(r[v] for r in tmp) for v in cols}
