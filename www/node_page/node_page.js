@@ -60,7 +60,7 @@ $.get("../node_config.py?p=list_of_disp_vars&id=" + node_id,function(data) {
 
 			var caption = $('<div class="caption"></div>')
 			.append("<h4>" + v + "</h4>")
-			.append("<p>" + 'Last sample at ' + ts_sample.prop('outerHTML') + "</p>")
+			.append("<p>" + 'Latest sample at ' + ts_sample.prop('outerHTML') + "</p>")
 			.append("<p>" + 'Plot generated ' + ts_plot.prop('outerHTML') + "</p>")
 			.append('<p>' + data["data_point_count"] + " points | " + span + '</p>');
 

@@ -7,7 +7,7 @@ note = 'Aanderaa 4330F + FLNTU'
 log_dir = './log'
 plot_dir ='../www'
 
-plot_range = 168
+plot_range = 24*7
 
 xbee_port = '/dev/ttyO1'
 xbee_baud = 115200
