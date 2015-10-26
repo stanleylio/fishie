@@ -24,7 +24,7 @@ $.get("node_config.py?p=list_of_nodes",function(data) {
 			var ul = $("ul");
 			var a = ul.children("a");
 			a.detach().sort(function(a,b) {
-				return $(a).data('sortby') - $(b).data('sortby');  
+				return $(a).data('sortby') - $(b).data('sortby');
 			});
 			ul.append(a);
 			

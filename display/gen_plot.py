@@ -146,7 +146,7 @@ if '__main__' == __name__:
                 x = tmp[time_col]
                 y = [l if l is not None else float('NaN') for l in tmp[var]]
 
-                y = medfilt(y,11)
+                y = medfilt(y,5)
 
                 if not exists(plot_dir):
                     makedirs(plot_dir)

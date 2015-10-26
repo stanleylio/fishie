@@ -70,7 +70,7 @@ $.get("../node_config.py?p=list_of_disp_vars&p=description&id=" + node_id,functi
 			.append("<p>" + 'Plot generated ' + ts_plot.prop('outerHTML') + "</p>")
 			.append('<p>' + data["data_point_count"] + " samples | " + span + '</p>');
 
-			var tmp = $('<div class="col-xs-12 col-sm-6 col-lg-4"></div>');
+			var tmp = $('<div class="col-xs-12 col-sm-6 col-lg-4" sortby="' + v + '"></div>');
 			$('<a class="thumbnail" href="' + img_src + '"></a>')
 			.append('<img class="img-responsive" src="' + img_src + '">')
 			.append(caption)
