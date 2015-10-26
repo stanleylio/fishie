@@ -24,8 +24,8 @@ REMOTE_RSYNC_PATH=/usr/bin/rsync
 echo "upload database"
 rsync -avzhe ssh --rsync-path=$REMOTE_RSYNC_PATH --progress ./storage/sensor_data.db* $BENCHTEST_DIR/storage/
 
-echo "upload webpage"
-rsync -avzhe ssh --rsync-path=$REMOTE_RSYNC_PATH --progress ./www/* $BENCHTEST_DIR/www/
+#echo "upload webpage"
+#rsync -avzhe ssh --rsync-path=$REMOTE_RSYNC_PATH --progress ./www/* $BENCHTEST_DIR/www/
 
 echo "upload log"
 tail ./log/raw.txt -n 100 > ./log/tail.txt
