@@ -16,7 +16,7 @@ def PRINT(s):
     print(s)
 
 
-# this one doesn't require you to supply the database schema
+# this one doesn't require database schema on instantiation
 class storage_read_only(object):
     def __init__(self,dbfile=None):
         if dbfile is None:
@@ -129,12 +129,20 @@ class storage(storage_read_only):
         assert self._schema is not None
         assert 'ReceptionTime' in readings.keys() or 'Timestamp' in readings.keys()
 
-        if not len(readings.keys()) == len(self._schema[node_id]['tag']):
+        if len(readings.keys()) > len(self._schema[node_id]['tag']):
+            PRINT('storage.py::write(): Warning: these are not defined in db and are ignored:')
+            PRINT(','.join([t for t in readings.keys() if t not in self._schema[node_id]['tag']]))
+
+        if len(readings.keys()) < len(self._schema[node_id]['tag']):
+            PRINT('storage.py::write(): Warning: the following are defined in the db but are not provided:')
+            PRINT(','.join([t for t in self._schema[node_id]['tag'] if t not in readings.keys()]))
+
+        '''if not len(readings.keys()) == len(self._schema[node_id]['tag']):
             PRINT('storage.py::write(): Warning: # of supplied readings != # of defined fields in db')
             PRINT('Expected:')
             PRINT(','.join(sorted(self._schema[node_id]['tag'])))
             PRINT('Supplied:')
-            PRINT(','.join(sorted(readings.keys())))
+            PRINT(','.join(sorted(readings.keys())))'''
         
         # filter out readings that are not recorded by the database
         keys = [k for k in readings.keys() if k in self._schema[node_id]['tag']]
