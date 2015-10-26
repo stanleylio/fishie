@@ -14,7 +14,8 @@ xbee_baud = 115200
 
 optode_port = '/dev/ttyO2'
 
-wait = 592
+#wait = 592
+wait = 0
 
 multi_sample = 7
 
