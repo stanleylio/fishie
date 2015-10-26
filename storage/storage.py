@@ -129,8 +129,8 @@ class storage(storage_read_only):
         assert self._schema is not None
         assert 'ReceptionTime' in readings.keys() or 'Timestamp' in readings.keys()
 
-        if len(readings.keys()) > len(self._schema[node_id]['tag']):
-            PRINT('storage.py::write(): Warning: some supplied readings are not defined in the db')
+        if not len(readings.keys()) == len(self._schema[node_id]['tag']):
+            PRINT('storage.py::write(): Warning: # of supplied readings != # of defined fields in db')
             PRINT('Expected:')
             PRINT(','.join(sorted(self._schema[node_id]['tag'])))
             PRINT('Supplied:')
