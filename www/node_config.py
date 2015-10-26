@@ -12,6 +12,8 @@ from datetime import datetime
 cgitb.enable(display=1)
 form = cgi.FieldStorage()
 
+dbfile = '/home/nuc/data/base-003/storage/sensor_data.db'
+
 #print form.getlist('p')
 #exit()
 
@@ -20,7 +22,7 @@ d = {}
 # get a list of nodes from which the database has data
 # http://192.168.1.102/node_config.py?p=list_of_nodes
 if 'list_of_nodes' in form.getlist('p'):
-    store = storage_read_only()
+    store = storage_read_only(dbfile=dbfile)
     nodes = []
     time_col = 'ReceptionTime'
     for node_id in read_capabilities().keys():
@@ -47,7 +49,7 @@ if 'latest_sample' in form.getlist('p'):
     node_id = int(form.getlist('id')[0])
     #if is_base():
     time_col = 'ReceptionTime'
-    store = storage_read_only()
+    store = storage_read_only(dbfile)
     r = store.read_last_N(node_id,time_col,1)
 
     # replaced the (tuple of one element) with the element itself
@@ -63,9 +65,11 @@ if 'latest_sample' in form.getlist('p'):
 # http://192.168.1.102/node_config.py?p=units&id=4
 if 'units' in form.getlist('p'):
     node_id = int(form.getlist('id')[0])
-    tags = get_tag(node_id)
-    units = get_unit(node_id)
-    d.update({'units':dict(zip(tags,units))})
+    d.update({'units':get_unit_map(node_id)})
+
+if 'description' in form.getlist('p'):
+    node_id = int(form.getlist('id')[0])
+    d.update({'description':get_description_map(node_id)})
 
 # http://192.168.1.102/node_config.py?p=list_of_disp_vars&id=4
 if 'list_of_disp_vars' in form.getlist('p'):

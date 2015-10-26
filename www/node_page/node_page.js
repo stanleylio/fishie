@@ -28,6 +28,10 @@ $.get("../node_config.py?p=latest_sample&id=" + node_id,function(data) {
 
 $.get("../node_config.py?p=latest_sample&p=units&id=" + node_id,function(data) {
 	$("#latest_table").append("<tr><th>Variable</th><th>Value</th><th>Unit</th></tr>");
+	
+	/*$.each(data['latest_sample'],function(tag){
+		$("#latest_table").append("<tr><td><a href=\"#\" title=\"click for self-updating plot\" target=\"_blank\">" + tag + "</a></td><td>" + data.latest_sample[tag] + "</td><td>" + data.units[tag] + "</td></tr>");
+	});*/
 
 	$.get("../node_config.py?p=list_of_disp_vars&id=" + node_id,function(tmp) {
 		$.each(tmp.list_of_disp_vars,function(i,tag) {
@@ -37,7 +41,8 @@ $.get("../node_config.py?p=latest_sample&p=units&id=" + node_id,function(data) {
 	});
 });
 
-$.get("../node_config.py?p=list_of_disp_vars&id=" + node_id,function(data) {
+$.get("../node_config.py?p=list_of_disp_vars&p=description&id=" + node_id,function(data) {
+	var desc_map = data.description;
 	$.each(data.list_of_disp_vars,function(i,v) {
 		var img_src = "../node-" + ('000' + node_id).slice(-3) + "/" + v + ".png";
 		var img_prop = "../node-" + ('000' + node_id).slice(-3) + "/" + v + ".json";
@@ -59,12 +64,13 @@ $.get("../node_config.py?p=list_of_disp_vars&id=" + node_id,function(data) {
 			}
 
 			var caption = $('<div class="caption"></div>')
-			.append("<h4>" + v + "</h4>")
-			.append("<p>" + 'Latest sample at ' + ts_sample.prop('outerHTML') + "</p>")
+			//.append("<h4>" + v + "</h4>")
+			.append("<h4>" + desc_map[v] + "</h4>")
+			//.append("<p>" + 'Latest sample at ' + ts_sample.prop('outerHTML') + "</p>")
 			.append("<p>" + 'Plot generated ' + ts_plot.prop('outerHTML') + "</p>")
-			.append('<p>' + data["data_point_count"] + " points | " + span + '</p>');
+			.append('<p>' + data["data_point_count"] + " samples | " + span + '</p>');
 
-			var tmp = $('<div class="col-xs-12 col-sm-6 col-lg-4"></div>');
+			var tmp = $('<div class="col-xs-12 col-sm-6 col-lg-4" sortby="' + v + '"></div>');
 			$('<a class="thumbnail" href="' + img_src + '"></a>')
 			.append('<img class="img-responsive" src="' + img_src + '">')
 			.append(caption)

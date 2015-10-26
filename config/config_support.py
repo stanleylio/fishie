@@ -36,17 +36,15 @@ def get_type(node_id):
     node = importlib.import_module('config.node_{:03d}'.format(node_id))
     return [c['dbtype'] for c in node.conf]
 
-def get_unit(node_id):
-    node = importlib.import_module('config.node_{:03d}'.format(node_id))
-    return [c['unit'] for c in node.conf]
+#def get_unit(node_id):
+#    node = importlib.import_module('config.node_{:03d}'.format(node_id))
+#    return [c['unit'] for c in node.conf]
 
 def read_capabilities():
     capabilities = {}
     for node_id in get_list_of_nodes():
         dbtag = get_tag(node_id)
         dbtype = get_type(node_id)
-        assert len(dbtag) == len(dbtype),\
-               'each tag defined should have a corresponding type and vice versa'
 
         capabilities[node_id] = {
             'tag':dbtag,
@@ -74,9 +72,17 @@ def get_note(node_id):
     node = importlib.import_module('config.node_{:03d}'.format(node_id))
     return node.note
 
-def get_description(node_id,tag):
-    node = importlib.import_module('config.node_{:03d}'.format(node_id))
-    return [c for c in node.conf if c['dbtag'] == tag][0]['description']
+def get_unit_map(node_id):
+    node = importlib.import_module('.node_{:03d}'.format(node_id),'config')
+    return {c['dbtag']:c['unit'] for c in node.conf}
+
+#def get_description(node_id,tag):
+#    node = importlib.import_module('config.node_{:03d}'.format(node_id))
+#    return [c for c in node.conf if c['dbtag'] == tag][0]['description']
+
+def get_description_map(node_id):
+    node = importlib.import_module('.node_{:03d}'.format(node_id),'config')
+    return {c['dbtag']:c['description'] for c in node.conf}
 
 # get the list of variables to display
 # TODO: merge this with get_db()?
@@ -89,6 +95,12 @@ def get_list_of_disp_vars(node_id=None):
 
 
 if '__main__' == __name__:
+
+    import sys
+    print sys.path
+    
+    print get_description_map(4)
+    exit()
 
     print get_name()
     exit()

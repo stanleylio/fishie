@@ -81,19 +81,34 @@ def plot_time_series(x,y,plotfilename,title='',xlabel='',ylabel='',linelabel=Non
 
 
 if '__main__' == __name__:
-    import sys,traceback,sqlite3,re,importlib
+    import sys,traceback,sqlite3,re,importlib,argparse
     sys.path.append('..')
     import config
     from scipy.signal import medfilt
 
-    IDs = []
-    store = storage_read_only()
+    parser = argparse.ArgumentParser(formatter_class=argparse.RawTextHelpFormatter,description='')
+    parser.add_argument('--dbfile',type=str,default=None,metavar='dbfile',help='path to the database file')
+    args = parser.parse_args()
 
+    dbfile = args.dbfile
+    if dbfile is not None and not exists(dbfile):
+        print('dbfile {} not found. Terminating.'.format(dbfile))
+        sys.exit()
+
+    store = storage_read_only(dbfile=dbfile)
+    #store = storage_read_only(dbfile='/home/nuc/data/base-004/storage/sensor_data.db')
+    #store = storage_read_only(dbfile='/home/nuc/data/node-019/storage/sensor_data.db')
+    #store = storage_read_only(dbfile='/home/nuc/data/node-005/storage/sensor_data.db')
+
+    IDs = []
     if is_node():
         IDs = [get_node_id()]
     else:
         tmp = store.get_list_of_tables()
         IDs = [int(t[5:8]) for t in tmp if re.match('^node_\d{3}$',t)]
+
+    if len(IDs) <= 0:
+        print('Nothing to plot. Terminating.')
 
     for node_id in IDs:
         PRINT('- - - - -')
@@ -102,9 +117,8 @@ if '__main__' == __name__:
 
         node_tag = 'node-{:03d}'.format(node_id)
 
-        tags = get_tag(node_id)
-        units = get_unit(node_id)
-        mapping = dict(zip(tags,units))
+        tag_unit_map = get_unit_map(node_id)
+        tag_desc_map = get_description_map(node_id)
 
         plot_dir = join(node.plot_dir,node_tag)
 
@@ -115,36 +129,30 @@ if '__main__' == __name__:
         elif 'Timestamp' in tmp:
             time_col = 'Timestamp'
         else:
-            PRINT('gen_plot.py: no timestamp column found')
-
-        plot_range = node.plot_range
+            PRINT('gen_plot.py: no timestamp column found. Terminating.')
+            sys.exit()
 
         variables = [c['dbtag'] for c in node.conf if c['plot']]
         plotted = []
         for var in variables:
-            unit = mapping[var]
-
-            timerange = timedelta(hours=plot_range)
+            timerange = timedelta(hours=node.plot_range)
             cols = [time_col,var]
 
-            var_desc = get_description(node_id,var)
-            title = '{} ({} of {})'.format(var_desc,var,node_tag)
+            title = '{} ({} of {})'.format(tag_desc_map[var],var,node_tag)
             plotfilename = join(plot_dir,'{}.png'.format(var))
 
             try:
-                PRINT('\t{}'.format(var))
-
-                #tmp = store.read_latest(node_id,time_col,variables,count)
                 tmp = store.read_time_range(node_id,time_col,cols,timerange)
                 x = tmp[time_col]
                 y = [l if l is not None else float('NaN') for l in tmp[var]]
 
-                y = medfilt(y,11)
+                y = medfilt(y,5)
 
                 if not exists(plot_dir):
                     makedirs(plot_dir)
 
-                plot_time_series(x,y,plotfilename,title,ylabel=unit,linelabel=var)
+                PRINT('\t{}'.format(var))
+                plot_time_series(x,y,plotfilename,title,ylabel=tag_unit_map[var],linelabel=var)
 
                 # save settings of plot to JSON file
                 plot_config = {'time_begin':time.mktime(min(x).timetuple()),
@@ -161,12 +169,14 @@ if '__main__' == __name__:
                 # TypeError: ... I don't remember.
                 # sqlite3.OperationalError: db is empty
                 # ValueError: db has the variable, but all NaN
-                traceback.print_exc()
-                PRINT('No data for {} of {} in the selected range'.\
+                PRINT('\tNo data for {} of {} in the selected range'.\
                       format(var,node_tag))
+            except:
+                traceback.print_exc()
 
         # website helper
-        with open(join(plot_dir,'plotted_var_list.json'),'w') as f:
-            tmp = [v + '.png' for v in plotted]
-            json.dump(tmp,f,separators=(',',':'))
+        if exists(plot_dir) and len(plotted) > 0:
+            with open(join(plot_dir,'plotted_var_list.json'),'w') as f:
+                tmp = [v + '.png' for v in plotted]
+                json.dump(tmp,f,separators=(',',':'))
 
