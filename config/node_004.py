@@ -105,7 +105,7 @@ conf = [
         'dbtype':'REAL',
         'comtag':'T_4330f',
         'unit':'Deg.C',
-        'description':'Water Temperature (Aanderaa 4330F)',
+        'description':'Water Temperature (4330F)',
         'plot':True
     },
     {

@@ -117,9 +117,8 @@ if '__main__' == __name__:
 
         node_tag = 'node-{:03d}'.format(node_id)
 
-        tags = get_tag(node_id)
-        units = get_unit(node_id)
-        mapping = dict(zip(tags,units))
+        tag_unit_map = get_unit_map(node_id)
+        tag_desc_map = get_description_map(node_id)
 
         plot_dir = join(node.plot_dir,node_tag)
 
@@ -139,13 +138,10 @@ if '__main__' == __name__:
             timerange = timedelta(hours=node.plot_range)
             cols = [time_col,var]
 
-            var_desc = get_description(node_id,var)
-            title = '{} ({} of {})'.format(var_desc,var,node_tag)
+            title = '{} ({} of {})'.format(tag_desc_map[var],var,node_tag)
             plotfilename = join(plot_dir,'{}.png'.format(var))
 
             try:
-                PRINT('\t{}'.format(var))
-
                 tmp = store.read_time_range(node_id,time_col,cols,timerange)
                 x = tmp[time_col]
                 y = [l if l is not None else float('NaN') for l in tmp[var]]
@@ -155,7 +151,8 @@ if '__main__' == __name__:
                 if not exists(plot_dir):
                     makedirs(plot_dir)
 
-                plot_time_series(x,y,plotfilename,title,ylabel=mapping[var],linelabel=var)
+                PRINT('\t{}'.format(var))
+                plot_time_series(x,y,plotfilename,title,ylabel=tag_unit_map[var],linelabel=var)
 
                 # save settings of plot to JSON file
                 plot_config = {'time_begin':time.mktime(min(x).timetuple()),
@@ -178,7 +175,7 @@ if '__main__' == __name__:
                 traceback.print_exc()
 
         # website helper
-        if exists(plot_dir):
+        if exists(plot_dir) and len(plotted) > 0:
             with open(join(plot_dir,'plotted_var_list.json'),'w') as f:
                 tmp = [v + '.png' for v in plotted]
                 json.dump(tmp,f,separators=(',',':'))

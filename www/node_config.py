@@ -65,9 +65,11 @@ if 'latest_sample' in form.getlist('p'):
 # http://192.168.1.102/node_config.py?p=units&id=4
 if 'units' in form.getlist('p'):
     node_id = int(form.getlist('id')[0])
-    tags = get_tag(node_id)
-    units = get_unit(node_id)
-    d.update({'units':dict(zip(tags,units))})
+    d.update({'units':get_unit_map(node_id)})
+
+if 'description' in form.getlist('p'):
+    node_id = int(form.getlist('id')[0])
+    d.update({'description':get_description_map(node_id)})
 
 # http://192.168.1.102/node_config.py?p=list_of_disp_vars&id=4
 if 'list_of_disp_vars' in form.getlist('p'):
