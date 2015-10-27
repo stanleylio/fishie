@@ -34,8 +34,8 @@ $.get("node_config.py?p=list_of_nodes",function(data) {
 			//list-group-item-warning
 			//list-group-item-danger
 			$.get("node_config.py?p=latest_sample&id=" + node_id,function(data) {
-				// a row is RED if the latest sample from the node was sampled
-				// over 30 min ago OR if there is no data for that node
+				// A row is RED if the latest sample from the node was sampled over 30 min ago
+				// There is not a row for a node if there is no table/data for that node
 				// a row is GREEN otherwise
 				if (null === data.latest_sample) {
 					$("#node" + node_id).addClass("list-group-item-danger");
@@ -45,10 +45,8 @@ $.get("node_config.py?p=list_of_nodes",function(data) {
 				} else {
 					var diff = Date.now()/1000 - data.latest_sample.ReceptionTime;
 					if (diff > 30*60) {
-						//alert('trippy!');
 						$("#node" + node_id).addClass("list-group-item-danger");
 					} else {
-						//alert("woot!");
 						$("#node" + node_id).addClass("list-group-item-success");
 					}
 				}

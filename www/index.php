@@ -10,15 +10,16 @@
 		<script src="jquery.timeago.js" type="text/javascript"></script>
 		
 		<!--link href="node_page.css" rel="stylesheet" type="text/css"-->
-		<title>PoH</title>
+		<title>Fishpond Monitoring - PoH</title>
 	</head>
 	<body>
 		<div class="container-fluid">
 			<div class="page-header row">
 				<div class="col-xs-10 col-xs-offset-1">
 					<div id="header">
-						<h2 id="node_name"></h2>
-						<p id="node_note"></p>
+						<h2>Real-time Fishpond Monitoring</h2>
+						<h3>Base Station #3</h3>
+						<p>Paepae o He'eia, Hawaii</p>
 					</div>
 				</div>
 			</div>
