@@ -2,7 +2,7 @@
 id = 2
 #tag = 'node-002'
 name = 'Ocean Makaha 2'
-note = 'Aanderaa 4330f + MS5803-14BA + BMP180'
+note = 'Aanderaa 4330f + MS5803-14BA + EZO EC + BMP180'
 
 log_dir = './log'
 plot_dir = '../www'
