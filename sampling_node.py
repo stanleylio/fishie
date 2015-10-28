@@ -46,7 +46,7 @@ def log(f,line):
 store = storage({node.id:read_capabilities()[node.id]})
 
 # wait at most 1 minute for the system clock to initialize (ntpdate, hwclock, GPS etc.)
-last_sampled = store.read_last_N(get_node_id(),'Timestamp',1)
+last_sampled = store.read_last_N(get_node_id(),'Timestamp')
 if last_sampled is not None:
     last_sampled = last_sampled['Timestamp'][0]
 d = datetime.now()
