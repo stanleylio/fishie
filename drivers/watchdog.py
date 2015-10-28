@@ -18,7 +18,7 @@ class Watchdog(object):
 
 
 if '__main__' == __name__:
-    bus = 1
+    bus = 2
     print('using bus {}'.format(bus))
     w = Watchdog(bus=bus)
     #w = Watchdog(bus=bus)
