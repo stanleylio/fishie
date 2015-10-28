@@ -80,8 +80,9 @@ class MS5803_14BA:
 
 if '__main__' == __name__:
 
-    ms = MS5803_14BA()
-    #ms = MS5803_14BA(bus=2)
+    bus = 2
+    print('using bus {}'.format(bus))
+    ms = MS5803_14BA(bus=bus)
     
     PRINT(ms._C)
     PRINT('raw pressure: {}'.format(ms._raw_pressure()))
