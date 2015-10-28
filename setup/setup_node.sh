@@ -1,6 +1,6 @@
 #!/bin/bash
 
-NODE_TAG="node-006"
+NODE_TAG="node-019"
 LOGGER_DIR="/root/node"
 SETUP_DIR="/root/node/setup"
 
@@ -9,7 +9,7 @@ echo "Creating folders"
 mkdir -p $LOGGER_DIR
 
 
-#passwd
+passwd
 
 
 echo "Setting hostname"
@@ -37,6 +37,9 @@ sudo apt-get install git -y
 git clone https://github.com/stanleylio/fishie.git $LOGGER_DIR
 
 
+bash ./time/install_ds1307.sh
+
+
 # Install Python libaries
 echo "Installing Python libraries"
 sudo apt-get install build-essential python-dev python-setuptools python-pip python-smbus python-scipy w3m sqlite3 minicom -y
@@ -51,7 +54,7 @@ echo "Getting matplotlib plotting library"
 wget http://skylineservers.dl.sourceforge.net/project/matplotlib/matplotlib/matplotlib-1.4.3/matplotlib-1.4.3.tar.gz
 tar -xvzf matplotlib-1.4.3.tar.gz
 cd matplotlib-1.4.3
-python setup.py install
+sudo python setup.py install
 cd ..
 rm -r matplotlib-1.4.3
 rm matplotlib-1.4.3.tar.gz
@@ -59,15 +62,15 @@ rm matplotlib-1.4.3.tar.gz
 
 # disable the HDMI cape to save power
 # http://wiki.beyondlogic.org/index.php?title=BeagleBoneBlack_Cape_Manager
-cat /sys/devices/bone_capemgr.*/slots
-mkdir /media/card
-mount /dev/mmcblk0p1 /media/card
+sudo cat /sys/devices/bone_capemgr.*/slots
+sudo mkdir /media/card
+sudo mount /dev/mmcblk0p1 /media/card
 echo "now add this line to /media/card/uEnv.txt:"
 echo "optargs=quiet capemgr.disable_partno=BB-BONELT-HDMI,BB-BONELT-HDMIN"
-nano /media/card/uEnv.txt
+sudo nano /media/card/uEnv.txt
 
 
-#apt-get dist-upgrade -y
+sudo apt-get dist-upgrade -y
 
 
 bash disable_services.sh
@@ -77,6 +80,6 @@ bash disable_services.sh
 # expand partition to full disk
 cd /opt/scripts/tools/
 git pull
-./grow_partition.sh
+sudo ./grow_partition.sh
 #shutdown -r now
 
