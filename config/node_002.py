@@ -7,15 +7,15 @@ note = 'Aanderaa 4330f + MS5803-14BA + BMP180'
 log_dir = './log'
 plot_dir = '../www'
 
-plot_range = 24
+plot_range = 24*7
 
 xbee_port = '/dev/ttyO1'
 xbee_baud = 115200
 
 optode_port = '/dev/ttyO2'
 
-#wait = 592
-wait = 0
+wait = 592
+#wait = 0
 
 multi_sample = 7
 
