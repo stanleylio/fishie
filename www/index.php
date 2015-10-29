@@ -34,6 +34,19 @@
 			
 			<br><br>
 
+			<div class="row">
+				<div class="col-xs-10 col-xs-offset-1 col-md-4">
+					<div id="bench_nodes">
+						<ul class="list-group">
+							<a href="./node_page/index.php?id=5" id="node5" data-sortby="5" target="_blank" class="list-group-item">Node #5 - Lab Ref.</a>
+							<a href="./node_page/index.php?id=19" id="node19" data-sortby="19" target="_blank" class="list-group-item">Node #19 - SL personal</a>
+						</ul>
+					</div>
+				</div>
+			</div>
+			
+			<br><br>
+
 			<div class="col-xs-12">
 				<div class="text-center" style="color:#C8C8C8; font-size:xx-small;">
 					<footer>

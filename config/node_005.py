@@ -2,7 +2,7 @@
 id = 5
 #tag = 'node-005'
 name = 'Lab Ref.'
-note = 'MS5803 + BMP180 + MCP9808 + BME280 + HTU2 temperature sensor comparison'
+note = 'MS5803 + BMP180 + MCP9808 + BME280 + HTU21D temperature sensor comparison'
 
 log_dir = './log'
 plot_dir = '../www'
