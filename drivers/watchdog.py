@@ -18,11 +18,21 @@ class Watchdog(object):
 
 
 if '__main__' == __name__:
-    bus = 2
-    print('using bus {}'.format(bus))
-    w = Watchdog(bus=bus)
-    #w = Watchdog(bus=bus)
-    w.reset()
-    print('all good.')
+    try:
+        bus = 1
+        print('using bus {}'.format(bus))
+        w = Watchdog(bus=bus)
+        w.reset()
+        print('all good.')
+    except:
+        print('nope.')
 
+    try:
+        bus = 2
+        print('using bus {}'.format(bus))
+        w = Watchdog(bus=bus)
+        w.reset()
+        print('all good.')
+    except:
+        print('nope.')
     
