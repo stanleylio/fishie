@@ -19,7 +19,7 @@
 					<div id="header">
 						<h2>Real-time Fishpond Monitoring</h2>
 						<h3>Base Station #3</h3>
-						<p>Paepae o He'eia, Hawaii</p>
+						<p>Paepae o He'eia</p>
 					</div>
 				</div>
 			</div>
@@ -29,6 +29,19 @@
 			<div class="row">
 				<div class="col-xs-10 col-xs-offset-1 col-md-4">
 					<div id="list_of_nodes">list of nodes</div>
+				</div>
+			</div>
+			
+			<br><br>
+
+			<div class="row">
+				<div class="col-xs-10 col-xs-offset-1 col-md-4">
+					<div id="bench_nodes">
+						<ul class="list-group">
+							<a href="./node_page/index.php?id=5" id="node5" data-sortby="5" target="_blank" class="list-group-item">Node #5 - Lab Ref.</a>
+							<a href="./node_page/index.php?id=19" id="node19" data-sortby="19" target="_blank" class="list-group-item">Node #19 - SL personal</a>
+						</ul>
+					</div>
 				</div>
 			</div>
 			

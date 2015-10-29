@@ -2,7 +2,7 @@
 id = 5
 #tag = 'node-005'
 name = 'Lab Ref.'
-note = 'MS5803 + BMP180 + MCP9808 + BME280 + HTU2 temperature sensor comparison'
+note = 'MS5803 + BMP180 + MCP9808 + BME280 + HTU21D temperature sensor comparison'
 
 log_dir = './log'
 plot_dir = '../www'
@@ -63,7 +63,7 @@ conf = [
         'dbtype':'REAL',
         'comtag':'RH_280',
         'unit':'%RH',
-        'description':'Humidity',
+        'description':'Humidity (BME280)',
         'plot':True
     },
     {
@@ -71,7 +71,7 @@ conf = [
         'dbtype':'REAL',
         'comtag':'RH_HTU21D',
         'unit':'%RH',
-        'description':'Humidity',
+        'description':'Humidity (HTU21D)',
         'plot':True
     },
     {
@@ -79,7 +79,7 @@ conf = [
         'dbtype':'REAL',
         'comtag':'T_HTU21D',
         'unit':'Deg.C',
-        'description':'Temperature',
+        'description':'Temperature (HTU21D)',
         'plot':True
     },
     {
@@ -87,7 +87,7 @@ conf = [
         'dbtype':'REAL',
         'comtag':'P_5803',
         'unit':'kPa',
-        'description':'Barometric Pressure',
+        'description':'Barometric Pressure (MS5803-14BA)',
         'plot':True
     },
     {

@@ -21,7 +21,7 @@ $.get("node_config.py?p=list_of_nodes",function(data) {
 			
 			// ajax means results come in with no particular order
 			// sort them every time a new entry comes in (a new row is added)
-			var ul = $("ul");
+			var ul = $("#list_of_nodes > ul");
 			var a = ul.children("a");
 			a.detach().sort(function(a,b) {
 				return $(a).data('sortby') - $(b).data('sortby');

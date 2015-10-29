@@ -37,7 +37,7 @@ conf = [
         'dbtype':'REAL',
         'comtag':'P_180',
         'unit':'Pa',
-        'description':'Barometric Pressure',
+        'description':'Barometric Pressure (BMP180)',
         'plot':True,
         'convf':lambda (x): x/1000.
     },
@@ -46,7 +46,7 @@ conf = [
         'dbtype':'REAL',
         'comtag':'T_180',
         'unit':'Deg.C',
-        'description':'Temperature',
+        'description':'Temperature (BMP180)',
         'plot':True
     },
     {
@@ -54,7 +54,7 @@ conf = [
         'dbtype':'REAL',
         'comtag':'RH_HTU21D',
         'unit':'%RH',
-        'description':'Humidity',
+        'description':'Humidity (HTU21D)',
         'plot':True
     },
     {
@@ -62,7 +62,7 @@ conf = [
         'dbtype':'REAL',
         'comtag':'T_HTU21D',
         'unit':'Deg.C',
-        'description':'Temperature',
+        'description':'Temperature (HTU21D)',
         'plot':True
     },
     {
