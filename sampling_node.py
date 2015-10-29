@@ -54,8 +54,8 @@ count = 0
 while True:
     if last_sampled is not None and d > last_sampled:
         break
-    if last_sampled is None and d.year >= 2015 and d.month >= 10:   # evil hack-ish heristics
-        break
+    #if last_sampled is None and d.year >= 2015 and d.month >= 10:   # evil hack-ish heristics
+    #    break
     if count > 60:
         break
     PRINT('waiting for system clock...')
