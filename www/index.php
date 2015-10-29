@@ -19,7 +19,7 @@
 					<div id="header">
 						<h2>Real-time Fishpond Monitoring</h2>
 						<h3>Base Station #3</h3>
-						<p>Paepae o He'eia, Hawaii</p>
+						<p>Paepae o He'eia</p>
 					</div>
 				</div>
 			</div>
