@@ -19,6 +19,9 @@ echo "127.0.0.1       $NODE_TAG" >> /etc/hosts
 
 sudo apt-get update
 
+sudo apt-get install rcconf supervisor -y
+
+
 
 echo "Setting system clock, timezone and RTC"
 #date -s "10 SEP 2015 22:00:30"
