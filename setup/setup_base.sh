@@ -46,9 +46,11 @@ echo "Installing Python libraries"
 sudo apt-get install sqlite3 minicom w3m -y
 sudo apt-get install build-essential python-dev python-setuptools -y
 sudo apt-get install python-pip python-smbus python-scipy -y
-pip install --upgrade setuptools
-pip install tzlocal pytz pyserial numpy python-dateutil pyparsing six
-pip install numpy --upgrade
+sudo pip install --upgrade setuptools
+sudo pip install tzlocal pytz pyserial numpy python-dateutil pyparsing six
+sudo pip install numpy --force-reinstall --upgrade
+#sudo python -m pip install --upgrade numpy
+#sudo pip install -U --force-reinstall scipy --upgrade
 #pip install Adafruit_BBIO
 
 sudo apt-get build-dep python-matplotlib -y
@@ -60,7 +62,9 @@ sudo apt-get build-dep python-matplotlib -y
 #git clone git://github.com/matplotlib/matplotlib.git
 echo "Getting matplotlib plotting library"
 #wget http://softlayer-dal.dl.sourceforge.net/project/matplotlib/matplotlib/matplotlib-1.4.3/matplotlib-1.4.3.tar.gz
-wget http://skylineservers.dl.sourceforge.net/project/matplotlib/matplotlib/matplotlib-1.4.3/matplotlib-1.4.3.tar.gz
+if [ ! -f matplotlib-1.4.3.tar.gz ]; then
+    wget http://skylineservers.dl.sourceforge.net/project/matplotlib/matplotlib/matplotlib-1.4.3/matplotlib-1.4.3.tar.gz
+fi
 tar -xvzf matplotlib-1.4.3.tar.gz
 cd matplotlib-1.4.3
 sudo python setup.py install
