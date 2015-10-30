@@ -48,6 +48,7 @@ sudo apt-get install build-essential python-dev python-setuptools -y
 sudo apt-get install python-pip python-smbus python-scipy -y
 pip install --upgrade setuptools
 pip install tzlocal pytz pyserial numpy python-dateutil pyparsing six
+pip install numpy --upgrade
 #pip install Adafruit_BBIO
 
 sudo apt-get build-dep python-matplotlib -y
