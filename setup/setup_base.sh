@@ -64,6 +64,6 @@ tar -xvzf matplotlib-1.4.3.tar.gz
 cd matplotlib-1.4.3
 sudo python setup.py install
 cd ..
-rm -r matplotlib-1.4.3
-rm matplotlib-1.4.3.tar.gz
+sudo rm -r matplotlib-1.4.3
+sudo rm matplotlib-1.4.3.tar.gz
 
