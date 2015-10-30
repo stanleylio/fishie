@@ -34,14 +34,23 @@ sudo apt-get install git -y
 #git clone https://github.com/stanleylio/fishie.git $LOGGER_DIR
 git clone git@github.com:stanleylio/fishie.git $LOGGER_DIR
 
+cd $LOGGER_DIR
+git config --global user.name "Stanley Lio"
+git config --global user.email stanleylio@gmail.com
+git remote set-url origin git@github.com:stanleylio/fishie.git
+cd $SETUP_DIR
+
 
 # Install Python libaries
 echo "Installing Python libraries"
-sudo apt-get install build-essential python-dev python-setuptools python-pip python-smbus python-scipy w3m sqlite3 minicom -y
+sudo apt-get install sqlite3 minicom w3m -y
+sudo apt-get install build-essential python-dev python-setuptools -y
+sudo apt-get install python-pip python-smbus python-scipy -y
 pip install --upgrade setuptools
-pip install Adafruit_BBIO tzlocal pytz pyserial numpy python-dateutil pyparsing six --force-reinstall --upgrade
+pip install tzlocal pytz pyserial numpy python-dateutil pyparsing six
+#pip install Adafruit_BBIO
 
-sudo apt-get build-dep python-matplotlib
+sudo apt-get build-dep python-matplotlib -y
 #sudo apt-get install libpng-dev -y
 #sudo apt-get install libfreetype6-dev -y
 #sudo ln -s /usr/local/opt/freetype/include/freetype2 /usr/local/include/freetype
@@ -53,7 +62,7 @@ echo "Getting matplotlib plotting library"
 wget http://skylineservers.dl.sourceforge.net/project/matplotlib/matplotlib/matplotlib-1.4.3/matplotlib-1.4.3.tar.gz
 tar -xvzf matplotlib-1.4.3.tar.gz
 cd matplotlib-1.4.3
-python setup.py install
+sudo python setup.py install
 cd ..
 rm -r matplotlib-1.4.3
 rm matplotlib-1.4.3.tar.gz
