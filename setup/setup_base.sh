@@ -43,19 +43,15 @@ cd $SETUP_DIR
 
 # Install Python libaries
 echo "Installing Python libraries"
-sudo apt-get install sqlite3 minicom w3m -y
-sudo apt-get install build-essential python-dev python-setuptools -y
-sudo apt-get install python-pip python-smbus python-scipy -y
+sudo apt-get install build-essential python-dev python-setuptools python-pip python-smbus python-scipy w3m sqlite3 minicom -y
 sudo pip install --upgrade setuptools
-sudo pip install tzlocal pytz pyserial numpy python-dateutil pyparsing six
-sudo pip install numpy --force-reinstall --upgrade
-#sudo python -m pip install --upgrade numpy
-#sudo pip install -U --force-reinstall scipy --upgrade
-#pip install Adafruit_BBIO
+sudo pip install Adafruit_BBIO tzlocal pytz pyserial numpy python-dateutil pytz pyparsing six --force-reinstall --upgrade
+# still can't import? try these in python
+#import numpy
+#print numpy.__path__
+# and delete that dir
 
 sudo apt-get build-dep python-matplotlib -y
-#sudo apt-get install libpng-dev -y
-#sudo apt-get install libfreetype6-dev -y
 #sudo ln -s /usr/local/opt/freetype/include/freetype2 /usr/local/include/freetype
 
 # matplotlib
