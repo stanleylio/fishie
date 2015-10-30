@@ -40,27 +40,31 @@ sudo apt-get install git -y
 git clone https://github.com/stanleylio/fishie.git $LOGGER_DIR
 
 
+# ... coz the first time it ran without node/setup/time/install_ds1307.sh
+# yet it still need the correct time to git clone
 bash ./time/install_ds1307.sh
 
 
 # Install Python libaries
 echo "Installing Python libraries"
-sudo apt-get install build-essential python-dev python-setuptools python-pip python-smbus python-scipy w3m sqlite3 minicom -y
+sudo apt-get install build-essential python-dev python-setuptools python-pip -y
+sudo apt-get install sqlite3 minicom python-smbus python-scipy w3m -y
 pip install --upgrade setuptools
-pip install Adafruit_BBIO tzlocal pytz pyserial numpy python-dateutil pyparsing six --force-reinstall --upgrade
+pip install Adafruit_BBIO pyserial
+pip install six tzlocal pytz numpy python-dateutil pyparsing --force-reinstall --upgrade
 
 
 # matplotlib
 #git clone git://github.com/matplotlib/matplotlib.git
-echo "Getting matplotlib plotting library"
+#echo "Getting matplotlib plotting library"
 #wget http://softlayer-dal.dl.sourceforge.net/project/matplotlib/matplotlib/matplotlib-1.4.3/matplotlib-1.4.3.tar.gz
-wget http://skylineservers.dl.sourceforge.net/project/matplotlib/matplotlib/matplotlib-1.4.3/matplotlib-1.4.3.tar.gz
-tar -xvzf matplotlib-1.4.3.tar.gz
-cd matplotlib-1.4.3
-sudo python setup.py install
-cd ..
-rm -r matplotlib-1.4.3
-rm matplotlib-1.4.3.tar.gz
+#wget http://skylineservers.dl.sourceforge.net/project/matplotlib/matplotlib/matplotlib-1.4.3/matplotlib-1.4.3.tar.gz
+#tar -xvzf matplotlib-1.4.3.tar.gz
+#cd matplotlib-1.4.3
+#sudo python setup.py install
+#cd ..
+#rm -r matplotlib-1.4.3
+#rm matplotlib-1.4.3.tar.gz
 
 
 # disable the HDMI cape to save power
