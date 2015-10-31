@@ -43,23 +43,24 @@ cd $SETUP_DIR
 
 # Install Python libaries
 echo "Installing Python libraries"
-sudo apt-get install sqlite3 minicom w3m -y
-sudo apt-get install build-essential python-dev python-setuptools -y
-sudo apt-get install python-pip python-smbus python-scipy -y
-pip install --upgrade setuptools
-pip install tzlocal pytz pyserial numpy python-dateutil pyparsing six
-#pip install Adafruit_BBIO
+sudo apt-get install build-essential python-dev python-setuptools python-pip python-smbus python-scipy w3m sqlite3 minicom -y
+sudo pip install --upgrade setuptools
+sudo pip install Adafruit_BBIO tzlocal pytz pyserial numpy python-dateutil pytz pyparsing six --force-reinstall --upgrade
+# still can't import? try these in python
+#import numpy
+#print numpy.__path__
+# and delete that dir
 
 sudo apt-get build-dep python-matplotlib -y
-#sudo apt-get install libpng-dev -y
-#sudo apt-get install libfreetype6-dev -y
 #sudo ln -s /usr/local/opt/freetype/include/freetype2 /usr/local/include/freetype
 
 # matplotlib
 #git clone git://github.com/matplotlib/matplotlib.git
 echo "Getting matplotlib plotting library"
 #wget http://softlayer-dal.dl.sourceforge.net/project/matplotlib/matplotlib/matplotlib-1.4.3/matplotlib-1.4.3.tar.gz
-wget http://skylineservers.dl.sourceforge.net/project/matplotlib/matplotlib/matplotlib-1.4.3/matplotlib-1.4.3.tar.gz
+if [ ! -f matplotlib-1.4.3.tar.gz ]; then
+    wget http://skylineservers.dl.sourceforge.net/project/matplotlib/matplotlib/matplotlib-1.4.3/matplotlib-1.4.3.tar.gz
+fi
 tar -xvzf matplotlib-1.4.3.tar.gz
 cd matplotlib-1.4.3
 sudo python setup.py install
