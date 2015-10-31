@@ -91,15 +91,13 @@
 				</div>
 			</div>
 			
-			<br><br>
-
 			<div class="col-xs-12">
 				<div class="text-center" style="color:#C8C8C8; font-size:xx-small;">
 					<footer>
-						<br><br>
+						<br><br><br>
 						<p>Stanley Hou In Lio, hlio [at] soest.hawaii.edu</p>
 						<p>All Rights Reserved <?php echo date("Y"); ?></p>
-						<br>
+						<br><br><br><br>
 					</footer>
 				</div>
 			</div>

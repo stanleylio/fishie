@@ -10,38 +10,38 @@ from scipy.signal import medfilt
 
 class Anemometer(object):
     max_speed = 32.4
+    speed_reg = 10
+    gust_reg = 11
+    raw_reg = 12
     
-    def __init__(self,addr=0x50):
-        self._i2c = Device(addr,busnum=1)
+    def __init__(self,addr=0x50,bus=1):
+        self._i2c = Device(addr,busnum=bus)
 
     def read(self):
-        speed_reg = 10
-        gust_reg = 11
+        return {'raw':self.raw(),'speed':self.average(),'gust':self.gust()}
 
-        for i in range(5):
-            v = self.conv(self._i2c.readU16(speed_reg))
-            if v >= 0 and v <= self.max_speed:
-                v = round(v*100)/100
-                break
-        #if v < 0 or v > self.max_speed:
-        #    v = None
-        v = max(v,0)
+    # raw ADC reading (16-bit)
+    def raw(self):
+        return self._i2c.readU16(self.raw_reg)
 
-        for i in range(5):
-            g = self.conv(self._i2c.readU16(gust_reg))
-            if g >= 0 and g <= self.max_speed:
-                g = round(g*100)/100
-                break
-        #if g < 0 or g > self.max_speed:
-        #    g = None
-        g = max(g,0)
-        return {'speed':v,'gust':g}
+    # average wind speed (8-bit resolution due to LUFA RingBuffer limit)
+    # this takes one minute to stabilize
+    def average(self):
+        v = self.conv(self._i2c.readU8(self.speed_reg))
+        v = round(v*10)/10.
+        return v
+
+    # wind gust (8-bit resolution due to LUFA RingBuffer limit)
+    def gust(self):
+        v = self.conv(self._i2c.readU8(self.gust_reg))
+        v = round(v*10)/10.
+        return v
 
     @staticmethod
     def conv(v):
-        # 0.4V ~ 2V -> 0m/s ~ 32.4m/s
-        s = v/1023.0*2.56;
-        s = self.max_speed/1.6*(s - 0.4);
+        #s = v/1023.0*2.56;     # LUFA RingBuffer doesn't take uint16_t
+        s = v/255.0*2.56;
+        s = 32.4/1.6*(s - 0.4);
         return s
 
 
@@ -51,9 +51,9 @@ if '__main__' == __name__:
 
     while True:
         r = a.read()
-        if r['speed'] is not None and r['gust'] is not None:
-            print('\x1b[2J\x1b[;H')
-            print('Speed={:.2f}m/s\tGust={:.2f}m/s\t'.format(r['speed'],r['gust']))
-            #print '{},{:.2f},{:.2f}'.format(time.time(),r['speed'],r['gust'])
-            time.sleep(5)
+        #print('\x1b[2J\x1b[;H')
+        print('Raw ADC reg={}\t\tAverage={:.1f}m/s\t\tGust={:.1f}m/s\t'.format(r['raw'],r['speed'],r['gust']))
+        #print a.average()
+        #print a.raw()
+        time.sleep(1)
 
