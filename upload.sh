@@ -28,8 +28,8 @@ rsync -avzhe ssh --rsync-path=$REMOTE_RSYNC_PATH --progress ./storage/sensor_dat
 #rsync -avzhe ssh --rsync-path=$REMOTE_RSYNC_PATH --progress ./www/* $BENCHTEST_DIR/www/
 
 echo "upload log"
-tail ./log/raw.txt -n 100 > ./log/tail.txt
-tail ./log/tsraw.txt -n 100 > ./log/tstail.txt
+#tail ./log/raw.txt -n 100 > ./log/tail.txt
+#tail ./log/tsraw.txt -n 100 > ./log/tstail.txt
 rsync -avzhe ssh --rsync-path=$REMOTE_RSYNC_PATH --progress ./log/* $BENCHTEST_DIR/log/
 
 
