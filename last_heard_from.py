@@ -14,6 +14,8 @@ dbfile = './storage/sensor_data.db'
 if not exists(dbfile):
     dbfile = '../data/base-003/storage/sensor_data.db'
     #dbfile = '../data/base-004/storage/sensor_data.db'
+    #dbfile = '../data/node-005/storage/sensor_data.db'
+    #dbfile = '../data/node-019/storage/sensor_data.db'
 
 store = storage_read_only(dbfile=dbfile)
 
@@ -28,13 +30,17 @@ while True:
     #print('Last heard from (hh:mm:ss)...')
     for node_id in nodes:
         try:
-            t = store.read_last_N(node_id,'ReceptionTime')['ReceptionTime'][0]
+            time_col = 'Timestamp'
+            if 'ReceptionTime' in store.get_list_of_columns(node_id):
+                time_col = 'ReceptionTime'
+            t = store.read_last_N(node_id,time_col)[time_col][0]
             ago = (datetime.now() - t).total_seconds()
             print 'node {}:\t{:.0f}d {:2.0f}:{:02.0f}:{:02.0f} ago'.\
                   format(node_id,ago//(3600*24),(ago%(3600*24))//3600,(ago%3600)//60,ago%60)
             #print 'node {}:\t{:2.0f}:{:02.0f}:{:02.0f} ago'.\
             #      format(node_id,(ago%(3600*24))//3600,(ago%3600)//60,ago%60)
         except TypeError:
+            #traceback.print_exc()
             pass
         except:
             traceback.print_exc()
