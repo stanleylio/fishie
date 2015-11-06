@@ -19,5 +19,4 @@ echo "upload database"
 rsync -avzhe ssh --rsync-path=$REMOTE_RSYNC_PATH --progress ./storage/sensor_data* $BENCHTEST_DIR/storage/
 
 echo "upload log"
-rsync -avzhe /var/log/* $BENCHTEST_DIR/log/log/
 rsync -avzhe ssh --rsync-path=$REMOTE_RSYNC_PATH --progress ./log/* $BENCHTEST_DIR/log/
