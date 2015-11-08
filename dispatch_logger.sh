@@ -13,7 +13,7 @@ fi
 
 #/path/to/myprogram > $HOME/tmp/myprogram.log &
 #/usr/bin/python $HOME/node/sampling.py &
-/usr/bin/python $HOME/node/sampling.py >> $HOME/node/log/sampling.py.log 2>&1
+/usr/bin/python $HOME/node/sampling.py >> $HOME/node/log/sampling.py.log 2>&1 &
 
 echo $! > "${PIDFILE}"
 chmod 644 "${PIDFILE}"
