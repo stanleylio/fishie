@@ -45,7 +45,7 @@ cd $SETUP_DIR
 echo "Installing Python libraries"
 sudo apt-get install build-essential python-dev python-setuptools python-pip python-smbus python-scipy w3m sqlite3 minicom -y
 sudo pip install --upgrade setuptools
-sudo pip install Adafruit_BBIO tzlocal pytz pyserial numpy python-dateutil pytz pyparsing six --force-reinstall --upgrade
+sudo pip install Adafruit_BBIO tzlocal pytz pyserial numpy python-dateutil pyparsing six --force-reinstall --upgrade
 # still can't import? try these in python
 #import numpy
 #print numpy.__path__
