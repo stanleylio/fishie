@@ -4,10 +4,8 @@
 # All Rights Reserved. February 2015
 import sys,traceback,re,json,importlib
 sys.path.append('config')
-sys.path.append('drivers')
 from datetime import datetime
 from z import check
-from aanderaa_3835 import Aanderaa_3835
 
 def PRINT(s):
     #pass
@@ -36,44 +34,28 @@ def pretty_print(d):
 def parse_message(line):
     try:
         line = line.strip()
-        # - - - - -
-        # wouldn't need id_node() if there weren't the two exceptions.
-        # even forced the AAnderra driver here... they don't belong here.
-        node_id = id_node(line)
-        if node_id in [1,2]:
-            d = Aanderaa_3835.parse_3835(line)
-            if d is not None:
-                d['node-id'] = id_node(line)
-                return d
-        # - - - - -
-        # handle the BBB messages
-        # BBB messages have crc32 checksums
         if check(line):
             line = line[:-8]
             tmp = json.loads(line)
             if re.match('^node[-_]\d{3}$',tmp['from']):
                 node_id = int(tmp['from'][5:8])
                 d = tmp['payload']
-
-                if 'Timestamp' in d.keys():
-                    d['Timestamp'] = datetime.fromtimestamp(d['Timestamp'])
-                if 'ts' in d.keys():
-                    d['ts'] = datetime.fromtimestamp(d['ts'])
+                d['ts'] = datetime.fromtimestamp(d['ts'])
+                #if 'Timestamp' in d.keys():
+                #    d['Timestamp'] = datetime.fromtimestamp(d['Timestamp'])
+                #if 'ts' in d.keys():
+                #    d['ts'] = datetime.fromtimestamp(d['ts'])
 
                 node = importlib.import_module('node_{:03d}'.format(node_id))
-                #exec('import node_{:03d} as node'.format(node_id))
-                tmp = {c['dbtag']:d[c['comtag']] for c in node.conf}
-                #tmp = {}
-                #for c in node.conf:
-                #    tmp[c['dbtag']] = d[c['comtag']]
-                d = tmp
-                
+                d = {c['dbtag']:d[c['comtag']] for c in node.conf}
                 d['node-id'] = node_id
+
                 return d
+            
             elif re.match('^base[-_]\d{3}$',tmp['from']):
-                PRINT('cmd from base station {}; ignore.'.format(tmp['from']))
+                PRINT('Command from base station {}; ignore.'.format(tmp['from']))
             else:
-                PRINT('not a sensor node broadcast:')
+                PRINT('No idea what this is:')
                 PRINT(line)
         else:
             PRINT('parse_message(): CRC failure')
@@ -82,22 +64,6 @@ def parse_message(line):
         PRINT(line)
         traceback.print_exc()
     return None
-
-# handle the identification of the non-BBB nodes
-# does NOT handle id-ing the BBB nodes
-def id_node(line):
-    line = line.strip()
-    try:
-        if all(w in line for w in ['MEASUREMENT','3835','505']):
-            return 1
-        elif all(w in line for w in ['MEASUREMENT','3835','506']):
-            return 2
-        else:
-            return None
-    except:
-        PRINT('id_node(): error identifying: ' + line)
-        traceback.print_exc()
-        return None
 
 
 if '__main__' == __name__:
@@ -119,4 +85,3 @@ if '__main__' == __name__:
     #print parse_message(t13)
     print parse_message(t14)
     
-
