@@ -2,7 +2,7 @@
 #
 # Stanley Hou In Lio, hlio@hawaii.edu
 # October 1, 2015
-import sys,time,os
+import sys,time,os,traceback
 sys.path.append(os.path.join(os.path.dirname(__file__),'Adafruit_GPIO'))
 from I2C import Device
 from scipy.signal import medfilt
@@ -53,12 +53,20 @@ if '__main__' == __name__:
     a = Anemometer()
 
     while True:
-        r = a.read()
-        print('\x1b[2J\x1b[;H')
-        print('Raw ADC reg={}\t\tAverage={:.1f}m/s\t\tGust={:.1f}m/s\t'.\
-              format(r['raw'],r['speed'],r['gust']))
-        #print a.average()
-        #print a.raw()
-        #print a.duh()
-        time.sleep(0.5)
+        try:
+            r = a.read()
+
+            #print('\x1b[2J\x1b[;H')
+            print('Raw ADC reg={}\t\tAverage={:.1f}m/s\t\tGust={:.1f}m/s\t'.\
+                  format(r['raw'],r['speed'],r['gust']))
+            #print a.average()
+            #print a.raw()
+            #print a.duh()
+            time.sleep(1)
+        except KeyboardInterrupt:
+            break
+        except IOError:
+            pass
+        except:
+            traceback.print_exc()
 
