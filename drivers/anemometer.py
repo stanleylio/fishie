@@ -27,15 +27,22 @@ class Anemometer(object):
     # average wind speed (8-bit resolution due to LUFA RingBuffer limit)
     # this takes one minute to stabilize
     def average(self):
-        #v = self.conv(self._i2c.readU8(self.speed_reg))
-        v = self.conv(self._i2c.readU16(self.speed_reg))
-        
+        for i in range(10):
+            try:
+                v = self.conv(self._i2c.readU16(self.speed_reg))
+                break
+            except IOError:
+                pass
         return max(round(v*10)/10.,0)
 
     # wind gust (8-bit resolution due to LUFA RingBuffer limit)
     def gust(self):
-        #v = self.conv(self._i2c.readU8(self.gust_reg))
-        v = self.conv(self._i2c.readU16(self.gust_reg))
+        for i in range(10):
+            try:
+                v = self.conv(self._i2c.readU16(self.gust_reg))
+                break
+            except IOError:
+                pass
         return round(v*10)/10.
 
     #def duh(self):
