@@ -23,10 +23,13 @@ if not is_node():
     print('Not configured as a sensor node (see node_config.ini). Terminating.')
     sys.exit()
 
-UART.setup('UART1')
-UART.setup('UART2')
-UART.setup('UART3')
-UART.setup('UART4')
+try:
+    UART.setup('UART1')
+    UART.setup('UART2')
+    UART.setup('UART3')
+    UART.setup('UART4')
+except:
+    pass
 
 import sampling_core
 

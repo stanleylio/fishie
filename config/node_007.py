@@ -4,6 +4,8 @@ id = 7
 name = 'Met. Station'
 note = 'RPi Meteorological Station'
 
+#arch = 'rpi'
+
 log_dir = './log'
 plot_dir = '../www'
 
@@ -13,6 +15,8 @@ xbee_port = '/dev/ttyAMA0'
 xbee_baud = 115200
 
 wait = 597
+
+multi_sample = 5
 
 conf = [
     {
@@ -24,20 +28,27 @@ conf = [
         'plot':False
     },
     {
-        'dbtag':'P_180',
+        'dbtag':'P_280',
         'dbtype':'REAL',
-        'comtag':'P_180',
-        'unit':'Pa',
-        'description':'Barometric Pressure',
+        'comtag':'P_280',
+        'unit':'kPa',
+        'description':'Barometric Pressure (BME280)',
         'plot':True,
-        'convf':lambda (x): x/1000.
     },
     {
-        'dbtag':'T_180',
+        'dbtag':'T_280',
         'dbtype':'REAL',
-        'comtag':'T_180',
+        'comtag':'T_280',
         'unit':'Deg.C',
-        'description':'Air Temperature',
+        'description':'Air Temperature (BME280)',
+        'plot':True
+    },
+    {
+        'dbtag':'RH_280',
+        'dbtype':'REAL',
+        'comtag':'RH_280',
+        'unit':'%',
+        'description':'% Relative Humidity (BME280)',
         'plot':True
     },
     {

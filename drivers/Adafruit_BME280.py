@@ -241,6 +241,18 @@ if '__main__' == __name__:
     print 'Pressure  = {0:0.2f} hPa'.format(hectopascals)
     print 'Humidity  = {0:0.2f} %'.format(humidity)'''
 
-    bme = BME280_sl(busnum=2)
-    print bme.read()
+    import traceback
+    
+    try:
+        bme = BME280_sl(busnum=1)
+        print bme.read()
+    except:
+        #traceback.print_exc()
+        pass
+
+    try:
+        bme = BME280_sl(busnum=2)
+        print bme.read()
+    except:
+        pass
 

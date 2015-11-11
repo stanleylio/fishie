@@ -7,55 +7,85 @@ yellow_pin = 'P8_10'
 green_pin = 'P8_9'
 
 def red_on():
-    GPIO.output(red_pin,GPIO.HIGH)
+    try:
+        GPIO.output(red_pin,GPIO.HIGH)
+    except:
+        pass
 
 def red_off():
-    GPIO.output(red_pin,GPIO.LOW)
+    try:
+        GPIO.output(red_pin,GPIO.LOW)
+    except:
+        pass
 
 def yellow_on():
-    GPIO.output(yellow_pin,GPIO.HIGH)
+    try:
+        GPIO.output(yellow_pin,GPIO.HIGH)
+    except:
+        pass
 
 def yellow_off():
-    GPIO.output(yellow_pin,GPIO.LOW)
+    try:
+        GPIO.output(yellow_pin,GPIO.LOW)
+    except:
+        pass
 
 def green_on():
-    GPIO.output(green_pin,GPIO.HIGH)
+    try:
+        GPIO.output(green_pin,GPIO.HIGH)
+    except:
+        pass
 
 def green_off():
-    GPIO.output(green_pin,GPIO.LOW)
+    try:
+        GPIO.output(green_pin,GPIO.LOW)
+    except:
+        pass
 
 def usrx_on(x):
-    assert x in [0,1,2,3]
-    with open('/sys/class/leds/beaglebone:green:usr' + str(x) + '/brightness','w') as f:
-        f.write('1')
+    try:
+        assert x in [0,1,2,3]
+        with open('/sys/class/leds/beaglebone:green:usr' + str(x) + '/brightness','w') as f:
+            f.write('1')
+    except:
+        pass
 
 def usrx_off(x):
-    assert x in [0,1,2,3]
-    with open('/sys/class/leds/beaglebone:green:usr' + str(x) + '/brightness','w') as f:
-        f.write('0')
+    try:
+        assert x in [0,1,2,3]
+        with open('/sys/class/leds/beaglebone:green:usr' + str(x) + '/brightness','w') as f:
+            f.write('0')
+    except:
+        pass
 
 def indicators_setup():
-    GPIO.setup(red_pin,GPIO.OUT)
-    GPIO.setup(yellow_pin,GPIO.OUT)
-    GPIO.setup(green_pin,GPIO.OUT)
-    with open('/sys/class/leds/beaglebone:green:usr0/trigger','w') as f:
-        f.write('none')
-    with open('/sys/class/leds/beaglebone:green:usr1/trigger','w') as f:
-        f.write('none')
-    with open('/sys/class/leds/beaglebone:green:usr2/trigger','w') as f:
-        f.write('none')
-    with open('/sys/class/leds/beaglebone:green:usr3/trigger','w') as f:
-        f.write('none')
-    red_off()
-    yellow_off()
-    green_off()
-    usr0_off()
-    usr1_off()
-    usr2_off()
-    usr3_off()
+    try:
+        GPIO.setup(red_pin,GPIO.OUT)
+        GPIO.setup(yellow_pin,GPIO.OUT)
+        GPIO.setup(green_pin,GPIO.OUT)
+        with open('/sys/class/leds/beaglebone:green:usr0/trigger','w') as f:
+            f.write('none')
+        with open('/sys/class/leds/beaglebone:green:usr1/trigger','w') as f:
+            f.write('none')
+        with open('/sys/class/leds/beaglebone:green:usr2/trigger','w') as f:
+            f.write('none')
+        with open('/sys/class/leds/beaglebone:green:usr3/trigger','w') as f:
+            f.write('none')
+        red_off()
+        yellow_off()
+        green_off()
+        usr0_off()
+        usr1_off()
+        usr2_off()
+        usr3_off()
+    except:
+        pass
 
 def indicators_cleanup():
-    GPIO.cleanup()
+    try:
+        GPIO.cleanup()
+    except:
+        pass
 
 usr0_on = lambda: usrx_on(0)
 usr0_off = lambda: usrx_off(0)
