@@ -27,8 +27,8 @@ def PRINT(s):
 
 
 # Communication handler for the EZO EC sensor
-# K and T values are set in the .ini file. They are sent to the sensor during
-# instantiation. Both can be changed during runtime.
+# K and T values are set in the .ini file. K is sent to the sensor
+# during instantiation. Both can be changed during runtime.
 # Sensor is programmed to sleep between commands by default.
 class EZO_EC(EZO):
     
@@ -44,7 +44,7 @@ class EZO_EC(EZO):
             parser.read(join(dirname(__file__),'ezo.ini'))
             self.k(float(parser.get('ec','k')))
             # the sensor actually store only integer T
-            self.t(round(float(parser.get('ec','t')),0))
+            #self.t(round(float(parser.get('ec','t')),0))
         except NoSectionError:
             PRINT('EZO_EC: configuration file not found. Not syncing K value')
 

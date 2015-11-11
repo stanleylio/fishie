@@ -61,11 +61,11 @@ class EZO(object):
 
                 # sensor stores only integer T
                 # better be explicit
-                PRINT(from_ + 'update current T = {:.0f} to new T = {:.0f}'.format(current,new))
+                PRINT(from_ + 'update current T = {:.1f} to new T = {:.1f}'.format(current,new))
                 
                 # inconsistent... sensor accepts only integer but the spec says float.
                 #cmd = 'T,{:.1f}'.format(new)
-                cmd = 'T,{:.0f}'.format(new)
+                cmd = 'T,{:.1f}'.format(round(new))
                 self._r(cmd,0.3)    # ignore the response
             else:
                 PRINT(from_ + 'supplied T == current T = {:.0f} Deg.C, no update required'.format(current))
