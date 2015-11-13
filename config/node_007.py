@@ -9,7 +9,7 @@ note = 'RPi Meteorological Station'
 log_dir = './log'
 plot_dir = '../www'
 
-plot_range = 168
+plot_range = 24*14
 
 xbee_port = '/dev/ttyAMA0'
 xbee_baud = 115200

@@ -39,7 +39,6 @@ conf = [
         'unit':'Pa',
         'description':'Barometric Pressure (BMP180)',
         'plot':True,
-        'convf':lambda (x): x/1000.
     },
     {
         'dbtag':'T_180',
