@@ -12,7 +12,8 @@ from datetime import datetime
 cgitb.enable(display=1)
 form = cgi.FieldStorage()
 
-dbfile = '/home/nuc/data/base-003/storage/sensor_data.db'
+#dbfile = '/home/nuc/data/base-003/storage/sensor_data.db'
+dbfile = '/home/nuc/node/storage/sensor_data.db'
 
 #print form.getlist('p')
 #exit()
