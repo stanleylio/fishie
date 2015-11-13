@@ -49,7 +49,7 @@ conf = [
         'comtag':'sal',
         'unit':'-',
         'description':'Salinity',
-        'plot':False
+        'plot':True
     },
     {
         'dbtag':'P_180',
@@ -58,7 +58,6 @@ conf = [
         'unit':'Pa',
         'description':'Barometric Pressure',
         'plot':True,
-        'convf':lambda (x): x/1000.
     },
     {
         'dbtag':'T_180',
