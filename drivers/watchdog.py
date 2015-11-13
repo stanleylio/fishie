@@ -20,19 +20,19 @@ class Watchdog(object):
 if '__main__' == __name__:
     try:
         bus = 1
-        print('using bus {}'.format(bus))
         w = Watchdog(bus=bus)
         w.reset()
-        print('all good.')
+        print('found watchdog on bus {}'.format(bus))
     except:
-        print('nope.')
+        #print('nope.')
+        pass
 
     try:
         bus = 2
-        print('using bus {}'.format(bus))
         w = Watchdog(bus=bus)
         w.reset()
-        print('all good.')
+        print('found watchdog on bus {}'.format(bus))
     except:
-        print('nope.')
+        #print('nope.')
+        pass
     

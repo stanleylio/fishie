@@ -19,6 +19,8 @@ flntu_port = '/dev/ttyO2'
 
 wait = 593
 
+multi_sample = 5
+
 conf = [
     {
         'dbtag':'Timestamp',

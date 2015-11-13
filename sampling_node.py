@@ -23,10 +23,13 @@ if not is_node():
     print('Not configured as a sensor node (see node_config.ini). Terminating.')
     sys.exit()
 
-UART.setup('UART1')
-UART.setup('UART2')
-UART.setup('UART3')
-UART.setup('UART4')
+try:
+    UART.setup('UART1')
+    UART.setup('UART2')
+    UART.setup('UART3')
+    UART.setup('UART4')
+except:
+    pass
 
 import sampling_core
 
@@ -51,8 +54,11 @@ if last_sampled is not None:
     last_sampled = last_sampled['Timestamp'][0]
 d = datetime.now()
 count = 0
+
 while True:
-    if last_sampled is not None and d > last_sampled:
+    if last_sampled is None:
+        break
+    if d > last_sampled:
         break
     #if last_sampled is None and d.year >= 2015 and d.month >= 10:   # evil hack-ish heristics
     #    break
@@ -72,6 +78,12 @@ def log_event(line):
     log(event,line)
 
 indicators_setup()
+
+try:
+    multi_sample = node.multi_sample    # take multiple readings per period
+except:
+    multi_sample = 1
+
 
 with serial.Serial(node.xbee_port,node.xbee_baud,timeout=1) as s,\
      open(join(log_dir,'capture.log'),'a+',0) as event:
@@ -95,7 +107,7 @@ with serial.Serial(node.xbee_port,node.xbee_baud,timeout=1) as s,\
             requested = requester is not None
 
             if scheduled or requested:
-                for i in range(node.multi_sample):  # take multiple readings per period
+                for i in range(multi_sample):
                     time.sleep(0.1)
                     
                     red_on()
@@ -130,8 +142,10 @@ with serial.Serial(node.xbee_port,node.xbee_baud,timeout=1) as s,\
 
             if (datetime.utcnow() - last_blinked) >= timedelta(seconds=1):
                 usr3_on()
+                green_on()
                 time.sleep(0.01)
                 usr3_off()
+                green_off()
                 last_blinked = datetime.utcnow()
 
     except KeyboardInterrupt:
