@@ -18,7 +18,7 @@ var d = new Date(Date.now());
 tmp = $('<time></time>').attr('class','timeago').attr('datetime',d.toISOString()).html('ago');
 $('<p></p>').append(tmp.prop('outerHTML')).appendTo('#pagegeneratedts');
 
-$.get("../node_config.py?p=latest_sample&id=" + node_id,function(data) {
+$.get("../node_config.py?p=latest_sample&site=poh&id=" + node_id,function(data) {
 	//console.log(data.latest_sample);
 	var d = new Date(data.latest_sample['ReceptionTime']*1000);
 	var tmp = $('<time></time>').attr('class','timeago').attr('datetime',d.toISOString()).html('ago');
@@ -26,7 +26,7 @@ $.get("../node_config.py?p=latest_sample&id=" + node_id,function(data) {
 	$("time.timeago").timeago();
 });
 
-$.get("../node_config.py?p=latest_sample&p=units&id=" + node_id,function(data) {
+$.get("../node_config.py?p=latest_sample&site=poh&p=units&id=" + node_id,function(data) {
 	$("#latest_table").append("<tr><th>Variable</th><th>Value</th><th>Unit</th></tr>");
 	
 	/*$.each(data['latest_sample'],function(tag){
@@ -36,7 +36,8 @@ $.get("../node_config.py?p=latest_sample&p=units&id=" + node_id,function(data) {
 	$.get("../node_config.py?p=list_of_disp_vars&id=" + node_id,function(tmp) {
 		$.each(tmp.list_of_disp_vars,function(i,tag) {
 			//console.log(tag);
-			$("#latest_table").append("<tr><td><a href=\"#\" title=\"click for self-updating plot\" target=\"_blank\">" + tag + "</a></td><td>" + data.latest_sample[tag] + "</td><td>" + data.units[tag] + "</td></tr>");
+			var img_src = "../node-" + ('000' + node_id).slice(-3) + "/" + tag + ".png";
+			$("#latest_table").append("<tr><td><a href=\"" + img_src + "\" title=\"click for self-updating plot\">" + tag + "</a></td><td>" + data.latest_sample[tag] + "</td><td>" + data.units[tag] + "</td></tr>");
 		});
 	});
 });

@@ -37,7 +37,7 @@
 			<div class="row">
 				<div class="col-xs-10 col-xs-offset-1 col-sm-5">
 					<h4>"SuperNUC" (i7 NUC)</h4>
-					<a href="https://goo.gl/maps/FHm4aQNkaaP2" target="_blank"><p>MSB 228</p></a>
+					<a href="https://goo.gl/maps/FHm4aQNkaaP2" target="_blank"><p>UHM MSB 228</p></a>
 				</div>
 			</div>
 			<div class="row">
