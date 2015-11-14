@@ -15,14 +15,13 @@
 			<div class="page-header row">
 				<div class="col-xs-10 col-xs-offset-1">
 					<div id="header">
-						<h3>Real-time Environmental Monitoring</h3>
-						<a href="http://www.soest.hawaii.edu/oceanography/glazer/Brian_T._Glazer/research/DataLoggers/PoH/HeeiaDataHome">Project Page</a>
+						<a href="http://www.soest.hawaii.edu/oceanography/glazer/Brian_T._Glazer/research/DataLoggers/PoH/HeeiaDataHome"><h3>Real-time Environmental Monitoring</h3></a>
 					</div>
 				</div>
 			</div>
 
 			<div class="row">
-				<div class="col-xs-10 col-xs-offset-1 col-sm-4">
+				<div class="col-xs-10 col-xs-offset-1 col-sm-5">
 					<h4>Base Station #3 (Celeron-NUC)</h4>
 					<a href="https://goo.gl/maps/ECEBgo3UEp82" target="_blank"><p>Paepae o He'eia, Kane'ohe</p></a>
 				</div>
@@ -36,7 +35,7 @@
 			<hr>
 
 			<div class="row">
-				<div class="col-xs-10 col-xs-offset-1 col-sm-4">
+				<div class="col-xs-10 col-xs-offset-1 col-sm-5">
 					<h4>"SuperNUC" (i7 NUC)</h4>
 					<a href="https://goo.gl/maps/FHm4aQNkaaP2" target="_blank"><p>MSB 228</p></a>
 				</div>

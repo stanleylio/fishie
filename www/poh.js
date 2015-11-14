@@ -11,7 +11,7 @@
 // make a list of nodes
 // 	sorted
 //	colored to reflect node state
-$.get("node_config.py?p=list_of_nodes",function(data) {
+$.get("node_config.py?p=list_of_nodes&site=poh",function(data) {
 	var tmp = $('<ul class="list-group"></ul>');
 	$.each(data.list_of_nodes,function(i,node_id) {
 		$.get("node_config.py?p=node_name&id=" + node_id,function(data) {
@@ -33,7 +33,7 @@ $.get("node_config.py?p=list_of_nodes",function(data) {
 			//list-group-item-info
 			//list-group-item-warning
 			//list-group-item-danger
-			$.get("node_config.py?p=latest_sample&id=" + node_id,function(data) {
+			$.get("node_config.py?p=latest_sample&site=poh&id=" + node_id,function(data) {
 				// A row is RED if the latest sample from the node was sampled over 30 min ago
 				// There is not a row for a node if there is no table/data for that node
 				// a row is GREEN otherwise
@@ -41,7 +41,7 @@ $.get("node_config.py?p=list_of_nodes",function(data) {
 					$("#node" + node_id).addClass("list-group-item-danger");
 					//$("#node" + node_id).addClass("disabled");	// doesn't work - I can still click
 					// and it also changes the color back to green...
-					$("#node" + node_id).attr("href","#");
+					//$("#node" + node_id).attr("href","#");
 				} else {
 					var diff = Date.now()/1000 - data.latest_sample.ReceptionTime;
 					if (diff > 30*60) {
