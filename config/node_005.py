@@ -23,7 +23,7 @@ conf = [
         'comtag':'ts',
         'unit':None,
         'description':'Time of sampling',
-        'plot':False
+        'plot':False,
     },
     {
         'dbtag':'P_180',
@@ -39,7 +39,7 @@ conf = [
         'comtag':'T_180',
         'unit':'Deg.C',
         'description':'Temperature (BMP180)',
-        'plot':True
+        'plot':True,
     },
     {
         'dbtag':'P_280',
@@ -55,7 +55,7 @@ conf = [
         'comtag':'T_280',
         'unit':'Deg.C',
         'description':'Temperature (BME280)',
-        'plot':True
+        'plot':True,
     },
     {
         'dbtag':'RH_280',
@@ -63,7 +63,7 @@ conf = [
         'comtag':'RH_280',
         'unit':'%RH',
         'description':'Humidity (BME280)',
-        'plot':True
+        'plot':True,
     },
     {
         'dbtag':'RH_HTU21D',
@@ -71,7 +71,7 @@ conf = [
         'comtag':'RH_HTU21D',
         'unit':'%RH',
         'description':'Humidity (HTU21D)',
-        'plot':True
+        'plot':True,
     },
     {
         'dbtag':'T_HTU21D',
@@ -79,7 +79,7 @@ conf = [
         'comtag':'T_HTU21D',
         'unit':'Deg.C',
         'description':'Temperature (HTU21D)',
-        'plot':True
+        'plot':True,
     },
     {
         'dbtag':'P_5803',
@@ -87,7 +87,7 @@ conf = [
         'comtag':'P_5803',
         'unit':'kPa',
         'description':'Barometric Pressure (MS5803-14BA)',
-        'plot':True
+        'plot':True,
     },
     {
         'dbtag':'T_5803',
@@ -95,7 +95,7 @@ conf = [
         'comtag':'T_5803',
         'unit':'Deg.C',
         'description':'Temperature (MS5803-14BA)',
-        'plot':True
+        'plot':True,
     },
     {
         'dbtag':'T_9808',
@@ -103,7 +103,7 @@ conf = [
         'comtag':'T_9808',
         'unit':'Deg.C',
         'description':'Temperature (MCP9808)',
-        'plot':True
+        'plot':True,
     },
 ]
 

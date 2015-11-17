@@ -5,6 +5,7 @@ import config,storage
 from config.config_support import *
 from storage.storage import storage_read_only
 from datetime import datetime
+from os.path import exists
 
 #import cgi
 #cgi.test()
@@ -43,22 +44,29 @@ d = {}
 # http://192.168.0.20/node_config.py?p=list_of_nodes
 if 'list_of_nodes' in form.getlist('p'):
     site = form.getlist('site')[0]
-    store = storage_read_only(dbfile=get_dbfile(site))
+    dbfile = get_dbfile(site)
+    if not exists(dbfile):
+        # Don't want storage to auto-create an empty database
+        # file if it doesn't already exist (such as when being
+        # updated by rsync)
+        d.update({'list_of_nodes':[]})
+    else:
+        store = storage_read_only(dbfile=get_dbfile(site))
 
-    nodes = []
-    for node_id in read_capabilities().keys():
-        try:
-            time_col = auto_time_col(store,node_id)
-            r = store.read_last_N(node_id,time_col)
-            if r is not None:
-                nodes.append(node_id)
-            #else:
-            #    print 'Content-Type: text/plain; charset=utf8'
-            #    print
-            #    print node_id
-        except:
-            traceback.print_exc()
-    d.update({'list_of_nodes':nodes})
+        nodes = []
+        for node_id in read_capabilities().keys():
+            try:
+                time_col = auto_time_col(store,node_id)
+                r = store.read_last_N(node_id,time_col)
+                if r is not None:
+                    nodes.append(node_id)
+                #else:
+                #    print 'Content-Type: text/plain; charset=utf8'
+                #    print
+                #    print node_id
+            except:
+                traceback.print_exc()
+        d.update({'list_of_nodes':nodes})
 
 # http://192.168.0.20/node_config.py?p=list_of_variables&id=4
 if 'list_of_variables' in form.getlist('p'):
@@ -71,18 +79,25 @@ if 'latest_sample' in form.getlist('p'):
     node_id = int(form.getlist('id')[0])
     #if is_base():
     site = form.getlist('site')[0]
-    store = storage_read_only(dbfile=get_dbfile(site))
-    time_col = auto_time_col(store,node_id)
-    r = store.read_last_N(node_id,time_col,1)
+    dbfile = get_dbfile(site)
+    if not exists(dbfile):
+        # Don't want storage to auto-create an empty database
+        # file if it doesn't already exist (such as when being
+        # updated by rsync)
+        d.update({'list_of_nodes':[]})
+    else:
+        store = storage_read_only(dbfile=get_dbfile(site))
+        time_col = auto_time_col(store,node_id)
+        r = store.read_last_N(node_id,time_col,1)
 
-    # replaced the (tuple of one element) with the element itself
-    if r is not None:
-        for k,v in r.iteritems():
-            r[k] = v[0]
-            # convert python datetime to posix timestamps
-            if type(r[k]) is datetime:
-                r[k] = time.mktime(r[k].timetuple())
-    d.update({'latest_sample':r})
+        # replaced the (tuple of one element) with the element itself
+        if r is not None:
+            for k,v in r.iteritems():
+                r[k] = v[0]
+                # convert python datetime to posix timestamps
+                if type(r[k]) is datetime:
+                    r[k] = time.mktime(r[k].timetuple())
+        d.update({'latest_sample':r})
 
 # get a dict of tag:unit mapping (for all tags defined in config file)
 # http://192.168.0.20/node_config.py?p=units&id=4

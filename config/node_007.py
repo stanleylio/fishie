@@ -25,7 +25,7 @@ conf = [
         'comtag':'ts',
         'unit':'',
         'description':'Time of sampling',
-        'plot':False
+        'plot':False,
     },
     {
         'dbtag':'P_280',
@@ -41,7 +41,7 @@ conf = [
         'comtag':'T_280',
         'unit':'Deg.C',
         'description':'Air Temperature (BME280)',
-        'plot':True
+        'plot':True,
     },
     {
         'dbtag':'RH_280',
@@ -49,7 +49,7 @@ conf = [
         'comtag':'RH_280',
         'unit':'%',
         'description':'% Relative Humidity (BME280)',
-        'plot':True
+        'plot':True,
     },
     {
         'dbtag':'UV_Si1145',
@@ -57,7 +57,7 @@ conf = [
         'comtag':'UV_Si1145',
         'unit':'(idx x100)',
         'description':'UV Index x 100',
-        'plot':True
+        'plot':True,
     },
     {
         'dbtag':'IR_Si1145',
@@ -65,7 +65,7 @@ conf = [
         'comtag':'IR_Si1145',
         'unit':'lux',
         'description':'IR',
-        'plot':True
+        'plot':True,
     },
     {
         'dbtag':'Amb_Si1145',
@@ -73,7 +73,7 @@ conf = [
         'comtag':'Amb_Si1145',
         'unit':'lux',
         'description':'Ambient Light Intensity',
-        'plot':True
+        'plot':True,
     },
     {
         'dbtag':'Wind_average',
@@ -81,7 +81,7 @@ conf = [
         'comtag':'Wind_avg',
         'unit':'m/s',
         'description':'Wind Speed (average)',
-        'plot':True
+        'plot':True,
     },
     {
         'dbtag':'Wind_gust',
@@ -89,7 +89,7 @@ conf = [
         'comtag':'Wind_gust',
         'unit':'m/s',
         'description':'Wind Speed (gust)',
-        'plot':True
+        'plot':True,
     },
 ]
 

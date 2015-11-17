@@ -28,7 +28,7 @@ conf = [
         'comtag':'ts',
         'unit':None,
         'description':'Time of sampling',
-        'plot':False
+        'plot':False,
     },
     {
         'dbtag':'P_5803',
@@ -36,7 +36,7 @@ conf = [
         'comtag':'P_5803',
         'unit':'kPa',
         'description':'Water Pressure',
-        'plot':True
+        'plot':True,
     },
     {
         'dbtag':'T_5803',
@@ -44,7 +44,7 @@ conf = [
         'comtag':'T_5803',
         'unit':'Deg.C',
         'description':'Water Temperature (MS5803-14BA)',
-        'plot':True
+        'plot':True,
     },
     {
         'dbtag':'P_180',
@@ -53,6 +53,8 @@ conf = [
         'unit':'Pa',
         'description':'Barometric Pressure',
         'plot':True,
+        #'convf':lambda (x): x/1e3,
+        #'convunit':'kPa',
     },
     {
         'dbtag':'T_180',
@@ -60,7 +62,7 @@ conf = [
         'comtag':'T_180',
         'unit':'Deg.C',
         'description':'Casing Temperature',
-        'plot':True
+        'plot':True,
     },
     {
         'dbtag':'ec',
@@ -68,7 +70,7 @@ conf = [
         'comtag':'ec',
         'unit':'uS',
         'description':'Conductivity',
-        'plot':True
+        'plot':True,
     },
     {
         'dbtag':'sal',
@@ -76,7 +78,7 @@ conf = [
         'comtag':'sal',
         'unit':'',
         'description':'Salinity',
-        'plot':True
+        'plot':True,
     },
     {
         'dbtag':'Chlorophyll_FLNTU',
@@ -84,7 +86,7 @@ conf = [
         'comtag':'Chlorophyll',
         'unit':'-',
         'description':'Chlorophyll (raw count)',
-        'plot':True
+        'plot':True,
     },
     {
         'dbtag':'Turbidity_FLNTU',
@@ -92,7 +94,7 @@ conf = [
         'comtag':'Turbidity',
         'unit':'-',
         'description':'Turbidity (raw)',
-        'plot':True
+        'plot':True,
     },
     {
         'dbtag':'Thermistor_FLNTU',
@@ -100,7 +102,7 @@ conf = [
         'comtag':'Thermistor',
         'unit':'-',
         'description':'Thermistor (raw)',
-        'plot':True
+        'plot':False,
     },
     {
         'dbtag':'O2Concentration',
@@ -108,7 +110,7 @@ conf = [
         'comtag':'O2',
         'unit':'uM',
         'description':'Oxygen Concentration',
-        'plot':True
+        'plot':True,
     },
     {
         'dbtag':'AirSaturation',
@@ -116,7 +118,7 @@ conf = [
         'comtag':'Air',
         'unit':'%',
         'description':'Air Saturation',
-        'plot':True
+        'plot':True,
     },
     {
         'dbtag':'Temperature',
@@ -124,7 +126,7 @@ conf = [
         'comtag':'Temperature',
         'unit':'Deg.C',
         'description':'Water Temperature (Aanderaa 4330F)',
-        'plot':True
+        'plot':True,
     },
     {
         'dbtag':'CalPhase',
@@ -132,7 +134,7 @@ conf = [
         'comtag':'CalPhase',
         'unit':'Deg',
         'description':'CalPhase',
-        'plot':False
+        'plot':False,
     },
     {
         'dbtag':'TCPhase',
@@ -140,7 +142,7 @@ conf = [
         'comtag':'TCPhase',
         'unit':'Deg',
         'description':'TCPhase',
-        'plot':False
+        'plot':False,
     },
     {
         'dbtag':'C1RPh',
@@ -148,7 +150,7 @@ conf = [
         'comtag':'C1RPh',
         'unit':'Deg',
         'description':'C1RPh',
-        'plot':False
+        'plot':False,
     },
     {
         'dbtag':'C2RPh',
@@ -156,7 +158,7 @@ conf = [
         'comtag':'C2RPh',
         'unit':'Deg',
         'description':'C2RPh',
-        'plot':False
+        'plot':False,
     },
     {
         'dbtag':'C1Amp',
@@ -164,7 +166,7 @@ conf = [
         'comtag':'C1Amp',
         'unit':'mV',
         'description':'C1Amp',
-        'plot':False
+        'plot':False,
     },
     {
         'dbtag':'C2Amp',
@@ -172,7 +174,7 @@ conf = [
         'comtag':'C2Amp',
         'unit':'mV',
         'description':'C2Amp',
-        'plot':False
+        'plot':False,
     },
     {
         'dbtag':'RawTemp',
@@ -180,7 +182,7 @@ conf = [
         'comtag':'RawTemp',
         'unit':'mV',
         'description':'RawTemp',
-        'plot':False
+        'plot':False,
     },
 ]
 

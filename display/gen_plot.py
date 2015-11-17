@@ -83,22 +83,30 @@ def plot_time_series(x,y,plotfilename,title='',xlabel='',ylabel='',linelabel=Non
 if '__main__' == __name__:
     import sys,traceback,sqlite3,re,importlib,argparse
     sys.path.append('..')
-    import config
+    #import config
     from scipy.signal import medfilt
 
     parser = argparse.ArgumentParser(formatter_class=argparse.RawTextHelpFormatter,description='')
-    parser.add_argument('--dbfile',type=str,default=None,metavar='dbfile',help='path to the database file')
+    parser.add_argument('--dbfile',type=str,default=None,metavar='dbfile',help='Path to the database file')
+    parser.add_argument('--plot_dir',type=str,default=None,metavar='plot_dir',help='Output directory for the plots')
+    
     args = parser.parse_args()
 
+    # which database to take data from
     dbfile = args.dbfile
     if dbfile is not None and not exists(dbfile):
         print('dbfile {} not found. Terminating.'.format(dbfile))
         sys.exit()
 
+    # where to put the generated plots
+    plot_dir = args.plot_dir
+    if plot_dir is None:
+        plot_dir = './gen_plot_output'
+        PRINT('plot_dir not given. Using default ' + plot_dir)
+
+    PRINT('Output directory: ' + plot_dir)
+
     store = storage_read_only(dbfile=dbfile)
-    #store = storage_read_only(dbfile='/home/nuc/data/base-004/storage/sensor_data.db')
-    #store = storage_read_only(dbfile='/home/nuc/data/node-019/storage/sensor_data.db')
-    #store = storage_read_only(dbfile='/home/nuc/data/node-005/storage/sensor_data.db')
 
     IDs = []
     if is_node():
@@ -120,7 +128,7 @@ if '__main__' == __name__:
         tag_unit_map = get_unit_map(node_id)
         tag_desc_map = get_description_map(node_id)
 
-        plot_dir = join(node.plot_dir,node_tag)
+        node_plot_dir = join(plot_dir,node_tag)
 
         time_col = None
         tmp = store.get_list_of_columns(node_id)
@@ -139,17 +147,17 @@ if '__main__' == __name__:
             cols = [time_col,var]
 
             title = '{} ({} of {})'.format(tag_desc_map[var],var,node_tag)
-            plotfilename = join(plot_dir,'{}.png'.format(var))
+            plotfilename = join(node_plot_dir,'{}.png'.format(var))
 
             try:
                 tmp = store.read_time_range(node_id,time_col,cols,timerange)
                 x = tmp[time_col]
                 y = [l if l is not None else float('NaN') for l in tmp[var]]
 
-                y = medfilt(y,5)
+                #y = medfilt(y,5)
 
-                if not exists(plot_dir):
-                    makedirs(plot_dir)
+                if not exists(node_plot_dir):
+                    makedirs(node_plot_dir)
 
                 PRINT('\t{}'.format(var))
                 plot_time_series(x,y,plotfilename,title,ylabel=tag_unit_map[var],linelabel=var)
@@ -159,7 +167,7 @@ if '__main__' == __name__:
                                'time_end':time.mktime(max(x).timetuple()),
                                'plot_generated_at':time.mktime(datetime.utcnow().timetuple()),
                                'data_point_count':len(y)}
-                with open(join(plot_dir,var + '.json'),'w') as f:
+                with open(join(node_plot_dir,var + '.json'),'w') as f:
                     # json.dump vs. json.dumps...
                     json.dump(plot_config,f,separators=(',',':'))
 
@@ -175,8 +183,8 @@ if '__main__' == __name__:
                 traceback.print_exc()
 
         # website helper
-        if exists(plot_dir) and len(plotted) > 0:
-            with open(join(plot_dir,'plotted_var_list.json'),'w') as f:
+        if exists(node_plot_dir) and len(plotted) > 0:
+            with open(join(node_plot_dir,'plotted_var_list.json'),'w') as f:
                 tmp = [v + '.png' for v in plotted]
                 json.dump(tmp,f,separators=(',',':'))
 

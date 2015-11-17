@@ -26,19 +26,19 @@ conf = [
         'comtag':'ts',
         'unit':None,
         'description':'Time of sampling',
-        'plot':False
+        'plot':False,
     },
     {
         'dbtag':'P_180',
-        'dbtype':'REAL',
+        'dbtype':'INTEGER',
         'comtag':'P_180',
         'unit':'Pa',
         'description':'Barometric Pressure',
         'plot':True,
-        'convf':lambda (x): x/1e3,
-        'convunit':'kPa',
         'min':80e3,
         'max':110e3,
+        #'convf':lambda (x): x/1e3,
+        #'convunit':'kPa',
     },
     {
         'dbtag':'T_180',
@@ -57,8 +57,8 @@ conf = [
         'unit':'kPa',
         'description':'Water Pressure',
         'plot':True,
-        'min':80e3,
-        'max':150e3,
+        'min':80,
+        'max':150,
     },
     {
         'dbtag':'T_5803',
@@ -78,7 +78,7 @@ conf = [
         'description':'Conductivity',
         'plot':True,
         'min':0,
-        'max':55000,
+        'max':55e3,
     },
     {
         'dbtag':'sal',
@@ -124,7 +124,7 @@ conf = [
         'comtag':'CalPhase',
         'unit':'Deg',
         'description':'CalPhase',
-        'plot':False
+        'plot':False,
     },
     {
         'dbtag':'TCPhase',
@@ -132,7 +132,7 @@ conf = [
         'comtag':'TCPhase',
         'unit':'Deg',
         'description':'TCPhase',
-        'plot':False
+        'plot':False,
     },
     {
         'dbtag':'C1RPh',
@@ -140,7 +140,7 @@ conf = [
         'comtag':'C1RPh',
         'unit':'Deg',
         'description':'C1RPh',
-        'plot':False
+        'plot':False,
     },
     {
         'dbtag':'C2RPh',
@@ -148,7 +148,7 @@ conf = [
         'comtag':'C2RPh',
         'unit':'Deg',
         'description':'C2RPh',
-        'plot':False
+        'plot':False,
     },
     {
         'dbtag':'C1Amp',
@@ -156,7 +156,7 @@ conf = [
         'comtag':'C1Amp',
         'unit':'mV',
         'description':'C1Amp',
-        'plot':False
+        'plot':False,
     },
     {
         'dbtag':'C2Amp',
@@ -164,7 +164,7 @@ conf = [
         'comtag':'C2Amp',
         'unit':'mV',
         'description':'C2Amp',
-        'plot':False
+        'plot':False,
     },
     {
         'dbtag':'RawTemp',
@@ -172,7 +172,7 @@ conf = [
         'comtag':'RawTemp',
         'unit':'mV',
         'description':'RawTemp',
-        'plot':False
+        'plot':False,
     },
 ]
 
