@@ -22,8 +22,8 @@ from os.path import join,dirname
 
 
 def PRINT(s):
-    #pass
     print(s)
+    #pass
 
 
 # Communication handler for the EZO EC sensor
@@ -108,7 +108,7 @@ class EZO_EC(EZO):
 
 if '__main__' == __name__:
 
-    bus = 2
+    bus = 1
     
     ec = EZO_EC(bus=bus,lowpower=True)
     print 'Device Information (sensor type, firmware version):'
@@ -140,5 +140,5 @@ if '__main__' == __name__:
         #print('\x1b[2J\x1b[;H')
         print('= = = = = = = = = =')
         print(ec.pretty(tmp))
-        time.sleep(1)
+        #time.sleep(1)
     
