@@ -133,6 +133,7 @@ with serial.Serial(node.xbee_port,node.xbee_baud,timeout=1) as s,\
                         time.sleep(0.2)
                     elif requested:
                         # if this is a response to a specific request
+                        time.sleep(min(get_node_id(),5))
                         send(s,tmp,dest=requester)
                         requester = None
                         break

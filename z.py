@@ -9,8 +9,8 @@ from zlib import crc32
 
 
 def PRINT(s):
-    pass
-    #print(s)
+    print(s)
+    #pass
 
 def get_checksum(s):
     return '{:08x}'.format(crc32(s) & 0xffffffff)
