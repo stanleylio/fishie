@@ -91,20 +91,23 @@ with serial.Serial(node.xbee_port,node.xbee_baud,timeout=1) as s,\
         dither = 0
         
         while True:
+            requested = False
+            requester = None
+            multi_sample = node.multi_sample
+
             # process incoming commands
             line = s.readline()
             cmd = get_action(line)
-
             if cmd is not None and ('do sample' == cmd['action']):
                 requested = True
                 try:
                     requester = cmd['from']
                 except:
-                    requester = None
+                    pass
                 try:
                     multi_sample = cmd['multi_sample']
                 except:
-                    multi_sample = node.multi_sample
+                    pass
 
             scheduled = (datetime.utcnow() - last_sampled) >= timedelta(seconds=node.wait + dither)
 
