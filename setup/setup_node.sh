@@ -1,33 +1,26 @@
 #!/bin/bash
 
-NODE_TAG="node-019"
+NODE_TAG="node-007"
 LOGGER_DIR="/root/node"
 SETUP_DIR="/root/node/setup"
 
 
-echo "Creating folders"
-mkdir -p $LOGGER_DIR
-
-
 passwd
-
 
 echo "Setting hostname"
 echo $NODE_TAG > /etc/hostname
 echo "127.0.0.1       $NODE_TAG" >> /etc/hosts
 
-
 sudo apt-get update
 
-sudo apt-get install rcconf supervisor -y
-
-
+#sudo apt-get install supervisor -y
+sudo apt-get install rcconf i2c-tools ntpdate -y
 
 echo "Setting system clock, timezone and RTC"
 #date -s "10 SEP 2015 22:00:30"
 # Debian default to UTC - no change required
 dpkg-reconfigure tzdata
-sudo apt-get install ntp -y
+#sudo apt-get install ntp -y
 # RTC
 #echo "Reading system clock and RTC"
 echo "(must be done manually if NTP is not available)"

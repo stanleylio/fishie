@@ -10,11 +10,12 @@ from scipy.signal import medfilt
 
 class Anemometer(object):
     max_speed = 32.4
-    speed_reg = 10
-    gust_reg = 11
-    raw_reg = 12
+    speed_reg = 20
+    gust_reg = 21
+    raw_reg = 22
     
-    def __init__(self,addr=0x50,bus=1):
+    #def __init__(self,addr=0x50,bus=1):
+    def __init__(self,addr=0x51,bus=1):
         self._i2c = Device(addr,busnum=bus)
 
     def read(self):
@@ -45,25 +46,39 @@ class Anemometer(object):
                 pass
         return round(v*10)/10.
 
-    #def duh(self):
-    #    return self._i2c.readU16(self.speed_reg)
-
     @staticmethod
     def conv(v):
         #s = v/255.0*2.56;     # LUFA RingBuffer doesn't take uint16_t
         s = v/1023.0*2.56;
         return 32.4/1.6*(s - 0.4);
 
+    #def duh(self):
+    #    return self._i2c.readU16(self.speed_reg)
+
+    #def test(self):
+    #    v = self.conv(self._i2c.readU16(self.speed_reg))
+    #    return max(round(v*10)/10.,0)
+        
+
 
 if '__main__' == __name__:
 
-    a = Anemometer()
+    a = Anemometer(addr=0x51,bus=2)
+
+    '''while True:
+        time.sleep(0.5)
+        try:
+            print a.test()
+        except KeyboardInterrupt:
+            break
+        except:
+            traceback.print_exc()'''
 
     while True:
         try:
             r = a.read()
 
-            #print('\x1b[2J\x1b[;H')
+            print('\x1b[2J\x1b[;H')
             print('Raw ADC reg={}\t\tAverage={:.1f}m/s\t\tGust={:.1f}m/s\t'.\
                   format(r['raw'],r['speed'],r['gust']))
             #print a.average()
@@ -73,7 +88,7 @@ if '__main__' == __name__:
         except KeyboardInterrupt:
             break
         except IOError:
-            pass
+            traceback.print_exc()
         except:
             traceback.print_exc()
 
