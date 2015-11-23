@@ -45,13 +45,21 @@ def get_action(line):
             tmp = json.loads(line)
             #print tmp['from']
             #print tmp['to']
-
+            # it must have an "action", but "from" and "sample count" are optional
             if tmp['to'] == socket.gethostname():
-            #if tmp['to'] == socket.gethostname() and \
-            #   re.match('base-\d{3}',tmp['from']):
-                #print 'addressed by {}'.format(tmp['from'])
-                return {'action':tmp['payload']['action'],\
-                        'from':tmp['from']}
+                d = {}
+                d['action'] = tmp['payload']['action']
+                try:
+                    d['multi_sample'] = max(0,tmp['payload']['m'])
+                except:
+                    pass
+                try:
+                    d['from'] = tmp['from']
+                except:
+                    pass
+                return d
+            else:
+                return None
     except:
         #traceback.print_exc()
         pass

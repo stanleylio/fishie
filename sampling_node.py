@@ -23,6 +23,7 @@ if not is_node():
     print('Not configured as a sensor node (see node_config.ini). Terminating.')
     sys.exit()
 
+# RPi needs no UART.setup()
 try:
     UART.setup('UART1')
     UART.setup('UART2')
@@ -79,11 +80,6 @@ def log_event(line):
 
 indicators_setup()
 
-try:
-    multi_sample = node.multi_sample    # take multiple readings per period
-except:
-    multi_sample = 1
-
 
 with serial.Serial(node.xbee_port,node.xbee_baud,timeout=1) as s,\
      open(join(log_dir,'capture.log'),'a+',0) as event:
@@ -95,26 +91,33 @@ with serial.Serial(node.xbee_port,node.xbee_baud,timeout=1) as s,\
         dither = 0
         
         while True:
+            requested = False
+            requester = None
+            multi_sample = node.multi_sample
+
             # process incoming commands
             line = s.readline()
-            tmp = get_action(line)
-            if tmp is not None and ('do sample' == tmp['action']):
-                requester = tmp['from']
-            else:
-                requester = None
+            cmd = get_action(line)
+            if cmd is not None and ('do sample' == cmd['action']):
+                requested = True
+                try:
+                    requester = cmd['from']
+                except:
+                    pass
+                try:
+                    multi_sample = cmd['multi_sample']
+                except:
+                    pass
 
             scheduled = (datetime.utcnow() - last_sampled) >= timedelta(seconds=node.wait + dither)
-            requested = requester is not None
 
             if scheduled or requested:
                 for i in range(multi_sample):
-                    time.sleep(0.1)
+                    time.sleep(randint(1,5)/10.)
                     
                     red_on()
                     usr0_on()
-                    
                     d = sampling_core.sampling_core(log_event)
-
                     red_off()
                     usr0_off()
 
@@ -123,23 +126,15 @@ with serial.Serial(node.xbee_port,node.xbee_baud,timeout=1) as s,\
                     store.write(node.id,d)
 
                     # JSON/serial likes POSIX
-                    # SQLite likes python datetime
+                    # SQLite uses python datetime
                     # pretty_print() now takes both
                     d['Timestamp'] = dt2ts(d['Timestamp'])
                     tmp = {c['comtag']:d[c['dbtag']] for c in node.conf}
-                    if scheduled:
-                        # if this is just a regular scheduled broadcast
-                        send(s,tmp)
-                        time.sleep(0.2)
-                    elif requested:
-                        # if this is a response to a specific request
-                        time.sleep(min(get_node_id(),5))
-                        send(s,tmp,dest=requester)
-                        requester = None
-                        break
+                    send(s,tmp,dest=requester)
 
-                last_sampled = datetime.utcnow()
-                dither = randint(0,100)/10.
+                    last_sampled = datetime.utcnow()
+
+                dither = randint(0,50)/10.
 
             if (datetime.utcnow() - last_blinked) >= timedelta(seconds=1):
                 usr3_on()

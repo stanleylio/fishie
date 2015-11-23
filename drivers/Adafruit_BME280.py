@@ -242,17 +242,14 @@ if '__main__' == __name__:
     print 'Humidity  = {0:0.2f} %'.format(humidity)'''
 
     import traceback
-    
-    try:
-        bme = BME280_sl(busnum=1)
-        print bme.read()
-    except:
-        #traceback.print_exc()
-        pass
 
-    try:
-        bme = BME280_sl(busnum=2)
-        print bme.read()
-    except:
-        pass
+    while True:
+        try:
+            bme = BME280_sl(busnum=2)
+            print bme.read()
+        except KeyboardInterrupt:
+            break
+        except:
+            #traceback.print_exc()
+            pass
 
