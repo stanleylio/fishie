@@ -23,6 +23,7 @@ if not is_node():
     print('Not configured as a sensor node (see node_config.ini). Terminating.')
     sys.exit()
 
+# RPi needs no UART.setup()
 try:
     UART.setup('UART1')
     UART.setup('UART2')
@@ -108,13 +109,11 @@ with serial.Serial(node.xbee_port,node.xbee_baud,timeout=1) as s,\
 
             if scheduled or requested:
                 for i in range(multi_sample):
-                    time.sleep(0.1)
+                    time.sleep(randint(1,5)/10.)
                     
                     red_on()
                     usr0_on()
-                    
                     d = sampling_core.sampling_core(log_event)
-
                     red_off()
                     usr0_off()
 
@@ -123,7 +122,7 @@ with serial.Serial(node.xbee_port,node.xbee_baud,timeout=1) as s,\
                     store.write(node.id,d)
 
                     # JSON/serial likes POSIX
-                    # SQLite likes python datetime
+                    # SQLite uses python datetime
                     # pretty_print() now takes both
                     d['Timestamp'] = dt2ts(d['Timestamp'])
                     tmp = {c['comtag']:d[c['dbtag']] for c in node.conf}
