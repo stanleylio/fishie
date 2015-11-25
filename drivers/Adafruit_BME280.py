@@ -245,7 +245,7 @@ if '__main__' == __name__:
 
     while True:
         try:
-            bme = BME280_sl(bus=2)
+            bme = BME280_sl(bus=1)
             print bme.read()
         except KeyboardInterrupt:
             break

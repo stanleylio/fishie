@@ -14,8 +14,8 @@ class Anemometer(object):
     gust_reg = 21
     raw_reg = 22
     
-    #def __init__(self,addr=0x50,bus=1):
-    def __init__(self,addr=0x51,bus=1):
+    def __init__(self,addr=0x50,bus=1):
+    #def __init__(self,addr=0x51,bus=1):
         self._i2c = Device(addr,busnum=bus)
 
     def read(self):
@@ -63,7 +63,7 @@ class Anemometer(object):
 
 if '__main__' == __name__:
 
-    a = Anemometer(addr=0x51,bus=2)
+    a = Anemometer(addr=0x50,bus=2)
 
     '''while True:
         time.sleep(0.5)
