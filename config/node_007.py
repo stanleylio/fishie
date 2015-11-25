@@ -11,7 +11,8 @@ plot_dir = '../www'
 
 plot_range = 24*14
 
-xbee_port = '/dev/ttyAMA0'
+#xbee_port = '/dev/ttyAMA0'
+xbee_port = '/dev/ttyO1'
 xbee_baud = 115200
 
 wait = 597
