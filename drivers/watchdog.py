@@ -12,7 +12,7 @@ class Watchdog(object):
         self._i2c = Device(addr,busnum=bus)
 
     def reset(self):
-        tmp = self._i2c.readU16(10)
+        return self._i2c.readU16(10)
 
 
 if '__main__' == __name__:

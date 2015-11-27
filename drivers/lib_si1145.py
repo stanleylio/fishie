@@ -48,14 +48,13 @@ class SI1145:
         SI1145_REG_MEASRATE1 = 0x09
 
         # Constructor
-        def __init__(self):
-
+        def __init__(self,bus=1):
 		# I2C
-		self.i2c = Adafruit_I2C(self.address)
+		self.i2c = Adafruit_I2C(self.address,busnum=bus)
 		
 		id = self.i2c.readU8(self.SI1145_REG_PARTID)
 		if (id != 0x45):
-			print "SI1145 is not found"
+                        print "SI1145 is not found"
 			
 		# to enable UV reading, set the EN_UV bit in CHLIST, and configure UCOEF [0:3] to the default values of 0x7B, 0x6B, 0x01, and 0x00. 
 		self.i2c.write8(self.SI1145_REG_UCOEFF0, 0x7B)
@@ -75,30 +74,26 @@ class SI1145:
 			
 	def readUVIndex(self):
 		"Read UV index data from sensor (UV index * 100)"	
-		
 		rawData = self.i2c.readU16(0x2C)
-
 		return rawData
 
 	def readAmbientLight(self):
 		"Read Ambient Light data from sensor (Visible light + IR) in lux"
-		
 		rawData = self.i2c.readU16(0x22)
 		return rawData
 		
 	def readIRLight(self):
 		"Read IR data from sensor in lux"
-		
 		rawData = self.i2c.readU16(0x24)
+		return rawData
 
-		return rawData	
-		
+
 if '__main__' == __name__:
-        si = SI1145()
+        si = SI1145(bus=2)
         while True:
                 tmp = 'UV index: {:.0f}\tIR: {} lux\tAmbient: {} lux'.\
                     format(si.readUVIndex(),si.readIRLight(),si.readAmbientLight())
-                print('\x1b[2J\x1b[;H')
+                #print('\x1b[2J\x1b[;H')
                 print(tmp)
                 time.sleep(0.1)
         
