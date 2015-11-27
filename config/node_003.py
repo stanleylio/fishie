@@ -37,6 +37,8 @@ conf = [
         'unit':'kPa',
         'description':'Water Pressure',
         'plot':True,
+        'min':80,
+        'max':150,
     },
     {
         'dbtag':'T_5803',
@@ -45,6 +47,8 @@ conf = [
         'unit':'Deg.C',
         'description':'Water Temperature (MS5803-14BA)',
         'plot':True,
+        'min':-20,
+        'max':60,
     },
     {
         'dbtag':'P_180',
@@ -53,6 +57,8 @@ conf = [
         'unit':'Pa',
         'description':'Barometric Pressure',
         'plot':True,
+        'min':80e3,
+        'max':110e3,
         #'convf':lambda (x): x/1e3,
         #'convunit':'kPa',
     },
@@ -63,6 +69,8 @@ conf = [
         'unit':'Deg.C',
         'description':'Casing Temperature',
         'plot':True,
+        'min':-20,
+        'max':80,
     },
     {
         'dbtag':'ec',
@@ -71,6 +79,8 @@ conf = [
         'unit':'uS',
         'description':'Conductivity',
         'plot':True,
+        'min':0,
+        'max':55e3,
     },
     {
         'dbtag':'sal',
@@ -79,6 +89,7 @@ conf = [
         'unit':'',
         'description':'Salinity',
         'plot':True,
+        'min':0,
     },
     {
         'dbtag':'Chlorophyll_FLNTU',
@@ -111,6 +122,8 @@ conf = [
         'unit':'uM',
         'description':'Oxygen Concentration',
         'plot':True,
+        'min':0,
+        'max':450,
     },
     {
         'dbtag':'AirSaturation',
@@ -119,6 +132,7 @@ conf = [
         'unit':'%',
         'description':'Air Saturation',
         'plot':True,
+        'min':0,
     },
     {
         'dbtag':'Temperature',
@@ -127,6 +141,8 @@ conf = [
         'unit':'Deg.C',
         'description':'Water Temperature (Aanderaa 4330F)',
         'plot':True,
+        'min':-20,
+        'max':60,
     },
     {
         'dbtag':'CalPhase',

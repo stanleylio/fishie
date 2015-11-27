@@ -82,6 +82,8 @@ conf = [
         'unit':'m/s',
         'description':'Wind Speed (average)',
         'plot':True,
+        'min':0,
+        'max':32.4,
     },
     {
         'dbtag':'Wind_gust',
@@ -90,6 +92,8 @@ conf = [
         'unit':'m/s',
         'description':'Wind Speed (gust)',
         'plot':True,
+        'min':0,
+        'max':32.4,
     },
 ]
 
