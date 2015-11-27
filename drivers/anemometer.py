@@ -50,7 +50,8 @@ class Anemometer(object):
 
 if '__main__' == __name__:
 
-    a = Anemometer(port='COM11')
+    #a = Anemometer(port='COM11')
+    a = Anemometer(port='/dev/ttyO2')
 
     '''while True:
         time.sleep(0.1)
@@ -62,16 +63,13 @@ if '__main__' == __name__:
             traceback.print_exc()'''
 
     while True:
-        #time.sleep(1)
+        time.sleep(0.2)
         try:
             r = a.read()
 
             #print('\x1b[2J\x1b[;H')
             print('Raw ADC reg={}\t\tAverage={:.1f}m/s\t\tGust={:.1f}m/s\t'.\
                   format(r['raw'],r['speed'],r['gust']))
-            #print a.average()
-            #print a.raw()
-            #print a.duh()
         except KeyboardInterrupt:
             break
         except IOError:
