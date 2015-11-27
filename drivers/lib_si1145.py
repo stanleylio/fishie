@@ -89,7 +89,7 @@ class SI1145:
 
 
 if '__main__' == __name__:
-        si = SI1145(bus=1)
+        si = SI1145(bus=2)
         while True:
                 tmp = 'UV index: {:.0f}\tIR: {} lux\tAmbient: {} lux'.\
                     format(si.readUVIndex(),si.readIRLight(),si.readAmbientLight())
