@@ -24,7 +24,7 @@ conf = [
         'dbtag':'Timestamp',
         'dbtype':'TIMESTAMP',
         'comtag':'ts',
-        'unit':'',
+        'unit':None,
         'description':'Time of sampling',
         'plot':False,
     },
@@ -35,6 +35,8 @@ conf = [
         'unit':'kPa',
         'description':'Barometric Pressure (BME280)',
         'plot':True,
+        'min':80e3,
+        'max':110e3,
     },
     {
         'dbtag':'T_280',
@@ -43,6 +45,8 @@ conf = [
         'unit':'Deg.C',
         'description':'Air Temperature (BME280)',
         'plot':True,
+        'min':-10,
+        'max':60,
     },
     {
         'dbtag':'RH_280',
