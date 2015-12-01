@@ -7,11 +7,10 @@ import matplotlib,numpy
 matplotlib.use('Agg')
 import sys,re,json,time
 sys.path.append('..')
-import config,storage
+import config
 import matplotlib.pyplot as plt
 from datetime import datetime,timedelta
 from matplotlib.dates import DateFormatter,HourLocator
-from storage.storage import storage_read_only
 from config.config_support import *
 from os.path import exists,join
 from os import makedirs
@@ -22,7 +21,7 @@ def PRINT(s):
     #pass
 
 
-def plot_time_series(x,y,plotfilename,title='',xlabel='',ylabel='',linelabel=None):
+'''def plot_time_series(x,y,plotfilename,title='',xlabel='',ylabel='',linelabel=None):
     plt.figure()
     plt.plot_date(x,y,linestyle='',label=linelabel,color='b',marker='.',markersize=4)
     plt.legend(loc='best',framealpha=0.5)
@@ -77,12 +76,141 @@ def plot_time_series(x,y,plotfilename,title='',xlabel='',ylabel='',linelabel=Non
     plt.savefig(plotfilename,bbox_inches='tight',dpi=300)
     plt.cla()
     plt.clf()
+    plt.close()'''
+
+def auto_tick(ax):
+    x = ax.get_lines()[0].get_xdata()
+    y = ax.get_lines()[0].get_ydata()
+
+    # major tick labels
+    # not x[0] and x[-1] because x is not always sorted in ascending order
+    # ... ORDER BY ... DESC... because otherwise sqlite will return the first
+    # N readings - so if the latest N readings are wanted, they should be at
+    # the first N readings (even though they are sorted in descending order)
+    # For plotting the oder doesn't matter because every sample has its
+    # corresponding timestamp.
+
+    # "locate the earliest timestamp at which time the sample is not an NaN"
+    # tricky bastard... nan in numpy.float64 is not float('nan')... and
+    # certainly not None, and "is not" won't work either
+    begin = min([z[0] for z in zip(x,y) if not numpy.isnan(z[1])])
+    end = max(x)
+    # why not?
+    #end = max([z[0] for z in zip(x,y) if not numpy.isnan(z[1])])
+
+    # show/hide the date in the time axis labels
+    if begin.date() == end.date():
+        ax.xaxis.set_major_formatter(DateFormatter('%H:%M'))
+    else:
+        ax.xaxis.set_major_formatter(DateFormatter('%b %d %H:%M'))
+    plt.gcf().autofmt_xdate()
+
+    # set minor tick density
+    ax.yaxis.get_major_formatter().set_useOffset(False)
+    timespan = end - begin
+    if timespan <= timedelta(days=2):
+        ax.xaxis.set_minor_locator(HourLocator(interval=1))
+    elif timespan <= timedelta(days=7):
+        ax.xaxis.set_minor_locator(HourLocator(interval=3))
+    elif timespan <= timedelta(days=14):
+        ax.xaxis.set_minor_locator(HourLocator(interval=6))
+    elif timespan <= timedelta(days=21):
+        ax.xaxis.set_minor_locator(HourLocator(interval=12))
+    plt.tight_layout()
+
+
+def auto_xlabel(ax):
+    x = ax.get_lines()[0].get_xdata()
+    y = ax.get_lines()[0].get_ydata()
+
+    begin = min([z[0] for z in zip(x,y) if not numpy.isnan(z[1])])
+    end = max(x)
+
+    # auto xlabel (time)
+    if begin.date() == end.date():
+        ax.set_xlabel('UTC Time ({})'.format(begin.strftime('%Y-%m-%d')))
+    else:
+        ax.set_xlabel('UTC Time ({} to {})'.format(\
+            begin.strftime('%Y-%m-%d'),end.strftime('%Y-%m-%d')))
+
+
+def plot_multi_time_series(data,plotfilename,title='',xlabel='',ylabel=''):
+    plt.figure()
+
+    for d in data:
+        x = d['x']
+        y = d['y']
+        try:
+            linelabel = d['linelabel']
+        except:
+            linelabel = None
+        try:
+            color = d['color']
+        except:
+            color = None
+        try:
+            linestyle = d['linestyle']
+        except:
+            linestyle = ''
+        try:
+            marker = d['marker']
+        except:
+            marker = '.'
+        try:
+            markersize = d['markersize']
+        except:
+            markersize = 1
+
+        plt.plot_date(x,y,linestyle=linestyle,label=linelabel,color=color,
+                      marker=marker,markersize=markersize)
+
+        #import matplotlib.patches as mpatches
+        #red_patch = mpatches.Patch()
+        #plt.legend(handles=[red_patch])
+
+        #import matplotlib.lines as mlines
+        #blue_line = mlines.Line2D([], [], marker='.',
+                          #markersize=15, label='stuff')
+        #plt.legend(handles=[blue_line])
+
+        plt.legend(loc='best',framealpha=0.5)
+        plt.title(title)
+        plt.grid(True)
+
+        auto_tick(plt.gca())
+        
+        if '' == xlabel:
+            auto_xlabel(plt.gca())
+        else:
+            plt.gca().set_xlabel(xlabel)
+            
+        plt.gca().set_ylabel(ylabel)
+
+    # make the markers in the legend bigger in order to show the color
+    tmp = plt.gca().get_legend()
+    for h in tmp.legendHandles:
+        h.set_marker('.')
+        #h.set_color('red')
+        h.set_markersize(8)
+    
+    plt.savefig(plotfilename,bbox_inches='tight',dpi=300)
+    plt.cla()
+    plt.clf()
     plt.close()
+
+
+def plot_time_series(x,y,plotfilename,title='',xlabel='',ylabel='',linelabel=None):
+    data = [{'x':x,'y':y,'linelabel':linelabel}]
+    plot_multi_time_series(data,plotfilename,
+                           title=title,
+                           xlabel=xlabel,
+                           ylabel=ylabel)
 
 
 if '__main__' == __name__:
     import sys,traceback,sqlite3,re,importlib,argparse
     sys.path.append('..')
+    from storage.storage import storage_read_only
     #import config
     from scipy.signal import medfilt
 
@@ -179,6 +307,7 @@ if '__main__' == __name__:
                 # ValueError: db has the variable, but all NaN
                 PRINT('\tNo data for {} of {} in the selected range'.\
                       format(var,node_tag))
+                #traceback.print_exc()
             except:
                 traceback.print_exc()
 

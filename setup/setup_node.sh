@@ -45,6 +45,9 @@ sudo apt-get install sqlite3 minicom python-smbus python-scipy w3m -y
 pip install --upgrade setuptools
 pip install Adafruit_BBIO pyserial
 pip install six tzlocal pytz numpy python-dateutil pyparsing --force-reinstall --upgrade
+git clone https://github.com/adafruit/Adafruit_Python_GPIO.git
+cd Adafruit_Python_GPIO
+sudo python setup.py install
 
 
 # matplotlib
