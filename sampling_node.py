@@ -93,7 +93,10 @@ with serial.Serial(node.xbee_port,node.xbee_baud,timeout=1) as s,\
         while True:
             requested = False
             requester = None
-            multi_sample = node.multi_sample
+            try:
+                multi_sample = node.multi_sample
+            except:
+                multi_sample = 1
 
             # process incoming commands
             line = s.readline()
