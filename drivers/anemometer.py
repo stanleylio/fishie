@@ -20,10 +20,12 @@ class Anemometer(object):
         return self._get(cmd='r')
 
     def average(self):
-        return round(Anemometer.conv(self._get(cmd='a'))*10)/10.
+        #return round(Anemometer.conv(self._get(cmd='a'))*100)/100.
+        return round(Anemometer.conv(self._get(cmd='a')),2)
 
     def gust(self):
-        return round(Anemometer.conv(self._get(cmd='g'))*10)/10.
+        #return round(Anemometer.conv(self._get(cmd='g'))*100)/100.
+        return round(Anemometer.conv(self._get(cmd='g')),2)
 
     def _get(self,cmd):
         count = 0
@@ -31,6 +33,7 @@ class Anemometer(object):
         with serial.Serial(self._port,9600,timeout=0.3) as s:
             s.flushInput()
             while len(line) <= 0 and count < 5:
+                count = count + 1
                 s.write(cmd)
                 s.flushOutput()
                 line = s.readline()
