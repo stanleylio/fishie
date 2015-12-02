@@ -47,7 +47,7 @@ conf = [
         'unit':'Deg.C',
         'description':'Casing Temperature',
         'plot':True,
-        'min':-20,
+        'min':-10,
         'max':80,
     },
     {
@@ -67,7 +67,7 @@ conf = [
         'unit':'Deg.C',
         'description':'Water Temperature (MS5803-14BA)',
         'plot':True,
-        'min':-20,
+        'min':-10,
         'max':60,
     },
     {
