@@ -3,7 +3,7 @@
 # Stanley Lio, hlio@usc.edu
 # All Rights Reserved. February 2015
 
-import matplotlib,numpy
+import matplotlib,numpy,traceback
 matplotlib.use('Agg')
 import sys,re,json,time
 sys.path.append('..')
@@ -187,11 +187,14 @@ def plot_multi_time_series(data,plotfilename,title='',xlabel='',ylabel=''):
         plt.gca().set_ylabel(ylabel)
 
     # make the markers in the legend bigger in order to show the color
-    tmp = plt.gca().get_legend()
-    for h in tmp.legendHandles:
-        h.set_marker('.')
-        #h.set_color('red')
-        h.set_markersize(8)
+    try:
+        tmp = plt.gca().get_legend()
+        for h in tmp.legendHandles:
+            h.set_marker('.')
+            #h.set_color('red')
+            h.set_markersize(8)
+    except:
+        traceback.print_exc()
     
     plt.savefig(plotfilename,bbox_inches='tight',dpi=300)
     plt.cla()
