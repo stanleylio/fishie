@@ -31,7 +31,7 @@ t = d[2]
 bdir = '/home/nuc/node/www/t2/'
 
 plot_time_series(ts,p,bdir + 'base_p.png',
-                 title='Barometric Pressure (Base Station BMP180',
+                 title='Barometric Pressure (Base Station BMP180)',
                  xlabel='Time',ylabel='kPa')
 
 
