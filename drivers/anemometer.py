@@ -1,79 +1,82 @@
 #!/usr/bin/python
 #
 # Stanley Hou In Lio, hlio@hawaii.edu
-# October 1, 2015
-import sys,time,os,traceback
-sys.path.append(os.path.join(os.path.dirname(__file__),'Adafruit_GPIO'))
-from I2C import Device
-from scipy.signal import medfilt
+# November 26, 2015
+import serial,time,traceback
 
 
 class Anemometer(object):
     max_speed = 32.4
-    speed_reg = 10
-    gust_reg = 11
-    raw_reg = 12
     
-    def __init__(self,addr=0x50,bus=1):
-        self._i2c = Device(addr,busnum=bus)
+    def __init__(self,port):
+        self._port = port
+        self._baud = 9600
 
     def read(self):
         return {'raw':self.raw(),'speed':self.average(),'gust':self.gust()}
 
-    # raw ADC reading (16-bit)
+    # raw ADC reading (10-bit res)
     def raw(self):
-        return self._i2c.readU16(self.raw_reg)
+        return self._get(cmd='r')
 
-    # average wind speed (8-bit resolution due to LUFA RingBuffer limit)
-    # this takes one minute to stabilize
     def average(self):
-        for i in range(10):
-            try:
-                v = self.conv(self._i2c.readU16(self.speed_reg))
-                break
-            except IOError:
-                pass
-        return max(round(v*10)/10.,0)
+        #return round(Anemometer.conv(self._get(cmd='a'))*100)/100.
+        return round(Anemometer.conv(self._get(cmd='a')),2)
 
-    # wind gust (8-bit resolution due to LUFA RingBuffer limit)
     def gust(self):
-        for i in range(10):
-            try:
-                v = self.conv(self._i2c.readU16(self.gust_reg))
-                break
-            except IOError:
-                pass
-        return round(v*10)/10.
+        #return round(Anemometer.conv(self._get(cmd='g'))*100)/100.
+        return round(Anemometer.conv(self._get(cmd='g')),2)
 
-    #def duh(self):
-    #    return self._i2c.readU16(self.speed_reg)
+    def _get(self,cmd):
+        count = 0
+        line = ''
+        with serial.Serial(self._port,9600,timeout=0.3) as s:
+            s.flushInput()
+            while len(line) <= 0 and count < 5:
+                count = count + 1
+                s.write(cmd)
+                s.flushOutput()
+                line = s.readline()
+            try:
+                return int(line)
+            except:
+                traceback.print_exc()
+                return None
 
     @staticmethod
     def conv(v):
-        #s = v/255.0*2.56;     # LUFA RingBuffer doesn't take uint16_t
-        s = v/1023.0*2.56;
-        return 32.4/1.6*(s - 0.4);
+        #s = v/255.0*2.56   # LUFA RingBuffer doesn't take uint16_t
+        #s = v/1023.0*2.56  # Pro Micro's 2.56V ref is perfect
+        s = v/1023.0*3.3    # Pro Mini either use 1.1V or Vcc as ref
+        return 32.4/1.6*(s - 0.4)
 
 
 if '__main__' == __name__:
 
-    a = Anemometer()
+    #a = Anemometer(port='COM11')
+    a = Anemometer(port='/dev/ttyO2')
+
+    '''while True:
+        time.sleep(0.1)
+        try:
+            print a.average(),a.gust(),a.raw()
+        except KeyboardInterrupt:
+            break
+        except:
+            traceback.print_exc()'''
 
     while True:
+        time.sleep(0.2)
         try:
             r = a.read()
 
             #print('\x1b[2J\x1b[;H')
             print('Raw ADC reg={}\t\tAverage={:.1f}m/s\t\tGust={:.1f}m/s\t'.\
                   format(r['raw'],r['speed'],r['gust']))
-            #print a.average()
-            #print a.raw()
-            #print a.duh()
-            time.sleep(1)
         except KeyboardInterrupt:
             break
         except IOError:
-            pass
+            traceback.print_exc()
         except:
             traceback.print_exc()
 

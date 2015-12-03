@@ -11,7 +11,8 @@ plot_dir = '../www'
 
 plot_range = 24*14
 
-xbee_port = '/dev/ttyAMA0'
+#xbee_port = '/dev/ttyAMA0'
+xbee_port = '/dev/ttyO1'
 xbee_baud = 115200
 
 wait = 597
@@ -23,7 +24,7 @@ conf = [
         'dbtag':'Timestamp',
         'dbtype':'TIMESTAMP',
         'comtag':'ts',
-        'unit':'',
+        'unit':None,
         'description':'Time of sampling',
         'plot':False,
     },
@@ -54,6 +55,8 @@ conf = [
         'unit':'kPa',
         'description':'Barometric Pressure (BME280)',
         'plot':True,
+        'min':80e3,
+        'max':110e3,
     },
     {
         'dbtag':'T_280',
@@ -62,6 +65,8 @@ conf = [
         'unit':'Deg.C',
         'description':'Air Temperature (BME280)',
         'plot':True,
+        'min':-10,
+        'max':60,
     },
     {
         'dbtag':'RH_280',
@@ -102,6 +107,8 @@ conf = [
         'unit':'m/s',
         'description':'Wind Speed (average)',
         'plot':True,
+        'min':0,
+        'max':32.4,
     },
     {
         'dbtag':'Wind_gust',
@@ -110,6 +117,8 @@ conf = [
         'unit':'m/s',
         'description':'Wind Speed (gust)',
         'plot':True,
+        'min':0,
+        'max':32.4,
     },
 ]
 

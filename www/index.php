@@ -15,7 +15,7 @@
 			<div class="page-header row">
 				<div class="col-xs-10 col-xs-offset-1">
 					<div id="header">
-						<a href="http://www.soest.hawaii.edu/oceanography/glazer/Brian_T._Glazer/research/DataLoggers/PoH/HeeiaDataHome"><h3>Real-time Environmental Monitoring</h3></a>
+						<a href="http://www.soest.hawaii.edu/oceanography/glazer/Brian_T._Glazer/research/DataLoggers/PoH/HeeiaDataHome"><h2>Real-time Environmental Monitoring</h2></a>
 					</div>
 				</div>
 			</div>
@@ -57,6 +57,8 @@
 				<div class="text-center" style="color:#C8C8C8; font-size:xx-small;">
 					<footer>
 						<br><br>
+						<a href="https://www.soest.hawaii.edu/soestwp/research/"><img src="soest_oval_textblock_307C_white_2000px.jpg" height="100" width="136"/></a>
+						<br><br><br><br>
 						<p>Stanley Hou In Lio, hlio [at] soest.hawaii.edu</p>
 						<p>All Rights Reserved <?php echo date("Y"); ?></p>
 						<br>
