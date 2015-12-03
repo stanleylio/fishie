@@ -74,6 +74,7 @@ log_dir = node.log_dir
 if not exists(log_dir):
     makedirs(log_dir)
 event = open(join(log_dir,'capture.log'),'a+',0)
+
 def log_event(line):
     PRINT(line)
     log(event,line)
@@ -84,7 +85,7 @@ indicators_setup()
 with serial.Serial(node.xbee_port,node.xbee_baud,timeout=1) as s,\
      open(join(log_dir,'capture.log'),'a+',0) as event:
     try:
-        log_event('begin sampling')
+        log_event('\nbegin sampling')
         
         last_sampled = datetime.utcnow() + timedelta(days=-1)
         last_blinked = datetime.utcnow() + timedelta(days=-1)
