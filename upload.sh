@@ -19,6 +19,5 @@ echo "upload database"
 rsync -avzhe ssh --rsync-path=$REMOTE_RSYNC_PATH --progress ./storage/sensor_data* $BENCHTEST_DIR/storage/
 
 echo "upload log"
-date > /home/nuc/node/log/upload.log
-date > /root/node/log/upload.log
+date > $HOME/node/log/upload.log
 rsync -avzhe ssh --rsync-path=$REMOTE_RSYNC_PATH --progress ./log/* $BENCHTEST_DIR/log/
