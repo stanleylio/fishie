@@ -222,9 +222,9 @@ class BME280_sl(BME280):
         t = super(BME280_sl,self).read_temperature()
         p = super(BME280_sl,self).read_pressure()/1000.
         rh = super(BME280_sl,self).read_humidity()
-        p = round(1000*p)/1000
-        t = round(1000*t)/1000
-        rh = round(1000*rh)/1000
+        p = round(p,3)
+        t = round(t,3)
+        rh = round(rh,3)
         return {'p':p,'t':t,'rh':rh}
 
 
