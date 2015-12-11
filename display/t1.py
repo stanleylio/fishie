@@ -1,3 +1,7 @@
+# Combined plots - all T_180 on one plot, all P_5803 on one plot, etc.
+#
+# Stanley Lio, hlio@soest.hawaii.edu
+# December 2015
 import sys,traceback
 sys.path.append('..')
 from datetime import timedelta
