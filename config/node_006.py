@@ -23,7 +23,7 @@ conf = [
         'comtag':'ts',
         'unit':None,
         'description':'Time of sampling',
-        'plot':False
+        'plot':False,
     },
     {
         'dbtag':'ec',
@@ -31,7 +31,7 @@ conf = [
         'comtag':'ec',
         'unit':'uS',
         'description':'Conductivity',
-        'plot':True
+        'plot':True,
     },
     {
         'dbtag':'sal',
@@ -39,7 +39,7 @@ conf = [
         'comtag':'sal',
         'unit':'',
         'description':'Salinity',
-        'plot':True
+        'plot':True,
     },
     {
         'dbtag':'do',
@@ -47,7 +47,7 @@ conf = [
         'comtag':'do',
         'unit':'uM',
         'description':'Dissolved Oxygen',
-        'plot':True
+        'plot':True,
     },
     {
         'dbtag':'ph',
@@ -55,7 +55,7 @@ conf = [
         'comtag':'ph',
         'unit':'',
         'description':'pH',
-        'plot':True
+        'plot':True,
     },
     {
         'dbtag':'orp',
@@ -63,7 +63,7 @@ conf = [
         'comtag':'orp',
         'unit':'',
         'description':'Oxygen Reduction Potential',
-        'plot':True
+        'plot':True,
     },
     {
         'dbtag':'UV_Si1145',
@@ -71,7 +71,7 @@ conf = [
         'comtag':'UV_Si1145',
         'unit':'(idx x100)',
         'description':'UV Index x 100',
-        'plot':True
+        'plot':True,
     },
     {
         'dbtag':'IR_Si1145',
@@ -79,7 +79,7 @@ conf = [
         'comtag':'IR_Si1145',
         'unit':'lux',
         'description':'IR',
-        'plot':True
+        'plot':True,
     },
     {
         'dbtag':'Amb_Si1145',
@@ -87,7 +87,7 @@ conf = [
         'comtag':'Amb_Si1145',
         'unit':'lux',
         'description':'Ambient Light Intensity',
-        'plot':True
+        'plot':True,
     },
 ]
 

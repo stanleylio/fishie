@@ -1,5 +1,3 @@
-from Adafruit_I2C import Adafruit_I2C
-import time
 from ezo import EZO
 
 # Driver for the Atlas Scientific EZO ORP sensor
@@ -29,10 +27,8 @@ class EZO_ORP(EZO):
     i2c = None
     MAX_LEN = 32
     
-    def __init__(self,address=0x62,lowpower=True):
-        self.i2c = Adafruit_I2C(address)
-        self.address = address
-        self.lowpower = lowpower
+    def __init__(self,address=0x62,lowpower=False,i2c=None,bus=1):
+        EZO.__init__(self,address=address,lowpower=lowpower,i2c=i2c,bus=bus)
 
     def read(self):
         tmp = self._r('R').strip().split(',')
@@ -67,7 +63,7 @@ if '__main__' == __name__:
     print 'Supply voltage:'
     print '{:.3f} volt'.format(orp.supply_v())
     print
-    print 'A sample read:'
-    orp.pretty_print()
-    #orp.sleep()
+
+    while True:
+        orp.pretty_print()
     

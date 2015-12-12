@@ -15,7 +15,7 @@ hwclock -r -f /dev/rtc1
 echo "Getting time via NTP..."
 #ntpdate -b -s -u pool.ntp.org
 service ntp stop
-ntpdate ntp.hawaii.edu
+ntpdate ntp.soest.hawaii.edu
 service ntp start
 #date -s "10 SEP 2015 22:00:30"
 date
@@ -35,7 +35,10 @@ hwclock --show --rtc=/dev/rtc1
 echo "Installing service..."
 # whichever works... oh man.
 cp /root/node/setup/time/rtc-ds1307.service /lib/systemd/system/rtc-ds1307.service
+cp /root/node/setup/time/rtc-ds1307.service /lib/systemd/system/rtc-ds1307_rpi2.service
 systemctl enable rtc-ds1307.service
 systemctl start rtc-ds1307.service
+systemctl enable rtc-ds1307_rpi2.service
+systemctl start rtc-ds1307_rpi2.service
 
 # shutdown -r now

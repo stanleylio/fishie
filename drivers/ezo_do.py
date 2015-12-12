@@ -1,5 +1,3 @@
-from Adafruit_I2C import Adafruit_I2C
-import time
 from ConfigParser import SafeConfigParser,NoSectionError
 from ezo import EZO
 from os.path import join,dirname
@@ -36,11 +34,9 @@ class EZO_DO(EZO):
     units = {'read':'mg/L','read_uM':'uM'}
     # but really, should be able to query the nodes for units too...
     # plotting and processing code shouldn't need to know the existence of THIS driver script.
-    
-    def __init__(self,address=0x61,lowpower=True):
-        self.i2c = Adafruit_I2C(address)
-        self.address = address
-        self.lowpower = lowpower
+
+    def __init__(self,address=0x61,lowpower=False,i2c=None,bus=1):
+        EZO.__init__(self,address=address,lowpower=lowpower,i2c=i2c,bus=bus)
         
         try:
             parser = SafeConfigParser()
@@ -141,7 +137,7 @@ class EZO_DO(EZO):
 
 
 if '__main__' == __name__:
-    do = EZO_DO(lowpower=True)
+    do = EZO_DO(lowpower=False)
     print 'Device Information (sensor type, firmware version):'
     print do.device_information()
     print
@@ -176,9 +172,7 @@ if '__main__' == __name__:
     #do.p(101.3)
     #print 'Another read, directly in uM: {} uM'.format(do.read_uM())
     
-    import time
     while True:
         tmp = do.read()
         print '= = = = = = = = = ='
         print do.pretty(tmp)
-        time.sleep(1)

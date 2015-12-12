@@ -14,7 +14,7 @@ xbee_baud = 115200
 
 optode_port = '/dev/ttyO2'
 
-wait = 592
+wait = 591
 #wait = 0
 
 multi_sample = 7
@@ -26,7 +26,7 @@ conf = [
         'comtag':'ts',
         'unit':None,
         'description':'Time of sampling',
-        'plot':False
+        'plot':False,
     },
     {
         'dbtag':'P_180',
@@ -35,7 +35,10 @@ conf = [
         'unit':'Pa',
         'description':'Barometric Pressure',
         'plot':True,
-        'convf':lambda (x): x/1000.
+        'min':80e3,
+        'max':110e3,
+        #'convf':lambda (x): x/1e3,
+        #'convunit':'kPa',
     },
     {
         'dbtag':'T_180',
@@ -43,7 +46,9 @@ conf = [
         'comtag':'T_180',
         'unit':'Deg.C',
         'description':'Casing Temperature',
-        'plot':True
+        'plot':True,
+        'min':-10,
+        'max':80,
     },
     {
         'dbtag':'P_5803',
@@ -51,7 +56,9 @@ conf = [
         'comtag':'P_5803',
         'unit':'kPa',
         'description':'Water Pressure',
-        'plot':True
+        'plot':True,
+        'min':80,
+        'max':150,
     },
     {
         'dbtag':'T_5803',
@@ -59,7 +66,9 @@ conf = [
         'comtag':'T_5803',
         'unit':'Deg.C',
         'description':'Water Temperature (MS5803-14BA)',
-        'plot':True
+        'plot':True,
+        'min':-10,
+        'max':60,
     },
     {
         'dbtag':'ec',
@@ -67,7 +76,9 @@ conf = [
         'comtag':'ec',
         'unit':'uS',
         'description':'Conductivity',
-        'plot':True
+        'plot':True,
+        'min':0,
+        'max':55e3,
     },
     {
         'dbtag':'sal',
@@ -75,7 +86,8 @@ conf = [
         'comtag':'sal',
         'unit':'',
         'description':'Salinity',
-        'plot':True
+        'plot':True,
+        'min':0,
     },
     {
         'dbtag':'O2Concentration',
@@ -83,7 +95,9 @@ conf = [
         'comtag':'O2',
         'unit':'uM',
         'description':'Oxygen Concentration',
-        'plot':True
+        'plot':True,
+        'min':0,
+        'max':450,
     },
     {
         'dbtag':'AirSaturation',
@@ -91,7 +105,8 @@ conf = [
         'comtag':'Air',
         'unit':'%',
         'description':'Air Saturation',
-        'plot':True
+        'plot':True,
+        'min':0,
     },
     {
         'dbtag':'Temperature',
@@ -99,7 +114,9 @@ conf = [
         'comtag':'T_4330f',
         'unit':'Deg.C',
         'description':'Water Temperature (Aanderaa 4330F)',
-        'plot':True
+        'plot':True,
+        'min':-20,
+        'max':60,
     },
     {
         'dbtag':'CalPhase',
@@ -107,7 +124,7 @@ conf = [
         'comtag':'CalPhase',
         'unit':'Deg',
         'description':'CalPhase',
-        'plot':False
+        'plot':False,
     },
     {
         'dbtag':'TCPhase',
@@ -115,7 +132,7 @@ conf = [
         'comtag':'TCPhase',
         'unit':'Deg',
         'description':'TCPhase',
-        'plot':False
+        'plot':False,
     },
     {
         'dbtag':'C1RPh',
@@ -123,7 +140,7 @@ conf = [
         'comtag':'C1RPh',
         'unit':'Deg',
         'description':'C1RPh',
-        'plot':False
+        'plot':False,
     },
     {
         'dbtag':'C2RPh',
@@ -131,7 +148,7 @@ conf = [
         'comtag':'C2RPh',
         'unit':'Deg',
         'description':'C2RPh',
-        'plot':False
+        'plot':False,
     },
     {
         'dbtag':'C1Amp',
@@ -139,7 +156,7 @@ conf = [
         'comtag':'C1Amp',
         'unit':'mV',
         'description':'C1Amp',
-        'plot':False
+        'plot':False,
     },
     {
         'dbtag':'C2Amp',
@@ -147,7 +164,7 @@ conf = [
         'comtag':'C2Amp',
         'unit':'mV',
         'description':'C2Amp',
-        'plot':False
+        'plot':False,
     },
     {
         'dbtag':'RawTemp',
@@ -155,7 +172,7 @@ conf = [
         'comtag':'RawTemp',
         'unit':'mV',
         'description':'RawTemp',
-        'plot':False
+        'plot':False,
     },
 ]
 

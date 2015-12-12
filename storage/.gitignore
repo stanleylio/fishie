@@ -7,3 +7,5 @@
 *.gz
 
 gen_csv4www.sh
+
+./bounded/

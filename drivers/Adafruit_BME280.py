@@ -214,17 +214,17 @@ class BME280(object):
 
 
 class BME280_sl(BME280):
-    def __init__(self,busnum=1,mode=BME280_OSAMPLE_8):
-        BME280.__init__(self,busnum=busnum,mode=mode)
+    def __init__(self,bus=1,mode=BME280_OSAMPLE_8):
+        BME280.__init__(self,busnum=bus,mode=mode)
 
     def read(self):
         # ... wait what? it flips if you read t after p?? Adafruit...
         t = super(BME280_sl,self).read_temperature()
         p = super(BME280_sl,self).read_pressure()/1000.
         rh = super(BME280_sl,self).read_humidity()
-        p = round(1000*p)/1000
-        t = round(1000*t)/1000
-        rh = round(1000*rh)/1000
+        p = round(p,3)
+        t = round(t,3)
+        rh = round(rh,3)
         return {'p':p,'t':t,'rh':rh}
 
 
@@ -242,17 +242,14 @@ if '__main__' == __name__:
     print 'Humidity  = {0:0.2f} %'.format(humidity)'''
 
     import traceback
-    
-    try:
-        bme = BME280_sl(busnum=1)
-        print bme.read()
-    except:
-        #traceback.print_exc()
-        pass
 
-    try:
-        bme = BME280_sl(busnum=2)
-        print bme.read()
-    except:
-        pass
+    while True:
+        try:
+            bme = BME280_sl(bus=1)
+            print bme.read()
+        except KeyboardInterrupt:
+            break
+        except:
+            #traceback.print_exc()
+            pass
 

@@ -1,5 +1,3 @@
-from Adafruit_I2C import Adafruit_I2C
-import time
 from ConfigParser import SafeConfigParser,NoSectionError
 from ezo import EZO
 from os.path import join,dirname
@@ -32,13 +30,8 @@ def PRINT(s):
 # Sensor is programmed to sleep between commands by default.
 class EZO_EC(EZO):
     
-    i2c = None
-    MAX_LEN = 32
-    
-    def __init__(self,address=0x64,bus=-1,lowpower=True):
-        self.i2c = Adafruit_I2C(address,busnum=bus)
-        self.address = address
-        self.lowpower = lowpower
+    def __init__(self,address=0x64,lowpower=False,i2c=None,bus=1):
+        EZO.__init__(self,address=address,lowpower=lowpower,i2c=i2c,bus=bus)
         try:
             parser = SafeConfigParser()
             parser.read(join(dirname(__file__),'ezo.ini'))
@@ -110,7 +103,7 @@ if '__main__' == __name__:
 
     bus = 1
     
-    ec = EZO_EC(bus=bus,lowpower=True)
+    ec = EZO_EC(bus=bus,lowpower=False)
     print 'Device Information (sensor type, firmware version):'
     print ec.device_information()
     print

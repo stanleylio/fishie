@@ -8,10 +8,21 @@ def PRINT(s):
     print(s)
 
 class EZO(object):
+
+    MAX_LEN = 32
+
     NoData = 255
     Pending = 254
     Failed = 2
     Success = 1
+
+    def __init__(self,address,lowpower=False,i2c=None,bus=1):
+        self.i2c = i2c
+        if self.i2c is None:
+            from Adafruit_GPIO.I2C import Device
+            self.i2c = Device(address,busnum=bus)
+        self.address = address
+        self.lowpower = lowpower
 
     def __enter__(self):
         return self
@@ -84,6 +95,8 @@ class EZO(object):
             self.i2c.writeList(tmp[0],tmp[1:])  # awkward...
         else:
             PRINT('EZO::_r(): HUH?')
+            return
+        
         time.sleep(wait)
         tmp = self.i2c.readList(self.address,self.MAX_LEN)
         

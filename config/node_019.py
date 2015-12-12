@@ -7,7 +7,7 @@ note = 'UH MSB rm 228'
 log_dir = './log'
 plot_dir = '../www'
 
-plot_range = 24*14
+plot_range = 24*7
 
 xbee_port = '/dev/ttyO1'
 xbee_baud = 115200
@@ -30,7 +30,7 @@ conf = [
         'comtag':'ts',
         'unit':None,
         'description':'Time of sampling',
-        'plot':False
+        'plot':False,
     },
     {
         'dbtag':'P_180',
@@ -39,7 +39,6 @@ conf = [
         'unit':'Pa',
         'description':'Barometric Pressure (BMP180)',
         'plot':True,
-        'convf':lambda (x): x/1000.
     },
     {
         'dbtag':'T_180',
@@ -47,7 +46,7 @@ conf = [
         'comtag':'T_180',
         'unit':'Deg.C',
         'description':'Temperature (BMP180)',
-        'plot':True
+        'plot':True,
     },
     {
         'dbtag':'RH_HTU21D',
@@ -55,7 +54,7 @@ conf = [
         'comtag':'RH_HTU21D',
         'unit':'%RH',
         'description':'Humidity (HTU21D)',
-        'plot':True
+        'plot':True,
     },
     {
         'dbtag':'T_HTU21D',
@@ -63,7 +62,7 @@ conf = [
         'comtag':'T_HTU21D',
         'unit':'Deg.C',
         'description':'Temperature (HTU21D)',
-        'plot':True
+        'plot':True,
     },
     {
         'dbtag':'UV_Si1145',
@@ -71,7 +70,7 @@ conf = [
         'comtag':'UV_Si1145',
         'unit':'(idx x100)',
         'description':'UV Index x 100',
-        'plot':True
+        'plot':True,
     },
     {
         'dbtag':'IR_Si1145',
@@ -79,7 +78,7 @@ conf = [
         'comtag':'IR_Si1145',
         'unit':'lux',
         'description':'IR',
-        'plot':True
+        'plot':True,
     },
     {
         'dbtag':'Amb_Si1145',
@@ -87,7 +86,7 @@ conf = [
         'comtag':'Amb_Si1145',
         'unit':'lux',
         'description':'Ambient Light Intensity',
-        'plot':True
+        'plot':True,
     },
 ]
 

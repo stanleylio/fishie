@@ -8,34 +8,40 @@
 		<link href="jquery-ui/jquery-ui.min.css" rel="stylesheet" type="text/css">
 		<script src="jquery/jquery.min.js" type="text/javascript"></script>
 		<script src="jquery.timeago.js" type="text/javascript"></script>
-		
-		<!--link href="node_page.css" rel="stylesheet" type="text/css"-->
-		<title>Fishpond Monitoring - PoH</title>
+		<title>Dashboard</title>
 	</head>
 	<body>
 		<div class="container-fluid">
 			<div class="page-header row">
 				<div class="col-xs-10 col-xs-offset-1">
 					<div id="header">
-						<h2>Real-time Fishpond Monitoring</h2>
-						<h3>Base Station #3</h3>
-						<p>Paepae o He'eia</p>
+						<a href="http://www.soest.hawaii.edu/oceanography/glazer/Brian_T._Glazer/research/DataLoggers/PoH/HeeiaDataHome"><h2>Real-time Environmental Monitoring</h2></a>
 					</div>
 				</div>
 			</div>
 
-			<br>
-
 			<div class="row">
-				<div class="col-xs-10 col-xs-offset-1 col-md-4">
-					<div id="list_of_nodes">list of nodes</div>
+				<div class="col-xs-10 col-xs-offset-1 col-sm-5">
+					<h4>Base Station #3 (Celeron-NUC)</h4>
+					<a href="https://goo.gl/maps/ECEBgo3UEp82" target="_blank"><p>Paepae o He'eia, Kane'ohe</p></a>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-10 col-xs-offset-1 col-sm-4">
+					<div id="poh_nodes">poh nodes</div>
 				</div>
 			</div>
 			
-			<br><br>
+			<hr>
 
 			<div class="row">
-				<div class="col-xs-10 col-xs-offset-1 col-md-4">
+				<div class="col-xs-10 col-xs-offset-1 col-sm-5">
+					<h4>"SuperNUC" (i7 NUC)</h4>
+					<a href="https://goo.gl/maps/FHm4aQNkaaP2" target="_blank"><p>UHM MSB 228</p></a>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-10 col-xs-offset-1 col-sm-4">
 					<div id="bench_nodes">
 						<ul class="list-group">
 							<a href="./node_page/index.php?id=5" id="node5" data-sortby="5" target="_blank" class="list-group-item">Node #5 - Lab Ref.</a>
@@ -45,12 +51,14 @@
 				</div>
 			</div>
 			
-			<br><br>
+			<br>
 
 			<div class="col-xs-12">
 				<div class="text-center" style="color:#C8C8C8; font-size:xx-small;">
 					<footer>
 						<br><br>
+						<a href="https://www.soest.hawaii.edu/soestwp/research/"><img src="soest_oval_textblock_307C_white_2000px.jpg" height="100" width="136"/></a>
+						<br><br><br><br>
 						<p>Stanley Hou In Lio, hlio [at] soest.hawaii.edu</p>
 						<p>All Rights Reserved <?php echo date("Y"); ?></p>
 						<br>
@@ -59,6 +67,7 @@
 			</div>
 		</div>
 
-		<script src="dashboard.js" type="text/javascript"></script>
+		<script src="poh.js" type="text/javascript"></script>
+		<script src="msb228.js" type="text/javascript"></script>
 	</body>
 </html>

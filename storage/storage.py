@@ -21,6 +21,7 @@ class storage_read_only(object):
     def __init__(self,dbfile=None):
         if dbfile is None:
             dbfile = join(dirname(__file__),'sensor_data.db')
+            PRINT('db file not specified. Using default ' + dbfile)
         self.conn = sqlite3.connect(dbfile,\
                                     detect_types=sqlite3.PARSE_DECLTYPES |\
                                     sqlite3.PARSE_COLNAMES)
@@ -33,11 +34,25 @@ class storage_read_only(object):
         return sorted(tuple(t[0] for t in cursor.fetchall()))
 
     def get_list_of_columns(self,node_id):
-        cursor = self.c.execute('SELECT * FROM node_{:03d};'.format(node_id))
+        if type(node_id) is int:
+            node_id = 'node_{:03d}'.format(node_id)
+        cursor = self.c.execute('SELECT * FROM {}'.format(node_id))
         return [d[0] for d in cursor.description]
 
+        '''if type(node_id) is int:
+            cursor = self.c.execute('SELECT * FROM node_{:03d};'.format(node_id))
+            return [d[0] for d in cursor.description]
+        elif type(node_id) is unicode:      # what?
+            # moving away from numerical node IDs and into alphanumeric node tag/name
+            cursor = self.c.execute('SELECT * FROM {}'.format(node_id))
+            return [d[0] for d in cursor.description]
+        else:
+            #print type(node_id)
+            #assert False
+            pass'''
+
     def read_time_range(self,node_id,time_col,cols,timerange):
-        assert type(node_id) is int,'storage::read_time_range(): node_id must be int'
+        #assert type(node_id) is int,'storage::read_time_range(): node_id must be int'
         assert type(cols) is list,'storage::read_time_range(): cols must be a list of string'
         #if 'Timestamp' not in cols and 'ReceptionTime' not in cols:
         #    print('Sure you don''t need any timestamps?')
@@ -74,8 +89,13 @@ class storage_read_only(object):
         #return tmp
 
     def read_last_N(self,node_id,time_col,count=1,cols=None):
-        assert type(node_id) is int,'storage::read_last_N(): node_id must be int'
+        #assert type(node_id) is int,'storage::read_last_N(): node_id must be int'
         assert cols is None or type(cols) is list,'storage::read_last_N(): cols, if not None, must be a list of string'
+
+        # transitioning from numerical node_id to str node_id
+        if type(node_id) is int:
+            node_id = 'node_{:03d}'.format(node_id)
+        
         if cols is not None:
             if 'Timestamp' not in cols and 'ReceptionTime' not in cols:
                 print('Sure you don''t want any timestamps?')
@@ -85,7 +105,7 @@ class storage_read_only(object):
 
         cmd = 'SELECT {} FROM {} ORDER BY {} DESC LIMIT {}'.\
                 format(','.join(cols),
-                       'node_{:03d}'.format(node_id),
+                       node_id,
                        time_col,
                        count)
         #print cmd
