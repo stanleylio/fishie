@@ -6,8 +6,8 @@ import serial,re,traceback
 
 
 def PRINT(s):
-    pass
-    #print(s)
+    #pass
+    print(s)
 
 
 class Aanderaa_4330f(object):
@@ -37,7 +37,7 @@ class Aanderaa_4330f(object):
 
                 count = 0
                 s.write('\r\ndo stop\r\n')
-                # should get a '#'
+                # should at least get a '#'
                 while len(s.readline().strip()) <= 0 and count < self.MAX_RETRY:
                     s.write('\r\ndo stop\r\n')
                     count = count + 1
@@ -46,15 +46,17 @@ class Aanderaa_4330f(object):
                     PRINT('Optode not responding to "do stop". Is it connected on {}?'.\
                           format(self._port))
                     return None
-                    # still gonna try reading it anyway
 
-                count = 0
                 s.write('\r\ndo sample\r\n')
                 line = s.readline()
-                while '4330F' not in line and count < self.MAX_RETRY:
-                    count = count + 1
+                for i in range(self.MAX_RETRY):
                     line = s.readline()
-                    return Aanderaa_4330f.parse_4330f(line)
+                    tmp = Aanderaa_4330f.parse_4330f(line)
+                    if tmp is not None:
+                        return tmp
+                    else:
+                        pass
+
                 PRINT('Aanderaa_4330f::read(): no valid response from optode')
         except Exception:   # so that it doesn't capture KeyboardInterrupt
             traceback.print_exc()
@@ -88,6 +90,13 @@ class Aanderaa_4330f(object):
 
 
 if '__main__' == __name__:
+
+    #w = 'MEASUREMENT     4330F   829     O2Concentration(uM)     264.241 AirSaturation(%)        99.637  Temperature(Deg.C)      23.458  CalPhase(Deg)   27.054  TCPhase(Deg)   30.149   C1RPh(Deg)      34.098  C2RPh(Deg)      3.949   C1Amp(mV)       594.7  C2Amp(mV)        697.2   RawTemp(mV)     181.7'
+    #w = 'MEASUREMENT     4330F   829     O2Concentration(uM)     264.217 AirSaturation(%)        99.575  Temperature(Deg.C)      23.430  CalPhase(Deg)   27.066     TCPhase(Deg)    30.160  C1RPh(Deg)      34.107  C2RPh(Deg)      3.947   C1Amp(mV)       595.0   C2Amp(mV)       697.2   RawTemp(mV)     182.7'
+    w = 'MEASUREMENT	4330F	829	O2Concentration(uM)	263.870	AirSaturation(%)	99.293	Temperature(Deg.C)	23.349	CalPhase(Deg)	27.110	TCPhase(Deg)	30.200	C1RPh(Deg)	34.202	C2RPh(Deg)	4.002	C1Amp(mV)	595.3	C2Amp(mV)	697.2	RawTemp(mV)	185.3	'
+    print Aanderaa_4330f.parse_4330f(w)
+    exit()
+    
     import time
     from os.path import exists
 
