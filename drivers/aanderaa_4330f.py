@@ -11,6 +11,9 @@ def PRINT(s):
 
 
 class Aanderaa_4330f(object):
+
+    MAX_RETRY = 3
+    
     msgfield = ['SN','O2Concentration','AirSaturation','Temperature','CalPhase',\
                 'TCPhase','C1RPh','C2RPh','C1Amp','C2Amp','RawTemp']
     convf = [int,float,float,float,float,float,float,float,float,float,float]
@@ -25,27 +28,36 @@ class Aanderaa_4330f(object):
 
     def read(self):
         try:
-            with serial.Serial(self._port,9600,timeout=1) as s:
+            with serial.Serial(self._port,9600,timeout=2) as s:
                 s.flushInput()
                 s.flushOutput()
                 # optode does not respond immediately after it wake up
                 # so the first few commands will probably be lost
                 # retry several times til a successful read is returned
-                for j in range(5):
-                    PRINT('{} try'.format(j+1))
-                    s.write('do stop\r\n')
-                    s.write('do sample\r\n')
-                    # read a few lines from the optode until a valid
-                    # response is received
-                    for i in range(5):
-                        line = s.readline()
-                        #print line
-                        tmp = Aanderaa_4330f.parse_4330f(line)
-                        if tmp is not None:
-                            return tmp
+
+                count = 0
+                s.write('\r\ndo stop\r\n')
+                # should get a '#'
+                while len(s.readline().strip()) <= 0 and count < self.MAX_RETRY:
+                    s.write('\r\ndo stop\r\n')
+                    count = count + 1
+                    # relying on the timeout instead of using time.sleep()
+                if count >= self.MAX_RETRY:
+                    PRINT('Optode not responding to "do stop". Is it connected on {}?'.\
+                          format(self._port))
+                    return None
+                    # still gonna try reading it anyway
+
+                count = 0
+                s.write('\r\ndo sample\r\n')
+                line = s.readline()
+                while '4330F' not in line and count < self.MAX_RETRY:
+                    count = count + 1
+                    line = s.readline()
+                    return Aanderaa_4330f.parse_4330f(line)
                 PRINT('Aanderaa_4330f::read(): no valid response from optode')
-        except Exception as e:
-            PRINT(e)
+        except Exception:   # so that it doesn't capture KeyboardInterrupt
+            traceback.print_exc()
         return None
 
     @staticmethod
@@ -79,18 +91,14 @@ if '__main__' == __name__:
     import time
     from os.path import exists
 
-    optode = None
-    if exists('/dev/ttyO2'):
-        optode = Aanderaa_4330f(port='/dev/ttyO2')
-    elif exists('/dev/ttyO4'):
-        optode = Aanderaa_4330f(port='/dev/ttyO4')
-    else:
-        optode = Aanderaa_4330f(port='COM11')
+    #optode = Aanderaa_4330f(port='/dev/ttyO2')
+    optode = Aanderaa_4330f(port='/dev/ttyO4')
+    #optode = Aanderaa_4330f(port='COM11')
         
     try:
         while True:
             print optode.read()
-            #time.sleep(1)
+            time.sleep(1)
     except KeyboardInterrupt:
         print 'user interrupted'
 
