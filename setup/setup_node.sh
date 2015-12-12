@@ -42,9 +42,9 @@ bash ./time/install_ds1307.sh
 echo "Installing Python libraries"
 sudo apt-get install build-essential python-dev python-setuptools python-pip -y
 sudo apt-get install sqlite3 minicom python-smbus python-scipy w3m -y
-pip install --upgrade setuptools
-pip install Adafruit_BBIO pyserial
-pip install six tzlocal pytz numpy python-dateutil pyparsing --force-reinstall --upgrade
+sudo pip install --upgrade setuptools
+sudo pip install Adafruit_BBIO pyserial
+sudo pip install six tzlocal pytz numpy python-dateutil pyparsing --force-reinstall --upgrade
 git clone https://github.com/adafruit/Adafruit_Python_GPIO.git
 cd Adafruit_Python_GPIO
 sudo python setup.py install
