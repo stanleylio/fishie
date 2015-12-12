@@ -82,12 +82,12 @@ if '__main__' == __name__:
         tmp = int(raw_input('Enter one of {1,2,3,4,5}:'))
 
     if 1 == tmp:
-        print('Clearing old calibration data...')
+        print('Clearing existing calibration data...')
         ec.cal_clear()
         print('... done.')
     elif 2 == tmp:
         print('SINGLE point calibration selected.')
-        print('Clearing old calibration data...')
+        print('Clearing existing calibration data...')
         ec.cal_clear()
         print('... done.')
         raw_input('Step 1 of 2: Dry Calibration. Make sure the probe is dry. Hit ENTER when ready...')
@@ -104,7 +104,7 @@ if '__main__' == __name__:
         print('Calibration Completed.')
     elif 3 == tmp:
         print('DUAL points calibration selected.')
-        print('Clearing old calibration data...')
+        print('Clearing existing calibration data...')
         ec.cal_clear()
         print('... done.')
         raw_input('Step 1 of 3: Dry Calibration. Make sure the probe is dry. Hit ENTER when ready...')
