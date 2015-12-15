@@ -80,7 +80,7 @@ class MS5803_14BA:
 
 if '__main__' == __name__:
 
-    bus = 1
+    bus = 2
     print('using bus {}'.format(bus))
     ms = MS5803_14BA(bus=bus)
     
@@ -90,6 +90,6 @@ if '__main__' == __name__:
 
     while True:
         #print('\x1b[2J\x1b[;H')
-        print ms.pretty(ms.read())
+        print ms.pretty()
         time.sleep(0.1)
 
