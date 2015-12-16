@@ -89,8 +89,8 @@ class MCP9808(object):
 
 if '__main__' == __name__:
         import time
-        
-        sensor = MCP9808()
+
+        sensor = MCP9808(busnum=2)
         sensor.begin()
 
         try:

@@ -55,7 +55,7 @@ sudo apt-get build-dep python-matplotlib -y
 #sudo ln -s /usr/local/opt/freetype/include/freetype2 /usr/local/include/freetype
 
 # matplotlib
-#git clone git://github.com/matplotlib/matplotlib.git
+#git clone https://github.com/matplotlib/matplotlib.git
 echo "Getting matplotlib plotting library"
 #wget http://softlayer-dal.dl.sourceforge.net/project/matplotlib/matplotlib/matplotlib-1.4.3/matplotlib-1.4.3.tar.gz
 if [ ! -f matplotlib-1.4.3.tar.gz ]; then

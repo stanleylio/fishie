@@ -44,10 +44,10 @@ $.get("node_config.py?p=list_of_nodes&site=poh",function(data) {
 					//$("#node" + node_id).attr("href","#");
 				} else {
 					var diff = Date.now()/1000 - data.latest_sample.ReceptionTime;
-					if (diff > 30*60) {
-						$("#node" + node_id).addClass("list-group-item-danger");
-					} else {
+					if (diff < 30*60) {
 						$("#node" + node_id).addClass("list-group-item-success");
+					} else {
+						$("#node" + node_id).addClass("list-group-item-danger");
 					}
 				}
 			});

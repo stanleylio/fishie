@@ -13,11 +13,11 @@ $.each(nodes,function(i,node_id){
 		if (null === data.latest_sample) {
 			$("#node" + node_id).addClass("list-group-item-danger");
 		} else {
-			var diff = Date.now()/1000 - data.latest_sample.ReceptionTime;
-			if (diff > 30*60) {
-				$("#node" + node_id).addClass("list-group-item-danger");
-			} else {
+			var diff = Date.now()/1000 - data.latest_sample.Timestamp;
+			if (diff < 30*60) {
 				$("#node" + node_id).addClass("list-group-item-success");
+			} else {
+				$("#node" + node_id).addClass("list-group-item-danger");
 			}
 		}
 	});

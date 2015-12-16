@@ -27,7 +27,7 @@ with serial.Serial(base.xbee_port,base.xbee_baud,timeout=1) as s:
         
         tmp = {}
         tmp['action'] = 'do sample'
-        tmp['m'] = 1
+        tmp['m'] = 1    # multi_sample
         tmp = {'from':from_tag,'to':to_tag,'payload':tmp}
         tmp = json.dumps(tmp,separators=(',',':'))
         tmp = '{}{}\n'.format(tmp,get_checksum(tmp))
