@@ -47,6 +47,21 @@ def log(f,line):
     f.write('{}\t{}\n'.format(ts.isoformat(),line.strip()))
     f.flush()
 
+# event log and log of received stuff (data and commands alike)
+log_dir = node.log_dir
+if not exists(log_dir):
+    makedirs(log_dir)
+event = open(join(log_dir,'capture.log'),'a+',0)
+raw = open(join(log_dir,'tsraw.txt'),'a+',0)
+
+def log_event(line):
+    PRINT(line)
+    log(event,line)
+
+def log_raw(line):
+    #PRINT(line)
+    log(raw,line)
+
 store = storage({node.id:read_capabilities()[node.id]})
 
 # wait at most 1 minute for the system clock to initialize (ntpdate, hwclock, GPS etc.)
@@ -70,15 +85,6 @@ while True:
     count = count + 1
     time.sleep(1)
 
-log_dir = node.log_dir
-if not exists(log_dir):
-    makedirs(log_dir)
-event = open(join(log_dir,'capture.log'),'a+',0)
-
-def log_event(line):
-    PRINT(line)
-    log(event,line)
-
 indicators_setup()
 
 
@@ -90,28 +96,36 @@ with serial.Serial(node.xbee_port,node.xbee_baud,timeout=1) as s,\
         last_sampled = datetime.utcnow() + timedelta(days=-1)
         last_blinked = datetime.utcnow() + timedelta(days=-1)
         dither = 0
+
+        try:
+            multi_sample = node.multi_sample
+        except:
+            multi_sample = 1
         
         while True:
             requested = False
             requester = None
-            try:
-                multi_sample = node.multi_sample
-            except:
-                multi_sample = 1
 
-            # process incoming commands
+            # watch for incoming commands
             line = s.readline()
-            cmd = get_action(line)
-            if cmd is not None and ('do sample' == cmd['action']):
-                requested = True
+            if len(line) > 0:
                 try:
-                    requester = cmd['from']
+                    log_raw(line)
                 except:
-                    pass
-                try:
-                    multi_sample = cmd['multi_sample']
-                except:
-                    pass
+                    traceback.print_exc()
+                
+                cmd = get_action(line)
+                if cmd is not None and ('do sample' == cmd['action']):
+                    requested = True
+                    try:
+                        requester = cmd['from']
+                    except:
+                        # this shouldn't be allowed: requested by anonymous entity
+                        pass
+                    try:
+                        multi_sample = cmd['multi_sample']
+                    except:
+                        pass
 
             scheduled = (datetime.utcnow() - last_sampled) >= timedelta(seconds=node.wait + dither)
 
