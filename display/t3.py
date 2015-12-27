@@ -1,4 +1,4 @@
-# 
+# temperature sensor comparison (silcon in styrofoam)
 #
 # Stanley Lio, hlio@soest.hawaii.edu
 # December 2015
@@ -32,5 +32,5 @@ def nanize(y,convf=lambda (x): x):
 print d.keys()
 data = [{'x':d[time_col],'y':nanize(d[k]),'linelabel':k} for k in d.keys() if k != time_col]
 fn = '/home/nuc/node/www/t3/temperature.png'
-plot_multi_time_series(data,fn,title='Temperature',ylabel='Deg.C')
+plot_multi_time_series(data,fn,title='Temperature (sensor-in-a-styrofoam-box)',ylabel='Deg.C')
 
