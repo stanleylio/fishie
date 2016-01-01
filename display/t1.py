@@ -26,7 +26,7 @@ def haha(c):
     for i in nodes:
         try:
             print 'node {}'.format(i)
-            tmp = store.read_time_range(node_id=i,time_col=time_col,cols=[time_col,tag],
+            tmp = store.read_past_time_period(node_id=i,time_col=time_col,cols=[time_col,tag],
                                         timerange=timerange)
             x = tmp[time_col]
             y = tmp[tag]

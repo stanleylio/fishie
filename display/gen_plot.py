@@ -281,7 +281,7 @@ if '__main__' == __name__:
             plotfilename = join(node_plot_dir,'{}.png'.format(var))
 
             try:
-                tmp = store.read_time_range(node_id,time_col,cols,timerange)
+                tmp = store.read_past_time_period(node_id,time_col,cols,timerange)
                 x = tmp[time_col]
                 y = [l if l is not None else float('NaN') for l in tmp[var]]
 

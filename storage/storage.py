@@ -8,12 +8,21 @@
 
 import sqlite3,sys
 from os.path import join,dirname
+import time
+from datetime import datetime
 from datetime import timedelta
 
 
 def PRINT(s):
     #pass
     print(s)
+
+def dt2ts(dt):
+    return time.mktime(dt.timetuple()) +\
+           (dt.microsecond)*(1e-6)
+
+def ts2dt(ts):
+    return datetime.fromtimestamp(ts)
 
 
 # this one doesn't require database schema on instantiation
@@ -51,9 +60,42 @@ class storage_read_only(object):
             #assert False
             pass'''
 
-    def read_time_range(self,node_id,time_col,cols,timerange):
-        #assert type(node_id) is int,'storage::read_time_range(): node_id must be int'
+    def read_time_range(self,node_id,time_col,cols,begin,end=None):
         assert type(cols) is list,'storage::read_time_range(): cols must be a list of string'
+
+        if type(node_id) is int:
+            node_id = 'node_{:03d}'.format(node_id)
+
+        if end is None:
+            end = datetime.now()
+
+        time_range = 'WHERE {time_col} BETWEEN "{begin}" AND "{end}"'.\
+                     format(time_col=time_col,begin=begin,end=end)
+        cmd = 'SELECT {} FROM {} {time_range} ORDER BY {time_col} DESC'.\
+                format(','.join(cols),
+                       node_id,
+                       time_range=time_range,
+                       time_col=time_col)
+        #print cmd
+        
+        try:
+            self.c.execute(cmd)
+            tmp = self.c.fetchall()
+            if len(tmp) <= 0:
+                return None
+            return {v:tuple(r[v] for r in tmp) for v in cols}
+        except:
+            return None
+
+    def read_past_time_period(self,node_id,time_col,cols,timerange):
+        end = datetime.now()
+        begin = end - timerange
+        return self.read_time_range(node_id,time_col,cols,begin,end=end)
+
+# "planned obsolescence"
+    def _obsolete_read_past_time_period(self,node_id,time_col,cols,timerange):
+        #assert type(node_id) is int,'storage::read_past_time_period(): node_id must be int'
+        assert type(cols) is list,'storage::read_past_time_period(): cols must be a list of string'
         #if 'Timestamp' not in cols and 'ReceptionTime' not in cols:
         #    print('Sure you don''t need any timestamps?')
 
@@ -178,7 +220,12 @@ class storage(storage_read_only):
 if '__main__' == __name__:
 
     store = storage_read_only()
-    print store.read_last_N(2,'ReceptionTime',1)
+    time_col = 'ReceptionTime'
+    cols = [time_col,'T_180']
+
+    begin = ts2dt(1451540771)
+    end = ts2dt(1451627216)
+    print store.read_time_range(4,time_col,cols,begin,end)
     exit()
     
 

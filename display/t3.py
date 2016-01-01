@@ -24,7 +24,7 @@ T = ['T_5803','T_180','T_280','T_9808','T_HTU21D']
 
 tmp = list(T)
 tmp.append(time_col)
-d = store.read_time_range(node_id=5,time_col=time_col,cols=tmp,timerange=timedelta(days=60))
+d = store.read_past_time_period(node_id=5,time_col=time_col,cols=tmp,timerange=timedelta(days=60))
 
 def nanize(y,convf=lambda (x): x):
     return [float('NaN') if n is None else convf(n) for n in d[k]]
