@@ -4,7 +4,7 @@ import time,sqlite3
 
 if '__main__' == __name__:
     table = 'node_011'
-    cols = ['Timestamp','T_180','T_5803','T_9808']
+    cols = ['Timestamp','T_180','T_5803','T_9808','P_180','P_5803']
 
     print 'From sensor_data.db reading {}...'.format(table)
     cmd = 'SELECT {cols} FROM {table}'.format(cols=','.join(cols),table=table)

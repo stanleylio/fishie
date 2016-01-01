@@ -74,7 +74,7 @@ if 'list_of_variables' in form.getlist('p'):
     d.update({'list_of_variables':tags})
 
 # get the latest sample of all variables (tags/columns) in the database
-# http://192.168.0.20/node_config.py?p=latest_sample&id=4
+# http://192.168.0.20/node_config.py?site=poh&p=latest_sample&id=4
 if 'latest_sample' in form.getlist('p'):
     node_id = int(form.getlist('id')[0])
     #if is_base():
