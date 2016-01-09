@@ -80,7 +80,7 @@ class MS5803_14BA:
 
 if '__main__' == __name__:
 
-    bus = 2
+    bus = 1
     print('using bus {}'.format(bus))
     ms = MS5803_14BA(bus=bus)
     
