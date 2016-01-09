@@ -59,8 +59,6 @@ conf = [
         'plot':True,
         'min':80e3,
         'max':110e3,
-        #'convf':lambda (x): x/1e3,
-        #'convunit':'kPa',
     },
     {
         'dbtag':'T_180',
