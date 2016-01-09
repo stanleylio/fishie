@@ -228,6 +228,10 @@ if '__main__' == __name__:
     begin = ts2dt(1451540771)
     end = ts2dt(1451627216)
     print store.read_time_range(4,time_col,cols,begin,end)
+
+    #from datetime import timedelta
+    #timerange = timedelta(hours=7*24)
+    #print store.read_past_time_period(7,time_col,cols,timerange)
     exit()
     
 

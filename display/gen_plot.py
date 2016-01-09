@@ -78,6 +78,7 @@ def PRINT(s):
     plt.clf()
     plt.close()'''
 
+
 def auto_tick(ax):
     x = ax.get_lines()[0].get_xdata()
     y = ax.get_lines()[0].get_ydata()
@@ -268,8 +269,9 @@ if '__main__' == __name__:
         elif 'Timestamp' in tmp:
             time_col = 'Timestamp'
         else:
-            PRINT('gen_plot.py: no timestamp column found. Terminating.')
-            sys.exit()
+            PRINT('gen_plot.py: no timestamp column found.')
+            #sys.exit()
+            continue
 
         variables = [c['dbtag'] for c in node.conf if c['plot']]
         plotted = []
