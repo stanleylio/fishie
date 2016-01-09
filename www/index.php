@@ -15,7 +15,7 @@
 			<div class="page-header row">
 				<div class="col-xs-10 col-xs-offset-1">
 					<div id="header">
-						<a href="http://www.soest.hawaii.edu/oceanography/glazer/Brian_T._Glazer/research/DataLoggers/PoH/HeeiaDataHome"><h2>Real-time Environmental Monitoring</h2></a>
+						<!--a href="http://www.soest.hawaii.edu/oceanography/glazer/Brian_T._Glazer/research/DataLoggers/PoH/HeeiaDataHome"><h2>Real-time Environmental Monitoring</h2></a-->
 					</div>
 				</div>
 			</div>

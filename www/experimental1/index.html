@@ -11,7 +11,7 @@
 		v = 'T_180';
 		end = Date.now()/1000.0;
 		begin = end - 2*24*60*60;
-		$.get("../qtr.py?base=base-003&node=node-004&var=" + v + "&begin=" + begin + "&end=" + end,function(data) {
+		$.get("../qtr.py?base=base-003&node=node-002&var=" + v + "&begin=" + begin + "&end=" + end,function(data) {
 			ts = data.qtr['ReceptionTime'];
 			r = data.qtr[v];
 			
@@ -27,7 +27,7 @@
 				}
 			  },
 			  yaxis: {
-				title: v,
+				title: v + ', Deg.C',
 				titlefont: {
 				  family: 'Courier New, monospace',
 				  size: 18,
@@ -38,7 +38,7 @@
 			};
 			
 			Plotly.plot( $('#tester')[0],
-						[{ x: ts, y: r, name: v, mode: "lines+markers"}],
+						[{ x: ts, y: r, name: v, mode: "markers"}],
 						layout
 						);
 		});

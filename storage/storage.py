@@ -71,6 +71,8 @@ class storage_read_only(object):
 
         time_range = 'WHERE {time_col} BETWEEN "{begin}" AND "{end}"'.\
                      format(time_col=time_col,begin=begin,end=end)
+        # SQLite doesn't have its own datetime type. Datetime ranking by string comparison
+        # somehow seems hackish as it relies on comformity to the ISO8601 format.
         cmd = 'SELECT {} FROM {} {time_range} ORDER BY {time_col} DESC'.\
                 format(','.join(cols),
                        node_id,
