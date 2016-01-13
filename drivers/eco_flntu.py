@@ -56,7 +56,7 @@ class ECO_FLNTU(object):
 
 
 if '__main__' == __name__:
-    #flntu = ECO_FLNTU(port='COM10')
+    #flntu = ECO_FLNTU(port='COM3')
     flntu = ECO_FLNTU(port='/dev/ttyO2')
     try:
         while True:
