@@ -3,10 +3,10 @@ var node_id = $("#data-node_id").data("node_id");
 
 $.get("../node_config.py?p=node_name&id=" + node_id,function(data) {
 	$("#node_name").html(data.node_name);
-	document.title = data.node_name + " - Node #" + node_id;
+	document.title = data.node_name + " - " + node_id;
 });
 
-$("#node_id").append("Node #" + node_id);
+$("#node_id").append(node_id);
 
 $.get("../node_config.py?p=node_note&id=" + node_id,function(data) {
 	$("#node_note").html(data.node_note);

@@ -45,7 +45,7 @@ class storage_read_only(object):
     def get_list_of_columns(self,node_id):
         #if type(node_id) is int:
         #    node_id = 'node_{:03d}'.format(node_id)
-        cursor = self.c.execute('SELECT * FROM {}'.format(node_id))
+        cursor = self.c.execute('SELECT * FROM {}'.format(node_id.replace('-','_')))
         return [d[0] for d in cursor.description]
 
         '''if type(node_id) is int:
@@ -75,7 +75,7 @@ class storage_read_only(object):
         # somehow seems hackish as it relies on comformity to the ISO8601 format.
         cmd = 'SELECT {} FROM {} {time_range} ORDER BY {time_col} DESC'.\
                 format(','.join(cols),
-                       node_id,
+                       node_id.replace('-','_'),
                        time_range=time_range,
                        time_col=time_col)
         #print cmd
@@ -111,7 +111,7 @@ class storage_read_only(object):
 
         cmd = 'SELECT {} FROM {} ORDER BY {} DESC LIMIT {}'.\
                 format(','.join(cols),
-                       node_id,
+                       node_id.replace('-','_'),
                        time_col,
                        count)
         #print cmd
@@ -191,7 +191,7 @@ if '__main__' == __name__:
 
     begin = ts2dt(1451540771)
     end = ts2dt(1451627216)
-    print store.read_time_range(4,time_col,cols,begin,end)
+    print store.read_time_range('node-004',time_col,cols,begin,end)
 
     #from datetime import timedelta
     #timerange = timedelta(hours=7*24)
@@ -199,7 +199,7 @@ if '__main__' == __name__:
     exit()
     
 
-    node_id = 5
+    node_id = 'node-005'
     time_col = 'Timestamp'
     cols = ['Timestamp','P_280']
 

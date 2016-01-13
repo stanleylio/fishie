@@ -27,9 +27,12 @@ def is_base():
 if not (is_node() or is_base()):
     PRINT('config_support.py: Warning: Cannot identify the current device: ' + get_node_tag())
 
+# ... even this, the config should go into their respective folders according to the site they belong to
+# TODO
 def get_list_of_nodes():
     #return sorted([int(l[5:8]) for l in listdir(dirname(realpath(__file__))) if re.match('^node_\d{3}\.py$',l)])
-    return sorted([l[:-3] for l in listdir(dirname(realpath(__file__))) if re.match('^node_\d{3}\.py$',l)])
+    # I'm not sure about this...
+    return sorted([l[:-3].replace('_','-') for l in listdir(dirname(realpath(__file__))) if re.match('^node_\d{3}\.py$',l)])
 
 def get_tag(node_id):
     #node = importlib.import_module('config.node_{:03d}'.format(node_id))
@@ -86,7 +89,7 @@ def get_note(node_id):
 def get_unit_map(node_id):
     #node = importlib.import_module('.node_{:03d}'.format(node_id),'config')
     #node = importlib.import_module('.{}'.format(node_id.replace('-','_')))
-    node = importlib.import_module('.' + node_id.replace('-','_'))
+    node = importlib.import_module('config.' + node_id.replace('-','_'))
     return {c['dbtag']:c['unit'] for c in node.conf}
 
 #def get_description(node_id,tag):
@@ -96,7 +99,7 @@ def get_unit_map(node_id):
 def get_description_map(node_id):
     #node = importlib.import_module('.node_{:03d}'.format(node_id),'config')
     #node = importlib.import_module('.{}'.format(node_id.replace('-','_')))
-    node = importlib.import_module('.' + node_id.replace('-','_'))
+    node = importlib.import_module('config.' + node_id.replace('-','_'))
     return {c['dbtag']:c['description'] for c in node.conf}
 
 # get the list of variables to display
@@ -114,6 +117,9 @@ if '__main__' == __name__:
 
     import sys
     print sys.path
+
+    print read_capabilities()
+    exit()
     
     print get_description_map('node-004')
     exit()

@@ -17,14 +17,14 @@ $.get("node_config.py?p=list_of_nodes&site=poh",function(data) {
 		$.get("node_config.py?p=node_name&id=" + node_id,function(data) {
 			//tmp.append('<a href="./node-' + ("000" + node_id).slice(-3) + '" class="list-group-item list-group-item-success">' + "Node #" + node_id + " - " + data.node_name + '</a>');
 			
-			tmp.append('<a href="./node_page/index.php?id=' + node_id + '" id="node' + node_id + '" data-sortby="' + node_id + '" target="_blank" class="list-group-item">' + "Node #" + node_id + " - " + data.node_name + '</a>');
+			tmp.append('<a href="./node_page/index.php?id=' + node_id + '" id="' + node_id + '" data-sortby="' + node_id + '" target="_blank" class="list-group-item">' + node_id + " - " + data.node_name + '</a>');
 			
 			// ajax means results come in with no particular order
 			// sort them every time a new entry comes in (a new row is added)
 			var ul = $("#poh_nodes > ul");
 			var a = ul.children("a");
 			a.detach().sort(function(a,b) {
-				return $(a).data('sortby') - $(b).data('sortby');
+				return $(a).data('sortby') > $(b).data('sortby');
 			});
 			ul.append(a);
 			
@@ -45,9 +45,9 @@ $.get("node_config.py?p=list_of_nodes&site=poh",function(data) {
 				} else {
 					var diff = Date.now()/1000 - data.latest_sample.ReceptionTime;
 					if (diff < 30*60) {
-						$("#node" + node_id).addClass("list-group-item-success");
+						$("#" + node_id).addClass("list-group-item-success");
 					} else {
-						$("#node" + node_id).addClass("list-group-item-danger");
+						$("#" + node_id).addClass("list-group-item-danger");
 					}
 				}
 			});
