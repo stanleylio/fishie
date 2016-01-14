@@ -7,17 +7,18 @@
 //list-group-item-warning
 //list-group-item-danger
 
-var nodes = [5,19];
+var nodes = ['node-005','node-019'];
 $.each(nodes,function(i,node_id){
-	$.get("node_config.py?p=latest_sample&site=node-" + ("000" + node_id).slice(-3) + "&id=" + node_id,function(data) {
+	//$.get("node_config.py?p=latest_sample&site=node-" + ("000" + node_id).slice(-3) + "&id=" + node_id,function(data) {
+	$.get("node_config.py?p=latest_sample&site=msb228&id=" + node_id,function(data) {
 		if (null === data.latest_sample) {
-			$("#node" + node_id).addClass("list-group-item-danger");
+			$("#" + node_id).addClass("list-group-item-danger");
 		} else {
-			var diff = Date.now()/1000 - data.latest_sample.ReceptionTime;
-			if (diff > 30*60) {
-				$("#node" + node_id).addClass("list-group-item-danger");
+			var diff = Date.now()/1000 - data.latest_sample.Timestamp;
+			if (diff < 30*60) {
+				$("#" + node_id).addClass("list-group-item-success");
 			} else {
-				$("#node" + node_id).addClass("list-group-item-success");
+				$("#" + node_id).addClass("list-group-item-danger");
 			}
 		}
 	});

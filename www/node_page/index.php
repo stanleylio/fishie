@@ -94,10 +94,15 @@
 			<div class="col-xs-12">
 				<div class="text-center" style="color:#C8C8C8; font-size:xx-small;">
 					<footer>
-						<br><br><br>
-						<p>Stanley Hou In Lio, hlio [at] soest.hawaii.edu</p>
-						<p>All Rights Reserved <?php echo date("Y"); ?></p>
+						<br><br>
+						<a href="https://www.soest.hawaii.edu/soestwp/research/"><img src="../soest_oval_textblock_307C_white_2000px.jpg" height="100" width="136"/></a>
 						<br><br><br><br>
+						<div id="cc"></div>
+						
+						<script>
+							$("#cc").append("<p>&copy Stanley Hou In Lio, " + new Date().getFullYear() + "</p>").append("<p>hlio [at] soest.hawaii.edu</p>");
+						</script>
+						<br>
 					</footer>
 				</div>
 			</div>

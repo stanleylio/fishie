@@ -26,7 +26,7 @@ def haha(c):
     for i in nodes:
         try:
             print 'node {}'.format(i)
-            tmp = store.read_time_range(node_id=i,time_col=time_col,cols=[time_col,tag],
+            tmp = store.read_past_time_period(node_id=i,time_col=time_col,cols=[time_col,tag],
                                         timerange=timerange)
             x = tmp[time_col]
             y = tmp[tag]
@@ -58,7 +58,7 @@ C = []
 
 C.append({'time_col':'ReceptionTime',
           'tag':'P_180',
-          'nodes':[1,2,3,4],
+          'nodes':['node-001','node-002','node-003','node-004'],
           'timerange':timedelta(days=90),
           'title':'Barometric Pressure (BMP180, P_180)',
           'ylabel':'kPa',
@@ -66,49 +66,49 @@ C.append({'time_col':'ReceptionTime',
 
 C.append({'time_col':'ReceptionTime',
 'tag':'T_180',
-'nodes':[1,2,3,4],
+'nodes':['node-001','node-002','node-003','node-004'],
 'timerange':timedelta(days=90),
 'title':'Casing Temperature (BMP180, T_180)',
 'ylabel':'Deg.C'})
 
 C.append({'time_col':'ReceptionTime',
 'tag':'P_5803',
-'nodes':[1,2,3,4],
+'nodes':['node-001','node-002','node-003','node-004'],
 'timerange':timedelta(days=90),
 'title':'Water Pressure (MS5803-14BA, P_5803)',
 'ylabel':'kPa'})
 
 C.append({'time_col':'ReceptionTime',
 'tag':'T_5803',
-'nodes':[1,2,3,4],
+'nodes':['node-001','node-002','node-003','node-004'],
 'timerange':timedelta(days=90),
 'title':'Water Temperature (MS5803-14BA, T_5803)',
 'ylabel':'Deg.C'})
 
 C.append({'time_col':'ReceptionTime',
 'tag':'Temperature',
-'nodes':[1,2,3,4],
+'nodes':['node-001','node-002','node-003','node-004'],
 'timerange':timedelta(days=90),
 'title':'Water Temperature (Aanderaa 4330F, Temperature)',
 'ylabel':'Deg.C'})
 
 C.append({'time_col':'ReceptionTime',
 'tag':'O2Concentration',
-'nodes':[1,2,3,4],
+'nodes':['node-001','node-002','node-003','node-004'],
 'timerange':timedelta(days=90),
 'title':'O2 Concentration (Aanderaa 4330F, O2Concentration)',
 'ylabel':'uM'})
 
 C.append({'time_col':'ReceptionTime',
 'tag':'AirSaturation',
-'nodes':[1,2,3,4],
+'nodes':['node-001','node-002','node-003','node-004'],
 'timerange':timedelta(days=90),
 'title':'Air Saturation (Aanderaa 4330F, AirSaturation)',
 'ylabel':'%'})
 
 C.append({'time_col':'ReceptionTime',
 'tag':'ec',
-'nodes':[1,2,3,4],
+'nodes':['node-001','node-002','node-003','node-004'],
 'timerange':timedelta(days=90),
 'title':'Conductivity (EZO EC, ec)',
 'ylabel':'uS'})

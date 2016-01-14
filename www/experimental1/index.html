@@ -1,0 +1,47 @@
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<!--script src="https://cdn.plot.ly/plotly-latest.min.js"></script-->
+	<script src="plotly-latest.min.js"></script>
+	<script src="../jquery/jquery.min.js"></script>
+</head>
+<body>
+	<div id="tester" style="width:800px;height:400px;"></div>
+	<script>
+		v = 'T_180';
+		end = Date.now()/1000.0;
+		begin = end - 2*24*60*60;
+		$.get("../qtr.py?base=base-003&node=node-002&var=" + v + "&begin=" + begin + "&end=" + end,function(data) {
+			ts = data.qtr['ReceptionTime'];
+			r = data.qtr[v];
+			
+			var layout = {
+			  title: 'weapons of math instruction',
+			  autosize: false,
+			  xaxis: {
+				title: 'Time',
+				titlefont: {
+				  family: 'Courier New, monospace',
+				  size: 18,
+				  color: '#7f7f7f'
+				}
+			  },
+			  yaxis: {
+				title: v + ', Deg.C',
+				titlefont: {
+				  family: 'Courier New, monospace',
+				  size: 18,
+				  color: '#7f7f7f'
+				}
+			  },
+			  margin: { l:50, r:50, b:50, t:50, pad:4 }
+			};
+			
+			Plotly.plot( $('#tester')[0],
+						[{ x: ts, y: r, name: v, mode: "markers"}],
+						layout
+						);
+		});
+	</script>
+</body>
+</html>

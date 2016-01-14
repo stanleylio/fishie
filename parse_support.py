@@ -17,7 +17,8 @@ def pretty_print(d):
     max_len = max([len(k) for k in d.keys()])
     print '= '*(max_len + 4)
     if 'node-id' in d.keys():
-        print 'From node-{:03d}:'.format(d['node-id'])
+        print 'From {}:'.format(d['node-id'])
+        #print 'From node-{:03d}:'.format(d['node-id'])
     if 'ReceptionTime' in d.keys():
         tmp = d['ReceptionTime']
         if isinstance(tmp,float):
@@ -34,11 +35,23 @@ def pretty_print(d):
 def parse_message(line):
     try:
         line = line.strip()
+        
+        if re.match('^us\d+,.+$',line):
+            try:
+                line = line.split(',')
+                d = {'node-id':'node-008',
+                     'd2w':float(line[1])}
+                return d
+            except:
+                PRINT('it\'s the new \'node\'...')
+                return None
+                
         if check(line):
             line = line[:-8]
             tmp = json.loads(line)
             if re.match('^node[-_]\d{3}$',tmp['from']):
-                node_id = int(tmp['from'][5:8])
+                #node_id = int(tmp['from'][5:8])
+                node_id = tmp['from']
                 d = tmp['payload']
                 d['ts'] = datetime.fromtimestamp(d['ts'])
                 #if 'Timestamp' in d.keys():
@@ -46,12 +59,11 @@ def parse_message(line):
                 #if 'ts' in d.keys():
                 #    d['ts'] = datetime.fromtimestamp(d['ts'])
 
-                node = importlib.import_module('node_{:03d}'.format(node_id))
+                #node = importlib.import_module('node_{:03d}'.format(node_id))
+                node = importlib.import_module(node_id.replace('-','_'))
                 d = {c['dbtag']:d[c['comtag']] for c in node.conf}
                 d['node-id'] = node_id
-
                 return d
-            
             elif re.match('^base[-_]\d{3}$',tmp['from']):
                 PRINT('Command from base station {}; ignore.'.format(tmp['from']))
             else:
@@ -83,5 +95,9 @@ if '__main__' == __name__:
     t14 = '{"to":"base","from":"node_003","payload":{"Thermistor_FLNTU":533,"Temp_MS5803":25.9,"C2Amp_4330f":457.8,"O2Concentration_4330f":355.968,"C1RPh_4330f":30.444,"Chlorophyll_FLNTU":210,"Pressure_MS5803":111.87,"RawTemp_4330f":80.0,"AirSaturation_4330f":142.241,"Turbidity_FLNTU":563,"Timestamp":1444965312.228783,"Temperature_4330f":26.599,"C1Amp_4330f":255.7,"CalPhase_4330f":22.899,"TCPhase_4330f":26.351,"C2RPh_4330f":4.093}}457b3a41'
 
     #print parse_message(t13)
-    print parse_message(t14)
+    #print parse_message(t14)
+
+    print parse_message('us1,0300.0\n')
     
+
+

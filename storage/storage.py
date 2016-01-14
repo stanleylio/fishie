@@ -8,12 +8,21 @@
 
 import sqlite3,sys
 from os.path import join,dirname
+import time
+from datetime import datetime
 from datetime import timedelta
 
 
 def PRINT(s):
     #pass
     print(s)
+
+def dt2ts(dt):
+    return time.mktime(dt.timetuple()) +\
+           (dt.microsecond)*(1e-6)
+
+def ts2dt(ts):
+    return datetime.fromtimestamp(ts)
 
 
 # this one doesn't require database schema on instantiation
@@ -34,9 +43,9 @@ class storage_read_only(object):
         return sorted(tuple(t[0] for t in cursor.fetchall()))
 
     def get_list_of_columns(self,node_id):
-        if type(node_id) is int:
-            node_id = 'node_{:03d}'.format(node_id)
-        cursor = self.c.execute('SELECT * FROM {}'.format(node_id))
+        #if type(node_id) is int:
+        #    node_id = 'node_{:03d}'.format(node_id)
+        cursor = self.c.execute('SELECT * FROM {}'.format(node_id.replace('-','_')))
         return [d[0] for d in cursor.description]
 
         '''if type(node_id) is int:
@@ -51,29 +60,26 @@ class storage_read_only(object):
             #assert False
             pass'''
 
-    def read_time_range(self,node_id,time_col,cols,timerange):
-        #assert type(node_id) is int,'storage::read_time_range(): node_id must be int'
+    def read_time_range(self,node_id,time_col,cols,begin,end=None):
         assert type(cols) is list,'storage::read_time_range(): cols must be a list of string'
-        #if 'Timestamp' not in cols and 'ReceptionTime' not in cols:
-        #    print('Sure you don''t need any timestamps?')
 
-        nday = timerange.days
-        nhour = timerange.seconds//3600
-        nmin = (timerange.seconds//60)%60
+        #if type(node_id) is int:
+        #    node_id = 'node_{:03d}'.format(node_id)
 
-        tmp = ['"now"']
-        tmp.append('"-{} minutes"'.format(nmin))
-        tmp.append('"-{} hours"'.format(nhour))
-        tmp.append('"-{} days"'.format(nday))
-        time_range = 'WHERE {} >= DATETIME({})'.format(time_col,','.join(tmp))
-        #print time_range
+        if end is None:
+            end = datetime.now()
 
-        cmd = 'SELECT {} FROM {} {} ORDER BY {} DESC'.\
+        time_range = 'WHERE {time_col} BETWEEN "{begin}" AND "{end}"'.\
+                     format(time_col=time_col,begin=begin,end=end)
+        # SQLite doesn't have its own datetime type. Datetime ranking by string comparison
+        # somehow seems hackish as it relies on comformity to the ISO8601 format.
+        cmd = 'SELECT {} FROM {} {time_range} ORDER BY {time_col} DESC'.\
                 format(','.join(cols),
-                       'node_{:03d}'.format(node_id),
-                       time_range,
-                       time_col)
+                       node_id.replace('-','_'),
+                       time_range=time_range,
+                       time_col=time_col)
         #print cmd
+        
         try:
             self.c.execute(cmd)
             tmp = self.c.fetchall()
@@ -82,19 +88,19 @@ class storage_read_only(object):
             return {v:tuple(r[v] for r in tmp) for v in cols}
         except:
             return None
-        #vals = [tuple(r) for r in zip(*tmp)]
-        #tmp = dict(zip(cols,vals))
-        #if len(tmp.keys()) <= 0:
-        #    tmp = None
-        #return tmp
+
+    def read_past_time_period(self,node_id,time_col,cols,timerange):
+        end = datetime.now()
+        begin = end - timerange
+        return self.read_time_range(node_id,time_col,cols,begin,end=end)
 
     def read_last_N(self,node_id,time_col,count=1,cols=None):
         #assert type(node_id) is int,'storage::read_last_N(): node_id must be int'
         assert cols is None or type(cols) is list,'storage::read_last_N(): cols, if not None, must be a list of string'
 
         # transitioning from numerical node_id to str node_id
-        if type(node_id) is int:
-            node_id = 'node_{:03d}'.format(node_id)
+        #if type(node_id) is int:
+        #    node_id = 'node_{:03d}'.format(node_id)
         
         if cols is not None:
             if 'Timestamp' not in cols and 'ReceptionTime' not in cols:
@@ -105,7 +111,7 @@ class storage_read_only(object):
 
         cmd = 'SELECT {} FROM {} ORDER BY {} DESC LIMIT {}'.\
                 format(','.join(cols),
-                       node_id,
+                       node_id.replace('-','_'),
                        time_col,
                        count)
         #print cmd
@@ -132,7 +138,8 @@ class storage(storage_read_only):
         #print self._schema
         
         for node_id,v in self._schema.iteritems():
-            table_name = 'node_{:03d}'.format(node_id)
+            #table_name = 'node_{:03d}'.format(node_id)
+            table_name = node_id.replace('-','_')
             dbtag = v['tag']
             dbtype = v['type']
             tmp = '({})'.format(','.join([' '.join(p) for p in zip(dbtag,dbtype)]))
@@ -167,7 +174,8 @@ class storage(storage_read_only):
         # filter out readings that are not recorded by the database
         keys = [k for k in readings.keys() if k in self._schema[node_id]['tag']]
         vals = [readings[k] for k in keys]
-        table_name = 'node_{:03d}'.format(node_id)
+        #table_name = 'node_{:03d}'.format(node_id)
+        table_name = node_id.replace('-','_')
         cmd = 'INSERT OR REPLACE INTO {} ({}) VALUES ({})'.\
               format(table_name,','.join(keys),','.join('?'*len(keys)))
 
@@ -178,11 +186,20 @@ class storage(storage_read_only):
 if '__main__' == __name__:
 
     store = storage_read_only()
-    print store.read_last_N(2,'ReceptionTime',1)
+    time_col = 'ReceptionTime'
+    cols = [time_col,'T_180']
+
+    begin = ts2dt(1451540771)
+    end = ts2dt(1451627216)
+    print store.read_time_range('node-004',time_col,cols,begin,end)
+
+    #from datetime import timedelta
+    #timerange = timedelta(hours=7*24)
+    #print store.read_past_time_period(7,time_col,cols,timerange)
     exit()
     
 
-    node_id = 5
+    node_id = 'node-005'
     time_col = 'Timestamp'
     cols = ['Timestamp','P_280']
 

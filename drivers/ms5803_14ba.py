@@ -90,6 +90,6 @@ if '__main__' == __name__:
 
     while True:
         #print('\x1b[2J\x1b[;H')
-        print ms.pretty(ms.read())
+        print ms.pretty()
         time.sleep(0.1)
 

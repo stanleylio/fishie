@@ -78,6 +78,7 @@ def PRINT(s):
     plt.clf()
     plt.close()'''
 
+
 def auto_tick(ax):
     x = ax.get_lines()[0].get_xdata()
     y = ax.get_lines()[0].get_ydata()
@@ -244,22 +245,24 @@ if '__main__' == __name__:
         IDs = [get_node_id()]
     else:
         tmp = store.get_list_of_tables()
-        IDs = [int(t[5:8]) for t in tmp if re.match('^node_\d{3}$',t)]
+        #IDs = [int(t[5:8]) for t in tmp if re.match('^node_\d{3}$',t)]
+        IDs = [t.replace('_','-') for t in tmp if re.match('^node.+',t)]
 
     if len(IDs) <= 0:
         print('Nothing to plot. Terminating.')
 
     for node_id in IDs:
         PRINT('- - - - -')
-        PRINT('Node #{}'.format(node_id))
-        node = importlib.import_module('config.node_{:03d}'.format(node_id),package='config')
+        PRINT('node ID:' + node_id)
+        #node = importlib.import_module('config.node_{:03d}'.format(node_id),package='config')
+        node = importlib.import_module('config.' + node_id.replace('-','_'))
 
-        node_tag = 'node-{:03d}'.format(node_id)
+        #node_tag = 'node-{:03d}'.format(node_id)
 
         tag_unit_map = get_unit_map(node_id)
         tag_desc_map = get_description_map(node_id)
 
-        node_plot_dir = join(plot_dir,node_tag)
+        node_plot_dir = join(plot_dir,node_id)
 
         time_col = None
         tmp = store.get_list_of_columns(node_id)
@@ -268,8 +271,9 @@ if '__main__' == __name__:
         elif 'Timestamp' in tmp:
             time_col = 'Timestamp'
         else:
-            PRINT('gen_plot.py: no timestamp column found. Terminating.')
-            sys.exit()
+            PRINT('gen_plot.py: no timestamp column found.')
+            #sys.exit()
+            continue
 
         variables = [c['dbtag'] for c in node.conf if c['plot']]
         plotted = []
@@ -277,11 +281,11 @@ if '__main__' == __name__:
             timerange = timedelta(hours=node.plot_range)
             cols = [time_col,var]
 
-            title = '{} ({} of {})'.format(tag_desc_map[var],var,node_tag)
+            title = '{} ({} of {})'.format(tag_desc_map[var],var,node_id)
             plotfilename = join(node_plot_dir,'{}.png'.format(var))
 
             try:
-                tmp = store.read_time_range(node_id,time_col,cols,timerange)
+                tmp = store.read_past_time_period(node_id,time_col,cols,timerange)
                 x = tmp[time_col]
                 y = [l if l is not None else float('NaN') for l in tmp[var]]
 
@@ -309,7 +313,7 @@ if '__main__' == __name__:
                 # sqlite3.OperationalError: db is empty
                 # ValueError: db has the variable, but all NaN
                 PRINT('\tNo data for {} of {} in the selected range'.\
-                      format(var,node_tag))
+                      format(var,node_id))
                 #traceback.print_exc()
             except:
                 traceback.print_exc()

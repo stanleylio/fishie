@@ -28,7 +28,7 @@ tables = store.get_list_of_tables()
 
 for table in tables:
     print '- - -'
-    print table
+    print 'table:', table
 
     convfs = {}
     mins = {}

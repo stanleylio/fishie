@@ -15,25 +15,35 @@ def get_node_tag():
     return socket.gethostname()
 
 def is_node():
-    return re.match('^node-\d{3}$',get_node_tag())
+    #return re.match('^node-\d{3}$',get_node_tag())
+    return re.match('^node.+',get_node_tag())
 
 def is_base():
-    return re.match('^base-\d{3}$',get_node_tag())
+    #return re.match('^base-\d{3}$',get_node_tag())
+    return re.match('^base.+',get_node_tag())
 
 # node and base station are not the only two types of device that
 # need this script - for example, plotting on laptop
 if not (is_node() or is_base()):
     PRINT('config_support.py: Warning: Cannot identify the current device: ' + get_node_tag())
 
+# ... even this, the config should go into their respective folders according to the site they belong to
+# TODO
 def get_list_of_nodes():
-    return sorted([int(l[5:8]) for l in listdir(dirname(realpath(__file__))) if re.match('^node_\d{3}\.py$',l)])
+    #return sorted([int(l[5:8]) for l in listdir(dirname(realpath(__file__))) if re.match('^node_\d{3}\.py$',l)])
+    # I'm not sure about this...
+    return sorted([l[:-3].replace('_','-') for l in listdir(dirname(realpath(__file__))) if re.match('^node_\d{3}\.py$',l)])
 
 def get_tag(node_id):
-    node = importlib.import_module('config.node_{:03d}'.format(node_id))
+    #node = importlib.import_module('config.node_{:03d}'.format(node_id))
+    #node = importlib.import_module('config.{}'.format(node_id.replace('-','_')))
+    node = importlib.import_module('config.' + node_id.replace('-','_'))
     return [c['dbtag'] for c in node.conf]
 
 def get_type(node_id):
-    node = importlib.import_module('config.node_{:03d}'.format(node_id))
+    #node = importlib.import_module('config.node_{:03d}'.format(node_id))
+    #node = importlib.import_module('config.{}'.format(node_id.replace('-','_')))
+    node = importlib.import_module('config.' + node_id.replace('-','_'))
     return [c['dbtype'] for c in node.conf]
 
 #def get_unit(node_id):
@@ -54,26 +64,32 @@ def read_capabilities():
 
 
 # BASE-ONLY
-pass
+#pass
 
 
 # NODE-ONLY
-def get_node_id():
-    assert is_node()
-    return int(get_node_tag()[5:8])
+#def get_node_id():
+#    assert is_node()
+#    return int(get_node_tag()[5:8])
 
 
 # STUFF FOR THE WEB PAGE ONLY
 def get_name(node_id):
-    node = importlib.import_module('config.node_{:03d}'.format(node_id))
+    #node = importlib.import_module('config.node_{:03d}'.format(node_id))
+    #node = importlib.import_module('config.{}'.format(node_id.replace('-','_')))
+    node = importlib.import_module('config.' + node_id.replace('-','_'))
     return node.name
 
 def get_note(node_id):
-    node = importlib.import_module('config.node_{:03d}'.format(node_id))
+    #node = importlib.import_module('config.node_{:03d}'.format(node_id))
+    #node = importlib.import_module('config.{}'.format(node_id.replace('-','_')))
+    node = importlib.import_module('config.' + node_id.replace('-','_'))
     return node.note
 
 def get_unit_map(node_id):
-    node = importlib.import_module('.node_{:03d}'.format(node_id),'config')
+    #node = importlib.import_module('.node_{:03d}'.format(node_id),'config')
+    #node = importlib.import_module('.{}'.format(node_id.replace('-','_')))
+    node = importlib.import_module('config.' + node_id.replace('-','_'))
     return {c['dbtag']:c['unit'] for c in node.conf}
 
 #def get_description(node_id,tag):
@@ -81,7 +97,9 @@ def get_unit_map(node_id):
 #    return [c for c in node.conf if c['dbtag'] == tag][0]['description']
 
 def get_description_map(node_id):
-    node = importlib.import_module('.node_{:03d}'.format(node_id),'config')
+    #node = importlib.import_module('.node_{:03d}'.format(node_id),'config')
+    #node = importlib.import_module('.{}'.format(node_id.replace('-','_')))
+    node = importlib.import_module('config.' + node_id.replace('-','_'))
     return {c['dbtag']:c['description'] for c in node.conf}
 
 # get the list of variables to display
@@ -90,7 +108,8 @@ def get_list_of_disp_vars(node_id=None):
     assert node_id is not None or is_node()
     if node_id is None:
         node_id = get_node_id()
-    node = importlib.import_module('config.node_{:03d}'.format(node_id))
+    #node = importlib.import_module('config.node_{:03d}'.format(node_id))
+    node = importlib.import_module('config.{}'.format(node_id.replace('-','_')))
     return [c['dbtag'] for c in node.conf if c['plot']]
 
 
@@ -98,8 +117,11 @@ if '__main__' == __name__:
 
     import sys
     print sys.path
+
+    print read_capabilities()
+    exit()
     
-    print get_description_map(4)
+    print get_description_map('node-004')
     exit()
 
     print get_name()
