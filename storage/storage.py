@@ -139,7 +139,7 @@ class storage(storage_read_only):
         
         for node_id,v in self._schema.iteritems():
             #table_name = 'node_{:03d}'.format(node_id)
-            table_name = node_id
+            table_name = node_id.replace('-','_')
             dbtag = v['tag']
             dbtype = v['type']
             tmp = '({})'.format(','.join([' '.join(p) for p in zip(dbtag,dbtype)]))
@@ -175,7 +175,7 @@ class storage(storage_read_only):
         keys = [k for k in readings.keys() if k in self._schema[node_id]['tag']]
         vals = [readings[k] for k in keys]
         #table_name = 'node_{:03d}'.format(node_id)
-        table_name = node_id.format('-','_')
+        table_name = node_id.replace('-','_')
         cmd = 'INSERT OR REPLACE INTO {} ({}) VALUES ({})'.\
               format(table_name,','.join(keys),','.join('?'*len(keys)))
 
