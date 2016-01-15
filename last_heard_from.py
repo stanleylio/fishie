@@ -19,7 +19,7 @@ if not exists(dbfile):
 
 store = storage_read_only(dbfile=dbfile)
 
-nodes = [int(t[5:8]) for t in store.get_list_of_tables() if re.match('node_\d{3}',t)]
+nodes = [t.replace('_','-') for t in store.get_list_of_tables() if re.match('^node,*',t)]
 
 
 while True:
