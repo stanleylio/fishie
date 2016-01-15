@@ -21,64 +21,6 @@ def PRINT(s):
     #pass
 
 
-'''def plot_time_series(x,y,plotfilename,title='',xlabel='',ylabel='',linelabel=None):
-    plt.figure()
-    plt.plot_date(x,y,linestyle='',label=linelabel,color='b',marker='.',markersize=4)
-    plt.legend(loc='best',framealpha=0.5)
-    plt.title(title)
-    plt.grid(True)
-
-    # major tick labels
-    # not x[0] and x[-1] because x is not always sorted in ascending order
-    # ... ORDER BY ... DESC... because otherwise sqlite will return the first
-    # N readings - so if the latest N readings are wanted, they should be at
-    # the first N readings (even though they are sorted in descending order)
-    # For plotting the oder doesn't matter because every sample has its
-    # corresponding timestamp.
-
-    # "locate the earliest timestamp at which the sample is not an NaN"
-    # tricky bastard... nan in numpy.float64 is not float('nan')... and
-    # certainly not None, and "is not" won't work either
-    begin = min([z[0] for z in zip(x,y) if not numpy.isnan(z[1])])
-    end = max(x)
-
-    if begin.date() == end.date():
-        plt.gca().xaxis.set_major_formatter(DateFormatter('%H:%M'))
-    else:
-        plt.gca().xaxis.set_major_formatter(DateFormatter('%b %d %H:%M'))
-    plt.gcf().autofmt_xdate()
-
-    # minor tick density
-    plt.gca().yaxis.get_major_formatter().set_useOffset(False)
-    timespan = end - begin
-    if timespan <= timedelta(days=2):
-        plt.gca().xaxis.set_minor_locator(HourLocator(interval=1))
-    elif timespan <= timedelta(days=7):
-        plt.gca().xaxis.set_minor_locator(HourLocator(interval=3))
-    elif timespan <= timedelta(days=14):
-        plt.gca().xaxis.set_minor_locator(HourLocator(interval=6))
-    elif timespan <= timedelta(days=21):
-        plt.gca().xaxis.set_minor_locator(HourLocator(interval=12))
-    plt.tight_layout()
-
-    # auto xlabel (time)
-    if '' == xlabel:
-        if begin.date() == end.date():
-            plt.gca().set_xlabel('UTC Time ({})'.format(begin.strftime('%Y-%m-%d')))
-        else:
-            plt.gca().set_xlabel('UTC Time ({} to {})'.format(\
-                begin.strftime('%Y-%m-%d'),end.strftime('%Y-%m-%d')))
-    else:
-        plt.gca().set_xlabel(xlabel)
-        
-    plt.gca().set_ylabel(ylabel)
-        
-    plt.savefig(plotfilename,bbox_inches='tight',dpi=300)
-    plt.cla()
-    plt.clf()
-    plt.close()'''
-
-
 def auto_tick(ax):
     x = ax.get_lines()[0].get_xdata()
     y = ax.get_lines()[0].get_ydata()
@@ -215,27 +157,24 @@ if '__main__' == __name__:
     import sys,traceback,sqlite3,re,importlib,argparse
     sys.path.append('..')
     from storage.storage import storage_read_only
-    #import config
     from scipy.signal import medfilt
 
     parser = argparse.ArgumentParser(formatter_class=argparse.RawTextHelpFormatter,description='')
-    parser.add_argument('--dbfile',type=str,default=None,metavar='dbfile',help='Path to the database file')
-    parser.add_argument('--plot_dir',type=str,default=None,metavar='plot_dir',help='Output directory for the plots')
+    parser.add_argument('--dbfile',type=str,default='./sensor_data.db',metavar='dbfile',help='Path to the database file')
+    parser.add_argument('--plot_dir',type=str,default='./gen_plot_output',metavar='plot_dir',help='Output directory for the plots')
     
     args = parser.parse_args()
 
     # which database to take data from
     dbfile = args.dbfile
-    if dbfile is not None and not exists(dbfile):
+    if not exists(dbfile):
         print('dbfile {} not found. Terminating.'.format(dbfile))
         sys.exit()
+    else:
+        print('Plotting data from {}'.format(dbfile))
 
     # where to put the generated plots
     plot_dir = args.plot_dir
-    if plot_dir is None:
-        plot_dir = './gen_plot_output'
-        PRINT('plot_dir not given. Using default ' + plot_dir)
-
     PRINT('Output directory: ' + plot_dir)
 
     store = storage_read_only(dbfile=dbfile)
@@ -254,16 +193,13 @@ if '__main__' == __name__:
     for node_id in IDs:
         PRINT('- - - - -')
         PRINT('node ID:' + node_id)
-        #node = importlib.import_module('config.node_{:03d}'.format(node_id),package='config')
         node = importlib.import_module('config.' + node_id.replace('-','_'))
-
-        #node_tag = 'node-{:03d}'.format(node_id)
 
         tag_unit_map = get_unit_map(node_id)
         tag_desc_map = get_description_map(node_id)
-
         node_plot_dir = join(plot_dir,node_id)
 
+        # time_col
         time_col = None
         tmp = store.get_list_of_columns(node_id)
         if 'ReceptionTime' in tmp:
@@ -271,10 +207,10 @@ if '__main__' == __name__:
         elif 'Timestamp' in tmp:
             time_col = 'Timestamp'
         else:
-            PRINT('gen_plot.py: no timestamp column found.')
-            #sys.exit()
+            PRINT('gen_plot.py: no timestamp column found. Skipping this node.')
             continue
 
+        # find the list of variables from config? or from database?
         variables = [c['dbtag'] for c in node.conf if c['plot']]
         plotted = []
         for var in variables:

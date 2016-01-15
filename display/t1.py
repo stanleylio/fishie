@@ -23,15 +23,15 @@ def haha(c):
     print '- - -'
     print tag
     data = []
-    for i in nodes:
+    for node in nodes:
         try:
-            print 'node {}'.format(i)
-            tmp = store.read_past_time_period(node_id=i,time_col=time_col,cols=[time_col,tag],
+            print node
+            tmp = store.read_past_time_period(node_id=node,time_col=time_col,cols=[time_col,tag],
                                         timerange=timerange)
             x = tmp[time_col]
             y = tmp[tag]
             y = [float('NaN') if n is None else convf(n) for n in y]
-            data.append({'x':x,'y':y,'linelabel':'node {}'.format(i)})
+            data.append({'x':x,'y':y,'linelabel':node})
         except:
             traceback.print_exc()
             pass
