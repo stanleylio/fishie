@@ -1,6 +1,6 @@
 
-tag = 'node-008'
-name = 'Ultrasonic Proof of Concept (us1)'
+tag = 'node-009'
+name = 'Ultrasonic Proof of Concept (us2)'
 note = 'Distance to Water Surface'
 
 log_dir = './log'

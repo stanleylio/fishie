@@ -36,14 +36,21 @@ def parse_message(line):
     try:
         line = line.strip()
         
-        if re.match('^us\d+,.+$',line):
+        if re.match('^us\d+,.+',line):
             try:
                 line = line.split(',')
-                d = {'node-id':'node-008',
-                     'd2w':float(line[1])}
+                if 'us1' == line[0]:
+                    d = {'node-id':'node-008',
+                         'ticker':int(line[1]),
+                         'd2w':float(line[2])}
+                elif 'us2' == line[0]:
+                    d = {'node-id':'node-009',
+                         'ticker':int(line[1]),
+                         'd2w':float(line[2])}
                 return d
             except:
-                PRINT('it\'s the new \'node\'...')
+                PRINT('sth is wrong with the new \'node\'...')
+                PRINT(line)
                 return None
                 
         if check(line):
