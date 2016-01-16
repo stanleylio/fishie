@@ -1,7 +1,7 @@
 
 tag = 'node-008'
 name = 'Ultrasonic Proof of Concept (us1)'
-note = 'Distance to Water Surface'
+note = 'Ocean Break'
 
 log_dir = './log'
 plot_dir ='../www'
@@ -28,7 +28,7 @@ conf = [
         'dbtype':'REAL',
         'comtag':None,
         'unit':'mm',
-        'description':'Distance to Water',
+        'description':'Sensor to Water Surface',
         'plot':True,
         'min':300,
         'max':5000,

@@ -38,6 +38,10 @@ store = storage_read_only(dbfile=dbfile)
 
 tmp = store.get_list_of_tables()
 nodes = [t.replace('_','-') for t in tmp if re.match('^node.+',t)]
+
+with open(join(out_dir,'node_list.json'),'w') as f:
+    json.dump({'nodes':nodes},f,separators=(',',':'))
+
 for node_id in nodes:
     PRINT('- - - - -')
     PRINT('node ID:' + node_id)
@@ -64,7 +68,13 @@ for node_id in nodes:
     variables = [v for v in variables if v in tmp]
     plotted = []
     for var in variables:
-        timerange = timedelta(hours=node.plot_range)
+        #timerange = timedelta(hours=node.plot_range)
+
+
+        timerange = timedelta(hours=2)
+
+
+
         cols = [time_col,var]
 
         try:

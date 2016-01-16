@@ -1,14 +1,14 @@
-var node_id = $("#data-node_id").data("node_id");
-//alert(node_id);
+var site = $("#data-id").data("site");
+var node_id = $("#data-id").data("node_id");
 
-$.get("../node_config.py?p=node_name&id=" + node_id,function(data) {
+$.get("../node_config.py?p=node_name&site=" + site + "&node_id=" + node_id,function(data) {
 	$("#node_name").html(data.node_name);
 	document.title = data.node_name + " - " + node_id;
 });
 
 $("#node_id").append(node_id);
 
-$.get("../node_config.py?p=node_note&id=" + node_id,function(data) {
+$.get("../node_config.py?p=node_note&site=" + site + "&node_id=" + node_id,function(data) {
 	$("#node_note").html(data.node_note);
 });
 
@@ -18,22 +18,27 @@ var d = new Date(Date.now());
 tmp = $('<time></time>').attr('class','timeago').attr('datetime',d.toISOString()).html('ago');
 $('<p></p>').append(tmp.prop('outerHTML')).appendTo('#pagegeneratedts');
 
-$.get("../node_config.py?p=latest_sample&site=poh&id=" + node_id,function(data) {
+$.get("../node_config.py?p=latest_sample&site=" + site + "&node_id=" + node_id,function(data) {
 	//console.log(data.latest_sample);
-	var d = new Date(data.latest_sample['ReceptionTime']*1000);
+	var d;
+	if ('ReceptionTime' in data.latest_sample) {
+		d = new Date(data.latest_sample['ReceptionTime']*1000);
+	} else if ('Timestamp' in data.latest_sample) {
+		d = new Date(data.latest_sample['Timestamp']*1000);
+	}
 	var tmp = $('<time></time>').attr('class','timeago').attr('datetime',d.toISOString()).html('ago');
 	$('<p></p>').append(tmp.prop('outerHTML')).appendTo('#lastsampledts');
 	$("time.timeago").timeago();
 });
 
-$.get("../node_config.py?p=latest_sample&site=poh&p=units&id=" + node_id,function(data) {
+$.get("../node_config.py?p=latest_sample&site=" + site + "&p=units&node_id=" + node_id,function(data) {
 	$("#latest_table").append("<tr><th>Variable</th><th>Value</th><th>Unit</th></tr>");
 	
 	/*$.each(data['latest_sample'],function(tag){
 		$("#latest_table").append("<tr><td><a href=\"#\" title=\"click for self-updating plot\" target=\"_blank\">" + tag + "</a></td><td>" + data.latest_sample[tag] + "</td><td>" + data.units[tag] + "</td></tr>");
 	});*/
 
-	$.get("../node_config.py?p=list_of_disp_vars&id=" + node_id,function(tmp) {
+	$.get("../node_config.py?p=list_of_disp_vars&site=" + site + "&node_id=" + node_id,function(tmp) {
 		$.each(tmp.list_of_disp_vars,function(i,tag) {
 			//console.log(tag);
 			var img_src = "../node-" + ('000' + node_id).slice(-3) + "/" + tag + ".png";
@@ -42,11 +47,11 @@ $.get("../node_config.py?p=latest_sample&site=poh&p=units&id=" + node_id,functio
 	});
 });
 
-$.get("../node_config.py?p=list_of_disp_vars&p=description&id=" + node_id,function(data) {
+$.get("../node_config.py?p=list_of_disp_vars&p=description&site=" + site + "&node_id=" + node_id,function(data) {
 	var desc_map = data.description;
 	$.each(data.list_of_disp_vars,function(i,v) {
-		var img_src = "../node-" + ('000' + node_id).slice(-3) + "/" + v + ".png";
-		var img_prop = "../node-" + ('000' + node_id).slice(-3) + "/" + v + ".json";
+		var img_src = "../" + site + "/node-" + ('000' + node_id).slice(-3) + "/" + v + ".png";
+		var img_prop = "../" + site + "/node-" + ('000' + node_id).slice(-3) + "/" + v + ".json";
 		
 		// generate the caption (plot generation time, plot time span etc.)
 		$.get(img_prop,function(data) {

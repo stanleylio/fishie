@@ -161,9 +161,13 @@ if '__main__' == __name__:
 
     parser = argparse.ArgumentParser(formatter_class=argparse.RawTextHelpFormatter,description='')
     parser.add_argument('--dbfile',type=str,default='./sensor_data.db',metavar='dbfile',help='Path to the database file')
+    parser.add_argument('--site',type=str,default='poh',metavar='site',help='Name of the site. {poh,msb228,coconut}')
     parser.add_argument('--plot_dir',type=str,default='./gen_plot_output',metavar='plot_dir',help='Output directory for the plots')
     
     args = parser.parse_args()
+
+    site = args.site
+    PRINT('Site: {}'.format(site))
 
     # which database to take data from
     dbfile = args.dbfile
@@ -171,7 +175,7 @@ if '__main__' == __name__:
         print('dbfile {} not found. Terminating.'.format(dbfile))
         sys.exit()
     else:
-        print('Plotting data from {}'.format(dbfile))
+        PRINT('Plotting data from {}'.format(dbfile))
 
     # where to put the generated plots
     plot_dir = args.plot_dir
@@ -179,24 +183,23 @@ if '__main__' == __name__:
 
     store = storage_read_only(dbfile=dbfile)
 
-    IDs = []
-    if is_node():
-        IDs = [get_node_id()]
-    else:
-        tmp = store.get_list_of_tables()
-        #IDs = [int(t[5:8]) for t in tmp if re.match('^node_\d{3}$',t)]
-        IDs = [t.replace('_','-') for t in tmp if re.match('^node.+',t)]
+    #tmp = store.get_list_of_tables()
+    #nodes = [t.replace('_','-') for t in tmp if re.match('^node.+',t)]
+    nodes = get_list_of_nodes(site)
 
-    if len(IDs) <= 0:
+    if len(nodes) <= 0:
         print('Nothing to plot. Terminating.')
+        sys.exit()
 
-    for node_id in IDs:
+    for node_id in nodes:
         PRINT('- - - - -')
         PRINT('node ID:' + node_id)
-        node = importlib.import_module('config.' + node_id.replace('-','_'))
 
-        tag_unit_map = get_unit_map(node_id)
-        tag_desc_map = get_description_map(node_id)
+        #node = importlib.import_module('config.' + site + '.' + node_id.replace('-','_'))
+        node = import_node_config(site,node_id)
+
+        tag_unit_map = get_unit_map(site,node_id)
+        tag_desc_map = get_description_map(site,node_id)
         node_plot_dir = join(plot_dir,node_id)
 
         # time_col
@@ -210,7 +213,6 @@ if '__main__' == __name__:
             PRINT('gen_plot.py: no timestamp column found. Skipping this node.')
             continue
 
-        # find the list of variables from config? or from database?
         variables = [c['dbtag'] for c in node.conf if c['plot']]
         plotted = []
         for var in variables:

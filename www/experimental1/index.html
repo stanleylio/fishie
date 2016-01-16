@@ -6,18 +6,20 @@
 	<script src="../jquery/jquery.min.js"></script>
 </head>
 <body>
-	<div id="tester" style="width:800px;height:400px;"></div>
+	<div id="tester" style="width:960px;height:500px;"></div>
 	<script>
-		v = 'T_180';
+		v = 'd2w';
 		end = Date.now()/1000.0;
 		begin = end - 2*24*60*60;
-		$.get("../qtr.py?base=base-003&node=node-002&var=" + v + "&begin=" + begin + "&end=" + end,function(data) {
+		$.get("../qtr.py?base=base-003&node=node-009&var=" + v + "&begin=" + begin + "&end=" + end,function(data) {
 			ts = data.qtr['ReceptionTime'];
 			r = data.qtr[v];
 			
 			var layout = {
 			  title: 'weapons of math instruction',
 			  autosize: false,
+			  width: 960,
+			  height: 500,
 			  xaxis: {
 				title: 'Time',
 				titlefont: {
@@ -27,7 +29,7 @@
 				}
 			  },
 			  yaxis: {
-				title: v + ', Deg.C',
+				title: v + ', mm',
 				titlefont: {
 				  family: 'Courier New, monospace',
 				  size: 18,
