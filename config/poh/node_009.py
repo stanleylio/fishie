@@ -1,7 +1,7 @@
-
-tag = 'node-009'
+#tag = 'node-009'
 name = 'Ultrasonic Proof of Concept (us2)'
-note = 'Ocean Makaha 2'
+location = 'Makaha 1'
+note = 'Ultrasonic sensor with a microcontroller'
 
 log_dir = './log'
 plot_dir ='../www'

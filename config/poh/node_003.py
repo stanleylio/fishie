@@ -1,8 +1,8 @@
-
-id = 3
+#id = 3
 #tag = 'node-003'
-name = 'Ocean Break'
-note = 'Aanderaa 4330F + FLNTU'
+name = 'One and only FLNTU'
+location = 'Makaha 2'
+note = 'FLNTU is love, FLNTU is life'
 
 log_dir = './log'
 plot_dir ='../www'

@@ -1,7 +1,7 @@
-
-id = 2
+#id = 2
 #tag = 'node-002'
-name = 'Ocean Makaha 2'
+name = 'Fish pan to-be?'
+location = 'Makaha 1'
 note = 'Aanderaa 4330f + MS5803-14BA + EZO EC + BMP180'
 
 log_dir = './log'

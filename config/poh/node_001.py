@@ -1,7 +1,7 @@
-
-id = 1
+#id = 1
 #tag = 'node-001'   # slated to repalce the numerical node ID
-name = 'Triple Makaha'
+name = 'node-001'
+location = 'Makaha 3'
 note = 'Aanderaa 4330f + MS5803-14BA + EZO EC + BMP180'
 
 log_dir = './log'
