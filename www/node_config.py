@@ -1,4 +1,7 @@
 #!/usr/bin/python
+#
+# Stanley Lio, hlio@hawaii.edu
+# Januray 2016
 import cgi,cgitb,sys,json,time,traceback
 sys.path.append('..')
 import config,storage
@@ -6,40 +9,16 @@ from config.config_support import *
 from storage.storage import storage_read_only
 from datetime import datetime
 from os.path import exists
+from helper import dt2ts,ts2dt,get_dbfile,auto_time_col
 
 #import cgi
 #cgi.test()
-
 cgitb.enable(display=1)
 form = cgi.FieldStorage()
-
-#dbfile = '/home/nuc/data/base-003/storage/sensor_data.db'
-#dbfile = '/home/nuc/node/storage/sensor_data.db'
-#dbfile = '/home/nuc/data/node-005/storage/sensor_data.db'
-#dbfile = '/home/nuc/data/node-019/storage/sensor_data.db'
-
-def get_dbfile(site,node_id=None):
-    if 'poh' == site:
-        return '/home/nuc/node/storage/sensor_data.db'
-    if 'msb228' == site:
-        if 'node-005' == node_id:
-            return '/home/nuc/data/node-005/storage/sensor_data.db'
-        elif 'node-019' == node_id:
-            return '/home/nuc/data/node-019/storage/sensor_data.db'
-    return None
-
-def auto_time_col(store,node_id):
-    time_col = 'Timestamp'
-    if 'ReceptionTime' in store.get_list_of_columns(node_id):
-        time_col = 'ReceptionTime'
-    return time_col
-
-
 #print form.getlist('p')
 #exit()
 
 d = {}
-#store = storage_read_only(dbfile=dbfile)
 
 # get a list of nodes from which the database has data
 # http://192.168.0.20/node_config.py?p=list_of_nodes

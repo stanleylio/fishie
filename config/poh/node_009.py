@@ -1,7 +1,6 @@
-#tag = 'node-009'
-name = 'Ultrasonic Proof of Concept (us2)'
+name = 'us2'
 location = 'Makaha 1'
-note = 'Ultrasonic sensor with a microcontroller'
+note = 'Ultrasonic Proof of Concept'
 
 log_dir = './log'
 plot_dir ='../www'
