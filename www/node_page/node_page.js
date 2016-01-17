@@ -54,8 +54,8 @@
 	$.get("../node_config.py?p=list_of_disp_vars&p=description&site=" + site + "&node_id=" + node_id,function(data) {
 		var desc_map = data.description;
 		$.each(data.list_of_disp_vars,function(i,v) {
-			var img_src = "../" + site + "/node-" + ('000' + node_id).slice(-3) + "/" + v + ".png";
-			var img_prop = "../" + site + "/node-" + ('000' + node_id).slice(-3) + "/" + v + ".json";
+			var img_src = "../" + site + "/" + node_id + "/" + v + ".png";
+			var img_prop = "../" + site + "/" + node_id + "/" + v + ".json";
 			
 			// generate the caption (plot generation time, plot time span etc.)
 			$.get(img_prop,function(data) {

@@ -9,7 +9,14 @@ from config.config_support import *
 from storage.storage import storage_read_only
 from datetime import datetime
 from os.path import exists
-from helper import dt2ts,ts2dt,get_dbfile,auto_time_col
+from helper import dt2ts,ts2dt,get_dbfile
+
+def auto_time_col(store,node_id):
+    time_col = 'Timestamp'
+    if 'ReceptionTime' in store.get_list_of_columns(node_id):
+        time_col = 'ReceptionTime'
+    return time_col
+
 
 #import cgi
 #cgi.test()
@@ -17,6 +24,7 @@ cgitb.enable(display=1)
 form = cgi.FieldStorage()
 #print form.getlist('p')
 #exit()
+
 
 d = {}
 

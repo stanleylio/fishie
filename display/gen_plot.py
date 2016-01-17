@@ -8,6 +8,7 @@ matplotlib.use('Agg')
 import sys,re,json,time
 sys.path.append('..')
 import config
+from helper import get_dbfile,dt2ts
 import matplotlib.pyplot as plt
 from datetime import datetime,timedelta
 from matplotlib.dates import DateFormatter,HourLocator
@@ -160,7 +161,7 @@ if '__main__' == __name__:
     from scipy.signal import medfilt
 
     parser = argparse.ArgumentParser(formatter_class=argparse.RawTextHelpFormatter,description='')
-    parser.add_argument('--dbfile',type=str,default='./sensor_data.db',metavar='dbfile',help='Path to the database file')
+    parser.add_argument('--dbfile',type=str,default=None,metavar='dbfile',help='Path to the database file')
     parser.add_argument('--site',type=str,default='poh',metavar='site',help='Name of the site. {poh,msb228,coconut}')
     parser.add_argument('--plot_dir',type=str,default='./gen_plot_output',metavar='plot_dir',help='Output directory for the plots')
     
@@ -169,19 +170,21 @@ if '__main__' == __name__:
     site = args.site
     PRINT('Site: {}'.format(site))
 
-    # which database to take data from
     dbfile = args.dbfile
-    if not exists(dbfile):
-        print('dbfile {} not found. Terminating.'.format(dbfile))
-        sys.exit()
-    else:
-        PRINT('Plotting data from {}'.format(dbfile))
+    if dbfile is not None:
+        PRINT('db: {}'.format(dbfile))
+
+    # which database to take data from
+    #dbfile = args.dbfile
+    #if not exists(dbfile):
+    #    print('dbfile {} not found. Terminating.'.format(dbfile))
+    #    sys.exit()
+    #else:
+    #    PRINT('Plotting data from {}'.format(dbfile))
 
     # where to put the generated plots
     plot_dir = args.plot_dir
     PRINT('Output directory: ' + plot_dir)
-
-    store = storage_read_only(dbfile=dbfile)
 
     #tmp = store.get_list_of_tables()
     #nodes = [t.replace('_','-') for t in tmp if re.match('^node.+',t)]
@@ -191,10 +194,17 @@ if '__main__' == __name__:
         print('Nothing to plot. Terminating.')
         sys.exit()
 
+    with open(join(plot_dir,'node_list.json'),'w') as f:
+        json.dump({'nodes':nodes},f,separators=(',',':'))
+
     for node_id in nodes:
         PRINT('- - - - -')
-        PRINT('node ID:' + node_id)
+        PRINT('Node: ' + node_id)
 
+        if dbfile is None:
+            dbfile = get_dbfile(site,node_id)
+        store = storage_read_only(dbfile=dbfile)
+        
         #node = importlib.import_module('config.' + site + '.' + node_id.replace('-','_'))
         node = import_node_config(site,node_id)
 
@@ -243,7 +253,9 @@ if '__main__' == __name__:
                 plot_config = {'time_begin':time.mktime(min(x).timetuple()),
                                'time_end':time.mktime(max(x).timetuple()),
                                'plot_generated_at':time.mktime(datetime.utcnow().timetuple()),
-                               'data_point_count':len(y)}
+                               'data_point_count':len(y),
+                               time_col:[dt2ts(t) for t in x],
+                               var:y}
                 with open(join(node_plot_dir,var + '.json'),'w') as f:
                     # json.dump vs. json.dumps...
                     json.dump(plot_config,f,separators=(',',':'))
@@ -262,7 +274,7 @@ if '__main__' == __name__:
 
         # website helper
         if exists(node_plot_dir) and len(plotted) > 0:
-            with open(join(node_plot_dir,'plotted_var_list.json'),'w') as f:
-                tmp = [v + '.png' for v in plotted]
-                json.dump(tmp,f,separators=(',',':'))
-
+            with open(join(node_plot_dir,'var_list.json'),'w') as f:
+                #tmp = [v + '.png' for v in plotted]
+                #json.dump({'variables':tmp},f,separators=(',',':'))
+                json.dump({'variables':plotted},f,separators=(',',':'))

@@ -1,3 +1,4 @@
+import time
 from datetime import datetime
 
 def dt2ts(dt):
@@ -24,9 +25,3 @@ def get_dbfile(site,node_id=None):
         elif 'node-019' == node_id:
             return '/home/nuc/data/node-019/storage/sensor_data.db'
     return None
-
-def auto_time_col(store,node_id):
-    time_col = 'Timestamp'
-    if 'ReceptionTime' in store.get_list_of_columns(node_id):
-        time_col = 'ReceptionTime'
-    return time_col

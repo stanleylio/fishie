@@ -4,7 +4,8 @@ cd $HOME/node/display
 
 # - - - - -
 # plot raw
-python gen_plot.py --site=poh --dbfile=$HOME/node/storage/sensor_data.db --plot_dir=$HOME/node/www/poh
+#python gen_plot.py --site=poh --dbfile=$HOME/node/storage/sensor_data.db --plot_dir=$HOME/node/www/poh
+python gen_plot.py --site=poh --plot_dir=$HOME/node/www/poh
 
 # - - - - -
 # plot filtered and boundary-checked
