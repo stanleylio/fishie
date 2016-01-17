@@ -7,7 +7,7 @@
 	var begin = end - 1*24*60*60;
 	
 	// query for sensor data
-	$.get("../qtr.py?site=poh&node_id=" + node_id + "&var=" + variable + "&begin=" + begin + "&end=" + end,function(data) {
+	$.get("../qtr.py?site=" + site + "&node_id=" + node_id + "&var=" + variable + "&begin=" + begin + "&end=" + end,function(data) {
 		var ts = data.qtr['Timestamp'];
 		if ('ReceptionTime' in data.qtr) {
 			ts = data.qtr['ReceptionTime'];

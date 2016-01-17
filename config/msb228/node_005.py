@@ -7,7 +7,7 @@ note = 'MS5803 + BMP180 + MCP9808 + BME280 + HTU21D'
 log_dir = './log'
 plot_dir = '../www'
 
-plot_range = 24*14
+plot_range = 24*7
 
 xbee_port = '/dev/ttyO1'
 xbee_baud = 115200

@@ -204,13 +204,17 @@ if '__main__' == __name__:
 
         # time_col
         time_col = None
-        tmp = store.get_list_of_columns(node_id)
-        if 'ReceptionTime' in tmp:
-            time_col = 'ReceptionTime'
-        elif 'Timestamp' in tmp:
-            time_col = 'Timestamp'
-        else:
-            PRINT('gen_plot.py: no timestamp column found. Skipping this node.')
+        try:
+            tmp = store.get_list_of_columns(node_id)
+            if 'ReceptionTime' in tmp:
+                time_col = 'ReceptionTime'
+            elif 'Timestamp' in tmp:
+                time_col = 'Timestamp'
+            else:
+                PRINT('gen_plot.py: no timestamp column found. Skipping this node.')
+                continue
+        except sqlite3.OperationalError:
+            PRINT('{} not in {}'.format(node_id,dbfile))
             continue
 
         variables = [c['dbtag'] for c in node.conf if c['plot']]
