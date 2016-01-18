@@ -7,7 +7,6 @@ import matplotlib,numpy,traceback
 matplotlib.use('Agg')
 import sys,re,json,time
 sys.path.append('..')
-import config
 from helper import get_dbfile,dt2ts
 import matplotlib.pyplot as plt
 from datetime import datetime,timedelta
@@ -157,14 +156,13 @@ def plot_time_series(x,y,plotfilename,title='',xlabel='',ylabel='',linelabel=Non
 if '__main__' == __name__:
     import sys,traceback,sqlite3,re,importlib,argparse
     sys.path.append('..')
-    from storage.storage import storage_read_only
-    from scipy.signal import medfilt
+    from storage.storage import storage_read_only,auto_time_col
+    #from scipy.signal import medfilt
 
     parser = argparse.ArgumentParser(formatter_class=argparse.RawTextHelpFormatter,description='')
     parser.add_argument('--dbfile',type=str,default=None,metavar='dbfile',help='Path to the database file')
     parser.add_argument('--site',type=str,default='poh',metavar='site',help='Name of the site. {poh,msb228,coconut}')
     parser.add_argument('--plot_dir',type=str,default='./gen_plot_output',metavar='plot_dir',help='Output directory for the plots')
-    
     args = parser.parse_args()
 
     site = args.site
@@ -194,6 +192,7 @@ if '__main__' == __name__:
         print('Nothing to plot. Terminating.')
         sys.exit()
 
+    # list of nodes, per site
     with open(join(plot_dir,'node_list.json'),'w') as f:
         json.dump({'nodes':nodes},f,separators=(',',':'))
 
@@ -201,11 +200,11 @@ if '__main__' == __name__:
         PRINT('- - - - -')
         PRINT('Node: ' + node_id)
 
+        # if dbfile is not specified
         if dbfile is None:
             dbfile = get_dbfile(site,node_id)
         store = storage_read_only(dbfile=dbfile)
         
-        #node = importlib.import_module('config.' + site + '.' + node_id.replace('-','_'))
         node = import_node_config(site,node_id)
 
         tag_unit_map = get_unit_map(site,node_id)
@@ -213,20 +212,12 @@ if '__main__' == __name__:
         node_plot_dir = join(plot_dir,node_id)
 
         # time_col
-        time_col = None
         try:
-            tmp = store.get_list_of_columns(node_id)
-            if 'ReceptionTime' in tmp:
-                time_col = 'ReceptionTime'
-            elif 'Timestamp' in tmp:
-                time_col = 'Timestamp'
-            else:
-                PRINT('gen_plot.py: no timestamp column found. Skipping this node.')
-                continue
+            time_col = auto_time_col(store,node_id)
         except sqlite3.OperationalError:
-            PRINT('{} not in {}'.format(node_id,dbfile))
+            PRINT('{} not in {}. Skipping this node'.format(node_id,dbfile))
             continue
-
+            
         variables = [c['dbtag'] for c in node.conf if c['plot']]
         plotted = []
         for var in variables:
@@ -255,7 +246,11 @@ if '__main__' == __name__:
                                'plot_generated_at':time.mktime(datetime.utcnow().timetuple()),
                                'data_point_count':len(y),
                                time_col:[dt2ts(t) for t in x],
-                               var:y}
+                               var:y,
+                               'unit':tag_unit_map[var],
+                               'description':tag_desc_map[var]}
+
+                # website helper (data attributes, per plot/var)
                 with open(join(node_plot_dir,var + '.json'),'w') as f:
                     # json.dump vs. json.dumps...
                     json.dump(plot_config,f,separators=(',',':'))
@@ -268,11 +263,11 @@ if '__main__' == __name__:
                 # ValueError: db has the variable, but all NaN
                 PRINT('\tNo data for {} of {} in the selected range'.\
                       format(var,node_id))
-                #traceback.print_exc()
+                traceback.print_exc()
             except:
                 traceback.print_exc()
 
-        # website helper
+        # website helper (list of variable, per node)
         if exists(node_plot_dir) and len(plotted) > 0:
             with open(join(node_plot_dir,'var_list.json'),'w') as f:
                 #tmp = [v + '.png' for v in plotted]

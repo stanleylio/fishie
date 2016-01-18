@@ -17,7 +17,7 @@ import cgi,cgitb,sys,json,time,traceback
 sys.path.append('..')
 import config,storage
 from config.config_support import *
-from storage.storage import storage_read_only
+from storage.storage import storage_read_only,auto_time_col
 from os.path import exists
 from helper import dt2ts,ts2dt,get_dbfile
 
@@ -27,13 +27,6 @@ cgitb.enable(display=1)
 form = cgi.FieldStorage()
 #print form.getlist('p')
 #exit()
-
-
-def auto_time_col(store,node_id):
-    time_col = 'Timestamp'
-    if 'ReceptionTime' in store.get_list_of_columns(node_id):
-        time_col = 'ReceptionTime'
-    return time_col
 
 
 # (base ID,node ID,variable name,time range)

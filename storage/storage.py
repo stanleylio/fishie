@@ -24,6 +24,12 @@ def dt2ts(dt):
 def ts2dt(ts):
     return datetime.fromtimestamp(ts)
 
+def auto_time_col(store,node_id):
+    time_col = 'Timestamp'
+    if 'ReceptionTime' in store.get_list_of_columns(node_id):
+        time_col = 'ReceptionTime'
+    return time_col
+
 
 # this one doesn't require database schema on instantiation
 class storage_read_only(object):
@@ -43,8 +49,6 @@ class storage_read_only(object):
         return sorted(tuple(t[0] for t in cursor.fetchall()))
 
     def get_list_of_columns(self,node_id):
-        #if type(node_id) is int:
-        #    node_id = 'node_{:03d}'.format(node_id)
         cursor = self.c.execute('SELECT * FROM {}'.format(node_id.replace('-','_')))
         return [d[0] for d in cursor.description]
 
@@ -61,13 +65,14 @@ class storage_read_only(object):
             pass'''
 
     def read_time_range(self,node_id,time_col,cols,begin,end=None):
-        assert type(cols) is list,'storage::read_time_range(): cols must be a list of string'
-
-        #if type(node_id) is int:
-        #    node_id = 'node_{:03d}'.format(node_id)
+        assert type(cols) is list,'cols must be a list of string'
+        assert time_col in self.get_list_of_columns(node_id),\
+               'no such time_col: {}'.format(time_col)
 
         if end is None:
             end = datetime.now()
+
+        assert end > begin,'"begin" came after "end"? just swap the two'
 
         time_range = 'WHERE {time_col} BETWEEN "{begin}" AND "{end}"'.\
                      format(time_col=time_col,begin=begin,end=end)
@@ -95,19 +100,13 @@ class storage_read_only(object):
         return self.read_time_range(node_id,time_col,cols,begin,end=end)
 
     def read_last_N(self,node_id,time_col,count=1,cols=None):
-        #assert type(node_id) is int,'storage::read_last_N(): node_id must be int'
         assert cols is None or type(cols) is list,'storage::read_last_N(): cols, if not None, must be a list of string'
-
-        # transitioning from numerical node_id to str node_id
-        #if type(node_id) is int:
-        #    node_id = 'node_{:03d}'.format(node_id)
-        
-        if cols is not None:
-            if 'Timestamp' not in cols and 'ReceptionTime' not in cols:
-                print('Sure you don''t want any timestamps?')
 
         if cols is None:
             cols = self.get_list_of_columns(node_id)
+        else:
+            if 'Timestamp' not in cols and 'ReceptionTime' not in cols:
+                print('Sure you don''t want any timestamps?')
 
         cmd = 'SELECT {} FROM {} ORDER BY {} DESC LIMIT {}'.\
                 format(','.join(cols),
