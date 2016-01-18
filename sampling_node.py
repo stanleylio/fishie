@@ -17,7 +17,9 @@ from parse_support import pretty_print
 from random import randint
 from drivers.indicators import *
 
-node = importlib.import_module('node_{:03d}'.format(get_node_id()))
+import node
+site = node.site
+node = importlib.import_module(node.config)
 
 if not is_node():
     print('Not configured as a sensor node (see node_config.ini). Terminating.')
@@ -62,10 +64,10 @@ def log_raw(line):
     #PRINT(line)
     log(raw,line)
 
-store = storage({node.id:read_capabilities()[node.id]})
+store = storage({node.tag:get_capabilities(site)[node.tag]})
 
 # wait at most 1 minute for the system clock to initialize (ntpdate, hwclock, GPS etc.)
-last_sampled = store.read_last_N(get_node_id(),'Timestamp')
+last_sampled = store.read_last_N(get_node_tag(),'Timestamp')
 if last_sampled is not None:
     last_sampled = last_sampled['Timestamp'][0]
 d = datetime.now()
@@ -141,7 +143,7 @@ with serial.Serial(node.xbee_port,node.xbee_baud,timeout=1) as s,\
 
                     pretty_print(d)
 
-                    store.write(node.id,d)
+                    store.write(node.tag,d)
 
                     # JSON/serial likes POSIX
                     # SQLite uses python datetime

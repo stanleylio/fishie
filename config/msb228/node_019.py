@@ -1,3 +1,4 @@
+tag = 'node-019'
 name = 'SL personal'
 location = 'MSB 228'
 note = 'LA Beaglebone + eBay sensors'
