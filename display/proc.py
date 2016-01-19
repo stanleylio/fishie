@@ -64,6 +64,7 @@ for node_id in nodes:
     c = conn.cursor()
     for tag in cols:
         print '\t',tag
+
         try:
             c.execute('UPDATE {node} SET {tag}=? WHERE {tag}<?'.format(node=node_id.replace('-','_'),tag=tag),(None,mins[tag],))
         except KeyError:

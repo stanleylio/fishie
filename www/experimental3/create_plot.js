@@ -4,7 +4,7 @@
 	var variable = $("#data-id").data("variable");;
 	// TODO
 	var end = Date.now()/1000.0;
-	var begin = end - 1*24*60*60;
+	var begin = end - 7*24*60*60;
 	
 	// query for sensor data
 	$.get("../qtr.py?site=" + site + "&node_id=" + node_id + "&var=" + variable + "&begin=" + begin + "&end=" + end,function(data) {

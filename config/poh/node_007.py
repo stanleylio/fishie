@@ -56,8 +56,8 @@ conf = [
         'unit':'kPa',
         'description':'Barometric Pressure (BME280)',
         'plot':True,
-        'min':80e3,
-        'max':110e3,
+        'min':80,
+        'max':120,
     },
     {
         'dbtag':'T_280',
