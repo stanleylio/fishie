@@ -32,7 +32,7 @@
 		$("time.timeago").timeago();
 	});
 
-	$.get("../node_config.py?p=latest_sample&site=" + site + "&p=units&node_id=" + node_id,function(data) {
+	$.get("../node_config.py?p=latest_sample&p=units&site=" + site + "&node_id=" + node_id,function(data) {
 		$("#latest_table").append("<tr><th>Variable</th><th>Value</th><th>Unit</th></tr>");
 		
 		/*$.each(data['latest_sample'],function(tag){
