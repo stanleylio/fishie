@@ -12,7 +12,7 @@ xbee_baud = 115200
 
 wait = 10
 
-multi_sample = 3
+multi_sample = 1
 
 conf = [
     {
