@@ -1,6 +1,4 @@
-
-id = 11
-#tag = 'node-011'
+tag = 'node-011'
 name = 'Waterbath'
 note = 'MS5803 + BMP180 + MCP9808 in mineral oil'
 
@@ -14,7 +12,7 @@ xbee_baud = 115200
 
 wait = 10
 
-multi_sample = 1
+multi_sample = 3
 
 conf = [
     {
