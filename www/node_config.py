@@ -23,32 +23,18 @@ form = cgi.FieldStorage()
 d = {}
 
 # get a list of nodes from which the database has data
-# http://192.168.0.20/node_config.py?p=list_of_nodes
+# http://192.168.0.20/node_config.py?site=poh&p=list_of_nodes
 if 'list_of_nodes' in form.getlist('p'):
     site = form.getlist('site')[0]
-    '''dbfile = get_dbfile(site)
-    if not exists(dbfile):
-        # Don't want storage to auto-create an empty database
-        # file if it doesn't already exist (such as when being
-        # updated by rsync)
-        d.update({'list_of_nodes':[]})
-    else:
-        store = storage_read_only(dbfile=get_dbfile(site))
-        nodes = []
-        for node_id in get_capabilities(site).keys():
-            try:
-                time_col = auto_time_col(store,node_id)
-                r = store.read_last_N(node_id,time_col)
-                if r is not None:
-                    nodes.append(node_id)
-                #else:
-                #    print 'Content-Type: text/plain; charset=utf8'
-                #    print
-                #    print node_id
-            except:
-                traceback.print_exc()
-        d.update({'list_of_nodes':nodes})'''
+    store = storage_read_only(dbfile=get_dbfile(site))
     nodes = get_list_of_nodes(site)
+
+    for k,node in enumerate(nodes):
+        time_col = auto_time_col(store,node)
+        r = store.read_last_N(node,time_col,1)
+        if r is None:
+            nodes[k] = None
+    nodes = [node for node in nodes if node is not None]
     d.update({'list_of_nodes':nodes})
 
 # http://192.168.0.20/node_config.py?p=list_of_variables&id=4

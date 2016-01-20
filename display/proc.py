@@ -1,5 +1,8 @@
 # replace all out-of-bound samples with SQLite Null
 # min and max may not both (or at all) defined for any variable (column)
+#
+# Stanley Lio, hlio@soest.hawaii.edu
+# December 2015
 import sys,sqlite3,argparse,traceback
 sys.path.append('..')
 from storage.storage import storage_read_only
@@ -38,7 +41,6 @@ for node_id in nodes:
     convfs = {}
     mins = {}
     maxs = {}
-    #tmp = importlib.import_module('config.{}'.format(table))
     tmp = import_node_config(site,node_id)
     for c in tmp.conf:
         #try:
