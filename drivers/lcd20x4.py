@@ -70,8 +70,8 @@ class LCD(object):
 
         # cursor direction... the default is good.
         #self.sendbyte(0b00000111)
-        # turn cursor and blink off
-        #self.sendbyte(0b00001100)
+        # turn ON display; turn OFF cursor and blink
+        self.sendbyte(0b00001100)
 
     def write_lines(self,lines):
         while len(lines) < 4:
@@ -88,7 +88,6 @@ class LCD(object):
     def write_char(self,c):
         self.set_RS()
         self.sendbyte(ord(c))
-
 
     def clear(self):
         self.clear_RS()
