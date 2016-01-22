@@ -20,5 +20,5 @@ In addition to the logger core logic, it contains Python driver/parser for vario
 - MCP9808 (Temperature sensor; code from Adafruit)
 - Si1145 (IR/UV/visible light sensor; code from Adafruit)
 - 20x4 LCD display with PCF8574T I2C I/O expander
-... as well as several custom AVR-based sensors
 
+... as well as several custom AVR-based sensors.
