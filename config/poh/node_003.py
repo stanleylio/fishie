@@ -1,23 +1,25 @@
-
-id = 1
-#tag = 'node-001'   # slated to repalce the numerical node ID
-name = 'Triple Makaha'
-note = 'Aanderaa 4330f + MS5803-14BA + EZO EC + BMP180'
+#id = 3
+#tag = 'node-003'
+name = 'One and only FLNTU'
+location = 'Makaha 2'
+note = 'FLNTU is love, FLNTU is life'
 
 log_dir = './log'
-plot_dir = '../www'
+plot_dir ='../www'
 
 plot_range = 24*7
 
 xbee_port = '/dev/ttyO1'
 xbee_baud = 115200
 
-optode_port = '/dev/ttyO2'
+ms5803_bus = 1
 
-wait = 591
-#wait = 0
+optode_port = '/dev/ttyO4'
+flntu_port = '/dev/ttyO2'
 
-multi_sample = 7
+wait = 593
+
+multi_sample = 5
 
 conf = [
     {
@@ -27,28 +29,6 @@ conf = [
         'unit':None,
         'description':'Time of sampling',
         'plot':False,
-    },
-    {
-        'dbtag':'P_180',
-        'dbtype':'REAL',
-        'comtag':'P_180',
-        'unit':'Pa',
-        'description':'Barometric Pressure',
-        'plot':True,
-        'min':80e3,
-        'max':110e3,
-        #'convf':lambda (x): x/1e3,
-        #'convunit':'kPa',
-    },
-    {
-        'dbtag':'T_180',
-        'dbtype':'REAL',
-        'comtag':'T_180',
-        'unit':'Deg.C',
-        'description':'Casing Temperature',
-        'plot':True,
-        'min':-10,
-        'max':80,
     },
     {
         'dbtag':'P_5803',
@@ -71,6 +51,26 @@ conf = [
         'max':60,
     },
     {
+        'dbtag':'P_180',
+        'dbtype':'REAL',
+        'comtag':'P_180',
+        'unit':'Pa',
+        'description':'Barometric Pressure',
+        'plot':True,
+        'min':80e3,
+        'max':110e3,
+    },
+    {
+        'dbtag':'T_180',
+        'dbtype':'REAL',
+        'comtag':'T_180',
+        'unit':'Deg.C',
+        'description':'Casing Temperature',
+        'plot':True,
+        'min':-10,
+        'max':80,
+    },
+    {
         'dbtag':'ec',
         'dbtype':'REAL',
         'comtag':'ec',
@@ -88,6 +88,30 @@ conf = [
         'description':'Salinity',
         'plot':True,
         'min':0,
+    },
+    {
+        'dbtag':'Chlorophyll_FLNTU',
+        'dbtype':'REAL',
+        'comtag':'Chlorophyll',
+        'unit':'-',
+        'description':'Chlorophyll (raw count)',
+        'plot':True,
+    },
+    {
+        'dbtag':'Turbidity_FLNTU',
+        'dbtype':'REAL',
+        'comtag':'Turbidity',
+        'unit':'-',
+        'description':'Turbidity (raw)',
+        'plot':True,
+    },
+    {
+        'dbtag':'Thermistor_FLNTU',
+        'dbtype':'REAL',
+        'comtag':'Thermistor',
+        'unit':'-',
+        'description':'Thermistor (raw)',
+        'plot':False,
     },
     {
         'dbtag':'O2Concentration',
@@ -111,7 +135,7 @@ conf = [
     {
         'dbtag':'Temperature',
         'dbtype':'REAL',
-        'comtag':'T_4330f',
+        'comtag':'Temperature',
         'unit':'Deg.C',
         'description':'Water Temperature (Aanderaa 4330F)',
         'plot':True,

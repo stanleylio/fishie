@@ -8,6 +8,7 @@ from datetime import timedelta
 from storage.storage import storage_read_only
 from gen_plot import plot_multi_time_series
 
+
 def haha(c):
     time_col = c['time_col']
     tag = c['tag']
@@ -43,7 +44,7 @@ def haha(c):
 
 
 #dbfile = '../storage/sensor_data.db'
-dbfile = '../storage/bounded/sensor_data.db'
+dbfile = '../storage/bounded/poh/sensor_data.db'
 store = storage_read_only(dbfile=dbfile)
 
 for node in store.get_list_of_tables():

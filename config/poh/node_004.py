@@ -1,7 +1,8 @@
 
-id = 4
+#id = 4
 #tag = 'node-004'
-name = 'CTD'
+name = 'First CTD'
+location = 'Makaha 1'
 note = 'CTD with Atlas Scientific sensor'
 
 log_dir = './log'

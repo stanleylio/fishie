@@ -13,7 +13,7 @@ dbfile = '/home/nuc/data/node-005/storage/sensor_data.db'
 store = storage_read_only(dbfile=dbfile)
 time_col = 'Timestamp'
 tmp = [time_col,'RH_HTU21D']
-d = store.read_past_time_period(node_id=5,time_col=time_col,cols=tmp,timerange=timedelta(days=30))
+d = store.read_past_time_period(node_id='node-005',time_col=time_col,cols=tmp,timerange=timedelta(days=30))
 d['RH_HTU21D'] = [float('NaN') if n is None else n for n in d['RH_HTU21D']]
 d5 = {'x':d[time_col],'y':d['RH_HTU21D'],'linelabel':'styroform'}
 
@@ -21,7 +21,7 @@ dbfile = '/home/nuc/data/node-019/storage/sensor_data.db'
 store = storage_read_only(dbfile=dbfile)
 time_col = 'Timestamp'
 tmp = [time_col,'RH_HTU21D']
-d = store.read_past_time_period(node_id=19,time_col=time_col,cols=tmp,timerange=timedelta(days=30))
+d = store.read_past_time_period(node_id='node-019',time_col=time_col,cols=tmp,timerange=timedelta(days=30))
 d['RH_HTU21D'] = [float('NaN') if n is None else n for n in d['RH_HTU21D']]
 d19 = {'x':d[time_col],'y':d['RH_HTU21D'],'linelabel':'slpersonal'}
 

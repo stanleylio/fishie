@@ -1,7 +1,6 @@
-
-tag = 'node-009'
-name = 'Ultrasonic Proof of Concept (us2)'
-note = 'Distance to Water Surface'
+name = 'us1'
+location = 'Makaha 2'
+note = 'Ultrasonic Proof of Concept'
 
 log_dir = './log'
 plot_dir ='../www'
@@ -18,7 +17,7 @@ conf = [
         'dbtype':'INT',
         'comtag':None,
         'unit':None,
-        'description':'ticker',
+        'description':'Ticker',
         'plot':False,
         'min':0,
         'max':2**32 - 1,
@@ -28,7 +27,7 @@ conf = [
         'dbtype':'REAL',
         'comtag':None,
         'unit':'mm',
-        'description':'Distance to Water',
+        'description':'Distance from rim of sensor to water surface',
         'plot':True,
         'min':300,
         'max':5000,

@@ -1,6 +1,4 @@
-
-id = 6
-#tag = 'node-006'
+tag = 'node-006'
 name = 'EZO demo'
 note = 'EZO...'
 

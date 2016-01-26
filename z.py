@@ -50,7 +50,7 @@ def get_action(line):
                 d = {}
                 d['action'] = tmp['payload']['action']
                 try:
-                    d['multi_sample'] = max(0,tmp['payload']['m'])
+                    d['multi_sample'] = max(1,tmp['payload']['m'])
                 except:
                     pass
                 try:

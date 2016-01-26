@@ -1,8 +1,7 @@
-
-id = 19
-#tag = 'node-019'
+tag = 'node-019'
 name = 'SL personal'
-note = 'UH MSB rm 228'
+location = 'MSB 228'
+note = 'LA Beaglebone + eBay sensors'
 
 log_dir = './log'
 plot_dir = '../www'

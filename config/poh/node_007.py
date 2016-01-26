@@ -2,6 +2,7 @@
 id = 7
 #tag = 'node-007'
 name = 'Met. Station'
+location = 'Makaha 1'
 note = 'RPi Meteorological Station'
 
 #arch = 'rpi'
@@ -55,8 +56,8 @@ conf = [
         'unit':'kPa',
         'description':'Barometric Pressure (BME280)',
         'plot':True,
-        'min':80e3,
-        'max':110e3,
+        'min':80,
+        'max':120,
     },
     {
         'dbtag':'T_280',

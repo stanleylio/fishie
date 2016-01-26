@@ -19,9 +19,12 @@ def PRINT(s):
 
 parser = argparse.ArgumentParser(formatter_class=argparse.RawTextHelpFormatter,description='')
 parser.add_argument('--dbfile',type=str,default='./sensor_data.db',metavar='dbfile',help='Path to the database file')
+parser.add_argument('--site',type=str,default='poh',metavar='site',help='Name of the site. {poh,msb228,coconut}')
 parser.add_argument('--out_dir',type=str,default='./uh1',metavar='out_dir',help='Output directory')
 
 args = parser.parse_args()
+
+site = args.site
 
 # which database to take data from
 dbfile = args.dbfile
@@ -36,15 +39,21 @@ PRINT('Output directory: ' + out_dir)
 
 store = storage_read_only(dbfile=dbfile)
 
-tmp = store.get_list_of_tables()
-nodes = [t.replace('_','-') for t in tmp if re.match('^node.+',t)]
+#tmp = store.get_list_of_tables()
+#nodes = [t.replace('_','-') for t in tmp if re.match('^node.+',t)]
+nodes = get_list_of_nodes(site)
+
+with open(join(out_dir,'node_list.json'),'w') as f:
+    json.dump({'nodes':nodes},f,separators=(',',':'))
+
 for node_id in nodes:
     PRINT('- - - - -')
     PRINT('node ID:' + node_id)
-    node = importlib.import_module('config.' + node_id.replace('-','_'))
+    #node = importlib.import_module('config.' + node_id.replace('-','_'))
+    node = import_node_config(site,node_id)
 
-    tag_unit_map = get_unit_map(node_id)
-    tag_desc_map = get_description_map(node_id)
+    tag_unit_map = get_unit_map(site,node_id)
+    tag_desc_map = get_description_map(site,node_id)
     node_out_dir = join(out_dir,node_id)
 
     # time_col
@@ -98,5 +107,5 @@ for node_id in nodes:
     if exists(node_out_dir) and len(plotted) > 0:
         with open(join(node_out_dir,'var_list.json'),'w') as f:
             tmp = [v + '.png' for v in plotted]
-            json.dump(tmp,f,separators=(',',':'))
+            json.dump({'variables':tmp},f,separators=(',',':'))
 
