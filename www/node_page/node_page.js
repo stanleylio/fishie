@@ -16,7 +16,7 @@
 	//http://stackoverflow.com/questions/25876274/jquery-data-not-working
 	//".data() doesn't set data-* attributes."
 	var d = new Date(Date.now());
-	tmp = $('<time></time>').attr('class','timeago').attr('datetime',d.toISOString()).html('ago');
+	tmp = $('<time class="timeago"></time>').attr('datetime',d.toISOString()).html('ago');
 	$('<p></p>').append(tmp.prop('outerHTML')).appendTo('#pagegeneratedts');
 
 	$.get("../node_config.py?p=latest_sample&site=" + site + "&node_id=" + node_id,function(data) {
