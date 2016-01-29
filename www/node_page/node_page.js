@@ -54,6 +54,7 @@
 	$.get("../node_config.py?p=list_of_disp_vars&p=description&site=" + site + "&node_id=" + node_id,function(data) {
 		var desc_map = data.description;
 		$.each(data.list_of_disp_vars,function(i,v) {
+
 			var img_src = "../" + site + "/" + node_id + "/" + v + ".png";
 			var img_prop = "../" + site + "/" + node_id + "/" + v + ".json";
 			
@@ -73,6 +74,7 @@
 					span = nday + " days, " + span;
 				}
 
+
 				var caption = $('<div class="caption"></div>')
 				//.append("<h4>" + v + "</h4>")
 				.append("<h4>" + desc_map[v] + "</h4>")
@@ -85,6 +87,7 @@
 				.append('<img class="img-responsive" src="' + img_src + '">')
 				.append(caption)
 				.appendTo(tmp);
+				
 				$("#static_plots").append(tmp);
 				
 				$("time.timeago").timeago();

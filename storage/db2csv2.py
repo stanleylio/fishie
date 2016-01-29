@@ -1,4 +1,4 @@
-import time,sqlite3
+import calendar,sqlite3
 # Stanley Lio, hlio@usc.edu
 # All Rights Reserved. December 2015
 
@@ -19,7 +19,7 @@ if '__main__' == __name__:
 
     # convert Python datetime objects to POSIX timestamps
     vals = [list(r) for r in zip(*dat)]
-    vals[0] = [time.mktime(t.timetuple()) for t in vals[0]]
+    vals[0] = [calendar.timegm(t.timetuple()) for t in vals[0]]
     #vals[1] = [time.mktime(t.timetuple()) for t in vals[1]]
     dat = zip(*vals)
     
