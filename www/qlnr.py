@@ -1,5 +1,5 @@
 #!/usr/bin/python
-# "Query Latest Non-Null"
+# "Query Latest Non-null Reading"
 #
 # Example:
 # http://192.168.0.20/qlnr.py?site=poh&node_id=node-003&var=ec

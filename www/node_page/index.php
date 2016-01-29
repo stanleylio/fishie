@@ -30,8 +30,8 @@
 			<div class="row">
 				<div class="col-xs-10 col-xs-offset-1">
 					<div class="row">
-						<div class="col-xs-12 col-sm-3"><p style="font-weight: bold;">Last sampled</p></div>
-						<div class="col-xs-12 col-sm-8"><div id="lastsampledts"></div></div>
+						<!--div class="col-xs-12 col-sm-3"><p style="font-weight: bold;">Last sampled</p></div>
+						<div class="col-xs-12 col-sm-8"><div id="lastsampledts"></div></div-->
 						<div class="col-xs-12 col-sm-3"><p style="font-weight: bold;">Page generated</p></div>
 						<div class="col-xs-12 col-sm-8"><div id="pagegeneratedts"></div></div>
 					</div>
