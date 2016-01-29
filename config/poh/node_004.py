@@ -50,7 +50,7 @@ conf = [
         'dbtag':'sal',
         'dbtype':'REAL',
         'comtag':'sal',
-        'unit':'-',
+        'unit':'(ppt)',
         'description':'Salinity',
         'plot':True,
         'min':0,

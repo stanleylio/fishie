@@ -35,8 +35,10 @@ function create_list_group(site) {
 						//$("#node" + node_id).addClass("disabled");	// doesn't work - I can still click
 						// and it also changes the color back to green...
 					} else {
-						var diff = Date.now()/1000 - data.latest_sample.Timestamp;
-						if ('ReceptionTime' in data.latest_sample) {
+						var diff;
+						if ('Timestamp' in data.latest_sample) {
+							diff = Date.now()/1000 - data.latest_sample.Timestamp;
+						} else if ('ReceptionTime' in data.latest_sample) {
 							diff = Date.now()/1000 - data.latest_sample.ReceptionTime;
 						}
 						if (diff < 30*60) {

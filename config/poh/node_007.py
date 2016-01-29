@@ -81,7 +81,7 @@ conf = [
         'dbtag':'UV_Si1145',
         'dbtype':'REAL',
         'comtag':'UV_Si1145',
-        'unit':'(idx x100)',
+        'unit':'(100x index)',
         'description':'UV Index x 100',
         'plot':True,
     },

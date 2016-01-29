@@ -3,7 +3,7 @@
 	<head>
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<!--meta http-equiv="refresh" content="60"-->
+		<meta http-equiv="refresh" content="300">
 		<link href="../bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css">
 		<link href="../jquery-ui/jquery-ui.min.css" rel="stylesheet" type="text/css">
 		<script src="../jquery/jquery.min.js" type="text/javascript"></script>
@@ -27,26 +27,15 @@
 				</div>
 			</div>
 
-			<div class="row">
-				<div class="col-xs-10 col-xs-offset-1">
-					<div class="row">
-						<!--div class="col-xs-12 col-sm-3"><p style="font-weight: bold;">Last sampled</p></div>
-						<div class="col-xs-12 col-sm-8"><div id="lastsampledts"></div></div-->
-						<div class="col-xs-12 col-sm-3"><p style="font-weight: bold;">Page generated</p></div>
-						<div class="col-xs-12 col-sm-8"><div id="pagegeneratedts"></div></div>
-					</div>
-				</div>
-			</div>
-			
 			<br>
 
 			<div class="row">
-				<div class="col-xs-10 col-xs-offset-1 col-sm-5 col-sm-offset-1">
+				<div class="col-xs-10 col-xs-offset-1 col-md-7">
 					<table id="latest_table" class="table table-striped table-hover table-condensed"></table>
 				</div>
 			</div>
 
-			<br>
+			<br><br>
 
 			<div class="row">
 				<div class="col-xs-10 col-xs-offset-1">
@@ -87,6 +76,14 @@
 							</a>
 						</div-->					
 					</div>
+				</div>
+			</div>
+
+			<br>
+			
+			<div class="row">
+				<div class="col-xs-10 col-xs-offset-1">
+					<em>Page generated <span id="pagegeneratedts"></span></em>
 				</div>
 			</div>
 			

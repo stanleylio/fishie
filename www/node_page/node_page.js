@@ -4,7 +4,8 @@
 
 	$.get("../node_config.py?p=node_name&site=" + site + "&node_id=" + node_id,function(data) {
 		$("#node_name").html(data.node_name);
-		document.title = site + " | " + data.node_name + " (" + node_id + ")";
+		//document.title = site + " | " + data.node_name + " (" + node_id + ")";
+		document.title = site + " | " + node_id;
 	});
 
 	$("#node_id").append(node_id);
@@ -17,7 +18,8 @@
 	//".data() doesn't set data-* attributes."
 	var d = new Date(Date.now());
 	tmp = $('<time class="timeago"></time>').attr('datetime',d.toISOString()).html('ago');
-	$('<p></p>').append(tmp.prop('outerHTML')).appendTo('#pagegeneratedts');
+	$("#pagegeneratedts").append(tmp);
+	//$('<p></p>').append(tmp.prop('outerHTML')).appendTo('#pagegeneratedts');
 
 	/*$.get("../node_config.py?p=latest_sample&site=" + site + "&node_id=" + node_id,function(data) {
 		//console.log(data.latest_sample);
@@ -49,12 +51,27 @@
 					} else if ("Timestamp" in tmp) {
 						lnn = tmp.Timestamp;
 					}
+					var diff = Date.now()/1000 - lnn;
 					var d = new Date(lnn*1000);
 					lnn = $('<time class="timeago"></time>').attr('datetime',d.toISOString()).html('ago');
-					lnn = lnn.prop('outerHTML');
-					//console.log(lnn);
 					
-					$("#latest_table").append("<tr><td><a href=\"" + tgt + "\" title=\"click for self-updating plot\">" + tag + "</a></td><td>" + data.latest_sample[tag] + "</td><td>" + data.units[tag] + "</td><td>" + lnn + "</td></tr>");
+					// color it red if the reading is "old"
+					if (diff > 30*60) {
+						console.log(diff);
+						lnn.css('color','red');
+					}
+
+					lnn = lnn.prop('outerHTML');
+					
+					$("#latest_table").append("<tr data-sortby=\"" + tag.toLowerCase() + "\"><td><a href=\"" + tgt + "\" title=\"click for interactive plot\">" + tag + "</a></td><td>" + data.latest_sample[tag] + "</td><td>" + data.units[tag] + "</td><td>" + lnn + "</td></tr>");
+
+					// sort table rows by variable name
+					var ul = $("#latest_table > tbody");
+					var a = ul.children();
+					a.detach().sort(function(a,b) {
+						return $(a).data('sortby') > $(b).data('sortby');
+					});
+					ul.append(a);
 					
 					$("time.timeago").timeago();
 				});
@@ -92,13 +109,21 @@
 				.append("<p>" + 'Plot generated ' + ts_plot.prop('outerHTML') + "</p>")
 				.append('<p>' + data["data_point_count"] + " samples | " + span + '</p>');
 
-				var tmp = $('<div class="col-xs-12 col-sm-6 col-lg-4" sortby="' + v + '"></div>');
+				var tmp = $('<div class="col-xs-12 col-sm-6 col-lg-4" data-sortby="' + v.toLowerCase() + '"></div>');
 				$('<a class="thumbnail" href="' + img_src + '"></a>')
 				.append('<img class="img-responsive" src="' + img_src + '">')
 				.append(caption)
 				.appendTo(tmp);
 				
 				$("#static_plots").append(tmp);
+				
+				// sort plots by variable name
+				var ul = $("#static_plots");
+				var a = ul.children();
+				a.detach().sort(function(a,b) {
+					return $(a).data('sortby') > $(b).data('sortby');
+				});
+				ul.append(a);
 				
 				$("time.timeago").timeago();
 			});
