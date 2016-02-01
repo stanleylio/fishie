@@ -18,7 +18,8 @@ function create_list_group(site) {
 				var ul = $("#" + site + "_nodes > ul");
 				var a = ul.children("a");
 				a.detach().sort(function(a,b) {
-					return $(a).data('sortby') > $(b).data('sortby');
+					//return $(a).data('sortby') > $(b).data('sortby');
+					return $(a).data('sortby').localeCompare($(b).data('sortby'));
 				});
 				ul.append(a);
 				

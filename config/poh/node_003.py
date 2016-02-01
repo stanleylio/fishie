@@ -1,5 +1,3 @@
-#id = 3
-#tag = 'node-003'
 name = 'One and only FLNTU'
 location = 'Makaha 2'
 note = 'FLNTU is love, FLNTU is life'

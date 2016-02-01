@@ -9,8 +9,7 @@
 import sqlite3
 from os.path import join,dirname
 import time
-from datetime import datetime
-from datetime import timedelta
+from datetime import datetime,timedelta
 
 
 def PRINT(s):

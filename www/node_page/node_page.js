@@ -35,7 +35,7 @@
 	});*/
 
 	$.get("../node_config.py?p=latest_sample&p=units&site=" + site + "&node_id=" + node_id,function(data) {
-		$("#latest_table").append("<tr><th>Variable</th><th>Value</th><th>Unit</th><th>Latest Non-Null At</th></tr>");
+		$("#latest_table").append("<tr data-sortby=\"!\"><th>Variable</th><th>Value</th><th>Unit</th><th>Latest Non-Null At</th></tr>");
 
 		$.get("../node_config.py?p=list_of_disp_vars&site=" + site + "&node_id=" + node_id,function(tmp) {
 			$.each(tmp.list_of_disp_vars,function(i,tag) {
@@ -69,7 +69,9 @@
 					var ul = $("#latest_table > tbody");
 					var a = ul.children();
 					a.detach().sort(function(a,b) {
-						return $(a).data('sortby') > $(b).data('sortby');
+						// works in Firefox. Does not work in Chrome but it doesn't complain
+						//return $(a).data('sortby') > $(b).data('sortby');
+						return $(a).data('sortby').localeCompare($(b).data('sortby'));
 					});
 					ul.append(a);
 					
@@ -121,7 +123,7 @@
 				var ul = $("#static_plots");
 				var a = ul.children();
 				a.detach().sort(function(a,b) {
-					return $(a).data('sortby') > $(b).data('sortby');
+					return $(a).data('sortby').localeCompare($(b).data('sortby'));
 				});
 				ul.append(a);
 				

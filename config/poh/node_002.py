@@ -1,6 +1,4 @@
-#id = 2
-#tag = 'node-002'
-name = 'Fish pan to-be?'
+name = 'Invisible Fish pan'
 location = 'Makaha 1'
 note = 'Aanderaa 4330f + MS5803-14BA + EZO EC + BMP180'
 

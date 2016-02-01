@@ -1,9 +1,6 @@
-
-id = 7
-#tag = 'node-007'
 name = 'Met. Station'
 location = 'Makaha 1'
-note = 'RPi Meteorological Station'
+note = 'Meteorological Station'
 
 #arch = 'rpi'
 
