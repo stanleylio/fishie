@@ -1,4 +1,4 @@
-name = 'us1'
+name = 'Makaha 2 Water Depth (us1)'
 location = 'Makaha 2'
 note = 'Ultrasonic Proof of Concept'
 
