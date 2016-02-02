@@ -7,7 +7,7 @@ sys.path.append('..')
 from config.config_support import *
 from storage.storage import storage_read_only,auto_time_col
 from gen_plot import plot_multi_time_series,plot_time_series
-from helper import get_dbfile,dt2ts
+from helper import dt2ts
 from datetime import datetime,timedelta
 from os.path import exists,join
 from os import makedirs
@@ -60,11 +60,11 @@ for node_id in nodes:
     PRINT('- - - - -')
     PRINT('Node: ' + node_id)
 
-    # if dbfile is not specified
     if dbfile is None:
-        dbfile = get_dbfile(site,node_id)
+        print('dbfile not specified. Terminating')
+        sys.exit()
+        
     store = storage_read_only(dbfile=dbfile)
-    
     node = import_node_config(site,node_id)
 
     tag_unit_map = get_unit_map(site,node_id)
