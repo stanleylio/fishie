@@ -1,5 +1,5 @@
 #!/usr/bin/python
-# Query for data within a given time range
+# Query for data within a time range
 #
 # Parameters:
 #   base: base station ID

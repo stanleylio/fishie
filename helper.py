@@ -1,8 +1,8 @@
-import time
+import calendar
 from datetime import datetime
 
 def dt2ts(dt):
-    return time.mktime(dt.timetuple()) + (dt.microsecond)*(1e-6)
+    return calendar.timegm(dt.timetuple()) + (dt.microsecond)*(1e-6)
 
 def ts2dt(ts):
     return datetime.fromtimestamp(ts)

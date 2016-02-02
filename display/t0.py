@@ -2,7 +2,7 @@
 #
 # Stanley Lio, hlio@soest.hawaii.edu
 # January 2016
-import sys,traceback,sqlite3,re,importlib,argparse,json,time
+import sys,traceback,sqlite3,re,importlib,argparse,json,time,math
 sys.path.append('..')
 from config.config_support import *
 from storage.storage import storage_read_only,auto_time_col
@@ -106,7 +106,7 @@ for node_id in nodes:
                            'plot_generated_at':time.mktime(datetime.utcnow().timetuple()),
                            'data_point_count':len(y),
                            time_col:[dt2ts(t) for t in x],
-                           var:y,
+                           var:[v if not math.isnan(v) else None for v in y],   # Javascript does NOT like NaN in JSON strings.
                            'unit':tag_unit_map[var],
                            'description':tag_desc_map[var]}
 
@@ -133,3 +133,4 @@ for node_id in nodes:
             #tmp = [v + '.png' for v in plotted]
             #json.dump({'variables':tmp},f,separators=(',',':'))
             json.dump({'variables':plotted},f,separators=(',',':'))
+

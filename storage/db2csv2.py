@@ -1,34 +1,40 @@
-import time,sqlite3
-# Stanley Lio, hlio@usc.edu
-# All Rights Reserved. December 2015
+# Stanley Lio, hlio@hawaii.edu
+# February 2016
+import calendar,sqlite3
 
-if '__main__' == __name__:
-    table = 'node_011'
-    cols = ['Timestamp','T_180','T_5803','T_9808','P_180','P_5803']
+def dt2ts(dt):
+    return calendar.timegm(dt.timetuple()) + (dt.microsecond)*(1e-6)
 
-    print 'From sensor_data.db reading {}...'.format(table)
-    cmd = 'SELECT {cols} FROM {table}'.format(cols=','.join(cols),table=table)
+def ts2dt(ts):
+    return datetime.fromtimestamp(ts)
 
-    dbfile = 'sensor_data.db'
-    conn = sqlite3.connect(dbfile,\
-                                detect_types=sqlite3.PARSE_DECLTYPES |\
-                                sqlite3.PARSE_COLNAMES)
-    c = conn.cursor()
-    c.execute(cmd)
-    dat = c.fetchall()
 
-    # convert Python datetime objects to POSIX timestamps
-    vals = [list(r) for r in zip(*dat)]
-    vals[0] = [time.mktime(t.timetuple()) for t in vals[0]]
-    #vals[1] = [time.mktime(t.timetuple()) for t in vals[1]]
-    dat = zip(*vals)
-    
-    print 'Writing to file...'
-    with open('{}.csv'.format(table),'w',0) as f:
-        f.write(','.join(cols) + '\n')
+table = 'node_009'
+time_col = 'ReceptionTime'
+cols = [time_col,'d2w']
+dbfile = 'sensor_data.db'
 
-        for r in dat:
-            f.write(','.join([str(t) for t in r]) + '\n')
-            
-    print 'Done.'
+cmd = 'SELECT {cols} FROM {table}'.format(cols=','.join(cols),table=table)
+print cmd
+conn = sqlite3.connect(dbfile,\
+                            detect_types=sqlite3.PARSE_DECLTYPES |\
+                            sqlite3.PARSE_COLNAMES)
+c = conn.cursor()
+c.execute('PRAGMA journal_mode = WAL')
+c.row_factory = sqlite3.Row
+c.execute(cmd)
+tmp = c.fetchall()
+tmp = {v:tuple(r[v] for r in tmp) for v in cols}
+
+# convert Python datetime to POSIX timestamps
+tmp[time_col] = tuple(dt2ts(v) for v in tmp[time_col])
+
+print len(tmp[time_col]), 'entries'
+
+print 'Writing to file...'
+with open('{}.csv'.format(table),'w',0) as f:
+    f.write(','.join(cols) + '\n')
+    for r in zip(*[tmp[v] for v in cols]):
+        f.write(','.join([str(t) for t in r]) + '\n')
+print 'Done.'
 
