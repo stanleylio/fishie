@@ -1,4 +1,4 @@
-tag = 'node-019'
+#tag = 'node-019'
 name = 'SL personal'
 location = 'MSB 228'
 note = 'LA Beaglebone + eBay sensors'
@@ -6,7 +6,7 @@ note = 'LA Beaglebone + eBay sensors'
 log_dir = './log'
 plot_dir = '../www'
 
-plot_range = 24*7
+plot_range = 24*3
 
 xbee_port = '/dev/ttyO1'
 xbee_baud = 115200
