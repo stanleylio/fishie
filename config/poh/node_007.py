@@ -1,9 +1,6 @@
-
-id = 7
-#tag = 'node-007'
 name = 'Met. Station'
 location = 'Makaha 1'
-note = 'RPi Meteorological Station'
+note = 'Meteorological Station'
 
 #arch = 'rpi'
 
@@ -81,7 +78,7 @@ conf = [
         'dbtag':'UV_Si1145',
         'dbtype':'REAL',
         'comtag':'UV_Si1145',
-        'unit':'(idx x100)',
+        'unit':'(100x index)',
         'description':'UV Index x 100',
         'plot':True,
     },

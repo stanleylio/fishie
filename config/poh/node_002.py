@@ -1,6 +1,4 @@
-#id = 2
-#tag = 'node-002'
-name = 'Fish pan to-be?'
+name = 'Invisible Fish pan'
 location = 'Makaha 1'
 note = 'Aanderaa 4330f + MS5803-14BA + EZO EC + BMP180'
 
@@ -65,7 +63,7 @@ conf = [
         'dbtype':'REAL',
         'comtag':'T_5803',
         'unit':'Deg.C',
-        'description':'Water Temperature (MS5803-14BA)',
+        'description':'Water Temperature (5803)',
         'plot':True,
         'min':-10,
         'max':60,
@@ -84,7 +82,7 @@ conf = [
         'dbtag':'sal',
         'dbtype':'REAL',
         'comtag':'sal',
-        'unit':'',
+        'unit':'(ppt)',
         'description':'Salinity',
         'plot':True,
         'min':0,
@@ -113,7 +111,7 @@ conf = [
         'dbtype':'REAL',
         'comtag':'T_4330f',
         'unit':'Deg.C',
-        'description':'Water Temperature (Aanderaa 4330F)',
+        'description':'Water Temperature (4330F)',
         'plot':True,
         'min':-20,
         'max':60,

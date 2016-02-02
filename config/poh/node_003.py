@@ -1,5 +1,3 @@
-#id = 3
-#tag = 'node-003'
 name = 'One and only FLNTU'
 location = 'Makaha 2'
 note = 'FLNTU is love, FLNTU is life'
@@ -45,7 +43,7 @@ conf = [
         'dbtype':'REAL',
         'comtag':'T_5803',
         'unit':'Deg.C',
-        'description':'Water Temperature (MS5803-14BA)',
+        'description':'Water Temperature (5803)',
         'plot':True,
         'min':-10,
         'max':60,
@@ -84,7 +82,7 @@ conf = [
         'dbtag':'sal',
         'dbtype':'REAL',
         'comtag':'sal',
-        'unit':'',
+        'unit':'(ppt)',
         'description':'Salinity',
         'plot':True,
         'min':0,
@@ -137,7 +135,7 @@ conf = [
         'dbtype':'REAL',
         'comtag':'Temperature',
         'unit':'Deg.C',
-        'description':'Water Temperature (Aanderaa 4330F)',
+        'description':'Water Temperature (4330F)',
         'plot':True,
         'min':-20,
         'max':60,

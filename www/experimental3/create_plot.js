@@ -23,7 +23,7 @@
 		  width: 960,
 		  height: 500,
 		  xaxis: {
-			title: 'Time',
+			title: new Date().toString().split(/(\(.*\))/)[1],
 			titlefont: {
 			  family: 'Helvetica, monospace',
 			  size: 18,
@@ -41,6 +41,12 @@
 		  margin: { l:50, r:50, b:50, t:50, pad:4 }
 		};
 		
+		var offset = (new Date).getTimezoneOffset()*60;
+		for (var i = 0; i < ts.length; i++) {
+			//ts[i] = (new Date(ts[i]*1000)).toISOString().replace('T',' ').replace('Z','');
+			ts[i] = (new Date((ts[i] - offset)*1000)).toISOString().replace('T',' ').replace('Z','');
+		}
+
 		Plotly.plot( $('#tester')[0],
 					[{ x: ts, y: r, name: variable, mode: "markers"}],
 					layout

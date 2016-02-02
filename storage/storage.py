@@ -6,23 +6,15 @@
 # Stanley Hou In Lio, hlio@hawaii.edu
 # October, 2015
 
-import sqlite3,sys
+import sqlite3
 from os.path import join,dirname
 import time
-from datetime import datetime
-from datetime import timedelta
+from datetime import datetime,timedelta
 
 
 def PRINT(s):
     #pass
     print(s)
-
-def dt2ts(dt):
-    return time.mktime(dt.timetuple()) +\
-           (dt.microsecond)*(1e-6)
-
-def ts2dt(ts):
-    return datetime.fromtimestamp(ts)
 
 def auto_time_col(store,node_id):
     time_col = 'Timestamp'
@@ -94,6 +86,21 @@ class storage_read_only(object):
         except:
             return None
 
+    def read_latest_non_null(self,node_id,time_col,var):
+        cols = [time_col,var]
+        table = node_id.replace('-','_')
+        cmd = 'SELECT {} FROM {} WHERE {} IS NOT NULL ORDER BY {} DESC LIMIT 1;'.\
+              format(','.join(cols),table,var,time_col)
+        #print cmd
+        try:
+            self.c.execute(cmd)
+            tmp = self.c.fetchall()
+            if len(tmp) <= 0:
+                return None
+            return {v:tuple(r[v] for r in tmp)[0] for v in cols}
+        except:
+            return None
+
     def read_past_time_period(self,node_id,time_col,cols,timerange):
         end = datetime.now()
         begin = end - timerange
@@ -127,6 +134,21 @@ class storage_read_only(object):
         #if len(tmp.keys()) <= 0:
         #    tmp = None
         #return tmp
+
+    def read_all(self,node_id,cols=None):
+        if cols is None:
+            cols = self.get_list_of_columns(node_id)
+        cmd = 'SELECT {cols} FROM {table}'.\
+              format(cols=','.join(cols),table=node_id.replace('-','_'))
+        #print cmd
+        try:
+            self.c.execute(cmd)
+            tmp = self.c.fetchall()
+            if len(tmp) <= 0:
+                return None
+            return {v:tuple(r[v] for r in tmp) for v in cols}
+        except:
+            return None
 
 
 class storage(storage_read_only):
@@ -184,6 +206,17 @@ class storage(storage_read_only):
 
 if '__main__' == __name__:
 
+    store = storage_read_only()
+    print store.get_list_of_tables()
+    print store.get_list_of_columns('node-009')
+    print store.read_latest_non_null('node-003','ReceptionTime','ec')
+    print store.read_all('node-008').keys()
+    exit()
+
+    import sys
+    sys.path.append('..')
+    from helper import ts2dt
+    
     store = storage_read_only()
     time_col = 'ReceptionTime'
     cols = [time_col,'T_180']

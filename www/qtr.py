@@ -1,5 +1,5 @@
 #!/usr/bin/python
-# Query for data within a given time range
+# Query for data within a time range
 #
 # Parameters:
 #   base: base station ID
@@ -50,9 +50,9 @@ time_col = auto_time_col(store,node)
 cols = [time_col,var]
 r = store.read_time_range(node,time_col,cols,begin,end=end)
 # POSIX timestamps
-#r[time_col] = tuple(dt2ts(t) for t in r[time_col])
+r[time_col] = tuple(dt2ts(t) for t in r[time_col])
 # plotly.js's preferred format (ISO)
-r[time_col] = tuple(str(t) for t in r[time_col])
+#r[time_col] = tuple(str(t) for t in r[time_col])
 #print r
 d = {'qtr':r}
 

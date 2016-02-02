@@ -1,6 +1,3 @@
-
-#id = 4
-#tag = 'node-004'
 name = 'First CTD'
 location = 'Makaha 1'
 note = 'CTD with Atlas Scientific sensor'
@@ -50,7 +47,7 @@ conf = [
         'dbtag':'sal',
         'dbtype':'REAL',
         'comtag':'sal',
-        'unit':'-',
+        'unit':'(ppt)',
         'description':'Salinity',
         'plot':True,
         'min':0,
