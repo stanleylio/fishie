@@ -97,7 +97,7 @@ class storage_read_only(object):
             tmp = self.c.fetchall()
             if len(tmp) <= 0:
                 return None
-            return {v:tuple(r[v] for r in tmp) for v in cols}
+            return {v:tuple(r[v] for r in tmp)[0] for v in cols}
         except:
             return None
 
@@ -134,6 +134,21 @@ class storage_read_only(object):
         #if len(tmp.keys()) <= 0:
         #    tmp = None
         #return tmp
+
+    def read_all(self,node_id,cols=None):
+        if cols is None:
+            cols = self.get_list_of_columns(node_id)
+        cmd = 'SELECT {cols} FROM {table}'.\
+              format(cols=','.join(cols),table=node_id.replace('-','_'))
+        #print cmd
+        try:
+            self.c.execute(cmd)
+            tmp = self.c.fetchall()
+            if len(tmp) <= 0:
+                return None
+            return {v:tuple(r[v] for r in tmp) for v in cols}
+        except:
+            return None
 
 
 class storage(storage_read_only):
@@ -192,10 +207,12 @@ class storage(storage_read_only):
 if '__main__' == __name__:
 
     store = storage_read_only()
+    print store.get_list_of_tables()
+    print store.get_list_of_columns('node-009')
     print store.read_latest_non_null('node-003','ReceptionTime','ec')
+    print store.read_all('node-008').keys()
     exit()
 
-    
     import sys
     sys.path.append('..')
     from helper import ts2dt

@@ -7,7 +7,7 @@
 # ... I'm still not convinced that the Linux permission system is a good feature.
 
 SRC_DB="/home/nuc/data/base-003/storage/sensor_data.db"
-TGT_DIR="/home/nuc/node/storage"
+TGT_DIR="/home/nuc/node/www/poh/storage"
 
 rm -f $TGT_DIR/sensor_data.db
 rm -f $TGT_DIR/sensor_data.db-shm

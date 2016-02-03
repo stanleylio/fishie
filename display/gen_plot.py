@@ -129,13 +129,13 @@ def plot_multi_time_series(data,plotfilename,title='',xlabel='',ylabel=''):
     # make the markers in the legend bigger in order to show the color
     try:
         tmp = plt.gca().get_legend()
-        for h in tmp.legendHandles:
-            h.set_marker('.')
-            #h.set_color('red')
-            h.set_markersize(8)
+        if tmp is not None:
+            for h in tmp.legendHandles:
+                h.set_marker('.')
+                #h.set_color('red')
+                h.set_markersize(8)
     except:
         traceback.print_exc()
-        #pass
     
     plt.savefig(plotfilename,bbox_inches='tight',dpi=300)
     plt.cla()

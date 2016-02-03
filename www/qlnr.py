@@ -26,8 +26,8 @@ tmp = store.read_latest_non_null(node,time_col,var)
 d = {'site':site,
      'node':node,
      'var':var,
-     time_col:dt2ts(tmp[time_col][0]),
-     var:tmp[var][0]}
+     time_col:dt2ts(tmp[time_col]),
+     var:tmp[var]}
 
 jsonstr = json.dumps(d,separators=(',',':'))
 #print 'Content-Type: text/plain; charset=utf8'

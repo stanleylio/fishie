@@ -1,3 +1,4 @@
+# Makaha depth
 import sys,traceback
 sys.path.append('..')
 from datetime import datetime,timedelta
@@ -6,7 +7,7 @@ from gen_plot import plot_multi_time_series
 from os import makedirs
 
 
-dbfile = '/home/nuc/node/storage/sensor_data.db'
+dbfile = '/home/nuc/node/www/poh/storage/sensor_data.db'
 store = storage_read_only(dbfile=dbfile)
 time_col = 'ReceptionTime'
 v = 'd2w'

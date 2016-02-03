@@ -43,8 +43,7 @@ def haha(c):
                      ylabel=ylabel)
 
 
-#dbfile = '../storage/sensor_data.db'
-dbfile = '../storage/bounded/poh/sensor_data.db'
+dbfile = '../www//poh/storage/bounded/sensor_data.db'
 store = storage_read_only(dbfile=dbfile)
 
 for node in store.get_list_of_tables():

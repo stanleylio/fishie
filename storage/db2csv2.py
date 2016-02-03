@@ -5,10 +5,6 @@ import calendar,sqlite3
 def dt2ts(dt):
     return calendar.timegm(dt.timetuple()) + (dt.microsecond)*(1e-6)
 
-def ts2dt(ts):
-    return datetime.fromtimestamp(ts)
-
-
 table = 'node_009'
 time_col = 'ReceptionTime'
 cols = [time_col,'d2w']
