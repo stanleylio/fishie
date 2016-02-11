@@ -3,7 +3,7 @@
 # Stanley Lio, hlio@usc.edu
 # All Rights Reserved. August 2015
 #from __future__ import absolute_import
-import re,socket#,importlib
+import re,socket,traceback#,importlib
 from os import listdir
 from os.path import join,exists,dirname,realpath,basename,splitext
 from ConfigParser import RawConfigParser
@@ -86,6 +86,13 @@ class Range(object):
         assert lb <= ub
         self._lb = lb
         self._ub = ub
+
+    def __getitem__(self,key):
+        if 'lb' == key:
+            return self._lb
+        if 'ub' == key:
+            return self._ub
+        return None
         
     def __contains__(self,item):
         # >= instead of > because it's kinda strange to have
@@ -98,15 +105,22 @@ class Range(object):
     def __repr__(self):
         return str((self._lb,self._ub))
 
-def is_in_range(site,node,variable,reading):
-    node = import_node_config(site,node)
-    b = Range()
+def get_range(site,node_id,variable):
+    node = import_node_config(site,node_id)
     for c in node.conf:
         if c['dbtag'] == variable:
-            return reading in c['range']
-    PRINT('Warning: Range not defined for {}'.format((site,node,variable)))
-    return True
-    
+            try:
+                return c['range']
+            except:
+                return None
+
+def is_in_range(site,node,variable,reading):
+    try:
+        return reading in get_range(site,node,variable)
+    except:
+        #traceback.print_exc()
+        return True
+
 
 if '__main__' == __name__:
 

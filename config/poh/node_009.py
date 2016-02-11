@@ -24,8 +24,6 @@ conf = [
         'unit':None,
         'description':'Ticker',
         'plot':False,
-        #'min':0,
-        #'max':2**32 - 1,
         'range':Range(lb=0),
     },
     {
@@ -35,8 +33,6 @@ conf = [
         'unit':'mm',
         'description':'Distance from rim of sensor to water surface',
         'plot':True,
-        #'min':300,
-        #'max':5000,
         'range':Range(300,5000),
     },
 ]

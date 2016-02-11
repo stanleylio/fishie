@@ -34,17 +34,17 @@ store = storage_read_only(dbfile)
 nodes = get_list_of_nodes(site)
 
 
-for node_id in nodes:
+for node in nodes:
     print '- - -'
-    print 'node: ', node_id
+    print 'node: ', node
 
-    #convfs = {}
+    '''#convfs = {}
     mins = {}
     maxs = {}
-    tmp = import_node_config(site,node_id)
+    tmp = import_node_config(site,node)
     for c in tmp.conf:
         #try:
-        #    convfs[c['dbtag']] = c['convf']
+        #    convfs[c['db']] = c['convf']
         #except KeyError:
         #    convfs[c['dbtag']] = lambda (x): x
         try:
@@ -57,24 +57,28 @@ for node_id in nodes:
             mins[c['dbtag']] = float('-inf')
     #print convfs
     #print mins
-    #print maxs
+    #print maxs'''
 
-    cols = store.get_list_of_columns(node_id)
+    cols = store.get_list_of_columns(node)
     conn = sqlite3.connect(dbfile,\
                            detect_types=sqlite3.PARSE_DECLTYPES |\
                            sqlite3.PARSE_COLNAMES)
+    table = node.replace('-','_')
+    
     c = conn.cursor()
-    for tag in cols:
-        print '\t',tag
-
-        try:
-            c.execute('UPDATE {node} SET {tag}=? WHERE {tag}<?'.format(node=node_id.replace('-','_'),tag=tag),(None,mins[tag],))
-        except KeyError:
-            pass
-        try:
-            c.execute('UPDATE {node} SET {tag}=? WHERE {tag}>?'.format(node=node_id.replace('-','_'),tag=tag),(None,maxs[tag],))
-        except KeyError:
-            pass
+    for variable in cols:
+        r = get_range(site,node,variable)
+        if r is None:
+            PRINT('\tRange not defined for ({})'.format(' | '.join((site,node,variable))))
+        else:
+            print '\t',variable
+            try:
+                c.execute('UPDATE {table} SET {variable}=? WHERE {variable}<?'.\
+                          format(table=table,variable=variable),(None,r['lb'],))
+                c.execute('UPDATE {table} SET {variable}=? WHERE {variable}>?'.\
+                          format(table=table,variable=variable),(None,r['ub'],))
+            except:
+                traceback.print_exc()
 
     conn.commit()
     conn.close()
