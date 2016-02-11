@@ -1,5 +1,6 @@
+# -*- coding: utf-8 -*-
 name = 'Far far away'
-location = 'Makaha 3'
+location = 'Mākāhā 3'
 note = 'Aanderaa 4330f + MS5803-14BA + EZO EC + BMP180'
 
 log_dir = './log'

@@ -1,5 +1,6 @@
-name = 'Makaha 1 Water Depth (us2)'
-location = 'Makaha 1'
+# -*- coding: utf-8 -*-
+name = 'Mākāhā 1 Water Depth (us2)'
+location = 'Mākāhā 1'
 note = 'Ultrasonic Proof of Concept'
 
 log_dir = './log'

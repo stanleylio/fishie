@@ -1,5 +1,6 @@
+# -*- coding: utf-8 -*-
 name = 'One and only FLNTU'
-location = 'Makaha 2'
+location = 'Mākāhā 2'
 note = 'FLNTU is love, FLNTU is life'
 
 log_dir = './log'

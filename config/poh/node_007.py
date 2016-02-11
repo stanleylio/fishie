@@ -1,5 +1,6 @@
+# -*- coding: utf-8 -*-
 name = 'Met. Station'
-location = 'Makaha 1'
+location = 'Mākāhā 1'
 note = 'Meteorological Station'
 
 #arch = 'rpi'

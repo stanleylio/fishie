@@ -1,5 +1,6 @@
+# -*- coding: utf-8 -*-
 name = 'Invisible Fish pan'
-location = 'Makaha 1'
+location = 'Mākāhā 1'
 note = 'Aanderaa 4330f + MS5803-14BA + EZO EC + BMP180'
 
 log_dir = './log'

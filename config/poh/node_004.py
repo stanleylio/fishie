@@ -1,5 +1,6 @@
+# -*- coding: utf-8 -*-
 name = 'First CTD'
-location = 'Makaha 1'
+location = 'Mākāhā 1'
 note = 'CTD with Atlas Scientific sensor'
 
 log_dir = './log'
