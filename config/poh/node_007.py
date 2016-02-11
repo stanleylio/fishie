@@ -1,5 +1,6 @@
+# -*- coding: utf-8 -*-
 name = 'Met. Station'
-location = 'Makaha 1'
+location = 'Mākāhā 1'
 note = 'Meteorological Station'
 
 #arch = 'rpi'
@@ -17,6 +18,11 @@ wait = 597
 
 multi_sample = 5
 
+import sys
+sys.path.append('..')
+from config.config_support import Range
+
+# TODO: use dictionary indexed by dbtag
 conf = [
     {
         'dbtag':'Timestamp',
@@ -33,8 +39,7 @@ conf = [
         'unit':'Pa',
         'description':'Barometric Pressure',
         'plot':True,
-        'min':80e3,
-        'max':110e3,
+        'range':Range(80e3,110e3),
     },
     {
         'dbtag':'T_180',
@@ -43,8 +48,7 @@ conf = [
         'unit':'Deg.C',
         'description':'Casing Temperature',
         'plot':True,
-        'min':-20,
-        'max':80,
+        'range':Range(-20,80),
     },
     {
         'dbtag':'P_280',
@@ -53,8 +57,7 @@ conf = [
         'unit':'kPa',
         'description':'Barometric Pressure (BME280)',
         'plot':True,
-        'min':80,
-        'max':120,
+        'range':Range(80,120),
     },
     {
         'dbtag':'T_280',
@@ -63,8 +66,7 @@ conf = [
         'unit':'Deg.C',
         'description':'Air Temperature (BME280)',
         'plot':True,
-        'min':-10,
-        'max':60,
+        'range':Range(-10,60),
     },
     {
         'dbtag':'RH_280',
@@ -73,6 +75,7 @@ conf = [
         'unit':'%',
         'description':'% Relative Humidity (BME280)',
         'plot':True,
+        'range':Range(0,100),
     },
     {
         'dbtag':'UV_Si1145',
@@ -105,8 +108,7 @@ conf = [
         'unit':'m/s',
         'description':'Wind Speed (average)',
         'plot':True,
-        'min':0,
-        'max':32.4,
+        'range':Range(0,32.4),
     },
     {
         'dbtag':'Wind_gust',
@@ -115,8 +117,7 @@ conf = [
         'unit':'m/s',
         'description':'Wind Speed (gust)',
         'plot':True,
-        'min':0,
-        'max':32.4,
+        'range':Range(0,32.4),
     },
 ]
 

@@ -1,5 +1,6 @@
+# -*- coding: utf-8 -*-
 name = 'First CTD'
-location = 'Makaha 1'
+location = 'Mākāhā 1'
 note = 'CTD with Atlas Scientific sensor'
 
 log_dir = './log'
@@ -17,6 +18,14 @@ optode_port = '/dev/ttyO2'
 
 wait = 594
 
+import sys
+sys.path.append('..')
+from config.config_support import Range
+
+# I'm starting to regret the decision of putting the config in separate files.
+# dynamic importing is a mess.
+
+# TODO: use dictionary indexed by dbtag
 conf = [
 #    {
 #        'dbtag':'How it is referenced in sampling.py and in the drivers',
@@ -40,8 +49,7 @@ conf = [
         'unit':'uS',
         'description':'Conductivity',
         'plot':True,
-        'min':0,
-        'max':55e3,
+        'range':Range(0,55e3),
     },
     {
         'dbtag':'sal',
@@ -50,7 +58,7 @@ conf = [
         'unit':'(ppt)',
         'description':'Salinity',
         'plot':True,
-        'min':0,
+        'range':Range(lb=0),
     },
     {
         'dbtag':'P_180',
@@ -59,8 +67,7 @@ conf = [
         'unit':'Pa',
         'description':'Barometric Pressure',
         'plot':True,
-        'min':80e3,
-        'max':110e3,
+        'range':Range(80e3,110e3),
         #'convf':lambda (x): x/1e3,
         #'convunit':'kPa',
     },
@@ -71,8 +78,7 @@ conf = [
         'unit':'Deg.C',
         'description':'Casing Temperature',
         'plot':True,
-        'min':-10,
-        'max':80,
+        'range':Range(-10,80),
     },
     {
         'dbtag':'P_5803',
@@ -81,8 +87,7 @@ conf = [
         'unit':'kPa',
         'description':'Water Pressure',
         'plot':True,
-        'min':80,
-        'max':150,
+        'range':Range(80,150),
     },
     {
         'dbtag':'T_5803',
@@ -91,8 +96,7 @@ conf = [
         'unit':'Deg.C',
         'description':'Water Temperature (MS5803-14BA)',
         'plot':True,
-        'min':-10,
-        'max':60,
+        'range':Range(-10,60),
     },
     {
         'dbtag':'O2Concentration',
@@ -101,8 +105,7 @@ conf = [
         'unit':'uM',
         'description':'Oxygen Concentration',
         'plot':True,
-        'min':0,
-        'max':450,
+        'range':Range(0,450),
     },
     {
         'dbtag':'AirSaturation',
@@ -111,7 +114,7 @@ conf = [
         'unit':'%',
         'description':'Air Saturation',
         'plot':True,
-        'min':0,
+        'range':Range(lb=0),
     },
     {
         'dbtag':'Temperature',
@@ -120,8 +123,7 @@ conf = [
         'unit':'Deg.C',
         'description':'Water Temperature (4330F)',
         'plot':True,
-        'min':-20,
-        'max':60,
+        'range':Range(-20,60),
     },
     {
         'dbtag':'CalPhase',
