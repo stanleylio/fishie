@@ -20,6 +20,11 @@ wait = 593
 
 multi_sample = 5
 
+import sys
+sys.path.append('..')
+from config.config_support import Range
+
+# TODO: use dictionary indexed by dbtag
 conf = [
     {
         'dbtag':'Timestamp',
@@ -36,8 +41,10 @@ conf = [
         'unit':'kPa',
         'description':'Water Pressure',
         'plot':True,
-        'min':80,
+        'min':80,   # slated for obsoletion
         'max':150,
+        'range':Range(80,150),
+        #'in range?':lambda (x): x in conf[1]['range']
     },
     {
         'dbtag':'T_5803',
@@ -48,6 +55,7 @@ conf = [
         'plot':True,
         'min':-10,
         'max':60,
+        'range':Range(-10,60),
     },
     {
         'dbtag':'P_180',
@@ -58,6 +66,7 @@ conf = [
         'plot':True,
         'min':80e3,
         'max':110e3,
+        'range':Range(80e3,110e3),
     },
     {
         'dbtag':'T_180',
@@ -68,6 +77,7 @@ conf = [
         'plot':True,
         'min':-10,
         'max':80,
+        'range':Range(-10,80),
     },
     {
         'dbtag':'ec',
@@ -78,6 +88,7 @@ conf = [
         'plot':True,
         'min':0,
         'max':55e3,
+        'range':Range(0,55e3),
     },
     {
         'dbtag':'sal',
@@ -87,6 +98,7 @@ conf = [
         'description':'Salinity',
         'plot':True,
         'min':0,
+        'range':Range(lb=0),
     },
     {
         'dbtag':'Chlorophyll_FLNTU',
@@ -121,6 +133,7 @@ conf = [
         'plot':True,
         'min':0,
         'max':450,
+        'range':Range(0,450),
     },
     {
         'dbtag':'AirSaturation',
@@ -130,6 +143,7 @@ conf = [
         'description':'Air Saturation',
         'plot':True,
         'min':0,
+        'range':Range(lb=0),
     },
     {
         'dbtag':'Temperature',
@@ -140,6 +154,7 @@ conf = [
         'plot':True,
         'min':-20,
         'max':60,
+        'range':Range(-20,60),
     },
     {
         'dbtag':'CalPhase',

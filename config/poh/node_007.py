@@ -18,6 +18,11 @@ wait = 597
 
 multi_sample = 5
 
+import sys
+sys.path.append('..')
+from config.config_support import Range
+
+# TODO: use dictionary indexed by dbtag
 conf = [
     {
         'dbtag':'Timestamp',
@@ -36,6 +41,7 @@ conf = [
         'plot':True,
         'min':80e3,
         'max':110e3,
+        'range':Range(80e3,110e3),
     },
     {
         'dbtag':'T_180',
@@ -46,6 +52,7 @@ conf = [
         'plot':True,
         'min':-20,
         'max':80,
+        'range':Range(-20,80),
     },
     {
         'dbtag':'P_280',
@@ -56,6 +63,7 @@ conf = [
         'plot':True,
         'min':80,
         'max':120,
+        'range':Range(80,120),
     },
     {
         'dbtag':'T_280',
@@ -66,6 +74,7 @@ conf = [
         'plot':True,
         'min':-10,
         'max':60,
+        'range':Range(-10,60),
     },
     {
         'dbtag':'RH_280',
@@ -108,6 +117,7 @@ conf = [
         'plot':True,
         'min':0,
         'max':32.4,
+        'range':Range(0,32.4),
     },
     {
         'dbtag':'Wind_gust',
@@ -118,6 +128,7 @@ conf = [
         'plot':True,
         'min':0,
         'max':32.4,
+        'range':Range(0,32.4),
     },
 ]
 

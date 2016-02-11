@@ -18,6 +18,10 @@ wait = 591
 
 multi_sample = 7
 
+import sys
+sys.path.append('..')
+from config.config_support import Range
+
 conf = [
     {
         'dbtag':'Timestamp',
@@ -36,6 +40,7 @@ conf = [
         'plot':True,
         'min':80e3,
         'max':110e3,
+        'range':Range(80e3,110e3),
         #'convf':lambda (x): x/1e3,
         #'convunit':'kPa',
     },
@@ -48,6 +53,7 @@ conf = [
         'plot':True,
         'min':-10,
         'max':80,
+        'range':Range(-10,80),
     },
     {
         'dbtag':'P_5803',
@@ -58,6 +64,7 @@ conf = [
         'plot':True,
         'min':80,
         'max':150,
+        'range':Range(80,150),
     },
     {
         'dbtag':'T_5803',
@@ -68,6 +75,7 @@ conf = [
         'plot':True,
         'min':-10,
         'max':60,
+        'range':Range(-10,60),
     },
     {
         'dbtag':'ec',
@@ -78,6 +86,7 @@ conf = [
         'plot':True,
         'min':0,
         'max':55e3,
+        'range':Range(0,55e3),
     },
     {
         'dbtag':'sal',
@@ -97,6 +106,7 @@ conf = [
         'plot':True,
         'min':0,
         'max':450,
+        'range':Range(0,450),
     },
     {
         'dbtag':'AirSaturation',
@@ -106,6 +116,7 @@ conf = [
         'description':'Air Saturation',
         'plot':True,
         'min':0,
+        'range':Range(lb=0),
     },
     {
         'dbtag':'Temperature',
@@ -116,6 +127,7 @@ conf = [
         'plot':True,
         'min':-20,
         'max':60,
+        'range':Range(-20,60),
     },
     {
         'dbtag':'CalPhase',
