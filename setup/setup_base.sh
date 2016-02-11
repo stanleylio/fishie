@@ -43,8 +43,10 @@ cd $SETUP_DIR
 
 # Install Python libaries
 echo "Installing Python libraries"
-sudo apt-get install build-essential python-dev python-setuptools python-pip python-smbus python-scipy w3m sqlite3 minicom -y
-sudo pip install --upgrade setuptools
+sudo apt-get install build-essential python-dev python-setuptools python-pip python-smbus w3m sqlite3 minicom -y
+sudo apt-get install libblas-dev liblapack-dev gfortran
+sudo apt-get install python-numpy python-scipy python-matplotlib ipython ipython-notebook python-pandas python-sympy python-nose
+sudo pip install --upgrade setuptools pip
 sudo pip install Adafruit_BBIO tzlocal pytz pyserial numpy python-dateutil pyparsing six --force-reinstall --upgrade
 # still can't import? try these in python
 #import numpy

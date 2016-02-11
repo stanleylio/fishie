@@ -22,6 +22,8 @@ def auto_time_col(store,node_id):
         time_col = 'ReceptionTime'
     return time_col
 
+# can probably factor out the common SQL portion of these functions
+# like sql(cmd)
 
 # this one doesn't require database schema on instantiation
 class storage_read_only(object):
@@ -57,6 +59,9 @@ class storage_read_only(object):
             pass'''
 
     def read_time_range(self,node_id,time_col,cols,begin,end=None):
+        """Retrieve records in the given time period.
+        If end is not specified, end = the moment this is called.
+        """
         assert type(cols) is list,'cols must be a list of string'
         assert time_col in self.get_list_of_columns(node_id),\
                'no such time_col: {}'.format(time_col)
@@ -87,6 +92,7 @@ class storage_read_only(object):
             return None
 
     def read_latest_non_null(self,node_id,time_col,var):
+        """Retrieve the latest non-null record of var."""
         cols = [time_col,var]
         table = node_id.replace('-','_')
         cmd = 'SELECT {} FROM {} WHERE {} IS NOT NULL ORDER BY {} DESC LIMIT 1;'.\
@@ -102,11 +108,15 @@ class storage_read_only(object):
             return None
 
     def read_past_time_period(self,node_id,time_col,cols,timerange):
+        """Retrieve records in taken in the past timerange (a positive
+        datetime.timedelta). (relative to the moment this is called)
+        """
         end = datetime.now()
         begin = end - timerange
         return self.read_time_range(node_id,time_col,cols,begin,end=end)
 
     def read_last_N(self,node_id,time_col,count=1,cols=None):
+        """Retrieve the last N records."""
         assert cols is None or type(cols) is list,'storage::read_last_N(): cols, if not None, must be a list of string'
 
         if cols is None:
@@ -135,7 +145,36 @@ class storage_read_only(object):
         #    tmp = None
         #return tmp
 
+    def read_last_N_minutes(self,node_id,time_col,N,cols=None,nonnull=None):
+        """Retrieve records within N minutes of the last record in the database (NOT the last N minutes from THIS moment)"""
+        assert cols is None or type(cols) is list,'storage::read_last_N_minutes(): cols, if not None, must be a list of string'
+        
+        if cols is None:
+            cols = self.get_list_of_columns(node_id)
+
+        table = node_id.replace('-','_')
+        if nonnull is not None:
+            cmd = '''SELECT {cols}
+                     FROM {table} WHERE
+                        DATETIME({time_col}) > 
+                        DATETIME((SELECT {time_col} FROM {table} WHERE {nonnull} IS NOT NULL ORDER BY {time_col} DESC LIMIT 1),'-1 minutes')
+                        AND {nonnull} IS NOT NULL;
+                    '''.format(cols=','.join(cols),time_col=time_col,table=table,N=N,nonnull=nonnull)
+        else:
+            cmd = "SELECT {cols} FROM {table} WHERE DATETIME({time_col}) > DATETIME((SELECT {time_col} FROM {table} ORDER BY {time_col} DESC LIMIT 1),'-{N} minutes');".\
+                    format(cols=','.join(cols),time_col=time_col,table=table,N=N)
+        #print cmd
+        try:
+            self.c.execute(cmd)
+            tmp = self.c.fetchall()
+            if len(tmp) <= 0:
+                return None
+            return {v:tuple(r[v] for r in tmp) for v in cols}
+        except:
+            return None
+
     def read_all(self,node_id,cols=None):
+        """Retrieve all records as a dictionary."""
         if cols is None:
             cols = self.get_list_of_columns(node_id)
         cmd = 'SELECT {cols} FROM {table}'.\

@@ -1,5 +1,6 @@
-name = 'Makaha 2 Water Depth (us1)'
-location = 'Makaha 2'
+# -*- coding: utf-8 -*-
+name = 'Mākāhā 2 Water Depth (us1)'
+location = 'Mākāhā 2'
 note = 'Ultrasonic Proof of Concept'
 
 log_dir = './log'
@@ -8,9 +9,13 @@ plot_dir ='../www'
 plot_range = 24*7
 
 #wait = 400
-
 #multi_sample = 7
 
+import sys
+sys.path.append('..')
+from config.config_support import Range
+
+# TODO: use dictionary indexed by dbtag
 conf = [
     {
         'dbtag':'ticker',
@@ -19,8 +24,9 @@ conf = [
         'unit':None,
         'description':'Ticker',
         'plot':False,
-        'min':0,
-        'max':2**32 - 1,
+        #'min':0,
+        #'max':2**32 - 1,
+        'range':Range(lb=0),
     },
     {
         'dbtag':'d2w',
@@ -29,8 +35,9 @@ conf = [
         'unit':'mm',
         'description':'Distance from rim of sensor to water surface',
         'plot':True,
-        'min':300,
-        'max':5000,
+        #'min':300,
+        #'max':5000,
+        'range':Range(300,5000),
     },
 ]
 

@@ -38,7 +38,7 @@ for node_id in nodes:
     print '- - -'
     print 'node: ', node_id
 
-    convfs = {}
+    #convfs = {}
     mins = {}
     maxs = {}
     tmp = import_node_config(site,node_id)
