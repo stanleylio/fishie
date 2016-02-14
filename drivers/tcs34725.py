@@ -1,10 +1,10 @@
 """Driver for TCS34725 RGB light sensor
+
 Stanley Lio, hlio@soest.hawaii.edu
 All Rights Reserved. February 2016
 """
 from time import sleep
 from smbus import SMBus
-
 
 def PRINT(s):
     pass
@@ -16,16 +16,15 @@ class DeviceNotFoundException(Exception):
 class TCS34725(object):
     address = 0x29
 
-    AGAIN = [0,1,2,3]
-    GAIN = [1,4,16,60]
+    AGAIN = {0:1,1:4,2:16,3:60}
 
-    INT_TIME = [2.4,24,101,154,700]     # ms
-
-    # The middle one should be 0xd6 for the table to be correct... unless, of course,
-    # the other two were wrong and 0xD5 is correct.
-    ATIME = [0xff,0xf6,0xd6,0xc0,0x00]
+    # The middle one should be 0xd6 for the table to be correct...
+    # unless, of course, the other two were wrong and 0xD5 is in fact
+    # correct.
+    # in ms.
+    ATIME = {0xff:2.4,0xf6:24,0xd6:101,0xc0:154,0x00:700}
     
-    def __init__(self,bus=1,gain=0,integration_time=0xff):
+    def __init__(self,bus=1,gain=1,integration_time=2.4):
         self.bus = SMBus(bus)
         if not self.check_ID():
             # it'd be nice to have the drivers locate the sensor on the buses, but then
@@ -33,6 +32,7 @@ class TCS34725(object):
             #   what if I have the same type of sensor on both buses?
             raise DeviceNotFoundException('TCS34725 not found on bus {}'.format(bus))
         self.gain(gain)
+        # must be called at least once as readCRGB() relies on its cached value
         self.integration_time(integration_time)
         self.enable()
 
@@ -61,22 +61,26 @@ class TCS34725(object):
         return r
 
     def integration_time(self,it=None):
+        """Integration time it should be one of {2.4,24,101,154,700}ms."""
         if it is not None:
-            if it not in self.ATIME:
-                raise AttributeError('integration time must be one of {} (corresponding to {}ms)'.format(self.ATIME,self.INT_TIME))
-            self._write(0x01,it)
+            ii = {self.ATIME[k]:k for k in self.ATIME.keys()}
+            if it not in ii:
+                raise AttributeError('integration time must be one of {}'.\
+                                     format(sorted(ii.keys())))
+            self._write(0x01,ii[it])
         tmp = self._read(0x01)
         self._it = tmp
-        return tmp
+        return self.ATIME[tmp]
 
     def gain(self,gain=None):
+        """gain should be one of {1,4,16,60}."""
         if gain is not None:
-            if gain not in self.AGAIN:
-                raise AttributeError('gain must be one of {} (corresponding to one of {}x)'.format(self.AGAIN,self.GAIN))
-            self._write(0x0f,gain)
-        tmp = self._read(0x0f)
-        self._gain = tmp
-        return tmp
+            ig = {self.AGAIN[k]:k for k in self.AGAIN.keys()}
+            if gain not in ig:
+                raise AttributeError('gain must be one of {})'.\
+                                     format(sorted(ig.keys())))
+            self._write(0x0f,ig[gain])
+        return self.AGAIN[self._read(0x0f) | 0b11]
     
     #def duh(self):
     #    print [self._read(0x00),self._read(0x01),self._read(0x0f)]
@@ -95,8 +99,8 @@ class TCS34725(object):
 
 if '__main__' == __name__:
     s = TCS34725(bus=2)
-    s.gain(TCS34725.AGAIN[0])
-    s.integration_time(TCS34725.ATIME[0])
+    s.gain(1)                   # {1x,4x,16x,60x}
+    s.integration_time(2.4)     # {2.4ms,24ms,101ms,154ms,700ms}
 
     #s.duh()
     #print s.gain()
