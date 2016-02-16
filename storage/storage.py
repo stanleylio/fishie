@@ -6,9 +6,8 @@
 # Stanley Hou In Lio, hlio@hawaii.edu
 # October, 2015
 
-import sqlite3
+import sqlite3,time,traceback
 from os.path import join,dirname
-import time
 from datetime import datetime,timedelta
 
 
@@ -138,6 +137,7 @@ class storage_read_only(object):
                 return None
             return {v:tuple(r[v] for r in tmp) for v in cols}
         except:
+            traceback.print_exc()
             return None
         #vals = [tuple(r) for r in zip(*tmp)]
         #tmp = dict(zip(cols,vals))
@@ -157,7 +157,7 @@ class storage_read_only(object):
             cmd = '''SELECT {cols}
                      FROM {table} WHERE
                         DATETIME({time_col}) > 
-                        DATETIME((SELECT {time_col} FROM {table} WHERE {nonnull} IS NOT NULL ORDER BY {time_col} DESC LIMIT 1),'-1 minutes')
+                        DATETIME((SELECT {time_col} FROM {table} WHERE {nonnull} IS NOT NULL ORDER BY {time_col} DESC LIMIT 1),'-{N} minutes')
                         AND {nonnull} IS NOT NULL;
                     '''.format(cols=','.join(cols),time_col=time_col,table=table,N=N,nonnull=nonnull)
         else:
@@ -167,10 +167,12 @@ class storage_read_only(object):
         try:
             self.c.execute(cmd)
             tmp = self.c.fetchall()
+            #print tmp
             if len(tmp) <= 0:
                 return None
             return {v:tuple(r[v] for r in tmp) for v in cols}
         except:
+            traceback.print_exc()
             return None
 
     def read_all(self,node_id,cols=None):
@@ -187,6 +189,7 @@ class storage_read_only(object):
                 return None
             return {v:tuple(r[v] for r in tmp) for v in cols}
         except:
+            traceback.print_exc()
             return None
 
 
