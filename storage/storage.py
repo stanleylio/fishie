@@ -146,7 +146,17 @@ class storage_read_only(object):
         #return tmp
 
     def read_last_N_minutes(self,node_id,time_col,N,cols=None,nonnull=None):
-        """Retrieve records within N minutes of the last record in the database (NOT the last N minutes from THIS moment)"""
+        """Retrieve records within N minutes of the last record in the database.
+        "Last N minutes" is relative to the latest record in the database (which could be
+        days old in the case of sensor failure), not relative to the time this method is
+        called.
+
+        If nonnull is given, then the N minutes window is relative to the latest sample with
+        the additional requirement that the said sample must not be Null (SQLite's Null is
+        mapped to Python's None). For example, if the last non-null record of VAR was taken
+        10 days ago, records up to N minutes prior to that sample are returned (which are
+        all at least 10 days old, even though they are the "latest").
+        """
         assert cols is None or type(cols) is list,'storage::read_last_N_minutes(): cols, if not None, must be a list of string'
         
         if cols is None:
