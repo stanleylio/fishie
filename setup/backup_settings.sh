@@ -2,6 +2,8 @@
 
 DIR="./backup"
 
+mkdir $DIR
+
 rsync -avh /etc/apache2 $DIR/apache2
 
 crontab -l > $DIR/crontab.txt
