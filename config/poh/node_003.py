@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
-name = 'One and only FLNTU'
+name = 'CTD, optode and FLNTU'
 location = 'Mākāhā 2'
-note = 'FLNTU is love, FLNTU is life'
+note = 'CTD + Turbidity + Chlorophyll'
 
 log_dir = './log'
 plot_dir ='../www'

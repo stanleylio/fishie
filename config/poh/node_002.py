@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-name = 'Invisible Fish pan'
+name = 'Fish pan'
 location = 'Mākāhā 1'
 note = 'Aanderaa 4330f + MS5803-14BA + EZO EC + BMP180'
 

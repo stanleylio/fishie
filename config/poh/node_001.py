@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-name = 'Far far away'
+name = 'CTD + optode'
 location = 'Mākāhā 3'
 note = 'Aanderaa 4330f + MS5803-14BA + EZO EC + BMP180'
 

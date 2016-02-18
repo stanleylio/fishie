@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
-name = 'Mākāhā 2 Water Depth (us1)'
+# us1
+name = 'Mākāhā 2 Water Depth'
 location = 'Mākāhā 2'
 note = 'Ultrasonic Proof of Concept'
 
