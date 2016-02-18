@@ -6,9 +6,10 @@ from config.config_support import *
 from parse_support import parse_message,pretty_print
 
 from_tag = socket.gethostname()
-base = importlib.import_module('base_{}'.format(from_tag[5:8]))
+#base = importlib.import_module('base_{}'.format(from_tag[5:8]))
 
-with serial.Serial(base.xbee_port,base.xbee_baud,timeout=2) as s:
+#with serial.Serial(base.xbee_port,base.xbee_baud,timeout=2) as s:
+with serial.Serial('/dev/ttyUSB0',115200,timeout=2) as s:
 
     if len(sys.argv) <= 1:
         print('To query node N, python request.py N')
