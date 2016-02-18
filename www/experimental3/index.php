@@ -8,14 +8,14 @@
 		<!--script src="https://cdn.plot.ly/plotly-latest.min.js"></script-->
 		<script src="plotly-latest.min.js"></script>
 		<script src="../jquery/jquery.min.js"></script>
-		<title>experimental3</title>
+		<title>Interactive Plot</title>
 		<!-- http://192.168.0.20/experimental3/?site=poh&node_id=node-009&variable=d2w -->
 		<?php
 			echo "<div id='data-id' data-site=" . $_GET['site'] . " data-node_id=" . $_GET['node_id'] . " data-variable=" . $_GET['variable'] . "></div>";
 		?>
 	</head>
 	<body>
-		<div id="tester" style="width:960px;height:500px;"></div>
+		<div id="tester"></div>
 		<script src="create_plot.js"></script>
 	</body>
 </html>

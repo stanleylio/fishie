@@ -1,7 +1,12 @@
 (function() {
+	var width = 900;
+	var height = 500;
 	var site = $("#data-id").data("site");
 	var node_id = $("#data-id").data("node_id");
 	var variable = $("#data-id").data("variable");;
+	
+	document.title = node_id + ' | ' + variable;
+	
 	// TODO
 	var end = Date.now()/1000.0;
 	var begin = end - 7*24*60*60;
@@ -20,8 +25,8 @@
 			  family: 'Helvetica, monospace',
 		  },
 		  autosize: false,
-		  width: 960,
-		  height: 500,
+		  width: width,
+		  height: height,
 		  xaxis: {
 			title: new Date().toString().split(/(\(.*\))/)[1],
 			titlefont: {
@@ -38,7 +43,7 @@
 			  color: '#7f7f7f'
 			}
 		  },
-		  margin: { l:50, r:50, b:50, t:50, pad:4 }
+		  margin: { l:100, r:50, b:100, t:50, pad:4 }
 		};
 		
 		var offset = (new Date).getTimezoneOffset()*60;
@@ -46,6 +51,8 @@
 			//ts[i] = (new Date(ts[i]*1000)).toISOString().replace('T',' ').replace('Z','');
 			ts[i] = (new Date((ts[i] - offset)*1000)).toISOString().replace('T',' ').replace('Z','');
 		}
+		
+		$('#tester').width(width + 'px').height(height + 'px');
 
 		Plotly.plot( $('#tester')[0],
 					[{ x: ts, y: r, name: variable, mode: "markers"}],

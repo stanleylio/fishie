@@ -53,7 +53,7 @@ class EZO_ORP(EZO):
         
 
 if '__main__' == __name__:
-    orp = EZO_ORP(lowpower=True)
+    orp = EZO_ORP(bus=2,lowpower=False)
     print 'Device Information (sensor type, firmware version):'
     print orp.device_information()
     print

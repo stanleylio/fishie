@@ -123,7 +123,7 @@ for node_id in nodes:
             # ValueError: db has the variable, but all NaN
             PRINT('\tNo data for {} of {} in the selected range'.\
                   format(var,node_id))
-            traceback.print_exc()
+            #traceback.print_exc()
         except:
             traceback.print_exc()
 
