@@ -57,17 +57,12 @@ def parse_message(line):
             line = line[:-8]
             tmp = json.loads(line)
             if re.match('^node[-_]\d{3}$',tmp['from']):
-                #node_id = int(tmp['from'][5:8])
                 node_id = tmp['from']
                 d = tmp['payload']
                 d['ts'] = datetime.fromtimestamp(d['ts'])
-                #if 'Timestamp' in d.keys():
-                #    d['Timestamp'] = datetime.fromtimestamp(d['Timestamp'])
-                #if 'ts' in d.keys():
-                #    d['ts'] = datetime.fromtimestamp(d['ts'])
 
-                #node = importlib.import_module('node_{:03d}'.format(node_id))
-                node = importlib.import_module(node_id.replace('-','_'))
+                from node import site
+                node = importlib.import_module('{}.{}'.format(site,node_id.replace('-','_')),'config')
                 d = {c['dbtag']:d[c['comtag']] for c in node.conf}
                 d['node-id'] = node_id
                 return d

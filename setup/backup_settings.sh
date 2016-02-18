@@ -4,7 +4,7 @@ DIR="./backup"
 
 mkdir $DIR
 
-rsync -avh /etc/apache2 $DIR/apache2
+rsync -avh /etc/apache2 $DIR
 
 crontab -l > $DIR/crontab.txt
 cp -a /etc/network/interfaces $DIR/interfaces.txt
