@@ -1,2 +1,2 @@
-*.conf
-*.txt
+backup/
+obsolete/

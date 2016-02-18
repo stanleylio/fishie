@@ -8,21 +8,20 @@
 		<link href="jquery-ui/jquery-ui.min.css" rel="stylesheet" type="text/css">
 		<script src="jquery/jquery.min.js" type="text/javascript"></script>
 		<script src="jquery.timeago.js" type="text/javascript"></script>
-		<title>Dashboard</title>
+		<title>Status Dashboard | Coastal Monitoring @ UH</title>
 	</head>
 	<body>
 		<div class="container-fluid">
-			<!--div class="page-header row">
+			<div class="page-header row">
 				<div class="col-xs-10 col-xs-offset-1">
 					<div id="header">
-						<a href="http://www.soest.hawaii.edu/oceanography/glazer/Brian_T._Glazer/research/DataLoggers/PoH/HeeiaDataHome"><h2>Real-time Environmental Monitoring</h2></a>
+						<a href="http://www.soest.hawaii.edu/oceanography/glazer/Brian_T._Glazer/research/DataLoggers/PoH/HeeiaDataHome"><h2>Real-time In-situ Coastal Monitoring</h2></a>
 					</div>
 				</div>
-			</div-->
+			</div>
 
 			<div class="row">
 				<div class="col-xs-10 col-xs-offset-1 col-sm-5">
-					<h4>Base Station #3 (Celeron-NUC)</h4>
 					<a href="https://goo.gl/maps/ECEBgo3UEp82" target="_blank"><p>Paepae o He'eia, Kane'ohe</p></a>
 				</div>
 			</div>
@@ -31,46 +30,17 @@
 					<div id="poh_nodes">poh nodes</div>
 				</div>
 			</div>
-			
+
 			<hr>
 
-			<div class="row">
-				<div class="col-xs-10 col-xs-offset-1 col-sm-5">
-					<h4>"SuperNUC" (i7 NUC)</h4>
-					<a href="https://goo.gl/maps/FHm4aQNkaaP2" target="_blank"><p>UHM MSB 228</p></a>
+			<div class="page-header row">
+				<div class="col-xs-6 col-xs-offset-1">
+					<h4>Legend</h4>
+					<span class="alert alert-success glyphicon glyphicon-ok" aria-hidden="true" title="Node phoned home in the past 30 minutes"> ONLINE</span>
+					<span class="alert alert-danger glyphicon glyphicon-warning-sign" aria-hidden="true" title="Node has not been heard in the past 30 minutes"> OFFLINE</span>
 				</div>
 			</div>
-			<div class="row">
-				<div class="col-xs-10 col-xs-offset-1 col-sm-5 col-md-4">
-					<div id="msb228_nodes">msb228 nodes</div>
-				</div>
-			</div>
-			
-			<hr>
-			
-			<div class="row">
-				<div class="col-xs-10 col-xs-offset-1 col-sm-5">
-					<h4>Misc.</h4>
-					<a href="https://imgs.xkcd.com/comics/the_general_problem.png"><p>surfing the nation</p></a>
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-xs-10 col-xs-offset-1 col-sm-5 col-md-4">
-					<div id="stuff">
-						<ul class="list-group">
-							<a href="./t5/us.png" class="list-group-item">Makaha depth</a>
-							<a href="./t1" class="list-group-item">past 90 days, group by sensor type</a>
-							<a href="./bounded" class="list-group-item">QA/QC (filtered and bounded)</a>
-							<a href="./t2" class="list-group-item">PoH base station cabinet environmentals</a>
-							<a href="./t3/temperature.png" class="list-group-item">styrofoam</a>
-							<a href="./t4/rh.png" class="list-group-item">228 humidity</a>
-						</ul>
-					</div>
-				</div>
-			</div>
-			
-			<hr>
-			
+
 			<div class="col-xs-12">
 				<div class="text-center" style="color:#C8C8C8; font-size:xx-small;">
 					<footer>
@@ -81,6 +51,14 @@
 						
 						<script>
 							$("#cc").append("<p><a href=\"http://www2.hawaii.edu/~hlio/\" target=\"_blank\">&copy Stanley Hou In Lio, " + new Date().getFullYear() + "</a></p>").append("<p>hlio [at] soest.hawaii.edu</p>");
+						</script>
+						<script>
+							(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+							(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+							m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+							})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+							ga('create', 'UA-4105410-2', 'auto');
+							ga('send', 'pageview');
 						</script>
 						<br>
 					</footer>

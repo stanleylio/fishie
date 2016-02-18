@@ -1,5 +1,5 @@
 #!/bin/bash
-
+# turn off the BBB LEDs
 clear
 
 cat /sys/class/leds/beaglebone:green:usr0/trigger

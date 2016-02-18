@@ -1,15 +1,17 @@
 #!/bin/bash
 
+DIR="./backup"
 
-crontab -l > crontab.txt
-cat /etc/network/interfaces > interfaces.txt
-cat /etc/hostname > hostname.txt
-cat /etc/hosts > hosts.txt
-cat /etc/resolv.conf > resolv.conf.txt
-cat /etc/rc.local > rc.local.txt
-cat /etc/ntp.conf > ntp.conf
+rsync -avh /etc/apache2 $DIR/apache2
 
-#cat /etc/supervisor/supervisord.conf > supervisord.conf
-#cat /etc/supervisor/conf.d/sampling.conf > sampling.conf
+crontab -l > $DIR/crontab.txt
+cp -a /etc/network/interfaces $DIR/interfaces.txt
+cp -a /etc/hostname $DIR/hostname.txt
+cp -a /etc/hosts $DIR/hosts.txt
+cp -a /etc/resolv.conf $DIR/resolv.conf.txt
+cp -a /etc/rc.local $DIR/rc.local.txt
+cp -a /etc/ntp.conf $DIR/ntp.conf
+cp -a /etc/supervisor/supervisord.conf $DIR/supervisord.conf
+cp -a /etc/supervisor/conf.d/sampling.conf $DIR/sampling.conf
 
 
