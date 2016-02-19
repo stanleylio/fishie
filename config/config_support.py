@@ -45,6 +45,11 @@ def get_type(site,node):
     node = import_node_config(site,node)
     return [c['dbtype'] for c in node.conf]
 
+
+# TODO: replace get_capabilities() with this:
+def get_schema(site):
+    return {node:zip(get_tag(site,node),get_type(site,node)) for node in get_list_of_nodes(site)}
+
 def get_capabilities(site):
     capabilities = {}
     for node in get_list_of_nodes(site):

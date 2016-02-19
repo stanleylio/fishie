@@ -37,6 +37,9 @@ def get_dbfile(site,node_id=None):
     return s'''
 
 # processing/analysis stuff
+
+# should it check first whether they data are indeed in groups?
+# or at least emit a warning if they aren't?
 def split_by_group(t,x):
     tmp = diff(t)
     #tmp = absolute(diff(t))
@@ -49,8 +52,21 @@ def split_by_group(t,x):
     return t,x
 
 def median_of_group(t,x):
+    assert len(t) == len(x)
+    assert isinstance(t[0],float)
     t,x = split_by_group(t,x)
-    t = [mean(tt) for tt in t]
-    x = [median(xx) for xx in x]
+
+    for tt in t:
+        try:
+            t = mean(tt)
+        except TypeError:
+            print tt
+    for xx in x:
+        try:
+            x = median(xx)
+        except TypeError:
+            print xx
+    #t = [mean(tt) for tt in t]
+    #x = [median(xx) for xx in x]
     return t,x
 

@@ -6,6 +6,9 @@ import sys,traceback,re,json,importlib
 sys.path.append('config')
 from datetime import datetime
 from z import check
+# TODO: replace importlib with this:
+#from config.config_support import import_node_config
+
 
 def PRINT(s):
     #pass
@@ -62,6 +65,7 @@ def parse_message(line):
                 d['ts'] = datetime.fromtimestamp(d['ts'])
 
                 from node import site
+                #node = import_node_config(site,node_id)
                 node = importlib.import_module('{}.{}'.format(site,node_id.replace('-','_')),'config')
                 d = {c['dbtag']:d[c['comtag']] for c in node.conf}
                 d['node-id'] = node_id
