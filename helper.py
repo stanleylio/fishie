@@ -6,7 +6,7 @@ def dt2ts(dt):
     return calendar.timegm(dt.timetuple()) + (dt.microsecond)*(1e-6)
 
 def ts2dt(ts):
-    return datetime.fromtimestamp(ts)
+    return datetime.utcfromtimestamp(ts)
 
 #def m2ft(m):
 #    return m*100./2.54/12.
@@ -70,3 +70,15 @@ def median_of_group(t,x):
     #x = [median(xx) for xx in x]
     return t,x
 
+def loadcsv(fn,hasheader=True):
+    with open(fn,'r') as f:
+        tags = f.readline().strip().split(',')
+
+    from numpy import loadtxt
+    if hasheader:
+        r = loadtxt(fn,delimiter=',',skiprows=1)
+    else:
+        r = loadtxt(fn,delimiter=',')
+    r = zip(*r)
+
+    return {r[0]:r[1] for r in zip(tags,r)}

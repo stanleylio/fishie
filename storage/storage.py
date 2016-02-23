@@ -20,9 +20,6 @@ def auto_time_col(store,node_id):
         time_col = 'ReceptionTime'
     return time_col
 
-def id2table(node_id):
-    return node_id.replace('-','_')
-
 
 # this one doesn't require database schema on instantiation
 class storage_read_only(object):
@@ -39,12 +36,16 @@ class storage_read_only(object):
         self.c = self.conn.cursor()
         self.c.execute('PRAGMA journal_mode = WAL')
 
+    @classmethod
+    def id2table(self,node_id):
+        return node_id.replace('-','_')
+
     def get_list_of_tables(self):
         cursor = self.c.execute("SELECT name FROM sqlite_master WHERE type='table';")
         return sorted([t[0] for t in cursor.fetchall() if not t[0].startswith('sqlite_')])
 
     def get_list_of_columns(self,node_id):
-        cursor = self.c.execute('SELECT * FROM {}'.format(id2table(node_id)))
+        cursor = self.c.execute('SELECT * FROM {}'.format(self.id2table(node_id)))
         return [d[0] for d in cursor.description]
 
     def read_time_range(self,node_id,time_col,cols,begin,end=None):
@@ -66,7 +67,7 @@ class storage_read_only(object):
         # somehow seems hackish as it relies on comformity to the ISO8601 format.
         cmd = 'SELECT {} FROM {} {time_range} ORDER BY {time_col} DESC'.\
                 format(','.join(cols),
-                       id2table(node_id),
+                       self.id2table(node_id),
                        time_range=time_range,
                        time_col=time_col)
         return self._execute(cmd)
@@ -74,7 +75,7 @@ class storage_read_only(object):
     def read_latest_non_null(self,node_id,time_col,var):
         """Retrieve the latest non-null record of var."""
         cols = [time_col,var]
-        table = id2table(node_id)
+        table = self.id2table(node_id)
         cmd = 'SELECT {} FROM {} WHERE {} IS NOT NULL ORDER BY {} DESC LIMIT 1;'.\
               format(','.join(cols),table,var,time_col)
         #print cmd
@@ -107,7 +108,7 @@ class storage_read_only(object):
 
         cmd = 'SELECT {} FROM {} ORDER BY {} DESC LIMIT {}'.\
                 format(','.join(cols),
-                       id2table(node_id),
+                       self.id2table(node_id),
                        time_col,
                        count)
         return self._execute(cmd)
@@ -129,7 +130,7 @@ class storage_read_only(object):
         if cols is None:
             cols = self.get_list_of_columns(node_id)
 
-        table = id2table(node_id)
+        table = self.id2table(node_id)
         if nonnull is not None:
             cmd = '''SELECT {cols}
                      FROM {table} WHERE
@@ -147,7 +148,7 @@ class storage_read_only(object):
         if cols is None:
             cols = self.get_list_of_columns(node_id)
         cmd = 'SELECT {cols} FROM {table}'.\
-              format(cols=','.join(cols),table=id2table(node_id))
+              format(cols=','.join(cols),table=self.id2table(node_id))
         return self._execute(cmd)
 
     def _execute(self,cmd):
@@ -159,6 +160,7 @@ class storage_read_only(object):
             cols = [c[0] for c in self.c.description]
             return {v:tuple(r[v] for r in tmp) for v in cols}
         except:
+            traceback.print_exc()
             return None
 
     def read_schema(self):
@@ -181,7 +183,7 @@ class storage(storage_read_only):
         self._schema = schema   # TODO: and get rid of this. write() should not need it.
         for node_id,v in self._schema.iteritems():
             tmp = '({})'.format(','.join([' '.join(p) for p in zip(v['tag'],v['type'])]))
-            cmd = 'CREATE TABLE IF NOT EXISTS {} {}'.format(id2table(node_id),tmp)
+            cmd = 'CREATE TABLE IF NOT EXISTS {} {}'.format(self.id2table(node_id),tmp)
             self.c.execute(cmd)
     
     # Three cases:
@@ -215,7 +217,7 @@ class storage(storage_read_only):
         #keys = [k for k in readings.keys() if k in self.get_list_of_columns(node_id)]
         vals = [readings[k] for k in keys]
         cmd = 'INSERT OR REPLACE INTO {} ({}) VALUES ({})'.\
-              format(id2table(node_id),','.join(keys),','.join('?'*len(keys)))
+              format(self.id2table(node_id),','.join(keys),','.join('?'*len(keys)))
 
         self.c.execute(cmd,vals)
         self.conn.commit()
@@ -225,18 +227,20 @@ class storage(storage_read_only):
         assert 'ReceptionTime' in readings.keys() or 'Timestamp' in readings.keys()
 
         cols = self.get_list_of_columns(node)
-        if len(readings.keys()) > len(cols):
+        a = set(readings.keys())
+        b = set(cols)
+        if a > b:
             PRINT('Warning: these are not defined in db and are ignored:')
-            PRINT(','.join([t for t in readings.keys() if t not in cols]))
-        elif len(readings.keys()) < len(cols):
-            PRINT('Warning: these are defined in the db but are not given:')
-            PRINT(','.join([t for t in cols if t not in readings.keys()]))
+            PRINT(','.join(a - b))
+        elif a < b:
+            PRINT('Warning: these fields defined in the db are not supplied:')
+            PRINT(','.join(a - b))
 
         # filter out readings that are not recorded by the database
         keys = [k for k in readings.keys() if k in self.get_list_of_columns(node)]
         vals = [readings[k] for k in keys]
         cmd = 'INSERT OR REPLACE INTO {} ({}) VALUES ({})'.\
-              format(id2table(node),','.join(keys),','.join('?'*len(keys)))
+              format(self.id2table(node),','.join(keys),','.join('?'*len(keys)))
 
         self.c.execute(cmd,vals)
         self.conn.commit()

@@ -10,7 +10,7 @@ sys.path.append('..')
 import matplotlib.pyplot as plt
 from datetime import datetime,timedelta
 from matplotlib.dates import DateFormatter,HourLocator
-from config.config_support import *
+#from config.config_support import *
 
 
 def PRINT(s):
@@ -59,21 +59,6 @@ def auto_tick(ax):
     plt.tight_layout()
 
 
-def auto_xlabel(ax):
-    x = ax.get_lines()[0].get_xdata()
-    y = ax.get_lines()[0].get_ydata()
-
-    begin = min([z[0] for z in zip(x,y) if not numpy.isnan(z[1])])
-    end = max(x)
-
-    # auto xlabel (time)
-    if begin.date() == end.date():
-        ax.set_xlabel('UTC Time ({})'.format(begin.strftime('%Y-%m-%d')))
-    else:
-        ax.set_xlabel('UTC Time ({} to {})'.format(\
-            begin.strftime('%Y-%m-%d'),end.strftime('%Y-%m-%d')))
-
-
 def plot_multi_time_series(data,plotfilename,title='',xlabel='',ylabel=''):
     plt.figure()
 
@@ -113,18 +98,31 @@ def plot_multi_time_series(data,plotfilename,title='',xlabel='',ylabel=''):
                           #markersize=15, label='stuff')
         #plt.legend(handles=[blue_line])
 
-        plt.legend(loc='best',framealpha=0.5)
-        plt.title(title)
-        plt.grid(True)
+    plt.legend(loc='best',framealpha=0.5)
+    plt.title(title)
+    plt.grid(True)
 
-        auto_tick(plt.gca())
+    auto_tick(plt.gca())
+    
+    if '' == xlabel:
+        #auto_xlabel(plt.gca())
+        begin = data[0]['x'][0]
+        end = begin
+        for d in data:
+            x,y = d['x'],d['y']
+            b = min([z[0] for z in zip(x,y) if not numpy.isnan(z[1])])
+            if b < begin:
+                begin = b
+            e = max([z[0] for z in zip(x,y) if not numpy.isnan(z[1])])
+            if e > end:
+                end = e
+        plt.gca().set_xlabel('UTC Time ({} to {})'.\
+                             format(begin.strftime('%Y-%m-%d'),\
+                                    end.strftime('%Y-%m-%d')))
+    else:
+        plt.gca().set_xlabel(xlabel)
         
-        if '' == xlabel:
-            auto_xlabel(plt.gca())
-        else:
-            plt.gca().set_xlabel(xlabel)
-            
-        plt.gca().set_ylabel(ylabel)
+    plt.gca().set_ylabel(ylabel)
 
     # make the markers in the legend bigger in order to show the color
     try:
@@ -145,6 +143,17 @@ def plot_multi_time_series(data,plotfilename,title='',xlabel='',ylabel=''):
 
 def plot_time_series(x,y,plotfilename,title='',xlabel='',ylabel='',linelabel=None):
     data = [{'x':x,'y':y,'linelabel':linelabel}]
+
+    if '' == xlabel:
+        begin = min([z[0] for z in zip(x,y) if not numpy.isnan(z[1])])
+        end = max([z[0] for z in zip(x,y) if not numpy.isnan(z[1])])
+        if begin.date() == end.date():
+            xlabel = 'UTC Time ({})'.format(begin.strftime('%Y-%m-%d'))
+        else:
+            xlabel = 'UTC Time ({} to {})'.\
+                     format(begin.strftime('%Y-%m-%d'),\
+                            end.strftime('%Y-%m-%d'))
+
     plot_multi_time_series(data,plotfilename,
                            title=title,
                            xlabel=xlabel,

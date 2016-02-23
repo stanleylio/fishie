@@ -3,7 +3,7 @@
 # Stanley Lio, hlio@usc.edu
 # All Rights Reserved. August 2015
 #from __future__ import absolute_import
-import re,socket,traceback#,importlib
+import re,socket,traceback,imp#,importlib
 from os import listdir
 from os.path import join,exists,dirname,realpath,basename,splitext
 from ConfigParser import RawConfigParser
@@ -25,7 +25,6 @@ def is_base():
 def import_node_config(site,node):
     """Import the appropriate config file for the given (site,node)"""
     #return importlib.import_module('config.' + site + '.' + node.replace('-','_'))
-    import imp
     tmp = join(dirname(realpath(__file__)),site,node.replace('-','_') + '.py')
     return imp.load_source('node',tmp)
 
