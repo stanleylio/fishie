@@ -82,3 +82,11 @@ def loadcsv(fn,hasheader=True):
     r = zip(*r)
 
     return {r[0]:r[1] for r in zip(tags,r)}
+
+def savecsv(fn,d,keys=None):
+    with open(fn,'w') as f:
+        if keys is None:
+            keys = d.keys()
+        f.write(','.join([k.replace(',','') for k in keys]) + '\n')
+        f.write('\n'.join([','.join([str(rr) for rr in r]) for r in zip(*[d[k] for k in keys])]))
+
