@@ -84,6 +84,9 @@ def loadcsv(fn,hasheader=True):
     return {r[0]:r[1] for r in zip(tags,r)}
 
 def savecsv(fn,d,keys=None):
+    if not all([len(d[d.keys()[0]]) == len(d[k]) for k in d.keys()]):
+        print('WARNING: Columns are not of the same length.')
+        assert False
     with open(fn,'w') as f:
         if keys is None:
             keys = d.keys()

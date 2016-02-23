@@ -12,7 +12,7 @@
 # http://192.168.0.20/qtr.py?site=poh&node_id=node-004&var=T_180&begin=1451540771&end=1451627216
 #
 # Stanley Lio, hlio@hawaii.edu
-# Januray 2016
+# January 2016
 import cgi,cgitb,sys,json,time,traceback
 sys.path.append('..')
 import config,storage

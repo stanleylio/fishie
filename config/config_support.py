@@ -46,6 +46,7 @@ def get_type(site,node):
 
 
 # TODO: replace get_capabilities() with this:
+# or even better, just return an SQL string.
 def get_schema(site):
     return {node:zip(get_tag(site,node),get_type(site,node)) for node in get_list_of_nodes(site)}
 
@@ -77,6 +78,8 @@ def get_description_map(site,node):
     node = import_node_config(site,node)
     return {c['dbtag']:c['description'] for c in node.conf}
 
+# if it really is "node", then it shouldn't accept "node_003"
+# but instead ask for "node-003". Bug + Bug = working... TODO
 def get_list_of_disp_vars(site,node):
     """Get the list of variables to display."""
     node = import_node_config(site,node)

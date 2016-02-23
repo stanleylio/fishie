@@ -38,7 +38,7 @@ if 'list_of_nodes' in form.getlist('p'):
     d.update({'list_of_nodes':nodes})
 
 # get the latest sample of all variables (tags/columns) in the database
-# http://192.168.0.20/node_config.py?site=poh&p=latest_sample&id=4
+# http://192.168.0.20/node_config.py?site=poh&p=latest_sample&node_id=node-004
 if 'latest_sample' in form.getlist('p'):
     site = form.getlist('site')[0]
     node_id = form.getlist('node_id')[0]
