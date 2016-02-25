@@ -45,8 +45,10 @@ def get_type(site,node):
     return [c['dbtype'] for c in node.conf]
 
 
-# TODO: replace get_capabilities() with this:
+# TODO: replace get_capabilities() with this...
 # or even better, just return an SQL string.
+# in either case, since I know there are only "column name" and "data type", I can
+# put them in (tag,type) without the dict's "tags" "types" keys.
 def get_schema(site):
     return {node:zip(get_tag(site,node),get_type(site,node)) for node in get_list_of_nodes(site)}
 
@@ -69,6 +71,9 @@ def get_name(site,node):
 
 def get_note(site,node):
     return import_node_config(site,node).note
+
+def get_location(site,node):
+    return import_node_config(site,node).location
 
 def get_unit_map(site,node):
     node = import_node_config(site,node)

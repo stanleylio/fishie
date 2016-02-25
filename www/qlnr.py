@@ -12,7 +12,7 @@ import storage
 from storage.storage import storage_read_only,auto_time_col
 from helper import dt2ts,get_dbfile
 
-cgitb.enable(display=1)
+#cgitb.enable(display=1)
 form = cgi.FieldStorage()
 
 site = form.getlist('site')[0]

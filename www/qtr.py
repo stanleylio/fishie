@@ -23,7 +23,7 @@ from helper import dt2ts,ts2dt,get_dbfile
 
 #import cgi
 #cgi.test()
-cgitb.enable(display=1)
+#cgitb.enable(display=1)
 form = cgi.FieldStorage()
 #print form.getlist('p')
 #exit()

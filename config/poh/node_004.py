@@ -46,7 +46,7 @@ conf = [
         'dbtag':'ec',
         'dbtype':'REAL',
         'comtag':'ec',
-        'unit':'uS',
+        'unit':'uS/cm',
         'description':'Conductivity',
         'plot':True,
         'range':Range(0,55e3),

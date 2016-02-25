@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 name = 'CTD, optode and FLNTU'
-location = 'Mākāhā 2'
+location = 'Kahoʻokele (Mākāhā 2)'
 note = 'CTD + Turbidity + Chlorophyll'
 
 log_dir = './log'
@@ -75,7 +75,7 @@ conf = [
         'dbtag':'ec',
         'dbtype':'REAL',
         'comtag':'ec',
-        'unit':'uS',
+        'unit':'uS/cm',
         'description':'Conductivity',
         'plot':True,
         'range':Range(0,55e3),

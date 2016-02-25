@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # us1
 name = 'Mākāhā 2 Water Depth'
-location = 'Mākāhā 2'
+location = 'Kahoʻokele (Mākāhā 2)'
 note = 'Ultrasonic Proof of Concept'
 
 log_dir = './log'
