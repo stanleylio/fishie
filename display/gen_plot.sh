@@ -6,6 +6,8 @@ cd $HOME/node/display
 # plot raw
 python t0.py --site=poh --dbfile=$HOME/node/www/poh/storage/sensor_data.db --plot_dir=$HOME/node/www/poh
 
+rsync -avh $HOME/node/www/poh $HOME/cm1app/cm1app/static/
+
 # - - - - -
 # plot filtered and boundary-checked
 # clone the database

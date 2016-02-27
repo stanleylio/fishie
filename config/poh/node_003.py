@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
-name = 'CTD, optode and FLNTU'
+name = 'Giant Pelican'
 location = 'Kahoʻokele (Mākāhā 2)'
-note = 'CTD + Turbidity + Chlorophyll'
+note = 'CTD + Oxygen + Turbidity + Cholorophyll'
 
 log_dir = './log'
 plot_dir ='../www'

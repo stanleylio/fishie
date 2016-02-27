@@ -67,19 +67,24 @@ def get_capabilities(site):
 
 # STUFF FOR PRESENTATION ONLY
 def get_name(site,node):
+    node = node.replace('-','_')
     return import_node_config(site,node).name
 
 def get_note(site,node):
+    node = node.replace('-','_')
     return import_node_config(site,node).note
 
 def get_location(site,node):
+    node = node.replace('-','_')
     return import_node_config(site,node).location
 
 def get_unit_map(site,node):
+    node = node.replace('-','_')
     node = import_node_config(site,node)
     return {c['dbtag']:c['unit'] for c in node.conf}
 
 def get_description_map(site,node):
+    node = node.replace('-','_')
     node = import_node_config(site,node)
     return {c['dbtag']:c['description'] for c in node.conf}
 

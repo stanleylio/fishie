@@ -53,11 +53,11 @@
 					}
 					var diff = Date.now()/1000 - lnn;
 					var d = new Date(lnn*1000);
-					lnn = $('<time class="timeago"></time>').attr('datetime',d.toISOString()).html('ago');
+					lnn = $('<time class="timeago"></time>').attr('datetime',d.toISOString());
 					
 					// color it red if the reading is "old"
 					if (diff > 30*60) {
-						console.log(diff);
+						//console.log(diff);
 						lnn.css('color','red');
 					}
 
