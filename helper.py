@@ -56,18 +56,8 @@ def median_of_group(t,x):
     assert isinstance(t[0],float)
     t,x = split_by_group(t,x)
 
-    for tt in t:
-        try:
-            t = mean(tt)
-        except TypeError:
-            print tt
-    for xx in x:
-        try:
-            x = median(xx)
-        except TypeError:
-            print xx
-    #t = [mean(tt) for tt in t]
-    #x = [median(xx) for xx in x]
+    t = [mean(tt) for tt in t]
+    x = [median(xx) for xx in x]
     return t,x
 
 def loadcsv(fn,hasheader=True):

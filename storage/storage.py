@@ -57,7 +57,7 @@ class storage_read_only(object):
                'no such time_col: {}'.format(time_col)
 
         if end is None:
-            end = datetime.now()
+            end = datetime.utcnow()
 
         assert end > begin,'"begin" came after "end"? just swap the two'
 
@@ -92,7 +92,7 @@ class storage_read_only(object):
         """Retrieve records in taken in the past timerange (a positive
         datetime.timedelta). (relative to the moment this is called)
         """
-        end = datetime.now()
+        end = datetime.utcnow()
         begin = end - timerange
         return self.read_time_range(node_id,time_col,cols,begin,end=end)
 

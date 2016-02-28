@@ -111,6 +111,12 @@ for node_id in nodes:
                            'description':tag_desc_map[var]}
 
             # website helper (data attributes, per plot/var)
+            with open(join(node_plot_dir,var + '_withpt.json'),'w') as f:
+                # json.dump vs. json.dumps...
+                json.dump(plot_config,f,separators=(',',':'))
+
+            plot_config.pop(time_col,None)
+            plot_config.pop(var,None)
             with open(join(node_plot_dir,var + '.json'),'w') as f:
                 # json.dump vs. json.dumps...
                 json.dump(plot_config,f,separators=(',',':'))
