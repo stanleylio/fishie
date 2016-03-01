@@ -83,10 +83,16 @@ def get_unit_map(site,node):
     node = import_node_config(site,node)
     return {c['dbtag']:c['unit'] for c in node.conf}
 
+def get_unit(site,node,var):
+    return get_unit_map(site,node)[var]
+
 def get_description_map(site,node):
     node = node.replace('-','_')
     node = import_node_config(site,node)
     return {c['dbtag']:c['description'] for c in node.conf}
+
+def get_description(site,node,var):
+    return get_description_map(site,node)[var]
 
 # if it really is "node", then it shouldn't accept "node_003"
 # but instead ask for "node-003". Bug + Bug = working... TODO
@@ -94,6 +100,7 @@ def get_list_of_disp_vars(site,node):
     """Get the list of variables to display."""
     node = import_node_config(site,node)
     return [c['dbtag'] for c in node.conf if c['plot']]
+
 
 class Range(object):
     # there goes the language-agnostic age... all these for being able to:
