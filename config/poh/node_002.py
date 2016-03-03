@@ -108,7 +108,7 @@ conf = [
         'plot':True,
         'min':0,
         'max':450,
-        'range':Range(0,450),
+        'range':Range(0,500),
     },
     {
         'dbtag':'AirSaturation',
@@ -118,7 +118,7 @@ conf = [
         'description':'Air Saturation',
         'plot':True,
         'min':0,
-        'range':Range(lb=0),
+        'range':Range(0,150),
     },
     {
         'dbtag':'Temperature',

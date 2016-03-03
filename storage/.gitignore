@@ -8,4 +8,5 @@
 
 gen_csv4www.sh
 
-./bounded/
+bounded/
+processing/

@@ -120,7 +120,7 @@ conf = [
         'unit':'uM',
         'description':'Oxygen Concentration',
         'plot':True,
-        'range':Range(0,450),
+        'range':Range(0,500),
     },
     {
         'dbtag':'AirSaturation',
@@ -129,7 +129,7 @@ conf = [
         'unit':'%',
         'description':'Air Saturation',
         'plot':True,
-        'range':Range(lb=0),
+        'range':Range(0,150),
     },
     {
         'dbtag':'Temperature',
