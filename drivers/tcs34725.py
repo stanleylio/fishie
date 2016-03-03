@@ -6,12 +6,6 @@ All Rights Reserved. February 2016
 from time import sleep
 from smbus import SMBus
 
-def PRINT(s):
-    pass
-    #print(s)
-
-class DeviceNotFoundException(Exception):
-    pass
 
 class TCS34725(object):
     address = 0x29
@@ -26,11 +20,6 @@ class TCS34725(object):
     
     def __init__(self,bus=1,gain=1,integration_time=2.4):
         self.bus = SMBus(bus)
-        if not self.check_ID():
-            # it'd be nice to have the drivers locate the sensor on the buses, but then
-            #   RPi has only one I2C bus, and
-            #   what if I have the same type of sensor on both buses?
-            raise DeviceNotFoundException('TCS34725 not found on bus {}'.format(bus))
         self.gain(gain)
         # must be called at least once as readCRGB() relies on its cached value
         self.integration_time(integration_time)
@@ -108,6 +97,11 @@ if '__main__' == __name__:
 
     while True:
         r = s.readCRGB()
-        print ''.join(['c']*int(round(r['c']*10))) + ' ' + '{:.3f}'.format(r['c'])
+        #print ''.join(['c']*int(round(r['c']*10))) + ' ' + '{:.3f}'.format(r['c'])
+        #print 'r{:.2f}, g{:.2f}, b{:.2f}'.format(r['r'],r['g'],r['b'])
+
+        a = [int(round(r[tmp]*10)) for tmp in ['r','g','b']]
+        a = [tmp[1]*tmp[0] + ' '*(10 - tmp[0]) for tmp in zip(a,['r','g','b'])]
+        print '{}\t{}\t{}'.format(a[0],a[1],a[2])
         sleep(0.1)
     

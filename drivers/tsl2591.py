@@ -6,12 +6,6 @@ All Rights Reserved. February 2016
 from time import sleep
 from smbus import SMBus
 
-def PRINT(s):
-    pass
-    #print(s)
-
-class DeviceNotFoundException(Exception):
-    pass
 
 class TSL2591(object):
     address = 0x29
@@ -121,13 +115,4 @@ if '__main__' == __name__:
         r = s.read()
         print 'ch0:{:.4f}, ch1:{:.4f}'.format(r[0],r[1])
         sleep(0.1)
-
-
-
-
-
-
-
-
-
 
