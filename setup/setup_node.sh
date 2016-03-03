@@ -24,7 +24,7 @@ dpkg-reconfigure tzdata
 # RTC
 #echo "Reading system clock and RTC"
 echo "(must be done manually if NTP is not available)"
-bash ./time/install_ds1307.sh
+bash $SETUP_DIR/time/install_ds1307.sh
 
 
 # Le boeuf
@@ -35,7 +35,7 @@ git clone https://github.com/stanleylio/fishie.git $LOGGER_DIR
 
 # ... coz the first time it ran without node/setup/time/install_ds1307.sh
 # yet it still need the correct time to git clone
-bash ./time/install_ds1307.sh
+bash $SETUP_DIR/time/install_ds1307.sh
 
 
 # Install Python libaries
@@ -48,6 +48,7 @@ sudo pip install six tzlocal pytz numpy python-dateutil pyparsing --force-reinst
 git clone https://github.com/adafruit/Adafruit_Python_GPIO.git
 cd Adafruit_Python_GPIO
 sudo python setup.py install
+sudo pip install --upgrade pip
 
 
 # matplotlib
