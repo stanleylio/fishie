@@ -101,7 +101,7 @@ if '__main__' == __name__:
         #print 'r{:.2f}, g{:.2f}, b{:.2f}'.format(r['r'],r['g'],r['b'])
 
         a = [int(round(r[tmp]*10)) for tmp in ['r','g','b']]
-        a = [''.join([tmp[1]]*tmp[0]) + ''.join(' '*(10 - tmp[0])) for tmp in zip(a,['r','g','b'])]
+        a = [tmp[1]*tmp[0] + ' '*(10 - tmp[0]) for tmp in zip(a,['r','g','b'])]
         print '{}\t{}\t{}'.format(a[0],a[1],a[2])
         sleep(0.1)
     

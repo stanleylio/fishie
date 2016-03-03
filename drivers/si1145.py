@@ -1,5 +1,6 @@
 from time import sleep
 from smbus import SMBus
+import traceback
 
 
 class Si1145(object):
@@ -28,18 +29,35 @@ class Si1145(object):
     def check_ID(self):
         return 0x45 == self._read(0)
 
+    def read_raw(self):
+        try:
+            self._write(self.COMMAND,0)
+            if not 0 == self._read(self.RESPONSE):
+                print('what\s the point of a check if you\'re not doing anything about it...')
+                return
+            self._write(self.COMMAND,0b00000110)    # P.23 ALS_FORCE
+            sleep(0.0005)
+            r = {}
+            r['visible'] = self.bus.read_word_data(self.address,0x22)
+            r['ir'] = self.bus.read_word_data(self.address,0x24)
+            r['uv'] = self.bus.read_word_data(self.address,0x2C)
+            return r
+        except IOError:
+            traceback.print_exc()
+            #pass
+        return None
+
     def read(self):
-        self._write(self.COMMAND,0)
-        if not 0 == self._read(self.RESPONSE):
-            print('what\s a check for if you\'re not doing anything about it...')
-            return
-        self._write(self.COMMAND,0b00000110)    # P.23 ALS_FORCE
-        sleep(0.0005)
-        r = {}
-        r['visible'] = self.bus.read_word_data(self.address,0x22)
-        r['ir'] = self.bus.read_word_data(self.address,0x24)
-        r['uv'] = self.bus.read_word_data(self.address,0x2C)
-        return r
+        try:
+            r = self.read_raw()
+            r['visible'] = round(r['visible']/0.282,2)  # P.6
+            r['ir'] = round(r['ir']/2.44,2) # P.7; assume small IR photodiode
+            r['uv'] = round(r['uv']/100.,1)
+            return r
+        except TypeError:
+            traceback.print_exc()
+            #pass
+        return None
 
     def reset(self):
         self._write(self.COMMAND,0)
