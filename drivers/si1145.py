@@ -57,6 +57,9 @@ class Si1145(object):
         except TypeError:
             traceback.print_exc()
             #pass
+        except:
+            pass
+            #raise
         return None
 
     def reset(self):
@@ -139,4 +142,3 @@ if '__main__' == __name__:
             print('user interrupted')
             break
 
-    

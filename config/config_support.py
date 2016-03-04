@@ -111,6 +111,9 @@ class Range(object):
         self._lb = lb
         self._ub = ub
 
+    def to_tuple(self):
+        return (self._lb,self._ub)
+
     def __getitem__(self,key):
         if 'lb' == key:
             return self._lb
@@ -127,7 +130,7 @@ class Range(object):
         return self.__repr__()
 
     def __repr__(self):
-        return str((self._lb,self._ub))
+        return str(self.to_tuple())
 
 def get_range(site,node_id,variable):
     node = import_node_config(site,node_id)
