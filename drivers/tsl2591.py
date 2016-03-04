@@ -96,7 +96,7 @@ class TSL2591(object):
 
 
 if '__main__' == __name__:
-    s = TSL2591(bus=1)
+    s = TSL2591(bus=2)
     s.gain(1)
     s.integration_time(100)
 

@@ -87,6 +87,8 @@ class TCS34725(object):
 
 
 if '__main__' == __name__:
+    import traceback
+    
     s = TCS34725(bus=2)
     s.gain(1)                   # {1x,4x,16x,60x}
     s.integration_time(2.4)     # {2.4ms,24ms,101ms,154ms,700ms}
@@ -96,12 +98,15 @@ if '__main__' == __name__:
     #print s.integration_time()
 
     while True:
-        r = s.readCRGB()
-        #print ''.join(['c']*int(round(r['c']*10))) + ' ' + '{:.3f}'.format(r['c'])
-        #print 'r{:.2f}, g{:.2f}, b{:.2f}'.format(r['r'],r['g'],r['b'])
+        try:
+            r = s.readCRGB()
+            #print ''.join(['c']*int(round(r['c']*10))) + ' ' + '{:.3f}'.format(r['c'])
+            #print 'r{:.2f}, g{:.2f}, b{:.2f}'.format(r['r'],r['g'],r['b'])
 
-        a = [int(round(r[tmp]*10)) for tmp in ['r','g','b']]
-        a = [tmp[1]*tmp[0] + ' '*(10 - tmp[0]) for tmp in zip(a,['r','g','b'])]
-        print '{}\t{}\t{}'.format(a[0],a[1],a[2])
-        sleep(0.1)
-    
+            a = [int(round(r[tmp]*10)) for tmp in ['r','g','b']]
+            a = [tmp[1]*tmp[0] + ' '*(10 - tmp[0]) for tmp in zip(a,['r','g','b'])]
+            print '{}\t{}\t{}'.format(a[0],a[1],a[2])
+            sleep(0.1)
+        except IOError:
+            traceback.print_exc()
+            pass

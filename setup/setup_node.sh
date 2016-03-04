@@ -1,6 +1,6 @@
 #!/bin/bash
 
-NODE_TAG="node-007"
+NODE_TAG="node-011"
 LOGGER_DIR="/root/node"
 SETUP_DIR="/root/node/setup"
 
@@ -24,27 +24,33 @@ dpkg-reconfigure tzdata
 # RTC
 #echo "Reading system clock and RTC"
 echo "(must be done manually if NTP is not available)"
-bash ./time/install_ds1307.sh
+bash $SETUP_DIR/time/install_ds1307.sh
 
 
 # Le boeuf
 echo "git init"
 sudo apt-get install git -y
 git clone https://github.com/stanleylio/fishie.git $LOGGER_DIR
-
+cd $LOGGER_DIR
+git config --global user.name "Stanley Lio"
+git config --global user.email stanleylio@gmail.com
+git remote set-url origin git@github.com:stanleylio/fishie.git
+cd
 
 # ... coz the first time it ran without node/setup/time/install_ds1307.sh
 # yet it still need the correct time to git clone
-bash ./time/install_ds1307.sh
+bash $SETUP_DIR/time/install_ds1307.sh
 
 
 # Install Python libaries
 echo "Installing Python libraries"
 sudo apt-get install build-essential python-dev python-setuptools python-pip -y
 sudo apt-get install sqlite3 minicom python-smbus python-scipy w3m -y
-sudo pip install --upgrade setuptools
+sudo pip install --upgrade pip setuptools
 sudo pip install Adafruit_BBIO pyserial
-sudo pip install six tzlocal pytz numpy python-dateutil pyparsing --force-reinstall --upgrade
+#sudo pip install six tzlocal pytz numpy python-dateutil pyparsing --force-reinstall --upgrade
+sudo pip install six tzlocal pytz numpy python-dateutil pyparsing --upgrade
+
 git clone https://github.com/adafruit/Adafruit_Python_GPIO.git
 cd Adafruit_Python_GPIO
 sudo python setup.py install
@@ -73,10 +79,10 @@ echo "optargs=quiet capemgr.disable_partno=BB-BONELT-HDMI,BB-BONELT-HDMIN"
 sudo nano /media/card/uEnv.txt
 
 
-sudo apt-get dist-upgrade -y
+#sudo apt-get dist-upgrade -y
 
 
-bash disable_services.sh
+bash $SETUP_DIR/disable_services.sh
 #bash setup_server.sh
 
 
