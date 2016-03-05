@@ -85,10 +85,9 @@ class EZO(object):
             self.sleep()
 
     def _r(self,cmd,wait=1):
-        tmp = len(cmd)
-        assert tmp > 0
-        if 1 == tmp:
-            self.bus.write_byte_data(ord(cmd),0)    # so arbitrary...
+        assert len(cmd) > 0
+        if 1 == len(cmd):
+            self.bus.write_byte_data(self.address,ord(cmd),0)    # so arbitrary...
         else:
             tmp = [ord(c) for c in cmd]
             self.bus.write_i2c_block_data(self.address,tmp[0],tmp[1:])  # awkward...

@@ -24,11 +24,10 @@ def PRINT(s):
 # Sensor is programmed to sleep between commands by default.
 class EZO_ORP(EZO):
     
-    i2c = None
     MAX_LEN = 32
     
-    def __init__(self,address=0x62,lowpower=False,i2c=None,bus=1):
-        EZO.__init__(self,address=address,lowpower=lowpower,i2c=i2c,bus=bus)
+    def __init__(self,address=0x62,bus=1,lowpower=False):
+        EZO.__init__(self,address=address,bus=bus,lowpower=lowpower)
 
     def read(self):
         tmp = self._r('R').strip().split(',')
@@ -53,7 +52,9 @@ class EZO_ORP(EZO):
         
 
 if '__main__' == __name__:
+
     orp = EZO_ORP(bus=2,lowpower=False)
+
     print 'Device Information (sensor type, firmware version):'
     print orp.device_information()
     print

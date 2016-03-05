@@ -29,11 +29,10 @@ def PRINT(s):
 # Sensor is programmed to sleep between commands by default.
 class EZO_pH(EZO):
     
-    i2c = None
     MAX_LEN = 32
     
-    def __init__(self,address=0x63,lowpower=False,i2c=None,bus=1):
-        EZO.__init__(self,address=address,lowpower=lowpower,i2c=i2c,bus=bus)
+    def __init__(self,address=0x63,lowpower=False,bus=1):
+        EZO.__init__(self,address=address,bus=bus,lowpower=lowpower)
         try:
             parser = SafeConfigParser()
             parser.read(join(dirname(__file__),'ezo.ini'))
@@ -58,7 +57,9 @@ class EZO_pH(EZO):
 
 
 if '__main__' == __name__:
-    ph = EZO_pH(lowpower=False)
+
+    ph = EZO_pH(bus=2,lowpower=False)
+    
     print 'Device Information (sensor type, firmware version):'
     print ph.device_information()
     print
