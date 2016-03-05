@@ -5,16 +5,12 @@ from os.path import join,dirname
 
 # Driver for the Atlas Scientific EZO pH sensor
 
-
 # <IMPORTANT>
 # SENSOR COMES IN SERIAL MODE. SWITCH TO I2C MODE TO USE WITH BBB
 #
 # See P.29 of the data sheet for instruction
 # Notice on Step 5: "remove the short..." THIS MUST BE DONE WHILE THE LED is still BLUE
 # </IMPORTANT>
-
-
-# from the experiments the sensor protocol seems fairly stable. impressive work Atlas-Sci.
 
 # Stanley Lio, hlio@usc.edu
 # All Rights Reserved. February 2015
@@ -28,9 +24,6 @@ def PRINT(s):
 # instantiation and can be changed during runtime.
 # Sensor is programmed to sleep between commands by default.
 class EZO_pH(EZO):
-    
-    MAX_LEN = 32
-    
     def __init__(self,address=0x63,lowpower=False,bus=1):
         EZO.__init__(self,address=address,bus=bus,lowpower=lowpower)
         try:

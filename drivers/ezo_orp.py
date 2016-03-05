@@ -2,14 +2,12 @@ from ezo import EZO
 
 # Driver for the Atlas Scientific EZO ORP sensor
 
-
 # <IMPORTANT>
 # SENSOR COMES IN SERIAL MODE. SWITCH TO I2C MODE TO USE WITH BBB
 #
 # See P.25 of the data sheet for instruction
 # Notice on Step 5: "remove the short..." THIS MUST BE DONE WHILE THE LED is still BLUE
 # </IMPORTANT>
-
 
 # Stanley Lio, hlio@usc.edu
 # All Rights Reserved. February 2015
@@ -23,8 +21,6 @@ def PRINT(s):
 # instantiation and can be changed during runtime.
 # Sensor is programmed to sleep between commands by default.
 class EZO_ORP(EZO):
-    
-    MAX_LEN = 32
     
     def __init__(self,address=0x62,bus=1,lowpower=False):
         EZO.__init__(self,address=address,bus=bus,lowpower=lowpower)
