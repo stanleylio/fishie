@@ -94,7 +94,8 @@ class EZO(object):
         
         sleep(wait)
         # WTH... TODO scope this
-        tmp = self.bus.read_i2c_block_data(self.address,self.address,self.MAX_LEN)
+        #tmp = self.bus.read_i2c_block_data(self.address,self.address,self.MAX_LEN)
+        tmp = self.bus.read_i2c_block_data(self.address,self.MAX_LEN)
         
         if self.lowpower:
             self.sleep()
