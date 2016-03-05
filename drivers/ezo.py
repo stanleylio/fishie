@@ -1,7 +1,9 @@
-import time
+"""Stanley Lio, hlio@usc.edu
+All Rights Reserved. February 2015
+"""
+from smbus import SMBus
+from time import sleep
 
-# Stanley Lio, hlio@usc.edu
-# All Rights Reserved. February 2015
 
 def PRINT(s):
     #pass
@@ -16,11 +18,8 @@ class EZO(object):
     Failed = 2
     Success = 1
 
-    def __init__(self,address,lowpower=False,i2c=None,bus=1):
-        self.i2c = i2c
-        if self.i2c is None:
-            from Adafruit_GPIO.I2C import Device
-            self.i2c = Device(address,busnum=bus)
+    def __init__(self,address,bus=1,lowpower=False):
+        self.bus = SMBus(bus)
         self.address = address
         self.lowpower = lowpower
 
@@ -48,7 +47,7 @@ class EZO(object):
     def sleep(self):
         cmd = 'SLEEP'
         tmp = [ord(c) for c in cmd]
-        self.i2c.writeList(tmp[0],tmp[1:])
+        self.bus.write_i2c_block_data(self.address,tmp[0],tmp[1:])
 
     # set or read the compensation paramter T temperature
     # NOTE: this value is for sensor calibration. it's NOT obtained from the sensor
@@ -86,19 +85,17 @@ class EZO(object):
             self.sleep()
 
     def _r(self,cmd,wait=1):
-        # don't need the patch after all. tho the EZO series is sure non-standard...
-        #i2c.writeRaw8(ord('I'))
-        if 1 == len(cmd):
-            self.i2c.write8(ord(cmd),0)         # so abitrary...
-        elif len(cmd) > 1:
-            tmp = [ord(c) for c in cmd]
-            self.i2c.writeList(tmp[0],tmp[1:])  # awkward...
+        tmp = len(cmd)
+        assert tmp > 0
+        if 1 == tmp:
+            self.bus.write_byte_data(ord(cmd),0)    # so arbitrary...
         else:
-            PRINT('EZO::_r(): HUH?')
-            return
+            tmp = [ord(c) for c in cmd]
+            self.bus.write_i2c_block_data(self.address,tmp[0],tmp[1:])  # awkward...
         
-        time.sleep(wait)
-        tmp = self.i2c.readList(self.address,self.MAX_LEN)
+        sleep(wait)
+        # WTH... TODO scope this
+        tmp = self.bus.read_i2c_block_data(self.address,self.address,self.MAX_LEN)
         
         if self.lowpower:
             self.sleep()
