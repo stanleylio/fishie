@@ -16,8 +16,10 @@ In addition to the logger core logic, it contains Python driver/parser for vario
   - Dissolved Oxygen
   - pH
   - Oxidation Reduction Potential
+- Si1145 (IR/UV/visible light sensor)
+- TSL2591 (high dynamic range IR/visible light sensor)
+- TCS34725 (RGB light sensor)
+- 20x4 LCD display with PCF8574T I2C I/O expander
 - HTU21D (Humidity/Temperature sensor; code from Adafruit)
 - MCP9808 (Temperature sensor; code from Adafruit)
-- Si1145 (IR/UV/visible light sensor; code from Adafruit)
-- 20x4 LCD display with PCF8574T I2C I/O expander
 - ... as well as several custom AVR-based sensors.
