@@ -9,6 +9,7 @@ def PRINT(s):
     #pass
     print(s)
 
+
 class EZO(object):
 
     MAX_LEN = 32
@@ -30,7 +31,8 @@ class EZO(object):
     # http://stackoverflow.com/questions/3394835/args-and-kwargs
     #def __exit__(self,type,value,tb):
     def __exit__(self,*ignored):
-        self.sleep()
+        if self.lowpower:
+            self.sleep()
         return True
 
     def device_information(self):
@@ -119,3 +121,58 @@ class EZO(object):
             PRINT(tmp)
             return None
 
+
+import io,fcntl
+class EZOPI(EZO):
+    def __init__(self,address,bus=1,lowpower=False):
+        self.address = address
+        self.lowpower = lowpower
+        self.file_read = io.open('/dev/i2c-{}'.format(bus),'rb',buffering = 0)
+        self.file_write = io.open('/dev/i2c-{}'.format(bus),'wb',buffering = 0)
+
+        I2C_SLAVE = 0x703
+        fcntl.ioctl(self.file_read,I2C_SLAVE,self.address)
+        fcntl.ioctl(self.file_write,I2C_SLAVE,self.address)
+
+
+    def sleep(self):
+        cmd = 'SLEEP\x00'
+        self.file_write.write(cmd)
+
+    def _r(self,cmd,wait=1):
+        self.file_write.write(cmd + '\x00')
+        sleep(wait)
+        tmp = self.file_read.read(self.MAX_LEN)
+        tmp = filter(lambda x: x != '\x00',tmp)
+
+        if self.lowpower:
+            self.sleep()
+
+        #print ''.join([bin(c) for c in tmp[1:] if 0 != c])
+        #print ''.join([chr(c) for c in tmp[1:] if 0 != c])
+        
+        if self.Success == ord(tmp[0]):
+            return tmp[1:]
+        elif self.Failed == ord(tmp[0]):
+            PRINT('EZO::_r(): read failed')
+            PRINT(tmp)
+            return None
+        elif self.Pending == ord(tmp[0]):
+            PRINT('EZO::_r(): Pending')
+            return None
+        elif self.NoData == ord(tmp[0]):
+            PRINT('EZO::_r(): NoData')
+            return None
+        else:
+            PRINT('EZO::_r(): error ({})'.format(ord(tmp[0])))
+            PRINT(tmp)
+            return None
+
+
+if '__main__' == __name__:
+    e = EZOPI(0x64,bus=2,lowpower=False)
+    #e.sleep()
+    print e._r('R')
+    
+    
+    
