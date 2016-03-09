@@ -262,7 +262,7 @@ class BMP085 :
 if '__main__' == __name__:
   import time
   #bmp = BMP085(0x77,3)   # ULTRAHIRES Mode
-  bmp = BMP085(0x77,3,busnum=2)   # ULTRAHIRES Mode
+  bmp = BMP085(0x77,3,busnum=1)   # ULTRAHIRES Mode
 
   try:
     while True:

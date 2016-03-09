@@ -23,6 +23,7 @@ class Si1145(object):
     def __init__(self,bus=1):
         self.bus = SMBus(bus)
         self.reset()
+        sleep(0.005)    # > 1ms
         self._write(0x07,self.PARAM_WR)
         self.enable()
 
@@ -126,7 +127,7 @@ class Si1145(object):
 
 
 if '__main__' == __name__:
-    s = Si1145(bus=2)
+    s = Si1145(bus=1)
     assert s.check_ID()
     #print bin(s.query_param(s.CHLIST))
 

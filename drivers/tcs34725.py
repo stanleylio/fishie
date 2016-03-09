@@ -40,7 +40,7 @@ class TCS34725(object):
     def status(self):
         return self._read(0x13)
 
-    def readCRGB(self):
+    def read(self):
         r = self.bus.read_i2c_block_data(self.address,0x80 + 0x14,8)
         mc = min((256 - self._it)*1024,65535)
         r = {'c':float((r[1] << 8) + r[0])/mc,
@@ -89,7 +89,7 @@ class TCS34725(object):
 if '__main__' == __name__:
     import traceback
     
-    s = TCS34725(bus=2)
+    s = TCS34725(bus=1)
     s.gain(1)                   # {1x,4x,16x,60x}
     s.integration_time(2.4)     # {2.4ms,24ms,101ms,154ms,700ms}
 
@@ -99,7 +99,7 @@ if '__main__' == __name__:
 
     while True:
         try:
-            r = s.readCRGB()
+            r = s.read()
             #print ''.join(['c']*int(round(r['c']*10))) + ' ' + '{:.3f}'.format(r['c'])
             #print 'r{:.2f}, g{:.2f}, b{:.2f}'.format(r['r'],r['g'],r['b'])
 
