@@ -4,16 +4,12 @@ from os.path import join,dirname
 
 # Driver for the Atlas Scientific EZO EC (Electrical Conductivity) sensor
 
-
 # <IMPORTANT>
 # SENSOR COMES IN SERIAL MODE. SWITCH TO I2C MODE TO USE WITH BBB
 #
 # See P.32 of the datasheet for instruction
 # Notice on Step 5: "remove the short..." THIS MUST BE DONE WHILE THE LED is still BLUE
 # </IMPORTANT>
-
-
-# from the experiments the sensor protocol seems fairly reliable. impressive work Atlas Sci.
 
 # Stanley Lio, hlio@usc.edu
 # All Rights Reserved. February 2015
@@ -29,9 +25,8 @@ def PRINT(s):
 # during instantiation. Both can be changed during runtime.
 # Sensor is programmed to sleep between commands by default.
 class EZO_EC(EZO):
-    
-    def __init__(self,address=0x64,lowpower=False,i2c=None,bus=1):
-        EZO.__init__(self,address=address,lowpower=lowpower,i2c=i2c,bus=bus)
+    def __init__(self,address=0x64,bus=1,lowpower=False):
+        EZO.__init__(self,address=address,bus=bus,lowpower=lowpower)
         try:
             parser = SafeConfigParser()
             parser.read(join(dirname(__file__),'ezo.ini'))
@@ -101,7 +96,7 @@ class EZO_EC(EZO):
 
 if '__main__' == __name__:
 
-    bus = 1
+    bus = 2
     
     ec = EZO_EC(bus=bus,lowpower=False)
     print 'Device Information (sensor type, firmware version):'

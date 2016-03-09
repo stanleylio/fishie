@@ -35,8 +35,8 @@ class EZO_DO(EZO):
     # but really, should be able to query the nodes for units too...
     # plotting and processing code shouldn't need to know the existence of THIS driver script.
 
-    def __init__(self,address=0x61,lowpower=False,i2c=None,bus=1):
-        EZO.__init__(self,address=address,lowpower=lowpower,i2c=i2c,bus=bus)
+    def __init__(self,address=0x61,lowpower=False,bus=1):
+        EZO.__init__(self,address=address,bus=bus,lowpower=lowpower)
         
         try:
             parser = SafeConfigParser()
@@ -137,7 +137,9 @@ class EZO_DO(EZO):
 
 
 if '__main__' == __name__:
-    do = EZO_DO(lowpower=False)
+    
+    do = EZO_DO(bus=2,lowpower=False)
+    
     print 'Device Information (sensor type, firmware version):'
     print do.device_information()
     print

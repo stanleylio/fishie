@@ -6,7 +6,7 @@ Software developed for the Coastal Environment Monitoring project at SOEST of th
 In addition to the logger core logic, it contains Python driver/parser for various sensors and devices:
 
 - Aanderaa 3835 (lab grade oxygen optode)
-- Aanderaa 4330f(lab grade oxygen optode)
+- Aanderaa 4330f (lab grade oxygen optode)
 - WET Labs ECO FLNTU (Turbidity/Fluorescence sensor)
 - MS5803-14BA (Water Pressure/Temperature)
 - BMP180 (Barometric Pressure/Temperature; code from Adafruit)
@@ -16,8 +16,10 @@ In addition to the logger core logic, it contains Python driver/parser for vario
   - Dissolved Oxygen
   - pH
   - Oxidation Reduction Potential
+- Si1145 (IR/UV/visible light sensor)
+- TSL2591 (high dynamic range IR/visible light sensor)
+- TCS34725 (RGB light sensor)
+- 20x4 LCD display with PCF8574T I2C I/O expander
 - HTU21D (Humidity/Temperature sensor; code from Adafruit)
 - MCP9808 (Temperature sensor; code from Adafruit)
-- Si1145 (IR/UV/visible light sensor; code from Adafruit)
-- 20x4 LCD display with PCF8574T I2C I/O expander
 - ... as well as several custom AVR-based sensors.

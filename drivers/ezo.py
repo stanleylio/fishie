@@ -1,11 +1,14 @@
-import time
+"""Stanley Lio, hlio@usc.edu
+All Rights Reserved. February 2015
+"""
+from smbus import SMBus
+from time import sleep
 
-# Stanley Lio, hlio@usc.edu
-# All Rights Reserved. February 2015
 
 def PRINT(s):
     #pass
     print(s)
+
 
 class EZO(object):
 
@@ -16,11 +19,8 @@ class EZO(object):
     Failed = 2
     Success = 1
 
-    def __init__(self,address,lowpower=False,i2c=None,bus=1):
-        self.i2c = i2c
-        if self.i2c is None:
-            from Adafruit_GPIO.I2C import Device
-            self.i2c = Device(address,busnum=bus)
+    def __init__(self,address,bus=1,lowpower=False):
+        self.bus = SMBus(bus)
         self.address = address
         self.lowpower = lowpower
 
@@ -31,7 +31,8 @@ class EZO(object):
     # http://stackoverflow.com/questions/3394835/args-and-kwargs
     #def __exit__(self,type,value,tb):
     def __exit__(self,*ignored):
-        self.sleep()
+        if self.lowpower:
+            self.sleep()
         return True
 
     def device_information(self):
@@ -48,7 +49,7 @@ class EZO(object):
     def sleep(self):
         cmd = 'SLEEP'
         tmp = [ord(c) for c in cmd]
-        self.i2c.writeList(tmp[0],tmp[1:])
+        self.bus.write_i2c_block_data(self.address,tmp[0],tmp[1:])
 
     # set or read the compensation paramter T temperature
     # NOTE: this value is for sensor calibration. it's NOT obtained from the sensor
@@ -86,19 +87,17 @@ class EZO(object):
             self.sleep()
 
     def _r(self,cmd,wait=1):
-        # don't need the patch after all. tho the EZO series is sure non-standard...
-        #i2c.writeRaw8(ord('I'))
+        assert len(cmd) > 0
         if 1 == len(cmd):
-            self.i2c.write8(ord(cmd),0)         # so abitrary...
-        elif len(cmd) > 1:
-            tmp = [ord(c) for c in cmd]
-            self.i2c.writeList(tmp[0],tmp[1:])  # awkward...
+            self.bus.write_byte_data(self.address,ord(cmd),0)    # so arbitrary...
         else:
-            PRINT('EZO::_r(): HUH?')
-            return
+            tmp = [ord(c) for c in cmd]
+            self.bus.write_i2c_block_data(self.address,tmp[0],tmp[1:])  # awkward...
         
-        time.sleep(wait)
-        tmp = self.i2c.readList(self.address,self.MAX_LEN)
+        sleep(wait)
+        # WTH... TODO scope this
+        #tmp = self.bus.read_i2c_block_data(self.address,self.address,self.MAX_LEN)
+        tmp = self.bus.read_i2c_block_data(self.address,self.MAX_LEN)
         
         if self.lowpower:
             self.sleep()
@@ -122,3 +121,58 @@ class EZO(object):
             PRINT(tmp)
             return None
 
+
+import io,fcntl
+class EZOPI(EZO):
+    def __init__(self,address,bus=1,lowpower=False):
+        self.address = address
+        self.lowpower = lowpower
+        self.file_read = io.open('/dev/i2c-{}'.format(bus),'rb',buffering = 0)
+        self.file_write = io.open('/dev/i2c-{}'.format(bus),'wb',buffering = 0)
+
+        I2C_SLAVE = 0x703
+        fcntl.ioctl(self.file_read,I2C_SLAVE,self.address)
+        fcntl.ioctl(self.file_write,I2C_SLAVE,self.address)
+
+
+    def sleep(self):
+        cmd = 'SLEEP\x00'
+        self.file_write.write(cmd)
+
+    def _r(self,cmd,wait=1):
+        self.file_write.write(cmd + '\x00')
+        sleep(wait)
+        tmp = self.file_read.read(self.MAX_LEN)
+        tmp = filter(lambda x: x != '\x00',tmp)
+
+        if self.lowpower:
+            self.sleep()
+
+        #print ''.join([bin(c) for c in tmp[1:] if 0 != c])
+        #print ''.join([chr(c) for c in tmp[1:] if 0 != c])
+        
+        if self.Success == ord(tmp[0]):
+            return tmp[1:]
+        elif self.Failed == ord(tmp[0]):
+            PRINT('EZO::_r(): read failed')
+            PRINT(tmp)
+            return None
+        elif self.Pending == ord(tmp[0]):
+            PRINT('EZO::_r(): Pending')
+            return None
+        elif self.NoData == ord(tmp[0]):
+            PRINT('EZO::_r(): NoData')
+            return None
+        else:
+            PRINT('EZO::_r(): error ({})'.format(ord(tmp[0])))
+            PRINT(tmp)
+            return None
+
+
+if '__main__' == __name__:
+    e = EZOPI(0x64,bus=2,lowpower=False)
+    #e.sleep()
+    print e._r('R')
+    
+    
+    
