@@ -32,7 +32,7 @@ class EZO_DO_CALIBRATION(EZO_DO):
 
 
 if '__main__' == __name__:
-    do = EZO_DO_CALIBRATION(lowpower=False)
+    do = EZO_DO_CALIBRATION(bus=2,lowpower=False)
     print 'Supply voltage:'
     print '{} volt'.format(do.supply_v())
     print
