@@ -38,7 +38,7 @@ class EZO_EC_CALIBRATION(EZO_EC):
 
 
 if '__main__' == __name__:
-    ec = EZO_EC_CALIBRATION(lowpower=False)
+    ec = EZO_EC_CALIBRATION(bus=2,lowpower=False)
 
     print 'Supply voltage:'
     print '{:.3f} volt'.format(ec.supply_v())

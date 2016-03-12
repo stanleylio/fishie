@@ -97,7 +97,12 @@ class EZO(object):
         sleep(wait)
         # WTH... TODO scope this
         #tmp = self.bus.read_i2c_block_data(self.address,self.address,self.MAX_LEN)
-        tmp = self.bus.read_i2c_block_data(self.address,self.MAX_LEN)
+        tmp = self.bus.read_i2c_block_data(self.address,self.address,self.MAX_LEN)
+        # this too would not raise error but I have no idea what it is calling.
+        # it can access the sensor just fine, except the other EZO on the same
+        # bus would kind of react as well (RED light, meaning error)
+        # I guess the lesson is: ABSOLUTELY NO un-tested modification.
+        #tmp = self.bus.read_i2c_block_data(self.address,self.MAX_LEN)
         
         if self.lowpower:
             self.sleep()
