@@ -11,8 +11,8 @@ from os.path import exists
 
 
 def PRINT(s):
-    #pass
-    print(s)
+    pass
+    #print(s)
 
 def auto_time_col(store,node_id):
     time_col = 'Timestamp'
@@ -40,6 +40,7 @@ class storage_read_only(object):
     def id2table(self,node_id):
         return node_id.replace('-','_')
 
+    # would be nice to be able to db.tables
     def get_list_of_tables(self):
         cursor = self.c.execute("SELECT name FROM sqlite_master WHERE type='table';")
         return sorted([t[0] for t in cursor.fetchall() if not t[0].startswith('sqlite_')])
@@ -145,13 +146,17 @@ class storage_read_only(object):
 
     def read_all(self,node_id,cols=None):
         """Retrieve all records as a dictionary."""
-        if cols is None:
+        if cols is None:    # or use * ?
             cols = self.get_list_of_columns(node_id)
         cmd = 'SELECT {cols} FROM {table}'.\
               format(cols=','.join(cols),table=self.id2table(node_id))
         return self._execute(cmd)
 
     def _execute(self,cmd):
+        self.c.execute(cmd)
+        return dict(self.c.fetchall())
+
+    def OBSOLETE_execute(self,cmd):
         try:
             self.c.execute(cmd)
             tmp = self.c.fetchall()
@@ -174,74 +179,38 @@ class storage_read_only(object):
 
 
 class storage(storage_read_only):
-    def __init__(self,schema,dbfile=None,create_if_not_exists=True):
-        super(storage,self).__init__(dbfile=dbfile,create_if_not_exists=create_if_not_exists)
-        # TODO: either supply schema or dbfile.
-        #   if only schema is supplied, create if not exist.
-        #   if only dbfile is supplied, raise if not exists(dbfile)
-        #   reject if both are supplied
-        self._schema = schema   # TODO: and get rid of this. write() should not need it.
-        for node_id,v in self._schema.iteritems():
-            tmp = '({})'.format(','.join([' '.join(p) for p in zip(v['tag'],v['type'])]))
-            cmd = 'CREATE TABLE IF NOT EXISTS {} {}'.format(self.id2table(node_id),tmp)
-            self.c.execute(cmd)
-    
-    # Three cases:
-    #   More keys than columns
-    #       Filter out keys not in the database
-    #   The set of keys matches the set of columns
-    #   More columns than keys
-    #       Handled by the database - missing fields are replaced by NULLs
-    #
-    # ... what about both sets have non-empty insection but both have exclusive elements?
-    def write(self,node_id,readings):
-        assert self._schema is not None
-        assert 'ReceptionTime' in readings.keys() or 'Timestamp' in readings.keys()
-
-        #cols = self.get_list_of_columns(node_id)
+    def __init__(self,schema=None,dbfile=None):
+        assert schema is not None or dbfile is not None,'either schema or dbfile has to be supplied'
+        assert schema is None or not exists(dbfile),'schema should not be supplied if dbfile already exists'
         
-        if len(readings.keys()) > len(self._schema[node_id]['tag']):
-        #if len(readings.keys()) > len(cols):
-            PRINT('storage.py::write(): Warning: these are not defined in db and are ignored:')
-            PRINT(','.join([t for t in readings.keys() if t not in self._schema[node_id]['tag']]))
-            #PRINT(','.join([t for t in readings.keys() if t not in cols]))
+        super(storage,self).__init__(dbfile=dbfile,create_if_not_exists=schema is not None)
 
-        if len(readings.keys()) < len(self._schema[node_id]['tag']):
-        #if len(readings.keys()) < len(cols):
-            PRINT('storage.py::write(): Warning: the following are defined in the db but are not provided:')
-            PRINT(','.join([t for t in self._schema[node_id]['tag'] if t not in readings.keys()]))
-            #PRINT(','.join([t for t in cols if t not in readings.keys()]))
-
-        # filter out readings that are not recorded by the database
-        keys = [k for k in readings.keys() if k in self._schema[node_id]['tag']]
-        #keys = [k for k in readings.keys() if k in self.get_list_of_columns(node_id)]
-        vals = [readings[k] for k in keys]
-        cmd = 'INSERT OR REPLACE INTO {} ({}) VALUES ({})'.\
-              format(self.id2table(node_id),','.join(keys),','.join('?'*len(keys)))
-
-        self.c.execute(cmd,vals)
-        self.conn.commit()
-
-    # TODO: should replace write() with this.
-    def write2(self,node,readings):
+        if schema is not None:
+            for node,v in schema.iteritems():
+                tmp = '({})'.format(','.join([' '.join(tmp) for tmp in schema[node]]))
+                cmd = 'CREATE TABLE IF NOT EXISTS {} {}'.format(self.id2table(node),tmp)
+                self.c.execute(cmd)
+    
+    def write(self,node,readings):
         assert 'ReceptionTime' in readings.keys() or 'Timestamp' in readings.keys()
 
         cols = self.get_list_of_columns(node)
         a = set(readings.keys())
         b = set(cols)
-        if a > b:
+        if a - b:
             PRINT('Warning: these are not defined in db and are ignored:')
             PRINT(','.join(a - b))
-        elif a < b:
+        elif b - a:
             PRINT('Warning: these fields defined in the db are not supplied:')
-            PRINT(','.join(a - b))
+            PRINT(','.join(b - a))
 
         # filter out readings that are not recorded by the database
-        keys = [k for k in readings.keys() if k in self.get_list_of_columns(node)]
+        #keys = [k for k in readings.keys() if k in self.get_list_of_columns(node)]
+        keys = list(set(readings.keys()) & set(self.get_list_of_columns(node)))
         vals = [readings[k] for k in keys]
-        cmd = 'INSERT OR REPLACE INTO {} ({}) VALUES ({})'.\
+        #cmd = 'INSERT OR REPLACE INTO {} ({}) VALUES ({})'.\
+        cmd = 'INSERT INTO {} ({}) VALUES ({})'.\
               format(self.id2table(node),','.join(keys),','.join('?'*len(keys)))
-
         self.c.execute(cmd,vals)
         self.conn.commit()
 
