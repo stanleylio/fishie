@@ -1,4 +1,4 @@
-#tag = 'node-005'
+tag = 'node-005'
 name = 'Lab Ref.'
 location = 'MSB228'
 note = 'MS5803 + BMP180 + MCP9808 + BME280 + HTU21D'

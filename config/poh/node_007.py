@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+tag = 'node-007'
 name = 'Met. Station'
 location = 'Mākāhā 1'
 note = 'Meteorological Station'

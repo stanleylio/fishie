@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 # us2
+tag = 'node-009'
 name = 'Mākāhā 1 Water Depth'
 location = 'Mākāhā 1'
 note = 'Ultrasonic Proof of Concept'
