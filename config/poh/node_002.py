@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+tag = 'node-002'
 name = 'Fish pan'
 location = 'Mākāhā 1'
 note = 'Aanderaa 4330f + MS5803-14BA + EZO EC + BMP180'

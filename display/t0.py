@@ -11,7 +11,7 @@ from helper import dt2ts
 from datetime import datetime,timedelta
 from os.path import exists,join
 from os import makedirs
-#from scipy.signal import medfilt
+from scipy.signal import medfilt
 
 
 def PRINT(s):
@@ -92,7 +92,7 @@ for node_id in nodes:
             x = tmp[time_col]
             y = [l if l is not None else float('NaN') for l in tmp[var]]
 
-            #y = medfilt(y,5)
+            y = medfilt(y,5)
 
             if not exists(node_plot_dir):
                 makedirs(node_plot_dir)

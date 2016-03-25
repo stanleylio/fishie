@@ -168,6 +168,18 @@ class storage_read_only(object):
             traceback.print_exc()
             return None
 
+    def OBSOLETE_execute(self,cmd):
+        try:
+            self.c.execute(cmd)
+            tmp = self.c.fetchall()
+            if len(tmp) <= 0:
+                return None
+            cols = [c[0] for c in self.c.description]
+            return {v:tuple(r[v] for r in tmp) for v in cols}
+        except:
+            traceback.print_exc()
+            return None
+
     def read_schema(self):
         return {t:self.get_list_of_columns(t) for t in self.get_list_of_tables()}
 
@@ -181,7 +193,8 @@ class storage_read_only(object):
 class storage(storage_read_only):
     def __init__(self,schema=None,dbfile=None):
         assert schema is not None or dbfile is not None,'either schema or dbfile has to be supplied'
-        assert schema is None or not exists(dbfile),'schema should not be supplied if dbfile already exists'
+        if dbfile is not None and exists(dbfile):
+            assert schema is None,'schema should not be supplied if dbfile already exists'
         
         super(storage,self).__init__(dbfile=dbfile,create_if_not_exists=schema is not None)
 
