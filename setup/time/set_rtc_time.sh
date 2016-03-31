@@ -4,7 +4,8 @@
 # this gets the time via NTP and write to the newly installed RTC
 
 # update the DS1307
-ntpdate -b -s -u pool.ntp.org
+#ntpdate -b -s -u pool.ntp.org
+ntpdate -u -s -b ntp.soest.hawaii.edu
 date
 
 # detect DS1307 on I2C bus
