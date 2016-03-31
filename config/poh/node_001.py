@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+tag = 'node-001'
 name = 'CTD + optode'
 location = 'Triple Mākāhā b'
 note = 'Aanderaa 4330f + MS5803-14BA + EZO EC + BMP180'

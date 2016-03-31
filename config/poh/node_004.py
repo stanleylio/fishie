@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+tag = 'node-004'
 name = 'First CTD'
 location = 'Mākāhā 1'
 note = 'CTD with Atlas Scientific sensor'

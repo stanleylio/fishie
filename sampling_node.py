@@ -64,9 +64,13 @@ def log_raw(line):
     #PRINT(line)
     log(raw,line)
 
-store = storage({node.tag:get_capabilities(site)[node.tag]})
+
+#store = storage({node.tag:get_capabilities(site)[node.tag]})
+tmp = get_schema(site)
+store = storage(schema={node.tag:tmp[node.tag]})
 
 # wait at most 1 minute for the system clock to initialize (ntpdate, hwclock, GPS etc.)
+print 'Checking system clock against database...'
 last_sampled = store.read_last_N(get_node_tag(),'Timestamp')
 if last_sampled is not None:
     last_sampled = last_sampled['Timestamp'][0]

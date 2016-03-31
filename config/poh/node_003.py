@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+tag = 'node-003'
 name = 'Giant Pelican'
 location = 'Kahoʻokele (Mākāhā 2)'
 note = 'CTD + Oxygen + Turbidity + Cholorophyll'
