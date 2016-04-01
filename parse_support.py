@@ -45,11 +45,13 @@ def parse_message(line):
                 if 'us1' == line[0]:
                     d = {'node-id':'node-008',
                          'ticker':int(line[1]),
-                         'd2w':float(line[2])}
+                         'd2w':float(line[2]),
+                         'VbattmV':int(line[3])}
                 elif 'us2' == line[0]:
                     d = {'node-id':'node-009',
                          'ticker':int(line[1]),
-                         'd2w':float(line[2])}
+                         'd2w':float(line[2]),
+                         'VbattmV':int(line[3])}
                 return d
             except:
                 PRINT('sth is wrong with the new \'node\'...')
