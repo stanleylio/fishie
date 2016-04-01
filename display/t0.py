@@ -104,7 +104,8 @@ for node_id in nodes:
             plot_config = {'time_begin':time.mktime(min(x).timetuple()),
                            'time_end':time.mktime(max(x).timetuple()),
                            'plot_generated_at':time.mktime(datetime.utcnow().timetuple()),
-                           'data_point_count':len(y),
+                           #'data_point_count':len(y),
+                           'data_point_count':len(filter(lambda x: x is not None and not math.isnan(x),y)),
                            time_col:[dt2ts(t) for t in x],
                            var:[v if not math.isnan(v) else None for v in y],   # Javascript does NOT like NaN in JSON strings.
                            'unit':tag_unit_map[var],
