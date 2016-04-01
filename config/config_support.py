@@ -52,7 +52,7 @@ def get_type(site,node):
 def get_schema(site):
     return {node:zip(get_tag(site,node),get_type(site,node)) for node in get_list_of_nodes(site)}
 
-def get_capabilities(site):
+'''def get_capabilities(site):
     capabilities = {}
     for node in get_list_of_nodes(site):
         dbtag = get_tag(site,node)
@@ -62,7 +62,7 @@ def get_capabilities(site):
             'tag':dbtag,
             'type':dbtype}
     assert len(capabilities.keys()) > 0
-    return capabilities
+    return capabilities'''
 
 
 # STUFF FOR PRESENTATION ONLY

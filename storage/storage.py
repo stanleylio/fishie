@@ -153,8 +153,16 @@ class storage_read_only(object):
         return self._execute(cmd)
 
     def _execute(self,cmd):
-        self.c.execute(cmd)
-        return dict(self.c.fetchall())
+        try:
+            self.c.execute(cmd)
+            tmp = self.c.fetchall()
+            if len(tmp) <= 0:
+                return None
+            cols = [c[0] for c in self.c.description]
+            return {v:tuple(r[v] for r in tmp) for v in cols}
+        except:
+            traceback.print_exc()
+            return None
 
     def OBSOLETE_execute(self,cmd):
         try:

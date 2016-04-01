@@ -21,7 +21,7 @@ from config.config_support import Range
 conf = [
     {
         'dbtag':'ticker',
-        'dbtype':'INT',
+        'dbtype':'INTEGER',
         'comtag':None,
         'unit':None,
         'description':'Ticker',
@@ -36,6 +36,15 @@ conf = [
         'description':'Distance from rim of sensor to water surface',
         'plot':True,
         'range':Range(300,5000),
+    },
+    {
+        'dbtag':'VbattmV',
+        'dbtype':'INTEGER',
+        'comtag':None,
+        'unit':'mV',
+        'description':'Battery voltage (Vcc)',
+        'plot':True,
+        'range':Range(0,4500),  # lithium cell, shouldn't go above 4.2V
     },
 ]
 
