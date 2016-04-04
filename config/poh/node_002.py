@@ -86,7 +86,7 @@ conf = [
         'comtag':'sal',
         'unit':'(ppt)',
         'description':'Salinity',
-        'plot':True,
+        'plot':False,
         'range':Range(lb=0),
     },
     {
