@@ -1,6 +1,6 @@
 import calendar
 from datetime import datetime
-from numpy import diff,mean,median,size,flatnonzero,append,insert
+from numpy import diff,mean,median,size,flatnonzero,append,insert,absolute
 
 def dt2ts(dt):
     return calendar.timegm(dt.timetuple()) + (dt.microsecond)*(1e-6)
@@ -41,8 +41,15 @@ def get_dbfile(site,node_id=None):
 # should it check first whether they data are indeed in groups?
 # or at least emit a warning if they aren't?
 def split_by_group(t,x):
-    tmp = diff(t)
+    assert len(t) == len(x)
+    
+    #tmp = diff(t)
     #tmp = absolute(diff(t))
+
+    p = sorted(zip(t,x),key=lambda x: x[0])
+    t,x = zip(*p)
+    tmp = diff(t)
+    
     I = flatnonzero(tmp > mean(tmp)) + 1;
     start = insert(I,0,0)
     stop = append(I,size(t))
@@ -52,12 +59,24 @@ def split_by_group(t,x):
     return t,x
 
 def median_of_group(t,x):
+    """Timestamps can be datetime.datetime or POSIX floats"""
     assert len(t) == len(x)
-    assert isinstance(t[0],float)
-    t,x = split_by_group(t,x)
 
-    t = [mean(tt) for tt in t]
-    x = [median(xx) for xx in x]
+    ttype = type(t[0])
+    #if isinstance(t[0],float):
+    if ttype is float:
+        pass
+    elif ttype is datetime:
+        t = [dt2ts(tmp) for tmp in t]
+    else:
+        assert False,'Timestamps should either be datetime or POSIX floats'
+    
+    t,x = split_by_group(t,x)
+    t = [mean(tmp) for tmp in t]
+    x = [median(tmp) for tmp in x]
+
+    if ttype is datetime:
+        t = [ts2dt(tmp) for tmp in t]
     return t,x
 
 def loadcsv(fn,hasheader=True):
