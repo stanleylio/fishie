@@ -1,3 +1,4 @@
+from __future__ import division
 import smbus,time,struct
 
 # Driver for the MS5803-14BA pressure sensor
@@ -43,9 +44,31 @@ class MS5803_14BA:
         TEMP = 2000L + dT*C[6]/(2**23)
         OFF = long(C[2])*(2**16) + (long(C[4])*dT)/(2**7)
         SENS = long(C[1])*(2**15) + (long(C[3])*dT)/(2**8)
+
+        # - - -
+        # "SECOND ORDER TEMPERATURE COMPENSATION" (P.9)
+        if TEMP < 2000:
+            T2 = 3*(dT**2)/2**33
+            OFF2 = 3*((TEMP - 2000)**2)/2
+            SENS2 = 5*((TEMP - 2000)**2)/(2**3) # 2**3 == readability...
+
+            if TEMP < -1500:
+                OFF2 = OFF2 + 7*((TEMP + 1500)**2)
+                SENS2 = SENS2 + 4*((TEMP + 1500)**2)
+        else:
+            T2 = 7*(dT**2)/2**37
+            OFF2 = ((TEMP-2000)**2)/(2**4)
+            SENS2 = 0
+
+        TEMP = TEMP - T2
+        OFF = OFF - OFF2
+        SENS = SENS - SENS2
+        # - - -
+
         P = (long(D1)*SENS/(2**21) - OFF)/(2**15)
-        P = P/100.
+
         TEMP = TEMP/100.
+        P = P/100.
         return {'p':P,'t':TEMP}
 
     def pretty(self,r=None):
@@ -80,7 +103,7 @@ class MS5803_14BA:
 
 if '__main__' == __name__:
 
-    bus = 2
+    bus = 1
     print('using bus {}'.format(bus))
     ms = MS5803_14BA(bus=bus)
     
