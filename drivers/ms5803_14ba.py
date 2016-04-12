@@ -76,6 +76,9 @@ class MS5803_14BA:
             r = self.read()
         return '{} kPa, {} Deg.C'.format(r['p'],r['t'])
 
+# STRANGE. AVR reads (slightly) differently. And the scope agrees with it.
+# TODO
+
     # read factory calibration parameters, C[6]
     def _read_prom(self):
         tmp = [self.bus.read_byte_data(self.address,i) for i in range(0xA0,0xAE+1)]
