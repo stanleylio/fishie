@@ -8,9 +8,10 @@ In addition to the logger core logic, it contains Python driver/parser for vario
 - Aanderaa 3835 (lab grade oxygen optode)
 - Aanderaa 4330f (lab grade oxygen optode)
 - WET Labs ECO FLNTU (Turbidity/Fluorescence sensor)
-- MS5803-14BA (Water Pressure/Temperature)
-- BMP180 (Barometric Pressure/Temperature; code from Adafruit)
-- BME280 (Barometric Pressure/Temperature/Humidity; code from Adafruit)
+- MS5803-14BA (Water pressure and temperature)
+- BMP280 (Barometric pressure and temperature)
+- BME280 (Barometric pressure, temperature and humidity; code from Adafruit)
+- BMP180 (Barometric pressure and temperature; code from Adafruit)
 - Atlas Scientific EZO series sensors
   - Electrical Conductivity
   - Dissolved Oxygen
