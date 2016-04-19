@@ -24,7 +24,7 @@ conf = [
         'dbtype':'INTEGER',
         'comtag':None,
         'unit':None,
-        'description':'Ticker',
+        'description':'Broadcast sequence number',
         'plot':False,
         'range':Range(lb=0),
     },
