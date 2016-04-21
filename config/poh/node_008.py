@@ -44,7 +44,8 @@ conf = [
         'unit':'mV',
         'description':'Battery voltage (Vcc)',
         'plot':True,
-        'range':Range(0,4500),  # lithium cell, shouldn't go above 4.2V
+        #'range':Range(0,4500),  # lithium cell, shouldn't go above 4.2V
+        'range':Range(lb=2400),
     },
 ]
 
