@@ -103,13 +103,13 @@ def savecsv(fn,d,keys=None):
         f.write(','.join([k.replace(',','') for k in keys]) + '\n')
         f.write('\n'.join([','.join([str(rr) for rr in r]) for r in zip(*[d[k] for k in keys])]))
 
-def plot1(x,y,title='',xlabel='',ylabel='',linelabel='',color='b',fn=None):
+def plot1(x,y,title='',xlabel='',ylabel='',linelabel='',color='b',style='.',fn=None):
     from matplotlib.font_manager import FontProperties
     fontP = FontProperties()
     fontP.set_size('small')
     
     fig,ax = pyplot.subplots()
-    ax.plot(x,y,'.',color=color,label=linelabel)
+    ax.plot(x,y,style,color=color,label=linelabel)
     ax.set_title(title)
     ax.set_xlabel(xlabel)
     ax.set_ylabel(ylabel)
