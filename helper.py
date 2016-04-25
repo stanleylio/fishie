@@ -1,6 +1,7 @@
 import calendar
 from datetime import datetime
 from numpy import diff,mean,median,size,flatnonzero,append,insert,absolute
+from matplotlib import pyplot
 
 def dt2ts(dt):
     return calendar.timegm(dt.timetuple()) + (dt.microsecond)*(1e-6)
@@ -101,4 +102,28 @@ def savecsv(fn,d,keys=None):
             keys = d.keys()
         f.write(','.join([k.replace(',','') for k in keys]) + '\n')
         f.write('\n'.join([','.join([str(rr) for rr in r]) for r in zip(*[d[k] for k in keys])]))
+
+def plot1(x,y,title='',xlabel='',ylabel='',linelabel='',color='b',fn=None):
+    from matplotlib.font_manager import FontProperties
+    fontP = FontProperties()
+    fontP.set_size('small')
+    
+    fig,ax = pyplot.subplots()
+    ax.plot(x,y,'.',color=color,label=linelabel)
+    ax.set_title(title)
+    ax.set_xlabel(xlabel)
+    ax.set_ylabel(ylabel)
+    ax.grid(True)
+
+    if linelabel is not None and len(linelabel) > 0:
+        h,l = ax.get_legend_handles_labels()
+        ax.legend(h,l,loc='upper left',prop=fontP)
+
+    if isinstance(x[0],datetime):
+        fig.autofmt_xdate()
+
+    if fn is not None:
+        fig.savefig(fn)
+    return fig
+
 
