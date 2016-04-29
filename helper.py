@@ -1,7 +1,6 @@
 import calendar
 from datetime import datetime
 from numpy import diff,mean,median,size,flatnonzero,append,insert,absolute
-from matplotlib import pyplot
 
 def dt2ts(dt):
     return calendar.timegm(dt.timetuple()) + (dt.microsecond)*(1e-6)
@@ -104,6 +103,7 @@ def savecsv(fn,d,keys=None):
         f.write('\n'.join([','.join([str(rr) for rr in r]) for r in zip(*[d[k] for k in keys])]))
 
 def plot1(x,y,title='',xlabel='',ylabel='',linelabel='',color='b',style='.',fn=None):
+    from matplotlib import pyplot
     from matplotlib.font_manager import FontProperties
     fontP = FontProperties()
     fontP.set_size('small')
@@ -125,5 +125,4 @@ def plot1(x,y,title='',xlabel='',ylabel='',linelabel='',color='b',style='.',fn=N
     if fn is not None:
         fig.savefig(fn)
     return fig
-
 
