@@ -58,7 +58,7 @@ conf = [
         'comtag':'sal',
         'unit':'(ppt)',
         'description':'Salinity',
-        'plot':True,
+        'plot':False,
         'range':Range(lb=0),
     },
     {
@@ -69,8 +69,6 @@ conf = [
         'description':'Barometric Pressure',
         'plot':True,
         'range':Range(80e3,110e3),
-        #'convf':lambda (x): x/1e3,
-        #'convunit':'kPa',
     },
     {
         'dbtag':'T_180',
@@ -115,7 +113,7 @@ conf = [
         'unit':'%',
         'description':'Air Saturation',
         'plot':True,
-        'range':Range(lb=0),
+        'range':Range(0,150),
     },
     {
         'dbtag':'Temperature',

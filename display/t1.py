@@ -7,6 +7,8 @@ sys.path.append('..')
 from datetime import timedelta
 from storage.storage import storage_read_only
 from gen_plot import plot_multi_time_series
+from config.config_support import get_range
+from scipy.signal import medfilt
 
 
 def haha(c):
@@ -32,10 +34,16 @@ def haha(c):
             x = tmp[time_col]
             y = tmp[tag]
             y = [float('NaN') if n is None else convf(n) for n in y]
+            y = medfilt(y,7)
+
+            r = get_range('poh',node,tag)
+            print r
+            print y[0:10]
+            y = [tmp if tmp in r else float('nan') for tmp in y]
+            
             data.append({'x':x,'y':y,'linelabel':node})
         except:
             traceback.print_exc()
-            pass
 
     fn = '/home/nuc/node/www/t1/' + tag + '.png'
     plot_multi_time_series(data,fn,
@@ -61,57 +69,66 @@ C.append({'time_col':'ReceptionTime',
           'nodes':['node-001','node-002','node-003','node-004'],
           'timerange':timedelta(days=90),
           'title':'Barometric Pressure (BMP180, P_180)',
-          'ylabel':'kPa',
-          'convf':lambda (x): x/1000.0})
+          #'ylabel':'kPa',
+          'ylabel':'Pa',
+          #'convf':lambda (x): x/1000.0})
+          })
 
 C.append({'time_col':'ReceptionTime',
 'tag':'T_180',
 'nodes':['node-001','node-002','node-003','node-004'],
-'timerange':timedelta(days=90),
+'timerange':timedelta(days=30),
 'title':'Casing Temperature (BMP180, T_180)',
 'ylabel':'Deg.C'})
 
 C.append({'time_col':'ReceptionTime',
 'tag':'P_5803',
 'nodes':['node-001','node-002','node-003','node-004'],
-'timerange':timedelta(days=90),
+'timerange':timedelta(days=30),
 'title':'Water Pressure (MS5803-14BA, P_5803)',
 'ylabel':'kPa'})
 
 C.append({'time_col':'ReceptionTime',
 'tag':'T_5803',
 'nodes':['node-001','node-002','node-003','node-004'],
-'timerange':timedelta(days=90),
+'timerange':timedelta(days=30),
 'title':'Water Temperature (MS5803-14BA, T_5803)',
 'ylabel':'Deg.C'})
 
 C.append({'time_col':'ReceptionTime',
 'tag':'Temperature',
 'nodes':['node-001','node-002','node-003','node-004'],
-'timerange':timedelta(days=90),
+'timerange':timedelta(days=30),
 'title':'Water Temperature (Aanderaa 4330F, Temperature)',
 'ylabel':'Deg.C'})
 
 C.append({'time_col':'ReceptionTime',
 'tag':'O2Concentration',
 'nodes':['node-001','node-002','node-003','node-004'],
-'timerange':timedelta(days=90),
+'timerange':timedelta(days=30),
 'title':'O2 Concentration (Aanderaa 4330F, O2Concentration)',
 'ylabel':'uM'})
 
 C.append({'time_col':'ReceptionTime',
 'tag':'AirSaturation',
 'nodes':['node-001','node-002','node-003','node-004'],
-'timerange':timedelta(days=90),
+'timerange':timedelta(days=30),
 'title':'Air Saturation (Aanderaa 4330F, AirSaturation)',
 'ylabel':'%'})
 
 C.append({'time_col':'ReceptionTime',
 'tag':'ec',
 'nodes':['node-001','node-002','node-003','node-004'],
-'timerange':timedelta(days=90),
+'timerange':timedelta(days=30),
 'title':'Conductivity (EZO EC, ec)',
 'ylabel':'uS'})
+
+C.append({'time_col':'ReceptionTime',
+'tag':'d2w',
+'nodes':['node-008','node-009'],
+'timerange':timedelta(days=30),
+'title':'Ultrasonic distance to water (d2w)',
+'ylabel':'mm'})
 
 
 for c in C:
