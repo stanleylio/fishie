@@ -6,8 +6,6 @@ import sys,traceback,re,json,importlib
 sys.path.append('config')
 from datetime import datetime
 from z import check
-# TODO: replace importlib with this:
-#from config.config_support import import_node_config
 
 
 def PRINT(s):
@@ -66,11 +64,13 @@ def parse_message(line):
                 d = tmp['payload']
                 d['ts'] = datetime.fromtimestamp(d['ts'])
 
-                from node import site
-                #node = import_node_config(site,node_id)
+# all that mess and hack.
+                from config import node
+                site = node.site
                 node = importlib.import_module('{}.{}'.format(site,node_id.replace('-','_')),'config')
                 d = {c['dbtag']:d[c['comtag']] for c in node.conf}
                 d['node'] = node_id
+# one of these days...
                 return d
             elif re.match('^base[-_]\d{3}$',tmp['from']):
                 PRINT('Command from base station {}; ignore.'.format(tmp['from']))
