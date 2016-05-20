@@ -6,8 +6,6 @@ import sys,traceback,re,json,importlib
 sys.path.append('config')
 from datetime import datetime
 from z import check
-# TODO: replace importlib with this:
-#from config.config_support import import_node_config
 
 
 def PRINT(s):
@@ -19,8 +17,8 @@ def pretty_print(d):
     # print the units as well? nah...
     max_len = max([len(k) for k in d.keys()])
     print '= '*(max_len + 4)
-    if 'node-id' in d.keys():
-        print 'From {}:'.format(d['node-id'])
+    if 'node' in d.keys():
+        print 'From {}:'.format(d['node'])
         #print 'From node-{:03d}:'.format(d['node-id'])
     if 'ReceptionTime' in d.keys():
         tmp = d['ReceptionTime']
@@ -32,7 +30,7 @@ def pretty_print(d):
         if isinstance(tmp,float):
             tmp = datetime.fromtimestamp(tmp)
         print 'Sampled at {}'.format(tmp)
-    for k in [k for k in sorted(d.keys()) if all([k != t for t in ['Timestamp','node-id','ReceptionTime']])]:
+    for k in [k for k in sorted(d.keys()) if all([k != t for t in ['Timestamp','node','ReceptionTime']])]:
         print '{}{}{}'.format(k,' '*(max_len + 4 - len(k)),d[k])
     
 def parse_message(line):
@@ -43,12 +41,12 @@ def parse_message(line):
             try:
                 line = line.split(',')
                 if 'us1' == line[0]:
-                    d = {'node-id':'node-008',
+                    d = {'node':'node-008',
                          'ticker':int(line[1]),
                          'd2w':float(line[2]),
                          'VbattmV':int(line[3])}
                 elif 'us2' == line[0]:
-                    d = {'node-id':'node-009',
+                    d = {'node':'node-009',
                          'ticker':int(line[1]),
                          'd2w':float(line[2]),
                          'VbattmV':int(line[3])}
@@ -66,11 +64,13 @@ def parse_message(line):
                 d = tmp['payload']
                 d['ts'] = datetime.fromtimestamp(d['ts'])
 
-                from node import site
-                #node = import_node_config(site,node_id)
+# all that mess and hack.
+                from config import node
+                site = node.site
                 node = importlib.import_module('{}.{}'.format(site,node_id.replace('-','_')),'config')
                 d = {c['dbtag']:d[c['comtag']] for c in node.conf}
-                d['node-id'] = node_id
+                d['node'] = node_id
+# one of these days...
                 return d
             elif re.match('^base[-_]\d{3}$',tmp['from']):
                 PRINT('Command from base station {}; ignore.'.format(tmp['from']))

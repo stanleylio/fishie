@@ -5,6 +5,7 @@
 *.log
 
 log/
+www/
 
 sampling_core.py
 sampling_base.py
