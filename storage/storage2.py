@@ -1,6 +1,6 @@
 import time,sys
 from os.path import expanduser
-sys.path.append(expanduser('~/node'))
+sys.path.append(expanduser('~'))
 import MySQLdb  # careful about stale read - sqlalchemy seems to handle this automatically; MySQLdb doesn't.
 from datetime import datetime,timedelta
 
@@ -42,7 +42,9 @@ def create_table(conf,dbname):
 # 'dbtype' defaults to DOUBLE
 def create_table(conf,table,dbname='uhcm',user='root',password=None,host='localhost'):
     if password is None:
-        password = open(expanduser('~/mysql_cred')).read().strip()
+        #password = open(expanduser('~/mysql_cred')).read().strip()
+        from cred import cred
+        password = cred['mysql']
     conn = MySQLdb.connect(host=host,user=user,passwd=password,db=dbname)
     cur = conn.cursor()
 
@@ -55,7 +57,9 @@ def create_table(conf,table,dbname='uhcm',user='root',password=None,host='localh
 class storage():
     def __init__(self,dbname='uhcm',user='root',passwd=None,host='localhost'):
         if passwd is None:
-            passwd = open(expanduser('~/mysql_cred')).read().strip()
+            #passwd = open(expanduser('~/mysql_cred')).read().strip()
+            from cred import cred
+            password = cred['mysql']
         self._dbname = dbname
         self._conn = MySQLdb.connect(host=host,
                                      user=user,
@@ -164,7 +168,7 @@ class storage():
 
 
 if '__main__' == __name__:
-    from helper import dt2ts
+    from node.helper import dt2ts
     s = storage()
     print s.read_time_range('node-010','ReceptionTime',['ReceptionTime','d2w'],dt2ts()-3600,dt2ts())
     print s.read_last_N_minutes('node-011','ReceptionTime',5,nonnull='d2w')
