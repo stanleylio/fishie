@@ -1,10 +1,4 @@
-#private_key_file = '/root/.ssh/id_rsa'
-#subscribeto = ['localhost:9002']
-#data_dir = '/var/kmetlog/data'
-#log_dir = '/var/kmetlog/log'
-#service_discovery_port = 9005
-#realtime_port = 9007
-
+subscribeto = ['localhost:9011','localhost:9012','localhost:9013','localhost:9014','localhost:9015']
 public_key = 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCh3IJRLtb1GqdLDRVP1z9GGocb5YsugkquPqa1Rf9J/0btLxoWNZjv++Q6Fjl2U3zKfknKeutuJWDabgDCy1445iHIf5qml6MLc9G1iG/PRhJ8ubx5x6RUBdZY/ULELD7a1opseyjcZ7C4pmHWv8cJNpyEe3GhV2x5jBTzB1EbYHN00qur6o4JLgZCcB43ves9TwsLh45is+6lNgoAhbf8M0bt2LNRakdDXfOUQMNGveSkf6GgfoLvSKqILtUhsJCnJfAC6Nr8k3tf+hT34kBvGR6sWwD2OYsYL/oNjFDAvxpRaAJfoylyWn8l+2PrQsIv6UYvh5YioQ9Kyt/u4O2d root@beaglebone'
 
 # ADAM-4017
