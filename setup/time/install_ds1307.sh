@@ -1,6 +1,7 @@
 #!/bin/bash
 
 # should only need to run once
+# on newer bbb distribution where root is disabled, sudo -s first
 # Stanley H.I. Lio, 2017
 
 # detect RTC on I2C bus
@@ -23,9 +24,11 @@ hwclock -r -f /dev/rtc1
 echo "Getting time via NTP..."
 #ntpdate -b -s -u pool.ntp.org
 #ntpdate ntp.soest.hawaii.edu
-sudo service ntp stop
+#sudo service ntp stop
+sudo systemctl stop ntp
 ntpd -gq
-sudo service ntp start
+#sudo service ntp start
+sudo systemctl start ntp
 #date -s "10 SEP 2015 22:00:30"
 date
 #timedatectl
@@ -43,6 +46,7 @@ hwclock --show --rtc=/dev/rtc1
 
 echo "Installing service..."
 cp ~/node/setup/time/rtc-ds1307.service /lib/systemd/system/rtc-ds1307.service
+cp /home/nuc/node/setup/time/rtc-ds1307.service /lib/systemd/system/rtc-ds1307.service
 systemctl enable rtc-ds1307.service
 systemctl start rtc-ds1307.service
 #cp ~/node/setup/time/rtc-ds1307.service /lib/systemd/system/rtc-ds1307_rpi2.service
