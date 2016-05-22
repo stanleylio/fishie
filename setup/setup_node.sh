@@ -6,18 +6,21 @@ SETUP_DIR="~/node/setup"
 
 
 passwd
-ssh-keygen
-cat ~/.ssh/id_rsa.pub
 
 
 echo "Setting hostname"
 echo $NODE_TAG > /etc/hostname
 echo "127.0.0.1       $NODE_TAG" >> /etc/hosts
 
+ssh-keygen
+cat ~/.ssh/id_rsa.pub
+
+echo "cape_enable=bone_capemgr.enable_partno=BB-UART1,BB-UART2,BB-UART4,BB-UART5" >> /boot/uEnv.txt
+
 sudo apt update
 sudo apt upgrade
 
-sudo apt install git supervisor i2c-tools minicom -y
+sudo apt install git supervisor i2c-tools minicom autossh -y
 #sudo apt install ntpdate -y
 
 echo "Setting system clock, timezone and RTC"
@@ -29,7 +32,6 @@ sudo dpkg-reconfigure tzdata
 #echo "Reading system clock and RTC"
 echo "(must be done manually if NTP is not available)"
 bash $SETUP_DIR/time/install_ds1307.sh
-
 
 # Le boeuf
 echo "git init"
@@ -48,12 +50,10 @@ bash $SETUP_DIR/time/install_ds1307.sh
 # Install Python libaries
 echo "Installing Python libraries"
 sudo apt install build-essential python-dev python-setuptools python-pip -y
-sudo apt install libmysqlclient-dev mysql-server mysql-client python-mysqldb -y
 sudo apt install python-smbus -y
-sudo apt install sqlite3 -y
-sudo pip install --upgrade pip setuptools
 sudo pip install pyserial
-sudo pip install Adafruit_BBIO
+#sudo pip install --upgrade pip setuptools
+#sudo pip install Adafruit_BBIO
 #sudo apt install python-scipy w3m -y
 #sudo pip install six tzlocal pytz numpy python-dateutil pyparsing --force-reinstall --upgrade
 #sudo pip install requests
@@ -61,19 +61,22 @@ sudo pip install Adafruit_BBIO
 
 #numpy, matplotlib...
 
+sudo apt install libmysqlclient-dev mysql-server mysql-client python-mysqldb -y
+sudo apt install sqlite3 -y
+sudo apt install python-twisted
 pip install pyzmq requests pycrypto
 #pip install sqlalchemy
-sudo apt install python-flask python-autobahn python-virtualenv -y
+#sudo apt install python-flask python-autobahn python-virtualenv -y
 
-git clone -b trunk https://github.com/twisted/twisted.git
-cd twisted
-sudo python setup.py install
-cd
+#git clone -b trunk https://github.com/twisted/twisted.git
+#cd twisted
+#sudo python setup.py install
+#cd
 
-git clone https://github.com/adafruit/Adafruit_Python_GPIO.git
-cd Adafruit_Python_GPIO
-sudo python setup.py install
-cd
+#git clone https://github.com/adafruit/Adafruit_Python_GPIO.git
+#cd Adafruit_Python_GPIO
+#sudo python setup.py install
+#cd
 
 
 # matplotlib
@@ -111,4 +114,3 @@ cd /opt/scripts/tools/
 git pull
 sudo ./grow_partition.sh
 #shutdown -r now
-

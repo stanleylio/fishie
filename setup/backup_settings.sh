@@ -11,6 +11,7 @@ rsync -avh /etc/apache2 $DIR
 rsync -avh /etc/supervisor $DIR
 
 crontab -l > $DIR/crontab.txt
+cp /boot/uEnv.txt $DIR/uEnv.txt
 cp -a /etc/network/interfaces $DIR/interfaces.txt
 cp -a /etc/hostname $DIR/hostname.txt
 cp -a /etc/hosts $DIR/hosts.txt
