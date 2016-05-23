@@ -44,6 +44,9 @@ def get_type(site,node):
     node = import_node_config(site,node)
     return [c['dbtype'] for c in node.conf]
 
+def get_public_key(site,device):
+    node = import_node_config(site,device)
+    return node.public_key
 
 # TODO: replace get_capabilities() with this...
 # or even better, just return an SQL string.
