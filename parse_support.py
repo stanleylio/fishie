@@ -64,13 +64,18 @@ def parse_message(line):
                 d = tmp['payload']
                 d['ts'] = datetime.fromtimestamp(d['ts'])
 
-# all that mess and hack.
+# all that mess.
                 from config import node
                 site = node.site
                 node = importlib.import_module('{}.{}'.format(site,node_id.replace('-','_')),'config')
                 d = {c['dbtag']:d[c['comtag']] for c in node.conf}
                 d['node'] = node_id
-# one of these days...
+# If RF isolation cannot be guaranteed, node transmissions should carry site ID as well. But (site-id,node-id)
+# is the same as having a wider field of just node-id. There is no risk of running out of name space. So...
+# just make all node having unique node-ID. "Site ID" is just for webpage display.
+
+# Also, parse_message() can still parse messages from all sites. If a node is not defined in the database it
+# will be rejected by the db.
                 return d
             elif re.match('^base[-_]\d{3}$',tmp['from']):
                 PRINT('Command from base station {}; ignore.'.format(tmp['from']))
