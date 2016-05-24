@@ -68,7 +68,7 @@ def get_schema(site):
     return capabilities'''
 
 
-# STUFF FOR PRESENTATION ONLY
+# STUFF FOR WEB PRESENTATION ONLY
 def get_name(site,node):
     node = node.replace('-','_')
     return import_node_config(site,node).name

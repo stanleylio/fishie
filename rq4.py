@@ -9,7 +9,9 @@ from Crypto.Hash import SHA512
 from Crypto.PublicKey import RSA
 
 
-key = open('/home/nuc/.ssh/id_rsa').read()
+#key = open('/home/nuc/.ssh/id_rsa').read()
+from config import node
+key = open(node.private_key_file).read()
 
 myid = get_node_tag()
 

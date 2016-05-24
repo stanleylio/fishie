@@ -82,8 +82,8 @@ def parse_message(line):
 
 # all that mess.
                 from config import node
-                site = node.site
-                node = importlib.import_module('{}.{}'.format(site,node_id.replace('-','_')),'config')
+                node = importlib.import_module('config.{}.{}'.format(node.site,node_id.replace('-','_')))
+
                 d = {c['dbtag']:d[c['comtag']] for c in node.conf}
                 d['node'] = node_id
 # If RF isolation cannot be guaranteed, node transmissions should carry site ID as well. But (site-id,node-id)
