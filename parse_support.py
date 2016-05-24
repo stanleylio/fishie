@@ -3,7 +3,7 @@
 # Stanley Lio, hlio@usc.edu
 # All Rights Reserved. February 2015
 import sys,traceback,re,json,importlib
-sys.path.append('config')
+#sys.path.append('config')
 from datetime import datetime
 from z import check
 
@@ -55,7 +55,23 @@ def parse_message(line):
                 PRINT('sth is wrong with the new \'node\'...')
                 PRINT(line)
                 return None
-                
+
+        from drivers.seafet import parse_SeaFET
+        d = parse_SeaFET(line)
+        if d is not None:
+            if 'HEADER' in d and 'SATPHA0381' == d['HEADER']:
+                d['node'] = 'node-021'
+                return d
+            elif 'tag' in d and 'kph1' == d['tag']:
+                d['node'] = 'node-021'
+                return d
+            elif 'tag' in d and 'kph2' == d['tag']:
+                d['node'] = 'node-022'
+                return d
+            elif 'tag' in d and 'kph3' == d['tag']:
+                d['node'] = 'node-023'
+                return d
+        
         if check(line):
             line = line[:-8]
             tmp = json.loads(line)
