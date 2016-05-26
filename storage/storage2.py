@@ -12,6 +12,20 @@ def auto_time_col(columns):
     assert False
 
 
+# 'dbtag' is mandatory; everything else is optional.
+# 'dbtype' defaults to DOUBLE
+def create_table(conf,table,dbname='uhcm',user='root',password=None,host='localhost'):
+    if password is None:
+        password = open(expanduser('~/mysql_cred')).read().strip()
+    conn = MySQLdb.connect(host=host,user=user,passwd=password,db=dbname)
+    cur = conn.cursor()
+
+    tmp = ','.join([' '.join(tmp) for tmp in [(column['dbtag'],column.get('dbtype','DOUBLE')) for column in conf]])
+    cmd = 'CREATE TABLE IF NOT EXISTS {}.`{}` ({})'.format(dbname,table,tmp)
+    print(cmd)
+    cur.execute(cmd)
+
+
 class storage():
     def __init__(self,dbname='uhcm',user='root',passwd=None,host='localhost'):
         if passwd is None:

@@ -1,4 +1,4 @@
-site = 'makaipier'
+#site = 'makaipier'
 name = 'Makai Pier Base Station'
 location = 'Makai Research Pier, Waimanalo, Oahu, Hawaii'
 google_earth_link = 'https://goo.gl/maps/BThU5mQNcPn'
