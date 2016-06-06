@@ -221,7 +221,8 @@ class storage(storage_read_only):
         if a - b:
             PRINT('Warning: these are not defined in db and are ignored:')
             PRINT(','.join(a - b))
-        elif b - a:
+        #elif b - a:
+        if b - a:   # they are not exclusive. Check your math.
             PRINT('Warning: these fields defined in the db are not supplied:')
             PRINT(','.join(b - a))
 
