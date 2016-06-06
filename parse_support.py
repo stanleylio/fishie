@@ -68,9 +68,10 @@ def parse_message(line):
             elif 'tag' in d and 'kph2' == d['tag']:
                 d['node'] = 'node-022'
                 return d
-            elif 'tag' in d and 'kph3' == d['tag']:
-                d['node'] = 'node-023'
-                return d
+            # this has been turned into seabird1.
+            #elif 'tag' in d and 'kph3' == d['tag']:
+            #    d['node'] = 'node-023'
+            #    return d
         
         if check(line):
             line = line[:-8]
