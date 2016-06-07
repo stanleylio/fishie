@@ -9,4 +9,4 @@ public_key = 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDAnKsvPuLQ0b3LtS8YJ28FEEZyRf
 
 xbee_port = '/dev/ttyO1'
 xbee_baud = 115200
-log_dir = '/home/nuc/node/log'
+log_dir = '/root/node/log'
