@@ -18,7 +18,9 @@ def ts2dt(ts):
 def get_dbfile(site,node_id=None):
     if 'poh' == site:
         return '/home/nuc/node/www/poh/storage/sensor_data.db'
-    if 'msb228' == site:
+    elif 'coconut' == site:
+        return '/home/nuc/node/www/coconut/storage/sensor_data.db'
+    elif 'msb228' == site:
         if 'node-005' == node_id:
             return '/home/nuc/data/node-005/storage/sensor_data.db'
         elif 'node-019' == node_id:

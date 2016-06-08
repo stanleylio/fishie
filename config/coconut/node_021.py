@@ -26,7 +26,7 @@ conf = [
         'dbtag':'Vbatt',
         'dbtype':'INTEGER',
         'comtag':None,
-        'unit':'-',
+        'unit':None,
         'description':'Raw ADC measurement of battery voltage',
         'plot':True,
         #'range':Range(0,4500),  # lithium cell, shouldn't go above 4.2V
@@ -102,7 +102,7 @@ conf = [
         'comtag':'P_CTD',
         'unit':'dbar',
         'description':'CTD pressure',
-        'plot':True,
+        'plot':False,
     },
     {
         'dbtag':'Vrs_FET_INT',
