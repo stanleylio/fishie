@@ -2,7 +2,7 @@
 # kph1
 tag = 'node-021'
 name = 'SeaFET pH Sensor #1'
-location = 'Area 51'
+location = 'a water tank somewhere'
 note = 'SeaFET pH Sensor'
 
 plot_range = 24*7
