@@ -150,7 +150,7 @@ conf = [
         'comtag':'HUMIDITY',
         'unit':'%',
         'description':'Electronics compartment relative humidity',
-        'plot':False,
+        'plot':True,
     },
     {
         'dbtag':'V_5V',
