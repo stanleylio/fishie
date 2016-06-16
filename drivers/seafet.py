@@ -35,8 +35,8 @@ if '__main__' == __name__:
             d['node'] = 'node-021'
         elif 'tag' in d and 'kph2' == d['tag']:
             d['node'] = 'node-022'
-        elif 'tag' in d and 'kph3' == d['tag']:
-            d['node'] = 'node-023'
+        #elif 'tag' in d and 'kph3' == d['tag']:
+            #d['node'] = 'node-023'
 
     print d.keys()
     print d['node']

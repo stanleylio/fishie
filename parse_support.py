@@ -6,6 +6,8 @@ import sys,traceback,re,json,importlib
 #sys.path.append('config')
 from datetime import datetime
 from z import check
+from drivers.seafet import parse_SeaFET
+from drivers.seabird import parse_Seabird
 
 
 def PRINT(s):
@@ -56,21 +58,25 @@ def parse_message(line):
                 PRINT(line)
                 return None
 
-        from drivers.seafet import parse_SeaFET
         d = parse_SeaFET(line)
         if d is not None:
-            if 'HEADER' in d and 'SATPHA0381' == d['HEADER']:
+            if ('HEADER' in d and 'SATPHA0381' == d['HEADER']) or ('tag' in d and 'kph1' == d['tag']):
                 d['node'] = 'node-021'
                 return d
-            elif 'tag' in d and 'kph1' == d['tag']:
-                d['node'] = 'node-021'
-                return d
-            elif 'tag' in d and 'kph2' == d['tag']:
-                d['node'] = 'node-022'
-                return d
-            # this has been turned into seabird1.
-            #elif 'tag' in d and 'kph3' == d['tag']:
+            #if ('HEADER' in d and 'SATPHA????' == d['HEADER']) or ('tag' in d and 'kph2' == d['tag']):
+            #    d['node'] = 'node-022'
+            #    return d
+            #if ('HEADER' in d and 'SATPHA????' == d['HEADER']) or ('tag' in d and 'kph3' == d['tag']):
             #    d['node'] = 'node-023'
+            #    return d
+
+        d = parse_Seabird(line)
+        if d is not None:
+            if ('sn' in d and d['sn'] == 1607354) or ('tag' in d and 'seabird1' == d['tag']):
+                d['node'] = 'node-025'
+                return d
+            #if ('sn' in d and d['sn'] == float('nan')) or ('tag' in d and 'seabird2' == d['tag']):
+            #    d['node'] = 'node-026'
             #    return d
         
         if check(line):
