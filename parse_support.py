@@ -60,15 +60,15 @@ def parse_message(line):
 
         d = parse_SeaFET(line)
         if d is not None:
-            if ('HEADER' in d and 'SATPHA0381' == d['HEADER']) or ('tag' in d and 'kph1' == d['tag']):
+            if ('HEADER' in d and 'SATPHA0358' == d['HEADER']) or ('tag' in d and 'kph1' == d['tag']):
                 d['node'] = 'node-021'
                 return d
-            #if ('HEADER' in d and 'SATPHA????' == d['HEADER']) or ('tag' in d and 'kph2' == d['tag']):
-            #    d['node'] = 'node-022'
-            #    return d
-            #if ('HEADER' in d and 'SATPHA????' == d['HEADER']) or ('tag' in d and 'kph3' == d['tag']):
-            #    d['node'] = 'node-023'
-            #    return d
+            if ('HEADER' in d and 'SATPHA????' == d['HEADER']) or ('tag' in d and 'kph2' == d['tag']):
+                d['node'] = 'node-022'
+                return d
+            if ('HEADER' in d and 'SATPHA0381' == d['HEADER']) or ('tag' in d and 'kph3' == d['tag']):
+                d['node'] = 'node-023'
+                return d
 
         d = parse_Seabird(line)
         if d is not None:
@@ -107,6 +107,7 @@ def parse_message(line):
                 PRINT(line)
         else:
             PRINT('parse_message(): CRC failure')
+            PRINT(line)
     except:
         PRINT('parse_message(): duh')
         PRINT(line)
