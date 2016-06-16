@@ -6,7 +6,7 @@ import re
 
 def parse_Seabird(m):
     try:
-        if re.match('^seabird\d.*',m):
+        if re.match('^seabird\d+.*',m):
             m = m.split(',')
             if 3 == len(m):
                 return {'tag':m[0],
@@ -17,7 +17,7 @@ def parse_Seabird(m):
             if root[0][0].text == 'Sea-Bird' and\
                root[0][1].text == '16plus':
                 d = {}
-                d['sn'] = int(root[0][2].text)
+                d['sn'] = root[0][2].text
                 for e in root[1]:
                     if not e.tag == 'dt':
                         d[e.tag] = float(e.text.strip())
