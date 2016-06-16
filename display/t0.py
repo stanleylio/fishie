@@ -98,7 +98,10 @@ for node_id in nodes:
                 makedirs(node_plot_dir)
 
             PRINT('\t{}'.format(var))
-            plot_time_series(x,y,plotfilename,title,ylabel=tag_unit_map[var],linelabel=var)
+            tmp = tag_unit_map[var]
+            if tmp is None:
+                tmp = '(unitless)'
+            plot_time_series(x,y,plotfilename,title,ylabel=tmp,linelabel=var)
 
             # save settings of plot to JSON file
             plot_config = {'time_begin':time.mktime(min(x).timetuple()),

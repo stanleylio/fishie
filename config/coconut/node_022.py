@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
-# kph1
-tag = 'node-021'
-name = 'SeaFET pH Sensor #1'
+# kph2
+tag = 'node-022'
+name = 'SeaFET pH Sensor #2'
 location = 'a water tank on Coconut Island'
-note = 'SeaFET pH Sensor #1 water tank test'
+note = 'SeaFET pH Sensor #2 water tank test'
 
 plot_range = 24*7
 

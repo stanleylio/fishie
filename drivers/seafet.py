@@ -17,7 +17,7 @@ def parse_SeaFET(m):
                 #    del d[k]
             return d
         elif 3 == len(m) and m[0].startswith('kph'):
-            return {'tag':m[0],'ticker':int(m[1]),'Vbatt':int(m[2])}
+            return {'tag':m[0],'ticker':int(m[1]),'Vbatt':float(m[2])}
     except:
         traceback.print_exc()
     return None
@@ -35,8 +35,8 @@ if '__main__' == __name__:
             d['node'] = 'node-021'
         elif 'tag' in d and 'kph2' == d['tag']:
             d['node'] = 'node-022'
-        elif 'tag' in d and 'kph3' == d['tag']:
-            d['node'] = 'node-023'
+        #elif 'tag' in d and 'kph3' == d['tag']:
+            #d['node'] = 'node-023'
 
     print d.keys()
     print d['node']
