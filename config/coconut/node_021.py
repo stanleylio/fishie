@@ -2,8 +2,8 @@
 # kph1
 tag = 'node-021'
 name = 'SeaFET pH Sensor #1'
-location = 'a water tank somewhere'
-note = 'SeaFET pH Sensor'
+location = 'a water tank on Coconut Island'
+note = 'SeaFET pH Sensor #1 water tank test'
 
 plot_range = 24*7
 
@@ -55,6 +55,7 @@ conf = [
         'unit':None,
         'description':'FET|INT calculated pH in total scale',
         'plot':True,
+        'range':Range(7,8.5),
     },
     {
         'dbtag':'PH_EXT',
@@ -63,6 +64,7 @@ conf = [
         'unit':None,
         'description':'FET|EXT calculated pH in total scale',
         'plot':True,
+        'range':Range(7,8.5),
     },
     {
         'dbtag':'TEMP',
