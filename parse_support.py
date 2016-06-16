@@ -3,11 +3,11 @@
 # Stanley Lio, hlio@usc.edu
 # All Rights Reserved. February 2015
 import sys,traceback,re,json,importlib
-sys.path.append('config')
+#sys.path.append('config')
 from datetime import datetime
 from z import check
-# TODO: replace importlib with this:
-#from config.config_support import import_node_config
+from drivers.seafet import parse_SeaFET
+from drivers.seabird import parse_Seabird
 
 
 def PRINT(s):
@@ -19,8 +19,8 @@ def pretty_print(d):
     # print the units as well? nah...
     max_len = max([len(k) for k in d.keys()])
     print '= '*(max_len + 4)
-    if 'node-id' in d.keys():
-        print 'From {}:'.format(d['node-id'])
+    if 'node' in d.keys():
+        print 'From {}:'.format(d['node'])
         #print 'From node-{:03d}:'.format(d['node-id'])
     if 'ReceptionTime' in d.keys():
         tmp = d['ReceptionTime']
@@ -32,7 +32,7 @@ def pretty_print(d):
         if isinstance(tmp,float):
             tmp = datetime.fromtimestamp(tmp)
         print 'Sampled at {}'.format(tmp)
-    for k in [k for k in sorted(d.keys()) if all([k != t for t in ['Timestamp','node-id','ReceptionTime']])]:
+    for k in [k for k in sorted(d.keys()) if all([k != t for t in ['Timestamp','node','ReceptionTime']])]:
         print '{}{}{}'.format(k,' '*(max_len + 4 - len(k)),d[k])
     
 def parse_message(line):
@@ -43,12 +43,12 @@ def parse_message(line):
             try:
                 line = line.split(',')
                 if 'us1' == line[0]:
-                    d = {'node-id':'node-008',
+                    d = {'node':'node-008',
                          'ticker':int(line[1]),
                          'd2w':float(line[2]),
                          'VbattmV':int(line[3])}
                 elif 'us2' == line[0]:
-                    d = {'node-id':'node-009',
+                    d = {'node':'node-009',
                          'ticker':int(line[1]),
                          'd2w':float(line[2]),
                          'VbattmV':int(line[3])}
@@ -57,7 +57,28 @@ def parse_message(line):
                 PRINT('sth is wrong with the new \'node\'...')
                 PRINT(line)
                 return None
-                
+
+        d = parse_SeaFET(line)
+        if d is not None:
+            if ('HEADER' in d and 'SATPHA0381' == d['HEADER']) or ('tag' in d and 'kph1' == d['tag']):
+                d['node'] = 'node-021'
+                return d
+            #if ('HEADER' in d and 'SATPHA????' == d['HEADER']) or ('tag' in d and 'kph2' == d['tag']):
+            #    d['node'] = 'node-022'
+            #    return d
+            #if ('HEADER' in d and 'SATPHA????' == d['HEADER']) or ('tag' in d and 'kph3' == d['tag']):
+            #    d['node'] = 'node-023'
+            #    return d
+
+        d = parse_Seabird(line)
+        if d is not None:
+            if ('sn' in d and d['sn'] == 1607354) or ('tag' in d and 'seabird1' == d['tag']):
+                d['node'] = 'node-025'
+                return d
+            #if ('sn' in d and d['sn'] == float('nan')) or ('tag' in d and 'seabird2' == d['tag']):
+            #    d['node'] = 'node-026'
+            #    return d
+        
         if check(line):
             line = line[:-8]
             tmp = json.loads(line)
@@ -66,11 +87,18 @@ def parse_message(line):
                 d = tmp['payload']
                 d['ts'] = datetime.fromtimestamp(d['ts'])
 
-                from node import site
-                #node = import_node_config(site,node_id)
-                node = importlib.import_module('{}.{}'.format(site,node_id.replace('-','_')),'config')
+# all that mess.
+                from config import node
+                node = importlib.import_module('config.{}.{}'.format(node.site,node_id.replace('-','_')))
+
                 d = {c['dbtag']:d[c['comtag']] for c in node.conf}
-                d['node-id'] = node_id
+                d['node'] = node_id
+# If RF isolation cannot be guaranteed, node transmissions should carry site ID as well. But (site-id,node-id)
+# is the same as having a wider field of just node-id. There is no risk of running out of name space. So...
+# just make all node having unique node-ID. "Site ID" is just for webpage display.
+
+# Also, parse_message() can still parse messages from all sites. If a node is not defined in the database it
+# will be rejected by the db.
                 return d
             elif re.match('^base[-_]\d{3}$',tmp['from']):
                 PRINT('Command from base station {}; ignore.'.format(tmp['from']))

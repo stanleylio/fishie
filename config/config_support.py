@@ -44,6 +44,9 @@ def get_type(site,node):
     node = import_node_config(site,node)
     return [c['dbtype'] for c in node.conf]
 
+def get_public_key(site,device):
+    node = import_node_config(site,device)
+    return node.public_key
 
 # TODO: replace get_capabilities() with this...
 # or even better, just return an SQL string.
@@ -65,7 +68,7 @@ def get_schema(site):
     return capabilities'''
 
 
-# STUFF FOR PRESENTATION ONLY
+# STUFF FOR WEB PRESENTATION ONLY
 def get_name(site,node):
     node = node.replace('-','_')
     return import_node_config(site,node).name
