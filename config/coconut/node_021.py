@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # kph1
 tag = 'node-021'
-name = 'SeaFET pH Sensor #1'
+name = 'Monty'
 location = 'a water tank on Coconut Island'
 note = 'SeaFET pH Sensor #1 water tank test'
 
@@ -29,7 +29,7 @@ conf = [
         'unit':'V',
         'description':'Relay dongle battery voltage',
         'plot':True,
-        'range':Range(2.5,4.2),  # lithium cell, shouldn't go above 4.2V
+        'range':Range(2.5,5.2),
     },
     {
         'dbtag':'DATE',
