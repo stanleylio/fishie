@@ -60,14 +60,7 @@ def parse_message(line):
 
         d = parse_SeaFET(line)
         if d is not None:
-<<<<<<< HEAD
-            #if 'HEADER' in d and 'SATPHA0381' == d['HEADER']:
-                #d['node'] = 'node-021'
-                #return d
-            if 'HEADER' in d and 'SATPHA0358' == d['HEADER']:
-=======
             if ('HEADER' in d and 'SATPHA0358' == d['HEADER']) or ('tag' in d and 'kph1' == d['tag']):
->>>>>>> origin/master
                 d['node'] = 'node-021'
                 return d
             if ('HEADER' in d and 'SATPHA????' == d['HEADER']) or ('tag' in d and 'kph2' == d['tag']):
