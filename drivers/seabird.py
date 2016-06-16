@@ -1,11 +1,12 @@
 import xml.etree.ElementTree as ET
 from datetime import datetime
 import sys,traceback
+import re
 
 
 def parse_Seabird(m):
     try:
-        if m.startswith('seabird'):
+        if re.match('^seabird\d.*',m):
             m = m.split(',')
             if 3 == len(m):
                 return {'tag':m[0],
