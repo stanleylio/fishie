@@ -63,7 +63,7 @@ def parse_message(line):
             if ('HEADER' in d and 'SATPHA0358' == d['HEADER']) or ('tag' in d and 'kph1' == d['tag']):
                 d['node'] = 'node-021'
                 return d
-            if ('HEADER' in d and 'SATPHA????' == d['HEADER']) or ('tag' in d and 'kph2' == d['tag']):
+            if ('HEADER' in d and 'SATPHA0371' == d['HEADER']) or ('tag' in d and 'kph2' == d['tag']):
                 d['node'] = 'node-022'
                 return d
             if ('HEADER' in d and 'SATPHA0381' == d['HEADER']) or ('tag' in d and 'kph3' == d['tag']):
