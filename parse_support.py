@@ -59,7 +59,10 @@ def parse_message(line):
         from drivers.seafet import parse_SeaFET
         d = parse_SeaFET(line)
         if d is not None:
-            if 'HEADER' in d and 'SATPHA0381' == d['HEADER']:
+            #if 'HEADER' in d and 'SATPHA0381' == d['HEADER']:
+                #d['node'] = 'node-021'
+                #return d
+            if 'HEADER' in d and 'SATPHA0358' == d['HEADER']:
                 d['node'] = 'node-021'
                 return d
             elif 'tag' in d and 'kph1' == d['tag']:
