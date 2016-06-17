@@ -30,7 +30,8 @@ conf = [
         'unit':'V',
         'description':'Battery voltage',
         'plot':True,
-        'range':Range(2.5,4.2),  # lithium cell, shouldn't go above 4.2V
+        #'range':Range(2.5,4.2),  # lithium cell, shouldn't go above 4.2V
+        'range':Range(lb=2.5),
     },
     {
         'dbtag':'salinity_seabird',
