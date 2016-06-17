@@ -19,7 +19,8 @@ def parse_SeaFET(m):
         elif 3 == len(m) and m[0].startswith('kph'):
             return {'tag':m[0],'ticker':int(m[1]),'Vbatt':float(m[2])}
     except:
-        traceback.print_exc()
+        #traceback.print_exc()
+        pass
     return None
 
 

@@ -26,7 +26,9 @@ def parse_Seabird(m):
                                                     '%Y-%m-%dT%H:%M:%S')
             return d
     except:
-        traceback.print_exc()
+        #traceback.print_exc()
+        pass
+    return None
 
 
 if '__main__' == __name__:

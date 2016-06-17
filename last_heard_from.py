@@ -8,6 +8,7 @@ import storage,re,traceback,math,time
 from os.path import exists
 from datetime import datetime
 from storage.storage import storage_read_only
+from time import sleep
 
 
 dbfile = './storage/sensor_data.db'
@@ -39,11 +40,13 @@ while True:
                   format(node_id,ago//(3600*24),(ago%(3600*24))//3600,(ago%3600)//60,ago%60)
             #print 'node {}:\t{:2.0f}:{:02.0f}:{:02.0f} ago'.\
             #      format(node_id,(ago%(3600*24))//3600,(ago%3600)//60,ago%60)
+        except KeyboardInterrupt:
+            break
         except TypeError:
             #traceback.print_exc()
             pass
         except:
             traceback.print_exc()
 
-    time.sleep(1)
+    time.sleep(2)
 

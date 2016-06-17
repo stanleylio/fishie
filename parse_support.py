@@ -72,10 +72,10 @@ def parse_message(line):
 
         d = parse_Seabird(line)
         if d is not None:
-            if ('sn' in d and d['sn'] == 1607354) or ('tag' in d and 'seabird1' == d['tag']):
+            if ('sn' in d and d['sn'] == '1607354') or ('tag' in d and 'seabird1' == d['tag']):
                 d['node'] = 'node-025'
                 return d
-            if ('sn' in d and d['sn'] == float('nan')) or ('tag' in d and 'seabird2' == d['tag']):
+            if ('sn' in d and d['sn'] == '???????') or ('tag' in d and 'seabird2' == d['tag']):
                 d['node'] = 'node-026'
                 return d
         
