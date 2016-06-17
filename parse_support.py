@@ -72,12 +72,31 @@ def parse_message(line):
 
         d = parse_Seabird(line)
         if d is not None:
-            if ('sn' in d and d['sn'] == '1607354') or ('tag' in d and 'seabird1' == d['tag']):
-                d['node'] = 'node-025'
+            if ('sn' in d and d['sn'] == '01607354') or ('tag' in d and 'seabird1' == d['tag']):
+                node_id = 'node-025'
+                from config import node
+                node = importlib.import_module('config.{}.{}'.format(node.site,node_id.replace('-','_')))
+
+                # this:
+                #d = {c['dbtag']:d[c['comtag']] for c in node.conf}
+                # turned into this:
+                tmp = {}
+                for c in node.conf:
+                    if c['dbtag'] in d:     # for the uC msg
+                        tmp[c['dbtag']] = d[c['dbtag']]
+                    elif c['comtag'] is not None and c['comtag'] in d:  # for seabird sensor msg
+                        tmp[c['dbtag']] = d[c['comtag']]
+                d = tmp
+                # because seabird is a hybrid: most fields have comtag (sal), few don't (e.g. Vbatt).
+                d['node'] = node_id
                 return d
-            if ('sn' in d and d['sn'] == '???????') or ('tag' in d and 'seabird2' == d['tag']):
-                d['node'] = 'node-026'
-                return d
+            '''if ('sn' in d and d['sn'] == '???????') or ('tag' in d and 'seabird2' == d['tag']):
+                node_id = 'node-026'
+                from config import node
+                node = importlib.import_module('config.{}.{}'.format(node.site,node_id.replace('-','_')))
+                d = {c['dbtag']:d[c['comtag']] for c in node.conf}
+                d['node'] = node_id
+                return d'''
         
         if check(line):
             line = line[:-8]
