@@ -88,6 +88,7 @@ conf = [
         'unit':'psu',
         'description':'CTD salinity',
         'plot':True,
+        'range':Range(lb=1),
     },
     {
         'dbtag':'O_CTD',
