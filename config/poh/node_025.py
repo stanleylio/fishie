@@ -28,7 +28,7 @@ conf = [
         'dbtype':'REAL',
         'comtag':None,
         'unit':'V',
-        'description':'Battery voltage',
+        'description':'Relay dongle battery voltage',
         'plot':True,
         #'range':Range(2.5,4.2),  # lithium cell, shouldn't go above 4.2V
         'range':Range(lb=2.5),
@@ -38,7 +38,7 @@ conf = [
         'dbtype':'REAL',
         'comtag':'sal',
         'unit':None,
-        'description':'Salinity (Seabird CTD)',
+        'description':'Salinity',
         'plot':True,
         #'range':Range(2.5,4.2),
     },
@@ -47,7 +47,7 @@ conf = [
         'dbtype':'REAL',
         'comtag':'p1',
         'unit':None,
-        'description':'Pressure (Seabird CTD)',
+        'description':'Pressure',
         'plot':True,
     },
     {
@@ -55,7 +55,7 @@ conf = [
         'dbtype':'REAL',
         'comtag':'t1',
         'unit':'Deg.C',
-        'description':'Temperature (Seabird CTD)',
+        'description':'Temperature',
         'plot':True,
     },
     {
@@ -63,7 +63,7 @@ conf = [
         'dbtype':'REAL',
         'comtag':'c1',
         'unit':None,
-        'description':'Conductivity (Seabird CTD)',
+        'description':'Conductivity',
         'plot':True,
         'range':Range(lb=0),
     },
@@ -72,7 +72,7 @@ conf = [
         'dbtype':'REAL',
         'comtag':'v0',
         'unit':None,
-        'description':'no idea what this is (Seabird CTD)',
+        'description':'no idea what this is',
         'plot':True,
     },
     {
@@ -80,7 +80,7 @@ conf = [
         'dbtype':'TIMESTAMP',
         'comtag':'dt',
         'unit':None,
-        'description':'Seabird time (Seabird CTD)',
+        'description':'Seabird sensor time',
         'plot':False,
     },
     {
@@ -88,7 +88,7 @@ conf = [
         'dbtype':'TEXT',
         'comtag':'sn',
         'unit':None,
-        'description':'Serial number (Seabird CTD)',
+        'description':'Serial number',
         'plot':False,
     },
 ]
