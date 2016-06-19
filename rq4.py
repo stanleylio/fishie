@@ -34,7 +34,10 @@ def format_and_sign(d):
     return sign(json.dumps(d,separators=(',',':')))
 
 def send_to_server(d):
-    hosturl = 'http://grogdata.soest.hawaii.edu/poh/api/s1/submit'
+    # dump to txt
+    #hosturl = 'http://grogdata.soest.hawaii.edu/poh/api/s1/submit'
+    # write to db
+    hosturl = 'http://grogdata.soest.hawaii.edu/poh/api/s2/submit'
     d = format_and_sign(d)
     params = {'client':myid}
     r = requests.post(hosturl,params=params,data=d)
@@ -42,8 +45,13 @@ def send_to_server(d):
 
 
 if '__main__' == __name__:
+    #r = send_to_server("Millions long for immortality who don't know what to do with themselves on a rainy Sunday afternoon.")
+    #r = send_to_server('{"node":"node-008","ReceptionTime":1466317265.849019,"VbattmV":4026}')
+    #r = send_to_server('us2,169663,0828,4046')
     #print format_and_sign('haha')
     #print format_and_sign({'ReceptionTime':None,'Timestamp':str(datetime.utcnow()),'P_5803':123.456})
 
     r = send_to_server('memento mori')
+    print 'server\'s response:'
     print r.text
+

@@ -10,7 +10,7 @@ python t0.py --site=poh --dbfile=$HOME/node/www/poh/storage/sensor_data.db --plo
 
 #rsync -avh $HOME/node/www/poh $HOME/cm1app/cm1app/static/
 
-# - - - - -
+# - - -
 # plot filtered and boundary-checked
 # clone the database
 # wait, I forgot. what are these for?
@@ -23,7 +23,26 @@ python t0.py --site=poh --dbfile=$HOME/node/www/poh/storage/bounded/sensor_data.
 
 
 # - - - - -
-# raw plot for Coconut Island tank test
+# raw plot for Coconut Island tank test (Katie's)
 # - - - - -
-echo "Coconut Island"
+echo "Coconut Island (Katie's)"
 python t0.py --site=coconut --dbfile=$HOME/node/www/coconut/storage/sensor_data.db --plot_dir=$HOME/node/www/coconut
+
+echo "Coconut boundary-checked"
+rsync -avzhe ssh --progress $HOME/node/www/coconut/storage/sensor_data.db* $HOME/node/www/coconut/storage/bounded/
+python proc.py --site=coconut --dbfile=$HOME/node/www/coconut/storage/bounded/sensor_data.db
+python t0.py --site=coconut --dbfile=$HOME/node/www/coconut/storage/bounded/sensor_data.db --plot_dir=$HOME/node/www/coconut/bounded
+
+
+# - - - - -
+# raw plot for Hollie's sensors
+# - - - - -
+echo "Coconut Island (Hollie's)"
+python t0.py --site=coconut --dbfile=$HOME/data/htank/storage/sensor_data.db --plot_dir=$HOME/node/www/coconut
+
+#echo "Coconut boundary-checked"
+#rsync -avzhe ssh --progress $HOME/node/www/coconut/storage/sensor_data.db* $HOME/node/www/coconut/storage/bounded/
+#python proc.py --site=coconut --dbfile=$HOME/node/www/coconut/storage/bounded/sensor_data.db
+#python t0.py --site=coconut --dbfile=$HOME/node/www/coconut/storage/bounded/sensor_data.db --plot_dir=$HOME/node/www/coconut/bounded
+
+
