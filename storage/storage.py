@@ -211,7 +211,8 @@ class storage(storage_read_only):
                 tmp = '({})'.format(','.join([' '.join(tmp) for tmp in schema[node]]))
                 cmd = 'CREATE TABLE IF NOT EXISTS {} {}'.format(self.id2table(node),tmp)
                 self.c.execute(cmd)
-    
+
+    # node is redundant. readings should contains readings['node']. TODO
     def write(self,node,readings):
         assert 'ReceptionTime' in readings.keys() or 'Timestamp' in readings.keys()
 
