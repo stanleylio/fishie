@@ -48,7 +48,7 @@ def get_public_key(site,device):
     node = import_node_config(site,device)
     return node.public_key
 
-# TODO: replace get_capabilities() with this...
+# TODO:DONE: replace get_capabilities() with this...
 # or even better, just return an SQL string.
 # in either case, since I know there are only "column name" and "data type", I can
 # put them in (tag,type) without the dict's "tags" "types" keys.
