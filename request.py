@@ -9,22 +9,22 @@ from_tag = socket.gethostname()
 #base = importlib.import_module('base_{}'.format(from_tag[5:8]))
 
 #with serial.Serial(base.xbee_port,base.xbee_baud,timeout=2) as s:
-with serial.Serial('/dev/ttyUSB0',115200,timeout=2) as s:
+with serial.Serial('/dev/ttyUSB0',115200,timeout=1) as s:
 
     if len(sys.argv) <= 1:
-        print('To query node N, python request.py N')
-        exit()
+        print('Example: python request.py node-003 to query node-003')
+        sys.exit()
 
     IDs = []
     for i in range(1,len(sys.argv)):
-        IDs.append(int(sys.argv[i]))
+        IDs.append(sys.argv[i])
 
     for node_id in IDs:        
         print
         print '= = = = ='
         
         #node_id = int(raw_input('\nEnter node ID to request sample from...'))
-        to_tag = 'node-{:03d}'.format(node_id)
+        to_tag = node_id
         
         tmp = {}
         tmp['action'] = 'do sample'
@@ -40,8 +40,8 @@ with serial.Serial('/dev/ttyUSB0',115200,timeout=2) as s:
 
         continue
         
-        print 'Response:'
-        for i in range(5):
+        print 'Listening...'
+        for i in range(10):
             line = s.readline()
             if len(line) > 0:
                 line = line.strip()
@@ -51,6 +51,8 @@ with serial.Serial('/dev/ttyUSB0',115200,timeout=2) as s:
                 if d is not None and node_id == d['node-id']:
                     pretty_print(d)
                     break
+            else:
+                print '(silence...)'
         
         s.flushInput()
         s.flushOutput()
