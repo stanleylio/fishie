@@ -201,6 +201,8 @@ class storage_read_only(object):
 class storage(storage_read_only):
     def __init__(self,schema=None,dbfile=None):
         assert schema is not None or dbfile is not None,'either schema or dbfile has to be supplied'
+
+# a questionable decision. TODO
         if dbfile is not None and exists(dbfile):
             assert schema is None,'schema should not be supplied if dbfile already exists'
         
