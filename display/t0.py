@@ -42,7 +42,11 @@ if dbfile is not None:
 
 # where to put the generated plots
 plot_dir = args.plot_dir
-PRINT('Output directory: ' + plot_dir)
+if exists(plot_dir):
+    PRINT('Output directory: ' + plot_dir)
+else:
+    print('Output directory ' + plot_dir + ' does not exist. Terminating.')
+    sys.exit()
 
 #tmp = store.get_list_of_tables()
 #nodes = [t.replace('_','-') for t in tmp if re.match('^node.+',t)]

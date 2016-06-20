@@ -11,8 +11,8 @@ from os.path import exists
 
 
 def PRINT(s):
-    #pass
-    print(s)
+    pass
+    #print(s)
 
 def auto_time_col(store,node_id):
     time_col = 'Timestamp'
