@@ -1,9 +1,10 @@
 #!/usr/bin/python
 #
-# Query the database to see when each node was last heard from
-# (for only those in the database)
+# show the reception time of the latest message from each node
+# by querying the database.
 #
-# Stanley Lio, hlio@soest.hawaii.edu
+# Stanley H.I. Lio
+# hlio@soest.hawaii.edu
 import storage,re,traceback,math,time
 from os.path import exists
 from datetime import datetime
@@ -41,6 +42,7 @@ while True:
             #print 'node {}:\t{:2.0f}:{:02.0f}:{:02.0f} ago'.\
             #      format(node_id,(ago%(3600*24))//3600,(ago%3600)//60,ago%60)
         except KeyboardInterrupt:
+            print 'user interrupted'
             break
         except TypeError:
             #traceback.print_exc()
@@ -48,5 +50,5 @@ while True:
         except:
             traceback.print_exc()
 
-    time.sleep(2)
+    time.sleep(5)
 
