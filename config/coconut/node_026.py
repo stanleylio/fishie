@@ -3,7 +3,7 @@
 tag = 'node-026'
 name = 'Hollie\'s'
 location = 'under the shade'
-note = 'Apex sensors in some tanks, oversampled at 20sample/minute via public XML feed (not the locked-up RSS)'
+note = 'Apex sensors in some tanks, sampled at one sample/minute via public XML feed (not RSS)'
 # perhaps I should put the dbfile here and remove the magical get_dbfile() function. TODO
 #dbfile = '/home/nuc/data/htank/storage/sensor_data.db'
 
@@ -13,7 +13,6 @@ plot_range = 24*7
 #sys.path.append('..')
 from config.config_support import Range
 
-# TODO: use dictionary indexed by dbtag
 conf = [
     {
         'dbtag':'ReceptionTime',

@@ -1,4 +1,4 @@
-# Makaha depth
+# Makaha depth from ultrasonic sensors
 import sys,traceback
 sys.path.append('..')
 from datetime import datetime,timedelta
@@ -12,6 +12,7 @@ store = storage_read_only(dbfile=dbfile)
 time_col = 'ReceptionTime'
 v = 'd2w'
 cols = [time_col,v]
+span = 28   # days
 
 # "20160115 1350    218 cm to cone rim, 122~130 cm water depth, node-008 (us1)"
 #begin = datetime(2016,01,15,23,40)
@@ -27,7 +28,7 @@ cols = [time_col,v]
 
 #d = store.read_time_range('node-008',time_col,cols,begin,end)
 d = store.read_past_time_period(node_id='node-008',time_col=time_col,
-                                cols=cols,timerange=timedelta(days=7))
+                                cols=cols,timerange=timedelta(days=span))
 def f(v):
     # sensor_length + sensor_rim_to_cinder_block = sensor_measurement + water_depth
     # water_depth = sensor_length + sensor_rim_to_cinder_block - sensor_measurement
@@ -37,7 +38,7 @@ d[v] = [float('NaN') if n < 0 else n for n in d[v]]
 us1 = {'x':d[time_col],'y':d[v],'linelabel':'Makaha 2 (node-008, us1)'}
 
 d = store.read_past_time_period(node_id='node-009',time_col=time_col,
-                                cols=cols,timerange=timedelta(days=7))
+                                cols=cols,timerange=timedelta(days=span))
 #d = store.read_time_range('node-009',time_col,cols,begin,end)
 def f(v):
     return (50.7 + 1100 - v)/10.

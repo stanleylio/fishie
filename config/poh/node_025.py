@@ -2,7 +2,7 @@
 # seabird1
 tag = 'node-025'
 name = 'Seabird CTD #1 (white Delrin)'
-location = 'middle of the pond'
+location = 'the dock'
 note = 'Sea-bird CTD #1'
 
 plot_range = 24*7
