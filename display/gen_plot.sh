@@ -36,13 +36,14 @@ python t0.py --site=coconut --dbfile=$HOME/node/www/coconut/storage/bounded/sens
 
 # - - - - -
 # raw plot for Hollie's sensors
+# The infrasturcture does not support this yet. Hollie broke the
+# "one database file per site" assumption
 # - - - - -
 echo "Coconut Island (Hollie's)"
 python t0.py --site=coconut --dbfile=$HOME/data/htank/storage/sensor_data.db --plot_dir=$HOME/node/www/coconut
 
 #echo "Coconut boundary-checked"
-#rsync -avzhe ssh --progress $HOME/node/www/coconut/storage/sensor_data.db* $HOME/node/www/coconut/storage/bounded/
-#python proc.py --site=coconut --dbfile=$HOME/node/www/coconut/storage/bounded/sensor_data.db
-#python t0.py --site=coconut --dbfile=$HOME/node/www/coconut/storage/bounded/sensor_data.db --plot_dir=$HOME/node/www/coconut/bounded
-
+#rsync -avzhe ssh --progress $HOME/node/www/htank/storage/sensor_data.db* $HOME/node/www/htank/storage/bounded/
+#python proc.py --site=coconut --dbfile=$HOME/node/www/htank/storage/bounded/sensor_data.db
+#python t0.py --site=coconut --dbfile=$HOME/node/www/htank/storage/bounded/sensor_data.db --plot_dir=$HOME/node/www/htank/bounded
 

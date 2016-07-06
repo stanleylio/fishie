@@ -35,7 +35,6 @@ fi
 # - - - - -
 # Coconut Island tank test
 # - - - - -
-
 echo "Coconut Island"
 
 SRC_DB="/home/nuc/data/base-002/storage/sensor_data.db"
@@ -57,3 +56,35 @@ if [ -e $TGT_DIR/sensor_data.db-wal ]
 	then
 		chmod g+w $TGT_DIR/sensor_data.db-wal
 fi
+
+
+# - - - - -
+# Hollie's
+# - - - - -
+echo "Hollie's"
+
+SRC_DB="/home/nuc/data/htank/storage/sensor_data.db"
+TGT_DIR="/home/nuc/node/www/htank/storage"
+
+rm -f $TGT_DIR/sensor_data.db
+rm -f $TGT_DIR/sensor_data.db-shm
+rm -f $TGT_DIR/sensor_data.db-wal
+
+sqlite3 $SRC_DB ".clone "$TGT_DIR"/sensor_data.db"
+
+# change permissions
+chmod g+w $TGT_DIR/sensor_data.db
+if [ -e $TGT_DIR/sensor_data.db-shm ]
+	then
+		chmod g+w $TGT_DIR/sensor_data.db-shm
+fi
+if [ -e $TGT_DIR/sensor_data.db-wal ]
+	then
+		chmod g+w $TGT_DIR/sensor_data.db-wal
+fi
+
+
+
+
+
+
