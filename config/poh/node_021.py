@@ -3,7 +3,7 @@
 tag = 'node-021'
 name = 'Monty'
 location = 'Site #13, Kaneohe Bay'
-note = 'SeaFET pH Sensor #1 water tank test'
+note = 'SeaFET pH Sensor #1'
 
 plot_range = 24*7
 
