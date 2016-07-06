@@ -3,7 +3,7 @@
 tag = 'node-026'
 name = 'Hollie\'s'
 location = 'under the shade'
-note = 'Apex sensors in some tanks, sampled at one sample/minute via public XML feed (not RSS)'
+note = 'Apex sensors in several water tanks, sampled at one sample/minute via public XML feed (not RSS)'
 # perhaps I should put the dbfile here and remove the magical get_dbfile() function. TODO
 #dbfile = '/home/nuc/data/htank/storage/sensor_data.db'
 
