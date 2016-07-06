@@ -2,7 +2,7 @@
 # kph1
 tag = 'node-021'
 name = 'Monty'
-location = 'a water tank on Coconut Island'
+location = 'Site #13, Kaneohe Bay'
 note = 'SeaFET pH Sensor #1 water tank test'
 
 plot_range = 24*7
