@@ -2,8 +2,8 @@
 # kph2
 tag = 'node-022'
 name = 'Coco'
-location = 'a water tank on Coconut Island'
-note = 'SeaFET pH Sensor #2 water tank test'
+location = 'Site #4'
+note = 'SeaFET pH Sensor #2'
 
 plot_range = 24*7
 

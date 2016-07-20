@@ -4,6 +4,11 @@ import sys,traceback
 def parse_SeaFET(m):
     tags = 'HEADER,DATE,TIME,PH_INT,PH_EXT,TEMP,TEMP_CTD,S_CTD,O_CTD,P_CTD,Vrs_FET_INT,Vrs_FET_EXT,V_THERM,V_SUPPLY,I_SUPPLY,HUMIDITY,V_5V,V_MBATT,V_ISO,V_ISOBATT,I_B,I_K,V_K,STATUS,CHECK SUM'
     tags = tags.split(',')
+
+    # a hack+patch
+    m = ''.join([c if ord(c) < 128 else chr(ord(c) - 128) for c in m])
+    m = m[m.find('SATPHA'):]
+    
     try:
         if len(m) > 197:    # the doc says so
             return None
@@ -29,6 +34,7 @@ if '__main__' == __name__:
     #line = 'kph1,6318,303'
     #line = 'asdfaswlefjuawo;fj'
     d = parse_SeaFET(line)
+    
     if d is not None:
         if 'HEADER' in d and 'SATPHA0381' == d['HEADER']:
             d['node'] = 'node-021'
