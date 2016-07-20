@@ -2,8 +2,8 @@
 # kph1
 tag = 'node-021'
 name = 'Monty'
-location = 'Site #13, Kaneohe Bay'
-note = 'SeaFET pH sensor, giant weight + tiny float'
+location = 'Site #13, Kāneʻohe Bay'
+note = 'SeaFET pH Sensor; giant weight + tiny float'
 
 plot_range = 24*7
 

@@ -153,7 +153,7 @@ if '__main__' == __name__:
     #print parse_message(t13)
     #print parse_message(t14)
 
-    print parse_message('us1,0300.0\n')
+    print parse_message('kph2,27,4.785\n')
     
 
 
