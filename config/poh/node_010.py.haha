@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 # us3
 tag = 'node-010'
-name = 'Mākāhā N Water Level'
-location = 'Mākāhā N'
+name = 'River Mākāhā Water Level'
+location = 'River Mākāhā'
 note = 'Ultrasonic tide gauge'
 
 log_dir = './log'
@@ -10,14 +10,10 @@ plot_dir ='../www'
 
 plot_range = 24*7
 
-#wait = 400
-#multi_sample = 7
-
 import sys
 sys.path.append('..')
 from config.config_support import Range
 
-# TODO: use dictionary indexed by dbtag
 conf = [
     {
         'dbtag':'ticker',

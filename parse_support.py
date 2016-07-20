@@ -135,7 +135,7 @@ def parse_message(line):
                 PRINT('Not a BBB node message:')
                 PRINT(line)
         else:
-            PRINT('CRC failed as a BBB node message')
+            PRINT('CRC failed as a BBB node message:')
             PRINT(line)
     except:
         PRINT('parse_message(): duh')
