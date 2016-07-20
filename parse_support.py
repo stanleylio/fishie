@@ -47,16 +47,23 @@ def parse_message(line):
                          'ticker':int(line[1]),
                          'd2w':float(line[2]),
                          'VbattmV':int(line[3])}
+                    return d
                 elif 'us2' == line[0]:
                     d = {'node':'node-009',
                          'ticker':int(line[1]),
                          'd2w':float(line[2]),
                          'VbattmV':int(line[3])}
-                return d
+                    return d
+                elif 'us3' == line[0]:
+                    d = {'node':'node-010',
+                         'ticker':int(line[1]),
+                         'd2w':float(line[2]),
+                         'VbattmV':int(line[3])}
+                    return d
             except:
-                PRINT('sth is wrong with the new \'node\'...')
+                PRINT('Not a ultrasonic message:')
                 PRINT(line)
-                return None
+                #return None    # let someone else try
 
         d = parse_SeaFET(line)
         if d is not None:
@@ -69,6 +76,9 @@ def parse_message(line):
             if ('HEADER' in d and 'SATPHA0381' == d['HEADER']) or ('tag' in d and 'kph3' == d['tag']):
                 d['node'] = 'node-023'
                 return d
+        else:
+            PRINT('Not a SeaFET message:')
+            PRINT(line)
 
         d = parse_Seabird(line)
         if d is not None:
@@ -87,7 +97,7 @@ def parse_message(line):
                     elif c['comtag'] is not None and c['comtag'] in d:  # for seabird sensor msg
                         tmp[c['dbtag']] = d[c['comtag']]
                 d = tmp
-                # because seabird is a hybrid: most fields have comtag (sal), few don't (e.g. Vbatt).
+                # ... because seabird is a hybrid: most fields have comtag (sal), few don't (e.g. Vbatt).
                 d['node'] = node_id
                 return d
             '''if ('sn' in d and d['sn'] == '???????') or ('tag' in d and 'seabird2' == d['tag']):
@@ -122,10 +132,10 @@ def parse_message(line):
             elif re.match('^base[-_]\d{3}$',tmp['from']):
                 PRINT('Command from base station {}; ignore.'.format(tmp['from']))
             else:
-                PRINT('No idea what this is:')
+                PRINT('Not a BBB node message:')
                 PRINT(line)
         else:
-            PRINT('parse_message(): CRC failure')
+            PRINT('CRC failed as a BBB node message')
             PRINT(line)
     except:
         PRINT('parse_message(): duh')
@@ -153,7 +163,7 @@ if '__main__' == __name__:
     #print parse_message(t13)
     #print parse_message(t14)
 
-    print parse_message('kph2,27,4.785\n')
+    print parse_message('kph2,27,4.785')
     
 
 
