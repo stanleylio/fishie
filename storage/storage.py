@@ -199,13 +199,7 @@ class storage_read_only(object):
 
 
 class storage(storage_read_only):
-    def __init__(self,schema=None,dbfile=None):
-        assert schema is not None or dbfile is not None,'either schema or dbfile has to be supplied'
-
-# a questionable decision. TODO
-        if dbfile is not None and exists(dbfile):
-            assert schema is None,'schema should not be supplied if dbfile already exists'
-        
+    def __init__(self,dbfile,schema=None):
         super(storage,self).__init__(dbfile=dbfile,create_if_not_exists=schema is not None)
 
         if schema is not None:
@@ -215,22 +209,21 @@ class storage(storage_read_only):
                 self.c.execute(cmd)
 
     # node is redundant. readings should contains readings['node']. TODO
-    def write(self,node,readings):
+    def write(self,readings):
         assert 'ReceptionTime' in readings.keys() or 'Timestamp' in readings.keys()
-
+        node = readings['node']
         cols = self.get_list_of_columns(node)
         a = set(readings.keys())
         b = set(cols)
+        # they are not mutrally exclusive. Check your math.
         if a - b:
             PRINT('Warning: these are not defined in db and are ignored:')
             PRINT(','.join(a - b))
-        #elif b - a:
-        if b - a:   # they are not exclusive. Check your math.
+        if b - a:
             PRINT('Warning: these fields defined in the db are not supplied:')
             PRINT(','.join(b - a))
 
-        # filter out readings that are not recorded by the database
-        #keys = [k for k in readings.keys() if k in self.get_list_of_columns(node)]
+        # filter out values that are not recorded by the database
         keys = list(set(readings.keys()) & set(self.get_list_of_columns(node)))
         vals = [readings[k] for k in keys]
         #cmd = 'INSERT OR REPLACE INTO {} ({}) VALUES ({})'.\
