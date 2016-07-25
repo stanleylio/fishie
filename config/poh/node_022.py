@@ -18,8 +18,8 @@ conf = [
         'dbtype':'INTEGER',
         'comtag':None,
         'unit':None,
-        'description':'Broadcast sequence number',
-        'plot':False,
+        'description':'Voltage report sequence number',
+        'plot':True,
         'range':Range(lb=0),
     },
     {
@@ -29,7 +29,7 @@ conf = [
         'unit':'V',
         'description':'Relay dongle battery voltage',
         'plot':True,
-        'range':Range(2.5,5.2),
+        'range':Range(lb=2.5),
     },
     {
         'dbtag':'DATE',
@@ -159,7 +159,7 @@ conf = [
         'comtag':'V_5V',
         'unit':'V',
         'description':'Internal 5V supply voltage',
-        'plot':False,
+        'plot':True,
     },
     {
         'dbtag':'V_MBATT',
@@ -175,7 +175,7 @@ conf = [
         'comtag':'V_ISO',
         'unit':'V',
         'description':'Internal isolated supply voltage',
-        'plot':False,
+        'plot':True,
     },
     {
         'dbtag':'V_ISOBATT',
@@ -191,7 +191,7 @@ conf = [
         'comtag':'I_B',
         'unit':'nA',
         'description':'Substrate leakage current',
-        'plot':False,
+        'plot':True,
     },
     {
         'dbtag':'I_K',
@@ -199,7 +199,7 @@ conf = [
         'comtag':'I_K',
         'unit':'nA',
         'description':'Counter electrode leakage current',
-        'plot':False,
+        'plot':True,
     },
     {
         'dbtag':'V_K',
@@ -207,7 +207,7 @@ conf = [
         'comtag':'V_K',
         'unit':'V',
         'description':'Counter electrode voltage',
-        'plot':False,
+        'plot':True,
     },
     {
         'dbtag':'STATUS',

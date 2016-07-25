@@ -11,8 +11,8 @@ from drivers.seabird import parse_Seabird
 
 
 def PRINT(s):
-    #pass
-    print(s)
+    pass
+    #print(s)
 
 # print to terminal the given dictionary of readings
 def pretty_print(d):

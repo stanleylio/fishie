@@ -40,8 +40,7 @@ def send_to_server(d):
     hosturl = 'http://grogdata.soest.hawaii.edu/poh/api/s2/submit'
     d = format_and_sign(d)
     params = {'client':myid}
-    r = requests.post(hosturl,params=params,data=d)
-    return r
+    return requests.post(hosturl,params=params,data=d)
 
 
 if '__main__' == __name__:
