@@ -159,7 +159,7 @@ conf = [
         'comtag':'V_5V',
         'unit':'V',
         'description':'Internal 5V supply voltage',
-        'plot':True,
+        'plot':False,
     },
     {
         'dbtag':'V_MBATT',
@@ -175,7 +175,7 @@ conf = [
         'comtag':'V_ISO',
         'unit':'V',
         'description':'Internal isolated supply voltage',
-        'plot':True,
+        'plot':False,
     },
     {
         'dbtag':'V_ISOBATT',
@@ -191,7 +191,7 @@ conf = [
         'comtag':'I_B',
         'unit':'nA',
         'description':'Substrate leakage current',
-        'plot':True,
+        'plot':False,
     },
     {
         'dbtag':'I_K',
@@ -199,7 +199,7 @@ conf = [
         'comtag':'I_K',
         'unit':'nA',
         'description':'Counter electrode leakage current',
-        'plot':True,
+        'plot':False,
     },
     {
         'dbtag':'V_K',
@@ -207,7 +207,7 @@ conf = [
         'comtag':'V_K',
         'unit':'V',
         'description':'Counter electrode voltage',
-        'plot':True,
+        'plot':False,
     },
     {
         'dbtag':'STATUS',
