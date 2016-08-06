@@ -49,7 +49,7 @@ conf = [
         'comtag':'ec',
         'unit':'uS/cm',
         'description':'Conductivity (EZO EC)',
-        'plot':True,
+        'plot':False,
         'range':Range(0,55e3),
     },
     {

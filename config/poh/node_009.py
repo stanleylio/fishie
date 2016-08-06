@@ -3,7 +3,7 @@
 tag = 'node-009'
 name = 'Mākāhā 1 Water Level'
 location = 'Mākāhā 1'
-note = 'Ultrasonic Proof of Concept'
+note = 'Ultrasonic tide gauge (us2)'
 
 log_dir = './log'
 plot_dir ='../www'

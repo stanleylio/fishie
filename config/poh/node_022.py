@@ -19,7 +19,7 @@ conf = [
         'comtag':None,
         'unit':None,
         'description':'Voltage report sequence number',
-        'plot':True,
+        'plot':False,
         'range':Range(lb=0),
     },
     {
@@ -28,7 +28,7 @@ conf = [
         'comtag':None,
         'unit':'V',
         'description':'Relay dongle battery voltage',
-        'plot':True,
+        'plot':False,
         'range':Range(lb=2.5),
     },
     {
