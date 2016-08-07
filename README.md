@@ -5,8 +5,12 @@ Software developed for the Coastal Environment Monitoring project at SOEST of th
 
 In addition to the logger core logic, it contains Python driver/parser for various sensors and devices:
 
-- Aanderaa 3835 (lab-grade oxygen optode)
-- Aanderaa 4330f (lab-grade oxygen optode)
+- Aanderaa 3835 (oxygen optode)
+- Aanderaa 4330F (oxygen optode)
+- Aanderaa 4531D (oxygen optode)
+- Aanderaa 4319A (conductivity/salinity sensor)
+- Seabird CTD 16plusV2
+- SeaFET pH sensor
 - WET Labs ECO FLNTU (Turbidity/Fluorescence sensor)
 - MS5803-14BA (Water pressure and temperature)
 - BMP280 (Barometric pressure and temperature)
