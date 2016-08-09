@@ -23,12 +23,12 @@ def auto_tick(ax):
     y = ax.get_lines()[0].get_ydata()
 
     # major tick labels
-    # not x[0] and x[-1] because x is not always sorted in ascending order
+    # Not x[0] and x[-1] because x is not always sorted in ascending order.
+    #
     # ... ORDER BY ... DESC... because otherwise sqlite will return the first
     # N readings - so if the latest N readings are wanted, they should be at
     # the first N readings (even though they are sorted in descending order)
-    # For plotting the oder doesn't matter because every sample has its
-    # corresponding timestamp.
+    # For plotting the order doesn't matter because the samples are timestamped.
 
     # "locate the earliest timestamp at which time the sample is not an NaN"
     # tricky bastard... nan in numpy.float64 is not float('nan')... and

@@ -6,7 +6,7 @@ import sys,traceback,sqlite3,re,importlib,argparse,json,time,math
 sys.path.append('..')
 from config.config_support import *
 from storage.storage import storage_read_only,auto_time_col
-from gen_plot import plot_multi_time_series,plot_time_series
+from gen_plot import plot_time_series
 from helper import dt2ts
 from datetime import datetime,timedelta
 from os.path import exists,join
