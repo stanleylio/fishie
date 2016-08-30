@@ -151,8 +151,8 @@ class LCD(object):
 
     
 if '__main__' == __name__:
-    d = LCD(bus=2)
-    d.write_lines(['John C Calhoun','RioT!!','Mary Seacole','PARTY HARD!!!'])
+    d = LCD(bus=1)
+    d.write_lines(['netflix and chill','may contain peanut','Edward Hopper','keep Summer safe'])
 
     while True:
         d.backlight(True)
