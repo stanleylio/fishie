@@ -1,19 +1,21 @@
+# Support functions for beaglebone-based node communication
+#
+# Stanley H.I. Lio
+# hlio@hawaii.edu
+# All Rights Reserved, 2016
 import struct,json,socket,re,traceback
 from zlib import crc32
 # see also: hashlib
 
-# support functions for CRC32 checksum in communication
-
-# Stanley Lio, hlio@usc.edu
-# All Rights Reserved. February 2015
-
 
 def PRINT(s):
-    print(s)
-    #pass
+    #print(s)
+    pass
+
 
 def get_checksum(s):
     return '{:08x}'.format(crc32(s) & 0xffffffff)
+
 
 def check(s):
     try:
@@ -37,6 +39,7 @@ def check(s):
         PRINT(e)
         return False
 
+
 def get_action(line):
     try:
         line = line.strip()
@@ -45,10 +48,11 @@ def get_action(line):
             tmp = json.loads(line)
             #print tmp['from']
             #print tmp['to']
-            # it must have an "action", but "from" and "sample count" are optional
+            # "action" is mandatory...
             if tmp['to'] == socket.gethostname():
                 d = {}
                 d['action'] = tmp['payload']['action']
+                # ... but "from" and "sample count" are optional
                 try:
                     d['multi_sample'] = max(1,tmp['payload']['m'])
                 except:
@@ -64,6 +68,7 @@ def get_action(line):
         #traceback.print_exc()
         pass
     return None
+
 
 def send(channel,sample,dest=None):
     tmp = {'from':socket.gethostname(),'payload':sample}

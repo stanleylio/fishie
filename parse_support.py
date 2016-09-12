@@ -3,7 +3,6 @@
 # Stanley Lio, hlio@usc.edu
 # All Rights Reserved. February 2015
 import sys,traceback,re,json,importlib
-#sys.path.append('config')
 from datetime import datetime
 from z import check
 from drivers.seafet import parse_SeaFET
@@ -14,8 +13,9 @@ def PRINT(s):
     pass
     #print(s)
 
-# print to terminal the given dictionary of readings
+
 def pretty_print(d):
+    """Pretty-print to terminal the given dictionary of readings"""
     # print the units as well? nah...
     max_len = max([len(k) for k in d.keys()])
     print '= '*(max_len + 4)
@@ -34,11 +34,15 @@ def pretty_print(d):
         print 'Sampled at {}'.format(tmp)
     for k in [k for k in sorted(d.keys()) if all([k != t for t in ['Timestamp','node','ReceptionTime']])]:
         print '{}{}{}'.format(k,' '*(max_len + 4 - len(k)),d[k])
-    
+
+
 def parse_message(line):
+    """Identify the origin of a given message;
+parse into dict() if it's from a known node."""
     try:
         line = line.strip()
-        
+
+        # is it one of the ultrasonic tide gauge?        
         if re.match('^us\d+,.+',line):
             try:
                 line = line.split(',')
@@ -63,23 +67,24 @@ def parse_message(line):
             except:
                 PRINT('Not a ultrasonic message:')
                 PRINT(line)
-                #return None    # let someone else try
 
+        # is it one of the SeaFET pH sensors?
         d = parse_SeaFET(line)
         if d is not None:
             if ('HEADER' in d and 'SATPHA0358' == d['HEADER']) or ('tag' in d and 'kph1' == d['tag']):
-                d['node'] = 'node-021'
+                d['node'] = 'node-021'  # Monty @ Site #13
                 return d
             if ('HEADER' in d and 'SATPHA0371' == d['HEADER']) or ('tag' in d and 'kph2' == d['tag']):
-                d['node'] = 'node-022'
+                d['node'] = 'node-022'  # Coco @ Site #4
                 return d
             if ('HEADER' in d and 'SATPHA0381' == d['HEADER']) or ('tag' in d and 'kph3' == d['tag']):
-                d['node'] = 'node-023'
+                d['node'] = 'node-023'  # in Glazer Lab
                 return d
         else:
             PRINT('Not a SeaFET message:')
             PRINT(line)
 
+        # is it a Seabird CTD?
         d = parse_Seabird(line)
         if d is not None:
             if ('sn' in d and d['sn'] == '01607354') or ('tag' in d and 'seabird1' == d['tag']):
@@ -107,7 +112,8 @@ def parse_message(line):
                 d = {c['dbtag']:d[c['comtag']] for c in node.conf}
                 d['node'] = node_id
                 return d'''
-        
+
+        # is it from one of the Beaglebone nodes?        
         if check(line):
             line = line[:-8]
             tmp = json.loads(line)
@@ -116,18 +122,18 @@ def parse_message(line):
                 d = tmp['payload']
                 d['ts'] = datetime.fromtimestamp(d['ts'])
 
-# all that mess.
+# what a mess.
                 from config import node
                 node = importlib.import_module('config.{}.{}'.format(node.site,node_id.replace('-','_')))
 
                 d = {c['dbtag']:d[c['comtag']] for c in node.conf}
                 d['node'] = node_id
 # If RF isolation cannot be guaranteed, node transmissions should carry site ID as well. But (site-id,node-id)
-# is the same as having a wider field of just node-id. There is no risk of running out of name space. So...
-# just make all node having unique node-ID. "Site ID" is just for webpage display.
+# is the same as having a wider field of just node-id. There is no risk of running out of IDs. So...
+# just make all node having unique node-ID. "Site (ID)" is just for webpage display.
 
 # Also, parse_message() can still parse messages from all sites. If a node is not defined in the database it
-# will be rejected by the db.
+# will just be ignored by the db.
                 return d
             elif re.match('^base[-_]\d{3}$',tmp['from']):
                 PRINT('Command from base station {}; ignore.'.format(tmp['from']))
@@ -165,5 +171,3 @@ if '__main__' == __name__:
 
     print parse_message('kph2,27,4.785')
     
-
-

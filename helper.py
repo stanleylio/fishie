@@ -2,6 +2,7 @@ import calendar
 from datetime import datetime
 from numpy import diff,mean,median,size,flatnonzero,append,insert,absolute
 
+
 def dt2ts(dt):
     return calendar.timegm(dt.timetuple()) + (dt.microsecond)*(1e-6)
 
@@ -14,38 +15,36 @@ def ts2dt(ts):
 #def c2f(c):
 #    return c*9./5. + 32.
 
-# I don't like this...
+
+# I don't like this... but the config has to live somewhere
 def get_dbfile(site,node_id=None):
+    """where to locate the db for the given site. Pure black magic."""
     if 'poh' == site:
+        # He`eia fishpond
         return '/home/nuc/node/www/poh/storage/sensor_data.db'
     elif 'coconut' == site:
         if 'node-026' == node_id:
+            # Hollie's water tanks
             return '/home/nuc/data/htank/storage/sensor_data.db'
         else:
+            # I don't think this is active
             return '/home/nuc/node/www/coconut/storage/sensor_data.db'
     elif 'msb228' == site:
+        # MSB228 nodes
         if 'node-019' == node_id:
             return '/home/nuc/data/node-019/storage/sensor_data.db'
         elif 'node-005' == node_id:
             return '/home/nuc/data/node-005/storage/sensor_data.db'
     return None
 
-'''def gen_table(t):
-    """Create an HTML table given a list of lists as rows for the table.
-    First row is the table header."""
-    s = u'<thead><tr>{}</tr></thead>'.format(u''.join([u'<th>{}</th>'.format(f) for f in t[0]]))
-    body = ''
-    for row in t[1:]:
-        body = body + u'<tr>{}</tr>'.format(''.join([u'<td>{}</td>'.format(f) for f in row]))
-    s = s + u'<tbody>{}</tbody>'.format(body)
-    s = u'<table>{}</table>'.format(s)
-    return s'''
 
 # processing/analysis stuff
 
-# should it check first whether they data are indeed in groups?
+# should it first check whether the data are indeed in groups?
 # or at least emit a warning if they aren't?
 def split_by_group(t,x):
+    """returns a list of groups; each group contains samples
+that are close to each other in time"""
     assert len(t) == len(x)
     
     #tmp = diff(t)
@@ -108,6 +107,7 @@ def savecsv(fn,d,keys=None):
         f.write('\n'.join([','.join([str(rr) for rr in r]) for r in zip(*[d[k] for k in keys])]))
 
 def plot1(x,y,title='',xlabel='',ylabel='',linelabel='',color='b',style='.',fn=None):
+    """Plot a single-var time series"""
     from matplotlib import pyplot
     from matplotlib.font_manager import FontProperties
     fontP = FontProperties()
