@@ -36,7 +36,7 @@ while True:
             if 'ReceptionTime' in store.get_list_of_columns(node_id):
                 time_col = 'ReceptionTime'
             t = store.read_last_N(node_id,time_col)[time_col][0]
-            ago = (datetime.now() - t).total_seconds()
+            ago = (datetime.utcnow() - t).total_seconds()
             print 'node {}:\t{:.0f}d {:2.0f}:{:02.0f}:{:02.0f} ago'.\
                   format(node_id,ago//(3600*24),(ago%(3600*24))//3600,(ago%3600)//60,ago%60)
             #print 'node {}:\t{:2.0f}:{:02.0f}:{:02.0f} ago'.\
