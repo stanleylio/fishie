@@ -21,8 +21,12 @@ def parse_SeaFET(m):
                 #else:
                 #    del d[k]
             return d
-        elif 3 == len(m) and m[0].startswith('kph'):
-            return {'tag':m[0],'ticker':int(m[1]),'Vbatt':float(m[2])}
+        elif 8 == len(m) and m[0].startswith('kph'):
+            return {'tag':m[0],'tx_id':float(m[1]),'bad_char_count':float(m[2]),
+                    'ticker':float(m[3]),'last_transmitted':float(m[4]),
+                    'last_received':float(m[5]),'Vcc':float(m[6]),'Vbatt':m[7]}
+        #elif 3 == len(m) and m[0].startswith('kph'):
+            #return {'tag':m[0],'ticker':int(m[1]),'Vbatt':float(m[2])}
     except:
         traceback.print_exc()
         #pass
@@ -33,7 +37,8 @@ if '__main__' == __name__:
     #line = 'SATPHA0381,2016140,22.6361427,6.74344,6.28063,22.6203,22.5845,0.0111,5.801,nan,-1.03704423,-1.01856291,0.80557853,9.944,72,6.1,4.898,11.855,6.143,5.928,0,10,0.00000000,0x0000,148'
     #line = 'kph1,6318,303'
     #line = 'asdfaswlefjuawo;fj'
-    line = 'kph2,4,4.526'
+    #line = 'kph2,4,4.526'
+    line = 'kph2,25,0,3600,3266,3264,3.248,4.670'
     d = parse_SeaFET(line)
     
     if d is not None:
