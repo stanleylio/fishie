@@ -10,7 +10,7 @@ fi
 rsync -avh /etc/apache2 $DIR
 
 crontab -l > $DIR/crontab.txt
-sudo cp -a /etc/network/interfaces $DIR/interfaces.txt
+cp -a /etc/network/interfaces $DIR/interfaces.txt
 cp -a /etc/wpa_supplicant/wpa_supplicant.conf $DIR/wpa_supplicant.conf
 cp -a /etc/hostname $DIR/hostname.txt
 cp -a /etc/hosts $DIR/hosts.txt
