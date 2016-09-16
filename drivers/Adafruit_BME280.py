@@ -26,7 +26,7 @@ import time
 
 
 # BME280 default address.
-BME280_I2CADDR = 0x76
+BME280_I2CADDR = 0x77
 
 # Operating Modes
 BME280_OSAMPLE_1 = 1
@@ -247,7 +247,7 @@ if '__main__' == __name__:
 
     while True:
         try:
-            bme = BME280_sl(bus=2,mode=BME280_OSAMPLE_16)
+            bme = BME280_sl(bus=2,mode=BME280_OSAMPLE_8)
             print bme.read()
         except KeyboardInterrupt:
             break
