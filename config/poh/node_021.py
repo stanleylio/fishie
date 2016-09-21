@@ -28,7 +28,7 @@ conf = [
         'comtag':None,
         'unit':'V',
         'description':'Relay dongle battery voltage',
-        'plot':True,
+        'plot':False,
         'range':Range(2.5,5.2),
     },
     {

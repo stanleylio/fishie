@@ -33,8 +33,8 @@ def get_dbfile(site,node_id=None):
         # MSB228 nodes
         if 'node-019' == node_id:
             return '/home/nuc/data/node-019/storage/sensor_data.db'
-        elif 'node-005' == node_id:
-            return '/home/nuc/data/node-005/storage/sensor_data.db'
+        #elif 'node-005' == node_id:
+            #return '/home/nuc/data/node-005/storage/sensor_data.db'
     return None
 
 
