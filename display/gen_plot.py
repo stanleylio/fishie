@@ -141,8 +141,8 @@ def plot_multi_time_series(data,plotfilename,title='',xlabel='',ylabel=''):
     plt.close()
 
 
-def plot_time_series(x,y,plotfilename,title='',xlabel='',ylabel='',linelabel=None):
-    data = [{'x':x,'y':y,'linelabel':linelabel}]
+def plot_time_series(x,y,plotfilename,title='',xlabel='',ylabel='',linelabel=None,markersize=None):
+    data = [{'x':x,'y':y,'linelabel':linelabel,'markersize':markersize}]
 
     if '' == xlabel:
         begin = min([z[0] for z in zip(x,y) if not numpy.isnan(z[1])])
