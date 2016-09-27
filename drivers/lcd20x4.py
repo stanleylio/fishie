@@ -26,9 +26,10 @@ class LCD(object):
     DB6 = 6
     DB7 = 7
     
-    def __init__(self,bus=1):
+    def __init__(self,bus=1,address=0x27):
         self._bus = SMBus(bus)
         self._state = 0
+        self.PCF8574T_addr = address
 
         self.backlight(True)
 
