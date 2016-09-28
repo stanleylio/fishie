@@ -2,7 +2,7 @@
 #
 # Stanley Lio, hlio@soest.hawaii.edu
 # January 2016
-import sys,traceback,sqlite3,re,importlib,argparse,json,time,math
+import sys,traceback,sqlite3,re,importlib,argparse,json,time,math,logging
 sys.path.append('..')
 from config.config_support import *
 from storage.storage import storage_read_only,auto_time_col
@@ -14,9 +14,7 @@ from os import makedirs
 from scipy.signal import medfilt
 
 
-def PRINT(s):
-    print(s)
-    #pass
+logging.basicConfig(level=logging.DEBUG)
 
 
 parser = argparse.ArgumentParser(formatter_class=argparse.RawTextHelpFormatter,description='')
@@ -26,11 +24,11 @@ parser.add_argument('--plot_dir',type=str,default='./gen_plot_output',metavar='p
 args = parser.parse_args()
 
 site = args.site
-PRINT('Site: {}'.format(site))
+logging.info('Site: {}'.format(site))
 
 dbfile = args.dbfile
 if dbfile is not None:
-    PRINT('db: {}'.format(dbfile))
+    logging.info('db: {}'.format(dbfile))
 
 # which database to take data from
 #dbfile = args.dbfile
@@ -43,9 +41,9 @@ if dbfile is not None:
 # where to put the generated plots
 plot_dir = args.plot_dir
 if exists(plot_dir):
-    PRINT('Output directory: ' + plot_dir)
+    logging.info('Output directory: ' + plot_dir)
 else:
-    print('Output directory ' + plot_dir + ' does not exist. Terminating.')
+    logging.critical('Output directory ' + plot_dir + ' does not exist. Terminating.')
     sys.exit()
 
 #tmp = store.get_list_of_tables()
@@ -53,7 +51,7 @@ else:
 nodes = get_list_of_nodes(site)
 
 if len(nodes) <= 0:
-    print('Nothing to plot. Terminating.')
+    logging.critical('Nothing to plot. Terminating.')
     sys.exit()
 
 # list of nodes, per site
@@ -61,11 +59,11 @@ with open(join(plot_dir,'node_list.json'),'w') as f:
     json.dump({'nodes':nodes},f,separators=(',',':'))
 
 for node_id in nodes:
-    PRINT('- - - - -')
-    PRINT('Node: ' + node_id)
+    print('- - - - -')
+    print('Node: ' + node_id)
 
     if dbfile is None:
-        print('dbfile not specified. Terminating')
+        logging.critical('dbfile not specified. Terminating')
         sys.exit()
         
     store = storage_read_only(dbfile=dbfile)
@@ -79,7 +77,7 @@ for node_id in nodes:
     try:
         time_col = auto_time_col(store,node_id)
     except sqlite3.OperationalError:
-        PRINT('{} not in {}. Skipping this node'.format(node_id,dbfile))
+        logging.warning('{} not in {}. Skipping this node'.format(node_id,dbfile))
         continue
         
     variables = [c['dbtag'] for c in node.conf if c['plot']]
@@ -93,6 +91,15 @@ for node_id in nodes:
 
         try:
             tmp = store.read_past_time_period(node_id,time_col,cols,timerange)
+
+            # don't plot if:
+            #   there's no data for the sensor in the specified range (e.g. sensor has been removed, logger is not working), or
+            #   all samples are None (sensor read failed -> samples become None but still carries timestamps)
+            if tmp is None or all([v is None for v in tmp[var]]):
+                logging.warning('\tNo data for {} of {} in the selected range'.\
+                      format(var,node_id))
+                continue
+
             x = tmp[time_col]
             y = [l if l is not None else float('NaN') for l in tmp[var]]
 
@@ -101,7 +108,7 @@ for node_id in nodes:
             if not exists(node_plot_dir):
                 makedirs(node_plot_dir)
 
-            PRINT('\t{}'.format(var))
+            print('\t{}'.format(var))
             tmp = tag_unit_map[var]
             if tmp is None:
                 tmp = '(unitless)'
@@ -131,15 +138,19 @@ for node_id in nodes:
 
             plotted.append(var)
 
-        except (TypeError,sqlite3.OperationalError,ValueError) as e:
+        #except (sqlite3.OperationalError,ValueError) as e:
             # TypeError: ... I don't remember.
             # sqlite3.OperationalError: db is empty
             # ValueError: db has the variable, but all NaN
-            PRINT('\tNo data for {} of {} in the selected range'.\
-                  format(var,node_id))
+            #logging.warning('\tNo data for {} of {} in the selected range'.\
+            #      format(var,node_id))
             #traceback.print_exc()
+        except KeyboardInterrupt:
+            logging.info('user interrupted')
+            sys.exit()
         except:
-            traceback.print_exc()
+            #traceback.print_exc()
+            logging.error(traceback.format_exc())
 
     # website helper (list of variable, per node)
     if exists(node_plot_dir) and len(plotted) > 0:

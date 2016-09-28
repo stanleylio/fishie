@@ -2,7 +2,6 @@
 #
 # Stanley Lio, hlio@usc.edu
 # All Rights Reserved. February 2015
-
 import matplotlib,numpy,traceback
 matplotlib.use('Agg')
 import sys
@@ -86,8 +85,12 @@ def plot_multi_time_series(data,plotfilename,title='',xlabel='',ylabel=''):
         except:
             markersize = 1
 
-        plt.plot_date(x,y,linestyle=linestyle,label=linelabel,color=color,
-                      marker=marker,markersize=markersize)
+        plt.plot_date(x,y,
+                      linestyle=linestyle,
+                      label=linelabel,
+                      color=color,
+                      marker=marker,
+                      markersize=markersize)
 
         #import matplotlib.patches as mpatches
         #red_patch = mpatches.Patch()
@@ -134,14 +137,17 @@ def plot_multi_time_series(data,plotfilename,title='',xlabel='',ylabel=''):
                 h.set_markersize(8)
     except:
         traceback.print_exc()
-    
+
     plt.savefig(plotfilename,bbox_inches='tight',dpi=300)
     plt.cla()
     plt.clf()
     plt.close()
 
 
-def plot_time_series(x,y,plotfilename,title='',xlabel='',ylabel='',linelabel=None,markersize=None):
+def plot_time_series(x,y,plotfilename,title='',xlabel='',ylabel='',linelabel=None,markersize=1):
+    assert len(x) == len(y)
+    assert len(plotfilename) > 0
+    
     data = [{'x':x,'y':y,'linelabel':linelabel,'markersize':markersize}]
 
     if '' == xlabel:

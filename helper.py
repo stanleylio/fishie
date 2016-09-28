@@ -106,7 +106,7 @@ def savecsv(fn,d,keys=None):
         f.write(','.join([k.replace(',','') for k in keys]) + '\n')
         f.write('\n'.join([','.join([str(rr) for rr in r]) for r in zip(*[d[k] for k in keys])]))
 
-def plot1(x,y,title='',xlabel='',ylabel='',linelabel='',color='b',style='.',fn=None):
+'''def plot1(x,y,title='',xlabel='',ylabel='',linelabel='',color='b',style='.',fn=None):
     """Plot a single-var time series"""
     from matplotlib import pyplot
     from matplotlib.font_manager import FontProperties
@@ -129,5 +129,5 @@ def plot1(x,y,title='',xlabel='',ylabel='',linelabel='',color='b',style='.',fn=N
 
     if fn is not None:
         fig.savefig(fn)
-    return fig
+    return fig'''
 
