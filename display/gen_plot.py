@@ -5,16 +5,11 @@
 import matplotlib,numpy,traceback
 matplotlib.use('Agg')
 import sys
-sys.path.append('..')
+#sys.path.append('..')
 import matplotlib.pyplot as plt
 from datetime import datetime,timedelta
 from matplotlib.dates import DateFormatter,HourLocator
 #from config.config_support import *
-
-
-def PRINT(s):
-    print(s)
-    #pass
 
 
 def auto_tick(ax):
@@ -71,7 +66,7 @@ def plot_multi_time_series(data,plotfilename,title='',xlabel='',ylabel=''):
         try:
             color = d['color']
         except:
-            color = None
+            color = 'blue'
         try:
             linestyle = d['linestyle']
         except:
@@ -84,6 +79,8 @@ def plot_multi_time_series(data,plotfilename,title='',xlabel='',ylabel=''):
             markersize = d['markersize']
         except:
             markersize = 1
+
+        #print(color,linestyle,marker,markersize)
 
         plt.plot_date(x,y,
                       linestyle=linestyle,
