@@ -4,7 +4,6 @@
 # October 1, 2015
 import sys,time,os,traceback
 from Adafruit_GPIO.I2C import Device
-from scipy.signal import medfilt
 
 
 class Watchdog(object):
