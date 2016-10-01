@@ -1,5 +1,8 @@
-# experimental real-time POST to i7 server
-# Stanley Hou In Lio, June 2016
+# Experimental real-time POST to i7 server
+#
+# Stanley H.I. Lio
+# hlio@hawaii.edu
+# June 2016
 import requests
 import json
 import base64

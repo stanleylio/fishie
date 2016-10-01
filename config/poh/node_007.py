@@ -9,7 +9,7 @@ note = 'Meteorological Station'
 log_dir = './log'
 plot_dir = '../www'
 
-plot_range = 24*14
+plot_range = 24*7
 
 #xbee_port = '/dev/ttyAMA0'
 xbee_port = '/dev/ttyO1'
