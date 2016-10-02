@@ -33,15 +33,13 @@ def sign(m):
     signature = base64.b64encode(signature)
     return {'m':m,'s':signature,'ts':dt2ts(datetime.utcnow())}
 
-def format_and_sign(d):
-    return sign(json.dumps(d,separators=(',',':')))
-
-def send_to_server(d):
+def send_to_server(m):
     # dump to txt
     #hosturl = 'http://grogdata.soest.hawaii.edu/poh/api/s1/submit'
     # write to db
-    hosturl = 'http://grogdata.soest.hawaii.edu/poh/api/s2/submit'
-    d = format_and_sign(d)
+    #hosturl = 'http://grogdata.soest.hawaii.edu/poh/api/s2/submit'
+    hosturl = 'http://grogdata.soest.hawaii.edu/poh/api/s3/submit'
+    d = sign(m)
     params = {'client':myid}
     return requests.post(hosturl,params=params,data=d)
 
