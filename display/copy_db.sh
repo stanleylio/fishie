@@ -2,6 +2,8 @@
 
 # Clone the database sent in by the field base station
 #
+# One of these days I'm gonna switch the whole thing to MySQL or some other managed database.
+#
 # The .backup command in sqlite3 append to instead of replace the data in the target database (if exist)
 # ... but if I use .clone then the clone loses the group-write permission.
 # ... I'm still not convinced that the Linux permission system is a good feature.

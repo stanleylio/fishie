@@ -51,5 +51,7 @@ if '__main__' == __name__:
         #elif 'tag' in d and 'kph3' == d['tag']:
             #d['node'] = 'node-023'
 
-    print d.keys()
-    print d['node']
+    #print d.keys()
+    #print d['node']
+    for k,v in d.iteritems():
+        print k,v
