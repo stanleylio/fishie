@@ -7,6 +7,7 @@ sys.path.append(r'..')
 from datetime import datetime,timedelta
 from gen_plot import plot_time_series
 from helper import *
+from os.path import join
 
 
 with open('/home/nuc/data/base-001/log/base_temperature.txt') as f:
@@ -44,14 +45,15 @@ ts = tuple(ts2dt(t) for t in d[0])
 p = tuple(c/1e3 for c in d[1])
 t = d[2]'''
 
-bdir = '/home/nuc/node/www/t2/'
+#bdir = '/home/nuc/node/www/t2/'
+bdir = '/var/www/uhcm/img/t2'
 
-plot_time_series(d[0],d[1],bdir + 'base_p.png',
+plot_time_series(d[0],d[1],join(bdir,'base_p.png'),
                  title='Barometric Pressure (Base Station BMP180)',
                  xlabel='Time',ylabel='kPa')
 
 
-plot_time_series(d[0],d[2],bdir + 'base_t.png',
+plot_time_series(d[0],d[2],join(bdir,'base_t.png'),
                  title='Base Station Temperature',
                  xlabel='Time',ylabel='Deg.C')
 
