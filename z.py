@@ -1,44 +1,25 @@
-# Support functions for beaglebone-based node communication
+# Communication support functions
+#
+# Some of them are utils (CRC), others are app-specific (how to append checksum to message)
 #
 # Stanley H.I. Lio
 # hlio@hawaii.edu
-# All Rights Reserved, 2016
-import struct,json,socket,re,traceback
+# All Rights Reserved. 2016
+import struct,json,socket,re,traceback,logging
 from zlib import crc32
 # see also: hashlib
-
-
-def PRINT(s):
-    #print(s)
-    pass
 
 
 def get_checksum(s):
     return '{:08x}'.format(crc32(s) & 0xffffffff)
 
-
 def check(s):
     try:
-        #s = s.strip()
-        msg = s[:-8]
-        rcs = s[-8:]
-        ccs = get_checksum(msg)
-# = = = = =
-# debugging
-#        if not ccs == rcs:
-#            PRINT('= = =')
-#            PRINT('Received checksum:\t' + rcs)
-#            PRINT('Calculated checksum:\t' + ccs)
-#            PRINT('Message:')
-#            PRINT(msg)
-#            PRINT('= = =')
-# = = = = =
-        return ccs == rcs
-    except Exception as e:
-        PRINT('Exception in z::check()')
-        PRINT(e)
+        return get_checksum(s[:-8]) == s[-8:]
+    except:
+        logging.debug(traceback.format_exc())
+        logging.warning(s)
         return False
-
 
 def get_action(line):
     try:
@@ -57,6 +38,8 @@ def get_action(line):
                     d['multi_sample'] = max(1,tmp['payload']['m'])
                 except:
                     pass
+                # try this next time?
+                #d['from'] = tmp.get('from',None)
                 try:
                     d['from'] = tmp['from']
                 except:
@@ -65,10 +48,8 @@ def get_action(line):
             else:
                 return None
     except:
-        #traceback.print_exc()
-        pass
+        logging.debug(traceback.format_exc())
     return None
-
 
 def send(channel,sample,dest=None):
     tmp = {'from':socket.gethostname(),'payload':sample}
@@ -79,6 +60,8 @@ def send(channel,sample,dest=None):
 
 
 if '__main__' == __name__:
+    logging.basicConfig(level=logging.DEBUG)
+    
     #s = 'node_011,1423219154.21,0.0,0.0,3374.18,1012.95,24.1'
     #s = 'node_011,142329154.21,0.0,0.0,3374.18,1012.95,24.1'
     s1 = 'node_011,1423222524.47,0.0,0.0,3245.85,1012.54,24.1,eb9f0088'

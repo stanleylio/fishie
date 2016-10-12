@@ -4,7 +4,6 @@
 # hlio@hawaii.edu
 # June 2016
 import requests
-import json
 import base64
 from datetime import datetime
 from helper import *

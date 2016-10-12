@@ -1,0 +1,3 @@
+The base station at PoH has not been updated to take in the new debug broadcasts. This parses the raw communication text file to find and plot telemetry dongle battery voltage. Supposed to be temporary...
+
+October 2016

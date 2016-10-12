@@ -6,6 +6,7 @@
 
 log/
 www/
+obsolete/
 
 sampling_core.py
 sampling_base.py
