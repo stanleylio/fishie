@@ -3,10 +3,14 @@ from datetime import datetime
 from numpy import diff,mean,median,size,flatnonzero,append,insert,absolute
 
 
-def dt2ts(dt):
+def dt2ts(dt=None):
+    if dt is None:
+        dt = datetime.utcnow()
     return calendar.timegm(dt.timetuple()) + (dt.microsecond)*(1e-6)
 
-def ts2dt(ts):
+def ts2dt(ts=None):
+    if ts is None:
+        ts = dt2ts()
     return datetime.utcfromtimestamp(ts)
 
 #def m2ft(m):

@@ -1,3 +1,6 @@
+# authentication stuff for the kmet-bbb otg-met link
+# TODO: update the UHCM base-004 i7NUC link to use this instead of rq5
+#
 # Stanley H.I. Lio
 # hlio@hawaii.edu
 # All Rights Reserved. 2016
