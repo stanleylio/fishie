@@ -8,6 +8,9 @@ import sqlite3,time,traceback
 from os.path import join,dirname
 from datetime import datetime,timedelta
 from os.path import exists
+import sys
+sys.path.append('..')
+from helper import ts2dt,dt2ts
 
 
 def PRINT(s):
@@ -59,6 +62,8 @@ class storage_read_only(object):
 
         if end is None:
             end = datetime.utcnow()
+            if type(begin) is float:
+                end = dt2ts(end)
 
         assert end > begin,'"begin" came after "end"? just swap the two'
 
