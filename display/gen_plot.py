@@ -57,34 +57,20 @@ def plot_multi_time_series(data,plotfilename,title='',xlabel='',ylabel=''):
     plt.figure()
 
     for d in data:
+        # maybe use python's own kargs instead? TODO
         x = d['x']
         y = d['y']
-        try:
-            linelabel = d['linelabel']
-        except:
-            linelabel = None
-        try:
-            color = d['color']
-        except:
-            color = 'blue'
-        try:
-            linestyle = d['linestyle']
-        except:
-            linestyle = ''
-        try:
-            marker = d['marker']
-        except:
-            marker = '.'
-        try:
-            markersize = d['markersize']
-        except:
-            markersize = 1
+        label = d.get('linelabel',None)
+        color = d.get('color','blue')
+        linestyle = d.get('linestyle','')
+        marker = d.get('marker','.')
+        markersize = d.get('markersize',1)
 
         #print(color,linestyle,marker,markersize)
 
         plt.plot_date(x,y,
                       linestyle=linestyle,
-                      label=linelabel,
+                      label=label,
                       color=color,
                       marker=marker,
                       markersize=markersize)
