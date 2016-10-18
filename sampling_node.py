@@ -2,8 +2,9 @@
 #
 # logging script for sensor node
 #
-# Stanley Hou In Lio, stanleylio@gmail.com
-# All Rights Reserved. October 2015
+# Stanley H.I. Lio
+# hlio@hawaii.edu
+# All Rights Reserved. 2016
 import serial,sys,time,traceback,importlib
 import config,drivers,storage
 import Adafruit_BBIO.UART as UART
@@ -16,10 +17,12 @@ from config.config_support import *
 from parse_support import pretty_print
 from random import randint
 from drivers.indicators import *
-
-import node
+import config.node as node
 site = node.site
+
 node = importlib.import_module(node.config)
+#node = importlib.import_module('config.msb228.node_019')
+
 
 if not is_node():
     print('Not configured as a sensor node (see node_config.ini). Terminating.')
@@ -67,7 +70,7 @@ def log_raw(line):
 
 #store = storage({node.tag:get_capabilities(site)[node.tag]})
 tmp = get_schema(site)
-store = storage(schema={node.tag:tmp[node.tag]})
+store = storage('storage/sensor_data.db',schema={node.tag:tmp[node.tag]})
 
 # wait at most 1 minute for the system clock to initialize (ntpdate, hwclock, GPS etc.)
 print 'Checking system clock against database...'
