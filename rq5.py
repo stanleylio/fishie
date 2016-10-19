@@ -1,4 +1,5 @@
 # Experimental real-time POST to i7 server
+# superceded by send2server
 #
 # Stanley H.I. Lio
 # hlio@hawaii.edu
