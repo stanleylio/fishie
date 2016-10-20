@@ -243,12 +243,13 @@ if '__main__' == __name__:
     print 'Pressure  = {0:0.2f} hPa'.format(hectopascals)
     print 'Humidity  = {0:0.2f} %'.format(humidity)'''
 
-    import traceback
+    import traceback,time
 
     while True:
         try:
             bme = BME280_sl(bus=2,mode=BME280_OSAMPLE_8)
             print bme.read()
+            time.sleep(0.5)
         except KeyboardInterrupt:
             break
         except:

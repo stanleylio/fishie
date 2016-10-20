@@ -262,7 +262,7 @@ class BMP085 :
 if '__main__' == __name__:
   import time
   #bmp = BMP085(0x77,3)   # ULTRAHIRES Mode
-  bmp = BMP085(0x77,3,busnum=1)   # ULTRAHIRES Mode
+  bmp = BMP085(0x77,3,busnum=2)   # ULTRAHIRES Mode
 
   try:
     while True:
@@ -271,7 +271,7 @@ if '__main__' == __name__:
       tmp = '{:.1f} Deg.C, {:.2f} kPa'.format(bmptemp,pressure/1000.)
       print('\x1b[2J\x1b[;H')
       print tmp
-      time.sleep(0.1)
+      time.sleep(1)
   except KeyboardInterrupt:
       print 'user interrupted'
 
