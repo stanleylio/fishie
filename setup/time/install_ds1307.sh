@@ -15,7 +15,8 @@ hwclock -r -f /dev/rtc1
 echo "Getting time via NTP..."
 #ntpdate -b -s -u pool.ntp.org
 service ntp stop
-ntpdate ntp.soest.hawaii.edu
+#ntpdate ntp.soest.hawaii.edu
+ntpd -gq
 service ntp start
 #date -s "10 SEP 2015 22:00:30"
 date
