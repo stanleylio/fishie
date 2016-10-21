@@ -1,28 +1,39 @@
 #!/usr/bin/python
 #
-# Stanley Hou In Lio, hlio@hawaii.edu
-# October 1, 2015
-import sys,time,os,traceback
-from Adafruit_GPIO.I2C import Device
+# Stanley H.I. Lio
+# hlio@hawaii.edu
+# All Rights Reserved. 2016
+import sys,time,os,traceback,smbus,logging
 
 
 class Watchdog(object):
     def __init__(self,addr=0x51,bus=1):
-        self._i2c = Device(addr,busnum=bus)
+        self.addr = addr
+        self.bus = smbus.SMBus(bus)
 
     def reset(self):
-        return self._i2c.readU16(10)
+        return self.bus.read_word_data(self.addr,10)
 
 
-if '__main__' == __name__:
+def reset_auto():
+    good = False
     for bus in [1,2]:
         try:
             w = Watchdog(bus=bus)
             for i in range(10):
                 w.reset()
-            print('Found watchdog on bus {}'.format(bus))
-        except:
+            good = True
+            #break
+        except IOError:
             #print('nope.')
             #traceback.print_exc()
             pass
+    if good:
+        logging.debug('Found watchdog on bus {}'.format(bus))
+    else:
+        logging.error('No WDT found.')
 
+
+if '__main__' == __name__:
+    logging.basicConfig(level=logging.DEBUG)
+    reset_auto()
