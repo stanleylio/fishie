@@ -1,5 +1,8 @@
 # Send a signed string to i7NUC via HTTP POST
-# Targeted for v4 API
+# Messages are signed by the private key of this device
+# Messages are verified by i7NUC with the public key of this device
+#
+# Targeted at the v4 API
 #
 # Stanley H.I. Lio
 # hlio@hawaii.edu
@@ -30,5 +33,4 @@ def post(m):
 
 if '__main__' == __name__:
     m = '"Oh no sweetie put your hand down We are looking for actual physicians."'
-
     print(post(m))
