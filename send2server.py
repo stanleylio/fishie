@@ -27,12 +27,11 @@ def prepare_message(m):
             'sig':sig,
             }
 
-def post(m):
-    endpoint = 'http://grogdata.soest.hawaii.edu/api/4'
+def post(m,endpoint):
     r = requests.post(endpoint,data=prepare_message(m))
     return r.text
 
 
 if '__main__' == __name__:
     m = '"Oh no sweetie put your hand down We are looking for actual physicians."'
-    print(post(m))
+    print(post(m,'http://grogdata.soest.hawaii.edu/api/4'))
