@@ -36,7 +36,7 @@ def pretty_print(d):
         print '{}{}{}'.format(k,' '*(max_len + 4 - len(k)),d[k])
 
 
-def parse_message(line):
+def parse_message(line,site):
     """Identify the origin of a given message;
 parse into dict() if it's from a known node."""
     try:
@@ -89,8 +89,8 @@ parse into dict() if it's from a known node."""
         if d is not None:
             if ('sn' in d and d['sn'] == '01607354') or ('tag' in d and 'seabird1' == d['tag']):
                 node_id = 'node-025'
-                from config import node
-                node = importlib.import_module('config.{}.{}'.format(node.site,node_id.replace('-','_')))
+                #from config import node
+                node = importlib.import_module('config.{}.{}'.format(site,node_id.replace('-','_')))
 
                 # this:
                 #d = {c['dbtag']:d[c['comtag']] for c in node.conf}
@@ -123,8 +123,8 @@ parse into dict() if it's from a known node."""
                 d['ts'] = datetime.fromtimestamp(d['ts'])
 
 # what a mess.
-                from config import node
-                node = importlib.import_module('config.{}.{}'.format(node.site,node_id.replace('-','_')))
+                #from config import node
+                node = importlib.import_module('config.{}.{}'.format(site,node_id.replace('-','_')))
 
                 d = {c['dbtag']:d[c['comtag']] for c in node.conf}
                 d['node'] = node_id
