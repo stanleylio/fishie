@@ -8,21 +8,19 @@
 # hlio@hawaii.edu
 # University of Hawaii
 # All Rights Reserved. 2016
-import requests,json
+import requests,json,time
 from authstuff import get_signature
-from helper import dt2ts
 from os.path import expanduser,join
 import socket
 
 
 def prepare_message(m):
     """Sign, date, add own ID. Return as a dict()"""
-    nodeid = socket.gethostname()
     #privatekey = open('/home/nuc/.ssh/id_rsa').read()
     privatekey = open(join(expanduser('~'),'.ssh/id_rsa')).read()
     sig = get_signature(m,privatekey)
-    return {'src':nodeid,
-            'ts':dt2ts(),
+    return {'src':socket.gethostname(),
+            'ts':time.time(),
             'msg':m,
             'sig':sig,
             }
