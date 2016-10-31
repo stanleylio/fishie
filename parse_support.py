@@ -2,38 +2,34 @@
 #
 # Stanley Lio, hlio@usc.edu
 # All Rights Reserved. February 2015
-import sys,traceback,re,json,importlib
+import sys,traceback,re,json,importlib,logging
 from datetime import datetime
 from z import check
 from drivers.seafet import parse_SeaFET
 from drivers.seabird import parse_Seabird
 
 
-def PRINT(s):
-    pass
-    #print(s)
-
 
 def pretty_print(d):
     """Pretty-print to terminal the given dictionary of readings"""
     # print the units as well? nah...
     max_len = max([len(k) for k in d.keys()])
-    print '= '*(max_len + 4)
+    print('= '*(max_len + 4))
     if 'node' in d.keys():
-        print 'From {}:'.format(d['node'])
+        print('From {}:'.format(d['node']))
         #print 'From node-{:03d}:'.format(d['node-id'])
     if 'ReceptionTime' in d.keys():
         tmp = d['ReceptionTime']
         if isinstance(tmp,float):
             tmp = datetime.fromtimestamp(tmp)
-        print 'Received at {}'.format(tmp)
+        print('Received at {}'.format(tmp))
     if 'Timestamp' in d.keys():
         tmp = d['Timestamp']
         if isinstance(tmp,float):
             tmp = datetime.fromtimestamp(tmp)
-        print 'Sampled at {}'.format(tmp)
+        print('Sampled at {}'.format(tmp))
     for k in [k for k in sorted(d.keys()) if all([k != t for t in ['Timestamp','node','ReceptionTime']])]:
-        print '{}{}{}'.format(k,' '*(max_len + 4 - len(k)),d[k])
+        print('{}{}{}'.format(k,' '*(max_len + 4 - len(k)),d[k]))
 
 
 def parse_message(line,site):
@@ -65,8 +61,8 @@ parse into dict() if it's from a known node."""
                          'VbattmV':int(line[3])}
                     return d
             except:
-                PRINT('Not a ultrasonic message:')
-                PRINT(line)
+                logging.info('Not a ultrasonic message:')
+                logging.info(line)
 
         # is it one of the SeaFET pH sensors?
         d = parse_SeaFET(line)
@@ -81,8 +77,8 @@ parse into dict() if it's from a known node."""
                 d['node'] = 'node-023'  # in Glazer Lab
                 return d
         else:
-            PRINT('Not a SeaFET message:')
-            PRINT(line)
+            logging.info('Not a SeaFET message:')
+            logging.info(line)
 
         # is it a Seabird CTD?
         d = parse_Seabird(line)
@@ -112,6 +108,9 @@ parse into dict() if it's from a known node."""
                 d = {c['dbtag']:d[c['comtag']] for c in node.conf}
                 d['node'] = node_id
                 return d'''
+        else:
+            logging.info('Not a Seabird message:')
+            logging.info(line)
 
         # is it from one of the Beaglebone nodes?        
         if check(line):
@@ -136,17 +135,17 @@ parse into dict() if it's from a known node."""
 # will just be ignored by the db.
                 return d
             elif re.match('^base[-_]\d{3}$',tmp['from']):
-                PRINT('Command from base station {}; ignore.'.format(tmp['from']))
+                logging.warning('Command from base station {}; ignore.'.format(tmp['from']))
             else:
-                PRINT('Not a BBB node message:')
-                PRINT(line)
+                logging.warning('Not a BBB node message:')
+                logging.warning(line)
         else:
-            PRINT('CRC failed as a BBB node message:')
-            PRINT(line)
+            logging.info('Not a BBB node message (CRC failure):')
+            logging.info(line)
     except:
-        PRINT('parse_message(): duh')
-        PRINT(line)
-        traceback.print_exc()
+        logging.warning('parse_message(): duh')
+        logging.warning(line)
+        logging.warning(traceback.format_exc())
     return None
 
 
