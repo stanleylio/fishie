@@ -1,4 +1,6 @@
 import sys,traceback
+sys.path.append('..')
+from helper import dt2ts
 from datetime import datetime,timedelta
 
 
@@ -31,7 +33,7 @@ def parse_SeaFET(line):
                 #else:
                 #    del d[k]
             # "instrument time"
-            d['Timestamp'] = datetime.strptime(d['DATE'],'%Y%j') + timedelta(hours=d['TIME'])
+            d['Timestamp'] = dt2ts(datetime.strptime(d['DATE'],'%Y%j') + timedelta(hours=d['TIME']))
             return d
 
         if 8 == len(m) and m[0] in ['kph1','kph2','kph3']:
