@@ -61,8 +61,9 @@ parse into dict() if it's from a known node."""
                          'VbattmV':int(line[3])}
                     return d
             except:
-                logging.info('Not a ultrasonic message:')
-                logging.info(line)
+                #logging.info('Not a ultrasonic message:')
+                #logging.info(line)
+                pass
 
         # is it one of the SeaFET pH sensors?
         d = parse_SeaFET(line)
@@ -77,8 +78,9 @@ parse into dict() if it's from a known node."""
                 d['node'] = 'node-023'  # in Glazer Lab
                 return d
         else:
-            logging.info('Not a SeaFET message:')
-            logging.info(line)
+            #logging.info('Not a SeaFET message:')
+            #logging.info(line)
+            pass
 
         # is it a Seabird CTD?
         d = parse_Seabird(line)
@@ -109,8 +111,9 @@ parse into dict() if it's from a known node."""
                 d['node'] = node_id
                 return d'''
         else:
-            logging.info('Not a Seabird message:')
-            logging.info(line)
+            #logging.info('Not a Seabird message:')
+            #logging.info(line)
+            pass
 
         # is it from one of the Beaglebone nodes?        
         if check(line):
@@ -140,8 +143,9 @@ parse into dict() if it's from a known node."""
                 logging.warning('Not a BBB node message:')
                 logging.warning(line)
         else:
-            logging.info('Not a BBB node message (CRC failure):')
-            logging.info(line)
+            #logging.info('Not a BBB node message (CRC failure):')
+            #logging.info(line)
+            pass
     except:
         logging.warning('parse_message(): duh')
         logging.warning(line)
