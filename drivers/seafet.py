@@ -1,3 +1,8 @@
+# ASSUMPTION: Instrument clock is in UTC
+#
+# Stanley H.I. Lio
+# hlio@hawaii.edu
+# All Rights Reserved. 2016
 import sys,traceback
 sys.path.append('..')
 from helper import dt2ts
