@@ -1,27 +1,40 @@
 import sys,traceback
+from datetime import datetime,timedelta
 
 
-def parse_SeaFET(m):
-    tags = 'HEADER,DATE,TIME,PH_INT,PH_EXT,TEMP,TEMP_CTD,S_CTD,O_CTD,P_CTD,Vrs_FET_INT,Vrs_FET_EXT,V_THERM,V_SUPPLY,I_SUPPLY,HUMIDITY,V_5V,V_MBATT,V_ISO,V_ISOBATT,I_B,I_K,V_K,STATUS,CHECK SUM'
-    tags = tags.split(',')
-
-    # a hack+patch
-    #m = ''.join([c if ord(c) < 128 else chr(ord(c) - 128) for c in m])
-    #m = m[m.find('SATPHA'):]
-    
+# So two clarifications:
+#   1. "The sum of all bytes" refers to everything before the "checksum" (so including the last comma;
+#   2. The "checksum" field is not treated as "bytes" (8-bit characters) but instead as an integer.
+def check_line(m):
     try:
-        if len(m) > 197:    # the doc says so
+        return 0 == (sum([ord(tmp) for tmp in m[0:m.rfind(',')+1]]) +
+                     int(m.split(',')[-1])) % 256
+    except:
+        return False
+
+
+tags = 'HEADER,DATE,TIME,PH_INT,PH_EXT,TEMP,TEMP_CTD,S_CTD,O_CTD,P_CTD,Vrs_FET_INT,Vrs_FET_EXT,V_THERM,V_SUPPLY,I_SUPPLY,HUMIDITY,V_5V,V_MBATT,V_ISO,V_ISOBATT,I_B,I_K,V_K,STATUS,CHECK SUM'
+tags = tags.split(',')
+
+def parse_SeaFET(line):
+    try:
+        if len(line) > 197:    # the doc says so
             return None
-        m = m.strip().split(',')
-        if 25 == len(m) and m[23].startswith('0x'):   # can't get the "check sum" working.
+
+        m = line.strip().split(',')
+        
+        if check_line(line.strip()):
             d = dict(zip(tags,m))
             for k in tags:
-                if k not in ['CHECK SUM','STATUS','HEADER']:
+                if k not in ['CHECK SUM','STATUS','HEADER','DATE']:
                     d[k] = float(d[k])
                 #else:
                 #    del d[k]
+            # "instrument time"
+            d['Timestamp'] = datetime.strptime(d['DATE'],'%Y%j') + timedelta(hours=d['TIME'])
             return d
-        elif 8 == len(m) and m[0].startswith('kph'):
+
+        if 8 == len(m) and m[0] in ['kph1','kph2','kph3']:
             return {'tag':m[0],'tx_id':float(m[1]),'bad_char_count':float(m[2]),
                     'ticker':float(m[3]),'last_transmitted':float(m[4]),
                     'last_received':float(m[5]),'Vcc':float(m[6]),'Vbatt':m[7]}
@@ -38,7 +51,9 @@ if '__main__' == __name__:
     #line = 'kph1,6318,303'
     #line = 'asdfaswlefjuawo;fj'
     #line = 'kph2,4,4.526'
-    line = 'kph2,25,0,3600,3266,3264,3.248,4.670'
+    #line = 'kph2,25,0,3600,3266,3264,3.248,4.670'
+    #line = 'kph2,27897,23,4181400,4181245,4181243,3.243,4.215'
+    line = 'SATPHA0371,2016306,8.2669678,7.96194,7.99229,24.4627,24.2046,34.2334,4.413,nan,-0.97720563,-0.92704624,0.76134235,9.847,40,22.1,4.939,9.752,6.175,5.780,298,10,0.00000000,0x0000,229'
     d = parse_SeaFET(line)
     
     if d is not None:
