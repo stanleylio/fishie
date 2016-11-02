@@ -38,7 +38,7 @@ parse into dict() if it's from a known node."""
     try:
         line = line.strip()
 
-        # is it one of the ultrasonic tide gauge?        
+        # is it one of the ultrasonic tide gauge?
         if re.match('^us\d+,.+',line):
             try:
                 line = line.split(',')
@@ -54,11 +54,11 @@ parse into dict() if it's from a known node."""
                          'd2w':float(line[2]),
                          'VbattmV':int(line[3])}
                     return d
-                elif 'us3' == line[0]:
+                elif 'us3' == line[0]:  # and 'makaipier' == site:
                     d = {'node':'node-010',
                          'ticker':int(line[1]),
                          'd2w':float(line[2]),
-                         'VbattmV':int(line[3])}
+                         'Vbatt':float(line[3])}    # this reports V, not mV
                     return d
             except:
                 #logging.info('Not a ultrasonic message:')

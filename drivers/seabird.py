@@ -6,8 +6,7 @@
 import xml.etree.ElementTree as ET
 from datetime import datetime
 import sys,traceback,re
-sys.path.append('..')
-from helper import dt2ts
+from node.helper import dt2ts
 
 
 def parse_Seabird(m):

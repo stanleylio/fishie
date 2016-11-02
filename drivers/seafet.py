@@ -4,8 +4,7 @@
 # hlio@hawaii.edu
 # All Rights Reserved. 2016
 import sys,traceback
-sys.path.append('..')
-from helper import dt2ts
+from node.helper import dt2ts
 from datetime import datetime,timedelta
 
 
