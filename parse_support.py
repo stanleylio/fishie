@@ -2,11 +2,12 @@
 #
 # Stanley Lio, hlio@usc.edu
 # All Rights Reserved. February 2015
-import sys,traceback,re,json,importlib,logging
+import sys,traceback,re,json,importlib,logging,binascii
 from datetime import datetime
 from z import check
 from drivers.seafet import parse_SeaFET
 from drivers.seabird import parse_Seabird
+from helper import dt2ts
 
 
 
@@ -65,6 +66,21 @@ parse into dict() if it's from a known node."""
                 #logging.info(line)
                 pass
 
+        # first low-power node (node-003)
+        # CRC32 checks everything up to (but excluding) the last comma.
+        # must... use... JSON... TODO
+        if line.startswith('node-003,R,'):
+            crc = binascii.crc32(line[0:line.rfind(',')]) & 0xffffffff
+            if '%08x' % crc == line[-8:]:
+                line = line.split(',')
+                tags = 'Timestamp,P_5803,T_5803,O2_optode,Air_optode,T_optode,EC_4319A,T_4319A,Chlorophyll_FLNTUS,Turbidity_FLNTUS'.split(',')
+                d = zip(tags,line[2:-1])
+                d = {tmp[0]:tmp[1] for tmp in d}
+                d['Timestamp'] = dt2ts(datetime.strptime(d['Timestamp'],'%Y-%m-%d %H:%M:%S'))
+                for k in d.keys():
+                    d[k] = float(d[k])
+                return d
+                
         # is it one of the SeaFET pH sensors?
         d = parse_SeaFET(line)
         if d is not None:
@@ -169,8 +185,16 @@ if '__main__' == __name__:
     t13 = '{"from":"node-004","payload":{"C2Amp":1180.9,"T_180":34.7,"T_4330f":36.386,"sal":0.0,"T_5803":34.69,"TCPhase":27.952,"ts":1444958592.790913,"ec":7.28,"Air":90.86,"C2RPh":4.402,"P_180":101664,"P_5803":101.57,"C1RPh":32.354,"CalPhase":25.823,"C1Amp":702.4,"RawTemp":-295.9,"O2":192.554}}e002b5aa'
     t14 = '{"to":"base","from":"node_003","payload":{"Thermistor_FLNTU":533,"Temp_MS5803":25.9,"C2Amp_4330f":457.8,"O2Concentration_4330f":355.968,"C1RPh_4330f":30.444,"Chlorophyll_FLNTU":210,"Pressure_MS5803":111.87,"RawTemp_4330f":80.0,"AirSaturation_4330f":142.241,"Turbidity_FLNTU":563,"Timestamp":1444965312.228783,"Temperature_4330f":26.599,"C1Amp_4330f":255.7,"CalPhase_4330f":22.899,"TCPhase_4330f":26.351,"C2RPh_4330f":4.093}}457b3a41'
 
-    #print parse_message(t13)
-    #print parse_message(t14)
-
-    print parse_message('kph2,27,4.785')
+    #print parse_message('kph2,27,4.785')
     
+    t = 'node-003,R,2016-11-02 01:47:14,102.05,24.66,251.400,99.415,26.080,82.988,25.536,3055,4130,b3844b99'
+    print parse_message(t,'poh')
+    t = 'node-003,R,2016-11-02 01:47:34,102.02,24.65,251.015,99.262,26.079,82.988,25.541,3056,4130,7ad3f9ba'
+    print parse_message(t,'poh')
+    t = 'node-003,R,2016-11-02 01:47:54,102.10,24.65,250.859,99.191,26.074,82.988,25.555,3056,4130,029d3041'
+    print parse_message(t,'poh')
+    t = 'node-003,R,2016-11-02 01:48:15,102.04,24.65,250.793,99.168,26.076,82.988,25.565,3056,4130,aa65fdf4'
+    print parse_message(t,'poh')
+    t = 'node-003,R,2016-11-02 01:48:35,102.03,24.65,251.286,99.342,26.064,82.988,25.579,3056,4130,52510df2'
+    print parse_message(t,'poh')
+
