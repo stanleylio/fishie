@@ -10,6 +10,7 @@ import matplotlib.pyplot as plt
 from datetime import datetime,timedelta
 from matplotlib.dates import DateFormatter,HourLocator
 #from config.config_support import *
+from node.helper import ts2dt
 
 
 def auto_tick(ax):
@@ -130,6 +131,9 @@ def plot_multi_time_series(data,plotfilename,title='',xlabel='',ylabel=''):
 def plot_time_series(x,y,plotfilename,title='',xlabel='',ylabel='',linelabel=None,markersize=1):
     assert len(x) == len(y)
     assert len(plotfilename) > 0
+
+    if type(x[0]) is float:
+        x = [ts2dt(tmp) for tmp in x]
     
     data = [{'x':x,'y':y,'linelabel':linelabel,'markersize':markersize}]
 
