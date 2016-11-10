@@ -10,7 +10,6 @@ from drivers.seabird import parse_Seabird
 from helper import dt2ts
 
 
-
 def pretty_print(d):
     """Pretty-print to terminal the given dictionary of readings"""
     # print the units as well? nah...
@@ -55,7 +54,7 @@ parse into dict() if it's from a known node."""
                          'd2w':float(line[2]),
                          'VbattmV':int(line[3])}
                     return d
-                elif 'us3' == line[0]:  # and 'makaipier' == site:
+                elif 'us3' == line[0]:
                     d = {'node':'node-010',
                          'ticker':int(line[1]),
                          'd2w':float(line[2]),

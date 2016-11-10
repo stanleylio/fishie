@@ -3,8 +3,8 @@
 # Stanley H.I. Lio
 # hlio@hawaii.edu
 # All Rights Reserved. 2016
-import sys,traceback
-from node.helper import dt2ts
+import traceback
+from helper import dt2ts
 from datetime import datetime,timedelta
 
 
@@ -16,6 +16,7 @@ def check_line(m):
         return 0 == (sum([ord(tmp) for tmp in m[0:m.rfind(',')+1]]) +
                      int(m.split(',')[-1])) % 256
     except:
+        #traceback.print_exc('checksum failure')
         return False
 
 
