@@ -19,8 +19,8 @@ optode_port = '/dev/ttyO2'
 
 wait = 594
 
-#import sys
-#sys.path.append('..')
+import sys
+sys.path.append('..')
 from config.config_support import Range
 
 # I'm starting to regret the decision of putting the config in separate files.

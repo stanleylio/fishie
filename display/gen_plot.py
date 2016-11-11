@@ -5,13 +5,12 @@
 import matplotlib,numpy,traceback
 matplotlib.use('Agg')
 import sys
-#sys.path.append('..')
+sys.path.append('..')
+from helper import ts2dt
 import matplotlib.pyplot as plt
 from datetime import datetime,timedelta
 from matplotlib.dates import DateFormatter,HourLocator
 #from config.config_support import *
-#from node.helper import ts2dt
-from helper import ts2dt
 
 
 def auto_tick(ax):
@@ -65,9 +64,12 @@ def plot_multi_time_series(data,plotfilename,title='',xlabel='',ylabel=''):
         label = d.get('linelabel',None)
         color = d.get('color','blue')
         linestyle = d.get('linestyle','')
-        marker = d.get('marker','.')
+        marker = d.get('marker',None)
         markersize = d.get('markersize',1)
 
+        if type(x[0]) is float:
+            x = [ts2dt(tmp) for tmp in x]
+        
         #print(color,linestyle,marker,markersize)
 
         plt.plot_date(x,y,
@@ -94,10 +96,11 @@ def plot_multi_time_series(data,plotfilename,title='',xlabel='',ylabel=''):
     
     if '' == xlabel:
         #auto_xlabel(plt.gca())
-        begin = data[0]['x'][0]
+        #begin = data[0]['x'][0]
+        begin = x[0]
         end = begin
         for d in data:
-            x,y = d['x'],d['y']
+            #x,y = d['x'],d['y']
             b = min([z[0] for z in zip(x,y) if not numpy.isnan(z[1])])
             if b < begin:
                 begin = b
@@ -129,14 +132,11 @@ def plot_multi_time_series(data,plotfilename,title='',xlabel='',ylabel=''):
     plt.close()
 
 
-def plot_time_series(x,y,plotfilename,title='',xlabel='',ylabel='',linelabel=None,markersize=1):
+def plot_time_series(x,y,plotfilename,title='',xlabel='',ylabel='',linelabel=None,linestyle='-',marker='.',markersize=1):
     assert len(x) == len(y)
     assert len(plotfilename) > 0
 
-    if type(x[0]) is float:
-        x = [ts2dt(tmp) for tmp in x]
-    
-    data = [{'x':x,'y':y,'linelabel':linelabel,'markersize':markersize}]
+    data = [{'x':x,'y':y,'linelabel':linelabel,'linestyle':linestyle,'marker':marker,'markersize':markersize}]
 
     if '' == xlabel:
         begin = min([z[0] for z in zip(x,y) if not numpy.isnan(z[1])])
