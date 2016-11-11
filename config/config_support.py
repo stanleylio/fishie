@@ -29,11 +29,15 @@ def import_node_config(site,node):
     return imp.load_source('node',tmp)
 
 def get_list_of_nodes(site):
-    d = join(dirname(realpath(__file__)),site)
-    L = listdir(d)
-    L = [l for l in L if re.match('^node_\d{3}\.py$',l)]
-    L = [basename(splitext(l)[0]) for l in L]
-    L = [l.replace('_','-') for l in L]
+    #d = join(dirname(realpath(__file__)),site)
+    #L = listdir(d)
+    #L = [l for l in L if re.match('^node_\d{3}\.py$',l)]
+    #L = [basename(splitext(l)[0]) for l in L]
+    #L = [l.replace('_','-') for l in L]
+    #return sorted(L)
+    c = config_as_dict()
+    L = c.get(site,None)
+    L = filter(lambda x: x.startswith('node-'),L)
     return sorted(L)
 
 def get_tag(site,node):
@@ -48,24 +52,8 @@ def get_public_key(site,device):
     node = import_node_config(site,device)
     return node.public_key
 
-# TODO:DONE: replace get_capabilities() with this...
-# or even better, just return an SQL string.
-# in either case, since I know there are only "column name" and "data type", I can
-# put them in (tag,type) without the dict's "tags" "types" keys.
 def get_schema(site):
     return {node:zip(get_tag(site,node),get_type(site,node)) for node in get_list_of_nodes(site)}
-
-'''def get_capabilities(site):
-    capabilities = {}
-    for node in get_list_of_nodes(site):
-        dbtag = get_tag(site,node)
-        dbtype = get_type(site,node)
-
-        capabilities[node] = {
-            'tag':dbtag,
-            'type':dbtype}
-    assert len(capabilities.keys()) > 0
-    return capabilities'''
 
 
 # STUFF FOR WEB PRESENTATION ONLY
@@ -151,16 +139,40 @@ def is_in_range(site,node,variable,reading):
         #traceback.print_exc()
         return True
 
+def config_as_dict():
+    from os import listdir
+    from os.path import dirname,abspath,samefile,join,isfile
+
+    def dironly(p):
+        return [f for f in listdir(p) if not isfile(join(p,f))]
+
+    def fileonly(p):
+        return [f for f in listdir(p) if isfile(join(p,f))]
+
+    cdir = dirname(abspath(__file__))
+    sites = dironly(cdir)
+
+    config = {}
+    for site in sites:
+        F = fileonly(join(cdir,site))
+        F = filter(lambda x: x.endswith('.py'),F)
+        F = filter(lambda x: not x.startswith('__init__'),F)
+        F = [f.replace('.py','') for f in F]
+        F = [f.replace('_','-') for f in F]
+        config[site] = F
+    return config
+
 
 if '__main__' == __name__:
 
-    site = 'poh'
+    #print config_as_dict()
+    print get_list_of_nodes('poh')
+
+    '''site = 'poh'
     print get_list_of_nodes(site)
     print 
-    print get_capabilities(site)
-    print
     print is_in_range('poh','node-003','P_5803',100)
     #print
     #print Range(100,200).__dict__
-    #print Range(100,200).keys()        # enough of the acrobatics.
+    #print Range(100,200).keys()        # enough of the acrobatics.'''
     

@@ -18,10 +18,14 @@ from parse_support import pretty_print
 from random import randint
 from drivers.indicators import *
 import config.node as node
-site = node.site
+from helper import dt2ts
+from socket import gethostname
 
+
+node_id = gethostname()
+
+site = node.site
 node = importlib.import_module(node.config)
-#node = importlib.import_module('config.msb228.node_019')
 
 
 if not is_node():
@@ -42,10 +46,6 @@ import sampling_core
 def PRINT(s):
     #pass
     print(s)
-
-def dt2ts(dt):
-    return time.mktime(dt.timetuple()) +\
-                 (dt.microsecond)*(1e-6)
 
 def log(f,line):
     ts = datetime.utcnow()
@@ -68,31 +68,31 @@ def log_raw(line):
     log(raw,line)
 
 
-#store = storage({node.tag:get_capabilities(site)[node.tag]})
 tmp = get_schema(site)
 store = storage('storage/sensor_data.db',schema={node.tag:tmp[node.tag]})
 
-# wait at most 1 minute for the system clock to initialize (ntpdate, hwclock, GPS etc.)
-print 'Checking system clock against database...'
-last_sampled = store.read_last_N(get_node_tag(),'Timestamp')
-if last_sampled is not None:
-    last_sampled = last_sampled['Timestamp'][0]
-d = datetime.now()
-count = 0
-
-while True:
-    if last_sampled is None:
-        break
-    if d > last_sampled:
-        break
-    #if last_sampled is None and d.year >= 2015 and d.month >= 10:   # evil hack-ish heristics
-    #    break
-    if count > 60:
-        break
-    PRINT('waiting for system clock...')
+if False:
+    # wait at most 1 minute for the system clock to initialize (ntpdate, hwclock, GPS etc.)
+    print 'Checking system clock against database...'
+    last_sampled = store.read_last_N(get_node_tag(),'Timestamp')
+    if last_sampled is not None:
+        last_sampled = last_sampled['Timestamp'][0]
     d = datetime.now()
-    count = count + 1
-    time.sleep(1)
+    count = 0
+
+    while True:
+        if last_sampled is None:
+            break
+        if d > last_sampled:
+            break
+        #if last_sampled is None and d.year >= 2015 and d.month >= 10:   # evil hack-ish heristics
+        #    break
+        if count > 60:
+            break
+        PRINT('waiting for system clock...')
+        d = datetime.now()
+        count = count + 1
+        time.sleep(1)
 
 indicators_setup()
 
@@ -148,9 +148,13 @@ with serial.Serial(node.xbee_port,node.xbee_baud,timeout=1) as s,\
                     red_off()
                     usr0_off()
 
+                    assert 'node' not in d
+
+                    d['node'] = node_id
+
                     pretty_print(d)
 
-                    store.write(node.tag,d)
+                    store.write(d)
 
                     # JSON/serial likes POSIX
                     # SQLite uses python datetime
