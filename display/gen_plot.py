@@ -64,10 +64,13 @@ def plot_multi_time_series(data,plotfilename,title='',xlabel='',ylabel=''):
         label = d.get('linelabel',None)
         color = d.get('color','blue')
         linestyle = d.get('linestyle','')
-        marker = d.get('marker',None)
+        marker = d.get('marker','.')
         markersize = d.get('markersize',1)
 
-        if type(x[0]) is float:
+        print x[0]
+        print type(x[0])
+
+        if type(x[0]) is not datetime:
             x = [ts2dt(tmp) for tmp in x]
         
         #print(color,linestyle,marker,markersize)
