@@ -26,12 +26,13 @@ def auto_time_col(store,node_id):
 
 # this one doesn't require database schema on instantiation
 class storage_read_only(object):
-    def __init__(self,dbfile=None,create_if_not_exists=False):
+    def __init__(self,dbfile=None,create_if_not_exists=False):  # wait, if it's read-only then it should already exist. TODO
         if dbfile is None:
             dbfile = join(dirname(__file__),'sensor_data.db')
             PRINT('dbfile not specified. Default to ' + dbfile)
-        if not create_if_not_exists and not exists(dbfile):
-            raise IOError('{} does not exist. Set create_if_not_exists=True to override.'.format(dbfile))
+        #if not create_if_not_exists and not exists(dbfile):
+        if not exists(dbfile):
+            raise IOError('{} does not exist.'.format(dbfile))
         self.conn = sqlite3.connect(dbfile,\
                                     detect_types=sqlite3.PARSE_DECLTYPES |\
                                     sqlite3.PARSE_COLNAMES)
@@ -94,8 +95,9 @@ class storage_read_only(object):
         except:
             return None
 
+    # who is still using this? get rid of this. TODO
     def read_past_time_period(self,node_id,time_col,cols,timerange):
-        """Retrieve records in taken in the past timerange (a positive
+        """Retrieve records taken in the past timerange (a positive
         datetime.timedelta). (relative to the moment this is called)
         """
         end = datetime.utcnow()
@@ -119,6 +121,7 @@ class storage_read_only(object):
                        count)
         return self._execute(cmd)
 
+# I don't see the utility of this anymore. get rid of this. TODO
     def read_last_N_minutes(self,node_id,time_col,N,cols=None,nonnull=None):
         """Retrieve records within N minutes of the last record in the database.
         "Last N minutes" is relative to the latest record in the database (which could be
@@ -181,7 +184,7 @@ class storage_read_only(object):
             traceback.print_exc()
             return None
 
-    def OBSOLETE_execute(self,cmd):
+    '''def OBSOLETE_execute(self,cmd):
         try:
             self.c.execute(cmd)
             tmp = self.c.fetchall()
@@ -191,7 +194,7 @@ class storage_read_only(object):
             return {v:tuple(r[v] for r in tmp) for v in cols}
         except:
             traceback.print_exc()
-            return None
+            return None'''
 
     def read_schema(self):
         return {t:self.get_list_of_columns(t) for t in self.get_list_of_tables()}
