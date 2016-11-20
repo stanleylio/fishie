@@ -17,13 +17,13 @@ from config.config_support import *
 from parse_support import pretty_print
 from random import randint
 from drivers.indicators import *
-import config.node as node
 from helper import dt2ts
 from socket import gethostname
 
 
 node_id = gethostname()
 
+import config.node as node
 site = node.site
 node = importlib.import_module(node.config)
 
@@ -126,15 +126,8 @@ with serial.Serial(node.xbee_port,node.xbee_baud,timeout=1) as s,\
                 cmd = get_action(line)
                 if cmd is not None and ('do sample' == cmd['action']):
                     requested = True
-                    try:
-                        requester = cmd['from']
-                    except:
-                        # this shouldn't be allowed: requested by anonymous entity
-                        pass
-                    try:
-                        multi_sample = cmd['multi_sample']
-                    except:
-                        pass
+                    requester = cmd.get('from',None)    # shouldn't accept request from anonymous entity...
+                    multi_sample = cmd.get('multi_sample',None)
 
             scheduled = (datetime.utcnow() - last_sampled) >= timedelta(seconds=node.wait + dither)
 
@@ -149,7 +142,6 @@ with serial.Serial(node.xbee_port,node.xbee_baud,timeout=1) as s,\
                     usr0_off()
 
                     assert 'node' not in d
-
                     d['node'] = node_id
 
                     pretty_print(d)
@@ -180,4 +172,3 @@ with serial.Serial(node.xbee_port,node.xbee_baud,timeout=1) as s,\
         
     indicators_cleanup()
     log_event('terminated')
-
