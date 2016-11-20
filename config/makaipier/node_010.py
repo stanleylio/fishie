@@ -1,12 +1,9 @@
 # -*- coding: utf-8 -*-
 # us3
 tag = 'node-010'
-name = 'River Mākāhā Water Level'
-location = 'River Mākāhā'
+name = 'Makai Pier Water Level'
+location = 'Makai Research Pier'
 note = 'Ultrasonic tide gauge'
-
-log_dir = './log'
-plot_dir ='../www'
 
 plot_range = 24*7
 
@@ -50,4 +47,3 @@ if '__main__' == __name__:
         print '- - -'
         for k,v in c.iteritems():
             print k, ':' ,v
-

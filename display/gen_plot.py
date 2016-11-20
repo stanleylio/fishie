@@ -5,7 +5,8 @@
 import matplotlib,numpy,traceback
 matplotlib.use('Agg')
 import sys
-#sys.path.append('..')
+sys.path.append('..')
+from helper import ts2dt
 import matplotlib.pyplot as plt
 from datetime import datetime,timedelta
 from matplotlib.dates import DateFormatter,HourLocator
@@ -66,6 +67,12 @@ def plot_multi_time_series(data,plotfilename,title='',xlabel='',ylabel=''):
         marker = d.get('marker','.')
         markersize = d.get('markersize',1)
 
+        print x[0]
+        print type(x[0])
+
+        if type(x[0]) is not datetime:
+            x = [ts2dt(tmp) for tmp in x]
+        
         #print(color,linestyle,marker,markersize)
 
         plt.plot_date(x,y,
@@ -92,10 +99,11 @@ def plot_multi_time_series(data,plotfilename,title='',xlabel='',ylabel=''):
     
     if '' == xlabel:
         #auto_xlabel(plt.gca())
-        begin = data[0]['x'][0]
+        #begin = data[0]['x'][0]
+        begin = x[0]
         end = begin
         for d in data:
-            x,y = d['x'],d['y']
+            #x,y = d['x'],d['y']
             b = min([z[0] for z in zip(x,y) if not numpy.isnan(z[1])])
             if b < begin:
                 begin = b
@@ -127,11 +135,11 @@ def plot_multi_time_series(data,plotfilename,title='',xlabel='',ylabel=''):
     plt.close()
 
 
-def plot_time_series(x,y,plotfilename,title='',xlabel='',ylabel='',linelabel=None,markersize=1):
+def plot_time_series(x,y,plotfilename,title='',xlabel='',ylabel='',linelabel=None,linestyle='-',marker='.',markersize=1):
     assert len(x) == len(y)
     assert len(plotfilename) > 0
-    
-    data = [{'x':x,'y':y,'linelabel':linelabel,'markersize':markersize}]
+
+    data = [{'x':x,'y':y,'linelabel':linelabel,'linestyle':linestyle,'marker':marker,'markersize':markersize}]
 
     if '' == xlabel:
         begin = min([z[0] for z in zip(x,y) if not numpy.isnan(z[1])])
