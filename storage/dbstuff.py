@@ -1,6 +1,7 @@
 from sqlalchemy import Table,Column,MetaData,Integer
 from sqlalchemy.types import Float,String
 from sqlalchemy.ext.declarative import declarative_base
+from os.path import expanduser
 
 
 Base = declarative_base()
@@ -226,7 +227,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
 #dbname = 'uhcm'
-engine = create_engine('mysql+mysqldb://root:playitsam@localhost/uhcm',
+engine = create_engine('mysql+mysqldb://root:' + open(expanduser('~/mysql_cred')).read().strip() + '@localhost/uhcm',
                        pool_recycle=3600,
                        echo=False)
 #engine.execute('CREATE DATABASE IF NOT EXISTS ' + dbname)
