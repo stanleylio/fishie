@@ -30,8 +30,7 @@ class storage_read_only(object):
         if dbfile is None:
             dbfile = join(dirname(__file__),'sensor_data.db')
             PRINT('dbfile not specified. Default to ' + dbfile)
-        #if not create_if_not_exists and not exists(dbfile):
-        if not exists(dbfile):
+        if not create_if_not_exists and not exists(dbfile):
             raise IOError('{} does not exist.'.format(dbfile))
         self.conn = sqlite3.connect(dbfile,\
                                     detect_types=sqlite3.PARSE_DECLTYPES |\
