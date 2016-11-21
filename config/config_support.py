@@ -6,12 +6,31 @@
 import re,socket,traceback,imp#,importlib
 from os import listdir
 from os.path import join,exists,dirname,realpath,basename,splitext
-from ConfigParser import RawConfigParser
 
 
-def PRINT(s):
-    print(s)
-    #pass
+def config_as_dict():
+    from os import listdir
+    from os.path import dirname,abspath,samefile,join,isfile
+
+    def dironly(p):
+        return [f for f in listdir(p) if not isfile(join(p,f))]
+
+    def fileonly(p):
+        return [f for f in listdir(p) if isfile(join(p,f))]
+
+    cdir = dirname(abspath(__file__))
+    sites = dironly(cdir)
+
+    config = {}
+    for site in sites:
+        F = fileonly(join(cdir,site))
+        F = filter(lambda x: x.endswith('.py'),F)
+        F = filter(lambda x: not x.startswith('__init__'),F)
+        F = [f.replace('.py','') for f in F]
+        F = [f.replace('_','-') for f in F]
+        if len(F):
+            config[site] = sorted(F)
+    return config
 
 def get_node_tag():
     return socket.gethostname()
@@ -36,7 +55,7 @@ def get_list_of_nodes(site):
     #L = [l.replace('_','-') for l in L]
     #return sorted(L)
     c = config_as_dict()
-    L = c.get(site,None)
+    L = c.get(site,[])
     L = filter(lambda x: x.startswith('node-'),L)
     return sorted(L)
 
@@ -138,29 +157,6 @@ def is_in_range(site,node,variable,reading):
     except:
         #traceback.print_exc()
         return True
-
-def config_as_dict():
-    from os import listdir
-    from os.path import dirname,abspath,samefile,join,isfile
-
-    def dironly(p):
-        return [f for f in listdir(p) if not isfile(join(p,f))]
-
-    def fileonly(p):
-        return [f for f in listdir(p) if isfile(join(p,f))]
-
-    cdir = dirname(abspath(__file__))
-    sites = dironly(cdir)
-
-    config = {}
-    for site in sites:
-        F = fileonly(join(cdir,site))
-        F = filter(lambda x: x.endswith('.py'),F)
-        F = filter(lambda x: not x.startswith('__init__'),F)
-        F = [f.replace('.py','') for f in F]
-        F = [f.replace('_','-') for f in F]
-        config[site] = F
-    return config
 
 
 if '__main__' == __name__:

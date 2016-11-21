@@ -67,8 +67,8 @@ def plot_multi_time_series(data,plotfilename,title='',xlabel='',ylabel=''):
         marker = d.get('marker','.')
         markersize = d.get('markersize',1)
 
-        print x[0]
-        print type(x[0])
+        #print x[0]
+        #print type(x[0])
 
         if type(x[0]) is not datetime:
             x = [ts2dt(tmp) for tmp in x]

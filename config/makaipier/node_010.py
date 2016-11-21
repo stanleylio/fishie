@@ -26,7 +26,7 @@ conf = [
         'dbtype':'REAL',
         'comtag':None,
         'unit':'mm',
-        'description':'Distance from rim of sensor to water surface',
+        'description':'Distance from base of sensor to water surface',
         'plot':True,
         'range':Range(300,5000),
     },

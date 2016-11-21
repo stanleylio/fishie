@@ -4,7 +4,7 @@
 # hlio@hawaii.edu
 # All Rights Reserved. 2016
 import sys,traceback
-from node.helper import dt2ts
+from helper import dt2ts
 from datetime import datetime,timedelta
 
 
