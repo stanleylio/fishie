@@ -30,8 +30,10 @@ def reset_auto():
             pass
     if good:
         logging.debug('Found watchdog on bus {}'.format(bus))
+        return True
     else:
-        logging.error('No WDT found.')
+        logging.warning('No WDT found.')
+        return False
 
 
 if '__main__' == __name__:

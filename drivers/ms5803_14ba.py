@@ -67,8 +67,8 @@ class MS5803_14BA:
 
         P = (long(D1)*SENS/(2**21) - OFF)/(2**15)
 
-        TEMP = TEMP/100.
-        P = P/100.
+        TEMP = round(TEMP/100.,3)
+        P = round(P/100.,3)
         return {'p':P,'t':TEMP}
 
     def pretty(self,r=None):

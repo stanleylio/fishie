@@ -1,40 +1,26 @@
 # -*- coding: utf-8 -*-
 tag = 'node-004'
-name = 'First CTD'
+name = 'CTD'
 location = 'Mākāhā 1'
-note = 'CTD with Atlas Scientific sensor'
-
-log_dir = './log'
-plot_dir = '../www'
+note = 'CTD'
 
 plot_range = 24*7
 
-xbee_port = '/dev/ttyO1'
-xbee_baud = 115200
-
 # consider how node-specific these are... should really put them in
 # sampling.py instead.
-
-optode_port = '/dev/ttyO2'
-
-wait = 594
+#log_dir = './log'
+#plot_dir = '../www'
+#xbee_port = '/dev/ttyO1'
+#xbee_baud = 115200
+#optode_port = '/dev/ttyO2'
+#wait = 5*60
 
 import sys
 sys.path.append('..')
 from config.config_support import Range
 
-# I'm starting to regret the decision of putting the config in separate files.
-# dynamic importing is a mess.
 
-# TODO: use dictionary indexed by dbtag
 conf = [
-#    {
-#        'dbtag':'How it is referenced in sampling.py and in the drivers',
-#        'dbtype':'SQLite data type',
-#        'comtag':'How it is identified in broadcast messages',
-#        'unit':'physical unit of the readings',
-#        'description':'as name',
-#    },
     {
         'dbtag':'Timestamp',
         'dbtype':'TIMESTAMP',
@@ -42,24 +28,6 @@ conf = [
         'unit':None,
         'description':'Time of sampling',
         'plot':False,
-    },
-    {
-        'dbtag':'ec',
-        'dbtype':'REAL',
-        'comtag':'ec',
-        'unit':'uS/cm',
-        'description':'Conductivity (EZO EC)',
-        'plot':False,
-        'range':Range(0,55e3),
-    },
-    {
-        'dbtag':'sal',
-        'dbtype':'REAL',
-        'comtag':'sal',
-        'unit':'(ppt)',
-        'description':'Salinity (EZO EC)',
-        'plot':False,
-        'range':Range(lb=0),
     },
     {
         'dbtag':'P_180',
