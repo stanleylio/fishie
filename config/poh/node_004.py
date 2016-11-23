@@ -7,8 +7,8 @@ note = 'Oxygen, temperature and water depth'
 plot_range = 24*7
 
 
-INTERVAL = 60
-NGROUP = 3
+INTERVAL = 5*60
+NGROUP = 5
 
 LOGDIR = '/var/uhcm/log'
 DBPATH = '/var/uhcm/storage/sensor_data.db'
