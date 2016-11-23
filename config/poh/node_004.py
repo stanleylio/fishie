@@ -1,19 +1,18 @@
 # -*- coding: utf-8 -*-
 tag = 'node-004'
-name = 'CTD'
+name = 'CTD (sans C...)'
 location = 'Mākāhā 1'
-note = 'CTD'
+note = 'Oxygen, temperature and water depth'
 
 plot_range = 24*7
 
-# consider how node-specific these are... should really put them in
-# sampling.py instead.
-#log_dir = './log'
-#plot_dir = '../www'
-#xbee_port = '/dev/ttyO1'
-#xbee_baud = 115200
-#optode_port = '/dev/ttyO2'
-#wait = 5*60
+
+INTERVAL = 60
+NGROUP = 3
+
+LOGDIR = '/var/uhcm/log'
+DBPATH = '/var/uhcm/storage/sensor_data.db'
+
 
 import sys
 sys.path.append('..')

@@ -4,7 +4,7 @@
 #
 # Stanley Hou In Lio, hlio@hawaii.edu
 # October, 2015
-import sqlite3,time,traceback
+import sqlite3,time,traceback,logging
 from os.path import join,dirname
 from datetime import datetime,timedelta
 from os.path import exists
@@ -12,10 +12,6 @@ import sys
 sys.path.append('..')
 from helper import ts2dt,dt2ts
 
-
-def PRINT(s):
-    pass
-    #print(s)
 
 def auto_time_col(store,node_id):
     time_col = 'Timestamp'
@@ -29,7 +25,7 @@ class storage_read_only(object):
     def __init__(self,dbfile=None,create_if_not_exists=False):  # wait, if it's read-only then it should already exist. TODO
         if dbfile is None:
             dbfile = join(dirname(__file__),'sensor_data.db')
-            PRINT('dbfile not specified. Default to ' + dbfile)
+            logging.warning('dbfile not specified. Default to ' + dbfile)
         if not create_if_not_exists and not exists(dbfile):
             raise IOError('{} does not exist.'.format(dbfile))
         self.conn = sqlite3.connect(dbfile,\
@@ -111,7 +107,7 @@ class storage_read_only(object):
             cols = self.get_list_of_columns(node_id)
         else:
             if 'Timestamp' not in cols and 'ReceptionTime' not in cols:
-                print('Sure you don''t want any timestamps?')
+                logging.warning('Sure you don''t want any timestamps?')
 
         cmd = 'SELECT {} FROM {} ORDER BY {} DESC LIMIT {}'.\
                 format(','.join(cols),
@@ -168,7 +164,7 @@ class storage_read_only(object):
             cols = [c[0] for c in self.c.description]
             return {v:tuple(r[v] for r in tmp) for v in cols}
         except:
-            traceback.print_exc()
+            logging.error(traceback.format_exc())
             return None
 
     def OBSOLETE_execute(self,cmd):
@@ -180,7 +176,7 @@ class storage_read_only(object):
             cols = [c[0] for c in self.c.description]
             return {v:tuple(r[v] for r in tmp) for v in cols}
         except:
-            traceback.print_exc()
+            logging.error(traceback.format_exc())
             return None
 
     '''def OBSOLETE_execute(self,cmd):
@@ -224,11 +220,11 @@ class storage(storage_read_only):
         b = set(cols)
         # they are not mutrally exclusive. Check your math.
         if a - b:
-            PRINT('Warning: these are not defined in db and are ignored:')
-            PRINT(','.join(a - b))
+            logging.warning('Warning: these are not defined in db and are ignored:')
+            logging.warning(','.join(a - b))
         if b - a:
-            PRINT('Warning: these fields defined in the db are not supplied:')
-            PRINT(','.join(b - a))
+            logging.warning('Warning: these fields defined in the db are not supplied:')
+            logging.warning(','.join(b - a))
 
         # filter out values that are not recorded by the database
         keys = list(set(readings.keys()) & set(self.get_list_of_columns(node)))
