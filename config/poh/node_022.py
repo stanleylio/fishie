@@ -7,6 +7,8 @@ note = 'SeaFET pH Sensor; pole on a pole on a reef'
 
 plot_range = 24*7
 
+data_source = '/home/nuc/node/www/poh/storage/sensor_data.db'
+
 #import sys
 #sys.path.append('..')
 from config.config_support import Range

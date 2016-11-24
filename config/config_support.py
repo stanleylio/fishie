@@ -32,28 +32,24 @@ def config_as_dict():
             config[site] = sorted(F)
     return config
 
-def get_node_tag():
-    return socket.gethostname()
+#def get_node_tag():
+    #return socket.gethostname()
 
-def is_node():
-    return re.match('^node.+',get_node_tag())
+#def is_node():
+    #return re.match('^node.+',get_node_tag())
 
-def is_base():
-    return re.match('^base.+',get_node_tag())
+#def is_base():
+    #return re.match('^base.+',get_node_tag())
 
 def import_node_config(site,node):
     """Import the appropriate config file for the given (site,node)"""
     #return importlib.import_module('config.' + site + '.' + node.replace('-','_'))
     tmp = join(dirname(realpath(__file__)),site,node.replace('-','_') + '.py')
+    if not exists(tmp):
+        return None
     return imp.load_source('node',tmp)
 
 def get_list_of_nodes(site):
-    #d = join(dirname(realpath(__file__)),site)
-    #L = listdir(d)
-    #L = [l for l in L if re.match('^node_\d{3}\.py$',l)]
-    #L = [basename(splitext(l)[0]) for l in L]
-    #L = [l.replace('_','-') for l in L]
-    #return sorted(L)
     c = config_as_dict()
     L = c.get(site,[])
     L = filter(lambda x: x.startswith('node-'),L)
@@ -66,6 +62,11 @@ def get_tag(site,node):
 def get_type(site,node):
     node = import_node_config(site,node)
     return [c['dbtype'] for c in node.conf]
+
+# really this should be "get data source" - it doesn't matter it's a csv, an sqlite or mysql db.
+def get_dbfile(site,node):
+    node = import_node_config(site,node)
+    return node.data_source
 
 def get_public_key(site,device):
     node = import_node_config(site,device)

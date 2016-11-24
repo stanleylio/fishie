@@ -1,3 +1,4 @@
+# goal: get rid of this whole file.
 import calendar
 from datetime import datetime
 from numpy import diff,mean,median,size,flatnonzero,append,insert,absolute
@@ -20,7 +21,7 @@ def ts2dt(ts=None):
 #    return c*9./5. + 32.
 
 
-# I don't like this... but the config has to live somewhere
+'''# I don't like this... but the config has to live somewhere
 def get_dbfile(site,node_id=None):
     """where to locate the db for the given site. Pure black magic."""
     if 'poh' == site:
@@ -39,7 +40,7 @@ def get_dbfile(site,node_id=None):
             return '/home/nuc/data/node-019/storage/sensor_data.db'
         #elif 'node-005' == node_id:
             #return '/home/nuc/data/node-005/storage/sensor_data.db'
-    return None
+    return None'''
 
 
 # processing/analysis stuff

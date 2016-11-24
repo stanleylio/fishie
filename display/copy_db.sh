@@ -10,8 +10,8 @@
 
 echo "PoH"
 
-#SRC_DB="/home/nuc/data/base-003/storage/sensor_data.db"
-SRC_DB="/home/nuc/data/base-004/storage/sensor_data.db"
+SRC_DB="/home/nuc/data/base-003/storage/sensor_data.db"
+#SRC_DB="/home/nuc/data/base-004/storage/sensor_data.db"
 TGT_DIR="/home/nuc/node/www/poh/storage"
 
 rm -f $TGT_DIR/sensor_data.db

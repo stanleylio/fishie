@@ -8,6 +8,8 @@ plot_dir = '../www'
 
 plot_range = 24*7
 
+data_source = '/home/nuc/data/node-019/storage/sensor_data.db'
+
 xbee_port = '/dev/ttyO1'
 xbee_baud = 115200
 

@@ -7,6 +7,9 @@ note = 'Ultrasonic tide gauge'
 
 plot_range = 24*7
 
+data_source = 'mysql+mysqldb://{user}:{password}@localhost/uhcm'
+
+
 import sys
 sys.path.append('..')
 from config.config_support import Range

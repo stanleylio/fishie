@@ -10,6 +10,8 @@ plot_dir ='../www'
 
 plot_range = 24*7
 
+data_source = '/home/nuc/node/www/poh/storage/sensor_data.db'
+
 #wait = 400
 #multi_sample = 7
 

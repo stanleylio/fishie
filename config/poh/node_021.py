@@ -7,6 +7,8 @@ note = 'SeaFET pH Sensor; giant weight + tiny float'
 
 plot_range = 24*7
 
+data_source = '/home/nuc/node/www/poh/storage/sensor_data.db'
+
 #import sys
 #sys.path.append('..')
 from config.config_support import Range
