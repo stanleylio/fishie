@@ -14,34 +14,6 @@ def ts2dt(ts=None):
         ts = dt2ts()
     return datetime.utcfromtimestamp(ts)
 
-#def m2ft(m):
-#    return m*100./2.54/12.
-
-#def c2f(c):
-#    return c*9./5. + 32.
-
-
-'''# I don't like this... but the config has to live somewhere
-def get_dbfile(site,node_id=None):
-    """where to locate the db for the given site. Pure black magic."""
-    if 'poh' == site:
-        # He`eia fishpond
-        return '/home/nuc/node/www/poh/storage/sensor_data.db'
-    elif 'coconut' == site:
-        if 'node-026' == node_id:
-            # Hollie's water tanks
-            return '/home/nuc/data/htank/storage/sensor_data.db'
-        else:
-            # I don't think this is active
-            return '/home/nuc/node/www/coconut/storage/sensor_data.db'
-    elif 'msb228' == site:
-        # MSB228 nodes
-        if 'node-019' == node_id:
-            return '/home/nuc/data/node-019/storage/sensor_data.db'
-        #elif 'node-005' == node_id:
-            #return '/home/nuc/data/node-005/storage/sensor_data.db'
-    return None'''
-
 
 # processing/analysis stuff
 
@@ -103,7 +75,7 @@ def loadcsv(fn,hasheader=True):
 
 def savecsv(fn,d,keys=None):
     if not all([len(d[d.keys()[0]]) == len(d[k]) for k in d.keys()]):
-        print('WARNING: Columns are not of the same length.')
+        print('Column length do not match.')
         assert False
     with open(fn,'w') as f:
         if keys is None:
@@ -135,4 +107,33 @@ def savecsv(fn,d,keys=None):
     if fn is not None:
         fig.savefig(fn)
     return fig'''
+
+
+#def m2ft(m):
+#    return m*100./2.54/12.
+
+#def c2f(c):
+#    return c*9./5. + 32.
+
+
+'''# I don't like this... but the config has to live somewhere
+def get_dbfile(site,node_id=None):
+    """where to locate the db for the given site. Pure black magic."""
+    if 'poh' == site:
+        # He`eia fishpond
+        return '/home/nuc/node/www/poh/storage/sensor_data.db'
+    elif 'coconut' == site:
+        if 'node-026' == node_id:
+            # Hollie's water tanks
+            return '/home/nuc/data/htank/storage/sensor_data.db'
+        else:
+            # I don't think this is active
+            return '/home/nuc/node/www/coconut/storage/sensor_data.db'
+    elif 'msb228' == site:
+        # MSB228 nodes
+        if 'node-019' == node_id:
+            return '/home/nuc/data/node-019/storage/sensor_data.db'
+        #elif 'node-005' == node_id:
+            #return '/home/nuc/data/node-005/storage/sensor_data.db'
+    return None'''
 

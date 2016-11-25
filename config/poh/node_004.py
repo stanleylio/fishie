@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 tag = 'node-004'
-name = 'CTD (sans C...)'
+name = 'oxygen and depth at makaha 1'
 location = 'Mākāhā 1'
 note = 'Oxygen, temperature and water depth'
 

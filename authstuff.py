@@ -26,11 +26,12 @@ def validate_message(m,sig,publickey):
 
 
 if '__main__' == __name__:
+    from os.path import expanduser
     #key = open('/home/nuc/.ssh/id_rsa').read()
     #from config import node
     #key = open(node.private_key_file).read()
-    privatekey = open('id_rsa').read()
-    publickey = open('id_rsa.pub').read()
+    privatekey = open(expanduser('~/.ssh/id_rsa')).read()
+    publickey = open(expanduser('~/.ssh/id_rsa.pub')).read()
 
     m = 'memento mori'
     assert validate_message(m,get_signature(m,privatekey),publickey)

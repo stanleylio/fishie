@@ -1,6 +1,6 @@
 import unittest,sys
 sys.path.append('/home/nuc/node')
-from helper import ts2dt,dt2ts,get_dbfile
+from helper import ts2dt,dt2ts
 
 
 class TestHelper(unittest.TestCase):
