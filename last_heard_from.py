@@ -14,7 +14,7 @@ from time import sleep
 
 dbfile = './storage/sensor_data.db'
 if not exists(dbfile):
-    dbfile = '../data/base-003/storage/sensor_data.db'
+    dbfile = '/var/uhcm/storage/sensor_data.db'
     #dbfile = '../data/base-004/storage/sensor_data.db'
     #dbfile = '../data/node-005/storage/sensor_data.db'
     #dbfile = '../data/node-019/storage/sensor_data.db'
