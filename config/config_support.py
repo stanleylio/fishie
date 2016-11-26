@@ -3,7 +3,8 @@
 # Stanley Lio, hlio@usc.edu
 # All Rights Reserved. August 2015
 #from __future__ import absolute_import
-import re,socket,traceback,imp#,importlib
+import re,socket,traceback,imp
+from importlib import import_module
 from os import listdir
 from os.path import join,exists,dirname,realpath,basename,splitext
 
@@ -41,7 +42,15 @@ def config_as_dict():
 #def is_base():
     #return re.match('^base.+',get_node_tag())
 
-def import_node_config(site,node):
+def import_node_config(site,node=None):
+    from socket import gethostname
+    if node is None:
+        node = gethostname()
+    node = node.replace('-','_')
+    return import_module('node.config.{site}.{node}'.\
+                         format(site=site,node=node))
+
+def OLD_import_node_config(site,node):
     """Import the appropriate config file for the given (site,node)"""
     #return importlib.import_module('config.' + site + '.' + node.replace('-','_'))
     tmp = join(dirname(realpath(__file__)),site,node.replace('-','_') + '.py')
