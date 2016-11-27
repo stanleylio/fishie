@@ -5,7 +5,6 @@
 import serial,re,traceback,logging
 
 
-#    @staticmethod
 def parse_4330f(line):
     d = None
     try:
@@ -65,7 +64,7 @@ class Aanderaa_4330f(object):
                     count = count + 1
                     # relying on the timeout instead of using time.sleep()
                     if count > self.MAX_RETRY:
-                        logging.error('Optode not responding to "do stop". Is it connected on {}?'.format(self._port))
+                        logging.debug('Optode not responding to "do stop". Is it connected on {}?'.format(self._port))
                         return None
 
                 s.write('\r\ndo sample\r\n')
@@ -78,7 +77,7 @@ class Aanderaa_4330f(object):
 
                 logging.error('Aanderaa_4330f::read(): no valid response from optode. (Check the output format setting of the optode?)')
         except:
-            logging.error(traceback.format_exc())
+            logging.debug(traceback.format_exc())
         return None
 
 
