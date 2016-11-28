@@ -47,7 +47,7 @@ def import_node_config(site,node=None):
     if node is None:
         node = gethostname()
     node = node.replace('-','_')
-    return import_module('node.config.{site}.{node}'.\
+    return import_module('config.{site}.{node}'.\
                          format(site=site,node=node))
 
 def OLD_import_node_config(site,node):
