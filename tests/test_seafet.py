@@ -1,5 +1,6 @@
 import unittest,sys
-sys.path.append('/home/nuc/node')
+from os.path import expanduser
+sys.path.append(expanduser('~/node'))
 from drivers.seafet import parse_SeaFET
 
 
