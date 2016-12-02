@@ -1,6 +1,6 @@
 id = 'base-003'
 site = 'poh'
-name = 'Base Station'
+name = 'PoH Base Station'
 location = 'Paepae o He\'ei, Kane\'ohe'
 google_earth_link = 'https://goo.gl/maps/ECEBgo3UEp82'
 note = 'Celeron-NUC (base-003)'

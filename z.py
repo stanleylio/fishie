@@ -5,7 +5,8 @@
 # Stanley H.I. Lio
 # hlio@hawaii.edu
 # All Rights Reserved. 2016
-import struct,json,socket,re,traceback,logging
+import struct,json,re,traceback,logging
+from socket import gethostname
 from zlib import crc32
 # see also: hashlib
 
@@ -18,38 +19,51 @@ def check(s):
         return get_checksum(s[:-8]) == s[-8:]
     except:
         logging.debug(traceback.format_exc())
-        logging.warning(s)
+        logging.debug(s)
         return False
 
-def get_action(line):
+def get_action(line,_test_myid=None):
+    """Get the action from a potential command.
+Also checks: 1. checksum and 2. whether this is the recipient."""
     try:
         line = line.strip()
-        if check(line):
-            line = line[:-8]
-            tmp = json.loads(line)
-            #print tmp['from']
-            #print tmp['to']
-            # "action" is mandatory...
-            if tmp['to'] == socket.gethostname():
-                d = {}
-                d['action'] = tmp['payload']['action']
-                # ... but "from" and "sample count" are optional
-                try:
-                    d['multi_sample'] = max(1,tmp['payload']['m'])
-                except:
-                    pass
-                # try this next time?
-                #d['from'] = tmp.get('from',None)
-                try:
-                    d['from'] = tmp['from']
-                except:
-                    pass
-                return d
-            else:
-                return None
+        if not check(line):
+            logging.debug('checksum failure')
+            return
+
+        line = line[:-8]    # discard the checksum and retain the message
+        tmp = json.loads(line)
+        #print tmp['from']
+        #print tmp['to']
+        if _test_myid is None:
+            _test_myid = gethostname()
+        if not tmp['to'] == _test_myid:
+            # message not intended for me
+            logging.debug('message not intended for this node')
+            print('message not intended for {}'.format(_test_myid))
+            return
+
+        if 'action' not in tmp['payload']:
+            # "action" is mandatory
+            logging.debug('no action defined')
+            return
+        
+        d = {}
+        d['action'] = tmp['payload']['action']
+
+        '''# "m" (sample count) is obsolete
+        # ... time for Google Protocol Buffer?
+        try:
+            d['multi_sample'] = max(1,tmp['payload']['m'])
+        except:
+            pass'''
+
+        d['from'] = tmp.get('from',None)
+        return d
     except:
         logging.debug(traceback.format_exc())
     return None
+
 
 def send(channel,sample,dest=None):
     tmp = {'from':socket.gethostname(),'payload':sample}

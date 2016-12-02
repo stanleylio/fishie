@@ -1,21 +1,28 @@
 import unittest,sys
 from os.path import expanduser
 sys.path.append(expanduser('~/node'))
-from authstuff import get_signature,validate_message
 
 
-class TestSeafet(unittest.TestCase):
+class TestZ(unittest.TestCase):
 
-    def test_sign(self):
+    def test_crc(self):
+        from z import get_checksum,check
         import string,random
-        from os.path import expanduser
-        privatekey = open(expanduser('~/.ssh/id_rsa')).read()
-        publickey = open(expanduser('~/.ssh/id_rsa.pub')).read()
 
         for i in range(100):
             N = random.randint(1,250)
             m = ''.join(random.SystemRandom().choice(string.ascii_uppercase + string.ascii_lowercase + string.digits) for _ in range(N))
-            self.assertTrue(validate_message(m,get_signature(m,privatekey),publickey))
+
+            self.assertTrue(check('{}{}'.format(m,get_checksum(m))))
+
+    def test_get_action(self):
+        from request import get_request_cmd
+        from z import get_action
+
+        nodes = ['node-001','node-003','node-004','node-007']
+        for node in nodes:
+            a = get_action(get_request_cmd(node),_test_myid=node)  # hum...
+            self.assertTrue(a['action'] == 'do sample')
 
 
 if __name__ == '__main__':

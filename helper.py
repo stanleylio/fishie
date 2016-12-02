@@ -2,6 +2,8 @@
 import calendar
 from datetime import datetime
 from numpy import diff,mean,median,size,flatnonzero,append,insert,absolute
+import subprocess,logging
+from os.path import exists
 
 
 def dt2ts(dt=None):
@@ -13,6 +15,18 @@ def ts2dt(ts=None):
     if ts is None:
         ts = dt2ts()
     return datetime.utcfromtimestamp(ts)
+
+def getsize(path):
+    """size of path (file or dir) in KB"""
+    if not exists(path):
+        raise IOError(path + ' does not exist')
+    p = subprocess.Popen(['du','-s',path],
+                         stdout=subprocess.PIPE,
+                         stderr=subprocess.PIPE)
+    out,err = p.communicate()
+    if len(err):
+        logging.warning(err)
+    return out.split('\t')[0]
 
 
 # processing/analysis stuff
