@@ -1,18 +1,10 @@
 #!/bin/bash
-#https://juliansimioni.com/blog/howto-access-a-linux-machine-behind-a-home-router-with-ssh-tunnels/
+#https://raymii.org/s/tutorials/Autossh_persistent_tunnels.html
 
-HostA=128.171.153.115
+# of course, sudo apt install autossh and do the ssh-copy-id dance from the remote host first.
 
-createTunnel() {
-    /usr/bin/ssh -f -N -R 10023:localhost:22 -L19922:$HostA:22 $HostA
-    if [[ $? -eq 0 ]]; then
-        echo Tunnel to $HostA created successfully
-    else
-        echo An error occurred creating a tunnel to $HostA. Return code: $?
-    fi
-}
-/usr/bin/ssh -p 19922 localhost ls > /dev/null
-if [[ $? -ne 0 ]]; then
-    echo Creating new tunnel connection to $HostA
-    createTunnel
-fi
+Host=128.171.153.115
+#Host=166.122.97.82
+
+autossh -M 19922 -N -f -o "PubkeyAuthentication=yes" -o "PasswordAuthentication=no" -R 10032:localhost:22 $(hostname)@$Host -p 22
+#autossh -M 19922 -o "PubkeyAuthentication=yes" -o "PasswordAuthentication=no" -R 10032:localhost:22 kmet-bbb2@166.122.97.82 -p 22
