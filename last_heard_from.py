@@ -43,7 +43,7 @@ while True:
             #      format(node_id,(ago%(3600*24))//3600,(ago%3600)//60,ago%60)
         except KeyboardInterrupt:
             print 'user interrupted'
-            break
+            exit()
         except TypeError:
             #traceback.print_exc()
             pass
