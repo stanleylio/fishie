@@ -1,7 +1,7 @@
 import unittest,sys
-sys.path.append('/home/nuc/node')
+from os.path import expanduser,exists
+sys.path.append(expanduser('~/node'))
 from config.config_support import config_as_dict,get_list_of_nodes,get_dbfile
-from os.path import exists
 
 
 class TestConfig(unittest.TestCase):
