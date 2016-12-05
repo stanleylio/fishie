@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 # us2
-tag = 'node-009'
+#tag = 'node-009'
 name = 'Mākāhā 1 Water Level'
 location = 'Mākāhā 1'
 note = 'Ultrasonic tide gauge (us2)'
@@ -15,9 +15,9 @@ data_source = '/home/nuc/node/www/poh/storage/sensor_data.db'
 #wait = 400
 #multi_sample = 7
 
-import sys
-sys.path.append('..')
-from config.config_support import Range
+#import sys
+#sys.path.append('..')
+from node.config.config_support import Range
 
 # TODO: use dictionary indexed by dbtag
 conf = [

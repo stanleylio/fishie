@@ -1,18 +1,17 @@
 # -*- coding: utf-8 -*-
 # us3
-tag = 'node-010'
+#tag = 'node-010'
 name = 'Makai Pier Water Level'
 location = 'Makai Research Pier'
 note = 'Ultrasonic tide gauge'
 
 plot_range = 24*7
-
 data_source = 'mysql+mysqldb://{user}:{password}@localhost/uhcm'
 
 
-import sys
-sys.path.append('..')
-from config.config_support import Range
+#import sys
+#sys.path.append('..')
+from node.config.config_support import Range
 
 conf = [
     {

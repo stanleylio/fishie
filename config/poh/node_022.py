@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 # kph2
-tag = 'node-022'
+#tag = 'node-022'
 name = 'Coco'
 location = 'Site #4, Kāneʻohe Bay'
 note = 'SeaFET pH Sensor; pole on a pole on a reef'
@@ -11,7 +11,7 @@ data_source = '/home/nuc/node/www/poh/storage/sensor_data.db'
 
 #import sys
 #sys.path.append('..')
-from config.config_support import Range
+from node.config.config_support import Range
 
 # TODO: use dictionary indexed by dbtag
 conf = [

@@ -5,12 +5,9 @@
 # Stanley Hou In Lio, hlio@hawaii.edu
 # October, 2015
 import sqlite3,time,traceback,logging
-from os.path import join,dirname
+from os.path import join,dirname,exists
 from datetime import datetime,timedelta
-from os.path import exists
-import sys
-sys.path.append('..')
-from helper import ts2dt,dt2ts
+from node.helper import ts2dt,dt2ts
 
 
 def auto_time_col(store,node_id):

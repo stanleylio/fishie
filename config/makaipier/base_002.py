@@ -1,5 +1,4 @@
-
-id = 'base-002'
+#id = 'base-002'
 site = 'makaipier'
 name = 'Makai Pier Base Station'
 location = 'Makai Pier'

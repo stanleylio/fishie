@@ -42,21 +42,29 @@ def config_as_dict():
 #def is_base():
     #return re.match('^base.+',get_node_tag())
 
-def import_node_config(site,node=None):
-    from socket import gethostname
+def getsite(node):
+    C = config_as_dict()
+    for site in C:
+        if node in C[site]:
+            return site
+
+def import_node_config(site=None,node=None):
     if node is None:
+        from socket import gethostname
         node = gethostname()
+    if site is None:
+        site = getsite(node)
     node = node.replace('-','_')
-    return import_module('config.{site}.{node}'.\
+    return import_module('node.config.{site}.{node}'.\
                          format(site=site,node=node))
 
-def OLD_import_node_config(site,node):
+'''def OLD_import_node_config(site,node):
     """Import the appropriate config file for the given (site,node)"""
     #return importlib.import_module('config.' + site + '.' + node.replace('-','_'))
     tmp = join(dirname(realpath(__file__)),site,node.replace('-','_') + '.py')
     if not exists(tmp):
         return None
-    return imp.load_source('node',tmp)
+    return imp.load_source('node',tmp)'''
 
 def get_list_of_nodes(site):
     c = config_as_dict()

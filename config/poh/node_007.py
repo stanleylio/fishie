@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-tag = 'node-007'
+#tag = 'node-007'
 name = 'Met. Station'
 location = 'Mākāhā 1'
 note = 'Meteorological Station'
@@ -21,9 +21,9 @@ wait = 597
 
 multi_sample = 5
 
-import sys
-sys.path.append('..')
-from config.config_support import Range
+#import sys
+#sys.path.append('..')
+from node.config.config_support import Range
 
 # TODO: use dictionary indexed by dbtag
 conf = [

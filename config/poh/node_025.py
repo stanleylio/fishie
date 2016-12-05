@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 # seabird1
-tag = 'node-025'
+#tag = 'node-025'
 name = 'Seabird CTD #1 (white Delrin)'
 location = 'the dock'
 note = 'Sea-bird CTD #1'
@@ -11,7 +11,7 @@ data_source = '/home/nuc/node/www/poh/storage/sensor_data.db'
 
 #import sys
 #sys.path.append('..')
-from config.config_support import Range
+from node.config.config_support import Range
 
 # TODO: use dictionary indexed by dbtag
 # ***field names not verified*** can't find the manual

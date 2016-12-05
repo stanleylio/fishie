@@ -1,20 +1,17 @@
 # -*- coding: utf-8 -*-
 # us4
-tag = 'node-011'
+#tag = 'node-012'
 name = '-'
 location = '-'
-note = 'Ultrasonic tide gauge (us4)'
+note = 'Ultrasonic tide gauge (us5)'
 
 plot_range = 24*7
 data_source = 'mysql+mysqldb://{user}:{password}@localhost/uhcm'
 
-LOGDIR = '/var/uhcm/log'
-DBPATH = '/var/uhcm/storage/sensor_data.db'
 
-
-import sys
-sys.path.append('..')
-from config.config_support import Range
+#import sys
+#sys.path.append('..')
+from node.config.config_support import Range
 
 conf = [
     {

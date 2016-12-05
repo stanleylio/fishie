@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 # us4
-tag = 'node-011'
+#tag = 'node-011'
 name = '-'
 location = '-'
 note = 'Ultrasonic tide gauge (us4)'
@@ -9,9 +9,9 @@ plot_range = 24*7
 data_source = 'mysql+mysqldb://{user}:{password}@localhost/uhcm'
 
 
-import sys
-sys.path.append('..')
-from config.config_support import Range
+#import sys
+#sys.path.append('..')
+from node.config.config_support import Range
 
 conf = [
     {
