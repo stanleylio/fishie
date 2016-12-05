@@ -61,6 +61,18 @@ parse into dict() if it's from a known node."""
                          'd2w':float(line[2]),
                          'Vbatt':float(line[3])}    # this reports V, not mV
                     return d
+                elif 'us4' == line[0]:
+                    d = {'node':'node-011',
+                         'ticker':int(line[1]),
+                         'd2w':float(line[2]),
+                         'Vbatt':float(line[3])}    # this reports V, not mV
+                    return d
+                elif 'us5' == line[0]:
+                    d = {'node':'node-012',
+                         'ticker':int(line[1]),
+                         'd2w':float(line[2]),
+                         'Vbatt':float(line[3])}    # this reports V, not mV
+                    return d
             except:
                 #logging.info('Not a ultrasonic message:')
                 #logging.info(line)
