@@ -2,13 +2,12 @@
 #
 # Stanley Lio, hlio@usc.edu
 # All Rights Reserved. February 2015
-import sys,traceback,re,json,importlib,logging,binascii
+import traceback,re,json,importlib,logging,binascii
 from datetime import datetime
 from z import check
 from drivers.seafet import parse_SeaFET
 from drivers.seabird import parse_Seabird
 from helper import dt2ts
-
 
 
 def pretty_print(d):
@@ -37,52 +36,60 @@ def pretty_print(d):
     for k in sorted(set(d.keys()) - set(['Timestamp','node','ReceptionTime'])):
         print('{}{}{}'.format(k,' '*(max_len + 4 - len(k)),d[k]))
 
+
+def parse_tidegauge(line):
+    if not re.match('^us\d+,.+',line):
+        return
+    try:
+        line = line.split(',')
+        if 'us1' == line[0]:
+            d = {'node':'node-008',
+                 'ticker':int(line[1]),
+                 'd2w':float(line[2]),
+                 'VbattmV':int(line[3])}
+            return d
+        elif 'us2' == line[0]:
+            d = {'node':'node-009',
+                 'ticker':int(line[1]),
+                 'd2w':float(line[2]),
+                 'VbattmV':int(line[3])}
+            return d
+        elif 'us3' == line[0]:  # and 'makaipier' == site:
+            d = {'node':'node-010',
+                 'ticker':int(line[1]),
+                 'd2w':float(line[2]),
+                 'Vbatt':float(line[3])}    # this reports V, not mV
+            return d
+        elif 'us4' == line[0]:
+            d = {'node':'node-011',
+                 'ticker':int(line[1]),
+                 'd2w':float(line[2]),
+                 'VbattV':float(line[3]),       # now includes unit
+                 'Timestamp':float(line[4])}    # and timestamp (inserted by base station)
+            return d
+        elif 'us5' == line[0]:
+            d = {'node':'node-012',
+                 'ticker':int(line[1]),
+                 'd2w':float(line[2]),
+                 'VbattV':float(line[3]),       # now includes unit
+                 'Timestamp':float(line[4])}    # and timestamp (inserted by base station)
+            return d
+    except:
+        #logging.info('Not a ultrasonic message:')
+        #logging.debug(traceback.format_exc())
+        #logging.debug(line)
+        pass
+
 def parse_message(line,site):
     """Identify the origin of a given message;
 parse into dict() if it's from a known node."""
     try:
         line = line.strip()
 
-        # is it one of the ultrasonic tide gauge?
-        if re.match('^us\d+,.+',line):
-            try:
-                line = line.split(',')
-                if 'us1' == line[0]:
-                    d = {'node':'node-008',
-                         'ticker':int(line[1]),
-                         'd2w':float(line[2]),
-                         'VbattmV':int(line[3])}
-                    return d
-                elif 'us2' == line[0]:
-                    d = {'node':'node-009',
-                         'ticker':int(line[1]),
-                         'd2w':float(line[2]),
-                         'VbattmV':int(line[3])}
-                    return d
-                elif 'us3' == line[0]:  # and 'makaipier' == site:
-                    d = {'node':'node-010',
-                         'ticker':int(line[1]),
-                         'd2w':float(line[2]),
-                         'Vbatt':float(line[3])}    # this reports V, not mV
-                    return d
-                elif 'us4' == line[0]:
-                    d = {'node':'node-011',
-                         'ticker':int(line[1]),
-                         'd2w':float(line[2]),
-                         'VbattV':float(line[3]),       # now includes unit
-                         'Timestamp':float(line[4])}    # and timestamp (inserted by base station)
-                    return d
-                elif 'us5' == line[0]:
-                    d = {'node':'node-012',
-                         'ticker':int(line[1]),
-                         'd2w':float(line[2]),
-                         'VbattV':float(line[3]),       # now includes unit
-                         'Timestamp':float(line[4])}    # and timestamp (inserted by base station)
-                    return d
-            except:
-                #logging.info('Not a ultrasonic message:')
-                #logging.info(line)
-                pass
+        # is it one of the ultrasonic tide gauges?
+        d = parse_tidegauge(line)
+        if d is not None:
+            return d
 
         # first low-power node (node-003)
         # CRC32 checks everything up to (but excluding) the last comma.

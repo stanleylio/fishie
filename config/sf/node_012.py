@@ -6,7 +6,7 @@ location = '-'
 note = 'Ultrasonic tide gauge (us4)'
 
 plot_range = 24*7
-data_source = '/home/nuc/node/www/poh/storage/sensor_data.db'
+data_source = 'mysql+mysqldb://{user}:{password}@localhost/uhcm'
 
 LOGDIR = '/var/uhcm/log'
 DBPATH = '/var/uhcm/storage/sensor_data.db'

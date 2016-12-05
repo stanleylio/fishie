@@ -6,7 +6,7 @@ location = '-'
 note = 'Ultrasonic tide gauge (us4)'
 
 plot_range = 24*7
-data_source = '/home/nuc/node/www/sf/storage/sensor_data.db'
+data_source = 'mysql+mysqldb://{user}:{password}@localhost/uhcm'
 
 
 import sys
