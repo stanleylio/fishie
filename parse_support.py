@@ -65,13 +65,15 @@ parse into dict() if it's from a known node."""
                     d = {'node':'node-011',
                          'ticker':int(line[1]),
                          'd2w':float(line[2]),
-                         'Vbatt':float(line[3])}    # this reports V, not mV
+                         'VbattV':float(line[3]),       # now includes unit
+                         'Timestamp':float(line[4])}    # and timestamp (inserted by base station)
                     return d
                 elif 'us5' == line[0]:
                     d = {'node':'node-012',
                          'ticker':int(line[1]),
                          'd2w':float(line[2]),
-                         'Vbatt':float(line[3])}    # this reports V, not mV
+                         'VbattV':float(line[3]),       # now includes unit
+                         'Timestamp':float(line[4])}    # and timestamp (inserted by base station)
                     return d
             except:
                 #logging.info('Not a ultrasonic message:')

@@ -133,7 +133,33 @@ class node_010_Sample(Base):
     def __repr__(self):
         return str(self.__dict__)
     
+
+class node_011_Sample(Base):
+    __tablename__ = 'node_011'
+    id = Column('id',Integer,primary_key=True)
+    ReceptionTime = Column('ReceptionTime',Float(precision=32))
+    Timestamp = Column('Timestamp',Float(precision=32))
+    d2w = Column('d2w',Float(precision=32))
+    VbattmV = Column('VbattV',Float(precision=32))
+    ticker = Column('ticker',Float(precision=32))
     
+    def __repr__(self):
+        return str(self.__dict__)
+    
+
+class node_012_Sample(Base):
+    __tablename__ = 'node_012'
+    id = Column('id',Integer,primary_key=True)
+    ReceptionTime = Column('ReceptionTime',Float(precision=32))
+    Timestamp = Column('Timestamp',Float(precision=32))
+    d2w = Column('d2w',Float(precision=32))
+    VbattmV = Column('VbattV',Float(precision=32))
+    ticker = Column('ticker',Float(precision=32))
+    
+    def __repr__(self):
+        return str(self.__dict__)
+    
+
 class node_021_Sample(Base):
     __tablename__ = 'node_021'
     id = Column('id',Integer,primary_key=True)
