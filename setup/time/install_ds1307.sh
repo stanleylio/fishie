@@ -5,8 +5,16 @@
 
 # detect DS1307 on I2C bus
 echo "Installing external RTC (DS1307/DS3231)..."
-i2cdetect -y -r 1
-echo ds1307 0x68 > /sys/class/i2c-adapter/i2c-1/new_device
+if [ -f /sys/class/i2c-adapter/i2c-1 ]; then
+	i2cdetect -y -r 1
+	echo "using i2c-1"
+	echo ds1307 0x68 > /sys/class/i2c-adapter/i2c-1/new_device
+fi
+if [ -f /sys/class/i2c-adapter/i2c-2 ]; then
+	i2cdetect -y -r 2
+	echo "using i2c-2"
+	echo ds1307 0x68 > /sys/class/i2c-adapter/i2c-2/new_device
+fi
 hwclock -r -f /dev/rtc1
 
 #cat rc.local.txt > /etc/rc.local
@@ -14,8 +22,8 @@ hwclock -r -f /dev/rtc1
 # sync NTP time
 echo "Getting time via NTP..."
 #ntpdate -b -s -u pool.ntp.org
-service ntp stop
 #ntpdate ntp.soest.hawaii.edu
+service ntp stop
 ntpd -gq
 service ntp start
 #date -s "10 SEP 2015 22:00:30"
@@ -34,12 +42,11 @@ hwclock --show --rtc=/dev/rtc1
 #chmod +x clock_init.sh
 
 echo "Installing service..."
-# whichever works... oh man.
-cp /root/node/setup/time/rtc-ds1307.service /lib/systemd/system/rtc-ds1307.service
-cp /root/node/setup/time/rtc-ds1307.service /lib/systemd/system/rtc-ds1307_rpi2.service
+cp ~/node/setup/time/rtc-ds1307.service /lib/systemd/system/rtc-ds1307.service
 systemctl enable rtc-ds1307.service
 systemctl start rtc-ds1307.service
-systemctl enable rtc-ds1307_rpi2.service
-systemctl start rtc-ds1307_rpi2.service
+#cp ~/node/setup/time/rtc-ds1307.service /lib/systemd/system/rtc-ds1307_rpi2.service
+#systemctl enable rtc-ds1307_rpi2.service
+#systemctl start rtc-ds1307_rpi2.service
 
 # shutdown -r now
