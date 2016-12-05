@@ -15,6 +15,14 @@ from node.config.config_support import Range
 
 conf = [
     {
+        'dbtag':'Timestamp',
+        'dbtype':'REAL',
+        'comtag':'ts',
+        'unit':None,
+        'description':'Sampling time (by base station)',
+        'plot':False,
+    },
+    {
         'dbtag':'ticker',
         'dbtype':'INTEGER',
         'comtag':None,
@@ -33,7 +41,7 @@ conf = [
         'range':Range(300,5000),
     },
     {
-        'dbtag':'Vbatt',
+        'dbtag':'VbattV',
         'dbtype':'REAL',
         'comtag':None,
         'unit':'V',
