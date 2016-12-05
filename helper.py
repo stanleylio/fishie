@@ -1,7 +1,7 @@
 # goal: get rid of this whole file.
 import calendar
 from datetime import datetime
-from numpy import diff,mean,median,size,flatnonzero,append,insert,absolute
+#from numpy import diff,mean,median,size,flatnonzero,append,insert,absolute
 import subprocess,logging
 from os.path import exists
 
@@ -29,7 +29,7 @@ def getsize(path):
     return out.split('\t')[0]
 
 
-# processing/analysis stuff
+'''# processing/analysis stuff
 
 # should it first check whether the data are indeed in groups?
 # or at least emit a warning if they aren't?
@@ -96,6 +96,7 @@ def savecsv(fn,d,keys=None):
             keys = d.keys()
         f.write(','.join([k.replace(',','') for k in keys]) + '\n')
         f.write('\n'.join([','.join([str(rr) for rr in r]) for r in zip(*[d[k] for k in keys])]))
+'''
 
 '''def plot1(x,y,title='',xlabel='',ylabel='',linelabel='',color='b',style='.',fn=None):
     """Plot a single-var time series"""
