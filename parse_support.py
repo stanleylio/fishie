@@ -29,9 +29,11 @@ def pretty_print(d):
         if isinstance(tmp,float):
             tmp = datetime.fromtimestamp(tmp)
         print('Sampled at {}'.format(tmp))
-    for k in [k for k in sorted(d.keys()) if all([k != t for t in ['Timestamp','node','ReceptionTime']])]:
+    #what was I thinking...
+    #for k in [k for k in sorted(d.keys()) if all([k != t for t in ['Timestamp','node','ReceptionTime']])]:
+        #print('{}{}{}'.format(k,' '*(max_len + 4 - len(k)),d[k]))
+    for k in sorted(filter(lambda x: x not in ['Timestamp','node','ReceptionTime'],d.keys())):
         print('{}{}{}'.format(k,' '*(max_len + 4 - len(k)),d[k]))
-
 
 def parse_message(line,site):
     """Identify the origin of a given message;

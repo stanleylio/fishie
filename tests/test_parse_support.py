@@ -1,10 +1,10 @@
 import unittest,sys
 from os.path import expanduser
 sys.path.append(expanduser('~/node'))
-from parse_support import parse_message
+from parse_support import parse_message,pretty_print
 
 
-M = [
+M_poh = [
     '{"from":"node-001","payload":{"C2Amp":1584.3,"T_180":31.9,"T_4330f":27.322,"sal":0.0,"T_5803":27.9,"TCPhase":61.071,"ts":1478741586.279009,"ec":0.0,"Air":-14.915,"C2RPh":4.219,"P_180":101534,"P_5803":109.39,"C1RPh":65.29,"CalPhase":73.904,"C1Amp":2182.3,"RawTemp":-17.9,"O2":-36.845}}726535d6',
     'node-003,R,2016-11-02 01:47:14,102.05,24.66,251.400,99.415,26.080,82.988,25.536,3055,4130,b3844b99',
     '{"from":"node-004","payload":{"C2Amp":1180.9,"T_180":34.7,"T_4330f":36.386,"sal":0.0,"T_5803":34.69,"TCPhase":27.952,"ts":1444958592.790913,"ec":7.28,"Air":90.86,"C2RPh":4.402,"P_180":101664,"P_5803":101.57,"C1RPh":32.354,"CalPhase":25.823,"C1Amp":702.4,"RawTemp":-295.9,"O2":192.554}}e002b5aa',
@@ -22,8 +22,12 @@ M = [
 class TestParse(unittest.TestCase):
 
     def test_parse_message(self):
-        for m in M:
+        for m in M_poh:
             self.assertTrue(parse_message(m,'poh') is not None)
+
+    def test_pretty_print(self):
+        for m in M_poh:
+            pretty_print(parse_message(m,'poh'))
 
 
 if __name__ == '__main__':
