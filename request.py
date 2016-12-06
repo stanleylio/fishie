@@ -1,8 +1,10 @@
 import serial,sys,json,time,socket,config,importlib
 from datetime import datetime,timedelta
-from z import get_checksum
-from config.config_support import *
-from parse_support import parse_message,pretty_print
+from os.path import expanduser
+sys.path.append(expanduser('~'))
+from node.z import get_checksum
+from node.config.config_support import *
+from node.parse_support import parse_message,pretty_print
 
 
 def get_request_cmd(node_id):
