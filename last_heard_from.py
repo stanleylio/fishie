@@ -5,7 +5,7 @@
 #
 # Stanley H.I. Lio
 # hlio@soest.hawaii.edu
-import storage,re,traceback,time
+import storage,re,traceback,time,sys
 from os.path import exists,expanduser
 sys.path.append(expanduser('~'))
 from datetime import datetime
