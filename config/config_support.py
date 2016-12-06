@@ -42,7 +42,7 @@ def config_as_dict():
 #def is_base():
     #return re.match('^base.+',get_node_tag())
 
-def getsite(node):
+def get_site(node):
     C = config_as_dict()
     for site in C:
         if node in C[site]:
@@ -53,7 +53,7 @@ def import_node_config(site=None,node=None):
         from socket import gethostname
         node = gethostname()
     if site is None:
-        site = getsite(node)
+        site = get_site(node)
     node = node.replace('-','_')
     return import_module('node.config.{site}.{node}'.\
                          format(site=site,node=node))
