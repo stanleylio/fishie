@@ -1,7 +1,7 @@
 import unittest,sys
 from os.path import expanduser
-sys.path.append(expanduser('~/node'))
-from drivers.seafet import parse_SeaFET
+sys.path.append(expanduser('~'))
+from node.drivers.seafet import parse_SeaFET
 
 
 class TestSeafet(unittest.TestCase):

@@ -80,6 +80,7 @@ def parse_tidegauge(line):
         #logging.debug(line)
         pass
 
+# TODO: remove the "site" argument. Or at least make it optional.
 def parse_message(line,site):
     """Identify the origin of a given message;
 parse into dict() if it's from a known node."""
@@ -167,7 +168,7 @@ parse into dict() if it's from a known node."""
 
 # what a mess.
                 #from config import node
-                node = importlib.import_module('config.{}.{}'.format(site,node_id.replace('-','_')))
+                node = importlib.import_module('node.config.{}.{}'.format(site,node_id.replace('-','_')))
 
                 d = {c['dbtag']:d[c['comtag']] for c in node.conf}
                 d['node'] = node_id
@@ -179,14 +180,14 @@ parse into dict() if it's from a known node."""
 # will just be ignored by the db.
                 return d
             elif re.match('^base[-_]\d{3}$',tmp['from']):
-                logging.warning('Command from base station {}; ignore.'.format(tmp['from']))
+                logging.debug('Command from base station {}; ignore.'.format(tmp['from']))
             else:
-                logging.warning('Not a BBB node message:')
-                logging.warning(line)
+                logging.debug('Not a BBB node message:')
+                logging.debug(line)
         else:
-            #logging.info('Not a BBB node message (CRC failure):')
-            #logging.info(line)
-            pass
+            logging.debug('Not a BBB node message (CRC failure):')
+            logging.debug(line)
+            #pass
     except:
         logging.warning('parse_message(): duh')
         logging.warning(line)

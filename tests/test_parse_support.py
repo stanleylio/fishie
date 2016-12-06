@@ -1,7 +1,7 @@
 import unittest,sys
 from os.path import expanduser
-sys.path.append(expanduser('~/node'))
-from parse_support import parse_message,pretty_print
+sys.path.append(expanduser('~'))
+from node.parse_support import parse_message,pretty_print
 
 
 M_poh = [

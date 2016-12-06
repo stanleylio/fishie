@@ -1,12 +1,12 @@
 import unittest,sys
 from os.path import expanduser
-sys.path.append(expanduser('~/node'))
+sys.path.append(expanduser('~'))
 
 
 class TestZ(unittest.TestCase):
 
     def test_crc(self):
-        from z import get_checksum,check
+        from node.z import get_checksum,check
         import string,random
 
         for i in range(100):
@@ -16,8 +16,8 @@ class TestZ(unittest.TestCase):
             self.assertTrue(check('{}{}'.format(m,get_checksum(m))))
 
     def test_get_action(self):
-        from request import get_request_cmd
-        from z import get_action
+        from node.request import get_request_cmd
+        from node.z import get_action
 
         nodes = ['node-001','node-003','node-004','node-007']
         for node in nodes:

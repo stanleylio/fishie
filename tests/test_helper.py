@@ -1,7 +1,7 @@
 import unittest,sys
 from os.path import expanduser
-sys.path.append(expanduser('~/node'))
-from helper import ts2dt,dt2ts
+sys.path.append(expanduser('~'))
+from node.helper import ts2dt,dt2ts
 
 
 class TestHelper(unittest.TestCase):
