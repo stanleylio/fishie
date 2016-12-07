@@ -1,7 +1,7 @@
 import unittest,sys
 from os.path import expanduser,exists
-sys.path.append(expanduser('~/node'))
-from config.config_support import config_as_dict,get_list_of_nodes,get_dbfile,\
+sys.path.append(expanduser('~'))
+from node.config.config_support import config_as_dict,get_list_of_nodes,get_dbfile,\
      get_tag,get_type,get_dbfile,get_schema
 
 

@@ -5,8 +5,9 @@
 import matplotlib,numpy,traceback
 matplotlib.use('Agg')
 import sys
-sys.path.append('..')
-from helper import ts2dt
+from os.path import expanduser
+sys.path.append(expanduser('~'))
+from node.helper import ts2dt
 import matplotlib.pyplot as plt
 from datetime import datetime,timedelta
 from matplotlib.dates import DateFormatter,HourLocator

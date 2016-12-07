@@ -3,11 +3,11 @@
 # Stanley Lio, hlio@hawaii.edu
 # December 2015
 import traceback,sys
-sys.path.append(r'..')
+from os.path import join,expanduser
+sys.path.append(expanduser('~'))
 from datetime import datetime,timedelta
-from gen_plot import plot_time_series
-from helper import *
-from os.path import join
+from node.display.gen_plot import plot_time_series
+from node.helper import ts2dt
 
 
 with open('/home/nuc/data/base-001/log/base_temperature.txt') as f:

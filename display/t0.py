@@ -1,15 +1,16 @@
-# generate plots for debug webpage
+# generate static plots for debug webpage
 #
-# Stanley Lio, hlio@soest.hawaii.edu
-# January 2016
+# Stanley H.I. Lio
+# hlio@soest.hawaii.edu
+# All Rights Reserved. 2016
 import sys,traceback,sqlite3,re,importlib,argparse,json,time,math,logging
-sys.path.append('..')
-from config.config_support import *
-from storage.storage import storage_read_only,auto_time_col
-from gen_plot import plot_time_series
-from helper import dt2ts
+from os.path import exists,join,expanduser
+sys.path.append(expanduser('~'))
+from node.config.config_support import *
+from node.storage.storage import storage_read_only,auto_time_col
+from node.display.gen_plot import plot_time_series
+from node.helper import dt2ts
 from datetime import datetime,timedelta
-from os.path import exists,join
 from os import makedirs
 from scipy.signal import medfilt
 
