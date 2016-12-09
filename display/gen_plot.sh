@@ -10,6 +10,14 @@ python t0.py --site=poh --dbfile=$HOME/node/www/poh/storage/sensor_data.db --plo
 
 #rsync -avh $HOME/node/www/poh $HOME/cm1app/cm1app/static/
 
+# - - - - -
+# raw plot for SF
+# - - - - -
+echo "SF"
+python t3.py --site=sf
+
+#rsync -avh $HOME/node/www/poh $HOME/cm1app/cm1app/static/
+
 # - - -
 # plot filtered and boundary-checked
 # clone the database
@@ -26,8 +34,8 @@ python t0.py --site=poh --dbfile=$HOME/node/www/poh/storage/sensor_data.db --plo
 # - - - - -
 # raw plot for Coconut Island tank test (Katie's)
 # - - - - -
-echo "Coconut Island (Katie's)"
-python t0.py --site=coconut --dbfile=$HOME/node/www/coconut/storage/sensor_data.db --plot_dir=$HOME/node/www/coconut
+#echo "Coconut Island (Katie's)"
+#python t0.py --site=coconut --dbfile=$HOME/node/www/coconut/storage/sensor_data.db --plot_dir=$HOME/node/www/coconut
 
 #echo "Coconut boundary-checked"
 #rsync -avzhe ssh --progress $HOME/node/www/coconut/storage/sensor_data.db* $HOME/node/www/coconut/storage/bounded/

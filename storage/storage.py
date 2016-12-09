@@ -113,7 +113,6 @@ class storage_read_only(object):
                        count)
         return self._execute(cmd)
 
-# I don't see the utility of this anymore. get rid of this. TODO
     def read_last_N_minutes(self,node_id,time_col,N,cols=None,nonnull=None):
         """Retrieve records within N minutes of the last record in the database.
         "Last N minutes" is relative to the latest record in the database (which could be

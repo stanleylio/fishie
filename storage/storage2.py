@@ -32,6 +32,8 @@ class storage_read_only():
     def read_time_range(self,node_id,time_col,cols,begin,end=None):
         """Retrieve records in the given time period.
         If end is not specified, end = the moment this is called.
+        Would be nice to auto-convert begin and end to suit the type of column time_col
+        but that would mean doing a query just to find out the type... not worth it.
         """
         assert type(cols) is list,'cols must be a list of string'
         table = id2table(node_id)
@@ -42,7 +44,9 @@ class storage_read_only():
             if type(begin) is not datetime:
                 end = dt2ts(end)
 
+        assert type(end) == type(begin)
         assert end > begin,'"begin" came after "end"? just swap the two'
+        # also require type(end) == type(begin) == type(stuff in column time_col)
 
         time_range = 'WHERE {time_col} BETWEEN "{begin}" AND "{end}"'.\
                      format(time_col=time_col,begin=begin,end=end)
@@ -54,14 +58,24 @@ class storage_read_only():
         result = list(self.engine.execute(cmd))
         return {c:tuple(row[c] for row in result) for c in cols}
 
-    def read_last_N_minutes(self,node_id,time_col,N,cols,nonnull=None):
+    def read_last_N_minutes(self,node_id,time_col,N,cols,nonnull):
         assert type(cols) is list,'storage::read_last_N_minutes(): cols must be a list of string'
-        return self.read_time_range(node_id,time_col,cols,dt2ts() - timedelta(minutes=N).total_seconds())
+        table = id2table(node_id)
+
+        cmd = '''SELECT * FROM {table} WHERE
+                    {time_col} >= (SELECT MAX({time_col}) - {N} FROM (SELECT {time_col},{nonnull} FROM {table} WHERE {nonnull} IS NOT NULL) AS T)
+                 AND
+                    {time_col} IS NOT NULL;'''.\
+              format(cols=','.join(cols),time_col=time_col,table=table,N=60*N,nonnull=nonnull)
+        result = list(self.engine.execute(cmd))
+        return {c:tuple(row[c] for row in result) for c in cols}
+        #return self.read_time_range(node_id,time_col,cols,dt2ts() - timedelta(minutes=N).total_seconds())
 
 
 if '__main__' == __name__:
     s = storage_read_only()
-    print s.read_time_range('node-010','ReceptionTime',['ReceptionTime','d2w'],dt2ts()-3600)
+    #print s.read_time_range('node-010','ReceptionTime',['ReceptionTime','d2w'],dt2ts()-3600)
+    print s.read_last_N_minutes('node-011','ReceptionTime',1,['ReceptionTime','d2w'],nonnull='d2w')
     exit()
 
 

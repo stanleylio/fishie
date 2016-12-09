@@ -43,12 +43,14 @@ def config_as_dict():
     #return re.match('^base.+',get_node_tag())
 
 def get_site(node):
+    """Meant to be called by the base stations / nodes to find out which site it belongs"""
     C = config_as_dict()
     for site in C:
         if node in C[site]:
             return site
 
 def import_node_config(site=None,node=None):
+    """Meant to be called by the base stations / nodes to get its own config file"""
     if node is None:
         from socket import gethostname
         node = gethostname()

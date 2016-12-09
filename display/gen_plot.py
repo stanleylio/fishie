@@ -138,13 +138,24 @@ def plot_multi_time_series(data,plotfilename,title='',xlabel='',ylabel=''):
 
 def plot_time_series(x,y,plotfilename,title='',xlabel='',ylabel='',linelabel=None,linestyle='-',marker='.',markersize=1):
     assert len(x) == len(y)
+    assert len(x) > 0
     assert len(plotfilename) > 0
 
-    data = [{'x':x,'y':y,'linelabel':linelabel,'linestyle':linestyle,'marker':marker,'markersize':markersize}]
+    # convert timestamps into datetimes
+    if type(x[0]) is not datetime:
+        x = [ts2dt(xx) for xx in x]
 
+    # replace any None with float('nan')
+    y = [yy if yy is not None else float('nan') for yy in y]
+
+    # locate the start and end dates on which the data is not float('nan')
     if '' == xlabel:
-        begin = min([z[0] for z in zip(x,y) if not numpy.isnan(z[1])])
-        end = max([z[0] for z in zip(x,y) if not numpy.isnan(z[1])])
+        #begin = min([z[0] for z in zip(x,y) if z[1] not numpy.isnan(z[1])])
+        #end = max([z[0] for z in zip(x,y) if z[1] not numpy.isnan(z[1])])
+        z = zip(x,y)
+        z = [zz[0] for zz in z]
+        begin = min(z)
+        end = max(z)
         if begin.date() == end.date():
             xlabel = 'UTC Time ({})'.format(begin.strftime('%Y-%m-%d'))
         else:
@@ -152,6 +163,8 @@ def plot_time_series(x,y,plotfilename,title='',xlabel='',ylabel='',linelabel=Non
                      format(begin.strftime('%Y-%m-%d'),\
                             end.strftime('%Y-%m-%d'))
 
+    data = [{'x':x,'y':y,'linelabel':linelabel,'linestyle':linestyle,'marker':marker,'markersize':markersize}]
+    
     plot_multi_time_series(data,plotfilename,
                            title=title,
                            xlabel=xlabel,
