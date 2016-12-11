@@ -1,10 +1,9 @@
 # -*- coding: utf-8 -*-
-#tag = 'node-004'
 name = 'oxygen and depth at makaha 1'
 location = 'Mākāhā 1'
 note = 'Oxygen, temperature and water depth'
 
-plot_range = 24*7
+#plot_range = 24*7
 
 data_source = '/home/nuc/node/www/poh/storage/sensor_data.db'
 
@@ -16,8 +15,6 @@ LOGDIR = '/var/uhcm/log'
 DBPATH = '/var/uhcm/storage/sensor_data.db'
 
 
-#import sys
-#sys.path.append('..')
 from node.config.config_support import Range
 
 

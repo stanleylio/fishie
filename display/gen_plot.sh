@@ -3,20 +3,16 @@
 cd $HOME/node/display
 
 # - - - - -
-# raw plot for PoH
+# static plots (raw)
 # - - - - -
 echo "PoH"
-python t0.py --site=poh --dbfile=$HOME/node/www/poh/storage/sensor_data.db --plot_dir=$HOME/node/www/poh
-
-#rsync -avh $HOME/node/www/poh $HOME/cm1app/cm1app/static/
-
-# - - - - -
-# raw plot for SF
-# - - - - -
+#python t0.py --site=poh --dbfile=$HOME/node/www/poh/storage/sensor_data.db --plot_dir=$HOME/node/www/poh
+python t3.py --site=poh
 echo "SF"
 python t3.py --site=sf
+echo "Makai Pier"
+python t3.py --site=makaipier
 
-#rsync -avh $HOME/node/www/poh $HOME/cm1app/cm1app/static/
 
 # - - -
 # plot filtered and boundary-checked

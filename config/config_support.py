@@ -108,6 +108,13 @@ def get_location(site,node):
     node = node.replace('-','_')
     return import_node_config(site,node).location
 
+def get_google_earth_link(site,node):
+    node = node.replace('-','_')
+    try:
+        return import_node_config(site,node).google_earth_link
+    except AttributeError:
+        return '#'
+
 def get_unit_map(site,node):
     node = node.replace('-','_')
     node = import_node_config(site,node)
@@ -130,6 +137,13 @@ def get_list_of_disp_vars(site,node):
     """Get the list of variables to display."""
     node = import_node_config(site,node)
     return [c['dbtag'] for c in node.conf if c['plot']]
+
+def get_plot_range(site,node):
+    node = node.replace('-','_')
+    try:
+        return import_node_config(site,node).plot_range
+    except AttributeError:
+        return 30*24    # default: ~30 days
 
 
 class Range(object):

@@ -50,6 +50,20 @@ class TestConfig(unittest.TestCase):
                 if 'mysql' not in new:
                     self.assertEqual(new,old)'''
 
+    def test_get_plot_range(self):
+        from node.config.config_support import get_plot_range
+        c = config_as_dict()
+        for site in sorted(c.keys()):
+            for node in get_list_of_nodes(site):
+                self.assertTrue(get_plot_range(site,node) > 0)
+
+    def test_get_location(self):
+        from node.config.config_support import get_location
+        c = config_as_dict()
+        for site in sorted(c.keys()):
+            for node in get_list_of_nodes(site):
+                self.assertTrue(get_location(site,node) is not None)
+
             
 if __name__ == '__main__':
     unittest.main()

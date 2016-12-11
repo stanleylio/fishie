@@ -1,19 +1,16 @@
 # -*- coding: utf-8 -*-
 # kph1
-#tag = 'node-021'
 name = 'Monty'
 location = 'Site #13, Kāneʻohe Bay'
 note = 'SeaFET pH Sensor; giant weight + tiny float'
 
-plot_range = 24*7
+#interval = 15*60   # second; to be used for presence detection.
+#plot_range = 24*7   # hour.
 
 data_source = '/home/nuc/node/www/poh/storage/sensor_data.db'
 
-#import sys
-#sys.path.append('..')
 from node.config.config_support import Range
 
-# TODO: use dictionary indexed by dbtag
 conf = [
     {
         'dbtag':'ticker',
@@ -21,7 +18,7 @@ conf = [
         'comtag':None,
         'unit':None,
         'description':'Broadcast sequence number',
-        'plot':False,
+        'plot':True,
         'range':Range(lb=0),
     },
     {
@@ -30,7 +27,7 @@ conf = [
         'comtag':None,
         'unit':'V',
         'description':'Relay dongle battery voltage',
-        'plot':False,
+        'plot':True,
         'range':Range(2.5,5.2),
     },
     {

@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 # kph2
-#tag = 'node-022'
 name = 'Coco'
 location = 'Site #4, Kāneʻohe Bay'
 note = 'SeaFET pH Sensor; pole on a pole on a reef'
 
-plot_range = 24*7
+#interval = 15*60   # second
+#plot_range = 24*7  # hour
 
 data_source = '/home/nuc/node/www/poh/storage/sensor_data.db'
 
@@ -13,7 +13,6 @@ data_source = '/home/nuc/node/www/poh/storage/sensor_data.db'
 #sys.path.append('..')
 from node.config.config_support import Range
 
-# TODO: use dictionary indexed by dbtag
 conf = [
     {
         'dbtag':'ticker',
@@ -21,7 +20,7 @@ conf = [
         'comtag':None,
         'unit':None,
         'description':'Voltage report sequence number',
-        'plot':False,
+        'plot':True,
         'range':Range(lb=0),
     },
     {
@@ -30,7 +29,7 @@ conf = [
         'comtag':None,
         'unit':'V',
         'description':'Relay dongle battery voltage',
-        'plot':False,
+        'plot':True,
         'range':Range(lb=2.5),
     },
     {

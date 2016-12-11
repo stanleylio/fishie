@@ -1,3 +1,6 @@
+# generate static plots for the given site
+# data are drawn from mysql db instead of sqlite
+#
 # Stanley H.I. Lio
 # hlio@soest.hawaii.edu
 # All Rights Reserved. 2016
@@ -11,11 +14,23 @@ from node.display.gen_plot import plot_time_series
 from node.helper import dt2ts
 from node.storage.storage2 import storage_read_only as S
 from node.storage.storage2 import auto_time_col,id2table
-from node.config.config_support import get_list_of_nodes,get_list_of_disp_vars,get_description,get_unit
+from node.config.config_support import get_list_of_nodes,get_list_of_disp_vars,get_description,get_unit,get_plot_range
+
+
+logging.basicConfig(level=logging.DEBUG)
 
 
 def is_node(device):
     return not device.startswith('base-')
+
+
+# db could be empty
+# node may not be defined
+# variable may not be defined
+# there may not be any data for the variable
+# there may not be any recent data for the variable
+# the data could be None or NaN
+# ...
 
 
 parser = argparse.ArgumentParser(formatter_class=argparse.RawTextHelpFormatter,description='')
@@ -23,25 +38,18 @@ parser.add_argument('--site',type=str,default='poh',metavar='site',help='Name of
 args = parser.parse_args()
 
 site = args.site
-logging.info('Site: {}'.format(site))
-#site = 'sf'
+logging.info('Site = {}'.format(site))
 plot_dir = '/var/www/uhcm/img'
+logging.info('Output dir = ' + plot_dir)
 
 assert exists(plot_dir)
 plot_dir = join(plot_dir,site)
 if not exists(plot_dir):
     makedirs(plot_dir)
-print('Output dir = ' + plot_dir)
 
-
-list_of_nodes = get_list_of_nodes(site)
-# list of nodes, per site
-#with open(join(plot_dir,'node_list.json'),'w') as f:
-#    json.dump({'nodes':list_of_nodes},f,separators=(',',':'))
 
 store = S()
-begin = dt2ts(datetime.utcnow() - timedelta(days=30))
-end = dt2ts(datetime.utcnow())
+list_of_nodes = get_list_of_nodes(site)
 for node in list_of_nodes:
     if not is_node(node):   # could be a base station or other stuff in the future
         continue
@@ -56,6 +64,9 @@ for node in list_of_nodes:
     tmp = join(plot_dir,node)
     if not exists(tmp):
         makedirs(tmp)
+
+    end = dt2ts(datetime.utcnow())
+    begin = dt2ts(datetime.utcnow() - timedelta(hours=get_plot_range(site,node)))
 
     print node
     for var in V:
