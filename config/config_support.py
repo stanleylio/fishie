@@ -74,7 +74,7 @@ def get_list_of_nodes(site):
     L = filter(lambda x: x.startswith('node-'),L)
     return sorted(L)
 
-def get_tag(site,node):
+def get_list_of_variables(site,node):
     node = import_node_config(site,node)
     return [c['dbtag'] for c in node.conf]
 
@@ -92,7 +92,7 @@ def get_public_key(site,device):
     return node.public_key
 
 def get_schema(site):
-    return {node:zip(get_tag(site,node),get_type(site,node)) for node in get_list_of_nodes(site)}
+    return {node:zip(get_list_of_variables(site,node),get_type(site,node)) for node in get_list_of_nodes(site)}
 
 
 # STUFF FOR WEB PRESENTATION ONLY

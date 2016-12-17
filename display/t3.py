@@ -12,7 +12,7 @@ from datetime import datetime,timedelta
 #from scipy.signal import medfilt
 from node.display.gen_plot import plot_time_series
 from node.helper import dt2ts
-from node.storage.storage2 import storage_read_only as S
+from node.storage.storage2 import storage_read_only as store2
 from node.storage.storage2 import auto_time_col,id2table
 from node.config.config_support import get_list_of_nodes,get_list_of_disp_vars,get_description,get_unit,get_plot_range
 
@@ -48,7 +48,7 @@ if not exists(plot_dir):
     makedirs(plot_dir)
 
 
-store = S()
+store = store2()
 list_of_nodes = get_list_of_nodes(site)
 for node in list_of_nodes:
     if not is_node(node):   # could be a base station or other stuff in the future

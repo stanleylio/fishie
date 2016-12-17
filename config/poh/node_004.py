@@ -1,10 +1,9 @@
 # -*- coding: utf-8 -*-
-name = 'oxygen and depth at makaha 1'
+name = 'Oxygen and Depth'
 location = 'Mākāhā 1'
-note = 'Oxygen, temperature and water depth'
+note = 'Beaglebone-based node measuring oxygen, temperature and water depth'
 
 #plot_range = 24*7
-
 data_source = '/home/nuc/node/www/poh/storage/sensor_data.db'
 
 

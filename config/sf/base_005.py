@@ -1,7 +1,7 @@
 #id = 'base-005'
 #site = 'sf'
 name = 'PoH Base Station'
-location = 'SF'
+location = 'Somewhere in San Francisco'
 google_earth_link = '#'
 note = 'BBB-based (base-005)'
 public_key = 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDxV+erlyNnJIZvhQHcYlajCuA6o/+geEnbruDMxZy0a8H6MM5J4298T/8G8RLjyJBelzX8TcwBStj8dkMbdNOTgBrSzh9yzzP9hw+EBqwwnm/9dACLXEehBqqdy65GSpXDR37oR1ik0+u7s7sjqnZkJgDUzcFdGkG2No40LEa8yp7DR3YWz3feUBBIc96FjyOAtsu/lWYrJAoL7lwwc3En1xjslpap/s2lnwkh652/CVccevENh+cfIcPWgJvykiUNxQlLFmy+HUQZcGDa6iFXblKNLxMSyOhmmH93ixam1aiSXpckIXGtjHqnF4C2/1RJjBjlJdfD6vwuQNRdRAmF root@base-005'

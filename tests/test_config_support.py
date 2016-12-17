@@ -2,17 +2,17 @@ import unittest,sys
 from os.path import expanduser,exists
 sys.path.append(expanduser('~'))
 from node.config.config_support import config_as_dict,get_list_of_nodes,get_dbfile,\
-     get_tag,get_type,get_dbfile,get_schema
+     get_list_of_variables,get_type,get_dbfile,get_schema
 
 
 class TestConfig(unittest.TestCase):
 
     def test_config_as_dict(self):
-        c = config_as_dict()
-        self.assertTrue('poh' in c.keys())
+        C = config_as_dict()
+        self.assertTrue('poh' in C.keys())
         
-        for site in sorted(c.keys()):
-            self.assertTrue(len(c[site]) > 0)
+        for site in sorted(C.keys()):
+            self.assertTrue(len(C[site]) > 0)
 
     def test_get_list_of_nodes(self):
         c = config_as_dict()
@@ -24,7 +24,7 @@ class TestConfig(unittest.TestCase):
         for site in config_as_dict():
             self.assertTrue(len(get_schema(site)) > 0)
             for node in get_list_of_nodes(site):
-                self.assertTrue(len(get_tag(site,node)) > 0)
+                self.assertTrue(len(get_list_of_variables(site,node)) > 0)
                 self.assertTrue(len(get_type(site,node)) > 0)
                 self.assertTrue(len(get_dbfile(site,node)) > 0)
 
@@ -49,6 +49,14 @@ class TestConfig(unittest.TestCase):
                 #print new,old
                 if 'mysql' not in new:
                     self.assertEqual(new,old)'''
+
+    def test_get_list_of_variables(self):
+        from node.config.config_support import get_list_of_variables
+        C = config_as_dict()
+        for site in sorted(C.keys()):
+            for node in get_list_of_nodes(site):
+#                print get_list_of_variables(site,node)
+                pass
 
     def test_get_plot_range(self):
         from node.config.config_support import get_plot_range

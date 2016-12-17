@@ -12,8 +12,8 @@ class TestSeafet(unittest.TestCase):
              'kph1,46547,289,6980400,6980378,6980376,3.191,4.262',
              'kph2,27897,23,4181400,4181245,4181243,3.243,4.215']
         for m in M:
-            print
-            print parse_SeaFET(m).keys()
+            #print
+            #print parse_SeaFET(m).keys()
             self.assertTrue(parse_SeaFET(m) is not None)
 
 

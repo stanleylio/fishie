@@ -58,31 +58,34 @@ class storage_read_only():
         result = list(self.engine.execute(cmd))
         return {c:tuple(row[c] for row in result) for c in cols}
 
-    def read_last_N_minutes(self,node_id,time_col,N,cols,nonnull):
-        assert type(cols) is list,'storage::read_last_N_minutes(): cols must be a list of string'
+    def read_last_N_minutes(self,node_id,time_col,N,nonnull):
+        #assert type(cols) is list,'storage::read_last_N_minutes(): cols must be a list of string'
         table = id2table(node_id)
 
         cmd = '''SELECT {time_col},{nonnull} FROM {table} WHERE
                     {time_col} >= (SELECT MAX({time_col}) - {N} FROM (SELECT {time_col},{nonnull} FROM {table} WHERE {nonnull} IS NOT NULL) AS T)
                  AND
                     {nonnull} IS NOT NULL;'''.\
-              format(cols=','.join(cols),time_col=time_col,table=table,N=60*N,nonnull=nonnull)
+                format(time_col=time_col,table=table,N=60*N,nonnull=nonnull)
+              #format(cols=','.join(cols),time_col=time_col,table=table,N=60*N,nonnull=nonnull)
         #print cmd
         result = list(self.engine.execute(cmd))
-        return {c:tuple(row[c] for row in result) for c in cols}
+        return {c:tuple(row[c] for row in result) for c in [time_col,nonnull]}
         #return self.read_time_range(node_id,time_col,cols,dt2ts() - timedelta(minutes=N).total_seconds())
 
     def read_latest_non_null(self,node_id,time_col,var):
         """Retrieve the latest non-null record of var."""
-        cols = [time_col,var]
-        r = self.read_last_N_minutes(node_id,time_col,1,cols,var)
-        return {time_col:r[time_col][0],var:r[var][0]}
+        r = self.read_last_N_minutes(node_id,time_col,1,var)
+        #d = {time_col:r[time_col],var:r[var]}
+        L = zip(r[time_col],r[var])
+        L.sort(key=lambda x: x[0])
+        return {time_col:L[-1][0],var:L[-1][1]}
 
 
 if '__main__' == __name__:
     s = storage_read_only()
     #print s.read_time_range('node-010','ReceptionTime',['ReceptionTime','d2w'],dt2ts()-3600)
-    print s.read_last_N_minutes('node-011','ReceptionTime',1,['ReceptionTime','d2w'],nonnull='d2w')
+    print s.read_last_N_minutes('node-011','ReceptionTime',1,nonnull='d2w')
     exit()
 
 

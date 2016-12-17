@@ -141,21 +141,19 @@ def plot_time_series(x,y,plotfilename,title='',xlabel='',ylabel='',linelabel=Non
     assert len(x) > 0
     assert len(plotfilename) > 0
 
-    # convert timestamps into datetimes
-    if type(x[0]) is not datetime:
-        x = [ts2dt(xx) for xx in x]
-
     # replace any None with float('nan')
     y = [yy if yy is not None else float('nan') for yy in y]
 
     # locate the start and end dates on which the data is not float('nan')
     if '' == xlabel:
-        #begin = min([z[0] for z in zip(x,y) if z[1] not numpy.isnan(z[1])])
-        #end = max([z[0] for z in zip(x,y) if z[1] not numpy.isnan(z[1])])
         z = zip(x,y)
         z = [zz[0] for zz in z]
         begin = min(z)
         end = max(z)
+        if type(begin) is float:
+            begin = ts2dt(begin)
+        if type(end) is float:
+            end = ts2dt(end)
         if begin.date() == end.date():
             xlabel = 'UTC Time ({})'.format(begin.strftime('%Y-%m-%d'))
         else:

@@ -5,7 +5,7 @@ name = 'Seabird CTD #1 (white Delrin)'
 location = 'the dock'
 note = 'Sea-bird CTD #1'
 
-plot_range = 24*7
+#plot_range = 24*7
 
 data_source = '/home/nuc/node/www/poh/storage/sensor_data.db'
 

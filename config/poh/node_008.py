@@ -8,7 +8,7 @@ note = 'Ultrasonic tide gauge (us1)'
 log_dir = './log'
 plot_dir ='../www'
 
-plot_range = 24*7
+#plot_range = 24*7
 
 data_source = '/home/nuc/node/www/poh/storage/sensor_data.db'
 
