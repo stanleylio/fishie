@@ -18,8 +18,8 @@ def id2table(node_id):
 
 
 class storage_read_only():
-    def __init__(self):
-        dbname = 'uhcm'
+    def __init__(self,dbname='uhcm'):
+        #dbname = 'uhcm'
         self.engine = create_engine('mysql+mysqldb://root:' + open(expanduser('~/mysql_cred')).read() + '@localhost/' + dbname)
         self.insp = inspect(self.engine)
 
