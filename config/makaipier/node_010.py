@@ -5,7 +5,7 @@ name = 'Makai Pier Water Level'
 location = 'Makai Research Pier'
 note = 'Ultrasonic tide gauge'
 
-plot_range = 24*7
+#plot_range = 24*7
 data_source = 'mysql+mysqldb://{user}:{password}@localhost/uhcm'
 
 

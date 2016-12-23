@@ -7,11 +7,11 @@ cd $HOME/node/display
 # - - - - -
 echo "PoH"
 #python t0.py --site=poh --dbfile=$HOME/node/www/poh/storage/sensor_data.db --plot_dir=$HOME/node/www/poh
-python t3.py --site=poh
+python t0.py --site=poh
 echo "SF"
-python t3.py --site=sf
+python t0.py --site=sf
 echo "Makai Pier"
-python t3.py --site=makaipier
+python t0.py --site=makaipier
 
 
 # - - -
