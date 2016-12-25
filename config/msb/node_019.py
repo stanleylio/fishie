@@ -1,30 +1,27 @@
-tag = 'node-019'
+#tag = 'node-019'
 name = 'SL personal'
 location = 'MSB 228'
 note = 'LA Beaglebone + eBay sensors'
 
-log_dir = './log'
-plot_dir = '../www'
+#log_dir = './log'
+#plot_dir = '../www'
 
-plot_range = 24*7
+#plot_range = 24*7
 
-data_source = '/home/nuc/data/node-019/storage/sensor_data.db'
 
-xbee_port = '/dev/ttyO1'
-xbee_baud = 115200
+INTERVAL = 5*60
+NGROUP = 7
 
-wait = 60
+LOGDIR = '/var/uhcm/log'
+#data_source = '/home/nuc/data/node-019/storage/sensor_data.db'
+DBPATH = '/var/uhcm/storage/sensor_data.db'
 
-multi_sample = 7
+
+#wait = 60
+
+#multi_sample = 7
 
 conf = [
-#    {
-#        'dbtag':'How it is referenced in sampling.py and in the drivers',
-#        'dbtype':'SQLite data type',
-#        'comtag':'How it is identified in broadcast messages',
-#        'unit':'physical unit of the readings',
-#        'description':'as name',
-#    },
     {
         'dbtag':'Timestamp',
         'dbtype':'TIMESTAMP',
