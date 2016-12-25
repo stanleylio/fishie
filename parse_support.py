@@ -8,6 +8,7 @@ from z import check
 from drivers.seafet import parse_SeaFET
 from drivers.seabird import parse_Seabird
 from helper import dt2ts
+from config.config_support import get_site
 
 
 def pretty_print(d):
@@ -80,8 +81,7 @@ def parse_tidegauge(line):
         #logging.debug(line)
         pass
 
-# TODO: remove the "site" argument. Or at least make it optional.
-def parse_message(line,site):
+def parse_message(line):
     """Identify the origin of a given message;
 parse into dict() if it's from a known node."""
     try:
@@ -129,8 +129,10 @@ parse into dict() if it's from a known node."""
         if d is not None:
             if ('sn' in d and d['sn'] == '01607354') or ('tag' in d and 'seabird1' == d['tag']):
                 node_id = 'node-025'
+                # why, it's just one node and I KNOW it's at PoH.
                 #from config import node
-                node = importlib.import_module('config.{}.{}'.format(site,node_id.replace('-','_')))
+                #node = importlib.import_module('config.{}.{}'.format(site,node_id.replace('-','_')))
+                node = importlib.import_module('config.{}.{}'.format(get_site(node_id),node_id.replace('-','_')))
 
                 # this:
                 #d = {c['dbtag']:d[c['comtag']] for c in node.conf}
@@ -168,7 +170,7 @@ parse into dict() if it's from a known node."""
 
 # what a mess.
                 #from config import node
-                node = importlib.import_module('node.config.{}.{}'.format(site,node_id.replace('-','_')))
+                node = importlib.import_module('node.config.{}.{}'.format(get_site(node_id),node_id.replace('-','_')))
 
                 d = {c['dbtag']:d[c['comtag']] for c in node.conf}
                 d['node'] = node_id

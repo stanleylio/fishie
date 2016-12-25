@@ -23,11 +23,11 @@ class TestParse(unittest.TestCase):
 
     def test_parse_message(self):
         for m in M_poh:
-            self.assertTrue(parse_message(m,'poh') is not None)
+            self.assertTrue(parse_message(m) is not None)
 
     def test_pretty_print(self):
         for m in M_poh:
-            #pretty_print(parse_message(m,'poh'))
+            pretty_print(parse_message(m))
             pass
 
 
