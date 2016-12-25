@@ -1,25 +1,13 @@
-#tag = 'node-019'
 name = 'SL personal'
 location = 'MSB 228'
 note = 'LA Beaglebone + eBay sensors'
-
-#log_dir = './log'
-#plot_dir = '../www'
-
-#plot_range = 24*7
-
 
 INTERVAL = 5*60
 NGROUP = 7
 
 LOGDIR = '/var/uhcm/log'
-#data_source = '/home/nuc/data/node-019/storage/sensor_data.db'
 DBPATH = '/var/uhcm/storage/sensor_data.db'
 
-
-#wait = 60
-
-#multi_sample = 7
 
 conf = [
     {
