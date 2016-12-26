@@ -1,8 +1,8 @@
 import unittest,sys
 from os.path import expanduser,exists
 sys.path.append(expanduser('~'))
-from node.config.config_support import config_as_dict,get_list_of_nodes,get_dbfile,\
-     get_list_of_variables,get_type,get_dbfile,get_schema
+from node.config.config_support import config_as_dict,get_list_of_nodes,\
+     get_list_of_variables,get_type,get_schema
 
 
 class TestConfig(unittest.TestCase):
@@ -71,6 +71,10 @@ class TestConfig(unittest.TestCase):
         for site in sorted(c.keys()):
             for node in get_list_of_nodes(site):
                 self.assertTrue(get_location(site,node) is not None)
+
+    def test_something(self):
+        from node.config.config_support import get_attr
+        print get_attr('node-022','name')
 
             
 if __name__ == '__main__':

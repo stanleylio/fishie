@@ -27,7 +27,7 @@ class TestParse(unittest.TestCase):
 
     def test_pretty_print(self):
         for m in M_poh:
-            pretty_print(parse_message(m))
+#            pretty_print(parse_message(m))
             pass
 
 

@@ -60,14 +60,6 @@ def import_node_config(site=None,node=None):
     return import_module('node.config.{site}.{node}'.\
                          format(site=site,node=node))
 
-'''def OLD_import_node_config(site,node):
-    """Import the appropriate config file for the given (site,node)"""
-    #return importlib.import_module('config.' + site + '.' + node.replace('-','_'))
-    tmp = join(dirname(realpath(__file__)),site,node.replace('-','_') + '.py')
-    if not exists(tmp):
-        return None
-    return imp.load_source('node',tmp)'''
-
 def get_list_of_nodes(site):
     c = config_as_dict()
     L = c.get(site,[])
@@ -84,9 +76,9 @@ def get_type(site,node):
 
 # should be OBSOLETE by now
 # really this should be "get data source" - it doesn't matter it's a csv, an sqlite or mysql db.
-def get_dbfile(site,node):
-    node = import_node_config(site,node)
-    return node.data_source
+#def get_dbfile(site,node):
+#    node = import_node_config(site,node)
+#    return node.data_source
 
 def get_public_key(site,device):
     node = import_node_config(site,device)
@@ -97,7 +89,12 @@ def get_schema(site):
 
 
 # STUFF FOR WEB PRESENTATION ONLY
-def get_name(site,node):
+def get_attr(node,attr):
+    site = get_site(node)
+    m = import_node_config(site,node.replace('-','_'))
+    return getattr(m,attr,None)
+
+'''def get_name(site,node):
     node = node.replace('-','_')
     return import_node_config(site,node).name
 
@@ -115,28 +112,25 @@ def get_google_earth_link(site,node):
         return import_node_config(site,node).google_earth_link
     except AttributeError:
         return '#'
+'''
 
 def get_unit_map(site,node):
-    node = node.replace('-','_')
-    node = import_node_config(site,node)
+    node = import_node_config(node=node)
     return {c['dbtag']:c['unit'] for c in node.conf}
 
 def get_unit(site,node,var):
     return get_unit_map(site,node)[var]
 
-def get_description_map(site,node):
-    node = node.replace('-','_')
-    node = import_node_config(site,node)
+def get_description_map(node):
+    node = import_node_config(node=node)
     return {c['dbtag']:c['description'] for c in node.conf}
 
 def get_description(site,node,var):
-    return get_description_map(site,node)[var]
+    return get_description_map(node)[var]
 
-# if it really is "node", then it shouldn't accept "node_003"
-# but instead ask for "node-003". Bug + Bug = working... TODO
-def get_list_of_disp_vars(site,node):
+def get_list_of_disp_vars(node):
     """Get the list of variables to display."""
-    node = import_node_config(site,node)
+    node = import_node_config(node=node)
     return [c['dbtag'] for c in node.conf if c['plot']]
 
 def get_plot_range(site,node):

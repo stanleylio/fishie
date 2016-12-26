@@ -2,10 +2,10 @@
 # us4
 #tag = 'node-011'
 name = 'Ultrasonic tide gauge'
-location = 'Somewhere in SF...'
-note = 'Ultrasonic tide gauge (us4). One-minute interval, no charging.'
+location = 'Foster City Lagoon, San Francisco, California'
+note = 'Ultrasonic tide gauge (us4). One-minute interval, no solar charging.'
 
-plot_range = 24*7
+#plot_range = 24*7
 data_source = 'mysql+mysqldb://{user}:{password}@localhost/uhcm'
 
 

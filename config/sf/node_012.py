@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
-# us4
+# us5
 #tag = 'node-012'
 name = 'Ultrasonic tide gauge'
-location = 'Somewhere in SF...'
-note = 'Ultrasonic tide gauge (us5). One-minute interval, no charging.'
+location = 'Nowhere. Not deployed.'
+note = 'Ultrasonic tide gauge (us5). One-minute interval. Not deployed'
 
-plot_range = 24*7
+#plot_range = 24*7
 data_source = 'mysql+mysqldb://{user}:{password}@localhost/uhcm'
 
 

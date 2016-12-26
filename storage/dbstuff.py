@@ -160,6 +160,23 @@ class node_012_Sample(Base):
         return str(self.__dict__)
     
 
+class node_019_Sample(Base):
+    __tablename__ = 'node_019'
+    id = Column('id',Integer,primary_key=True)
+    ReceptionTime = Column('ReceptionTime',Float(precision=32))
+    Timestamp = Column('Timestamp',Float(precision=32))
+    P_180 = Column('P_180',Float(precision=32))
+    T_180 = Column('T_180',Float(precision=32))
+    RH_HTU21D = Column('RH_HTU21D',Float(precision=32))
+    T_HTU21D = Column('T_HTU21D',Float(precision=32))
+    UV_Si1145 = Column('UV_Si1145',Float(precision=32))
+    IR_Si1145 = Column('IR_Si1145',Float(precision=32))
+    Amb_Si1145 = Column('Amb_Si1145',Float(precision=32))
+    
+    def __repr__(self):
+        return str(self.__dict__)
+    
+
 class node_021_Sample(Base):
     __tablename__ = 'node_021'
     id = Column('id',Integer,primary_key=True)
