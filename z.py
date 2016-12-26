@@ -70,7 +70,10 @@ def send(channel,sample,dest=None):
     if dest is not None:
         tmp['to'] = dest
     tmp = json.dumps(tmp,separators=(',',':'))
-    channel.write('{}{}\n'.format(tmp,get_checksum(tmp)))
+    m = '{}{}\n'.format(tmp,get_checksum(tmp))
+    if channel is not None:
+        channel.write(m)
+    return m
 
 
 if '__main__' == __name__:

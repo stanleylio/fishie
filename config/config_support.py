@@ -114,18 +114,18 @@ def get_google_earth_link(site,node):
         return '#'
 '''
 
-def get_unit_map(site,node):
+def get_unit_map(node):
     node = import_node_config(node=node)
     return {c['dbtag']:c['unit'] for c in node.conf}
 
-def get_unit(site,node,var):
-    return get_unit_map(site,node)[var]
+def get_unit(node,var):
+    return get_unit_map(node)[var]
 
 def get_description_map(node):
     node = import_node_config(node=node)
     return {c['dbtag']:c['description'] for c in node.conf}
 
-def get_description(site,node,var):
+def get_description(node,var):
     return get_description_map(node)[var]
 
 def get_list_of_disp_vars(node):
