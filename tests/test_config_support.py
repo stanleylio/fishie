@@ -65,16 +65,18 @@ class TestConfig(unittest.TestCase):
             for node in get_list_of_nodes(site):
                 self.assertTrue(get_plot_range(site,node) > 0)
 
-    def test_get_location(self):
-        from node.config.config_support import get_location
+    def test_get_attr(self):
+        from node.config.config_support import get_attr
         c = config_as_dict()
         for site in sorted(c.keys()):
             for node in get_list_of_nodes(site):
-                self.assertTrue(get_location(site,node) is not None)
+                self.assertTrue(get_attr(node,'name') is not None)
+                self.assertTrue(get_attr(node,'location') is not None)
+                self.assertTrue(get_attr(node,'note') is not None)
 
-    def test_something(self):
-        from node.config.config_support import get_attr
-        print get_attr('node-022','name')
+    #def test_something(self):
+        #from node.config.config_support import get_attr
+        #print get_attr('node-022','name')
 
             
 if __name__ == '__main__':

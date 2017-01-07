@@ -13,11 +13,18 @@ def parse_Seabird(m):
     try:
         if re.match('^seabird\d+.*',m):
             m = m.split(',')
+            if 8 == len(m):
+                return {'tag':m[0],'tx_id':float(m[1]),'bad_char_count':float(m[2]),
+                        'ticker':float(m[3]),'last_transmitted':float(m[4]),
+                        'last_received':float(m[5]),'Vcc':float(m[6]),'Vbatt':m[7]}
+            # LEGACY
             if 3 == len(m):
                 return {'tag':m[0],
                         'ticker':int(m[1]),
                         'Vbatt':float(m[2])}
         else:
+            if m.startswith('#'):   # HACK - added 20170106
+                m = m[1:]           # for some reason a '#' prefix the CTD messages
             root = ET.fromstring(m)
             if root[0][0].text == 'Sea-Bird' and\
                root[0][1].text == '16plus':
@@ -46,5 +53,8 @@ if '__main__' == __name__:
     print
 
     m = 'seabird1,36,4.169'
+    print parse_Seabird(m)
+
+    m = 'seabird1,9,0,1800,1353,1351,3.207,4.497'
     print parse_Seabird(m)
     

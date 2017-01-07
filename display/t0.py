@@ -55,7 +55,8 @@ for node in list_of_nodes:
         continue
 
     # auto-select a column as time
-    V = get_list_of_disp_vars(site,node)
+    #V = get_list_of_disp_vars(site,node)
+    V = get_list_of_disp_vars(node)
     columns = store.get_list_of_columns(id2table(node))
     assert set(V) <= set(columns)
     time_col = auto_time_col(columns)
@@ -74,9 +75,11 @@ for node in list_of_nodes:
         print '\t' + var
         if r is None or len(r[time_col]) <= 0:
             continue
-        var_description = get_description(site,node,var)
+        #var_description = get_description(site,node,var)
+        var_description = get_description(node,var)
         title = '{} ({} of {})'.format(var_description,var,node)
-        unit = get_unit(site,node,var)
+        #unit = get_unit(site,node,var)
+        unit = get_unit(node,var)
         if unit is None:
             ylabel = '(unitless)'
         else:

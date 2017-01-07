@@ -16,6 +16,9 @@ M_poh = [
     'kph2,27897,23,4181400,4181245,4181243,3.243,4.215',
     'SATPHA0358,2016315,1.7657024,8.06813,8.05069,26.3579,26.4097,34.8719,5.841,nan,-0.93000263,-0.88204473,0.71785599,9.904,37,21.5,4.915,9.784,6.162,5.522,0,10,0.00000000,0x0000,89',
     '<?xml version="1.0"?><datapacket><hdr><mfg>Sea-Bird</mfg><model>16plus</model><sn>01607354</sn></hdr><data><t1> 26.9123</t1><c1> 0.00004</c1><p1>   0.069</p1><v0>0.0319</v0><sal>  0.0126</sal><dt>2016-06-17T02:28:35</dt></data></datapacket>',
+    '#<?xml version="1.0"?><datapacket><hdr><mfg>Sea-Bird</mfg><model>16plus</model><sn>01607354</sn></hdr><data><t1> 29.1153</t1><c1> 0.00005</c1><p1>   0.009</p1><v0>0.0147</v0><sal>  0.0133</sal><dt>2017-01-06T23:58:33</dt><dens> -4.0773</dens><vb>10.6</vb><i> 28.2</i></data></datapacket>',
+    '#<?xml version="1.0"?><datapacket><hdr><mfg>Sea-Bird</mfg><model>16plus</model><sn>01607354</sn></hdr><data><t1> 32.2707</t1><c1> 0.00005</c1><p1>   0.009</p1><v0>0.0158</v0><sal>  0.0143</sal><dt>2017-01-07T00:28:03</dt><dens> -5.0482</dens><vb>10.5</vb><i> 27.7</i></data></datapacket>',
+    'seabird1,9,0,1800,1353,1351,3.207,4.497',
 ]
 
 

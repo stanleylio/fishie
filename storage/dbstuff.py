@@ -1,3 +1,4 @@
+# TODO: merge node/config/ with this. retire the sqlite3 config {}
 from sqlalchemy import Table,Column,MetaData,Integer
 from sqlalchemy.types import Float,String
 from sqlalchemy.ext.declarative import declarative_base
@@ -158,7 +159,25 @@ class node_012_Sample(Base):
     
     def __repr__(self):
         return str(self.__dict__)
+
+class node_017_Sample(Base):
+    __tablename__ = 'node_017'
+    #id = Column('id',Integer,primary_key=True)
+    #ReceptionTime = Column('ReceptionTime',Float(precision=32))
+    ts = Column('ts',Float(precision=32),primary_key=True)
+    atb = Column('ambient_temperature_bmp',Float)
+    ath = Column('ambient_temperature_htu',Float)
+    gt = Column('ground_temperature',Float)
+    aq = Column('air_quality',Float)
+    ap = Column('air_pressure',Float)
+    h = Column('humidity',Float)
+    wd = Column('wind_direction',Float)
+    ws = Column('wind_speed',Float)
+    wg = Column('wind_gust',Float)
+    r = Column('rainfall',Float)
     
+    def __repr__(self):
+        return str(self.__dict__)
 
 class node_019_Sample(Base):
     __tablename__ = 'node_019'

@@ -55,7 +55,7 @@ def auto_tick(ax):
     plt.tight_layout()
 
 
-def plot_multi_time_series(data,plotfilename,title='',xlabel='',ylabel=''):
+def plot_multi_time_series(data,plotfilename,title='',xlabel='',ylabel='',loc='best'):
     plt.figure()
 
     for d in data:
@@ -92,7 +92,7 @@ def plot_multi_time_series(data,plotfilename,title='',xlabel='',ylabel=''):
                           #markersize=15, label='stuff')
         #plt.legend(handles=[blue_line])
 
-    plt.legend(loc='best',framealpha=0.5)
+    plt.legend(loc=loc,framealpha=0.5)
     plt.title(title)
     plt.grid(True)
 
