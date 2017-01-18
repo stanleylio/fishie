@@ -19,6 +19,8 @@ M_poh = [
     '#<?xml version="1.0"?><datapacket><hdr><mfg>Sea-Bird</mfg><model>16plus</model><sn>01607354</sn></hdr><data><t1> 29.1153</t1><c1> 0.00005</c1><p1>   0.009</p1><v0>0.0147</v0><sal>  0.0133</sal><dt>2017-01-06T23:58:33</dt><dens> -4.0773</dens><vb>10.6</vb><i> 28.2</i></data></datapacket>',
     '#<?xml version="1.0"?><datapacket><hdr><mfg>Sea-Bird</mfg><model>16plus</model><sn>01607354</sn></hdr><data><t1> 32.2707</t1><c1> 0.00005</c1><p1>   0.009</p1><v0>0.0158</v0><sal>  0.0143</sal><dt>2017-01-07T00:28:03</dt><dens> -5.0482</dens><vb>10.5</vb><i> 27.7</i></data></datapacket>',
     'seabird1,9,0,1800,1353,1351,3.207,4.497',
+    '#<?xml version=\"1.0\"?><datapacket><hdr><mfg>Sea-Bird</mfg><model>16plus</model><sn>01607354</sn></hdr><data><t1> 25.0142</t1><c1> 4.13692</c1><p1>   0.235</p1><v0>0.1691</v0><sal> 26.4830</sal><dt>2017-01-07T01:56:33</dt><dens> 16.9152</dens><vb>10.7</vb><i> 28.3</i></data></datapacket>',
+    'seabird1,46,0,9900,9606,9604,3.203,4.508',
 ]
 
 
@@ -26,7 +28,8 @@ class TestParse(unittest.TestCase):
 
     def test_parse_message(self):
         for m in M_poh:
-            self.assertTrue(parse_message(m) is not None)
+            m = parse_message(m)
+            self.assertTrue(m is not None)
 
     def test_pretty_print(self):
         for m in M_poh:

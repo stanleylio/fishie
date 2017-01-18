@@ -193,8 +193,8 @@ class storage_read_only(object):
     def print_schema(self):
         tmp = self.read_schema()
         for table in tmp.keys():
-            print table
-            print '\t' + '\n\t'.join(tmp[table])
+            print(table)
+            print('\t' + '\n\t'.join(tmp[table]))
 
 
 class storage(storage_read_only):

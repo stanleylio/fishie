@@ -105,6 +105,7 @@ parse into dict() if it's from a known node."""
                 d['Timestamp'] = dt2ts(datetime.strptime(d['Timestamp'],'%Y-%m-%d %H:%M:%S'))
                 for k in d.keys():
                     d[k] = float(d[k])
+                d['node'] = 'node-003'  # OH MAN. WTF.
                 return d
                 
         # is it one of the SeaFET pH sensors?
@@ -132,7 +133,7 @@ parse into dict() if it's from a known node."""
                 # why, it's just one node and I KNOW it's at PoH.
                 #from config import node
                 #node = importlib.import_module('config.{}.{}'.format(site,node_id.replace('-','_')))
-                node = importlib.import_module('config.{}.{}'.format(get_site(node_id),node_id.replace('-','_')))
+                node = importlib.import_module('node.config.{}.{}'.format(get_site(node_id),node_id.replace('-','_')))
 
                 # this:
                 #d = {c['dbtag']:d[c['comtag']] for c in node.conf}
