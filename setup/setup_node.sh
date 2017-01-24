@@ -1,25 +1,29 @@
 #!/bin/bash
 
 NODE_TAG="node-011"
-LOGGER_DIR="/root/node"
-SETUP_DIR="/root/node/setup"
+LOGGER_DIR="~/node"
+SETUP_DIR="~/node/setup"
 
 
 passwd
+ssh-keygen
+cat ~/.ssh/id_rsa.pub
+
 
 echo "Setting hostname"
 echo $NODE_TAG > /etc/hostname
 echo "127.0.0.1       $NODE_TAG" >> /etc/hosts
 
-sudo apt-get update
+sudo apt update
+sudo apt upgrade
 
-#sudo apt-get install supervisor -y
-sudo apt-get install rcconf i2c-tools ntpdate -y
+
+sudo apt install git supervisor ntpdate i2c-tools minicom -y
 
 echo "Setting system clock, timezone and RTC"
 #date -s "10 SEP 2015 22:00:30"
 # Debian default to UTC - no change required
-dpkg-reconfigure tzdata
+sudo dpkg-reconfigure tzdata
 #sudo apt-get install ntp -y
 # RTC
 #echo "Reading system clock and RTC"
@@ -29,7 +33,6 @@ bash $SETUP_DIR/time/install_ds1307.sh
 
 # Le boeuf
 echo "git init"
-sudo apt-get install git -y
 git clone https://github.com/stanleylio/fishie.git $LOGGER_DIR
 cd $LOGGER_DIR
 git config --global user.name "Stanley Lio"
@@ -44,16 +47,19 @@ bash $SETUP_DIR/time/install_ds1307.sh
 
 # Install Python libaries
 echo "Installing Python libraries"
-sudo apt-get install build-essential python-dev python-setuptools python-pip -y
-sudo apt-get install sqlite3 minicom python-smbus python-scipy w3m -y
+sudo apt install build-essential python-dev python-setuptools python-pip -y
+sudo apt install python-smbus sqlite3 -y
 sudo pip install --upgrade pip setuptools
 sudo pip install Adafruit_BBIO pyserial
+#sudo apt install python-scipy w3m -y
 #sudo pip install six tzlocal pytz numpy python-dateutil pyparsing --force-reinstall --upgrade
-sudo pip install six tzlocal pytz numpy python-dateutil pyparsing --upgrade
+#sudo pip install requests
+#sudo pip install six tzlocal pytz numpy python-dateutil pyparsing --upgrade
 
 git clone https://github.com/adafruit/Adafruit_Python_GPIO.git
 cd Adafruit_Python_GPIO
 sudo python setup.py install
+cd
 
 
 # matplotlib
