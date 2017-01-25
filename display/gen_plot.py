@@ -4,7 +4,7 @@
 # All Rights Reserved. February 2015
 import matplotlib,numpy,traceback
 matplotlib.use('Agg')
-import sys
+import sys,logging
 from os.path import expanduser
 sys.path.append(expanduser('~'))
 from node.helper import ts2dt
@@ -27,9 +27,13 @@ def auto_tick(ax):
     # For plotting the order doesn't matter because the samples are timestamped.
 
     # "locate the earliest timestamp at which time the sample is not an NaN"
-    # tricky bastard... nan in numpy.float64 is not float('nan')... and
+    # nan in numpy.float64 is not float('nan')... and
     # certainly not None, and "is not" won't work either
-    begin = min([z[0] for z in zip(x,y) if not numpy.isnan(z[1])])
+    nonnull = [z[0] for z in zip(x,y) if not numpy.isnan(z[1])]
+    if len(nonnull) <= 0:
+        logging.debug('no data or all NaNs')
+        return
+    begin = min(nonnull)
     end = max(x)
     # why not?
     #end = max([z[0] for z in zip(x,y) if not numpy.isnan(z[1])])
