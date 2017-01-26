@@ -17,8 +17,8 @@ echo "127.0.0.1       $NODE_TAG" >> /etc/hosts
 sudo apt update
 sudo apt upgrade
 
-
-sudo apt install git supervisor ntpdate i2c-tools minicom -y
+sudo apt install git supervisor i2c-tools minicom -y
+#sudo apt install ntpdate -y
 
 echo "Setting system clock, timezone and RTC"
 #date -s "10 SEP 2015 22:00:30"
