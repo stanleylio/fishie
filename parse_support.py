@@ -167,7 +167,10 @@ parse into dict() if it's from a known node."""
             if re.match('^node[-_]\d{3}$',tmp['from']):
                 node_id = tmp['from']
                 d = tmp['payload']
-                d['ts'] = datetime.fromtimestamp(d['ts'])
+                if 'ts' in d:
+                    d['ts'] = datetime.fromtimestamp(d['ts'])
+                else:
+                    d['ts'] = datetime.utcnow()
 
 # what a mess.
                 #from config import node

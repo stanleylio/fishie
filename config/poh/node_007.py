@@ -7,8 +7,7 @@ log_dir = './log'
 plot_dir = '../www'
 
 #plot_range = 24*7
-
-data_source = '/home/nuc/node/www/poh/storage/sensor_data.db'
+#data_source = '/home/nuc/node/www/poh/storage/sensor_data.db'
 
 #xbee_port = '/dev/ttyAMA0'
 xbee_port = '/dev/ttyO1'

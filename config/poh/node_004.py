@@ -4,7 +4,7 @@ location = 'Mākāhā 1'
 note = 'Beaglebone-based node measuring oxygen, temperature and water depth'
 
 #plot_range = 24*7
-data_source = '/home/nuc/node/www/poh/storage/sensor_data.db'
+#data_source = '/home/nuc/node/www/poh/storage/sensor_data.db'
 
 
 INTERVAL = 5*60
