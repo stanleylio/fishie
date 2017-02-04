@@ -56,6 +56,16 @@ sudo pip install Adafruit_BBIO pyserial
 #sudo pip install requests
 #sudo pip install six tzlocal pytz numpy python-dateutil pyparsing --upgrade
 
+#numpy, matplotlib...
+
+pip install pyzmq sqlalchemy requests pycrypto
+sudo apt install python-flask python-autobahn python-virtualenv -y
+
+git clone -b trunk https://github.com/twisted/twisted.git
+cd twisted
+sudo python setup.py install
+cd
+
 git clone https://github.com/adafruit/Adafruit_Python_GPIO.git
 cd Adafruit_Python_GPIO
 sudo python setup.py install
