@@ -8,7 +8,7 @@
 # hlio@hawaii.edu
 # University of Hawaii
 # All Rights Reserved. 2016
-import requests,json,time
+import requests,time
 from authstuff import get_signature
 from os.path import expanduser,join
 import socket
