@@ -48,9 +48,11 @@ bash $SETUP_DIR/time/install_ds1307.sh
 # Install Python libaries
 echo "Installing Python libraries"
 sudo apt install build-essential python-dev python-setuptools python-pip -y
+sudo apt install libmysqlclient-dev mysql-server mysql-client python-mysqldb -y
 sudo apt install python-smbus sqlite3 -y
 sudo pip install --upgrade pip setuptools
-sudo pip install Adafruit_BBIO pyserial
+sudo pip install pyserial
+sudo pip install Adafruit_BBIO
 #sudo apt install python-scipy w3m -y
 #sudo pip install six tzlocal pytz numpy python-dateutil pyparsing --force-reinstall --upgrade
 #sudo pip install requests
