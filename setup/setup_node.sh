@@ -49,7 +49,8 @@ bash $SETUP_DIR/time/install_ds1307.sh
 echo "Installing Python libraries"
 sudo apt install build-essential python-dev python-setuptools python-pip -y
 sudo apt install libmysqlclient-dev mysql-server mysql-client python-mysqldb -y
-sudo apt install python-smbus sqlite3 -y
+sudo apt install python-smbus -y
+sudo apt install sqlite3 -y
 sudo pip install --upgrade pip setuptools
 sudo pip install pyserial
 sudo pip install Adafruit_BBIO
@@ -57,6 +58,16 @@ sudo pip install Adafruit_BBIO
 #sudo pip install six tzlocal pytz numpy python-dateutil pyparsing --force-reinstall --upgrade
 #sudo pip install requests
 #sudo pip install six tzlocal pytz numpy python-dateutil pyparsing --upgrade
+
+#numpy, matplotlib...
+
+pip install pyzmq sqlalchemy requests pycrypto
+sudo apt install python-flask python-autobahn python-virtualenv -y
+
+git clone -b trunk https://github.com/twisted/twisted.git
+cd twisted
+sudo python setup.py install
+cd
 
 git clone https://github.com/adafruit/Adafruit_Python_GPIO.git
 cd Adafruit_Python_GPIO
