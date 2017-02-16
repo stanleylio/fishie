@@ -61,7 +61,8 @@ sudo pip install Adafruit_BBIO
 
 #numpy, matplotlib...
 
-pip install pyzmq sqlalchemy requests pycrypto
+pip install pyzmq requests pycrypto
+#pip install sqlalchemy
 sudo apt install python-flask python-autobahn python-virtualenv -y
 
 git clone -b trunk https://github.com/twisted/twisted.git
