@@ -66,6 +66,12 @@ def parse_tidegauge(line):
                  'd2w':float(line[2]),
                  'Vbatt':float(line[3])}    # this reports V, not mV
             return d
+        #elif 'us5' == line[0] and 4 == len(line):   # * * * * * HACK * * * * *
+        #    d = {'node':'node-010', # MADE AN ERROR AND PROGRAMMED THE NEW MAKAI PIER TIDE GAUGE AS us5 (SHOULD BE us3)
+        #         'ticker':int(line[1]),
+        #         'd2w':float(line[2]),
+        #         'Vbatt':float(line[3])}    # this reports V, not mV
+        #    return d
         elif 'us4' == line[0]:
             d = {'node':'node-011',
                  'ticker':int(line[1]),

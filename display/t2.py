@@ -8,9 +8,10 @@ sys.path.append(expanduser('~'))
 from datetime import datetime,timedelta
 from node.display.gen_plot import plot_time_series
 from node.helper import ts2dt
+from scipy.signal import medfilt
 
 
-with open('/home/nuc/data/base-001/log/base_temperature.txt') as f:
+with open('/var/uhcm/incoming/base-001/log/base_temperature.txt') as f:
     d = [line.strip('\s\x00').split(',') for line in f]
     ddd = []
     for dd in d:
@@ -27,6 +28,8 @@ with open('/home/nuc/data/base-001/log/base_temperature.txt') as f:
             d.append(v)
     d = zip(*d)
 
+d[1] = medfilt(d[1],21)
+d[2] = medfilt(d[2],21)
 
 '''with open('/home/nuc/data/base-001/log/base_temperature.txt') as f:
     d = [line.strip('\s\x00').split(',') for line in f]
@@ -50,10 +53,10 @@ bdir = '/var/www/uhcm/img/t2'
 
 plot_time_series(d[0],d[1],join(bdir,'base_p.png'),
                  title='Barometric Pressure (Base Station BMP180)',
-                 xlabel='Time',ylabel='kPa')
+                 xlabel='Time',ylabel='kPa',linelabel='barometric pressure')
 
 
 plot_time_series(d[0],d[2],join(bdir,'base_t.png'),
                  title='Base Station Temperature',
-                 xlabel='Time',ylabel='Deg.C')
+                 xlabel='Time',ylabel='Deg.C',linelabel='cabinet temperature')
 
