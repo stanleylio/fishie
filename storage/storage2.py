@@ -3,7 +3,6 @@ from os.path import expanduser
 sys.path.append(expanduser('~/node'))
 import MySQLdb  # careful about stale read - sqlalchemy seems to handle this automatically; MySQLdb doesn't.
 from datetime import datetime,timedelta
-from helper import dt2ts
 
 
 def auto_time_col(columns):
