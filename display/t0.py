@@ -12,8 +12,7 @@ from datetime import datetime,timedelta
 #from scipy.signal import medfilt
 from node.display.gen_plot import plot_time_series
 from node.helper import dt2ts
-from node.storage.storage2 import storage_read_only
-from node.storage.storage2 import auto_time_col,id2table
+from node.storage.storage2 import storage,auto_time_col
 from node.config.config_support import get_list_of_nodes,get_list_of_disp_vars,get_description,get_unit,get_plot_range
 
 
@@ -48,7 +47,7 @@ if not exists(plot_dir):
     makedirs(plot_dir)
 
 
-store = storage_read_only()
+store = storage()
 list_of_nodes = get_list_of_nodes(site)
 for node in list_of_nodes:
 #for node in ['node-025']:
@@ -59,7 +58,7 @@ for node in list_of_nodes:
     #V = get_list_of_disp_vars(site,node)
     V = get_list_of_disp_vars(node)
     try:
-        columns = store.get_list_of_columns(id2table(node))
+        columns = store.get_list_of_columns(node)
     except:
         traceback.print_exc()
         continue

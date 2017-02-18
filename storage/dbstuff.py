@@ -5,11 +5,14 @@ from sqlalchemy.ext.declarative import declarative_base
 from os.path import expanduser
 
 
+assert False
+
+
 Base = declarative_base()
 
 
 class node_001_Sample(Base):
-    __tablename__ = 'node_001'
+    __tablename__ = 'node-001'
     id = Column('id',Integer,primary_key=True)
     ReceptionTime = Column('ReceptionTime',Float(precision=32))
     Timestamp = Column('Timestamp',Float(precision=32))
@@ -35,7 +38,7 @@ class node_001_Sample(Base):
 
 
 class node_003_Sample(Base):
-    __tablename__ = 'node_003'
+    __tablename__ = 'node-003'
     id = Column('id',Integer,primary_key=True)
     ReceptionTime = Column('ReceptionTime',Float(precision=32))
     Timestamp = Column('Timestamp',Float(precision=32))
@@ -54,7 +57,7 @@ class node_003_Sample(Base):
 
     
 class node_004_Sample(Base):
-    __tablename__ = 'node_004'
+    __tablename__ = 'node-004'
     id = Column('id',Integer,primary_key=True)
     ReceptionTime = Column('ReceptionTime',Float(precision=32))
     Timestamp = Column('Timestamp',Float(precision=32))
@@ -80,7 +83,7 @@ class node_004_Sample(Base):
 
 
 class node_007_Sample(Base):
-    __tablename__ = 'node_007'
+    __tablename__ = 'node-007'
     id = Column('id',Integer,primary_key=True)
     ReceptionTime = Column('ReceptionTime',Float(precision=32))
     Timestamp = Column('Timestamp',Float(precision=32))
@@ -100,7 +103,7 @@ class node_007_Sample(Base):
     
 
 class node_008_Sample(Base):
-    __tablename__ = 'node_008'
+    __tablename__ = 'node-008'
     id = Column('id',Integer,primary_key=True)
     ReceptionTime = Column('ReceptionTime',Float(precision=32))
     d2w = Column('d2w',Float(precision=32))
@@ -112,7 +115,7 @@ class node_008_Sample(Base):
     
     
 class node_009_Sample(Base):
-    __tablename__ = 'node_009'
+    __tablename__ = 'node-009'
     id = Column('id',Integer,primary_key=True)
     ReceptionTime = Column('ReceptionTime',Float(precision=32))
     d2w = Column('d2w',Float(precision=32))
@@ -124,7 +127,7 @@ class node_009_Sample(Base):
     
     
 class node_010_Sample(Base):
-    __tablename__ = 'node_010'
+    __tablename__ = 'node-010'
     id = Column('id',Integer,primary_key=True)
     ReceptionTime = Column('ReceptionTime',Float(precision=32))
     d2w = Column('d2w',Float(precision=32))
@@ -136,7 +139,7 @@ class node_010_Sample(Base):
     
 
 class node_011_Sample(Base):
-    __tablename__ = 'node_011'
+    __tablename__ = 'node-011'
     id = Column('id',Integer,primary_key=True)
     ReceptionTime = Column('ReceptionTime',Float(precision=32))
     Timestamp = Column('Timestamp',Float(precision=32))
@@ -149,7 +152,7 @@ class node_011_Sample(Base):
     
 
 class node_012_Sample(Base):
-    __tablename__ = 'node_012'
+    __tablename__ = 'node-012'
     id = Column('id',Integer,primary_key=True)
     ReceptionTime = Column('ReceptionTime',Float(precision=32))
     Timestamp = Column('Timestamp',Float(precision=32))
@@ -161,7 +164,7 @@ class node_012_Sample(Base):
         return str(self.__dict__)
 
 class node_017_Sample(Base):
-    __tablename__ = 'node_017'
+    __tablename__ = 'node-017'
     #id = Column('id',Integer,primary_key=True)
     #ReceptionTime = Column('ReceptionTime',Float(precision=32))
     ts = Column('ts',Float(precision=32),primary_key=True)
@@ -180,7 +183,7 @@ class node_017_Sample(Base):
         return str(self.__dict__)
 
 class node_019_Sample(Base):
-    __tablename__ = 'node_019'
+    __tablename__ = 'node-019'
     id = Column('id',Integer,primary_key=True)
     ReceptionTime = Column('ReceptionTime',Float(precision=32))
     Timestamp = Column('Timestamp',Float(precision=32))
@@ -197,7 +200,7 @@ class node_019_Sample(Base):
     
 
 class node_021_Sample(Base):
-    __tablename__ = 'node_021'
+    __tablename__ = 'node-021'
     id = Column('id',Integer,primary_key=True)
     ReceptionTime = Column('ReceptionTime',Float(precision=32))
     Timestamp = Column('Timestamp',Float(precision=32))
@@ -232,7 +235,7 @@ class node_021_Sample(Base):
     
 
 class node_022_Sample(Base):
-    __tablename__ = 'node_022'
+    __tablename__ = 'node-022'
     id = Column('id',Integer,primary_key=True)
     ReceptionTime = Column('ReceptionTime',Float(precision=32))
     Timestamp = Column('Timestamp',Float(precision=32))
@@ -267,7 +270,7 @@ class node_022_Sample(Base):
     
     
 class node_025_Sample(Base):
-    __tablename__ = 'node_025'
+    __tablename__ = 'node-025'
     id = Column('id',Integer,primary_key=True)
     ReceptionTime = Column('ReceptionTime',Float(precision=32))
     Timestamp = Column('Timestamp',Float(precision=32))
