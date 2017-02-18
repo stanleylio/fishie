@@ -5,7 +5,7 @@ from node.parse_support import parse_message,pretty_print
 
 
 M_poh = [
-    #'{"from":"node-001","payload":{"C2Amp":1584.3,"T_180":31.9,"T_4330f":27.322,"sal":0.0,"T_5803":27.9,"TCPhase":61.071,"ts":1478741586.279009,"ec":0.0,"Air":-14.915,"C2RPh":4.219,"P_180":101534,"P_5803":109.39,"C1RPh":65.29,"CalPhase":73.904,"C1Amp":2182.3,"RawTemp":-17.9,"O2":-36.845}}726535d6',
+    '{"from":"node-001","payload":{"C2Amp":1584.3,"T_180":31.9,"T_4330f":27.322,"sal":0.0,"T_5803":27.9,"TCPhase":61.071,"ts":1478741586.279009,"ec":0.0,"Air":-14.915,"C2RPh":4.219,"P_180":101534,"P_5803":109.39,"C1RPh":65.29,"CalPhase":73.904,"C1Amp":2182.3,"RawTemp":-17.9,"O2":-36.845}}726535d6',
     'node-003,R,2016-11-02 01:47:14,102.05,24.66,251.400,99.415,26.080,82.988,25.536,3055,4130,b3844b99',
     '{"from":"node-004","payload":{"C2Amp":1180.9,"T_180":34.7,"T_4330f":36.386,"sal":0.0,"T_5803":34.69,"TCPhase":27.952,"ts":1444958592.790913,"ec":7.28,"Air":90.86,"C2RPh":4.402,"P_180":101664,"P_5803":101.57,"C1RPh":32.354,"CalPhase":25.823,"C1Amp":702.4,"RawTemp":-295.9,"O2":192.554}}e002b5aa',
     '{"from":"node-007","payload":{"T_180":33.1,"Amb_Si1145":986,"ts":1478741544.859069,"T_280":28.176,"Wind_avg":1.18,"P_180":101679,"IR_Si1145":7630,"P_280":101.477,"RH_280":70.828,"UV_Si1145":306,"Wind_gust":1.44}}602df8df',
@@ -22,6 +22,7 @@ M_poh = [
     '#<?xml version=\"1.0\"?><datapacket><hdr><mfg>Sea-Bird</mfg><model>16plus</model><sn>01607354</sn></hdr><data><t1> 25.0142</t1><c1> 4.13692</c1><p1>   0.235</p1><v0>0.1691</v0><sal> 26.4830</sal><dt>2017-01-07T01:56:33</dt><dens> 16.9152</dens><vb>10.7</vb><i> 28.3</i></data></datapacket>',
     'seabird1,46,0,9900,9606,9604,3.203,4.508',
     '{"from":"node-013","payload":{"d2w":1148.2,"VbattV":4.024,"ticker":12}}4b71f103',
+    '{"from":"node-015","payload":{"d2w":1629.3,"VbattV":3.965,"ticker":127800}}e44735ed',
 ]
 
 
@@ -30,11 +31,11 @@ class TestParse(unittest.TestCase):
     def test_parse_message(self):
         for m in M_poh:
             m = parse_message(m)
-            self.assertTrue(m is not None)
+            self.assertTrue('node' in m)
 
     def test_pretty_print(self):
         for m in M_poh:
-#            pretty_print(parse_message(m))
+            #pretty_print(parse_message(m))
             pass
 
 

@@ -2,7 +2,7 @@
 #
 # Stanley Lio, hlio@usc.edu
 # All Rights Reserved. February 2015
-import traceback,re,json,importlib,logging,binascii
+import traceback,re,json,importlib,logging,binascii,time
 from datetime import datetime
 from z import check
 from drivers.seafet import parse_SeaFET
@@ -171,31 +171,32 @@ parse into dict() if it's from a known node."""
             #logging.info(line)
             pass
 
-        # is it from one of the Beaglebone nodes?        
+        # is it from one of the Beaglebone nodes?
         if check(line):
             line = line[:-8]
             tmp = json.loads(line)
             if re.match('^node[-_]\d{3}$',tmp['from']):
                 node_id = tmp['from']
                 d = tmp['payload']
-                if 'ts' in d:
-                    d['ts'] = datetime.fromtimestamp(d['ts'])
-                else:
-                    d['ts'] = datetime.utcnow()
 
-# what a mess.
-                #from config import node
-                node = importlib.import_module('node.config.{}.{}'.format(get_site(node_id),node_id.replace('-','_')))
+                # shift this responsibility to base station: if message has no timestamp, insert one
+                #if 'ts' in d:
+                    #d['ts'] = datetime.fromtimestamp(d['ts'])
+                    #pass
+                #else:
+                    #d['ts'] = datetime.utcnow()
+                    #d['ts'] = time.time()
 
-                d = {c['dbtag']:d[c['comtag']] for c in node.conf}
-                d['node'] = node_id
-# If RF isolation cannot be guaranteed, node transmissions should carry site ID as well. But (site-id,node-id)
-# is the same as having a wider field of just node-id. There is no risk of running out of IDs. So...
-# just make all node having unique node-ID. "Site (ID)" is just for webpage display.
-
-# Also, parse_message() can still parse messages from all sites. If a node is not defined in the database it
-# will just be ignored by the db.
-                return d
+                try:
+                    node = importlib.import_module('node.config.{}.{}'.format(get_site(node_id),node_id.replace('-','_')))
+                    d = {c['dbtag']:d[c.get('comtag',c['dbtag'])] for c in node.conf}
+                    d['node'] = node_id
+                    return d
+                except ImportError:
+                    # the JSON messages are self-descriptive with checksum, I don't need no comtag-dbtag conversion.
+                    logging.warning('config file for {} not defined'.format(node_id))
+                    d['node'] = node_id
+                    return d
             elif re.match('^base[-_]\d{3}$',tmp['from']):
                 logging.debug('Command from base station {}; ignore.'.format(tmp['from']))
             else:

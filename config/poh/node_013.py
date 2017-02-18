@@ -6,22 +6,11 @@ note = 'Ultrasonic tide gauge'
 INTERVAL = 60
 NGROUP = 11
 
-#LOGDIR = '/var/uhcm/log'
-#DBPATH = '/var/uhcm/storage/sensor_data.db'
-
 
 from node.config.config_support import Range
 
 
 conf = [
-    {
-        'dbtag':'ts',
-        'dbtype':'REAL',
-        'comtag':'ts',
-        'unit':None,
-        'description':'Reception time (at base station)',
-        'plot':False,
-    },
     {
         'dbtag':'d2w',
         'dbtype':'REAL',

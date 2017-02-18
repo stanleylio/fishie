@@ -14,6 +14,13 @@ from Crypto.Hash import SHA512
 from Crypto.PublicKey import RSA
 
 
+
+
+assert False
+
+
+
+
 #key = open('/home/nuc/.ssh/id_rsa').read()
 from config import node
 key = open(node.private_key_file).read()
