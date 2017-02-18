@@ -14,11 +14,11 @@ def auto_time_col(columns):
 
 
 class storage():
-    def __init__(self,dbname='uhcm',user='root',passwd=None):
+    def __init__(self,dbname='uhcm',user='root',passwd=None,host='localhost'):
         if passwd is None:
             passwd = open(expanduser('~/mysql_cred')).read().strip()
         self._dbname = dbname
-        self._conn = MySQLdb.connect(host='localhost',
+        self._conn = MySQLdb.connect(host=host,
                                      user=user,
                                      passwd=passwd,
                                      db=dbname)

@@ -108,4 +108,3 @@ for node in list_of_nodes:
                        'description':var_description}
         with open(join(plot_dir,node,var + '.json'),'w') as f:
             json.dump(plot_config,f,separators=(',',':'))
-
