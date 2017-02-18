@@ -71,10 +71,13 @@ class storage():
         assert type(cols) is list,'cols must be a list of string'
         assert time_col in self.get_list_of_columns(table),'no such time_col: {}'.format(time_col)
 
+        assert type(end) in [float,int]
         if end is None:
-            end = datetime.utcnow()
-            if type(begin) is not datetime:
-                end = dt2ts(end)
+            end = time.time()
+        #if end is None:
+        #    end = datetime.utcnow()
+        #    if type(begin) is not datetime:
+        #        end = dt2ts(end)
 
         assert type(end) == type(begin)
         # also require type(end) == type(begin) == type(stuff in column time_col)
@@ -123,6 +126,7 @@ class storage():
 
 
 if '__main__' == __name__:
+    from helper import dt2ts
     s = storage()
     print s.read_time_range('node-010','ReceptionTime',['ReceptionTime','d2w'],dt2ts()-3600,dt2ts())
     print s.read_last_N_minutes('node-011','ReceptionTime',5,nonnull='d2w')
