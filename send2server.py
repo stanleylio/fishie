@@ -1,4 +1,4 @@
-# Send a signed string to i7NUC via HTTP POST
+# Send a string to i7NUC via HTTP POST
 # Messages are signed by the private key of this device
 # Messages are verified by i7NUC with the public key of this device
 #
@@ -31,5 +31,13 @@ def post(m,endpoint):
 
 
 if '__main__' == __name__:
-    m = '"Oh no sweetie put your hand down We are looking for actual physicians."'
-    print(post(m,'http://grogdata.soest.hawaii.edu/api/4'))
+    import sys
+
+    url = 'http://grogdata.soest.hawaii.edu/api/4'
+    
+    if len(sys.argv) > 1:
+        for m in sys.argv[1:]:
+            print(post(m,url))
+    else:
+        m = '"Surely, comrades, you don\'t want Jones back?"'
+        print(post(m,url))
