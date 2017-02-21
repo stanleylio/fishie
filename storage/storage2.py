@@ -102,10 +102,11 @@ class storage():
             return {c:[] for k,c in enumerate(cols)}
 
     def read_last_N_minutes(self,table,time_col,N,nonnull):
+        """get the latest N-minute worth of readings of the variable 'nonnull' where its readings were not NULL"""
         cmd = '''SELECT {time_col},{nonnull} FROM `{table}` WHERE
-                    {time_col} >= (SELECT MAX({time_col}) - {N} FROM (SELECT {time_col},{nonnull} FROM `{table}` WHERE {nonnull} IS NOT NULL) AS T)
-                 AND
-                    {nonnull} IS NOT NULL;'''.\
+                {time_col} >= (SELECT MAX({time_col}) - {N} FROM (SELECT {time_col},{nonnull} FROM `{table}` WHERE {nonnull} IS NOT NULL) AS T)
+                AND
+                {nonnull} IS NOT NULL;'''.\
                 format(time_col=time_col,table=table,N=60*N,nonnull=nonnull)
         self._cur.execute(cmd)
         r = self._cur.fetchall()
