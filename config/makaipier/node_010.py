@@ -8,7 +8,7 @@ conf = [
     {
         'dbtag':'ReceptionTime',
         'dbtype':'DOUBLE NOT NULL',
-        'description':'Time of reception at base station; POSIX timestamp.'
+        'description':'Time of reception at base station; POSIX timestamp.',
         'plot':False,
     },
     {
