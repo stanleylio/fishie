@@ -11,8 +11,7 @@ def auto_time_col(columns):
             return time_col
     assert False
 
-
-'''<<<<<<< HEAD
+'''
 def create_table(conf,dbname):
     for table in sorted(conf):
         print '- - -'
@@ -38,7 +37,7 @@ def create_table(conf,dbname):
         cmd = 'CREATE TABLE IF NOT EXISTS {} ({})'.format('{}.`{}`'.format(dbname,table),tmp)
         print(cmd)
         cur.execute(cmd)
-======='''
+'''
 # 'dbtag' is mandatory; everything else is optional.
 # 'dbtype' defaults to DOUBLE
 def create_table(conf,table,dbname='uhcm',user='root',password=None,host='localhost'):
@@ -51,7 +50,6 @@ def create_table(conf,table,dbname='uhcm',user='root',password=None,host='localh
     cmd = 'CREATE TABLE IF NOT EXISTS {}.`{}` ({})'.format(dbname,table,tmp)
     print(cmd)
     cur.execute(cmd)
-#>>>>>>> fc8ac0c3cd3822371a5b6fe12a8dfcfcfdbb1fed
 
 
 class storage():
@@ -123,14 +121,15 @@ class storage():
         assert type(end) == type(begin)
         # also require type(end) == type(begin) == type(stuff in column time_col)
 
-        time_range = 'WHERE {time_col} BETWEEN "{begin}" AND "{end}"'.\
-                     format(time_col=time_col,begin=begin,end=end)
-        cmd = 'SELECT {} FROM {}.`{}` {time_range} ORDER BY {time_col} DESC'.\
+        #cmd = 'SELECT {} FROM {}.`{}` {time_range} ORDER BY {time_col} DESC'.\
+        cmd = 'SELECT {} FROM {}.`{}`'.\
                 format(','.join(cols),
                        self._dbname,
-                       table,
-                       time_range=time_range,
-                       time_col=time_col)
+                       table)
+        time_range = ' WHERE {time_col} BETWEEN "{begin}" AND "{end}"'.\
+                     format(time_col=time_col,begin=begin,end=end)
+        cmd = cmd + time_range
+        #print(cmd)
         self._cur.execute(cmd)
         r = self._cur.fetchall()
         self._conn.commit() # see: stale read
