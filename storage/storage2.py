@@ -12,6 +12,33 @@ def auto_time_col(columns):
     assert False
 
 
+def create_table(conf,dbname):
+    for table in sorted(conf):
+        print '- - -'
+        print table
+        for column in conf[table]:
+            assert 'dbtag' in column
+            # everything else is optional. dbtype default to DOUBLE
+            print '\t' + column['dbtag']
+
+    password = open(expanduser('~/mysql_cred')).read().strip()
+    conn = MySQLdb.connect(host='localhost',
+                                 user='root',
+                                 passwd=password,
+                                 db=dbname)
+    cur = conn.cursor()
+
+    # conf: a dictionary; one table per key;
+    # each key maps to a list of dictionaries: {'dbtag':...} is mandatory; everything else is optional.
+    # 'dbtype' defaults to DOUBLE
+
+    for table in sorted(conf):
+        tmp = ','.join([' '.join(tmp) for tmp in [(column['dbtag'],column.get('dbtype','DOUBLE')) for column in conf[table]]])
+        cmd = 'CREATE TABLE IF NOT EXISTS {} ({})'.format('{}.`{}`'.format(dbname,table),tmp)
+        print(cmd)
+        cur.execute(cmd)
+
+
 class storage():
     def __init__(self,dbname='uhcm',user='root',passwd=None,host='localhost'):
         if passwd is None:
@@ -57,7 +84,7 @@ class storage():
                      table=table,
                      cols=','.join(cols),
                      vals=','.join(['%s']*len(cols)))
-        print(cmd)
+        #print(cmd)
         self._cur.execute(cmd,vals)
         self._conn.commit()
 
