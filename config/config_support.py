@@ -66,11 +66,11 @@ def get_list_of_nodes(site):
     L = filter(lambda x: x.startswith('node-'),L)
     return sorted(L)
 
-def get_list_of_variables(site,node):
+def get_list_of_variables(site,node):   # TODO: remove 'site'
     node = import_node_config(site,node)
     return [c['dbtag'] for c in node.conf]
 
-def get_type(site,node):
+def get_type(site,node):                # TODO: remove 'site'
     node = import_node_config(site,node)
     return [c['dbtype'] for c in node.conf]
 
@@ -131,9 +131,12 @@ def get_description(node,var):
 def get_list_of_disp_vars(node):
     """Get the list of variables to display."""
     node = import_node_config(node=node)
-    return [c['dbtag'] for c in node.conf if c['plot']]
+    return [c['dbtag'] for c in node.conf if c.get('plot',True)]
 
 def get_plot_range(site,node):
+    assert False
+    # is anyone still using this?
+    
     node = node.replace('-','_')
     try:
         return import_node_config(site,node).plot_range

@@ -12,6 +12,7 @@ def auto_time_col(columns):
     assert False
 
 
+'''<<<<<<< HEAD
 def create_table(conf,dbname):
     for table in sorted(conf):
         print '- - -'
@@ -37,6 +38,20 @@ def create_table(conf,dbname):
         cmd = 'CREATE TABLE IF NOT EXISTS {} ({})'.format('{}.`{}`'.format(dbname,table),tmp)
         print(cmd)
         cur.execute(cmd)
+======='''
+# 'dbtag' is mandatory; everything else is optional.
+# 'dbtype' defaults to DOUBLE
+def create_table(conf,table,dbname='uhcm',user='root',password=None,host='localhost'):
+    if password is None:
+        password = open(expanduser('~/mysql_cred')).read().strip()
+    conn = MySQLdb.connect(host=host,user=user,passwd=password,db=dbname)
+    cur = conn.cursor()
+
+    tmp = ','.join([' '.join(tmp) for tmp in [(column['dbtag'],column.get('dbtype','DOUBLE')) for column in conf]])
+    cmd = 'CREATE TABLE IF NOT EXISTS {}.`{}` ({})'.format(dbname,table,tmp)
+    print(cmd)
+    cur.execute(cmd)
+#>>>>>>> fc8ac0c3cd3822371a5b6fe12a8dfcfcfdbb1fed
 
 
 class storage():
@@ -129,10 +144,11 @@ class storage():
             return {c:[] for k,c in enumerate(cols)}
 
     def read_last_N_minutes(self,table,time_col,N,nonnull):
+        """get the latest N-minute worth of readings of the variable 'nonnull' where its readings were not NULL"""
         cmd = '''SELECT {time_col},{nonnull} FROM `{table}` WHERE
-                    {time_col} >= (SELECT MAX({time_col}) - {N} FROM (SELECT {time_col},{nonnull} FROM `{table}` WHERE {nonnull} IS NOT NULL) AS T)
-                 AND
-                    {nonnull} IS NOT NULL;'''.\
+                {time_col} >= (SELECT MAX({time_col}) - {N} FROM (SELECT {time_col},{nonnull} FROM `{table}` WHERE {nonnull} IS NOT NULL) AS T)
+                AND
+                {nonnull} IS NOT NULL;'''.\
                 format(time_col=time_col,table=table,N=60*N,nonnull=nonnull)
         self._cur.execute(cmd)
         r = self._cur.fetchall()

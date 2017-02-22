@@ -1,45 +1,37 @@
 # -*- coding: utf-8 -*-
-# us3
-#tag = 'node-010'
 name = 'Makai Pier Water Level'
 location = 'Makai Research Pier'
-note = 'Ultrasonic tide gauge'
+note = 'Ultrasonic tide gauge (us3, but tagged as us5 by mistake)'
 
-#plot_range = 24*7
-data_source = 'mysql+mysqldb://{user}:{password}@localhost/uhcm'
-
-
-#import sys
-#sys.path.append('..')
-from node.config.config_support import Range
 
 conf = [
     {
+        'dbtag':'ReceptionTime',
+        'dbtype':'DOUBLE NOT NULL',
+        'description':'Time of reception at base station; POSIX timestamp.',
+        'plot':False,
+    },
+    {
         'dbtag':'ticker',
-        'dbtype':'INTEGER',
-        'comtag':None,
-        'unit':None,
+        'dbtype':'DOUBLE',
         'description':'Broadcast sequence number',
         'plot':False,
-        'range':Range(lb=0),
+        'lb':0,
     },
     {
         'dbtag':'d2w',
-        'dbtype':'REAL',
-        'comtag':None,
+        'dbtype':'DOUBLE',
         'unit':'mm',
         'description':'Distance from base of sensor to water surface',
-        'plot':True,
-        'range':Range(300,5000),
+        'lb':300,
+        'ub':5000,
     },
     {
         'dbtag':'Vbatt',
-        'dbtype':'REAL',
-        'comtag':None,
+        'dbtype':'DOUBLE',
         'unit':'V',
         'description':'Battery voltage',
-        'plot':True,
-        'range':Range(lb=2.5),  # lithium cell, shouldn't go above 4.2V
+        'lb':2.5,
     },
 ]
 
@@ -49,3 +41,8 @@ if '__main__' == __name__:
         print '- - -'
         for k,v in c.iteritems():
             print k, ':' ,v
+
+    import sys
+    sys.path.append('../..')
+    from storage.storage2 import create_table
+    create_table(conf,'node-010')

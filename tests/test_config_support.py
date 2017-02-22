@@ -1,7 +1,7 @@
 import unittest,sys
 from os.path import expanduser,exists
 sys.path.append(expanduser('~'))
-from node.config.config_support import config_as_dict,get_list_of_nodes,\
+from node.config.config_support import config_as_dict,get_list_of_nodes,get_list_of_disp_vars,\
      get_list_of_variables,get_type,get_schema
 
 
@@ -25,6 +25,7 @@ class TestConfig(unittest.TestCase):
             self.assertTrue(len(get_schema(site)) > 0)
             for node in get_list_of_nodes(site):
                 self.assertTrue(len(get_list_of_variables(site,node)) > 0)
+                self.assertTrue(len(get_list_of_disp_vars(node)) > 0)
                 self.assertTrue(len(get_type(site,node)) > 0)
                 #self.assertTrue(len(get_dbfile(site,node)) > 0)
 
