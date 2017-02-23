@@ -21,7 +21,7 @@ sudo apt update
 sudo apt upgrade
 
 sudo apt install git supervisor i2c-tools minicom autossh -y
-#sudo apt install ntpdate -y
+sudo apt install ntp ntpdate -y
 
 echo "Setting system clock, timezone and RTC"
 #date -s "10 SEP 2015 22:00:30"
