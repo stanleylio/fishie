@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 # us1
-#tag = 'node-008'
-name = 'Mākāhā 2 Water Level'
+name = 'Kahoʻokele (Mākāhā 2) Water Level'
 location = 'Kahoʻokele (Mākāhā 2)'
 note = 'Ultrasonic tide gauge (us1)'
 

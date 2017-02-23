@@ -134,9 +134,12 @@ class storage():
     def read_latest_non_null(self,table,time_col,var):
         """Retrieve the latest non-null record of var."""
         r = self.read_last_N_minutes(table,time_col,1,var)
-        L = zip(r[time_col],r[var])
-        L.sort(key=lambda x: x[0])
-        return {time_col:L[-1][0],var:L[-1][1]}
+        if len(r[time_col]):
+            L = zip(r[time_col],r[var])
+            L.sort(key=lambda x: x[0])
+            return {time_col:L[-1][0],var:L[-1][1]}
+        else:
+            return {time_col:None,var:None}
 
 
 if '__main__' == __name__:

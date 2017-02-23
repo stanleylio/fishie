@@ -72,7 +72,7 @@ for node in list_of_nodes:
         makedirs(tmp)
 
     end = dt2ts(datetime.utcnow())
-    begin = dt2ts(datetime.utcnow() - timedelta(hours=get_plot_range(site,node)))
+    begin = dt2ts(datetime.utcnow() - timedelta(hours=get_plot_range(node)))
     assert end > begin
 
     print node

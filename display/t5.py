@@ -101,7 +101,11 @@ for node in list_of_nodes:
 
     # auto-select a column as time
     V = get_list_of_disp_vars(node)
-    columns = store.get_list_of_columns(node)
+    try:
+        columns = store.get_list_of_columns(node)
+    except:
+        traceback.print_exc()
+        continue
     assert set(V) <= set(columns)
     assert len(V) > 0
     time_col = auto_time_col(columns)

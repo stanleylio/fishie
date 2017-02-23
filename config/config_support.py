@@ -133,11 +133,8 @@ def get_list_of_disp_vars(node):
     node = import_node_config(node=node)
     return [c['dbtag'] for c in node.conf if c.get('plot',True)]
 
-def get_plot_range(site,node):
-    assert False
-    # is anyone still using this?
-    
-    node = node.replace('-','_')
+def get_plot_range(node):
+    site = get_site(node)
     try:
         return import_node_config(site,node).plot_range
     except AttributeError:
