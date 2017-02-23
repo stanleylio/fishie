@@ -11,7 +11,33 @@ def auto_time_col(columns):
             return time_col
     assert False
 
+'''
+def create_table(conf,dbname):
+    for table in sorted(conf):
+        print '- - -'
+        print table
+        for column in conf[table]:
+            assert 'dbtag' in column
+            # everything else is optional. dbtype default to DOUBLE
+            print '\t' + column['dbtag']
 
+    password = open(expanduser('~/mysql_cred')).read().strip()
+    conn = MySQLdb.connect(host='localhost',
+                                 user='root',
+                                 passwd=password,
+                                 db=dbname)
+    cur = conn.cursor()
+
+    # conf: a dictionary; one table per key;
+    # each key maps to a list of dictionaries: {'dbtag':...} is mandatory; everything else is optional.
+    # 'dbtype' defaults to DOUBLE
+
+    for table in sorted(conf):
+        tmp = ','.join([' '.join(tmp) for tmp in [(column['dbtag'],column.get('dbtype','DOUBLE')) for column in conf[table]]])
+        cmd = 'CREATE TABLE IF NOT EXISTS {} ({})'.format('{}.`{}`'.format(dbname,table),tmp)
+        print(cmd)
+        cur.execute(cmd)
+'''
 # 'dbtag' is mandatory; everything else is optional.
 # 'dbtype' defaults to DOUBLE
 def create_table(conf,table,dbname='uhcm',user='root',password=None,host='localhost'):
@@ -71,7 +97,7 @@ class storage():
                      table=table,
                      cols=','.join(cols),
                      vals=','.join(['%s']*len(cols)))
-        print(cmd)
+        #print(cmd)
         self._cur.execute(cmd,vals)
         self._conn.commit()
 
@@ -95,14 +121,15 @@ class storage():
         assert type(end) == type(begin)
         # also require type(end) == type(begin) == type(stuff in column time_col)
 
-        time_range = 'WHERE {time_col} BETWEEN "{begin}" AND "{end}"'.\
-                     format(time_col=time_col,begin=begin,end=end)
-        cmd = 'SELECT {} FROM {}.`{}` {time_range} ORDER BY {time_col} DESC'.\
+        #cmd = 'SELECT {} FROM {}.`{}` {time_range} ORDER BY {time_col} DESC'.\
+        cmd = 'SELECT {} FROM {}.`{}`'.\
                 format(','.join(cols),
                        self._dbname,
-                       table,
-                       time_range=time_range,
-                       time_col=time_col)
+                       table)
+        time_range = ' WHERE {time_col} BETWEEN "{begin}" AND "{end}"'.\
+                     format(time_col=time_col,begin=begin,end=end)
+        cmd = cmd + time_range
+        #print(cmd)
         self._cur.execute(cmd)
         r = self._cur.fetchall()
         self._conn.commit() # see: stale read
