@@ -15,7 +15,7 @@ echo "127.0.0.1       $NODE_TAG" >> /etc/hosts
 ssh-keygen
 cat ~/.ssh/id_rsa.pub
 
-echo "cape_enable=bone_capemgr.enable_partno=BB-UART1,BB-UART2,BB-UART4,BB-UART5" >> /boot/uEnv.txt
+echo "cape_enable=bone_capemgr.enable_partno=BB-UART1,BB-UART2,BB-UART4,BB-UART5,BB-I2C1,BB-I2C2" >> /boot/uEnv.txt
 
 sudo apt update
 sudo apt upgrade
