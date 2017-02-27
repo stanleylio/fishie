@@ -118,7 +118,7 @@ class storage():
         #    if type(begin) is not datetime:
         #        end = dt2ts(end)
 
-        assert type(end) == type(begin)
+        assert type(end) in [float,int] and type(begin) in [float,int]
         # also require type(end) == type(begin) == type(stuff in column time_col)
 
         #cmd = 'SELECT {} FROM {}.`{}` {time_range} ORDER BY {time_col} DESC'.\
