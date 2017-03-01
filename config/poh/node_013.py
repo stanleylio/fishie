@@ -3,40 +3,31 @@ name = 'Water Depth'
 location = 'NOT DEPLOYED Mākāhā'
 note = 'Ultrasonic tide gauge'
 
-INTERVAL = 60
-NGROUP = 11
-
-
-from node.config.config_support import Range
-
 
 conf = [
     {
         'dbtag':'d2w',
-        'dbtype':'REAL',
+        'dbtype':'DOUBLE',
         'comtag':'d2w',
         'unit':'mm',
         'description':'Distance from sensor to water surface',
-        'plot':True,
-        'range':Range(300,5000),
+        'lb':300,
+        'ub':5000,
     },
     {
         'dbtag':'VbattV',
-        'dbtype':'REAL',
+        'dbtype':'DOUBLE',
         'comtag':'VbattV',
         'unit':'V',
         'description':'Battery voltage (Vbatt)',
-        'plot':True,
-        'range':Range(lb=2400),
+        'lb':2400,
     },
     {
         'dbtag':'ticker',
-        'dbtype':'REAL',
+        'dbtype':'DOUBLE',
         'comtag':'ticker',
-        'unit':None,
         'description':'1Hz ticker',
-        'plot':True,
-        'range':Range(lb=0),
+        'lb':0,
     },
 ]
 
