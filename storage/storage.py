@@ -216,9 +216,9 @@ class storage(storage_read_only):
         b = set(cols)
         # they are not mutrally exclusive. Check your math.
         if a - b:
-            logging.warning('Warning: these are not defined in db and are ignored: ' + ','.join(a - b))
+            logging.warning('These are not defined in db and are ignored: ' + ','.join(a - b))
         if b - a:
-            logging.warning('Warning: these fields defined in the db are not supplied: ' + ','.join(b - a))
+            logging.warning('These fields defined in the db are not supplied: ' + ','.join(b - a))
 
         # filter out values that are not recorded by the database
         keys = list(set(readings.keys()) & set(self.get_list_of_columns(node)))
