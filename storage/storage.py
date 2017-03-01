@@ -125,7 +125,7 @@ class storage_read_only(object):
         all at least 10 days old, even though they are the "latest").
         """
         assert cols is None or type(cols) is list,'storage::read_last_N_minutes(): cols, if not None, must be a list of string'
-        
+
         if cols is None:
             cols = self.get_list_of_columns(node_id)
 
@@ -159,7 +159,8 @@ class storage_read_only(object):
             return {v:tuple(r[v] for r in tmp) for v in cols}
         except:
             logging.error(traceback.format_exc())
-            return None
+            raise
+            #return None
 
     def OBSOLETE_execute(self,cmd):
         try:
