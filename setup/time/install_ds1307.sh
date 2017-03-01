@@ -1,15 +1,16 @@
 #!/bin/bash
 
-# should only need to run once, ideally
-# Stanley Lio, September 2015
+# should only need to run once
+# Stanley H.I. Lio, 2017
 
-# detect DS1307 on I2C bus
+# detect RTC on I2C bus
 echo "Installing external RTC (DS1307/DS3231)..."
-if [ -f /sys/class/i2c-adapter/i2c-1 ]; then
-	i2cdetect -y -r 1
-	echo "using i2c-1"
-	echo ds1307 0x68 > /sys/class/i2c-adapter/i2c-1/new_device
-elif [ -f /sys/class/i2c-adapter/i2c-2 ]; then
+#if [ -f /sys/class/i2c-adapter/i2c-1 ]; then
+#	i2cdetect -y -r 1
+#	echo "using i2c-1"
+#	echo ds1307 0x68 > /sys/class/i2c-adapter/i2c-1/new_device
+#fi
+if [ -f /sys/class/i2c-adapter/i2c-2 ]; then
 	i2cdetect -y -r 2
 	echo "using i2c-2"
 	echo ds1307 0x68 > /sys/class/i2c-adapter/i2c-2/new_device
@@ -22,9 +23,9 @@ hwclock -r -f /dev/rtc1
 echo "Getting time via NTP..."
 #ntpdate -b -s -u pool.ntp.org
 #ntpdate ntp.soest.hawaii.edu
-service ntp stop
+sudo service ntp stop
 ntpd -gq
-service ntp start
+sudo service ntp start
 #date -s "10 SEP 2015 22:00:30"
 date
 #timedatectl
