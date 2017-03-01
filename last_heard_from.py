@@ -27,11 +27,11 @@ nodes = [t.replace('_','-') for t in store.get_list_of_tables() if re.match('^no
 
 while True:
     print('\x1b[2J\x1b[;H')
-    
+
     print('From {}'.format(dbfile))
     print('Last heard from (days hh:mm:ss)...')
     #print('Last heard from (hh:mm:ss)...')
-    for node_id in nodes:
+    for node_id in sorted(nodes):
         try:
             time_col = 'Timestamp'
             if 'ReceptionTime' in store.get_list_of_columns(node_id):
