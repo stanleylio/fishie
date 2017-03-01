@@ -22,7 +22,7 @@ if not exists(dbfile):
 
 store = storage_read_only(dbfile=dbfile)
 
-nodes = [t.replace('_','-') for t in store.get_list_of_tables() if re.match('^node,*',t)]
+nodes = [t for t in store.get_list_of_tables() if re.match('^node,*',t)]
 
 
 while True:
