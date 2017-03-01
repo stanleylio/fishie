@@ -32,9 +32,9 @@ class storage_read_only(object):
         self.c = self.conn.cursor()
         self.c.execute('PRAGMA journal_mode = WAL')
 
-    @classmethod
-    def id2table(self,node_id):
-        return node_id.replace('-','_')
+    #@classmethod
+    #def id2table(self,node_id):
+    #    return node_id.replace('-','_')
 
     # would be nice to be able to db.tables
     def get_list_of_tables(self):
@@ -42,7 +42,7 @@ class storage_read_only(object):
         return sorted([t[0] for t in cursor.fetchall() if not t[0].startswith('sqlite_')])
 
     def get_list_of_columns(self,node_id):
-        cursor = self.c.execute('SELECT * FROM {}'.format(self.id2table(node_id)))
+        cursor = self.c.execute('SELECT * FROM `{}`'.format(node_id))
         return [d[0] for d in cursor.description]
 
     def read_time_range(self,node_id,time_col,cols,begin,end=None):
@@ -64,9 +64,9 @@ class storage_read_only(object):
                      format(time_col=time_col,begin=begin,end=end)
         # SQLite doesn't have its own datetime type. Datetime ranking by string comparison
         # somehow seems hackish as it relies on comformity to the ISO8601 format.
-        cmd = 'SELECT {} FROM {} {time_range} ORDER BY {time_col} DESC'.\
+        cmd = 'SELECT {} FROM `{}` {time_range} ORDER BY {time_col} DESC'.\
                 format(','.join(cols),
-                       self.id2table(node_id),
+                       node_id,
                        time_range=time_range,
                        time_col=time_col)
         return self._execute(cmd)
@@ -74,9 +74,8 @@ class storage_read_only(object):
     def read_latest_non_null(self,node_id,time_col,var):
         """Retrieve the latest non-null record of var."""
         cols = [time_col,var]
-        table = self.id2table(node_id)
-        cmd = 'SELECT {} FROM {} WHERE {} IS NOT NULL ORDER BY {} DESC LIMIT 1;'.\
-              format(','.join(cols),table,var,time_col)
+        cmd = 'SELECT {} FROM `{}` WHERE {} IS NOT NULL ORDER BY {} DESC LIMIT 1;'.\
+              format(','.join(cols),node_id,var,time_col)
         #print cmd
         try:
             self.c.execute(cmd)
@@ -106,9 +105,9 @@ class storage_read_only(object):
             if 'Timestamp' not in cols and 'ReceptionTime' not in cols:
                 logging.warning('Sure you don''t want any timestamps?')
 
-        cmd = 'SELECT {} FROM {} ORDER BY {} DESC LIMIT {}'.\
+        cmd = 'SELECT {} FROM `{}` ORDER BY {} DESC LIMIT {}'.\
                 format(','.join(cols),
-                       self.id2table(node_id),
+                       node_id,
                        time_col,
                        count)
         return self._execute(cmd)
@@ -130,14 +129,13 @@ class storage_read_only(object):
         if cols is None:
             cols = self.get_list_of_columns(node_id)
 
-        table = self.id2table(node_id)
         if nonnull is not None:
             cmd = '''SELECT {cols}
-                     FROM {table} WHERE
+                     FROM `{table}` WHERE
                         DATETIME({time_col}) > 
-                        DATETIME((SELECT {time_col} FROM {table} WHERE {nonnull} IS NOT NULL ORDER BY {time_col} DESC LIMIT 1),'-{N} minutes')
+                        DATETIME((SELECT {time_col} FROM `{table}` WHERE {nonnull} IS NOT NULL ORDER BY {time_col} DESC LIMIT 1),'-{N} minutes')
                         AND {nonnull} IS NOT NULL;
-                    '''.format(cols=','.join(cols),time_col=time_col,table=table,N=N,nonnull=nonnull)
+                    '''.format(cols=','.join(cols),time_col=time_col,table=node_id,N=N,nonnull=nonnull)
         else:
             cmd = "SELECT {cols} FROM {table} WHERE DATETIME({time_col}) > DATETIME((SELECT {time_col} FROM {table} ORDER BY {time_col} DESC LIMIT 1),'-{N} minutes');".\
                     format(cols=','.join(cols),time_col=time_col,table=table,N=N)
@@ -147,8 +145,8 @@ class storage_read_only(object):
         """Retrieve all records as a dictionary."""
         if cols is None:    # or use * ?
             cols = self.get_list_of_columns(node_id)
-        cmd = 'SELECT {cols} FROM {table}'.\
-              format(cols=','.join(cols),table=self.id2table(node_id))
+        cmd = 'SELECT {cols} FROM `{table}`'.\
+              format(cols=','.join(cols),table=node_id)
         return self._execute(cmd)
 
     def _execute(self,cmd):
@@ -204,7 +202,7 @@ class storage(storage_read_only):
         if schema is not None:
             for node,v in schema.iteritems():
                 tmp = '({})'.format(','.join([' '.join(tmp) for tmp in schema[node]]))
-                cmd = 'CREATE TABLE IF NOT EXISTS {} {}'.format(self.id2table(node),tmp)
+                cmd = 'CREATE TABLE IF NOT EXISTS `{}` {}'.format(node,tmp)
                 self.c.execute(cmd)
 
     # node is redundant. readings should contains readings['node']. TODO
@@ -224,8 +222,8 @@ class storage(storage_read_only):
         keys = list(set(readings.keys()) & set(self.get_list_of_columns(node)))
         vals = [readings[k] for k in keys]
         #cmd = 'INSERT OR REPLACE INTO {} ({}) VALUES ({})'.\
-        cmd = 'INSERT INTO {} ({}) VALUES ({})'.\
-              format(self.id2table(node),','.join(keys),','.join('?'*len(keys)))
+        cmd = 'INSERT INTO `{}` ({}) VALUES ({})'.\
+              format(node,','.join(keys),','.join('?'*len(keys)))
         self.c.execute(cmd,vals)
         self.conn.commit()
 
