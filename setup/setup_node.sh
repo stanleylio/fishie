@@ -62,8 +62,7 @@ sudo pip install pyserial
 #numpy, matplotlib...
 
 sudo apt install libmysqlclient-dev mysql-server mysql-client python-mysqldb -y
-sudo apt install sqlite3 -y
-sudo apt install python-twisted
+sudo apt install sqlite3 python-twisted -y
 pip install pyzmq requests pycrypto
 #pip install sqlalchemy
 #sudo apt install python-flask python-autobahn python-virtualenv -y
