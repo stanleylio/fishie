@@ -48,25 +48,26 @@ sudo apt-get install libblas-dev liblapack-dev gfortran
 sudo apt-get install python-numpy python-scipy python-matplotlib ipython ipython-notebook python-pandas python-sympy python-nose
 sudo pip install --upgrade setuptools pip
 sudo pip install Adafruit_BBIO tzlocal pytz pyserial numpy python-dateutil pyparsing six --force-reinstall --upgrade
+sudo pip install requests pycrypto
 # still can't import? try these in python
 #import numpy
 #print numpy.__path__
 # and delete that dir
 
-sudo apt-get build-dep python-matplotlib -y
+#sudo apt-get build-dep python-matplotlib -y
 #sudo ln -s /usr/local/opt/freetype/include/freetype2 /usr/local/include/freetype
 
 # matplotlib
 #git clone git://github.com/matplotlib/matplotlib.git
-echo "Getting matplotlib plotting library"
+#echo "Getting matplotlib plotting library"
 #wget http://softlayer-dal.dl.sourceforge.net/project/matplotlib/matplotlib/matplotlib-1.4.3/matplotlib-1.4.3.tar.gz
-if [ ! -f matplotlib-1.4.3.tar.gz ]; then
-    wget http://skylineservers.dl.sourceforge.net/project/matplotlib/matplotlib/matplotlib-1.4.3/matplotlib-1.4.3.tar.gz
-fi
-tar -xvzf matplotlib-1.4.3.tar.gz
-cd matplotlib-1.4.3
-sudo python setup.py install
-cd ..
-sudo rm -r matplotlib-1.4.3
-sudo rm matplotlib-1.4.3.tar.gz
+#if [ ! -f matplotlib-1.4.3.tar.gz ]; then
+#    wget http://skylineservers.dl.sourceforge.net/project/matplotlib/matplotlib/matplotlib-1.4.3/matplotlib-1.4.3.tar.gz
+#fi
+#tar -xvzf matplotlib-1.4.3.tar.gz
+#cd matplotlib-1.4.3
+#sudo python setup.py install
+#cd ..
+#sudo rm -r matplotlib-1.4.3
+#sudo rm matplotlib-1.4.3.tar.gz
 
