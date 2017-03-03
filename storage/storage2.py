@@ -71,21 +71,6 @@ class storage():
         self._cur.execute('SELECT * FROM {}.`{}` LIMIT 2;'.format(self._dbname,table))
         return [tmp[0] for tmp in self._cur.description]
     
-    def BACKUP_insert(self,table,sample):
-        cur = self._conn.cursor()
-
-        sample = [(k,v) for k,v in sample.iteritems()]
-        cols,vals = zip(*sample)
-        vals = [str(tmp) for tmp in vals]
-        cmd = 'INSERT INTO {}.`{table}` ({cols}) VALUES ({vals})'.\
-              format(self._dbname,
-                     table=table,
-                     cols=','.join(cols),
-                     vals=','.join(vals))
-        #print(cmd)
-        self._cur.execute(cmd)
-        self._conn.commit()
-
     def insert(self,table,sample):
         cur = self._conn.cursor()
 
@@ -97,7 +82,7 @@ class storage():
                      table=table,
                      cols=','.join(cols),
                      vals=','.join(['%s']*len(cols)))
-        #print(cmd)
+        print(cmd)
         self._cur.execute(cmd,vals)
         self._conn.commit()
 
@@ -109,14 +94,9 @@ class storage():
         """
         assert type(cols) is list,'cols must be a list of string'
         assert time_col in self.get_list_of_columns(table),'no such time_col: {}'.format(time_col)
-
         assert type(end) in [float,int]
         if end is None:
             end = time.time()
-        #if end is None:
-        #    end = datetime.utcnow()
-        #    if type(begin) is not datetime:
-        #        end = dt2ts(end)
 
         assert type(end) == type(begin)
         # also require type(end) == type(begin) == type(stuff in column time_col)
