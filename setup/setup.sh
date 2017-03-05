@@ -1,34 +1,31 @@
 #!/bin/bash
 
-USER="nuc"
 NODE_TAG="base-004"
-LOGGER_DIR="~/node"
 SETUP_DIR="~/node/setup"
 
+#passwd
 
-passwd
+#sudo echo $NODE_TAG > /etc/hostname
+#sudo echo "127.0.0.1       $NODE_TAG" >> /etc/hosts
+
+#ssh-keygen
+#cat ~/.ssh/id_rsa.pub
 
 # enable serial port access for user
-sudo usermod -a -G dialout $USER
-
-
-sudo echo $NODE_TAG > /etc/hostname
-sudo echo "127.0.0.1       $NODE_TAG" >> /etc/hosts
-
-
-ssh-keygen
-cat ~/.ssh/id_rsa.pub
+#sudo usermod -a -G dialout nuc
 
 
 sudo apt update
 sudo apt upgrade
 
+
 sudo apt install ntp ntpdate -y
 #dpkg-reconfigure tzdata
 
 sudo apt install git -y
-git clone git@github.com:stanleylio/fishie.git ~/$LOGGER_DIR
-cd $LOGGER_DIR
+cd
+git clone git@github.com:stanleylio/fishie.git node
+cd node
 git config --global user.name "Stanley Lio"
 git config --global user.email stanleylio@gmail.com
 #git remote set-url origin git@github.com:stanleylio/fishie.git
@@ -36,7 +33,7 @@ cd
 
 cd
 git clone git@github.com:stanleylio/kmetlog.git ~/kmetlog
-cd ~/kmetlog
+cd kmetlog
 git config --global user.name "Stanley Lio"
 git config --global user.email stanleylio@gmail.com
 cd
@@ -51,15 +48,15 @@ sudo pip install pyserial
 sudo pip install pyzmq requests pycrypto
 
 # db
-sudo apt install libmysqlclient-dev mysql-server mysql-client python-mysqldb -y
+#sudo apt install libmysqlclient-dev mysql-server mysql-client python-mysqldb -y
 sudo apt install sqlite3 -y
 
 # debugging
 sudo apt install minicom autossh -y
 
 # vis and proc
-sudo apt install python-flask python-autobahn python-virtualenv -y
-sudo apt install python-numpy python-scipy python-matplotlib python-pandas -y
+#sudo apt install python-flask python-autobahn python-virtualenv -y
+#sudo apt install python-numpy python-scipy python-matplotlib python-pandas -y
 
 # bbb-based
 if ! [ -a /boot/uEnv.txt ];
@@ -73,7 +70,7 @@ fi
 echo "install bone stuff?"
 pause
 sudo echo "cape_enable=bone_capemgr.enable_partno=BB-UART1,BB-UART2,BB-UART4,BB-UART5,BB-I2C1,BB-I2C2" >> /boot/uEnv.txt
-sudo pip install Adafruit_BBIO
+#sudo pip install Adafruit_BBIO
 sudo apt install i2c-tools python-smbus -y
 bash $SETUP_DIR/time/install_ds1307.sh
 
