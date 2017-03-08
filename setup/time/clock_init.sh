@@ -1,14 +1,14 @@
 #!/bin/bash
 # schedule this to run on boot to set system clock using the DS1307 RTC
 
-sleep 2
+sleep 1
 
 #echo ds1307 0x68 > /sys/class/i2c-adapter/i2c-1/new_device
-if [ -a /sys/class/i2c-adapter/i2c-1 ]; then
-	i2cdetect -y -r 1
-	echo "using i2c-1"
-	echo ds1307 0x68 > /sys/class/i2c-adapter/i2c-1/new_device
-fi
+#if [ -a /sys/class/i2c-adapter/i2c-1 ]; then
+#	i2cdetect -y -r 1
+#	echo "using i2c-1"
+#	echo ds1307 0x68 > /sys/class/i2c-adapter/i2c-1/new_device
+#fi
 if [ -a /sys/class/i2c-adapter/i2c-2 ]; then
 	i2cdetect -y -r 2
 	echo "using i2c-2"
