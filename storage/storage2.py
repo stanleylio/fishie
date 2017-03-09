@@ -82,7 +82,7 @@ class storage():
                      table=table,
                      cols=','.join(cols),
                      vals=','.join(['%s']*len(cols)))
-        print(cmd)
+        #print(cmd)
         self._cur.execute(cmd,vals)
         self._conn.commit()
 
