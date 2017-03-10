@@ -15,7 +15,7 @@ def pretty_print(d):
     """Pretty-print to terminal the given dictionary of readings"""
     # print the units as well? nah...
     max_len = max([len(k) for k in d.keys()])
-    print('= '*(max_len + 4))
+    #print('= '*(max_len + 4))
     if 'node' in d.keys():
         print('From {}:'.format(d['node']))
         #print 'From node-{:03d}:'.format(d['node-id'])
