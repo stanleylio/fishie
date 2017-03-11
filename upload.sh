@@ -6,21 +6,17 @@
 #ls ~/.ssh/id_rsa.pub
 #ssh hlio@uhunix.hawaii.edu
 
-# the parent directory must exist on the server first as rsync won't recreate the entire dir structure
-
-date
+# the parent directory must already exists on the server as rsync won't recreate the entire dir structure
 
 # glazerlab-i7nuc
-BENCHTEST_DIR="nuc@128.171.153.115:/home/nuc/data/$(hostname)"
+#RemoteHost=128.171.153.115
+# otg-met
+REMOTE_HOST=166.122.96.11
+
+REMOTE_DIR="$(hostname)@$REMOTE_HOST:/var/kmetlog/incoming/$(hostname)"
 
 # path of the rsync binary on the remote machine
-# glazerlab-i7nuc
 REMOTE_RSYNC_PATH=/usr/bin/rsync
 
-echo "upload database"
-#rsync -avzhe ssh --rsync-path=$REMOTE_RSYNC_PATH --progress ./storage/sensor_data* $BENCHTEST_DIR/storage/
-rsync -avzhe ssh --rsync-path=$REMOTE_RSYNC_PATH --progress ./storage/sensor_data.db* $BENCHTEST_DIR/storage/
-
-echo "upload log"
-#date > $HOME/node/log/upload.log
-rsync -avzhe ssh --rsync-path=$REMOTE_RSYNC_PATH --progress ./log/* $BENCHTEST_DIR/log/
+rsync -avzhe ssh --rsync-path=$REMOTE_RSYNC_PATH --progress /var/kmetlog/ $REMOTE_DIR/kmetlog/
+rsync -avzhe ssh --rsync-path=$REMOTE_RSYNC_PATH --progress /var/log/ $REMOTE_DIR/log/
