@@ -12,6 +12,8 @@ echo "SF"
 python t0.py --site=sf
 echo "Makai Pier"
 python t0.py --site=makaipier
+echo "UHM/'baseless'"
+python t0.py --site=uhm
 
 
 # - - -

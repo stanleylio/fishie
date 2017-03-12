@@ -1,0 +1,7 @@
+#id = 'base-000'
+site = 'uhm'
+name = '(no base station)'
+location = 'Anywhere'
+google_earth_link = 'https://www.google.com/maps/@21.2970843,-157.814427,18z'
+note = 'Direct Link - not through any base station'
+#public_key = ''
