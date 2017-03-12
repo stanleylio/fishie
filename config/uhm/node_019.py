@@ -1,4 +1,4 @@
-name = 'SL personal'
+name = 'LA BBB in the sky'
 location = 'MSB 228'
 note = 'LA Beaglebone + eBay sensors'
 
