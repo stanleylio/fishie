@@ -176,13 +176,14 @@ def get_range(site,node_id,variable):
     for c in node.conf:
         if c['dbtag'] == variable:
             try:
-                return c['range']
+                return [c.get('lb',float('-inf')),c.get('ub',float('inf'))]
             except:
                 return None
 
 def is_in_range(site,node,variable,reading):
     try:
-        return reading in get_range(site,node,variable)
+        r = get_range(site,node,variable)
+        return reading >= min(r) and reading <= max(r)
     except:
         #traceback.print_exc()
         return True
