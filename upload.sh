@@ -19,4 +19,4 @@ BENCHTEST_DIR="$(hostname)@$REMOTE_HOST:/var/uhcm/incoming/$(hostname)"
 REMOTE_RSYNC_PATH=/usr/bin/rsync
 
 rsync -avzhe ssh --rsync-path=$REMOTE_RSYNC_PATH --progress /var/uhcm/ $BENCHTEST_DIR/uhcm/
-rsync -avzhe ssh --rsync-path=$REMOTE_RSYNC_PATH --progress /var/log/ $BENCHTEST_DIR/log/
+#rsync -avzhe ssh --rsync-path=$REMOTE_RSYNC_PATH --progress /var/log/ $BENCHTEST_DIR/log/
