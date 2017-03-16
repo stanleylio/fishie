@@ -41,6 +41,7 @@ cd
 
 # sampling
 sudo apt install supervisor -y
+sudo update-rc.d supervisor enable
 sudo apt install build-essential python-dev python-setuptools python-pip -y
 sudo apt install python-twisted -y
 sudo pip install --upgrade setuptools pip
