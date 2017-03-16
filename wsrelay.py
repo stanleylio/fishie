@@ -1,6 +1,3 @@
-assert False
-# who's using this?
-
 import logging
 from twisted.internet import reactor
 from autobahn.twisted.websocket import WebSocketServerFactory, \
