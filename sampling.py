@@ -37,6 +37,12 @@ logger.info(__name__ + ' starts')
 
 def initports():
     sps = glob.glob('/dev/ttyUSB*')
+    sps.extend(glob.glob('/dev/ttyO*'))
+    if len(sps) <= 0:
+        print('No serial port to use. Terminating.')
+        exit()
+    logging.info('Using serial ports: {}'.format(sps))
+    
     sps = [serial.Serial(tmp,115200,timeout=0.1) for tmp in sps]
 
     for port in sps:

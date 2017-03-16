@@ -4,6 +4,8 @@
 import zmq,sys,json,logging,traceback,time,socket
 import logging.handlers
 from datetime import datetime,timedelta
+from os.path import expanduser
+sys.path.append(expanduser('~'))
 from node.config.config_support import import_node_config
 
 
