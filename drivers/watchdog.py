@@ -12,24 +12,27 @@ class Watchdog(object):
         self.bus = smbus.SMBus(bus)
 
     def reset(self):
+        # the return value doesn't work. TODO
         return self.bus.read_word_data(self.addr,10)
 
 
 def reset_auto():
-    good = False
+    good = [False,False]
     for bus in [1,2]:
+        logging.debug('bus {}...'.format(bus))
         try:
             w = Watchdog(bus=bus)
-            for i in range(10):
+            for i in range(3):
                 w.reset()
-            good = True
+            good[bus-1] = True
             #break
         except IOError:
-            #print('nope.')
-            #traceback.print_exc()
+            #logging.exception(traceback.format_exc())
             pass
-    if good:
-        logging.debug('Found watchdog on bus {}'.format(bus))
+    if any(good):
+        for k,tmp in enumerate(good):
+            if tmp:
+                logging.debug('Found watchdog on bus {}'.format(k+1))
         return True
     else:
         logging.warning('No WDT found.')
