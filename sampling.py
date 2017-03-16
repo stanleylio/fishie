@@ -3,11 +3,12 @@
 # Stanley H.I. Lio
 # hlio@hawaii.edu
 # All Rights Reserved. 2017
-import serial,os,traceback,time,zmq,glob
+import serial,os,traceback,time,zmq,glob,sys
 import logging,logging.handlers
-from os.path import join,exists
 from random import choice
 from socket import gethostname
+from os.path import expanduser
+sys.path.append(expanduser('~'))
 from node.config.config_support import import_node_config
 
 

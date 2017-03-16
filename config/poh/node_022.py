@@ -6,12 +6,8 @@ note = 'SeaFET pH Sensor; pole on a pole on a reef'
 
 #interval = 15*60   # second
 #plot_range = 24*7  # hour
+#data_source = '/home/nuc/node/www/poh/storage/sensor_data.db'
 
-data_source = '/home/nuc/node/www/poh/storage/sensor_data.db'
-
-#import sys
-#sys.path.append('..')
-from node.config.config_support import Range
 
 conf = [
     {
@@ -20,8 +16,7 @@ conf = [
         'comtag':None,
         'unit':None,
         'description':'Voltage report sequence number',
-        'plot':True,
-        'range':Range(lb=0),
+        'lb':0,
     },
     {
         'dbtag':'Vbatt',
@@ -29,8 +24,8 @@ conf = [
         'comtag':None,
         'unit':'V',
         'description':'Relay dongle battery voltage',
-        'plot':True,
-        'range':Range(lb=2.5),
+        'lb':2.5,
+        'ub':5.2,
     },
     {
         'dbtag':'DATE',
@@ -54,8 +49,8 @@ conf = [
         'comtag':'PH_INT',
         'unit':None,
         'description':'FET|INT calculated pH in total scale',
-        'plot':True,
-        'range':Range(7,8.5),
+        'lb':7,
+        'ub':8.5,
     },
     {
         'dbtag':'PH_EXT',
@@ -63,8 +58,8 @@ conf = [
         'comtag':'PH_EXT',
         'unit':None,
         'description':'FET|EXT calculated pH in total scale',
-        'plot':True,
-        'range':Range(7,8.5),
+        'lb':7,
+        'ub':8.5,
     },
     {
         'dbtag':'TEMP',
@@ -72,7 +67,6 @@ conf = [
         'comtag':'TEMP',
         'unit':'Deg.C',
         'description':'ISFET Thermistor temperature',
-        'plot':True,
     },
     {
         'dbtag':'TEMP_CTD',
@@ -80,7 +74,6 @@ conf = [
         'comtag':'TEMP_CTD',
         'unit':'Deg.C',
         'description':'CTD temperature',
-        'plot':True,
     },
     {
         'dbtag':'S_CTD',
@@ -88,7 +81,6 @@ conf = [
         'comtag':'S_CTD',
         'unit':'psu',
         'description':'CTD salinity',
-        'plot':True,
     },
     {
         'dbtag':'O_CTD',
@@ -96,7 +88,6 @@ conf = [
         'comtag':'O_CTD',
         'unit':'ml/L',
         'description':'CTD oxygen concentration',
-        'plot':True,
     },
     {
         'dbtag':'P_CTD',
@@ -152,7 +143,6 @@ conf = [
         'comtag':'HUMIDITY',
         'unit':'%',
         'description':'Electronics compartment relative humidity',
-        'plot':True,
     },
     {
         'dbtag':'V_5V',
@@ -168,7 +158,6 @@ conf = [
         'comtag':'V_MBATT',
         'unit':'V',
         'description':'Main battery pack voltage',
-        'plot':True,
     },
     {
         'dbtag':'V_ISO',
@@ -184,7 +173,6 @@ conf = [
         'comtag':'V_ISOBATT',
         'unit':'V',
         'description':'Isolated battery pack voltage',
-        'plot':True,
     },
     {
         'dbtag':'I_B',
@@ -227,3 +215,9 @@ if '__main__' == __name__:
         for k,v in c.iteritems():
             print k, ':' ,v
 
+    import sys
+    sys.path.append('../..')
+    from storage.storage2 import create_table
+    conf.insert(0,{'dbtag':'ReceptionTime','dbtype':'DOUBLE NOT NULL'})
+    create_table(conf,__file__.split('.')[0].replace('_','-'))
+    

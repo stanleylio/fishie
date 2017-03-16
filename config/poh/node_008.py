@@ -37,7 +37,6 @@ conf = [
         'description':'Battery voltage (Vcc)',
         'plot':True,
         'lb':2400,
-        'ub':4250,
     },
 ]
 

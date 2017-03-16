@@ -11,6 +11,9 @@ from helper import dt2ts
 from config.config_support import get_site
 
 
+logging.basicConfig(level=logging.DEBUG)
+
+
 def pretty_print(d):
     """Pretty-print to terminal the given dictionary of readings"""
     # print the units as well? nah...
@@ -87,9 +90,9 @@ def parse_tidegauge(line):
                  'Timestamp':float(line[4])}    # and timestamp (inserted by base station)
             return d
     except:
-        #logging.info('Not a ultrasonic message:')
-        #logging.debug(traceback.format_exc())
-        #logging.debug(line)
+        logging.debug('Not a ultrasonic message:')
+        logging.debug(traceback.format_exc())
+        logging.debug(line)
         pass
 
 def parse_message(line):
@@ -98,7 +101,7 @@ parse into dict() if it's from a known node."""
     try:
         line = line.strip()
 
-        # is it one of the ultrasonic tide gauges?
+        # is it one of the first gen ultrasonic tide gauges?
         d = parse_tidegauge(line)
         if d is not None:
             return d

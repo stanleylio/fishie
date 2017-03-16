@@ -6,9 +6,6 @@ note = 'Meteorological Station'
 log_dir = './log'
 plot_dir = '../www'
 
-#plot_range = 24*7
-#data_source = '/home/nuc/node/www/poh/storage/sensor_data.db'
-
 #xbee_port = '/dev/ttyAMA0'
 xbee_port = '/dev/ttyO1'
 xbee_baud = 115200
@@ -16,12 +13,11 @@ xbee_baud = 115200
 wait = 597
 multi_sample = 5
 
-from node.config.config_support import Range
 
 conf = [
     {
         'dbtag':'Timestamp',
-        'dbtype':'TIMESTAMP',
+        'dbtype':'DOUBLE NOT NULL',
         'comtag':'ts',
         'unit':None,
         'description':'Time of sampling',
@@ -34,7 +30,8 @@ conf = [
         'unit':'Pa',
         'description':'Barometric pressure (BMP180)',
         'plot':True,
-        'range':Range(80e3,110e3),
+        'lb':80e3,
+        'ub':110e3,
     },
     {
         'dbtag':'T_180',
@@ -43,7 +40,8 @@ conf = [
         'unit':'Deg.C',
         'description':'Enclosure temperature (BMP180)',
         'plot':True,
-        'range':Range(-20,80),
+        'lb':-20,
+        'ub':80,
     },
     {
         'dbtag':'P_280',
@@ -52,7 +50,8 @@ conf = [
         'unit':'kPa',
         'description':'Barometric pressure (BME280)',
         'plot':True,
-        'range':Range(80,120),
+        'lb':80,
+        'ub':120,
     },
     {
         'dbtag':'T_280',
@@ -61,7 +60,8 @@ conf = [
         'unit':'Deg.C',
         'description':'Air temperature (BME280)',
         'plot':True,
-        'range':Range(-10,60),
+        'lb':-10,
+        'ub':60,
     },
     {
         'dbtag':'RH_280',
@@ -70,7 +70,8 @@ conf = [
         'unit':'%',
         'description':'% Relative humidity (BME280)',
         'plot':True,
-        'range':Range(0,100),
+        'lb':0,
+        'ub':100,
     },
     {
         'dbtag':'UV_Si1145',
@@ -103,7 +104,8 @@ conf = [
         'unit':'m/s',
         'description':'Average wind speed',
         'plot':True,
-        'range':Range(0,32.4),
+        'lb':0,
+        'ub':32.4,
     },
     {
         'dbtag':'Wind_gust',
@@ -112,7 +114,8 @@ conf = [
         'unit':'m/s',
         'description':'Wind gust',
         'plot':True,
-        'range':Range(0,32.4),
+        'lb':0,
+        'ub':32.4,
     },
 ]
 
@@ -123,3 +126,9 @@ if '__main__' == __name__:
         for k,v in c.iteritems():
             print k, ':' ,v
 
+    import sys
+    sys.path.append('../..')
+    from storage.storage2 import create_table
+    conf.insert(0,{'dbtag':'ReceptionTime','dbtype':'DOUBLE NOT NULL'})
+    create_table(conf,__file__.split('.')[0].replace('_','-'))
+    

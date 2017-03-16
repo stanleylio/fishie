@@ -11,13 +11,10 @@ LOGDIR = '/var/uhcm/log'
 DBPATH = '/var/uhcm/storage/sensor_data.db'
 
 
-from node.config.config_support import Range
-
-
 conf = [
     {
         'dbtag':'Timestamp',
-        'dbtype':'TIMESTAMP',
+        'dbtype':'DOUBLE NOT NULL',
         'comtag':'ts',
         'unit':None,
         'description':'Time of sampling',
@@ -29,7 +26,8 @@ conf = [
         'unit':'Pa',
         'description':'Barometric pressure (BMP180)',
         'plot':True,
-        'range':Range(90e3,110e3),
+        'lb':90e3,
+        'ub':110e3,
     },
     {
         'dbtag':'T_180',
@@ -37,7 +35,8 @@ conf = [
         'unit':'Deg.C',
         'description':'Enclosure temperature (BMP180)',
         'plot':True,
-        'range':Range(-10,80),
+        'lb':-10,
+        'ub':80,
     },
     {
         'dbtag':'P_5803',
@@ -45,7 +44,8 @@ conf = [
         'unit':'kPa',
         'description':'Water pressure (MS5803-14BA)',
         'plot':True,
-        'range':Range(80,150),
+        'lb':80,
+        'ub':150,
     },
     {
         'dbtag':'T_5803',
@@ -53,7 +53,8 @@ conf = [
         'unit':'Deg.C',
         'description':'Water temperature (MS5803-14BA)',
         'plot':True,
-        'range':Range(-10,60),
+        'lb':-10,
+        'ub':60,
     },
     {
         'dbtag':'O2Concentration',
@@ -62,7 +63,8 @@ conf = [
         'unit':'uM',
         'description':'Oxygen concentration (4330F)',
         'plot':True,
-        'range':Range(0,450),
+        'lb':0,
+        'ub':450,
     },
     {
         'dbtag':'AirSaturation',
@@ -71,7 +73,8 @@ conf = [
         'unit':'%',
         'description':'Air saturation (4330F)',
         'plot':True,
-        'range':Range(0,150),
+        'lb':0,
+        'ub':150,
     },
     {
         'dbtag':'Temperature',
@@ -80,7 +83,8 @@ conf = [
         'unit':'Deg.C',
         'description':'Water temperature (4330F)',
         'plot':True,
-        'range':Range(-20,60),
+        'lb':-20,
+        'ub':60,
     },
     {
         'dbtag':'CalPhase',
@@ -140,3 +144,9 @@ if '__main__' == __name__:
         for k,v in c.iteritems():
             print k, ':' ,v
 
+    import sys
+    sys.path.append('../..')
+    from storage.storage2 import create_table
+    conf.insert(0,{'dbtag':'ReceptionTime','dbtype':'DOUBLE NOT NULL'})
+    create_table(conf,__file__.split('.')[0].replace('_','-'))
+    

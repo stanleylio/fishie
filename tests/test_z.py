@@ -16,7 +16,7 @@ class TestZ(unittest.TestCase):
             self.assertTrue(check('{}{}'.format(m,get_checksum(m))))
 
     def test_get_action(self):
-        from node.request import get_request_cmd
+        from node.query import get_request_cmd
         from node.z import get_action
 
         nodes = ['node-001','node-003','node-004','node-007']
