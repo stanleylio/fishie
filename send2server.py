@@ -39,5 +39,8 @@ if '__main__' == __name__:
         for m in sys.argv[1:]:
             print(post(m,url))
     else:
-        m = '"Surely, comrades, you don\'t want Jones back?"'
-        print(post(m,url))
+        print(time.time())
+        for i in range(1000):
+            m = '"It is difficult to get a man to understand something, when his salary depends upon his not understanding it." "Surely, comrades, you don\'t want Jones back?" "Two possibilities exist: either we are alone in the universe, or we are not. Both are equally terrifying."'
+            post(m,url)
+        print(time.time())
