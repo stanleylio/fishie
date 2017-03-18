@@ -1,3 +1,4 @@
+# boilerplate for a setting up a websocket broadcast server
 import logging
 from twisted.internet import reactor
 from autobahn.twisted.websocket import WebSocketServerFactory, \
