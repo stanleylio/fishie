@@ -51,7 +51,7 @@ send.last_transmitted = datetime.utcnow()
 logger.info(__file__ + ' is ready')
 while True:
     try:
-        socks = dict(poller.poll(100))
+        socks = dict(poller.poll(1000))
         if zsocket in socks and zmq.POLLIN == socks[zsocket]:
             m = zsocket.recv()
             print(m)

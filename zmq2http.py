@@ -1,14 +1,16 @@
+# relay xbee msgs (from zmq 9002) to HTTP POST v4 API
+#
 # Stanley H.I. Lio
 # hlio@hawaii.edu
 # All Rights Reserved. 2017
 import zmq,sys,json,logging,traceback,time,socket,requests
 import logging.handlers
 from os.path import join,exists,expanduser
-#sys.path.append(expanduser('~'))
+sys.path.append(expanduser('~'))
 from datetime import datetime,timedelta
-from config.config_support import import_node_config
+from node.config.config_support import import_node_config
 #from uhcmrt_cred import cred
-from send2server import post4
+from node.send2server import post4
 
 
 config = import_node_config()
@@ -50,7 +52,7 @@ def send(d):
         #                  data={'m':m},
         #                  auth=(username,cred[username]))
         #logger.debug(r)
-        logger.debug(post4(m),'https://grogdata.soest.hawaii.edu/api/4')
+        logger.debug(post4(m,'https://grogdata.soest.hawaii.edu/api/4'))
         send.last_transmitted = datetime.utcnow()
     except:
         logger.error(traceback.format_exc())
