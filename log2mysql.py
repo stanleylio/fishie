@@ -39,12 +39,13 @@ zsocket.setsockopt_string(zmq.SUBSCRIBE,topic)
 poller = zmq.Poller()
 poller.register(zsocket,zmq.POLLIN)
 
-#store = storage(user='root',passwd=open(expanduser('~/mysql_cred')).read().strip(),dbname='uhcm')
 def init_storage():
-    store = storage()
-init_storage()
+#store = storage(user='root',passwd=open(expanduser('~/mysql_cred')).read().strip(),dbname='uhcm')
+    return storage()
+store = init_storage()
 
 def taskSampler():
+    global store
     try:
         socks = dict(poller.poll(1000))
         if zsocket in socks and zmq.POLLIN == socks[zsocket]:
@@ -55,7 +56,7 @@ def taskSampler():
             if d is None:
                 logger.warning('Message from unrecognized source: ' + m)
                 return
-        
+
             d['ReceptionTime'] = time.time()
             print('= = = = = = = = = = = = = = =')
             pretty_print(d)
@@ -74,13 +75,13 @@ def taskSampler():
             store.insert(table,tmp)
     except MySQLdb.OperationalError,e:
         if e.args[0] in (MySQLdb.constants.CR.SERVER_GONE_ERROR,MySQLdb.constants.CR.SERVER_LOST):
-            init_storage()
+            store = init_storage()
     except:
         logger.exception(traceback.format_exc())
         logger.exception(m)
 
 logger.info(__file__ + ' is ready')
-LoopingCall(taskSampler).start(0.001)
+LoopingCall(taskSampler).start(0.01)
 reactor.run()
 zsocket.close()
 logger.info(__file__ + ' terminated')
