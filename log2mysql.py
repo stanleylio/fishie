@@ -61,12 +61,11 @@ def taskSampler():
             for k in d.keys():
                 if type(d[k]) is datetime:
                     assert False,'wut?!'
-                else:
-                    try:
-                        if math.isnan(d[k]):
-                            d[k] = None
-                    except TypeError:
-                        pass
+                try:
+                    if math.isnan(d[k]):
+                        d[k] = None
+                except TypeError:
+                    pass
 
             table = d['node']
             tmp = {k:d[k] for k in set(store.get_list_of_columns(table)) if k in d}
