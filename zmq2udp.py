@@ -42,7 +42,7 @@ sock = socket.socket(socket.AF_INET,socket.SOCK_DGRAM)
 
 def send(d):
     try:
-        s = json.dumps([node,d],separators=(',',':'))
+        s = json.dumps([socket.gethostname(),d],separators=(',',':'))
         #sock.sendto(s,('grog.soest.hawaii.edu',9007))
         sock.sendto(s,('128.171.153.115',9007))
         send.last_transmitted = datetime.utcnow()
