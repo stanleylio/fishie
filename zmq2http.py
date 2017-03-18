@@ -4,18 +4,19 @@
 import zmq,sys,json,logging,traceback,time,socket,requests
 import logging.handlers
 from os.path import join,exists,expanduser
-sys.path.append(expanduser('~'))
+#sys.path.append(expanduser('~'))
 from datetime import datetime,timedelta
-from node.config.config_support import import_node_config
-from uhcmrt_cred import cred
+from config.config_support import import_node_config
+#from uhcmrt_cred import cred
+from send2server import post4
 
 
 config = import_node_config()
 node = socket.gethostname()
 
-url = config.zmq2http_url
-assert 1 == len(cred.keys())
-username = cred.keys()[0]
+#url = config.zmq2http_url
+#assert 1 == len(cred.keys())
+#username = cred.keys()[0]
 
 
 #'DEBUG,INFO,WARNING,ERROR,CRITICAL'
@@ -44,11 +45,12 @@ poller.register(zsocket,zmq.POLLIN)
 
 def send(d):
     try:
-        s = json.dumps([node,d],separators=(',',':'))
-        r = requests.post(url,
-                          data={'m':s},
-                          auth=(username,cred[username]))
-        logger.debug(r)
+        m = json.dumps([node,d],separators=(',',':'))
+        #r = requests.post(url,
+        #                  data={'m':m},
+        #                  auth=(username,cred[username]))
+        #logger.debug(r)
+        logger.debug(post4(m),'https://grogdata.soest.hawaii.edu/api/4')
         send.last_transmitted = datetime.utcnow()
     except:
         logger.error(traceback.format_exc())
