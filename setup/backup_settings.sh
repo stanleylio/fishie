@@ -9,6 +9,7 @@ fi
 
 rsync -avh /etc/apache2 $DIR
 rsync -avh /etc/supervisor $DIR
+rsync -avh /etc/logrotate.d $DIR
 
 crontab -l > $DIR/crontab.txt
 cp /boot/uEnv.txt $DIR/uEnv.txt
