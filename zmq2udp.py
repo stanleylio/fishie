@@ -9,7 +9,8 @@ sys.path.append(expanduser('~'))
 from node.config.config_support import import_node_config
 
 
-baseconfig = import_node_config()
+nodeid = socket.gethostname()
+config = import_node_config()
 
 
 #'DEBUG,INFO,WARNING,ERROR,CRITICAL'
@@ -40,7 +41,7 @@ sock = socket.socket(socket.AF_INET,socket.SOCK_DGRAM)
 
 def send(d):
     try:
-        s = json.dumps([node,d],separators=(',',':'))
+        s = json.dumps([nodeid,d],separators=(',',':'))
         sock.sendto(s,('grog.soest.hawaii.edu',9007))
         send.last_transmitted = datetime.utcnow()
     except:
