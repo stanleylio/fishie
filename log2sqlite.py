@@ -1,15 +1,19 @@
 # Stanley H.I. Lio
 # hlio@hawaii.edu
 # All Rights Reserved. 2016
-import zmq,sys,json,logging,traceback,time,socket
+import sys,zmq,sys,json,logging,traceback,math,time,socket
 import logging.handlers
-from datetime import datetime,timedelta
-from os.path import expanduser
+from os.path import join,exists,expanduser
+from datetime import datetime
 sys.path.append(expanduser('~'))
-from node.config.config_support import import_node_config
+from node.config.config_support import get_schema
+from node.parse_support import parse_message,pretty_print
+from node.storage.storage import storage
+from node.config.config_support import import_node_config,get_site
+from node.helper import ts2dt
 
 
-nodeid = socket.gethostname()
+site = get_site(socket.gethostname())
 config = import_node_config()
 
 
@@ -37,19 +41,13 @@ poller = zmq.Poller()
 poller.register(zsocket,zmq.POLLIN)
 
 
-# communication
-sock = socket.socket(socket.AF_INET,socket.SOCK_DGRAM)
+# add ReceptionTime
+s = get_schema(site)
+for k,v in s.iteritems():
+    v.insert(0,('ReceptionTime','TIMESTAMP'))
 
 
-def send(d):
-    try:
-        s = json.dumps([nodeid,d],separators=(',',':'))
-        #sock.sendto(s,('grog.soest.hawaii.edu',9007))
-        sock.sendto(s,('128.171.153.115',9007))
-        send.last_transmitted = datetime.utcnow()
-    except:
-        logger.error(traceback.format_exc())
-send.last_transmitted = datetime.utcnow()
+store = storage(dbfile=config.dbfile,schema=s)
 
 
 logger.info(__file__ + ' is ready')
@@ -58,10 +56,22 @@ while True:
         socks = dict(poller.poll(1000))
         if zsocket in socks and zmq.POLLIN == socks[zsocket]:
             m = zsocket.recv()
-            send(m)
-            logger.debug(m)
-        if datetime.utcnow() - send.last_transmitted > timedelta(minutes=5):
-            send('')
+            dt = datetime.utcnow()
+            d = parse_message(m)
+
+            # TODO: remove this!
+            try:
+                d['Timestamp'] = ts2dt(d['Timestamp'])   # the old sqlite db still uses datetime instead of timestamps...
+            except:
+                pass
+
+            if d is not None:
+                d['ReceptionTime'] = dt
+                print('= = = = = = = = = =')
+                pretty_print(d)
+                store.write(d)
+            else:
+                logger.warning('Message from unrecognized source: ' + m)
     except KeyboardInterrupt:
         logger.info('user interrupted')
         break

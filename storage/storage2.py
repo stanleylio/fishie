@@ -68,7 +68,7 @@ class storage():
         return [tmp[0] for tmp in self._cur.fetchall()]
 
     def get_list_of_columns(self,table):
-        self._cur.execute('SELECT * FROM {}.`{}` LIMIT 2;'.format(self._dbname,table))
+        self._cur.execute('SELECT * FROM {}.`{}` LIMIT 1;'.format(self._dbname,table))
         return [tmp[0] for tmp in self._cur.description]
     
     def insert(self,table,sample):
@@ -138,7 +138,7 @@ class storage():
         else:
             return {time_col:[],nonnull:[]}
 
-    def read_latest_non_null(self,table,time_col,var):
+    '''def read_latest_non_null(self,table,time_col,var):
         """Retrieve the latest non-null record of var."""
         r = self.read_last_N_minutes(table,time_col,1,var)
         if len(r[time_col]):
@@ -146,7 +146,21 @@ class storage():
             L.sort(key=lambda x: x[0])
             return {time_col:L[-1][0],var:L[-1][1]}
         else:
-            return {time_col:None,var:None}
+            return {time_col:[],var:[]}'''
+
+    def read_latest_non_null(self,table,time_col,var):
+        """Retrieve the latest row where var is not null."""
+        cmd = '''SELECT * FROM `{table}` WHERE {var} IS NOT NULL ORDER BY {time_col} DESC LIMIT 1;'''.\
+              format(time_col=time_col,var=var,table=table)
+        self._cur.execute(cmd)
+        r = self._cur.fetchall()
+        self._conn.commit()
+        if len(r):
+            cols = self.get_list_of_columns(table)
+            return dict(zip(cols,r[0]))
+            #return {time_col:r[0][0],var:r[0][1]}
+        else:
+            return {time_col:[],var:[]}
 
 
 if '__main__' == __name__:

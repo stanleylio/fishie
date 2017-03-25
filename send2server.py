@@ -1,43 +1,72 @@
-# Send a string to i7NUC via HTTP POST
-# Messages are signed by the private key of this device
-# Messages are verified by i7NUC with the public key of this device
+# Send a string to remote host via HTTP POST
 #
-# Targeted at the v4 API
+# v4:
+# Messages are signed by the private key of the sender device
+# Messages are verified by remote host with the public key of the sender device
+#
+# v5:
+# Messages are not signed. HTTP Basic Auth is used instead (need SSL...).
+#
+# Demo: If arguments are supplied, they are sent as individual messages to glazerlab-i7nuc.
 #
 # Stanley H.I. Lio
 # hlio@hawaii.edu
 # University of Hawaii
-# All Rights Reserved. 2016
-import requests,time
+# All Rights Reserved. 2017
+import requests,time,socket
 from authstuff import get_signature
 from os.path import expanduser,join
-import socket
+
+
+node = socket.gethostname()
 
 
 def prepare_message(m):
     """Sign, date, add own ID. Return as a dict()"""
-    #privatekey = open('/home/nuc/.ssh/id_rsa').read()
-    privatekey = open(join(expanduser('~'),'.ssh/id_rsa')).read()
-    sig = get_signature(m,privatekey)
-    return {'src':socket.gethostname(),
+    sig = get_signature(m,prepare_message.privatekey)
+    return {'src':node,
             'ts':time.time(),
             'msg':m,
             'sig':sig,
             }
+prepare_message.privatekey = open(join(expanduser('~'),'.ssh/id_rsa')).read().strip()
 
-def post(m,endpoint):
+def post4(m,endpoint):
     r = requests.post(endpoint,data=prepare_message(m))
+    return r.text
+
+def post5(m,endpoint,auth):
+    r = requests.post(endpoint,
+                      data={'m':m,'ts':time.time(),'src':node},
+                      auth=auth)
     return r.text
 
 
 if '__main__' == __name__:
     import sys
+    sys.path.append(expanduser('~'))
+    from uhcmrt_cred import cred
 
-    url = 'http://grogdata.soest.hawaii.edu/api/4'
-    
     if len(sys.argv) > 1:
         for m in sys.argv[1:]:
-            print(post(m,url))
-    else:
-        m = '"Surely, comrades, you don\'t want Jones back?"'
-        print(post(m,url))
+            
+            # API v4
+            url = 'https://grogdata.soest.hawaii.edu/api/4'
+            print(post4(m,url))
+
+            # API v5
+            url = 'https://grogdata.soest.hawaii.edu/api/5/raw'
+            print(post5(m,url,('uhcm',cred['uhcm'])))
+    
+    exit()
+
+    # profiling v4
+    # manage ~95 POST per minute from BBB to glazerlab-i7nuc
+    # ~557 POST per minute from glazerlab-i7nuc to itself
+    url = 'https://grogdata.soest.hawaii.edu/api/4'
+    start_time = time.time()
+    for i in range(1000):
+        m = '"single digit millionaires have no effective access to the legal system" "It is difficult to get a man to understand something, when his salary depends upon his not understanding it." "Surely, comrades, you don\'t want Jones back?" "Two possibilities exist: either we are alone in the universe, or we are not. Both are equally terrifying."'
+        print(post4(m,url))
+    print('{} to {}'.format(start_time,time.time()))
+

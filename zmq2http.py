@@ -1,3 +1,5 @@
+# relay xbee msgs (from zmq 9002) to HTTP POST v4 API
+#
 # Stanley H.I. Lio
 # hlio@hawaii.edu
 # All Rights Reserved. 2017
@@ -7,15 +9,16 @@ from os.path import join,exists,expanduser
 sys.path.append(expanduser('~'))
 from datetime import datetime,timedelta
 from node.config.config_support import import_node_config
-from uhcmrt_cred import cred
+#from uhcmrt_cred import cred
+from node.send2server import post4
 
 
 config = import_node_config()
 node = socket.gethostname()
 
-url = config.zmq2http_url
-assert 1 == len(cred.keys())
-username = cred.keys()[0]
+#url = config.zmq2http_url
+#assert 1 == len(cred.keys())
+#username = cred.keys()[0]
 
 
 #'DEBUG,INFO,WARNING,ERROR,CRITICAL'
@@ -24,7 +27,7 @@ logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
 handler = logging.handlers.SysLogHandler(address='/dev/log')
 logging.Formatter.converter = time.gmtime
-formatter = logging.Formatter('%(asctime)s,%(name)s,%(levelname)s,%(module)s.%(funcName)s,%(message)s')
+formatter = logging.Formatter('%(name)s,%(levelname)s,%(module)s.%(funcName)s,%(message)s')
 handler.setFormatter(formatter)
 logger.addHandler(handler)
 
@@ -44,11 +47,12 @@ poller.register(zsocket,zmq.POLLIN)
 
 def send(d):
     try:
-        s = json.dumps([node,d],separators=(',',':'))
-        r = requests.post(url,
-                          data={'m':s},
-                          auth=(username,cred[username]))
-        logger.debug(r)
+        m = json.dumps([node,d],separators=(',',':'))
+        #r = requests.post(url,
+        #                  data={'m':m},
+        #                  auth=(username,cred[username]))
+        #logger.debug(r)
+        logger.debug(post4(m,'https://grogdata.soest.hawaii.edu/api/4'))
         send.last_transmitted = datetime.utcnow()
     except:
         logger.error(traceback.format_exc())

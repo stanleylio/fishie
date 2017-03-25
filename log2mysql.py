@@ -1,8 +1,8 @@
 # Stanley H.I. Lio
 # hlio@hawaii.edu
 # All Rights Reserved. 2017
-import zmq,sys,json,logging,traceback,time,math
-import logging.handlers
+import zmq,sys,json,traceback,time,math,MySQLdb
+import logging,logging.handlers
 from twisted.internet.task import LoopingCall
 from twisted.internet import reactor
 from datetime import datetime
@@ -22,7 +22,7 @@ logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
 handler = logging.handlers.SysLogHandler(address='/dev/log')
 logging.Formatter.converter = time.gmtime
-formatter = logging.Formatter('%(asctime)s,%(name)s,%(levelname)s,%(module)s.%(funcName)s,%(message)s')
+formatter = logging.Formatter('%(name)s,%(levelname)s,%(module)s.%(funcName)s,%(message)s')
 handler.setFormatter(formatter)
 logger.addHandler(handler)
 
@@ -39,10 +39,13 @@ zsocket.setsockopt_string(zmq.SUBSCRIBE,topic)
 poller = zmq.Poller()
 poller.register(zsocket,zmq.POLLIN)
 
+def init_storage():
 #store = storage(user='root',passwd=open(expanduser('~/mysql_cred')).read().strip(),dbname='uhcm')
-store = storage()
+    return storage()
+store = init_storage()
 
 def taskSampler():
+    global store
     try:
         socks = dict(poller.poll(1000))
         if zsocket in socks and zmq.POLLIN == socks[zsocket]:
@@ -53,7 +56,7 @@ def taskSampler():
             if d is None:
                 logger.warning('Message from unrecognized source: ' + m)
                 return
-        
+
             d['ReceptionTime'] = time.time()
             print('= = = = = = = = = = = = = = =')
             pretty_print(d)
@@ -61,22 +64,24 @@ def taskSampler():
             for k in d.keys():
                 if type(d[k]) is datetime:
                     assert False,'wut?!'
-                else:
-                    try:
-                        if math.isnan(d[k]):
-                            d[k] = None
-                    except TypeError:
-                        pass
+                try:
+                    if math.isnan(d[k]):
+                        d[k] = None
+                except TypeError:
+                    pass
 
             table = d['node']
             tmp = {k:d[k] for k in set(store.get_list_of_columns(table)) if k in d}
             store.insert(table,tmp)
+    except MySQLdb.OperationalError,e:
+        if e.args[0] in (MySQLdb.constants.CR.SERVER_GONE_ERROR,MySQLdb.constants.CR.SERVER_LOST):
+            store = init_storage()
     except:
         logger.exception(traceback.format_exc())
         logger.exception(m)
 
 logger.info(__file__ + ' is ready')
-LoopingCall(taskSampler).start(0.001)
+LoopingCall(taskSampler).start(0.01)
 reactor.run()
 zsocket.close()
 logger.info(__file__ + ' terminated')
