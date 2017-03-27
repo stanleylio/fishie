@@ -23,11 +23,11 @@ class Si7051(object):
         # default 14-bit
         tmp = self.bus.read_i2c_block_data(self.address,self.TEMP_HOLD)
         tmp = (tmp[0] << 8) + tmp[1]
-        return 175.72*tmp/65536 - 46.85
+        return round(175.72*tmp/65536 - 46.85,6)
 
 
 if '__main__' == __name__:
-    s = Si7051(bus=1)
+    s = Si7051(bus=2)
     while True:
         print(s.read())
         time.sleep(0.2)
