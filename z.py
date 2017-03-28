@@ -66,7 +66,7 @@ Also checks: 1. checksum and 2. whether this is the recipient."""
 
 
 def send(channel,sample,dest=None):
-    tmp = {'from':socket.gethostname(),'payload':sample}
+    tmp = {'from':gethostname(),'payload':sample}
     if dest is not None:
         tmp['to'] = dest
     tmp = json.dumps(tmp,separators=(',',':'))

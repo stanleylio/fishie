@@ -4,11 +4,17 @@ location = 'Mākāhā 1'
 note = 'Beaglebone-based node measuring oxygen, temperature and water depth'
 
 # node stuff
+XBEE_PORT = '/dev/ttyO1'
+XBEE_BAUD = 115200
+
+XBEELOGDIR = '/var/uhcm/log'
+
 INTERVAL = 5*60
 NGROUP = 5
 
-LOGDIR = '/var/uhcm/log'
-DBPATH = '/var/uhcm/storage/sensor_data.db'
+#LOGDIR = '/var/uhcm/log'
+dbfile = '/var/uhcm/storage/sensor_data.db'
+subscribeto = ['127.0.0.1:9002']
 
 
 conf = [
