@@ -7,10 +7,6 @@ import smbus,time,struct
 # Stanley Lio, hlio@usc.edu
 # All Rights Reserved. February 2015
 
-def PRINT(s):
-    pass
-    #print(s)
-
 class MS5803_14BA:
 
     osr = {256:0,512:2,1024:4,2048:6,4096:8}
@@ -76,13 +72,22 @@ class MS5803_14BA:
             r = self.read()
         return '{} kPa, {} Deg.C'.format(r['p'],r['t'])
 
-# STRANGE. AVR reads (slightly) differently. And the scope agrees with it.
-# TODO
 
+    '''# STRANGE. AVR reads (slightly) differently. And the scope agrees with it.
     # read factory calibration parameters, C[6]
     def _read_prom(self):
         tmp = [self.bus.read_byte_data(self.address,i) for i in range(0xA0,0xAE+1)]
         C = struct.unpack('>HHHHHHHB',''.join([chr(c) for c in tmp]))
+        return C'''
+
+    # This is adapted from the driver for TSYS01. That sensor works correctly
+    # with this, and the readout of this one agrees with that from the Arduino.
+    # So this should be the correct version, but I have no idea why the old
+    # one doesn't work. Strange that the difference is very small - digital
+    # stuff usually either works perfectly or doesn't work at all.
+    def _read_prom(self):
+        C = [self.bus.read_word_data(self.address,0xA0 + 2*i) for i in range(7)]
+        C = [struct.unpack('<H',struct.pack('>H',c))[0] for c in C]
         return C
 
     # uncompensated pressure, D1
@@ -110,9 +115,9 @@ if '__main__' == __name__:
     print('using bus {}'.format(bus))
     ms = MS5803_14BA(bus=bus)
     
-    PRINT(ms._C)
-    PRINT('raw pressure: {}'.format(ms._raw_pressure()))
-    PRINT('raw_temperature: {}'.format(ms._raw_temperature()))
+    print(ms._C)
+    print('raw pressure: {}'.format(ms._raw_pressure()))
+    print('raw_temperature: {}'.format(ms._raw_temperature()))
 
     while True:
         #print('\x1b[2J\x1b[;H')
