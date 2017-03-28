@@ -147,19 +147,19 @@ parse into dict() if it's from a known node."""
                 # why, it's just one node and I KNOW it's at PoH.
                 #from config import node
                 #node = importlib.import_module('config.{}.{}'.format(site,node_id.replace('-','_')))
-                node = importlib.import_module('node.config.{}.{}'.format(get_site(node_id),node_id.replace('-','_')))
-
+                #node = importlib.import_module('node.config.{}.{}'.format(get_site(node_id),node_id.replace('-','_')))
                 # this:
                 #d = {c['dbtag']:d[c['comtag']] for c in node.conf}
                 # turned into this:
-                tmp = {}
-                for c in node.conf:
-                    if c['dbtag'] in d:     # for the uC msg
-                        tmp[c['dbtag']] = d[c['dbtag']]
-                    elif c['comtag'] is not None and c['comtag'] in d:  # for seabird sensor msg
-                        tmp[c['dbtag']] = d[c['comtag']]
-                d = tmp
+                #tmp = {}
+                #for c in node.conf:
+                #    if c['dbtag'] in d:     # for the uC msg
+                #        tmp[c['dbtag']] = d[c['dbtag']]
+                #    elif c['comtag'] is not None and c['comtag'] in d:  # for seabird sensor msg
+                #        tmp[c['dbtag']] = d[c['comtag']]
+                #d = tmp
                 # ... because seabird is a hybrid: most fields have comtag (sal), few don't (e.g. Vbatt).
+                assert 'node' not in d
                 d['node'] = node_id
                 return d
             '''if ('sn' in d and d['sn'] == '???????') or ('tag' in d and 'seabird2' == d['tag']):
@@ -192,7 +192,8 @@ parse into dict() if it's from a known node."""
 
                 try:
                     node = importlib.import_module('node.config.{}.{}'.format(get_site(node_id),node_id.replace('-','_')))
-                    d = {c['dbtag']:d[c.get('comtag',c['dbtag'])] for c in node.conf}
+                    #d = {c['dbtag']:d[c.get('comtag',c['dbtag'])] for c in node.conf}
+                    assert 'node' not in d
                     d['node'] = node_id
                     return d
                 except ImportError:

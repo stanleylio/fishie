@@ -13,8 +13,6 @@ conf = [
     {
         'dbtag':'ticker',
         'dbtype':'INTEGER',
-        'comtag':None,
-        'unit':None,
         'description':'Broadcast sequence number',
         'plot':False,
         'lb':0,
@@ -22,7 +20,6 @@ conf = [
     {
         'dbtag':'Vbatt',
         'dbtype':'REAL',
-        'comtag':None,
         'unit':'V',
         'description':'Relay dongle battery voltage',
         'lb':2.5,
