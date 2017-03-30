@@ -4,11 +4,17 @@ location = 'Mākāhā 1'
 note = 'Beaglebone-based node measuring oxygen, temperature and water depth'
 
 # node stuff
+XBEE_PORT = '/dev/ttyO1'
+XBEE_BAUD = 115200
+
+XBEELOGDIR = '/var/uhcm/log'
+
 INTERVAL = 5*60
 NGROUP = 5
 
-LOGDIR = '/var/uhcm/log'
-DBPATH = '/var/uhcm/storage/sensor_data.db'
+#LOGDIR = '/var/uhcm/log'
+dbfile = '/var/uhcm/storage/sensor_data.db'
+subscribeto = ['127.0.0.1:9002']
 
 
 conf = [
@@ -50,7 +56,23 @@ conf = [
         'unit':'Deg.C',
         'description':'Water temperature (MS5803-14BA)',
         'lb':-10,
-        'ub':60,
+        'ub':50,
+    },
+    {
+        'dbtag':'T_TSYS01',
+        'dbtype':'DOUBLE',
+        'unit':'Deg.C',
+        'description':'Water temperature (TSYS01)',
+        'lb':-10,
+        'ub':50,
+    },
+    {
+        'dbtag':'T_7051',
+        'dbtype':'DOUBLE',
+        'unit':'Deg.C',
+        'description':'Water temperature (Si7051)',
+        'lb':-10,
+        'ub':50,
     },
     {
         'dbtag':'O2Concentration',

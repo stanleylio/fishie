@@ -1,5 +1,7 @@
 #!/usr/bin/python
 #
+# For base stations (NOT for nodes)
+#
 # Stanley H.I. Lio
 # hlio@hawaii.edu
 # All Rights Reserved. 2017
@@ -12,7 +14,7 @@ sys.path.append(expanduser('~'))
 from node.config.config_support import import_node_config
 
 
-baseconfig = import_node_config()
+#config = import_node_config()
 
 
 #'DEBUG,INFO,WARNING,ERROR,CRITICAL'
@@ -21,7 +23,8 @@ logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
 handler = logging.handlers.SysLogHandler(address='/dev/log')
 logging.Formatter.converter = time.gmtime
-formatter = logging.Formatter('%(asctime)s,%(name)s,%(levelname)s,%(module)s.%(funcName)s,%(message)s')
+#formatter = logging.Formatter('%(asctime)s,%(name)s,%(levelname)s,%(module)s.%(funcName)s,%(message)s')
+formatter = logging.Formatter('%(name)s,%(levelname)s,%(module)s.%(funcName)s,%(message)s')
 handler.setFormatter(formatter)
 logger.addHandler(handler)
 
@@ -52,8 +55,8 @@ def initports():
 
 sps = initports()
 
-logger.info('begin capture')
 
+logger.info(__name__ + ' is ready')
 while True:
     try:
         line = choice([port.readline() for port in sps]).strip()
@@ -74,4 +77,4 @@ while True:
 for port in sps:
     port.close()
 zsocket.close()
-logger.info(__name__ + 'terminated')
+logger.info(__name__ + ' terminated')

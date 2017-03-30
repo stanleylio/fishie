@@ -37,7 +37,7 @@ Also checks: 1. checksum and 2. whether this is the recipient."""
         #print tmp['to']
         if _test_myid is None:
             _test_myid = gethostname()
-        if not tmp['to'] == _test_myid:
+        if not tmp.get('to',None) == _test_myid:
             # message not intended for me
             logging.debug('message not intended for this node')
             print('message not intended for {}'.format(_test_myid))
@@ -66,7 +66,7 @@ Also checks: 1. checksum and 2. whether this is the recipient."""
 
 
 def send(channel,sample,dest=None):
-    tmp = {'from':socket.gethostname(),'payload':sample}
+    tmp = {'from':gethostname(),'payload':sample}
     if dest is not None:
         tmp['to'] = dest
     tmp = json.dumps(tmp,separators=(',',':'))
