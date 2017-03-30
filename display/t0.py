@@ -75,23 +75,23 @@ for node in list_of_nodes:
     begin = dt2ts(datetime.utcnow() - timedelta(hours=get_plot_range(node)))
     assert end > begin
 
-    print node
+    print(node)
     for var in V:
         r = store.read_time_range(node,time_col,[time_col,var],begin,end)
-        print '\t' + var
-        if r is None or len(r[time_col]) <= 0:
+        print('\t' + var)
+        #if r is None or len(r[time_col]) <= 0: # should proceed even if it's an empty plot though. TODO
+        if r is None or len(r[time_col]) <= 0 or all([tmp is None for tmp in r[var]]):
             logging.info('No data')
             continue
-        #var_description = get_description(site,node,var)
         var_description = get_description(node,var)
         title = '{} ({} of {})'.format(var_description,var,node)
-        #unit = get_unit(site,node,var)
         unit = get_unit(node,var)
         if unit is None:
             ylabel = '(unitless)'
         else:
             ylabel = unit
 
+        # - - -
         x = r[time_col]
         y = r[var]
         plot_time_series(x,y,\
