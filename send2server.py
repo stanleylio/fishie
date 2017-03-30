@@ -31,10 +31,12 @@ def prepare_message(m):
             }
 prepare_message.privatekey = open(join(expanduser('~'),'.ssh/id_rsa')).read().strip()
 
+# custom public key authentication
 def post4(m,endpoint):
     r = requests.post(endpoint,data=prepare_message(m))
     return r.text
 
+# HTTP Basic Auth
 def post5(m,endpoint,auth):
     r = requests.post(endpoint,
                       data={'m':m,'ts':time.time(),'src':node},
@@ -45,7 +47,7 @@ def post5(m,endpoint,auth):
 if '__main__' == __name__:
     import sys
     sys.path.append(expanduser('~'))
-    from uhcmrt_cred import cred
+    from cred import cred
 
     if len(sys.argv) > 1:
         for m in sys.argv[1:]:
