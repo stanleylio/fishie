@@ -89,9 +89,8 @@ conf = [
         'description':'Ambient light intensity',
     },
     {
-        'dbtag':'Wind_average',
+        'dbtag':'Wind_avg',
         'dbtype':'DOUBLE',
-        'comtag':'Wind_avg',
         'unit':'m/s',
         'description':'Average wind speed',
         'lb':0,
@@ -100,7 +99,6 @@ conf = [
     {
         'dbtag':'Wind_gust',
         'dbtype':'DOUBLE',
-        'comtag':'Wind_gust',
         'unit':'m/s',
         'description':'Wind gust',
         'lb':0,
