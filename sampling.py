@@ -68,7 +68,7 @@ while True:
         break
     except serial.SerialException:
         logger.warning('USB-to-serial converters are EVIL')
-        logging.warning(format_exc())
+        logging.warning(traceback.format_exc())
         sps = initports()
     except:
         logger.exception('Error processing: ' + line)
