@@ -10,6 +10,11 @@
 # After a channel(s) is connected to the master I2C bus, all I2C traffic
 # is transparent (as long as it doesn't collide with 0x70, or wherever
 # the mux is at.)
+#
+# In other word:
+# The {A0,A1,A2} pins of the mux controls the mux's own address, NOT the
+# channel to use. The mux is only "transparent" as long as the I2C traffic
+# doesn't address the mux itself.
 # 
 # Stanley H.I. Lio
 # hlio@hawaii.edu
