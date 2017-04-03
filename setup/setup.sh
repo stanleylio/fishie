@@ -49,7 +49,7 @@ sudo pip install pyserial
 sudo pip install pyzmq requests pycrypto
 
 # db
-#sudo apt install libmysqlclient-dev mysql-server mysql-client python-mysqldb -y
+sudo apt install libmysqlclient-dev mysql-server mysql-client python-mysqldb -y
 sudo apt install sqlite3 -y
 
 # debugging
