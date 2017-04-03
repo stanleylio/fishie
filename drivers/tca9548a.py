@@ -2,6 +2,14 @@
 #
 # Example: python tca9548a.py 0 to select CH0
 #
+# How the mux works: the mux has its own I2C address (0x70,0x71...).
+# It uses the last byte you send to it to control which channel connects
+# to the master I2C. Each bit in that byte corresponding to each channel.
+# (i.e. it allows fan-in/out when more than one bit is set)
+#
+# After a channel(s) is connected to the master I2C bus, all I2C traffic
+# is transparent (as long as it doesn't collide with 0x70, or wherever
+# the mux is at.)
 # 
 # Stanley H.I. Lio
 # hlio@hawaii.edu
