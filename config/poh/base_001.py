@@ -1,5 +1,3 @@
-#id = 'base-001'
-site = 'poh'
 name = 'PoH Backup Base Station'
 location = 'Paepae o He\'ei, Kane\'ohe'
 google_earth_link = 'https://goo.gl/maps/ECEBgo3UEp82'
@@ -8,3 +6,6 @@ public_key = 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDDxQo/IVvzvYQJNif7XDD2UOwrQj
 
 logdir = '/var/uhcm/log'
 dbfile = '/var/uhcm/storage/sensor_data.db'
+
+subscribeto = ['127.0.0.1:9002']
+
