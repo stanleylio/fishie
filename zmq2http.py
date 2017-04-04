@@ -53,10 +53,10 @@ def send(d):
         #                  auth=(username,cred[username]))
         #logger.debug(r)
         logger.debug(post4(m,'https://grogdata.soest.hawaii.edu/api/4'))
-        send.last_transmitted = datetime.utcnow()
+        #send.last_transmitted = datetime.utcnow()
     except:
         logger.error(traceback.format_exc())
-send.last_transmitted = datetime.utcnow()
+#send.last_transmitted = datetime.utcnow()
 
 
 logger.info(__file__ + ' is ready')
@@ -67,8 +67,8 @@ while True:
             m = zsocket.recv()
             logger.debug(m)
             send(m)
-        if datetime.utcnow() - send.last_transmitted > timedelta(minutes=5):
-            send('')
+        #if datetime.utcnow() - send.last_transmitted > timedelta(minutes=5):
+            #send('')
     except KeyboardInterrupt:
         logger.info('user interrupted')
         break
