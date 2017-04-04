@@ -72,7 +72,7 @@ def get_list_of_variables(site,node):   # TODO: remove 'site'
 
 def get_type(site,node):                # TODO: remove 'site'
     node = import_node_config(site,node)
-    return [c['dbtype'] for c in node.conf]
+    return [c.get('dbtype','DOUBLE') for c in node.conf]
 
 # should be OBSOLETE by now
 # really this should be "get data source" - it doesn't matter it's a csv, an sqlite or mysql db.
