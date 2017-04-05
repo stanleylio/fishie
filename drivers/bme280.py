@@ -65,6 +65,9 @@ class BME280:
             self.bus.write_byte_data(self.address,0xF2,ctrl_meas)
 
     def set_filter(self,coef=None):
+        raise NotImplementedError()
+
+        # copied from BMP280, not verified (specially, that bit about the 20-bit fixed resoultion)
         config = self.bus.read_byte_data(self.address,0xF5)
 
         if coef is None:
@@ -134,35 +137,45 @@ class BME280:
 
     # if you are careful you can probably unpack the whole thing in one line...
     def _read_compensation_parameters(self):
-        tmp = [self.bus.read_byte_data(self.address,i) for i in range(0x88,0x9F+1)]
-        C = struct.unpack('<HhhHhhhhhhhh',''.join([chr(c) for c in tmp]))
-        self.dig_T1 = C[0]
-        self.dig_T2 = C[1]
-        self.dig_T3 = C[2]
-        
-        self.dig_P1 = C[3]
-        self.dig_P2 = C[4]
-        self.dig_P3 = C[5]
-        self.dig_P4 = C[6]
-        self.dig_P5 = C[7]
-        self.dig_P6 = C[8]
-        self.dig_P7 = C[9]
-        self.dig_P8 = C[10]
-        self.dig_P9 = C[11]
 
-        self.dig_H1 = self.bus.read_byte_data(self.address,0xA1)
+        def read_unsigned_char(addr):
+            c = self.bus.read_byte_data(self.address,addr)
+            return struct.unpack('B',chr(c))[0]
+
+        def read_signed_char(addr):
+            c = self.bus.read_byte_data(self.address,addr)
+            return struct.unpack('b',chr(c))[0]
+
+        def read_unsigned_short(addr):
+            lsb = self.bus.read_byte_data(self.address,addr)
+            msb = self.bus.read_byte_data(self.address,addr+1)
+            return struct.unpack('<H',chr(lsb)+chr(msb))[0]
+        
+        def read_signed_short(addr):
+            lsb = self.bus.read_byte_data(self.address,addr)
+            msb = self.bus.read_byte_data(self.address,addr+1)
+            return struct.unpack('<h',chr(lsb)+chr(msb))[0]
+        
+        self.dig_T1 = read_unsigned_short(0x88)
+        self.dig_T2 = read_signed_short(0x8A)
+        self.dig_T3 = read_signed_short(0x8C)
+        
+        self.dig_P1 = read_unsigned_short(0x8E)
+        self.dig_P2 = read_signed_short(0x90)
+        self.dig_P3 = read_signed_short(0x92)
+        self.dig_P4 = read_signed_short(0x94)
+        self.dig_P5 = read_signed_short(0x96)
+        self.dig_P6 = read_signed_short(0x98)
+        self.dig_P7 = read_signed_short(0x9A)
+        self.dig_P8 = read_signed_short(0x9C)
+        self.dig_P9 = read_signed_short(0x9E)
+
+        self.dig_H1 = read_unsigned_char(0xA1)
         self.dig_H2 = self.bus.read_word_data(self.address,0xE1)
         self.dig_H3 = self.bus.read_byte_data(self.address,0xE3)
-
-        e4 = self.bus.read_byte_data(self.address,0xE4)
-        e5 = self.bus.read_byte_data(self.address,0xE5)
-        self.dig_H4 = (e4 << 4) | (e5 & 0xF)
-
-        #e5 = self.bus.read_byte_data(self.address,0xE5)
-        e6 = self.bus.read_byte_data(self.address,0xE6)
-        self.dig_H5 = ((e5 >> 4) & 0xF) | (e6 << 8)
-
-        self.dig_H6 = self.bus.read_byte_data(self.address,0xE7)
+        self.dig_H4 = read_signed_short(0xE4)
+        self.dig_H5 = read_signed_short(0xE6)
+        self.dig_H6 = read_signed_char(0xE7)
         #return C
 
 
@@ -172,7 +185,7 @@ if '__main__' == __name__:
     b.set_osr_p(4)
     b.set_osr_t(4)
     b.set_osr_h(4)
-    b.set_filter(2)
+    #b.set_filter(2)
     
     try:
         while True:
