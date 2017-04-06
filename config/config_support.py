@@ -86,7 +86,7 @@ def get_public_key(site,device):
     return node.public_key
 
 def get_schema(site):
-    return {node:zip(get_list_of_variables(site,node),get_type(site,node)) for node in get_list_of_nodes(site)}
+    return {node:zip(get_list_of_variables(node),get_type(site,node)) for node in get_list_of_nodes(site)}
 
 
 # STUFF FOR WEB PRESENTATION ONLY
