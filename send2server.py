@@ -16,7 +16,7 @@
 from __future__ import division
 import requests,time,socket
 from authstuff import get_signature
-from os.path import expanduser,join
+from os.path import expanduser,join,exists
 
 
 node = socket.gethostname()
@@ -30,7 +30,9 @@ def prepare_message(m):
             'msg':m,
             'sig':sig,
             }
-prepare_message.privatekey = open(join(expanduser('~'),'.ssh/id_rsa')).read().strip()
+pk = join(expanduser('~'),'.ssh/id_rsa')
+if exists(pk):
+    prepare_message.privatekey = open(pk).read().strip()
 
 # custom public key authentication
 def post4(m,endpoint):
