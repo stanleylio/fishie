@@ -13,7 +13,7 @@ from cred import cred
 
 def init_storage():
     #store = storage(user='root',passwd=open(expanduser('~/mysql_cred')).read().strip(),dbname='uhcm')
-    return storage(user='root',passwd=cred['mysql'],dbname='kmetlog')
+    return storage()
 store = init_storage()
 
 
