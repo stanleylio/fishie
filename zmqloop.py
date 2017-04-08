@@ -13,6 +13,7 @@ from node.config.config_support import import_node_config
 from kmetlog.service_discovery import get_publisher_list
 
 
+
 # I have doubt...
 def zmqloop(callback,topic=u''):
     config = import_node_config()
