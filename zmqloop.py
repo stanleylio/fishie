@@ -15,8 +15,9 @@ from kmetlog.service_discovery import get_publisher_list
 
 
 # I have doubt...
-def zmqloop(callback,topic=u''):
+def zmqloop(callback,topic=u'',feeds=None):
     config = import_node_config()
+    assert feeds is None or type(feeds) is list
 
 
     #'DEBUG,INFO,WARNING,ERROR,CRITICAL'
@@ -33,6 +34,8 @@ def zmqloop(callback,topic=u''):
 
     # ZMQ IPC stuff
     #topic = u''
+    if len(topic) <= 0:
+        logger.info('No topic given -> accept everything.')
     context = zmq.Context()
     zsocket = context.socket(zmq.SUB)
     # Still not foolproof. Imagine power to both publisher and subscriber got cycled.
@@ -40,12 +43,13 @@ def zmqloop(callback,topic=u''):
     # publisher is found. The static config is still needed.
     # Also, how often should subscribers initiate a new search?
     # feeds found in config
-    a = set(getattr(config,'subscribeto',[]))
-    assert len(a) > 0 or len(topic) > 0,\
-           'Either define some static endpoints in config file, or name at least one service to search for.'
-    # feeds found in the network
-    b = set(get_publisher_list(topic))
-    feeds = a.union(b)
+    if feeds is None:
+        a = set(getattr(config,'subscribeto',[]))
+        assert len(a) > 0 or len(topic) > 0,\
+               'Either define some static endpoints in config file, or name at least one service to search for.'
+        # feeds found in the network
+        b = set(get_publisher_list(topic))
+        feeds = a.union(b)
     assert len(feeds) > 0,'No ZMQ feed defined/found.'
     for feed in feeds:
         feed = 'tcp://' + feed
@@ -56,21 +60,17 @@ def zmqloop(callback,topic=u''):
     poller.register(zsocket,zmq.POLLIN)
 
     logger.info(__file__ + ' is ready')
-
     while True:
         try:
             socks = dict(poller.poll(1000))
             if zsocket in socks and zmq.POLLIN == socks[zsocket]:
                 m = zsocket.recv()
-                #print('= = = = = = = = = =')
-                #print(m)
                 callback(m)
         except KeyboardInterrupt:
             logger.info('user interrupted')
             break
         except:
-            logger.warning(traceback.format_exc())
-            logger.warning(m)
-
+            logger.exception(traceback.format_exc())
+            logger.exception(m)
     zsocket.close()
     logger.info(__file__ + ' terminated')
