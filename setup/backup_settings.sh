@@ -14,7 +14,10 @@ rsync -avh /etc/rsnapshot $DIR
 
 crontab -l > $DIR/crontab.txt
 cp /etc/fstab $DIR/fstab
-cp /boot/uEnv.txt $DIR/uEnv.txt
+if [ -a /boot/uEnv.txt ]
+then
+	cp /boot/uEnv.txt $DIR/uEnv.txt
+fi
 cp -a /etc/network/interfaces $DIR/interfaces.txt
 cp -a /etc/hostname $DIR/hostname.txt
 cp -a /etc/hosts $DIR/hosts.txt

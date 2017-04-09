@@ -13,9 +13,10 @@
 # hlio@hawaii.edu
 # University of Hawaii
 # All Rights Reserved. 2017
+from __future__ import division
 import requests,time,socket
 from authstuff import get_signature
-from os.path import expanduser,join
+from os.path import expanduser,join,exists
 
 
 node = socket.gethostname()
@@ -29,7 +30,9 @@ def prepare_message(m):
             'msg':m,
             'sig':sig,
             }
-prepare_message.privatekey = open(join(expanduser('~'),'.ssh/id_rsa')).read().strip()
+pk = join(expanduser('~'),'.ssh/id_rsa')
+if exists(pk):
+    prepare_message.privatekey = open(pk).read().strip()
 
 # custom public key authentication
 def post4(m,endpoint):
@@ -60,15 +63,20 @@ if '__main__' == __name__:
             url = 'https://grogdata.soest.hawaii.edu/api/5/raw'
             print(post5(m,url,('uhcm',cred['uhcm'])))
     
-    exit()
+        exit()
 
+    raw_input('No argument supplied. Proceed to benchmark?')
+    
     # profiling v4
     # manage ~95 POST per minute from BBB to glazerlab-i7nuc
     # ~557 POST per minute from glazerlab-i7nuc to itself
     url = 'https://grogdata.soest.hawaii.edu/api/4'
     start_time = time.time()
-    for i in range(1000):
+    N = 100
+    for i in range(N):
         m = '"single digit millionaires have no effective access to the legal system" "It is difficult to get a man to understand something, when his salary depends upon his not understanding it." "Surely, comrades, you don\'t want Jones back?" "Two possibilities exist: either we are alone in the universe, or we are not. Both are equally terrifying."'
         print(post4(m,url))
-    print('{} to {}'.format(start_time,time.time()))
+    stop_time = time.time()
+    print('{} to {}, total {} seconds'.format(start_time,stop_time,stop_time-start_time))
+    print('avg {:.1f} call/minute ({:.1f} call/second)'.format(N/(stop_time-start_time)*60,N/(stop_time-start_time)))
 

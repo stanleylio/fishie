@@ -44,8 +44,8 @@ def create_table(conf,table,dbname='uhcm',user='root',password=None,host='localh
     if password is None:
         #password = open(expanduser('~/mysql_cred')).read().strip()
         from cred import cred
-        password = cred['mysql']
-    conn = MySQLdb.connect(host=host,user=user,passwd=password,db=dbname)
+        passwd = cred['mysql']
+    conn = MySQLdb.connect(host=host,user=user,passwd=passwd,db=dbname)
     cur = conn.cursor()
 
     tmp = ','.join([' '.join(tmp) for tmp in [(column['dbtag'],column.get('dbtype','DOUBLE')) for column in conf]])
@@ -59,8 +59,10 @@ class storage():
         if passwd is None:
             #passwd = open(expanduser('~/mysql_cred')).read().strip()
             from cred import cred
-            password = cred['mysql']
+            passwd = cred['mysql']
         self._dbname = dbname
+
+        #print 'aw4tawtr42wt4t4w3sata',host,user,passwd,dbname
         self._conn = MySQLdb.connect(host=host,
                                      user=user,
                                      passwd=passwd,

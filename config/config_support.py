@@ -49,13 +49,14 @@ def get_site(node):
         if node in C[site]:
             return site
 
-def import_node_config(site=None,node=None):
+# TODO: rid of the madness that is "site"
+def import_node_config(node=None):
     """Meant to be called by the base stations / nodes to get its own config file"""
     if node is None:
         from socket import gethostname
         node = gethostname()
-    if site is None:
-        site = get_site(node)
+
+    site = get_site(node)
     node = node.replace('-','_')
     return import_module('node.config.{site}.{node}'.\
                          format(site=site,node=node))
@@ -66,13 +67,13 @@ def get_list_of_nodes(site):
     L = filter(lambda x: x.startswith('node-'),L)
     return sorted(L)
 
-def get_list_of_variables(site,node):   # TODO: remove 'site'
-    node = import_node_config(site,node)
+def get_list_of_variables(node):
+    node = import_node_config(node)
     return [c['dbtag'] for c in node.conf]
 
-def get_type(site,node):                # TODO: remove 'site'
-    node = import_node_config(site,node)
-    return [c['dbtype'] for c in node.conf]
+def get_type(site,node):
+    node = import_node_config(node)
+    return [c.get('dbtype','DOUBLE') for c in node.conf]
 
 # should be OBSOLETE by now
 # really this should be "get data source" - it doesn't matter it's a csv, an sqlite or mysql db.
@@ -85,13 +86,12 @@ def get_public_key(site,device):
     return node.public_key
 
 def get_schema(site):
-    return {node:zip(get_list_of_variables(site,node),get_type(site,node)) for node in get_list_of_nodes(site)}
+    return {node:zip(get_list_of_variables(node),get_type(site,node)) for node in get_list_of_nodes(site)}
 
 
 # STUFF FOR WEB PRESENTATION ONLY
 def get_attr(node,attr):
-    site = get_site(node)
-    m = import_node_config(site,node.replace('-','_'))
+    m = import_node_config(node)
     return getattr(m,attr,None)
 
 '''def get_name(site,node):
@@ -171,14 +171,12 @@ class Range(object):
     def __repr__(self):
         return str(self.to_tuple())
 
-def get_range(site,node_id,variable):
-    node = import_node_config(site,node_id)
+def get_range(node,variable):
+    node = import_node_config(node=node)
     for c in node.conf:
         if c['dbtag'] == variable:
-            try:
-                return [c.get('lb',float('-inf')),c.get('ub',float('inf'))]
-            except:
-                return None
+            return [c.get('lb',float('-inf')),c.get('ub',float('inf'))]
+    return None
 
 def is_in_range(site,node,variable,reading):
     try:

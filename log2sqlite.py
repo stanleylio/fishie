@@ -40,7 +40,6 @@ zsocket.setsockopt_string(zmq.SUBSCRIBE,topic)
 poller = zmq.Poller()
 poller.register(zsocket,zmq.POLLIN)
 
-
 # add ReceptionTime
 s = get_schema(site)
 for k,v in s.iteritems():
