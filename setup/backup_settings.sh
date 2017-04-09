@@ -10,8 +10,10 @@ fi
 rsync -avh /etc/apache2 $DIR
 rsync -avh /etc/supervisor $DIR
 rsync -avh /etc/logrotate.d $DIR
+rsync -avh /etc/rsnapshot $DIR
 
 crontab -l > $DIR/crontab.txt
+cp /etc/fstab $DIR/fstab
 cp /boot/uEnv.txt $DIR/uEnv.txt
 cp -a /etc/network/interfaces $DIR/interfaces.txt
 cp -a /etc/hostname $DIR/hostname.txt
