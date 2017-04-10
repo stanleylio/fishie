@@ -30,6 +30,3 @@ if [ -a /etc/wpa_supplicant ]
 then
 	rsync -avh /etc/wpa_supplicant $DIR
 fi
-
-#cp -a /etc/supervisor/supervisord.conf $DIR/supervisord.conf
-#cp -a /etc/supervisor/conf.d/sampling.conf $DIR/sampling.conf
