@@ -11,6 +11,7 @@ rsync -avh /etc/apache2 $DIR
 rsync -avh /etc/supervisor $DIR
 rsync -avh /etc/logrotate.d $DIR
 rsync -avh /etc/rsnapshot $DIR
+rsync -avh /etc/cron.d $DIR
 
 crontab -l > $DIR/crontab.txt
 cp /etc/fstab $DIR/fstab
