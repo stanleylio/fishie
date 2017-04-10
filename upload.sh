@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# TODO: merge this into setup/backup.sh
+
 # http://linuxconfig.org/passwordless-ssh
 #ssh-keygen
 #ssh-copy-id hlio@uhunix.hawaii.edu
@@ -13,10 +15,10 @@ REMOTE_HOST=128.171.153.115
 # otg-met
 #REMOTE_HOST=166.122.96.11
 
-BENCHTEST_DIR="$(hostname)@$REMOTE_HOST:/var/uhcm/incoming/$(hostname)"
+REMOTE_DIR="$(hostname)@$REMOTE_HOST:/var/uhcm/incoming/$(hostname)"
 
 # path of the rsync binary on the remote machine
 REMOTE_RSYNC_PATH=/usr/bin/rsync
 
-rsync -avzhe ssh --rsync-path=$REMOTE_RSYNC_PATH --progress /var/uhcm/ $BENCHTEST_DIR/uhcm/
-#rsync -avzhe ssh --rsync-path=$REMOTE_RSYNC_PATH --progress /var/log/ $BENCHTEST_DIR/log/
+rsync -avzhe ssh --rsync-path=$REMOTE_RSYNC_PATH --progress /var/uhcm/ $REMOTE_DIR/uhcm/
+#rsync -avzhe ssh --rsync-path=$REMOTE_RSYNC_PATH --progress /var/log/ $REMOTE_DIR/log/
