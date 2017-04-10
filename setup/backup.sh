@@ -11,5 +11,6 @@ REMOTE_DIR="uhcmbackup@$REMOTE_HOST:/var/backups/uhcm/staging/$(hostname)/"
 rsync -avzhe "ssh -p 2222" --progress ~ $REMOTE_DIR
 rsync -avzhe "ssh -p 2222" --progress /var/uhcm $REMOTE_DIR
 rsync -avzhe "ssh -p 2222" --progress /var/log $REMOTE_DIR
+rsync -avzhe "ssh -p 2222" --progress /var/www $REMOTE_DIR
 
 #TODO: mysqldump...
