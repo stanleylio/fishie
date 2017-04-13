@@ -14,7 +14,7 @@ class TSYS01(object):
 
     def reset(self):
         self.bus.write_byte(self.address,0x1E)
-        time.sleep(0.05)
+        time.sleep(0.003)
 
     def read(self):
         adc24 = self._raw_adc()

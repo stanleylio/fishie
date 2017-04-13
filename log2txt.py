@@ -24,7 +24,7 @@ with open(join(output_path,'raw.txt'),'a',0) as raw,\
         print('= = = = = = = = = =')
         print(m)
 
-        raw.write(m)
+        raw.write(m + '\n')
         dt = datetime.utcnow()
         tsraw.write('{}\t{:6f}\t{}\n'.format(dt.isoformat(),dt2ts(dt),m.strip()))
 
