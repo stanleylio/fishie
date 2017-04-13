@@ -21,7 +21,6 @@ conf = [
     {
         'dbtag':'Timestamp',
         'dbtype':'DOUBLE NOT NULL',
-        'comtag':'ts',
         'description':'Time of sampling',
         'plot':False,
     },
@@ -77,7 +76,7 @@ conf = [
     {
         'dbtag':'O2Concentration',
         'dbtype':'DOUBLE',
-        'comtag':'O2',
+        #'comtag':'O2',
         'unit':'uM',
         'description':'Oxygen concentration (4330F)',
         'lb':0,
@@ -86,7 +85,7 @@ conf = [
     {
         'dbtag':'AirSaturation',
         'dbtype':'DOUBLE',
-        'comtag':'Air',
+        #'comtag':'Air',
         'unit':'%',
         'description':'Air saturation (4330F)',
         'lb':0,
@@ -95,7 +94,7 @@ conf = [
     {
         'dbtag':'Temperature',
         'dbtype':'DOUBLE',
-        'comtag':'T_4330f',
+        #'comtag':'T_4330f',
         'unit':'Deg.C',
         'description':'Water temperature (4330F)',
         'lb':-20,
