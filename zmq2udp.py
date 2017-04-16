@@ -1,73 +1,32 @@
+# Relay node messages to server. Basically a zmq-to-udp relay.
+# Meant to be run on base stations.
+#
 # Stanley H.I. Lio
 # hlio@hawaii.edu
 # All Rights Reserved. 2016
-import zmq,sys,json,logging,traceback,time,socket
-import logging.handlers
-from datetime import datetime,timedelta
+import sys,json,traceback,socket
 from os.path import expanduser
 sys.path.append(expanduser('~'))
-from node.config.config_support import import_node_config
+from node.zmqloop import zmqloop
 
 
 nodeid = socket.gethostname()
-config = import_node_config()
 
 
-#'DEBUG,INFO,WARNING,ERROR,CRITICAL'
-logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger(__name__)
-logger.setLevel(logging.INFO)
-handler = logging.handlers.SysLogHandler(address='/dev/log')
-logging.Formatter.converter = time.gmtime
-formatter = logging.Formatter('%(name)s,%(levelname)s,%(module)s.%(funcName)s,%(message)s')
-handler.setFormatter(formatter)
-logger.addHandler(handler)
-
-
-# ZMQ IPC stuff
-topic = u''
-context = zmq.Context()
-zsocket = context.socket(zmq.SUB)
-for feed in config.subscribeto:
-    feed = 'tcp://' + feed
-    logger.info('subscribing to ' + feed)
-    zsocket.connect(feed)
-zsocket.setsockopt_string(zmq.SUBSCRIBE,topic)
-poller = zmq.Poller()
-poller.register(zsocket,zmq.POLLIN)
-
-
-# communication
+# UDP link
 sock = socket.socket(socket.AF_INET,socket.SOCK_DGRAM)
 
-
 def send(d):
+    s = json.dumps([nodeid,d],separators=(',',':'))
+    sock.sendto(s,('128.171.153.115',9007))
+
+
+def callback(m):
     try:
-        s = json.dumps([nodeid,d],separators=(',',':'))
-        #sock.sendto(s,('grog.soest.hawaii.edu',9007))
-        sock.sendto(s,('128.171.153.115',9007))
-        send.last_transmitted = datetime.utcnow()
+        print('= = = = = = = = = =')
+        print(m)
+        send(m)
     except:
-        logger.error(traceback.format_exc())
-send.last_transmitted = datetime.utcnow()
+        traceback.print_exc()
 
-
-logger.info(__file__ + ' is ready')
-while True:
-    try:
-        socks = dict(poller.poll(1000))
-        if zsocket in socks and zmq.POLLIN == socks[zsocket]:
-            m = zsocket.recv()
-            send(m)
-            logger.debug(m)
-        if datetime.utcnow() - send.last_transmitted > timedelta(minutes=5):
-            send('')
-    except KeyboardInterrupt:
-        logger.info('user interrupted')
-        break
-    except:
-        logger.warning(traceback.format_exc())
-        logger.warning(m)
-
-zsocket.close()
-logger.info(__file__ + ' terminated')
+zmqloop(callback)
