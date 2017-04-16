@@ -7,3 +7,4 @@ public_key = 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCuAIuai8QXOsi2KTzJrNVBFXvWMv
 subscribeto = ['127.0.0.1:9002']
 log2txt_output_path = '/var/uhcm/log'
 zmq2http_url = 'http://grogdata.soest.hawaii.edu/api/5/uhcm'
+dbfile = '/var/uhcm/storage/sensor_data.db'
