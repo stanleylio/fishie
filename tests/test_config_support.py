@@ -17,14 +17,18 @@ class TestConfig(unittest.TestCase):
     def test_get_list_of_nodes(self):
         c = config_as_dict()
         for site in sorted(c.keys()):
+            if site not in ['poh','makaipier']: # TODO: remove the "node-" requirement in naming
+                continue
             self.assertTrue(len(get_list_of_nodes(site)) > 0)   # site must have at least one node
             self.assertTrue(set(get_list_of_nodes(site)).issubset(set(c[site])))    # optional
 
     def test_config(self):
         for site in config_as_dict():
+            if site not in ['poh','makaipier']: # TODO: remove the "node-" requirement in naming
+                continue
             self.assertTrue(len(get_schema(site)) > 0)
             for node in get_list_of_nodes(site):
-                self.assertTrue(len(get_list_of_variables(site,node)) > 0)
+                self.assertTrue(len(get_list_of_variables(node)) > 0)
                 self.assertTrue(len(get_list_of_disp_vars(node)) > 0)
                 self.assertTrue(len(get_type(site,node)) > 0)
                 #self.assertTrue(len(get_dbfile(site,node)) > 0)
