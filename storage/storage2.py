@@ -166,7 +166,7 @@ class storage():
             return dict(zip(cols,r[0]))
             #return {time_col:r[0][0],var:r[0][1]}
         else:
-            return {time_col:[],var:[]}
+            return {time_col:None,var:None}
 
 
 if '__main__' == __name__:
