@@ -141,7 +141,7 @@ def get_plot_range(node):
         return 30*24    # default: ~30 days
 
 
-class Range(object):
+'''class Range(object):
     # there goes the language-agnostic age... all these for being able to:
     # if reading in range:
     # if you want to get fancy, distinguish (,) from [,], or even (,] and [,)
@@ -169,7 +169,7 @@ class Range(object):
         return self.__repr__()
 
     def __repr__(self):
-        return str(self.to_tuple())
+        return str(self.to_tuple())'''
 
 def get_range(node,variable):
     node = import_node_config(node=node)
