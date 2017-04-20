@@ -21,7 +21,7 @@ M_poh = [
     'seabird1,9,0,1800,1353,1351,3.207,4.497',
     '#<?xml version=\"1.0\"?><datapacket><hdr><mfg>Sea-Bird</mfg><model>16plus</model><sn>01607354</sn></hdr><data><t1> 25.0142</t1><c1> 4.13692</c1><p1>   0.235</p1><v0>0.1691</v0><sal> 26.4830</sal><dt>2017-01-07T01:56:33</dt><dens> 16.9152</dens><vb>10.7</vb><i> 28.3</i></data></datapacket>',
     'seabird1,46,0,9900,9606,9604,3.203,4.508',
-    '{"from":"node-013","payload":{"d2w":1148.2,"VbattV":4.024,"ticker":12}}4b71f103',
+    #'{"from":"node-013","payload":{"d2w":1148.2,"VbattV":4.024,"ticker":12}}4b71f103',
     '{"from":"node-015","payload":{"d2w":1629.3,"VbattV":3.965,"ticker":127800}}e44735ed',
 ]
 
