@@ -1,3 +1,5 @@
+# Listen on 0mq localhost:9002 and write to MySQL db
+#
 # Stanley H.I. Lio
 # hlio@hawaii.edu
 # All Rights Reserved. 2017
@@ -41,6 +43,7 @@ def callback(m):
         store.insert(table,d)
     except MySQLdb.OperationalError,e:
         if e.args[0] in (MySQLdb.constants.CR.SERVER_GONE_ERROR,MySQLdb.constants.CR.SERVER_LOST):
+            # e.g. a mysql server restart
             store = init_storage()
     except:
         traceback.print_exc()
