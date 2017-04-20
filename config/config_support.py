@@ -136,7 +136,7 @@ def get_list_of_disp_vars(node):
 def get_plot_range(node):
     site = get_site(node)
     try:
-        return import_node_config(site,node).plot_range
+        return import_node_config(node).plot_range
     except AttributeError:
         return 30*24    # default: ~30 days
 
