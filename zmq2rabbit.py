@@ -9,16 +9,21 @@ exchange = 'uhcm'
 nodeid = socket.gethostname()
 
 
-credentials = pika.PlainCredentials(nodeid,'playitsam')
-connection = pika.BlockingConnection(pika.ConnectionParameters('128.171.153.115',5672,'/',credentials))
-channel = connection.channel()
-#channel.basic_qos(prefetch_count=10)
-channel.exchange_declare(exchange=exchange,type='topic',durable=True)
+def rabbit_init():
+    credentials = pika.PlainCredentials(nodeid,'playitsam')
+    connection = pika.BlockingConnection(pika.ConnectionParameters('128.171.153.115',5672,'/',credentials))
+    channel = connection.channel()
+    #channel.basic_qos(prefetch_count=10)
+    channel.exchange_declare(exchange=exchange,type='topic',durable=True)
+    return channel
 
 #channel.queue_delete(queue='base-004.rabbit2zmq')
 #exit()
 
+channel = rabbit_init()
+
 def callback(m):
+    global channel
     try:
         print('= = = = = = = = = =')
         print(m)
@@ -27,6 +32,9 @@ def callback(m):
                               body=m,
                               properties=pika.BasicProperties(delivery_mode=2,
                                                               content_type='text/plain',))
+    except (pika.exceptions.ChannelClosed,pika.exceptions.ConnectionClosed):
+        print('re-establishing rabbitmq connection...')
+        channel = rabbit_init()
     except:
         traceback.print_exc()
 
