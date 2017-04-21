@@ -31,7 +31,7 @@ from node.storage.storage2 import storage
 
 exchange = 'uhcm'
 nodeid = socket.gethostname()
-sources = ['base-001','base-003','base-004']
+sources = ['base-001','base-003','base-004','glazerlab-e5','node-017','base-005']
 
 connection = pika.BlockingConnection(pika.ConnectionParameters('localhost'))
 channel = connection.channel()

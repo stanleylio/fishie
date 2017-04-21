@@ -14,7 +14,7 @@ sys.path.append(expanduser('~'))
 from node.config.config_support import import_node_config
 
 
-#config = import_node_config()
+config = import_node_config()
 
 
 #'DEBUG,INFO,WARNING,ERROR,CRITICAL'
@@ -38,7 +38,7 @@ zsocket.bind(zmq_port)
 
 logger.info(__name__ + ' starts')
 
-def initports():
+'''def initports():
     sps = glob.glob('/dev/ttyUSB*')
     sps.extend(glob.glob('/dev/ttyO*'))
     if len(sps) <= 0:
@@ -48,6 +48,19 @@ def initports():
     
     sps = [serial.Serial(tmp,115200,timeout=0.1) for tmp in sps]
 
+    for port in sps:
+        port.flushInput()
+        port.flushOutput()
+    return sps'''
+
+def initports():
+    sps = config.sampling_serial_ports
+    if len(sps) <= 0:
+        print('No serial port to use. Terminating.')
+        exit()
+    logging.info('Using serial ports: {}'.format(sps))
+    
+    sps = [serial.Serial(tmp[0],tmp[1],timeout=0.1) for tmp in sps]
     for port in sps:
         port.flushInput()
         port.flushOutput()
