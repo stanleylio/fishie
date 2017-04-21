@@ -65,7 +65,7 @@ def callback(ch,method,properties,body):
             pretty_print(d)
 
             # * * * HACK * * *
-            if d['node'] == 'node-007':
+            if d['node'] == 'node-007' and 'ts' in d:
                 d['Timestamp'] = d['ts']
             # * * * /HACK * * *
 
