@@ -1,18 +1,20 @@
-# this one uses RabbitMQ
+# This one uses RabbitMQ.
+# Meant to be run on the server (where the db and the exchange is)
 #
-# meant to be run on the server (where the db is)
+# So publish/subscribe doesn't revolve around queues (except when used as a work queue).
+# Fanout is done on the exchange level, so each consumer should have its own queue to
+# receive a copy of the same message.
 #
-# so publish/subscribe doesn't revolve around queues - unless used as a work queue (round robin).
-# fanout is done on the exchange level, so each consumer should have its own queue.
-#
-# persistence: if the queue is not durable, there's no point in switching over to RabbitMQ
+# Persistence: if the queue is not durable, there's no point in switching over to RabbitMQ
 # from 0mq; if the queue is durable and TTL is unlimited, undelivered messages would take up
 # space when consumer is down.
 #
-# TTL: doing it per-queue. there's the per-message option too, but policy
-# for 2mysql should be different from 2stdout.
-# TTL=24hr means I have 24hr to detect and mitigate the problem before data loss
-# though, are they discarded or are they dead-lettered?
+# TTL: Doing it per-queue. There's the per-message option too, but policies for
+# the X2mysql, X2stdout, X2txt etc. are different (X2mysql wants everything, X2stdout
+# wants only the fresh ones).
+#
+# TTL=24hr means I have 24hr to detect and mitigate a problem before data loss.
+# Though are they discarded or are they dead-lettered?
 #
 # uhcm.poh.*.samples?
 #
@@ -48,7 +50,6 @@ for source in sources:
                        routing_key=source + '.samples')
 
 def init_storage():
-    #store = storage(user='root',passwd=open(expanduser('~/mysql_cred')).read().strip(),dbname='uhcm')
     return storage()
 store = init_storage()
 
