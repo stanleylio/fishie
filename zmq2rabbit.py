@@ -16,14 +16,15 @@ def rabbit_init():
     channel = connection.channel()
     #channel.basic_qos(prefetch_count=10)
     channel.exchange_declare(exchange=exchange,type='topic',durable=True)
-    return channel
+    return connection,channel
 
 #channel.queue_delete(queue='base-004.rabbit2zmq')
 #exit()
 
-channel = rabbit_init()
+connection,channel = rabbit_init()
 
 def callback(m):
+    global connection
     global channel
     try:
         print('= = = = = = = = = =')
@@ -35,7 +36,7 @@ def callback(m):
                                                               content_type='text/plain',))
     except (pika.exceptions.ChannelClosed,pika.exceptions.ConnectionClosed):
         print('re-establishing rabbitmq connection...')
-        channel = rabbit_init()
+        connection,channel = rabbit_init()
     except:
         traceback.print_exc()
 
