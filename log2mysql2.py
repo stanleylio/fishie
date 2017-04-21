@@ -64,6 +64,11 @@ def callback(ch,method,properties,body):
             print('= = = = = = = = = = = = = = =')
             pretty_print(d)
 
+            # * * * HACK * * *
+            if d['node'] == 'node-007':
+                d['Timestamp'] = d['ts']
+            # * * * /HACK * * *
+
             for k in d.keys():
                 try:
                     if math.isnan(d[k]):
