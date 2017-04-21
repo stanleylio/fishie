@@ -1,5 +1,8 @@
 # meant to be run on field stations
-import pika,socket
+import sys,traceback,pika,socket
+from os.path import expanduser
+sys.path.append(expanduser('~'))
+from node.zmqloop import zmqloop
 
 
 exchange = 'uhcm'
@@ -15,15 +18,21 @@ channel.exchange_declare(exchange=exchange,type='topic',durable=True)
 #channel.queue_delete(queue='base-004.rabbit2zmq')
 #exit()
 
-for i in range(1000):
-    channel.basic_publish(exchange=exchange,
-                          routing_key=nodeid + '.samples',
-                          body='beatings will continue until morale improves {}'.format(i),
-                          properties=pika.BasicProperties(delivery_mode=2,
-                                                          content_type='text/plain',))
-    # application/json
-    # reply_to
-    # correlation_id
+def callback(m):
+    try:
+        print('= = = = = = = = = =')
+        print(m)
+        channel.basic_publish(exchange=exchange,
+                              routing_key=nodeid + '.samples',
+                              body=m,
+                              properties=pika.BasicProperties(delivery_mode=2,
+                                                              content_type='text/plain',))
+    except:
+        traceback.print_exc()
 
+# application/json
+# reply_to
+# correlation_id
+
+zmqloop(callback)
 connection.close()
-

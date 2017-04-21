@@ -20,7 +20,9 @@
 # hlio@hawaii.edu
 # University of Hawaii
 # All Rights Reserved, 2017
-import pika,socket,traceback,time,math,MySQLdb
+import pika,socket,traceback,sys,time,math,MySQLdb
+from os.path import expanduser
+sys.path.append(expanduser('~'))
 from node.parse_support import parse_message,pretty_print
 from node.storage.storage2 import storage
 
