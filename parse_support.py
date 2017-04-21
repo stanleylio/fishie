@@ -11,7 +11,7 @@ from helper import dt2ts
 from config.config_support import get_site
 
 
-logging.basicConfig(level=logging.DEBUG)
+#logging.basicConfig(level=logging.DEBUG)
 
 
 def pretty_print(d):

@@ -1,0 +1,86 @@
+# this one uses RabbitMQ
+#
+# meant to be run on the server (where the db is)
+#
+# so publish/subscribe doesn't revolve around queues - unless used as a work queue (round robin).
+# fanout is done on the exchange level, so each consumer should have its own queue.
+#
+# persistence: if the queue is not durable, there's no point in switching over to RabbitMQ
+# from 0mq; if the queue is durable and TTL is unlimited, undelivered messages would take up
+# space when consumer is down.
+#
+# TTL: doing it per-queue. there's the per-message option too, but policy
+# for 2mysql should be different from 2stdout.
+# TTL=24hr means I have 24hr to detect and mitigate the problem before data loss
+# though, are they discarded or are they dead-lettered?
+#
+# uhcm.poh.*.samples?
+#
+# Stanley H.I. Lio
+# hlio@hawaii.edu
+# University of Hawaii
+# All Rights Reserved, 2017
+import pika,socket,traceback,time,math,MySQLdb
+from node.parse_support import parse_message,pretty_print
+from node.storage.storage2 import storage
+
+
+exchange = 'uhcm'
+nodeid = socket.gethostname()
+sources = ['base-001','base-003','base-004']
+
+connection = pika.BlockingConnection(pika.ConnectionParameters('localhost'))
+channel = connection.channel()
+#channel.queue_delete(queue='glazerlab-e5.rabbit2zmq')
+#exit()
+
+channel.exchange_declare(exchange=exchange,type='topic',durable=True)
+result = channel.queue_declare(queue=nodeid + '.' + __file__,
+                               durable=True,
+                               arguments={'x-message-ttl':24*60*60*1000})
+
+queue_name = result.method.queue
+for source in sources:
+    channel.queue_bind(exchange=exchange,
+                       queue=queue_name,
+                       routing_key=source + '.samples')
+
+def init_storage():
+    #store = storage(user='root',passwd=open(expanduser('~/mysql_cred')).read().strip(),dbname='uhcm')
+    return storage()
+store = init_storage()
+
+def callback(ch,method,properties,body):
+    global store
+    #print(method.routing_key,body)
+    try:
+        d = parse_message(body)
+        if d is None:
+            print('Message from unrecognized source: ' + body)
+        else:
+            d['ReceptionTime'] = time.time()
+            print('= = = = = = = = = = = = = = =')
+            pretty_print(d)
+
+            for k in d.keys():
+                try:
+                    if math.isnan(d[k]):
+                        d[k] = None
+                except TypeError:
+                    pass
+
+            table = d['node']
+            tmp = {k:d[k] for k in store.get_list_of_columns(table) if k in d}
+            store.insert(table,d)
+    except MySQLdb.OperationalError,e:
+        if e.args[0] in (MySQLdb.constants.CR.SERVER_GONE_ERROR,MySQLdb.constants.CR.SERVER_LOST):
+            # e.g. a mysql server restart
+            store = init_storage()
+    except:
+        traceback.print_exc()
+        print(body)
+
+    ch.basic_ack(delivery_tag=method.delivery_tag)
+
+channel.basic_consume(callback,queue=queue_name)    # ,no_ack=True
+channel.start_consuming()
