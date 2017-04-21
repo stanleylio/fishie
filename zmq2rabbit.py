@@ -3,6 +3,7 @@ import sys,traceback,pika,socket
 from os.path import expanduser
 sys.path.append(expanduser('~'))
 from node.zmqloop import zmqloop
+from cred import cred
 
 
 exchange = 'uhcm'
@@ -10,7 +11,7 @@ nodeid = socket.gethostname()
 
 
 def rabbit_init():
-    credentials = pika.PlainCredentials(nodeid,'playitsam')
+    credentials = pika.PlainCredentials(nodeid,cred['rabbitmq'])
     connection = pika.BlockingConnection(pika.ConnectionParameters('128.171.153.115',5672,'/',credentials))
     channel = connection.channel()
     #channel.basic_qos(prefetch_count=10)
