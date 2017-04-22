@@ -1,5 +1,5 @@
 # meant to be run on field stations
-import sys,traceback,pika,socket
+import sys,traceback,pika,socket,logging,time
 from os.path import expanduser
 sys.path.append(expanduser('~'))
 from node.zmqloop import zmqloop
@@ -8,6 +8,8 @@ from cred import cred
 
 exchange = 'uhcm'
 nodeid = socket.gethostname()
+
+logging.basicConfig(level=logging.INFO)
 
 
 def rabbit_init():
@@ -21,12 +23,17 @@ def rabbit_init():
 #channel.queue_delete(queue='base-004.rabbit2zmq')
 #exit()
 
-connection,channel = rabbit_init()
 
+connection,channel = None,None
 def callback(m):
-    global connection
+    global connection   # pass as *args?
     global channel
+
     try:
+        if connection is None or channel is None:
+            connection,channel = rabbit_init()
+            logging.info('connection re-established')
+        
         print('= = = = = = = = = =')
         print(m)
         channel.basic_publish(exchange=exchange,
@@ -34,15 +41,13 @@ def callback(m):
                               body=m,
                               properties=pika.BasicProperties(delivery_mode=2,
                                                               content_type='text/plain',))
-    except (pika.exceptions.ChannelClosed,pika.exceptions.ConnectionClosed):
-        print('re-establishing rabbitmq connection...')
-        connection,channel = rabbit_init()
+    except pika.exceptions.ConnectionClosed:
+        connection,channel = None,None
+        logging.error('connection closed')
+        time.sleep(5)
     except:
         traceback.print_exc()
 
-# application/json
-# reply_to
-# correlation_id
 
 zmqloop(callback)
 connection.close()
