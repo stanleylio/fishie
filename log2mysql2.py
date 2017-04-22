@@ -23,7 +23,7 @@
 # University of Hawaii
 # All Rights Reserved, 2017
 import pika,socket,traceback,sys,time,math,MySQLdb
-from os.path import expanduser
+from os.path import expanduser,basename
 sys.path.append(expanduser('~'))
 from node.parse_support import parse_message,pretty_print
 from node.storage.storage2 import storage
@@ -39,7 +39,7 @@ channel = connection.channel()
 #exit()
 
 channel.exchange_declare(exchange=exchange,type='topic',durable=True)
-result = channel.queue_declare(queue=nodeid + '.' + __file__,
+result = channel.queue_declare(queue=nodeid + '.' + basename(__file__),
                                durable=True,
                                arguments={'x-message-ttl':24*60*60*1000})
 
