@@ -16,6 +16,8 @@
 # TTL=24hr means I have 24hr to detect and mitigate a problem before data loss.
 # Though are they discarded or are they dead-lettered?
 #
+# It lets you choose queue-level TTL and message level TTL. Amazing.
+#
 # uhcm.poh.*.samples?
 #
 # Stanley H.I. Lio
