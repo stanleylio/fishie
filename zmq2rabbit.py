@@ -14,7 +14,8 @@ logging.basicConfig(level=logging.INFO)
 
 def rabbit_init():
     credentials = pika.PlainCredentials(nodeid,cred['rabbitmq'])
-    connection = pika.BlockingConnection(pika.ConnectionParameters('128.171.153.115',5672,'/',credentials))
+    #connection = pika.BlockingConnection(pika.ConnectionParameters('128.171.153.115',5672,'/',credentials))
+    connection = pika.BlockingConnection(pika.ConnectionParameters('localhost',5672,'/',credentials))
     channel = connection.channel()
     #channel.basic_qos(prefetch_count=10)
     channel.exchange_declare(exchange=exchange,type='topic',durable=True)
