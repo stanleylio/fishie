@@ -24,6 +24,19 @@ conf = [
         'plot':False,
     },
     {
+        'dbtag':'wind_mps',
+        'description':'Wind speed',
+        'unit':'m/s',
+        'lb':0,
+    },
+    {
+        'dbtag':'wind_dir_deg',
+        'description':'Wind direction',
+        'unit':'Deg',
+        'lb':0,
+        'ub':360,
+    },
+    {
         'dbtag':'P_180',
         'unit':'Pa',
         'description':'Barometric pressure (BMP180)',
