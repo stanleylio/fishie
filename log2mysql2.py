@@ -24,12 +24,15 @@
 # hlio@hawaii.edu
 # University of Hawaii
 # All Rights Reserved, 2017
-import pika,socket,traceback,sys,time,math,MySQLdb
+import pika,socket,traceback,sys,time,math,MySQLdb,logging
 from os.path import expanduser,basename
 sys.path.append(expanduser('~'))
 from node.parse_support import parse_message,pretty_print
 from node.storage.storage2 import storage
 from cred import cred
+
+
+logging.basicConfig(level=logging.WARNING)
 
 
 exchange = 'uhcm'
@@ -99,5 +102,11 @@ def callback(ch,method,properties,body):
 
     ch.basic_ack(delivery_tag=method.delivery_tag)
 
+
+logging.info(__file__ + ' is ready')
 channel.basic_consume(callback,queue=queue_name)    # ,no_ack=True
-channel.start_consuming()
+try:
+    channel.start_consuming()
+except KeyboardInterrupt:
+    logging.info('user interrupted')
+logging.info(__file__ + ' terminated')
