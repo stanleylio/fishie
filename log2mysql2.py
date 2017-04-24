@@ -29,13 +29,15 @@ from os.path import expanduser,basename
 sys.path.append(expanduser('~'))
 from node.parse_support import parse_message,pretty_print
 from node.storage.storage2 import storage
+from cred import cred
 
 
 exchange = 'uhcm'
 nodeid = socket.gethostname()
 sources = ['base-001','base-003','base-004','glazerlab-e5','node-017','base-005']
 
-connection = pika.BlockingConnection(pika.ConnectionParameters('localhost'))
+credentials = pika.PlainCredentials(nodeid,cred['rabbitmq'])
+connection = pika.BlockingConnection(pika.ConnectionParameters('localhost',5672,'/',credentials))
 channel = connection.channel()
 #channel.queue_delete(queue='glazerlab-e5.rabbit2zmq')
 #exit()
