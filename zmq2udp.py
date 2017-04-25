@@ -24,7 +24,7 @@ def send(d):
 def callback(m):
     try:
         print('= = = = = = = = = =')
-        print(m)
+        print(m.strip())
         send(m)
     except:
         traceback.print_exc()
