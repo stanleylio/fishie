@@ -4,6 +4,12 @@ google_earth_link = '#'
 note = 'Wifi bone; cape v0.2; base-007'
 public_key = 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC9r/ROdI2KoSGWsizk8fhcUWONAMpAQsxJF8v8qyhZBVBGYT54bHWeTogcSl+cKmocqEvEY9HoL5APmqCGMy7k7MAKNIuN2AoEJm6bBia50vdtIK1LpMalHQ/dwaghsTU5a0nbC6eUiMUzTChiUSpzO3vH7Gj4hYITUwbpOlWTW5NVE7iRRSb/CiXu22m1hMuR5cyFzUzap5cQDmWULFCNyq4sSI6TZJru41kgrgs+x1UkdwOZmXDAgGmxqv8Pqj9WRWvd2KZNa6bXR+D7PfqYO6d+IvuS1eu2mD3WT6mqPIx2Om3He5m/GjVPTWlNkHExSAOpbZfMOsn9lrIeKtGX nuc@base-007'
 
+XBEE_PORT = '/dev/ttyO2'
+XBEE_BAUD = 115200
+INTERVAL = 5
+NGROUP = 1
+XBEELOGDIR = '/var/uhcm/log'
+
 subscribeto = ['127.0.0.1:9002']
 log2txt_output_path = '/var/uhcm/log'
 
