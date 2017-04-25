@@ -96,10 +96,8 @@ if '__main__' == __name__:
 
     import sys
     sys.path.append('../..')
+    from os.path import basename
     from storage.storage2 import create_table
-    #conf.insert(0,{'dbtag':'ReceptionTime','dbtype':'DOUBLE NOT NULL'})
-    create_table(conf,__file__.split('.')[0].replace('_','-'))
 
-    #from os import makedirs
-    #makedirs(log2txt_output_path)
-    
+    conf.insert(0,{'dbtag':'ReceptionTime','dbtype':'DOUBLE NOT NULL'})
+    create_table(conf,basename(__file__).split('.')[0].replace('_','-'))
