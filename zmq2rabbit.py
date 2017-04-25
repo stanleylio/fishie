@@ -41,7 +41,9 @@ def callback(m):
                               routing_key=nodeid + '.samples',
                               body=m,
                               properties=pika.BasicProperties(delivery_mode=2,
-                                                              content_type='text/plain',))
+                                                              content_type='text/plain',
+                                                              expiration=str(24*3600),
+                                                              timestamp=time.time()))
     except pika.exceptions.ConnectionClosed:
         connection,channel = None,None
         logging.error('connection closed')
