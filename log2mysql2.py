@@ -37,7 +37,7 @@ logging.basicConfig(level=logging.WARNING)
 
 exchange = 'uhcm'
 nodeid = socket.gethostname()
-sources = ['base-001','base-003','base-004','glazerlab-e5','node-017','base-005']
+sources = ['base-001','base-003','base-004','glazerlab-e5','node-017','base-005','node-027']
 
 credentials = pika.PlainCredentials(nodeid,cred['rabbitmq'])
 connection = pika.BlockingConnection(pika.ConnectionParameters('localhost',5672,'/',credentials))

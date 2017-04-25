@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
-name = 'Water Depth'
-location = 'NOT DEPLOYED Mākāhā'
-note = 'Ultrasonic tide gauge'
+name = 'Manoa Stream Water Level'
+location = 'Manoa Stream, UH Manoa'
+note = 'Ultrasonic tide gauge (Particle Electron)'
+
+coreid = '1f0024001751353338363036'
 
 
 conf = [
@@ -13,21 +15,6 @@ conf = [
         'description':'Distance from sensor to water surface',
         'lb':300,
         'ub':5000,
-    },
-    {
-        'dbtag':'VbattV',
-        'dbtype':'DOUBLE',
-        'comtag':'VbattV',
-        'unit':'V',
-        'description':'Battery voltage (Vbatt)',
-        'lb':2.4,
-    },
-    {
-        'dbtag':'ticker',
-        'dbtype':'DOUBLE',
-        'comtag':'ticker',
-        'description':'1Hz ticker',
-        'lb':0,
     },
 ]
 
