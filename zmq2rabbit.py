@@ -25,7 +25,8 @@ def rabbit_init():
 #exit()
 
 
-connection,channel = None,None
+#connection,channel = None,None
+connection,channel = rabbit_init()
 def callback(m):
     global connection   # pass as *args?
     global channel
