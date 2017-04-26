@@ -1,3 +1,8 @@
+# compared to storage.py: this uses MySQL instead of SQLite
+#
+# Stanley H.I. Lio
+# hlio@hawaii.edu
+# All Rights Reserved. 2017
 import time,sys
 from os.path import expanduser
 sys.path.append(expanduser('~'))

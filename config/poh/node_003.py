@@ -35,11 +35,11 @@ conf = [
         'description':'Water Temperature (Aanderaa 4319A)',
     },
     {
-        'dbtag':'Chlorophyll_FLNTU',
+        'dbtag':'Chlorophyll_FLNTUS',
         'description':'Chlorophyll (raw count)',
     },
     {
-        'dbtag':'Turbidity_FLNTU',
+        'dbtag':'Turbidity_FLNTUS',
         'description':'Turbidity (raw)',
     },
     {

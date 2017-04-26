@@ -8,13 +8,16 @@ from node.parse_support import parse_message,pretty_print
 
 
 def get_request_cmd(node_id):
-    payload = {'action':'do sample',
-               'm':1}
-    cmd = {'from':socket.gethostname(),
-           'to':node_id,
-           'payload':payload}
-    cmd = json.dumps(cmd,separators=(',',':'))
-    return cmd + get_checksum(cmd) + '\n'
+    if node_id == 'node-003':
+        return 'node-003s\r\n'
+    else:
+        payload = {'action':'do sample',
+                   'm':1}
+        cmd = {'from':socket.gethostname(),
+               'to':node_id,
+               'payload':payload}
+        cmd = json.dumps(cmd,separators=(',',':'))
+        return cmd + get_checksum(cmd) + '\n'
     
 
 if '__main__' == __name__:
