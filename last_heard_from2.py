@@ -29,4 +29,5 @@ while True:
             print('{} (no data)'.format(table))
             continue
         print table,timedelta(seconds=time.time() - max_t)
-    time.sleep(10)
+
+    time.sleep(15)
