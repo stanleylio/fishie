@@ -46,9 +46,9 @@ channel = connection.channel()
 #exit()
 
 channel.exchange_declare(exchange=exchange,type='topic',durable=True)
-result = channel.queue_declare(queue=nodeid + '.' + basename(__file__),
+result = channel.queue_declare(queue=basename(__file__),
                                durable=True,
-                               arguments={'x-message-ttl':24*60*60*1000})
+                               arguments={'x-message-ttl':72*60*60*1000})
 
 queue_name = result.method.queue
 for source in sources:
