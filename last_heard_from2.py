@@ -30,4 +30,4 @@ while True:
             continue
         print table,timedelta(seconds=time.time() - max_t)
 
-    time.sleep(15)
+    time.sleep(5)
