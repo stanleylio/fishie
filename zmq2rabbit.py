@@ -20,9 +20,8 @@ def rabbit_init():
     #channel.basic_qos(prefetch_count=10)
     channel.exchange_declare(exchange=exchange,type='topic',durable=True)
     result = channel.queue_declare(queue=nodeid + '.' + basename(__file__),
-                          durable=True,)
-                          #arguments={'x-message-ttl':24*60*60*1000})
-    print result.method.queue
+                          durable=True,
+                          arguments={'x-message-ttl':int(24*60*60*1000)})
     return connection,channel
 
 #channel.queue_delete(queue='base-004.rabbit2zmq')
