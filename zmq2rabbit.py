@@ -19,7 +19,7 @@ def rabbit_init():
     channel = connection.channel()
     #channel.basic_qos(prefetch_count=10)
     channel.exchange_declare(exchange=exchange,type='topic',durable=True)
-    result = channel.queue_declare(queue=nodeid + '.' + basename(__file__),
+    result = channel.queue_declare(queue=basename(__file__),
                           durable=True,
                           arguments={'x-message-ttl':int(24*60*60*1000)})
     return connection,channel
