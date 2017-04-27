@@ -5,12 +5,12 @@ note = 'Ultrasonic tide gauge (us3, but tagged as us5 by mistake)'
 
 
 conf = [
-    {
-        'dbtag':'ReceptionTime',
-        'dbtype':'DOUBLE NOT NULL',
-        'description':'Time of reception at base station; POSIX timestamp.',
-        'plot':False,
-    },
+#    {
+#        'dbtag':'ReceptionTime',
+#        'dbtype':'DOUBLE NOT NULL',
+#        'description':'Time of reception at base station; POSIX timestamp.',
+#        'plot':False,
+#    },
     {
         'dbtag':'ticker',
         'dbtype':'DOUBLE',
