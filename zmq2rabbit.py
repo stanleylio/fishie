@@ -22,6 +22,9 @@ def rabbit_init():
     result = channel.queue_declare(queue=basename(__file__),
                           durable=True,
                           arguments={'x-message-ttl':int(24*60*60*1000)})
+    channel.queue_bind(exchange=exchange,
+                       queue=result.method.queue,
+                       routing_key=nodeid + '.samples')
     return connection,channel
 
 #channel.queue_delete(queue='base-004.rabbit2zmq')

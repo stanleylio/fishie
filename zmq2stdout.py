@@ -11,8 +11,7 @@ sys.path.append(expanduser('~'))
 from node.zmqloop import zmqloop
 
 
-parser = argparse.ArgumentParser(description="""Redirect zmq to STDOUT. Example: python zmq2stdout.py 127.0.0.1:9002 --topic kmet1""")
-parser.add_argument('zmq_sockets',type=str,nargs='+')
+parser = argparse.ArgumentParser(description="""Redirect zmq to STDOUT. Example: python zmq2stdout.py --topic kmet1""")
 parser.add_argument('--topic',dest='zmq_topic',default=u'',type=unicode)
 args = parser.parse_args()
 
