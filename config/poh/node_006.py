@@ -12,7 +12,8 @@ XBEELOGDIR = '/var/uhcm/log'
 INTERVAL = 1
 NGROUP = 1
 
-#dbfile = '/var/uhcm/storage/sensor_data.db'
+plot_range = 7*24
+
 subscribeto = ['127.0.0.1:9002']
 
 
