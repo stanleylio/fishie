@@ -6,4 +6,4 @@ public_key = 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDAnKsvPuLQ0b3LtS8YJ28FEEZyRf
 
 subscribeto = ['127.0.0.1:9002']
 sampling_serial_ports = [('/dev/ttyO1',115200)]
-zmq2http_url = 'http://grogdata.soest.hawaii.edu/api/5/uhcm'
+#zmq2http_url = 'https://grogdata.soest.hawaii.edu/api/5/uhcm'
