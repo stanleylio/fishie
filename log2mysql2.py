@@ -87,12 +87,9 @@ def callback(ch,method,properties,body):
             table = d['node']
             tmp = {k:d[k] for k in store.get_list_of_columns(table) if k in d}
             store.insert(table,tmp)
-    except MySQLdb.OperationalError,e:
-        #if e.args[0] in (MySQLdb.constants.CR.SERVER_GONE_ERROR,MySQLdb.constants.CR.SERVER_LOST):
-        # e.g. a mysql server restart
-        store = init_storage()
+    except MySQLdb.OperationalError:
         traceback.print_exc()
-        print(e)
+        store = init_storage()
     except:
         traceback.print_exc()
         print(body)

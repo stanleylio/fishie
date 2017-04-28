@@ -1,16 +1,24 @@
+# Listen on 0mq localhost:9002 and write to MySQL db
+# Can be run on field stations and on servers.
+#
 # Stanley H.I. Lio
 # hlio@hawaii.edu
 # All Rights Reserved. 2017
-import sys,traceback,time,math,MySQLdb,argparse,fileinput
+import sys,traceback,time,math,MySQLdb,argparse
 from os.path import expanduser
 sys.path.append(expanduser('~'))
+from node.zmqloop import zmqloop
 from node.parse_support import parse_message,pretty_print
 from node.storage.storage2 import storage
 
 
-parser = argparse.ArgumentParser(description="""Read node messages from STDIN and write to MySQL db.
-Example: python log2mysql.py""")
-args,unk = parser.parse_known_args()
+parser = argparse.ArgumentParser(description="""Read node messages from zmq and write to MySQL db.
+Example: python log2mysql.py --port 127.0.0.1:9002""")
+parser.add_argument('--topic',dest='zmq_topic',default=u'',type=unicode,
+                    metavar='TOPIC',help='zmq topic to subscribe to. Default = "" (everything)')
+parser.add_argument('--port',dest='zmq_port',default=['127.0.0.1:9002'],type=str,nargs='+',
+                    metavar='PORT',help='zmq port to subscribe to. Default = 127.0.0.1:9002')
+args = parser.parse_args()
 
 
 def init_storage():
@@ -41,11 +49,10 @@ def callback(m):
         tmp = {k:d[k] for k in store.get_list_of_columns(table) if k in d}
         store.insert(table,tmp)
     except MySQLdb.OperationalError,e:
+        traceback.print_exc()
         store = init_storage()
     except:
         traceback.print_exc()
         print(m)
 
-
-for line in fileinput.input(unk):
-    callback(line)
+zmqloop(callback,topic=args.zmq_topic,feeds=args.zmq_port)

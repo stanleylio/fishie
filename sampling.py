@@ -5,7 +5,7 @@
 # Stanley H.I. Lio
 # hlio@hawaii.edu
 # All Rights Reserved. 2017
-import serial,os,traceback,time,zmq,glob,sys
+import serial,os,traceback,time,zmq,sys
 import logging,logging.handlers
 from random import choice
 from socket import gethostname
@@ -37,21 +37,6 @@ zsocket.bind(zmq_port)
 
 
 logger.info(__name__ + ' starts')
-
-'''def initports():
-    sps = glob.glob('/dev/ttyUSB*')
-    sps.extend(glob.glob('/dev/ttyO*'))
-    if len(sps) <= 0:
-        print('No serial port to use. Terminating.')
-        exit()
-    logging.info('Using serial ports: {}'.format(sps))
-    
-    sps = [serial.Serial(tmp,115200,timeout=0.1) for tmp in sps]
-
-    for port in sps:
-        port.flushInput()
-        port.flushOutput()
-    return sps'''
 
 def initports():
     sps = config.sampling_serial_ports
