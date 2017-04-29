@@ -13,6 +13,7 @@ rsync -avh /etc/logrotate.d $DIR
 rsync -avh /etc/rsnapshot $DIR
 rsync -avh /etc/cron.d $DIR
 rsync -avh /var/lib/connman $DIR
+rsync -avh /etc/rabbitmq $DIR
 
 crontab -l > $DIR/crontab.txt
 cp /etc/fstab $DIR/fstab
