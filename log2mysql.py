@@ -35,7 +35,7 @@ logging.basicConfig(level=logging.INFO)
 exchange = 'uhcm'
 nodeid = socket.gethostname()
 # this is asking for trouble. remove this, or move it to config. TODO
-sources = ['base-001','base-002','base-003','base-004','base-005','glazerlab-e5','node-017','node-027']
+#sources = ['base-001','base-002','base-003','base-004','base-005','glazerlab-e5','node-017','node-027']
 
 credentials = pika.PlainCredentials(nodeid,cred['rabbitmq'])
 connection = pika.BlockingConnection(pika.ConnectionParameters('localhost',5672,'/',credentials))
@@ -49,10 +49,13 @@ result = channel.queue_declare(queue=basename(__file__),
                                arguments={'x-message-ttl':72*60*60*1000})
 
 queue_name = result.method.queue
-for source in sources:
-    channel.queue_bind(exchange=exchange,
-                       queue=queue_name,
-                       routing_key=source + '.samples') # or just '*.samples'
+#for source in sources:
+#    channel.queue_bind(exchange=exchange,
+#                       queue=queue_name,
+#                       routing_key=source + '.samples') # or just '*.samples'
+channel.queue_bind(exchange=exchange,
+                   queue=queue_name,
+                   routing_key='*.samples')
 
 def init_storage():
     return storage()

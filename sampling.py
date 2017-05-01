@@ -40,7 +40,6 @@ def rabbit_init():
     return connection,channel
 
 
-
 logger.info(__name__ + ' starts')
 
 def initports():
