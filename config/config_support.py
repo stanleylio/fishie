@@ -6,13 +6,10 @@
 import re,socket,traceback#,imp
 from importlib import import_module
 from os import listdir
-from os.path import join,exists,dirname,realpath,basename,splitext
+from os.path import join,exists,dirname,realpath,basename,splitext,abspath,isfile
 
 
 def config_as_dict():
-    from os import listdir
-    from os.path import dirname,abspath,samefile,join,isfile
-
     def dironly(p):
         return [f for f in listdir(p) if not isfile(join(p,f))]
 
