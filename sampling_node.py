@@ -52,7 +52,7 @@ xbeesend({'status':'online','INTERVAL':config.INTERVAL,'NGROUP':config.NGROUP,'T
 
 
 def rabbit_init():
-    credentials = pika.PlainCredentials(nodeid,cred['rabbitmq'])
+    credentials = pika.PlainCredentials('nuc',cred['rabbitmq'])
     connection = pika.BlockingConnection(pika.ConnectionParameters('localhost',5672,'/',credentials))
     channel = connection.channel()
     channel.exchange_declare(exchange=exchange,type='topic',durable=True)
