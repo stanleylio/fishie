@@ -12,7 +12,7 @@ XBEELOGDIR = '/var/uhcm/log'
 INTERVAL = 1
 NGROUP = 1
 
-plot_range = 7*24
+plot_range = 3*24
 
 subscribeto = ['127.0.0.1:9002']
 
