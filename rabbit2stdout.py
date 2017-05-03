@@ -22,7 +22,7 @@ exchange = 'uhcm'
 nodeid = socket.gethostname()
 sources = args.sources
 
-credentials = pika.PlainCredentials(nodeid,cred['rabbitmq'])
+credentials = pika.PlainCredentials('nuc',cred['rabbitmq'])
 connection = pika.BlockingConnection(pika.ConnectionParameters('localhost',5672,'/',credentials))
 channel = connection.channel()
 
