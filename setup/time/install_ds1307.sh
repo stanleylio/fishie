@@ -49,9 +49,9 @@ cp ~/node/setup/time/rtc-ds1307.service /lib/systemd/system/rtc-ds1307.service
 cp /home/nuc/node/setup/time/rtc-ds1307.service /lib/systemd/system/rtc-ds1307.service
 systemctl enable rtc-ds1307.service
 systemctl start rtc-ds1307.service
-#cp ~/node/setup/time/rtc-ds1307.service /lib/systemd/system/rtc-ds1307_rpi2.service
-#systemctl enable rtc-ds1307_rpi2.service
-#systemctl start rtc-ds1307_rpi2.service
+#cp ~/node/setup/time/rtc-ds1307-rpi2.service /lib/systemd/system/rtc-ds1307-rpi2.service
+#systemctl enable rtc-ds1307-rpi2.service
+#systemctl start rtc-ds1307-rpi2.service
 
 # shutdown -r now
 exit 0
