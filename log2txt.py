@@ -22,7 +22,7 @@ nodeid = socket.gethostname()
 logging.basicConfig(level=logging.INFO)
 
 
-credentials = pika.PlainCredentials(nodeid,cred['rabbitmq'])
+credentials = pika.PlainCredentials('nuc',cred['rabbitmq'])
 connection = pika.BlockingConnection(pika.ConnectionParameters('localhost',5672,'/',credentials))
 channel = connection.channel()
 channel.exchange_declare(exchange=exchange,type='topic',durable=True)

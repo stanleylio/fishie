@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-name = 'Water Depth'
-location = 'NOT DEPLOYED Mākāhā'
+name = 'Water Depth (pending)'
+location = 'Mākāhā X'
 note = 'Ultrasonic tide gauge'
 
 
