@@ -5,19 +5,17 @@
 # Stanley H.I. Lio
 # hlio@hawaii.edu
 # All Rights Reserved. 2017
-import serial,os,traceback,time,sys,pika,socket,itertools
+import serial,os,traceback,time,sys,pika,socket,argparse
 import logging,logging.handlers
-#from random import choice
-from socket import gethostname
-from os.path import expanduser
+from os.path import expanduser,exists
 sys.path.append(expanduser('~'))
 from node.config.config_support import import_node_config
 from cred import cred
 
 
 exchange = 'uhcm'
-nodeid = socket.gethostname()
 config = import_node_config()
+nodeid = socket.gethostname()
 
 
 #'DEBUG,INFO,WARNING,ERROR,CRITICAL'
@@ -32,8 +30,16 @@ handler.setFormatter(formatter)
 logger.addHandler(handler)
 
 
+parser = argparse.ArgumentParser(description='sampling.py')
+parser.add_argument('port',metavar='serialport',type=str,
+                    help='Path to the serial port')
+parser.add_argument('baud',default=115200,type=int,
+                    help='Baud rate to use')
+args = parser.parse_args()
+
+
 def rabbit_init():
-    credentials = pika.PlainCredentials(nodeid,cred['rabbitmq'])
+    credentials = pika.PlainCredentials('nuc',cred['rabbitmq'])
     connection = pika.BlockingConnection(pika.ConnectionParameters('localhost',5672,'/',credentials))
     channel = connection.channel()
     channel.exchange_declare(exchange=exchange,type='topic',durable=True)
@@ -42,31 +48,29 @@ def rabbit_init():
 
 logger.info(__name__ + ' starts')
 
-def initports():
-    sps = config.sampling_serial_ports
-    if len(sps) <= 0:
-        print('No serial port to use. Terminating.')
+def initport():
+    if not exists(args.port):
+        print('Serial port {} not found. Terminating.'.format(args.port))
         exit()
-    logging.info('Using serial ports: {}'.format(sps))
+    logging.info('Using serial ports {} at {}'.format(args.port,args.baud))
     
-    sps = [serial.Serial(tmp[0],tmp[1],timeout=0.1) for tmp in sps]
-    for port in sps:
-        port.flushInput()
-        port.flushOutput()
-    return itertools.cycle(sps)
+    port = serial.Serial(args.port,args.baud,timeout=0.1)
+    port.flushInput()
+    port.flushOutput()
+    return port
 
-sps = initports()
+port = initport()
 connection,channel = rabbit_init()
 
 logger.info(__name__ + ' is ready')
 while True:
     try:
-        if sps is None:
+        if port is None:
             logging.info('serial port closed')
-            sps = initports()
+            port = initport()
             logging.info('serial port reopened')
-        #line = choice([port.readline() if port.in_waiting > 0 else '' for port in sps]).strip()
-        line = next(sps).readline().strip()
+        
+        line = port.readline().strip()
         if len(line) > 0:
             print(line)
             if connection is None or channel is None:
@@ -93,9 +97,8 @@ while True:
         sps = None
     except:
         logger.exception('Error processing: ' + line)
-        logger.warning(format_exc())
+        logger.warning(traceback.format_exc())
 
 connection.close()
-for port in sps:
-    port.close()
+port.close()
 logger.info(__name__ + ' terminated')
