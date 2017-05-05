@@ -49,7 +49,7 @@ def initports():
         exit()
     logging.info('Using serial ports: {}'.format(sps))
     
-    sps = [serial.Serial(tmp[0],tmp[1],timeout=0.05) for tmp in sps]
+    sps = [serial.Serial(tmp[0],tmp[1],timeout=0.1) for tmp in sps]
     for port in sps:
         port.flushInput()
         port.flushOutput()
