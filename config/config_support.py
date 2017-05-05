@@ -46,7 +46,6 @@ def get_site(node):
         if node in C[site]:
             return site
 
-# TODO: rid of the madness that is "site"
 def import_node_config(node=None):
     """Meant to be called by the base stations / nodes to get its own config file"""
     if node is None:
@@ -59,8 +58,7 @@ def import_node_config(node=None):
                          format(site=site,node=node))
 
 def get_list_of_nodes(site):
-    c = config_as_dict()
-    L = c.get(site,[])
+    L = config_as_dict().get(site,[])
     L = filter(lambda x: x.startswith('node-'),L)
     return sorted(L)
 
@@ -78,12 +76,12 @@ def get_type(site,node):
 #    node = import_node_config(site,node)
 #    return node.data_source
 
-def get_public_key(site,device):
-    node = import_node_config(site,device)
-    return node.public_key
+#def get_public_key(site,device):
+#    node = import_node_config(site,device)
+#    return node.public_key
 
-def get_schema(site):
-    return {node:zip(get_list_of_variables(node),get_type(site,node)) for node in get_list_of_nodes(site)}
+#def get_schema(site):
+#    return {node:zip(get_list_of_variables(node),get_type(site,node)) for node in get_list_of_nodes(site)}
 
 
 # STUFF FOR WEB PRESENTATION ONLY
@@ -131,7 +129,6 @@ def get_list_of_disp_vars(node):
     return [c['dbtag'] for c in node.conf if c.get('plot',True)]
 
 def get_plot_range(node):
-    site = get_site(node)
     try:
         return import_node_config(node).plot_range
     except AttributeError:

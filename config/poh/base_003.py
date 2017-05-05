@@ -1,5 +1,5 @@
-id = 'base-003'
-site = 'poh'
+#id = 'base-003'
+#site = 'poh'
 name = 'PoH Base Station'
 location = 'Paepae o He\'eia, Kane\'ohe, Oahu, Hawaii'
 google_earth_link = 'https://goo.gl/maps/ECEBgo3UEp82'

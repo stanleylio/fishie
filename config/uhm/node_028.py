@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-name = 'Manoa Stream Water Level'
+name = 'Manoa Stream Water Level (pending)'
 location = 'Manoa Stream, UH Manoa'
 note = 'Ultrasonic tide gauge (Particle Electron)'
 
