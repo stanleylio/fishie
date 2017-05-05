@@ -5,9 +5,9 @@
 # Stanley H.I. Lio
 # hlio@hawaii.edu
 # All Rights Reserved. 2017
-import serial,os,traceback,time,sys,pika,socket
+import serial,os,traceback,time,sys,pika,socket,itertools
 import logging,logging.handlers
-from random import choice
+#from random import choice
 from socket import gethostname
 from os.path import expanduser
 sys.path.append(expanduser('~'))
@@ -49,11 +49,11 @@ def initports():
         exit()
     logging.info('Using serial ports: {}'.format(sps))
     
-    sps = [serial.Serial(tmp[0],tmp[1],timeout=0.1) for tmp in sps]
+    sps = [serial.Serial(tmp[0],tmp[1],timeout=0.05) for tmp in sps]
     for port in sps:
         port.flushInput()
         port.flushOutput()
-    return sps
+    return itertools.cycle(sps)
 
 sps = initports()
 connection,channel = rabbit_init()
@@ -65,7 +65,8 @@ while True:
             logging.info('serial port closed')
             sps = initports()
             logging.info('serial port reopened')
-        line = choice([port.readline() for port in sps]).strip()
+        #line = choice([port.readline() if port.in_waiting > 0 else '' for port in sps]).strip()
+        line = next(sps).readline().strip()
         if len(line) > 0:
             print(line)
             if connection is None or channel is None:
