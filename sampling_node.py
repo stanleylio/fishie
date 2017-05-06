@@ -175,7 +175,7 @@ def taskBlink():
     green_off()
 
 logger.info(__name__ + ' is ready')
-LoopingCall(taskSampling).start(1)
+LoopingCall(taskSampling).start(0.1)
 LoopingCall(taskTrigger).start(config.INTERVAL)
 LoopingCall(taskSerial).start(0.05,now=False)
 LoopingCall(taskBlink).start(1)
