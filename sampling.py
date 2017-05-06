@@ -18,6 +18,7 @@ config = import_node_config()
 nodeid = socket.gethostname()
 
 
+# I wonder if I could just get rid of this and let supervisor handle logging.
 #'DEBUG,INFO,WARNING,ERROR,CRITICAL'
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -54,7 +55,7 @@ def initport():
         exit()
     logging.info('Using serial ports {} at {}'.format(args.port,args.baud))
     
-    port = serial.Serial(args.port,args.baud,timeout=0.1)
+    port = serial.Serial(args.port,args.baud,timeout=0.5)
     port.flushInput()
     port.flushOutput()
     return port
