@@ -1,6 +1,7 @@
 from __future__ import division
 import smbus,time,struct
 
+raise NotImplementedError()
 
 class SensorNotFoundException(Exception):
     pass
@@ -92,9 +93,9 @@ class BME280:
         C = [self.bus.read_byte_data(self.address,i) for i in range(0xF7,0xFC+1)]
         adc_P = ((C[0] << 16) + (C[1] << 8) + C[2]) >> 4
         adc_T = ((C[3] << 16) + (C[4] << 8) + C[5]) >> 4
-        C = [self.bus.read_byte_data(self.address,i) for i in range(0xFD,0xFE+1)]
-        adc_H = (C[0] << 8) + C[1]
-        #print adc_P,adc_T,adc_H
+        C = [self.bus.read_byte_data(self.address,i) for i in [0xFD,0xFE]]
+        adc_H = (C[0] << 8) | C[1]
+        #print(adc_P,adc_T,adc_H)
 
         var1 = (adc_T/16384 - self.dig_T1/1024)*self.dig_T2
         var2 = (adc_T/131072 - self.dig_T1/8192)*(adc_T/131072 - self.dig_T1/8192)*self.dig_T3
@@ -182,9 +183,9 @@ class BME280:
 if '__main__' == __name__:
     
     b = BME280(bus=2)
-    b.set_osr_p(4)
-    b.set_osr_t(4)
-    b.set_osr_h(4)
+    b.set_osr_p(16)
+    b.set_osr_t(16)
+    b.set_osr_h(16)
     #b.set_filter(2)
     
     try:
