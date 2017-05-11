@@ -13,7 +13,8 @@ SETUP_DIR="~/node/setup"
 
 # enable serial port access for user
 #sudo usermod -a -G dialout nuc
-
+sudo adduser nuc dialout
+sudo adduser nuc i2c
 
 sudo apt update
 sudo apt upgrade
