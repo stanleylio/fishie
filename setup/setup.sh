@@ -50,7 +50,7 @@ sudo pip install pyzmq requests pycrypto
 
 # db
 sudo apt install libmysqlclient-dev mysql-server mysql-client python-mysqldb -y
-sudo apt install sqlite3 -y
+#sudo apt install sqlite3 -y
 
 # debugging
 sudo apt install minicom autossh -y
