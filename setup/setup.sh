@@ -52,7 +52,7 @@ sudo pip install pyzmq requests pycrypto
 #wget https://github.com/rabbitmq/rabbitmq-server/releases/download/rabbitmq_v3_6_9/rabbitmq-server_3.6.9-1_all.deb
 wget https://www.rabbitmq.com/releases/rabbitmq-server/v3.6.9/rabbitmq-server_3.6.9-1_all.deb
 sudo dpkg -i rabbitmq-server_3.6.9-1_all.deb
-sudo apt -f install
+sudo apt -f install -y
 sudo dpkg -i rabbitmq-server_3.6.9-1_all.deb
 #rm rabbitmq-server_3.6.9-1_all.deb
 
