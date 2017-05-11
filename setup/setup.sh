@@ -49,7 +49,11 @@ sudo pip install pyserial
 sudo pip install pyzmq requests pycrypto
 
 #wget https://github.com/rabbitmq/rabbitmq-server/releases/download/rabbitmq_v3_6_9/rabbitmq-server_3.6.9-1_all.deb
-#sudo dpkg -i rabbitmq-server_3.6.9-1_all.deb
+wget https://www.rabbitmq.com/releases/rabbitmq-server/v3.6.9/rabbitmq-server_3.6.9-1_all.deb
+sudo dpkg -i rabbitmq-server_3.6.9-1_all.deb
+sudo apt -f install
+sudo dpkg -i rabbitmq-server_3.6.9-1_all.deb
+#rm rabbitmq-server_3.6.9-1_all.deb
 
 # db
 sudo apt install libmysqlclient-dev mysql-server mysql-client python-mysqldb -y
@@ -73,7 +77,7 @@ fi
 
 echo "install bone stuff?"
 pause
-sudo echo "cape_enable=bone_capemgr.enable_partno=BB-UART1,BB-UART2,BB-UART4,BB-UART5,BB-I2C1,BB-I2C2" >> /boot/uEnv.txt
+#sudo echo "cape_enable=bone_capemgr.enable_partno=BB-UART1,BB-UART2,BB-UART4,BB-UART5,BB-I2C1,BB-I2C2" >> /boot/uEnv.txt
 #sudo pip install Adafruit_BBIO
 sudo apt install i2c-tools python-smbus -y
 bash $SETUP_DIR/time/install_ds1307.sh
@@ -88,7 +92,7 @@ bash $SETUP_DIR/time/install_ds1307.sh
 #echo "optargs=quiet capemgr.disable_partno=BB-BONELT-HDMI,BB-BONELT-HDMIN"
 #sudo nano /media/card/uEnv.txt
 
-bash $SETUP_DIR/disable_services.sh
+#bash $SETUP_DIR/disable_services.sh
 
 # expand partition to full disk
 cd /opt/scripts/tools/
