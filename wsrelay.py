@@ -1,8 +1,8 @@
 # boilerplate for a setting up a websocket broadcast server
 import logging
 from twisted.internet import reactor
-#from autobahn.twisted.websocket import WebSocketServerFactory, \
-from autobahn.websocket import WebSocketServerFactory, \
+#from autobahn.websocket import WebSocketServerFactory, \   # what is going on??
+from autobahn.twisted.websocket import WebSocketServerFactory, \
     WebSocketServerProtocol, \
     listenWS
 

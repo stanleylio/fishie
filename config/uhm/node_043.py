@@ -24,6 +24,10 @@ conf = [
         'description':'Battery voltage',
         'lb':2.4,
     },
+    {
+        'dbtag':'ticker',
+        'description':'Message ID',
+    },
 ]
 
 

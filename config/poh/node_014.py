@@ -7,8 +7,6 @@ note = 'Ultrasonic tide gauge (1st gen PCB)'
 conf = [
     {
         'dbtag':'d2w',
-        'dbtype':'DOUBLE',
-        'comtag':'d2w',
         'unit':'mm',
         'description':'Distance from sensor to water surface',
         'lb':300,
@@ -16,16 +14,12 @@ conf = [
     },
     {
         'dbtag':'VbattV',
-        'dbtype':'DOUBLE',
-        'comtag':'VbattV',
         'unit':'V',
         'description':'Battery voltage (Vbatt)',
         'lb':2.4,
     },
     {
         'dbtag':'ticker',
-        'dbtype':'DOUBLE',
-        'comtag':'ticker',
         'description':'1Hz ticker',
         'lb':0,
     },
