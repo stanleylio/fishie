@@ -27,7 +27,7 @@ echo "Getting time via NTP..."
 #ntpdate -b -s -u pool.ntp.org
 #ntpdate ntp.soest.hawaii.edu
 #sudo service ntp stop
-sudo echo "server ntp.soest.hawaii.edu" >> /etc/ntp.conf
+#sudo echo "server ntp.soest.hawaii.edu" >> /etc/ntp.conf
 sudo systemctl stop ntp
 sudo ntpd -gq
 #sudo service ntp start
@@ -49,7 +49,7 @@ sudo hwclock --show --rtc=/dev/rtc1
 
 echo "Installing service..."
 sudo -i
-sudo cp ~/node/setup/time/rtc-ds1307.service /lib/systemd/system/rtc-ds1307.service
+#sudo cp ~/node/setup/time/rtc-ds1307.service /lib/systemd/system/rtc-ds1307.service
 sudo cp /home/nuc/node/setup/time/rtc-ds1307.service /lib/systemd/system/rtc-ds1307.service
 sudo systemctl enable rtc-ds1307.service
 sudo systemctl start rtc-ds1307.service
