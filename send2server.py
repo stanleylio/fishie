@@ -65,7 +65,23 @@ if '__main__' == __name__:
     
         exit()
 
-    raw_input('No argument supplied. Proceed to benchmark?')
+    print('No argument supplied.')
+
+    import subprocess,json
+    def getIP():
+        proc = subprocess.Popen(['hostname -I'],stdout=subprocess.PIPE,shell=True)
+        out,err = proc.communicate()
+        ips = out.strip().split(' ')
+        #return filter(lambda x: x != '192.168.7.2',ips)
+        return ips
+
+    m = json.dumps(getIP(),separators=(',',':'))
+    url = 'https://grogdata.soest.hawaii.edu/api/4'
+    print(post4(m,url))
+    url = 'https://grogdata.soest.hawaii.edu/api/5/raw'
+    print(post5(m,url,('uhcm',cred['uhcm'])))
+
+    '''raw_input('No argument supplied. Proceed to benchmark?')
     
     # profiling v4
     # manage ~95 POST per minute from BBB to glazerlab-i7nuc
@@ -78,5 +94,5 @@ if '__main__' == __name__:
         print(post4(m,url))
     stop_time = time.time()
     print('{} to {}, total {} seconds'.format(start_time,stop_time,stop_time-start_time))
-    print('avg {:.1f} call/minute ({:.1f} call/second)'.format(N/(stop_time-start_time)*60,N/(stop_time-start_time)))
+    print('avg {:.1f} call/minute ({:.1f} call/second)'.format(N/(stop_time-start_time)*60,N/(stop_time-start_time)))'''
 
