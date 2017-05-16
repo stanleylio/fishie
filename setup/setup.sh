@@ -1,7 +1,7 @@
 #!/bin/bash
 
-NODE_TAG="base-004"
-SETUP_DIR="~/node/setup"
+#NODE_TAG="base-004"
+#SETUP_DIR="~/node/setup"
 
 #passwd
 
@@ -55,6 +55,7 @@ sudo dpkg -i rabbitmq-server_3.6.9-1_all.deb
 sudo apt -f install -y
 sudo dpkg -i rabbitmq-server_3.6.9-1_all.deb
 #rm rabbitmq-server_3.6.9-1_all.deb
+sudo pip install pika
 
 # db
 sudo apt install libmysqlclient-dev mysql-server mysql-client python-mysqldb -y
@@ -81,7 +82,7 @@ pause
 #sudo echo "cape_enable=bone_capemgr.enable_partno=BB-UART1,BB-UART2,BB-UART4,BB-UART5,BB-I2C1,BB-I2C2" >> /boot/uEnv.txt
 #sudo pip install Adafruit_BBIO
 sudo apt install i2c-tools python-smbus -y
-bash $SETUP_DIR/time/install_ds1307.sh
+bash ~/node/setup/time/install_ds1307.sh
 
 
 # disable the HDMI cape to save power

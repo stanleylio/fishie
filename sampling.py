@@ -9,12 +9,10 @@ import serial,os,traceback,time,sys,pika,socket,argparse
 import logging,logging.handlers
 from os.path import expanduser,exists
 sys.path.append(expanduser('~'))
-from node.config.config_support import import_node_config
 from cred import cred
 
 
 exchange = 'uhcm'
-config = import_node_config()
 nodeid = socket.gethostname()
 
 
