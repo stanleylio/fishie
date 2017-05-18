@@ -25,8 +25,8 @@ DAQ_CH_MAP = {'PIR_mV':3,
               'RMYRTD_Fan_rpm':1,
               }
 
-USWIND_PORT = ('/dev/ttyUSB4',9600)
-OPTICALRAIN_PORT = ('/dev/ttyUSB6',1200)
+USWIND_PORT = ('/dev/ttyUSB6',9600)
+OPTICALRAIN_PORT = ('/dev/ttyUSB7',1200)
 
 conf = {}
 

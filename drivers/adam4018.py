@@ -5,7 +5,7 @@
 # Ocean Technology Group
 # SOEST, University of Hawaii
 # All Rights Reserved, 2016
-import serial,io,time,logging
+import serial,io,time,logging,traceback
 
 
 logger = logging.getLogger(__name__)
@@ -37,16 +37,19 @@ class ADAM4018(object):
         self._s.close()
 
     def _query(self,cmd,delimiter='$'):
-        self._s.flushInput()
-        cmd = u'{}{}{}\r'.format(delimiter,self._address,cmd)
-        #print cmd
-        for i in range(2):
-            self._sio.write(cmd)
-            self._sio.flush()
-            r = self._sio.readline()
-            if len(r.strip()):
-                return r
-            logger.debug('_query(): nope')
+        try:
+            self._s.flushInput()
+            cmd = u'{}{}{}\r'.format(delimiter,self._address,cmd)
+            #print cmd
+            for i in range(2):
+                self._sio.write(cmd)
+                self._sio.flush()
+                r = self._sio.readline()
+                if len(r.strip()):
+                    return r
+                logger.debug('_query(): nope')
+        except:
+            logger.exception(traceback._format_exc())
         return ''
 
     def CheckModuleName(self):

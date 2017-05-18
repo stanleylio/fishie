@@ -27,6 +27,9 @@ class ADAM4080(object):
     def __del__(self):
         self._s.close()
 
+    def ReadAll(self):
+        return [self.ReadFrequency(0),self.ReadFrequency(1)]
+
     def ReadFrequency(self,channel):
         try:
             if channel not in [0,1]:

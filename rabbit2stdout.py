@@ -11,7 +11,7 @@ from node.storage.storage2 import storage
 from cred import cred
 
 
-logging.basicConfig(level=logging.WARNING)
+logging.basicConfig(level=logging.INFO)
 
 parser = argparse.ArgumentParser(description="""Redirect RabbitMQ exchange UHCM to STDOUT. Example: python rabbit2stdout.py glazerlab-e5 base-004 node-027""")
 parser.add_argument('sources',type=str,nargs='*')
@@ -34,12 +34,16 @@ queue_name = result.method.queue
 
 
 if len(sources) <= 0:
-    logging.info('No source specified. Listening to *.samples')
-    sources = ['*']
-for source in sources:
+    logging.info('No source specified. Listening to everything.')
     channel.queue_bind(exchange=exchange,
                        queue=queue_name,
-                       routing_key=source + '.samples')
+                       routing_key='*')
+else:
+    for source in sources:
+        channel.queue_bind(exchange=exchange,
+                           queue=queue_name,
+                           routing_key=source)
+                           #routing_key=source + '.samples')
 
 def callback(ch,method,properties,body):
     print(method.routing_key,body)
