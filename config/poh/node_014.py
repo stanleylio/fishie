@@ -35,6 +35,4 @@ if '__main__' == __name__:
     import sys
     sys.path.append('../..')
     from storage.storage2 import create_table
-    conf.insert(0,{'dbtag':'ReceptionTime','dbtype':'DOUBLE NOT NULL'})
     create_table(conf,__file__.split('.')[0].replace('_','-'))
-    

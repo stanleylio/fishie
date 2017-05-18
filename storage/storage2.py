@@ -45,11 +45,13 @@ def create_table(conf,dbname):
 '''
 # 'dbtag' is mandatory; everything else is optional.
 # 'dbtype' defaults to DOUBLE
-def create_table(conf,table,dbname='uhcm',user='root',password=None,host='localhost'):
+def create_table(conf,table,dbname='uhcm',user='root',password=None,host='localhost',noreceptiontime=False):
     if password is None:
         #password = open(expanduser('~/mysql_cred')).read().strip()
         from cred import cred
         passwd = cred['mysql']
+    if not noreceptiontime:
+        conf.insert(0,{'dbtag':'ReceptionTime','dbtype':'DOUBLE PRIMARY KEY'})
     conn = MySQLdb.connect(host=host,user=user,passwd=passwd,db=dbname)
     cur = conn.cursor()
 
