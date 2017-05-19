@@ -90,7 +90,7 @@ class storage():
         sample = [(k,v) for k,v in sample.iteritems()]
         cols,vals = zip(*sample)
         
-        cmd = 'INSERT INTO {}.`{table}` ({cols}) VALUES ({vals})'.\
+        cmd = 'INSERT IGNORE INTO {}.`{table}` ({cols}) VALUES ({vals})'.\
               format(self._dbname,
                      table=table,
                      cols=','.join(cols),
