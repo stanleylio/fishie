@@ -28,11 +28,12 @@ DAQ_CH_MAP = {'PIR_mV':3,
 USWIND_PORT = ('/dev/ttyUSB6',9600)
 OPTICALRAIN_PORT = ('/dev/ttyUSB7',1200)
 
-# - - -
+conf = {}
 
-conf = [
+tmp = [
     {
         'dbtag':'ts',
+        'dbtype':'DOUBLE PRIMARY KEY', # DOUBLE if not specified
         'description':'Sampling time (POSIX Timestamp)',
     },
     {
@@ -44,17 +45,49 @@ conf = [
     {
         'dbtag':'PIR_dome_V',
     },
+]
+conf['PIR'] = tmp
+
+tmp = [
+    {
+        'dbtag':'ts',
+        'dbtype':'DOUBLE PRIMARY KEY',
+    },
     {
         'dbtag':'PSP_mV',
     },
+]
+conf['PSP'] = tmp
+
+tmp = [
+    {
+        'dbtag':'ts',
+        'dbtype':'DOUBLE PRIMARY KEY',
+    },
     {
         'dbtag':'PAR_V',
+    },
+]
+conf['PAR'] = tmp
+
+tmp = [
+    {
+        'dbtag':'ts',
+        'dbtype':'DOUBLE PRIMARY KEY',
     },
     {
         'dbtag':'UltrasonicWind_apparent_speed_mps',
     },
     {
         'dbtag':'UltrasonicWind_apparent_direction_deg',
+    },
+]
+conf['UltrasonicWind'] = tmp
+
+tmp = [
+    {
+        'dbtag':'ts',
+        'dbtype':'DOUBLE PRIMARY KEY',
     },
     {
         'dbtag':'OpticalRain_weather_condition',
@@ -66,8 +99,24 @@ conf = [
     {
         'dbtag':'OpticalRain_accumulation_mm',
     },
+]
+conf['OpticalRain'] = tmp
+
+tmp = [
+    {
+        'dbtag':'ts',
+        'dbtype':'DOUBLE PRIMARY KEY',
+    },
     {
         'dbtag':'BucketRain_accumulation_mm',
+    },
+]
+conf['BucketRain'] = tmp
+
+tmp = [
+    {
+        'dbtag':'ts',
+        'dbtype':'DOUBLE PRIMARY KEY',
     },
     {
         'dbtag':'Rotronics_T_C',
@@ -75,8 +124,41 @@ conf = [
     {
         'dbtag':'Rotronics_RH_percent',
     },
+]
+conf['Rotronics'] = tmp
+
+tmp = [
+    {
+        'dbtag':'ts',
+        'dbtype':'DOUBLE PRIMARY KEY',
+    },
     {
         'dbtag':'RMYRTD_T_C',
+    },
+]
+conf['RMYRTD'] = tmp
+
+tmp = [
+    {
+        'dbtag':'ts',
+        'dbtype':'DOUBLE PRIMARY KEY',
+    },
+    {
+        'dbtag':'BME280_T_C',
+    },
+    {
+        'dbtag':'BME280_P_kPa',
+    },
+    {
+        'dbtag':'BME280_RH_percent',
+    },
+]
+conf['BME280'] = tmp
+
+tmp = [
+    {
+        'dbtag':'ts',
+        'dbtype':'DOUBLE PRIMARY KEY',
     },
     {
         'dbtag':'RMYRTD_Fan_rpm',
@@ -84,15 +166,10 @@ conf = [
     {
         'dbtag':'Rotronics_Fan_rpm',
     },
-#    {
-#        'dbtag':'BME280_T_C',
-#    },
-#    {
-#        'dbtag':'BME280_P_kPa',
-#    },
-#    {
-#        'dbtag':'BME280_RH_percent',
-#    },
+]
+conf['Misc'] = tmp
+
+
 #    {
 #        'dbtag':'PortWind_apparent_speed_mps',
 #    },
@@ -105,18 +182,15 @@ conf = [
 #    {
 #        'dbtag':'StarboardWind_apparent_direction_deg',
 #    },
-    ]
 
 
 if '__main__' == __name__:
-    for c in conf:
-        print '- - -'
-        for k,v in c.iteritems():
-            print k, ':' ,v
-
     import sys
-    sys.path.append('../..')
-    from os.path import basename
-    from storage.storage2 import create_table
-    create_table(conf,'kmetlog',dbname='kmetlog')
-    # turns out renaming MySQL database is a pain in the
+    from os.path import expanduser
+    sys.path.append(expanduser('~'))
+    from node.storage.storage2 import create_table
+
+    for table in conf:
+        print(table)
+        create_table(conf[table],table,dbname='kmetlog')
+        

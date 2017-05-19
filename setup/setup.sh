@@ -1,40 +1,49 @@
 #!/bin/bash
 
-NODE_TAG="base-004"
-SETUP_DIR="~/node/setup"
+PLATFORM=bbb
+#PLATFORM=rpi
+#PLATFORM=nuc
 
 #passwd
 
+#NODE_TAG="base-001"
 #sudo echo $NODE_TAG > /etc/hostname
 #sudo echo "127.0.0.1       $NODE_TAG" >> /etc/hosts
 
-#ssh-keygen
-#cat ~/.ssh/id_rsa.pub
 
-# enable serial port access for user
-#sudo usermod -a -G dialout nuc
-sudo adduser nuc dialout
-sudo adduser nuc i2c
+if [ "$PLATFORM" == bbb ] ; then
+	sudo adduser nuc
+	sudo usermod -aG sudo nuc
+	sudo usermod -aG dialout nuc
+	if [ "$PLATFORM" == bbb ] || [ "$PLATFORM" == rpi ] ; then
+		sudo adduser nuc i2c
+	fi
 
-sudo apt update
-sudo apt upgrade
+	sudo deluser --remove-home debian
+fi
 
 
-sudo apt install ntp ntpdate -y
+# RSA keys
+if [ ! -f ~/.ssh/id_rsa ]; then
+	su nuc
+	ssh-keygen
+	cat ~/.ssh/id_rsa.pub
+fi
+
+
+sudo apt update && sudo apt upgrade -y
+sudo apt install ntp ntpdate git minicom autossh -y
 #dpkg-reconfigure tzdata
 
-sudo apt install git -y
-cd
-git clone git@github.com:stanleylio/fishie.git node
-cd node
+git clone git@github.com:stanleylio/fishie.git ~/node
+cd ~/node
 git config --global user.name "Stanley Lio"
 git config --global user.email stanleylio@gmail.com
 #git remote set-url origin git@github.com:stanleylio/fishie.git
 cd
 
-cd
 git clone git@github.com:stanleylio/kmetlog.git ~/kmetlog
-cd kmetlog
+cd ~/kmetlog
 git config --global user.name "Stanley Lio"
 git config --global user.email stanleylio@gmail.com
 cd
@@ -43,63 +52,41 @@ cd
 # sampling
 sudo apt install supervisor -y
 sudo update-rc.d supervisor enable
-sudo apt install build-essential python-dev python-setuptools python-pip -y
-sudo apt install python-twisted -y
+sudo apt install build-essential python-dev python-setuptools python-pip python-twisted -y
 sudo pip install --upgrade setuptools pip
-sudo pip install pyserial
-sudo pip install pyzmq requests pycrypto
+sudo pip install pyserial requests pycrypto
+#sudo pip install pyzmq
 
+# RabbitMQ
 #wget https://github.com/rabbitmq/rabbitmq-server/releases/download/rabbitmq_v3_6_9/rabbitmq-server_3.6.9-1_all.deb
 wget https://www.rabbitmq.com/releases/rabbitmq-server/v3.6.9/rabbitmq-server_3.6.9-1_all.deb
 sudo dpkg -i rabbitmq-server_3.6.9-1_all.deb
 sudo apt -f install -y
 sudo dpkg -i rabbitmq-server_3.6.9-1_all.deb
 #rm rabbitmq-server_3.6.9-1_all.deb
+sudo pip install pika
 
 # db
 sudo apt install libmysqlclient-dev mysql-server mysql-client python-mysqldb -y
 #sudo apt install sqlite3 -y
 
-# debugging
-sudo apt install minicom autossh -y
-
 # vis and proc
 #sudo apt install python-flask python-autobahn python-virtualenv -y
 #sudo apt install python-numpy python-scipy python-matplotlib python-pandas -y
 
-# bbb-based
-if ! [ -a /boot/uEnv.txt ];
-then
-	exit 0;
+
+if [ "$PLATFORM" == bbb ] ; then
+	sudo echo "cape_enable=bone_capemgr.enable_partno=BB-UART1,BB-UART2,BB-UART4,BB-UART5,BB-I2C1,BB-I2C2" >> /boot/uEnv.txt
+	sudo echo "cape_disable=bone_capemgr.disable_partno=BB-HDMI" >> /boot/uEnv.txt
+	sudo pip install Adafruit_BBIO
+	sudo apt install i2c-tools python-smbus -y
+	bash ~/node/setup/time/install_ds1307.sh
+
+	# expand partition to full disk
+	cd /opt/scripts/tools/
+	git pull
+	sudo ./grow_partition.sh
 fi
-
-
-
-
-echo "install bone stuff?"
-pause
-#sudo echo "cape_enable=bone_capemgr.enable_partno=BB-UART1,BB-UART2,BB-UART4,BB-UART5,BB-I2C1,BB-I2C2" >> /boot/uEnv.txt
-#sudo pip install Adafruit_BBIO
-sudo apt install i2c-tools python-smbus -y
-bash $SETUP_DIR/time/install_ds1307.sh
-
-
-# disable the HDMI cape to save power
-# http://wiki.beyondlogic.org/index.php?title=BeagleBoneBlack_Cape_Manager
-#sudo cat /sys/devices/bone_capemgr.*/slots
-#sudo mkdir /media/card
-#sudo mount /dev/mmcblk0p1 /media/card
-#echo "now add this line to /media/card/uEnv.txt:"
-#echo "optargs=quiet capemgr.disable_partno=BB-BONELT-HDMI,BB-BONELT-HDMIN"
-#sudo nano /media/card/uEnv.txt
-
-#bash $SETUP_DIR/disable_services.sh
-
-# expand partition to full disk
-cd /opt/scripts/tools/
-git pull
-sudo ./grow_partition.sh
-#sudo reboot
 
 
 #sudo apt install libblas-dev liblapack-dev gfortran

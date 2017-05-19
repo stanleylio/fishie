@@ -12,64 +12,50 @@ note = 'Seabird CTD #1 (white Delrin)'
 conf = [
     {
         'dbtag':'ticker',
-        'dbtype':'INTEGER',
         'description':'Broadcast sequence number',
         'plot':False,
         'lb':0,
     },
     {
         'dbtag':'Vbatt',
-        'dbtype':'REAL',
         'unit':'V',
         'description':'Relay dongle battery voltage',
         'lb':2.5,
     },
     {
         'dbtag':'salinity_seabird',
-        'dbtype':'REAL',
-        'comtag':'sal',
         'unit':'psu',
         'description':'Salinity',
     },
     {
         'dbtag':'pressure_seabird',
-        'dbtype':'REAL',
-        'comtag':'p1',
         'unit':'dbar',
         'description':'Pressure',
     },
     {
         'dbtag':'temperature_seabird',
-        'dbtype':'REAL',
-        'comtag':'t1',
         'unit':'Deg.C',
         'description':'Temperature',
     },
     {
         'dbtag':'conductivity_seabird',
-        'dbtype':'REAL',
-        'comtag':'c1',
         'unit':'S/m',
         'description':'Conductivity',
         'lb':0,
     },
     {
         'dbtag':'v0_seabird',
-        'dbtype':'REAL',
-        'comtag':'v0',
         'description':'Turbidity (unconverted volt)',
     },
     {
         'dbtag':'dt_seabird',
-        'dbtype':'TIMESTAMP',
-        'comtag':'dt',
+        'dbtype':'TEXT',
         'description':'Seabird sensor time',
         'plot':False,
     },
     {
         'dbtag':'sn_seabird',
         'dbtype':'TEXT',
-        'comtag':'sn',
         'description':'Serial number',
         'plot':False,
     },
@@ -85,6 +71,5 @@ if '__main__' == __name__:
     import sys
     sys.path.append('../..')
     from storage.storage2 import create_table
-    conf.insert(0,{'dbtag':'ReceptionTime','dbtype':'DOUBLE NOT NULL'})
     create_table(conf,__file__.split('.')[0].replace('_','-'))
     
