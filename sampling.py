@@ -71,9 +71,9 @@ while True:
             port = initport()
             logging.info('serial port reopened')
         
-        line = port.readline().strip()
-        if len(line) > 0:
-            print(line)
+        line = port.readline()
+        if len(line.strip()) > 0:
+            print(line.strip())
             if connection is None or channel is None:
                 logging.info('Connection to local exchange closed')
                 connection,channel = rabbit_init()
