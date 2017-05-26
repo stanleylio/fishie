@@ -1,42 +1,34 @@
 # -*- coding: utf-8 -*-
-# us1
 name = 'Kahoʻokele (Mākāhā 2) Water Level'
 location = 'Kahoʻokele (Mākāhā 2)'
-note = 'Ultrasonic tide gauge (us1)'
+note = 'Ultrasonic tide gauge (v4.1). One sample per minute; each sample is the sample mean of the past 60 measurements taken at 1Hz. Telemetry only. No RTC; 7\'4" to bottom. Deployed May 22, 2017'
 
-log_dir = './log'
-plot_dir ='../www'
+#log_dir = './log'
+#plot_dir ='../www'
 
-data_source = '/home/nuc/node/www/poh/storage/sensor_data.db'
+#data_source = '/home/nuc/node/www/poh/storage/sensor_data.db'
+
+# 20170522
+#UPDATE uhcm.`node-008` SET VbattmV=VbattmV/1000.0;
 
 conf = [
     {
-        'dbtag':'ticker',
-        'dbtype':'INTEGER',
-        'comtag':None,
-        'unit':None,
-        'description':'Broadcast sequence number',
-        'plot':False,
-        'lb':0,
-    },
-    {
         'dbtag':'d2w',
-        'dbtype':'REAL',
-        'comtag':None,
         'unit':'mm',
         'description':'Distance from sensor to water surface',
-        'plot':True,
         'lb':300,
         'ub':5000,
     },
     {
-        'dbtag':'VbattmV',
-        'dbtype':'INTEGER',
-        'comtag':None,
-        'unit':'mV',
-        'description':'Battery voltage (Vcc)',
-        'plot':True,
-        'lb':2400,
+        'dbtag':'VbattV',
+        'unit':'V',
+        'description':'Battery voltage (Vbatt)',
+        'lb':2.4,
+    },
+    {
+        'dbtag':'ticker',
+        'description':'1Hz ticker',
+        'lb':0,
     },
 ]
 

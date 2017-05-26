@@ -94,17 +94,19 @@ def callback(ch,method,properties,body):
                 except TypeError:
                     pass
 
-            table = d['node']
-            tmp = {k:d[k] for k in store.get_list_of_columns(table) if k in d}
-            store.insert(table,tmp)
+            store.insert(d['node'],d)
+
+        # tigher than leaving this at the end.
+        # some messages are not meant to be parsed though, like "node-NNN online" etc.
+        ch.basic_ack(delivery_tag=method.delivery_tag)
     except MySQLdb.OperationalError:
         traceback.print_exc()
         store = init_storage()
     except:
         traceback.print_exc()
-        print(body)
+        logging.exception(body)
 
-    ch.basic_ack(delivery_tag=method.delivery_tag)
+    #ch.basic_ack(delivery_tag=method.delivery_tag)
 
 
 logging.info(__file__ + ' is ready')

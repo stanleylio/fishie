@@ -16,33 +16,6 @@ def auto_time_col(columns):
             return time_col
     assert False
 
-'''
-def create_table(conf,dbname):
-    for table in sorted(conf):
-        print '- - -'
-        print table
-        for column in conf[table]:
-            assert 'dbtag' in column
-            # everything else is optional. dbtype default to DOUBLE
-            print '\t' + column['dbtag']
-
-    password = open(expanduser('~/mysql_cred')).read().strip()
-    conn = MySQLdb.connect(host='localhost',
-                                 user='root',
-                                 passwd=password,
-                                 db=dbname)
-    cur = conn.cursor()
-
-    # conf: a dictionary; one table per key;
-    # each key maps to a list of dictionaries: {'dbtag':...} is mandatory; everything else is optional.
-    # 'dbtype' defaults to DOUBLE
-
-    for table in sorted(conf):
-        tmp = ','.join([' '.join(tmp) for tmp in [(column['dbtag'],column.get('dbtype','DOUBLE')) for column in conf[table]]])
-        cmd = 'CREATE TABLE IF NOT EXISTS {} ({})'.format('{}.`{}`'.format(dbname,table),tmp)
-        print(cmd)
-        cur.execute(cmd)
-'''
 # 'dbtag' is mandatory; everything else is optional.
 # 'dbtype' defaults to DOUBLE
 def create_table(conf,table,dbname='uhcm',user='root',password=None,host='localhost',noreceptiontime=False):
@@ -85,6 +58,9 @@ class storage():
         return [tmp[0] for tmp in self._cur.description]
     
     def insert(self,table,sample):
+        # strip the keys not defined in the db - SQLite didn't seem to care. MySQL does.
+        sample = {k:sample[k] for k in self.get_list_of_columns(table) if k in sample}
+        
         cur = self._conn.cursor()
 
         sample = [(k,v) for k,v in sample.iteritems()]
