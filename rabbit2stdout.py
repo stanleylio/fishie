@@ -32,7 +32,7 @@ if len(sources) <= 0:
     logging.info('No source specified. Listening to everything.')
     channel.queue_bind(exchange=exchange,
                        queue=queue_name,
-                       routing_key='*')
+                       routing_key='#')
 else:
     for source in sources:
         channel.queue_bind(exchange=exchange,

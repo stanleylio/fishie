@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
-name = 'Water Depth (pending)'
-location = 'Mākāhā X'
-note = 'Ultrasonic tide gauge'
+name = 'Water Depth (pending deployment)'
+location = '(Unassigned)'
+note = 'Ultrasonic tide gauge.'
 
 
 conf = [
