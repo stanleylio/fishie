@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-name = 'Water Depth (pending deployment)'
+name = 'Water Depth (under acceptance test)'
 location = '(Unassigned)'
 note = 'Ultrasonic tide gauge.'
 

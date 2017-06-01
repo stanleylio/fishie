@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
-name = 'Water Depth (pending)'
-location = 'Mākāhā X'
-note = 'Ultrasonic tide gauge. One distance-to-water-surface measurement per second; each sample is the sample mean of 60 measurements.'
+name = 'Water Depth (under acceptance test)'
+location = '(unassigned)'
+note = 'Ultrasonic tide gauge. One distance-to-water-surface measurement per second; each sample is the sample mean of 60 measurements. RTC and local storage enabled. Hardware v4.1, firmware us9b.'
 
 
 conf = [
