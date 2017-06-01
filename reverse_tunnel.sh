@@ -9,13 +9,14 @@
 # do the ssh-copy-id dance
 
 declare -A map
-map[node-001]=10021
-#map[node-002]=10022
-map[node-003]=10023
-map[node-004]=10024
-map[node-005]=10025
+map[base-001]=10021
+#map[base-002]=10022
+map[base-003]=10023
+map[base-004]=10024
+map[base-005]=10025
+map[kmet-rpi1]=10034
 
-RemotePort=${map[node-005]}
+RemotePort=${map[$(hostname)]}
 
 # glazerlab-i7nuc
 RemoteHost=128.171.153.115
