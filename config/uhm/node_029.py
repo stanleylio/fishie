@@ -3,7 +3,7 @@ name = 'Experimental Tide Gauge'
 location = 'Somewhere in Boston'
 note = 'Ultrasonic tide gauge (Particle Electron)'
 
-coreid = '1f0024001751353338363036'
+coreid = '450057000a51343334363138'
 
 
 conf = [

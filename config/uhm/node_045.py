@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
-name = 'Experimental Tide Gauge'
-location = 'Somewhere in Boston'
+name = '(Experimental)'
+location = 'Manoa Stream, UH Manoa'
 note = 'Ultrasonic tide gauge (Particle Electron)'
 
-coreid = '1f0024001751353338363036'
+coreid = '280021001951353338363036'
 
 
 conf = [

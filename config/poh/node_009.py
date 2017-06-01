@@ -13,8 +13,6 @@ conf = [
     {
         'dbtag':'ticker',
         'dbtype':'INTEGER',
-        'comtag':None,
-        'unit':None,
         'description':'Broadcast sequence number',
         'plot':False,
         'lb':0,
@@ -22,20 +20,16 @@ conf = [
     {
         'dbtag':'d2w',
         'dbtype':'REAL',
-        'comtag':None,
         'unit':'mm',
         'description':'Distance from sensor to water surface',
-        'plot':True,
         'lb':300,
         'ub':5000,
     },
     {
         'dbtag':'VbattmV',
         'dbtype':'INTEGER',
-        'comtag':None,
         'unit':'mV',
         'description':'Battery voltage (Vcc)',
-        'plot':True,
         'lb':2400,
     },
 ]
