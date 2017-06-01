@@ -10,7 +10,6 @@ PLATFORM=bbb
 #sudo echo $NODE_TAG > /etc/hostname
 #sudo echo "127.0.0.1       $NODE_TAG" >> /etc/hosts
 
-
 if [ "$PLATFORM" == bbb ] ; then
 	sudo adduser nuc
 	sudo usermod -aG sudo nuc
@@ -21,7 +20,6 @@ if [ "$PLATFORM" == bbb ] ; then
 
 	sudo deluser --remove-home debian
 fi
-
 
 # RSA keys
 if [ ! -f ~/.ssh/id_rsa ]; then
@@ -87,6 +85,12 @@ if [ "$PLATFORM" == bbb ] ; then
 	git pull
 	sudo ./grow_partition.sh
 fi
+
+
+# after reboot
+#sudo mkdir /var/uhcm
+#sudo chown nuc:nuc /var/uhcm
+#mkdir /var/uhcm/log
 
 
 #sudo apt install libblas-dev liblapack-dev gfortran
