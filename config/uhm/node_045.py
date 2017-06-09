@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
-name = '(Experimental)'
-location = 'Manoa Stream, UH Manoa'
-note = 'Ultrasonic tide gauge (Particle Electron)'
+name = 'Experimental test bed'
+location = 'UH Manoa'
+note = 'Ultrasonic tide gauge (Cellular)'
 
 coreid = '280021001951353338363036'
 
