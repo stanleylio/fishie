@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
-name = 'Water Depth (under acceptance test)'
-location = '(Unassigned)'
-note = 'Ultrasonic tide gauge.'
+name = 'Water Depth (unassigned)'
+location = '(unassigned)'
+note = 'Ultrasonic tide gauge'
 
 
 conf = [
