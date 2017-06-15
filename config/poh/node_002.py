@@ -19,155 +19,116 @@ wait = 592
 
 multi_sample = 7
 
-import sys
-sys.path.append('..')
-from config.config_support import Range
 
-# TODO: use dictionary indexed by dbtag
 conf = [
     {
         'dbtag':'Timestamp',
-        'dbtype':'TIMESTAMP',
-        'comtag':'ts',
-        'unit':None,
         'description':'Time of sampling',
         'plot':False,
     },
     {
         'dbtag':'P_180',
-        'dbtype':'INTEGER',
-        'comtag':'P_180',
         'unit':'Pa',
         'description':'Barometric Pressure',
-        'plot':True,
-        'range':Range(80e3,110e3),
+        'lb':80e3,
+        'ub':110e3,
         #'convf':lambda (x): x/1e3,
         #'convunit':'kPa',
     },
     {
         'dbtag':'T_180',
-        'dbtype':'REAL',
-        'comtag':'T_180',
         'unit':'Deg.C',
         'description':'Casing Temperature',
-        'plot':True,
-        'range':Range(-10,80),
+        'lb':-10,
+        'ub':80,
     },
     {
         'dbtag':'P_5803',
-        'dbtype':'REAL',
-        'comtag':'P_5803',
         'unit':'kPa',
         'description':'Water Pressure',
-        'plot':True,
-        'range':Range(80,150),
+        'lb':80,
+        'ub':150,
     },
     {
         'dbtag':'T_5803',
-        'dbtype':'REAL',
-        'comtag':'T_5803',
         'unit':'Deg.C',
         'description':'Water Temperature (5803)',
-        'plot':True,
-        'range':Range(-10,60),
+        'lb':-10,
+        'ub':60,
     },
     {
         'dbtag':'ec',
-        'dbtype':'REAL',
-        'comtag':'ec',
         'unit':'uS/cm',
         'description':'Conductivity',
-        'plot':True,
-        'range':Range(0,55e3),
+        'lb':0,
+        'ub':55e3,
     },
     {
         'dbtag':'sal',
-        'dbtype':'REAL',
-        'comtag':'sal',
         'unit':'(ppt)',
         'description':'Salinity',
         'plot':False,
-        'range':Range(lb=0),
+        'lb':0,
     },
     {
         'dbtag':'O2Concentration',
-        'dbtype':'REAL',
-        'comtag':'O2',
         'unit':'uM',
         'description':'Oxygen Concentration',
-        'plot':True,
-        'range':Range(0,450),
+        'lb':0,
+        'ub':450,
     },
     {
         'dbtag':'AirSaturation',
-        'dbtype':'REAL',
-        'comtag':'Air',
         'unit':'%',
         'description':'Air Saturation',
-        'plot':True,
-        'range':Range(0,150),
+        'lb':0,
+        'ub':150,
     },
     {
         'dbtag':'Temperature',
-        'dbtype':'REAL',
-        'comtag':'T_4330f',
         'unit':'Deg.C',
         'description':'Water Temperature (4330F)',
-        'plot':True,
-        'range':Range(-10,60),
+        'lb':-10,
+        'ub':60,
     },
     {
         'dbtag':'CalPhase',
-        'dbtype':'REAL',
-        'comtag':'CalPhase',
         'unit':'Deg',
         'description':'CalPhase',
         'plot':False,
     },
     {
         'dbtag':'TCPhase',
-        'dbtype':'REAL',
-        'comtag':'TCPhase',
         'unit':'Deg',
         'description':'TCPhase',
         'plot':False,
     },
     {
         'dbtag':'C1RPh',
-        'dbtype':'REAL',
-        'comtag':'C1RPh',
         'unit':'Deg',
         'description':'C1RPh',
         'plot':False,
     },
     {
         'dbtag':'C2RPh',
-        'dbtype':'REAL',
-        'comtag':'C2RPh',
         'unit':'Deg',
         'description':'C2RPh',
         'plot':False,
     },
     {
         'dbtag':'C1Amp',
-        'dbtype':'REAL',
-        'comtag':'C1Amp',
         'unit':'mV',
         'description':'C1Amp',
         'plot':False,
     },
     {
         'dbtag':'C2Amp',
-        'dbtype':'REAL',
-        'comtag':'C2Amp',
         'unit':'mV',
         'description':'C2Amp',
         'plot':False,
     },
     {
         'dbtag':'RawTemp',
-        'dbtype':'REAL',
-        'comtag':'RawTemp',
         'unit':'mV',
         'description':'RawTemp',
         'plot':False,
@@ -181,3 +142,8 @@ if '__main__' == __name__:
         for k,v in c.iteritems():
             print k, ':' ,v
 
+    import sys
+    sys.path.append('../..')
+    from storage.storage2 import create_table
+    create_table(conf,__file__.split('.')[0].replace('_','-'))
+    

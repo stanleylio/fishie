@@ -42,7 +42,7 @@ class storage():
             passwd = cred['mysql']
         self._dbname = dbname
 
-        #print 'aw4tawtr42wt4t4w3sata',host,user,passwd,dbname
+        #print host,user,passwd,dbname
         self._conn = MySQLdb.connect(host=host,
                                      user=user,
                                      passwd=passwd,
@@ -60,12 +60,10 @@ class storage():
     def insert(self,table,sample):
         # strip the keys not defined in the db - SQLite didn't seem to care. MySQL does.
         sample = {k:sample[k] for k in self.get_list_of_columns(table) if k in sample}
-        
-        cur = self._conn.cursor()
-
-        sample = [(k,v) for k,v in sample.iteritems()]
-        cols,vals = zip(*sample)
-        
+        #cur = self._conn.cursor()
+        #sample = [(k,v) for k,v in sample.iteritems()]
+        #cols,vals = zip(*sample)
+        cols,vals = zip(*sample.items())
         cmd = 'INSERT IGNORE INTO {}.`{table}` ({cols}) VALUES ({vals})'.\
               format(self._dbname,
                      table=table,
