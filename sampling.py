@@ -51,7 +51,7 @@ def initport():
     if not exists(args.port):
         print('Serial port {} not found. Terminating.'.format(args.port))
         exit()
-    logging.info('Using serial ports {} at {}'.format(args.port,args.baud))
+    logger.info('Using serial ports {} at {}'.format(args.port,args.baud))
     
     port = serial.Serial(args.port,args.baud,timeout=0.5)
     port.flushInput()
@@ -65,17 +65,17 @@ logger.info(__name__ + ' is ready')
 while True:
     try:
         if port is None:
-            logging.info('serial port closed')
+            logger.info('serial port closed')
             port = initport()
-            logging.info('serial port reopened')
+            logger.info('serial port reopened')
         
         line = port.readline()
         if len(line.strip()) > 0:
             print(line.strip())
             if connection is None or channel is None:
-                logging.info('Connection to local exchange closed')
+                logger.info('Connection to local exchange closed')
                 connection,channel = rabbit_init()
-                logging.info('Connection to local exchange re-established')
+                logger.info('Connection to local exchange re-established')
             channel.basic_publish(exchange=exchange,
                                   routing_key=nodeid + '.samples',
                                   body=line,
@@ -88,11 +88,11 @@ while True:
         break
     except pika.exceptions.ConnectionClosed:
         connection,channel = None,None
-        logging.error('connection closed')  # connection to the local exchange closed? wut?
+        logger.error('connection closed')  # connection to the local exchange closed? wut?
         time.sleep(1)
     except serial.SerialException:
         logger.warning('USB-to-serial converters are EVIL')
-        logging.warning(traceback.format_exc())
+        logger.warning(traceback.format_exc())
         sps = None
     except:
         logger.exception('Error processing: ' + line)
