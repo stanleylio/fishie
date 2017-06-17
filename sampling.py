@@ -81,7 +81,7 @@ while True:
                                   body=line,
                                   properties=pika.BasicProperties(delivery_mode=2,
                                                                   content_type='text/plain',
-                                                                  expiration=str(72*3600*1000),
+                                                                  expiration=str(30*24*3600*1000),
                                                                   timestamp=time.time()))
     except KeyboardInterrupt:
         logger.info('user interrupted')
