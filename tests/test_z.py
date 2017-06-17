@@ -19,9 +19,12 @@ class TestZ(unittest.TestCase):
         from node.query import get_request_cmd
         from node.z import get_action
 
-        nodes = ['node-001','node-003','node-004','node-007']
+        nodes = ['node-001','node-002','node-004','node-007']
         for node in nodes:
-            a = get_action(get_request_cmd(node),_test_myid=node)  # hum...
+            r = get_request_cmd(node)
+            a = get_action(r,_test_myid=node)  # hum...
+            #print
+            #print node,r,a
             self.assertTrue(a['action'] == 'do sample')
 
 
