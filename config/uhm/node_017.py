@@ -3,6 +3,7 @@ name = 'MSB RPi Met.'
 location = 'Roof of MSB, UHM'
 note = 'RPi-based Meteological Station'
 
+plot_range = 3*24
 
 conf = [
 #    {
