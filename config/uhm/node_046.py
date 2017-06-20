@@ -1,17 +1,29 @@
 # -*- coding: utf-8 -*-
-name = 'Water Level'
-location = 'Somewhere in Boston'
-note = 'Cellular. No solar charging.'
-coreid = '450057000a51343334363138'
+name = 'Experimental Cellular Tide Gauge'
+location = 'UH Manoa'
+note = 'Ultrasonic tide gauge (Cellular)'
+
+coreid = '360064001951343334363036'
 
 
 conf = [
+    {
+        'dbtag':'Timestamp',
+        'description':'Sample time (Electron clock)',
+        'plot':True,
+    },
     {
         'dbtag':'d2w',
         'unit':'mm',
         'description':'Distance from sensor to water surface',
         'lb':300,
         'ub':5000,
+    },
+    {
+        'dbtag':'VbattV',
+        'description':'Battery voltage',
+        'lb':3.7,
+        'ub':5.5,
     },
 ]
 

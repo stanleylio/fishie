@@ -1,7 +1,0 @@
-#id = 'base-000'
-site = 'uhm'
-name = '(no base station)'
-location = 'Mobile/Provisional/Pending Deployment'
-google_earth_link = 'https://www.google.com/maps/@21.2970843,-157.814427,18z'
-note = '(direct link to server; no base station)'
-#public_key = ''

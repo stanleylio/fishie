@@ -1,4 +1,34 @@
+#private_key_file = '/root/.ssh/id_rsa'
+#subscribeto = ['localhost:9002']
+#data_dir = '/var/kmetlog/data'
+#log_dir = '/var/kmetlog/log'
+#service_discovery_port = 9005
+#realtime_port = 9007
 
+public_key = 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDQdchxRE7jkBOEwPQrPXAy9amx8jiuWZcqfC+uB5APAKcVxf9ih3BkTRcyDKY6TY4njWptYMYhsfaNfId+IEJGZ+SWMgCb1hS3AY3MgXi97ti6cBCuJzT8QTGFj2JCmgJLTiK75gtliOs8YhDoK7Q8wHcUDRrI+Xfo64g/v6h5f86pUN6hLng7lm9HWANWgoAc5UPdUpMfJ7vH9BBv1saAZhhjo5RhDz5E2Ea8m9U2DzV1cDeaJQ5Vdykl/kZLt8p3I7izd8smLA5baNdrDbwfu/ARjzrVuhiZkt1KxcnmNTE0ueqHyc4u9xp1hUCwdWBW7VLHZ2xCZOJJ2bm3oKzb root@kmet-bbb1'
+
+# ADAM-4017
+DAQ_HV_PORT = ('/dev/ttyUSB0',7,9600)    # serial port to DAQ, its RS485 ID, and baud rate
+# ADAM-4018
+DAQ_LV_PORT = ('/dev/ttyUSB1',5,9600)
+# ADAM-4080
+DAQ_F_PORT = ('/dev/ttyUSB2',4,9600)
+
+DAQ_CH_MAP = {'PIR_mV':3,
+              'PIR_case_V':4,
+              'PIR_dome_V':5,
+              'PSP_mV':0,
+              'PAR_V':0,
+              'BucketRain_accumulation_mm':2,
+              'Rotronics_T_C':6,
+              'Rotronics_RH_percent':7,
+              'RMYRTD_T_C':1,
+              'Rotronics_Fan_rpm':0,
+              'RMYRTD_Fan_rpm':1,
+              }
+
+USWIND_PORT = ('/dev/ttyUSB6',9600)
+OPTICALRAIN_PORT = ('/dev/ttyUSB7',1200)
 
 conf = {}
 

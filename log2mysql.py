@@ -46,7 +46,8 @@ channel = connection.channel()
 channel.exchange_declare(exchange=exchange,type='topic',durable=True)
 result = channel.queue_declare(queue=basename(__file__),
                                durable=True,
-                               arguments={'x-message-ttl':72*60*60*1000})
+                               arguments={'x-message-ttl':2**31-1}) # ~24 days.
+# this 32-bit limit is imposed by pika I guess. RMQ's limit is large enough to "not matter", according to the official response.
 
 queue_name = result.method.queue
 #for source in sources:

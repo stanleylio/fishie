@@ -1,18 +1,29 @@
 # -*- coding: utf-8 -*-
-name = '(Experimental)'
-location = 'Manoa Stream, UH Manoa'
-note = 'Ultrasonic tide gauge (Particle Electron)'
+name = 'Experimental Cellular Tide Gauge'
+location = 'UH Manoa'
+note = 'Ultrasonic tide gauge (Cellular)'
 
 coreid = '280021001951353338363036'
 
 
 conf = [
     {
+        'dbtag':'Timestamp',
+        'description':'Sample time (Electron clock)',
+        'plot':True,
+    },
+    {
         'dbtag':'d2w',
         'unit':'mm',
         'description':'Distance from sensor to water surface',
         'lb':300,
         'ub':5000,
+    },
+    {
+        'dbtag':'VbattV',
+        'description':'Battery voltage',
+        'lb':3.7,
+        'ub':5.5,
     },
 ]
 

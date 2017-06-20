@@ -12,7 +12,7 @@ from cred import cred
 logging.basicConfig(level=logging.INFO)
 
 
-parser = argparse.ArgumentParser(description="""Redirect RabbitMQ exchange UHCM to STDOUT. Example: python rabbit2stdout.py glazerlab-e5 base-004 node-027""")
+parser = argparse.ArgumentParser(description="""Redirect RabbitMQ exchange UHCM to STDOUT. Example: python rabbit2stdout.py glazerlab-e5.samples base-004.samples""")
 parser.add_argument('sources',type=str,nargs='*')
 args = parser.parse_args()
 

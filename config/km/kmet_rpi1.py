@@ -5,6 +5,8 @@ subscribeto = ['166.122.96.12:9002','166.122.96.98:9002']
 #service_discovery_port = 9005
 log2txt_output_path = '/var/kmetlog/data'
 
+public_key = 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDT+oyHraN+uigppjBTb+9C0PMxzA1YPUyeBQ0Xf348pKINvgS4qrVKiee8zftoNx7TX6g1RjK/vObtY+xuFUJ1XfVOe4BmywDwcUNVwhBHyyyqpqs+BL3ggAy2XzDa6JrsGt2iPqmf/kXS3nJWRisfhZEXYPfWQfilDdm21tYcVRyslgbFSvSYMWhUpSXMmnyhj+RpPxbsgNTUFV9A7fVhmhBXnM1GmzftwE9v7nyonQJuXDprFb059yYLhZ0vbeHlQ2pCsEDcdMBdanZGvwByWjLmXI8a1vLZUXVsEMicjoy8KQ5l/SwVdjp/Z57w64BEUsvE8rX+X+YJTsVuWeP5 pi@kmet-rpi1'
+
 conf = {}
 
 tmp = [

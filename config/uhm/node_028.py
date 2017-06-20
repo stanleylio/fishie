@@ -1,8 +1,7 @@
 # -*- coding: utf-8 -*-
-name = 'Experimental Tide Gauge'
+name = 'Water Level'
 location = 'Somewhere in Boston'
-note = 'Ultrasonic tide gauge (Particle Electron)'
-
+note = 'Cellular. No solar charging.'
 coreid = '1f0024001751353338363036'
 
 

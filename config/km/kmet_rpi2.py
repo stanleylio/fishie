@@ -4,6 +4,8 @@
 #log_dir = '/var/kmetlog/log'
 #service_discovery_port = 9005
 
+public_key = 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDQPv3wsL3jUuL9QCKVJtksyvd3U467+Nf85q6d/4dpio1R4GcoYskBJ56s8Iy7DtbLVcJ0hrYll8w2MTvNNbB4mX2vu1YjnCoSeWiPrNkvPPRKgZMUCH5FHO5mX/jbqCm3ZqOFQbyxBx4Mb6nfMrj+P07f6ye/fMr9KOxFc8AEybZJvxF2TPuIdcwewtXOARgU+ka+ltLwRAWToMvZR9z62OK7JumQM666NNhCDbMM7r1UISuG9DJp3GNzrHl1xFXYw60nKqIp6WmN2hmUCGGLMDgklFTN4QVrtvGlHHRowLDxSqqTNk+kZaK2GRYOpvIoEMS1afgCiitSuzWBM3XR pi@kmet-rpi2'
+
 conf = {}
 
 tmp = [

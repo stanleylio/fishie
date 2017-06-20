@@ -18,6 +18,7 @@ if [ "$PLATFORM" == bbb ] ; then
 		sudo adduser nuc i2c
 	fi
 
+# logout, reboot, login as nuc, then
 	sudo deluser --remove-home debian
 fi
 
@@ -26,12 +27,15 @@ if [ ! -f ~/.ssh/id_rsa ]; then
 	su nuc
 	ssh-keygen
 	cat ~/.ssh/id_rsa.pub
+else
+	sudo chmod 700 ~/.ssh/id_rsa
 fi
 
 
 sudo apt update && sudo apt upgrade -y
 sudo apt install ntp ntpdate git minicom autossh -y
 #dpkg-reconfigure tzdata
+#sudo nano /etc/ntp.conf
 
 git clone git@github.com:stanleylio/fishie.git ~/node
 cd ~/node
@@ -50,10 +54,12 @@ cd
 # sampling
 sudo apt install supervisor -y
 sudo update-rc.d supervisor enable
+sudo chown nuc:nuc /etc/supervisor/conf.d
 sudo apt install build-essential python-dev python-setuptools python-pip python-twisted -y
 sudo pip install --upgrade setuptools pip
 sudo pip install pyserial requests pycrypto
 #sudo pip install pyzmq
+
 
 # RabbitMQ
 #wget https://github.com/rabbitmq/rabbitmq-server/releases/download/rabbitmq_v3_6_9/rabbitmq-server_3.6.9-1_all.deb

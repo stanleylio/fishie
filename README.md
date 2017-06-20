@@ -1,9 +1,11 @@
-# fishie
+# Coastal Monitoring at the University of Manoa
 
 Source code for Beaglebone/RPi -based data loggers, shore base-stations and web server.
 Software developed for the Coastal Environment Monitoring project at SOEST of the University of Hawaii at Manoa.
 
-In addition to the logger core logic, it contains Python driver/parser for various sensors and devices:
+Project website: https://grogdata.soest.hawaii.edu/project_info/
+
+In addition to communication and control logic, it contains Python driver/parser for these sensors/loggers:
 
 - Aanderaa 3835 (oxygen optode)
 - Aanderaa 4330F (oxygen optode)

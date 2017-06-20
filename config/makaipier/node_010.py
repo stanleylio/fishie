@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-name = 'Makai Pier Water Level'
+name = 'Water Level'
 location = 'Makai Research Pier'
 note = 'Ultrasonic tide gauge (us3, but tagged as us5 by mistake)'
 

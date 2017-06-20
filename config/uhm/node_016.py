@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-name = 'Water Depth (under acceptance test)'
-location = '(Unassigned)'
+name = 'Water Level (unassigned)'
+location = '(unassigned)'
 note = 'Ultrasonic tide gauge'
 
 

@@ -51,13 +51,7 @@ def parse_tidegauge(line):
         return
     try:
         line = line.split(',')
-        if 'us1' == line[0]:
-            d = {'node':'node-008',
-                 'ticker':int(line[1]),
-                 'd2w':float(line[2]),
-                 'VbattmV':int(line[3])}
-            return d
-        elif 'us2' == line[0]:
+        if 'us2' == line[0]:
             d = {'node':'node-009',
                  'ticker':int(line[1]),
                  'd2w':float(line[2]),
@@ -75,20 +69,6 @@ def parse_tidegauge(line):
         #         'd2w':float(line[2]),
         #         'Vbatt':float(line[3])}    # this reports V, not mV
         #    return d
-        elif 'us4' == line[0]:
-            d = {'node':'node-011',
-                 'ticker':int(line[1]),
-                 'd2w':float(line[2]),
-                 'VbattV':float(line[3]),       # now includes unit
-                 'Timestamp':float(line[4])}    # and timestamp (inserted by base station)
-            return d
-        elif 'us5' == line[0]:
-            d = {'node':'node-012',
-                 'ticker':int(line[1]),
-                 'd2w':float(line[2]),
-                 'VbattV':float(line[3]),       # now includes unit
-                 'Timestamp':float(line[4])}    # and timestamp (inserted by base station)
-            return d
     except:
         logging.debug('Not a ultrasonic message:')
         logging.debug(traceback.format_exc())
@@ -109,7 +89,7 @@ parse into dict() if it's from a known node."""
         # first low-power node (node-003)
         # CRC32 checks everything up to (but excluding) the last comma.
         # must... use... JSON... TODO
-        if line.startswith('node-003,R,'):
+        '''if line.startswith('node-003,R,'):
             crc = binascii.crc32(line[0:line.rfind(',')]) & 0xffffffff
             if '%08x' % crc == line[-8:]:
                 line = line.split(',')
@@ -120,7 +100,7 @@ parse into dict() if it's from a known node."""
                 for k in d.keys():
                     d[k] = float(d[k])
                 d['node'] = 'node-003'  # OH MAN. WTF.
-                return d
+                return d'''
                 
         # is it one of the SeaFET pH sensors?
         d = parse_SeaFET(line)
@@ -181,14 +161,6 @@ parse into dict() if it's from a known node."""
             if re.match('^node[-_]\d{3}$',tmp['from']):
                 node_id = tmp['from']
                 d = tmp['payload']
-
-                # shift this responsibility to base station: if message has no timestamp, insert one
-                #if 'ts' in d:
-                    #d['ts'] = datetime.fromtimestamp(d['ts'])
-                    #pass
-                #else:
-                    #d['ts'] = datetime.utcnow()
-                    #d['ts'] = time.time()
 
                 try:
                     node = importlib.import_module('node.config.{}.{}'.format(get_site(node_id),node_id.replace('-','_')))
