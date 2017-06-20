@@ -87,8 +87,8 @@ while True:
         logger.info('user interrupted')
         break
     except pika.exceptions.ConnectionClosed:
-        connection,channel = None,None
         logging.error('connection closed')  # connection to the local exchange closed? wut?
+        connection,channel = None,None
         time.sleep(1)
     except serial.SerialException:
         logger.warning('USB-to-serial converters are EVIL')
