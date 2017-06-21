@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-name = 'MSB RPi Met.'
-location = 'Roof of MSB, UHM'
+name = 'RPi Met.'
+location = 'HIG Rooftop, UHM'
 note = 'RPi-based Meteological Station'
 
 plot_range = 3*24
@@ -48,12 +48,12 @@ conf = [
     },
     {
         'dbtag':'wind_speed',
-        'unit':'knot',
+        'unit':'km/h',
         'description':'Wind Speed',
     },
     {
         'dbtag':'wind_gust',
-        'unit':'knot',
+        'unit':'km/h',
         'description':'Wind Gust',
     },
     {
