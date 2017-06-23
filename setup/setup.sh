@@ -10,13 +10,11 @@ PLATFORM=bbb
 #sudo echo $NODE_TAG > /etc/hostname
 #sudo echo "127.0.0.1       $NODE_TAG" >> /etc/hosts
 
-if [ "$PLATFORM" == bbb ] ; then
+if [ "$PLATFORM" == bbb ] || [ "$PLATFORM" == rpi ] ; then
 	sudo adduser nuc
 	sudo usermod -aG sudo nuc
 	sudo usermod -aG dialout nuc
-	if [ "$PLATFORM" == bbb ] || [ "$PLATFORM" == rpi ] ; then
-		sudo adduser nuc i2c
-	fi
+	sudo usermod -aG i2c nuc
 
 # logout, reboot, login as nuc, then
 	sudo deluser --remove-home debian
@@ -37,17 +35,20 @@ sudo apt install ntp ntpdate git minicom autossh -y
 #dpkg-reconfigure tzdata
 #sudo nano /etc/ntp.conf
 
-git clone git@github.com:stanleylio/fishie.git ~/node
+#git clone git@github.com:stanleylio/fishie.git ~/node
+git clone https://github.com/stanleylio/fishie ~/node
 cd ~/node
 git config --global user.name "Stanley Lio"
 git config --global user.email stanleylio@gmail.com
 #git remote set-url origin git@github.com:stanleylio/fishie.git
 cd
 
-git clone git@github.com:stanleylio/kmetlog.git ~/kmetlog
+#git clone git@github.com:stanleylio/kmetlog.git ~/kmetlog
+git clone https://github.com/stanleylio/kmetlog
 cd ~/kmetlog
 git config --global user.name "Stanley Lio"
 git config --global user.email stanleylio@gmail.com
+#git remote set-url origin git@github.com:stanleylio/kmetlog.git
 cd
 
 
