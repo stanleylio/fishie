@@ -1,3 +1,2 @@
-subscribeto = ['127.0.0.1:9002']
-#sampling_serial_ports = [('/dev/ttyUSB0',9600),('/dev/ttyUSB1',9600),('/dev/ttyUSB2',115200)]
+public_key = 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDQ/A6zBPrmxo7XKob6pgd5+DCxHHBAot4DopsWUS7dRbnzvQho3OO9A2gpSjTinVo4KNbqTeSVLFIwd3pcqx52IDjopreXnGklpvzefqrtPWzL1bjkbghqw+DSOsSnnjxKK6x0yLDB8DuOYsg3Cotgzh2toC2SEWqsCGZ+G5QD1118TRwk/xIdjYUpUy23O/hYULAMcp+q40lC2U8gh0O6DFRrMPmrtNAXQia0zx5CJt2GZUFqJJgZouUZRRdAGoddHQzX7bKDMTMpMb8+Pf+77l+OdJpQJjMy24EHjSyBuKz61OqC0M1z2iVaVNqsHdR+TPv/SXsLS0NxmLRA4PXH nuc@glazerlab-e5'
 log2txt_output_path = '/var/uhcm/log'
