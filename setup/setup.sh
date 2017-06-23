@@ -18,6 +18,7 @@ if [ "$PLATFORM" == bbb ] || [ "$PLATFORM" == rpi ] ; then
 
 # logout, reboot, login as nuc, then
 	sudo deluser --remove-home debian
+	sudo deluser --remove-home pi
 fi
 
 # RSA keys
@@ -59,7 +60,7 @@ sudo chown nuc:nuc /etc/supervisor/conf.d
 sudo apt install build-essential python-dev python-setuptools python-pip python-twisted -y
 sudo pip install --upgrade setuptools pip
 sudo pip install pyserial requests pycrypto
-#sudo pip install pyzmq
+sudo pip install pyzmq
 
 
 # RabbitMQ
