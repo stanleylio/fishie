@@ -32,7 +32,7 @@ fi
 
 
 sudo apt update && sudo apt upgrade -y
-sudo apt install ntp ntpdate git minicom autossh -y
+sudo apt install ntp ntpdate git minicom autossh -y --force-yes
 #dpkg-reconfigure tzdata
 #sudo nano /etc/ntp.conf
 
@@ -54,10 +54,12 @@ cd
 
 
 # sampling
-sudo apt install supervisor -y
-sudo update-rc.d supervisor enable
+sudo apt install supervisor -y --force-yes
+sudo systsemctl enable supervisor
+sudo systemctl start supervisor
+#sudo update-rc.d supervisor enable
 sudo chown nuc:nuc /etc/supervisor/conf.d
-sudo apt install build-essential python-dev python-setuptools python-pip python-twisted -y
+sudo apt install build-essential python-dev python-setuptools python-pip python-twisted -y --force-yes
 sudo pip install --upgrade setuptools pip
 sudo pip install pyserial requests pycrypto
 sudo pip install pyzmq
@@ -95,10 +97,9 @@ if [ "$PLATFORM" == bbb ] ; then
 fi
 
 
-# after reboot
-#sudo mkdir /var/uhcm
-#sudo chown nuc:nuc /var/uhcm
-#mkdir /var/uhcm/log
+sudo mkdir /var/uhcm
+sudo chown nuc:nuc /var/uhcm
+mkdir /var/uhcm/log
 
 
 #sudo apt install libblas-dev liblapack-dev gfortran
