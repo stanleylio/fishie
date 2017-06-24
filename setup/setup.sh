@@ -75,7 +75,7 @@ sudo dpkg -i rabbitmq-server_3.6.9-1_all.deb
 sudo pip install pika
 
 # db
-sudo apt install libmysqlclient-dev mysql-server mysql-client python-mysqldb -y
+sudo apt install libmysqlclient-dev mysql-server mysql-client python-mysqldb -y --force-yes
 #sudo apt install sqlite3 -y
 
 # vis and proc
@@ -87,7 +87,7 @@ if [ "$PLATFORM" == bbb ] ; then
 	sudo echo "cape_enable=bone_capemgr.enable_partno=BB-UART1,BB-UART2,BB-UART4,BB-UART5,BB-I2C1,BB-I2C2" >> /boot/uEnv.txt
 	sudo echo "cape_disable=bone_capemgr.disable_partno=BB-HDMI" >> /boot/uEnv.txt
 	sudo pip install Adafruit_BBIO
-	sudo apt install i2c-tools python-smbus -y
+	sudo apt install i2c-tools python-smbus -y --force-yes
 	bash ~/node/setup/time/install_ds1307.sh
 
 	# expand partition to full disk
