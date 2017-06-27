@@ -55,7 +55,7 @@ cd
 
 # sampling
 sudo apt install supervisor -y --force-yes
-sudo systsemctl enable supervisor
+sudo systemctl enable supervisor
 sudo systemctl start supervisor
 #sudo update-rc.d supervisor enable
 sudo chown nuc:nuc /etc/supervisor/conf.d
@@ -73,6 +73,8 @@ sudo apt -f install -y
 sudo dpkg -i rabbitmq-server_3.6.9-1_all.deb
 #rm rabbitmq-server_3.6.9-1_all.deb
 sudo pip install pika
+
+sudo chown nuc:nuc /etc/rabbitmq/rabbitmq.config
 
 # db
 sudo apt install libmysqlclient-dev mysql-server mysql-client python-mysqldb -y --force-yes
