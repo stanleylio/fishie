@@ -10,10 +10,11 @@
 
 declare -A map
 map[base-001]=10021
-#map[base-002]=10022
+map[base-002]=10022
 map[base-003]=10023
 map[base-004]=10024
 map[base-005]=10025
+map[base-006]=10026
 map[kmet-rpi1]=10034
 
 RemotePort=${map[$(hostname)]}
