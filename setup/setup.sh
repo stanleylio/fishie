@@ -73,16 +73,16 @@ sudo apt -f install -y
 sudo dpkg -i rabbitmq-server_3.6.9-1_all.deb
 #rm rabbitmq-server_3.6.9-1_all.deb
 sudo pip install pika
-
 sudo chown nuc:nuc /etc/rabbitmq/rabbitmq.config
 
-# db
-sudo apt install libmysqlclient-dev mysql-server mysql-client python-mysqldb -y --force-yes
-#sudo apt install sqlite3 -y
 
-# vis and proc
-#sudo apt install python-flask python-autobahn python-virtualenv -y
-#sudo apt install python-numpy python-scipy python-matplotlib python-pandas -y
+# db
+sudo apt install libmysqlclient-dev mysql-server mysql-client python-mysqldb sqlite3 -y --force-yes
+
+
+sudo mkdir /var/uhcm
+sudo chown nuc:nuc /var/uhcm
+mkdir /var/uhcm/log
 
 
 if [ "$PLATFORM" == bbb ] ; then
@@ -97,34 +97,3 @@ if [ "$PLATFORM" == bbb ] ; then
 	git pull
 	sudo ./grow_partition.sh
 fi
-
-
-sudo mkdir /var/uhcm
-sudo chown nuc:nuc /var/uhcm
-mkdir /var/uhcm/log
-
-
-#sudo apt install libblas-dev liblapack-dev gfortran
-#sudo apt install python-numpy python-scipy python-matplotlib ipython ipython-notebook python-pandas python-sympy python-nose
-#sudo pip install tzlocal pytz python-dateutil pyparsing six --force-reinstall --upgrade
-# still can't import? try these in python
-#import numpy
-#print numpy.__path__
-# and delete that dir
-
-#sudo apt-get build-dep python-matplotlib -y
-#sudo ln -s /usr/local/opt/freetype/include/freetype2 /usr/local/include/freetype
-
-# matplotlib
-#git clone git://github.com/matplotlib/matplotlib.git
-#echo "Getting matplotlib plotting library"
-#wget http://softlayer-dal.dl.sourceforge.net/project/matplotlib/matplotlib/matplotlib-1.4.3/matplotlib-1.4.3.tar.gz
-#if [ ! -f matplotlib-1.4.3.tar.gz ]; then
-#    wget http://skylineservers.dl.sourceforge.net/project/matplotlib/matplotlib/matplotlib-1.4.3/matplotlib-1.4.3.tar.gz
-#fi
-#tar -xvzf matplotlib-1.4.3.tar.gz
-#cd matplotlib-1.4.3
-#sudo python setup.py install
-#cd ..
-#sudo rm -r matplotlib-1.4.3
-#sudo rm matplotlib-1.4.3.tar.gz
