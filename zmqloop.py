@@ -1,4 +1,3 @@
-# store stuff from zmq to text file, with timestamps
 # 
 # Stanley H.I. Lio
 # hlio@hawaii.edu
@@ -13,7 +12,7 @@ from node.config.config_support import import_node_config
 from kmetlog.service_discovery import get_publisher_list
 
 
-
+# call "callback" when a zmq message arrives
 # I have doubt...
 def zmqloop(callback,topic=u'',feeds=None):
     config = import_node_config()
