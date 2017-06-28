@@ -59,10 +59,10 @@ sudo systemctl enable supervisor
 sudo systemctl start supervisor
 #sudo update-rc.d supervisor enable
 sudo chown nuc:nuc /etc/supervisor/conf.d
-sudo apt install build-essential python-dev python-setuptools python-pip python-twisted -y --force-yes
+sudo apt install build-essential python-dev python-setuptools python-pip python-twisted python-zmq -y --force-yes
 sudo pip install --upgrade setuptools pip
 sudo pip install pyserial requests pycrypto
-sudo pip install pyzmq
+#sudo pip install pyzmq
 
 
 # RabbitMQ
@@ -94,6 +94,6 @@ if [ "$PLATFORM" == bbb ] ; then
 
 	# expand partition to full disk
 	cd /opt/scripts/tools/
-	git pull
+	sudo git pull
 	sudo ./grow_partition.sh
 fi
