@@ -23,6 +23,7 @@ fi
 
 # RSA keys
 if [ ! -f ~/.ssh/id_rsa ]; then
+	echo "Generating RSA keys..."
 	su nuc
 	ssh-keygen
 	cat ~/.ssh/id_rsa.pub
@@ -72,8 +73,15 @@ sudo dpkg -i rabbitmq-server_3.6.9-1_all.deb
 sudo apt -f install -y
 sudo dpkg -i rabbitmq-server_3.6.9-1_all.deb
 #rm rabbitmq-server_3.6.9-1_all.deb
-sudo pip install pika
+#sudo rabbitmqctl add_user nuc password here
+#sudo rabbitmqctl set_permissions nuc ".*" ".*" ".*"
+#sudo rabbitmqctl set_user_tags nuc administrator
+#sudo rabbitmqctl list_user_permissions nuc
+sudo rabbitmq-plugins enable rabbitmq_management
+#sudo rabbitmq-plugins enable rabbitmq_shovel
+#sudo rabbitmq-plugins enable rabbitmq_shovel_management
 sudo chown nuc:nuc /etc/rabbitmq/rabbitmq.config
+sudo pip install pika
 
 
 # db
