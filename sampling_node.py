@@ -96,6 +96,10 @@ def taskSampling():
         usr0_on()
 
         d = sampling_core()
+        if len(d) <= 0:
+            print('sampling_core() returns nothing')
+            return
+        
         print('= = = = = = = = = =')
         pretty_print(d)
 
