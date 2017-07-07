@@ -20,5 +20,5 @@ sudo hwclock --show -f /dev/rtc0
 # from DS1307 to system time
 sudo hwclock --hctosys -f /dev/rtc0
 
-# from system time to BBB's rtc
+# from system time to RPi's rtc
 sudo hwclock --systohc -f /dev/rtc
