@@ -5,7 +5,6 @@
 
 echo "Installing external RTC (DS1307/DS3231)..."
 # pi
-echo "Installing external RTC (DS1307/DS3231)..."
 if [ -f /sys/class/i2c-adapter/i2c-1 ]; then
 	sudo i2cdetect -y -r 1
 	echo "using i2c-1"
@@ -17,8 +16,13 @@ if [ -f /sys/class/i2c-adapter/i2c-2 ]; then
 	echo "using i2c-2"
 	sudo bash -c "echo ds1307 0x68 > /sys/class/i2c-adapter/i2c-2/new_device"
 fi
-sudo hwclock -r -f /dev/rtc1
 
+if [ -e /dev/rtc0 ] ; then
+	sudo hwclock -r -f /dev/rtc0
+fi
+if [ -e /dev/rtc1 ] ; then
+	sudo hwclock -r -f /dev/rtc1
+fi
 
 #date -s "10 SEP 2015 22:00:30"
 
@@ -45,6 +49,6 @@ fi
 #chmod +x clock_init.sh
 
 echo "Installing service..."
-sudo cp /home/nuc/node/setup/time/rtc-ds1307.service /lib/systemd/system/rtc-ds1307.service
+sudo cp ~/node/setup/time/rtc-ds1307.service /lib/systemd/system/rtc-ds1307.service
 sudo systemctl enable rtc-ds1307.service
 sudo systemctl start rtc-ds1307.service

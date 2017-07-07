@@ -21,24 +21,22 @@ fi
 # for debugging
 #log="/root/ds1307.txt"
 #log="/root/setup/time/clock_init.log"
+#date
 
-date
-
-echo "rtc0 (internal):"
-hwclock --show -f /dev/rtc0
-
-echo "rtc1 (ds1307/ds3231):"
-hwclock --show -f /dev/rtc1
 
 # from external RTC to system time
-if [ -f /dev/rtc0 ]; then
+if [ -e /dev/rtc0 ]; then
+	echo "rtc0:"
+	sudo hwclock -r -f /dev/rtc0
 	sudo hwclock --hctosys -f /dev/rtc0
 fi
-if [ -f /dev/rtc1 ]; then
+if [ -e /dev/rtc1 ]; then
+	echo "rtc1:"
+	sudo hwclock -r -f /dev/rtc1
 	sudo hwclock --hctosys -f /dev/rtc1
 fi
 
 # from system time to internal rtc
-hwclock --systohc -f /dev/rtc0
+sudo hwclock --systohc -f /dev/rtc0
 
 exit 0
