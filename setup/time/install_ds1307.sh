@@ -9,14 +9,12 @@ echo "Installing external RTC (DS1307/DS3231)..."
 #if [ -f /sys/class/i2c-adapter/i2c-1 ]; then
 #	i2cdetect -y -r 1
 #	echo "using i2c-1"
-#	echo ds1307 0x68 > /sys/class/i2c-adapter/i2c-1/new_device
+#	sudo bash -c "echo ds1307 0x68 > /sys/class/i2c-adapter/i2c-1/new_device"
 #fi
 if [ -f /sys/class/i2c-adapter/i2c-2 ]; then
 	sudo i2cdetect -y -r 2
 	echo "using i2c-2"
-	sudo -i
-	echo ds1307 0x68 > /sys/class/i2c-adapter/i2c-2/new_device
-	exit
+	sudo bash -c "echo ds1307 0x68 > /sys/class/i2c-adapter/i2c-2/new_device"
 fi
 sudo hwclock -r -f /dev/rtc1
 
