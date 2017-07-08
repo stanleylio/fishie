@@ -81,14 +81,14 @@ def get_unit_map(node):
     return {c['dbtag']:c.get('unit',None) for c in node.conf}
 
 def get_unit(node,var):
-    return get_unit_map(node)[var]
+    return get_unit_map(node).get(var,None)
 
 def get_description_map(node):
     node = import_node_config(node=node)
     return {c['dbtag']:c.get('description','') for c in node.conf}
 
 def get_description(node,var):
-    return get_description_map(node)[var]
+    return get_description_map(node).get(var,'')
 
 def get_list_of_disp_vars(node):
     """Get the list of variables to display."""
