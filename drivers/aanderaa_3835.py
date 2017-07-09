@@ -40,36 +40,33 @@ class Aanderaa_3835(object):
             s.flushOutput()
 
     def read(self):
-        try:
-            with serial.Serial(self._port,9600,timeout=1) as s:
-                s.flushInput()
-                s.flushOutput()
-                # optode does not respond immediately after it wake up
-                # so the first few commands will probably be lost
-                # retry several times til a successful read is returned
+        with serial.Serial(self._port,9600,timeout=1) as s:
+            s.flushInput()
+            s.flushOutput()
+            # optode does not respond immediately after it wake up
+            # so the first few commands will probably be lost
+            # retry several times til a successful read is returned
 
-                count = 0
+            count = 0
+            s.write('\r\ndo stop\r\n')
+            # should at least get a '#'
+            while len(s.readline().strip()) <= 0:
                 s.write('\r\ndo stop\r\n')
-                # should at least get a '#'
-                while len(s.readline().strip()) <= 0:
-                    s.write('\r\ndo stop\r\n')
-                    count = count + 1
-                    # relying on the timeout instead of using time.sleep()
-                    if count > self.MAX_RETRY:
-                        logging.debug('Optode not responding to "do stop". Is it connected on {}?'.format(self._port))
-                        return None
+                count = count + 1
+                # relying on the timeout instead of using time.sleep()
+                if count > self.MAX_RETRY:
+                    logging.debug('Optode not responding to "do stop". Is it connected on {}?'.format(self._port))
+                    return None
 
-                s.write('\r\ndo sample\r\n')
-                for i in range(10):
-                    line = s.readline()
-                    #print line
-                    tmp = parse_3835(line)
-                    if tmp is not None:
-                        return tmp
+            s.write('\r\ndo sample\r\n')
+            for i in range(10):
+                line = s.readline()
+                #print line
+                tmp = parse_3835(line)
+                if tmp is not None:
+                    return tmp
 
-                logging.error('Aanderaa_3835::read(): no valid response from optode. (Check the output format setting of the optode?)')
-        except:
-            logging.debug(traceback.format_exc())
+        logging.error('Aanderaa_3835::read(): no valid response from optode. (Check the output format setting of the optode?)')
         return None
 
 
