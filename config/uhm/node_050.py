@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 name = '(TBD)'
 location = 'UH Manoa'
-note = 'Ultrasonic tide gauge (Cellular)'
+note = 'Ultrasonic tide gauge v0.1 (Cellular)'
 
-coreid = '360064001951343334363036'
+coreid = '2d0039001851353338363036'
 
 
 conf = [

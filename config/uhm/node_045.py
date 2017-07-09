@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-name = 'Experimental Cellular Tide Gauge'
+name = '(TBD)'
 location = 'UH Manoa'
 note = 'Ultrasonic tide gauge (Cellular)'
 
