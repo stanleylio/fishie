@@ -22,7 +22,7 @@ def parse_4319a(line):
     return dict(zip(tags,line[1:]))
 
 def aanderaa_4319a_read(port):
-    with serial.Serial(port,9600,timeout=1) as s:
+    with serial.Serial(port,9600,timeout=2) as s:
         retry = 3
         for i in range(retry):
             s.write('\r\ndo sample\r\n')
