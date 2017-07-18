@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 name = 'Test bed'
 location = 'UH Manoa'
-note = 'Ultrasonic tide gauge (Cellular)'
+note = 'Cellular ultrasonic tide gauge'
 
 coreid = '410055001951353338363036'
 
@@ -21,9 +21,31 @@ conf = [
     },
     {
         'dbtag':'VbattV',
+        'unit':'V',
         'description':'Battery voltage',
         'lb':3.7,
         'ub':5.5,
+    },
+    {
+        'dbtag':'p',
+        'unit':'hPa',
+        'description':'Barometric pressure (BME280)',
+        'lb':800,
+        'ub':1200,
+    },
+    {
+        'dbtag':'t',
+        'unit':'Deg.C',
+        'description':'Air temperature (BME280)',
+        'lb':-10,
+        'ub':60,
+    },
+    {
+        'dbtag':'rh',
+        'unit':'%',
+        'description':'% Relative humidity (BME280)',
+        'lb':0,
+        'ub':100,
     },
 ]
 

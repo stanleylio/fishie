@@ -21,6 +21,7 @@ conf = [
     },
     {
         'dbtag':'VbattV',
+        'unit':'V',
         'description':'Battery voltage',
         'lb':3.7,
         'ub':5.5,
