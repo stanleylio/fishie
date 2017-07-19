@@ -7,7 +7,7 @@ from twisted.internet import defer,reactor,protocol,task
 from cred import cred
 
 
-logging.basicConfig(level=logging.DEBUG)
+logging.basicConfig(level=logging.WARNING)
 exchangename = 'uhcm'
 
 
@@ -27,7 +27,7 @@ def run(connection):
 def read(queue_object):
     ch,method,properties,body = yield queue_object.get()
     if body:
-        print(body)
+        print(body.strip())
     yield ch.basic_ack(delivery_tag=method.delivery_tag)
 
 
