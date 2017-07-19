@@ -1,16 +1,10 @@
 # -*- coding: utf-8 -*-
-name = '(TBD)'
-location = 'UH Manoa'
-note = 'Cellular ultrasonic tide gauge (HW v0.2)'
-
-coreid = '230053001951353338363036'
+name = 'Water Level'
+location = 'Coconut Island'
+note = 'Ultrasonic tide gauge (HW v4.2, FW: us10)'
 
 
 conf = [
-    {
-        'dbtag':'Timestamp',
-        'description':'Sample time (Electron clock)',
-    },
     {
         'dbtag':'d2w',
         'unit':'mm',
@@ -21,9 +15,13 @@ conf = [
     {
         'dbtag':'VbattV',
         'unit':'V',
-        'description':'Battery voltage',
-        'lb':3.7,
-        'ub':5.5,
+        'description':'Battery voltage (Vbatt)',
+        'lb':2.4,
+    },
+    {
+        'dbtag':'ticker',
+        'description':'1Hz ticker',
+        'lb':0,
     },
 ]
 
