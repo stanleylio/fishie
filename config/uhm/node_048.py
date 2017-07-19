@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
-name = 'Test bed'
+name = '(TBD)'
 location = 'UH Manoa'
-note = 'Ultrasonic tide gauge v0.1 (Cellular)'
+note = 'Cellular ultrasonic tide gauge (PCB v0.1)'
 
 coreid = '180033001951353338363036'
 
@@ -21,6 +21,7 @@ conf = [
     },
     {
         'dbtag':'VbattV',
+        'unit':'V',
         'description':'Battery voltage',
         'lb':3.7,
         'ub':5.5,

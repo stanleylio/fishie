@@ -3,35 +3,40 @@
 
 sleep 1
 
-#echo ds1307 0x68 > /sys/class/i2c-adapter/i2c-1/new_device
-#if [ -a /sys/class/i2c-adapter/i2c-1 ]; then
-#	i2cdetect -y -r 1
-#	echo "using i2c-1"
-#	echo ds1307 0x68 > /sys/class/i2c-adapter/i2c-1/new_device
-#fi
-if [ -a /sys/class/i2c-adapter/i2c-2 ]; then
-	i2cdetect -y -r 2
+# pi
+echo "Installing external RTC (DS1307/DS3231)..."
+if [ -f /sys/class/i2c-adapter/i2c-1 ]; then
+	sudo i2cdetect -y -r 1
+	echo "using i2c-1"
+	sudo bash -c "echo ds1307 0x68 > /sys/class/i2c-adapter/i2c-1/new_device"
+fi
+# bone
+if [ -f /sys/class/i2c-adapter/i2c-2 ]; then
+	sudo i2cdetect -y -r 2
 	echo "using i2c-2"
-	echo ds1307 0x68 > /sys/class/i2c-adapter/i2c-2/new_device
+	sudo bash -c "echo ds1307 0x68 > /sys/class/i2c-adapter/i2c-2/new_device"
 fi
 
 
 # for debugging
 #log="/root/ds1307.txt"
 #log="/root/setup/time/clock_init.log"
+#date
 
-date
 
-echo "rtc0 (bbb):"
-hwclock --show -f /dev/rtc0
+# from external RTC to system time
+if [ -e /dev/rtc0 ]; then
+	echo "rtc0:"
+	sudo hwclock -r -f /dev/rtc0
+	sudo hwclock --hctosys -f /dev/rtc0
+fi
+if [ -e /dev/rtc1 ]; then
+	echo "rtc1:"
+	sudo hwclock -r -f /dev/rtc1
+	sudo hwclock --hctosys -f /dev/rtc1
+fi
 
-echo "rtc1 (ds1307/ds3231):"
-hwclock --show -f /dev/rtc1
-
-# from DS1307 to system time
-hwclock --hctosys -f /dev/rtc1
-
-# from system time to BBB's rtc
-hwclock --systohc -f /dev/rtc0
+# from system time to internal rtc
+sudo hwclock --systohc -f /dev/rtc0
 
 exit 0

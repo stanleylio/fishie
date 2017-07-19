@@ -18,14 +18,12 @@ conf = [
     {
         'dbtag':'Timestamp',
         'dbtype':'DOUBLE NOT NULL',
-        #'comtag':'ts',
         'description':'Time of sampling',
         'plot':False,
     },
     {
         'dbtag':'P_180',
         'dbtype':'INTEGER',
-        #'comtag':'P_180',
         'unit':'Pa',
         'description':'Barometric pressure (BMP180)',
         'lb':80e3,
@@ -33,8 +31,6 @@ conf = [
     },
     {
         'dbtag':'T_180',
-        'dbtype':'DOUBLE',
-        #'comtag':'T_180',
         'unit':'Deg.C',
         'description':'Enclosure temperature (BMP180)',
         'lb':-20,
@@ -42,8 +38,6 @@ conf = [
     },
     {
         'dbtag':'P_280',
-        'dbtype':'DOUBLE',
-        #'comtag':'P_280',
         'unit':'kPa',
         'description':'Barometric pressure (BME280)',
         'lb':80,
@@ -51,8 +45,6 @@ conf = [
     },
     {
         'dbtag':'T_280',
-        'dbtype':'DOUBLE',
-        #'comtag':'T_280',
         'unit':'Deg.C',
         'description':'Air temperature (BME280)',
         'lb':-10,
@@ -60,8 +52,6 @@ conf = [
     },
     {
         'dbtag':'RH_280',
-        'dbtype':'DOUBLE',
-        #'comtag':'RH_280',
         'unit':'%',
         'description':'% Relative humidity (BME280)',
         'lb':0,
@@ -69,28 +59,21 @@ conf = [
     },
     {
         'dbtag':'UV_Si1145',
-        'dbtype':'DOUBLE',
-        #'comtag':'UV_Si1145',
         'unit':'(100x index)',
         'description':'UV Index x 100',
     },
     {
         'dbtag':'IR_Si1145',
-        'dbtype':'DOUBLE',
-        #'comtag':'IR_Si1145',
         'unit':'lux',
         'description':'IR',
     },
     {
         'dbtag':'Amb_Si1145',
-        'dbtype':'DOUBLE',
-        #'comtag':'Amb_Si1145',
         'unit':'lux',
         'description':'Ambient light intensity',
     },
     {
         'dbtag':'Wind_avg',
-        'dbtype':'DOUBLE',
         'unit':'m/s',
         'description':'Average wind speed',
         'lb':0,
@@ -98,7 +81,6 @@ conf = [
     },
     {
         'dbtag':'Wind_gust',
-        'dbtype':'DOUBLE',
         'unit':'m/s',
         'description':'Wind gust',
         'lb':0,

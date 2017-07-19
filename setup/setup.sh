@@ -93,12 +93,12 @@ sudo chown nuc:nuc /var/uhcm
 mkdir /var/uhcm/log
 
 
-if [ "$PLATFORM" == bbb ] ; then
+if [ "$PLATFORM" == bbb ] || [ "$PLATFORM" == rpi ] ; then
 	sudo echo "cape_enable=bone_capemgr.enable_partno=BB-UART1,BB-UART2,BB-UART4,BB-UART5,BB-I2C1,BB-I2C2" >> /boot/uEnv.txt
 	sudo echo "cape_disable=bone_capemgr.disable_partno=BB-HDMI" >> /boot/uEnv.txt
 	sudo pip install Adafruit_BBIO
 	sudo apt install i2c-tools python-smbus -y --force-yes
-	bash ~/node/setup/time/install_ds1307.sh
+	source ~/node/setup/time/install_ds1307.sh
 
 	# expand partition to full disk
 	cd /opt/scripts/tools/

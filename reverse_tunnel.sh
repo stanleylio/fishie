@@ -17,7 +17,10 @@ map[base-005]=10025
 map[base-006]=10026
 map[base-007]=10027
 map[base-008]=10028
-map[kmet-rpi1]=10034
+map[base-009]=10029
+map[base-010]=10030
+map[base-011]=10031
+#map[kmet-rpi1]=10034
 
 RemotePort=${map[$(hostname)]}
 

@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-name = 'Experimental Cellular Tide Gauge'
+name = '(TBD)'
 location = 'UH Manoa'
 note = 'Ultrasonic tide gauge (Cellular)'
 
@@ -21,6 +21,7 @@ conf = [
     },
     {
         'dbtag':'VbattV',
+        'unit':'V',
         'description':'Battery voltage',
         'lb':3.7,
         'ub':5.5,

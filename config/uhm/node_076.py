@@ -1,16 +1,15 @@
 # -*- coding: utf-8 -*-
 name = '(TBD)'
-location = 'UH Manoa'
-note = 'Cellular ultrasonic tide gauge '
+location = '(TBD)'
+note = 'Cellular ultrasonic tide gauge'
 
-coreid = '360064001951343334363036'
+coreid = '40004f001951353338363036'
 
 
 conf = [
     {
         'dbtag':'Timestamp',
-        'description':'Sample time (Electron clock)',
-        'plot':True,
+        'description':'Sample time (device clock)',
     },
     {
         'dbtag':'d2w',
