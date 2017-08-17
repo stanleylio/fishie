@@ -36,6 +36,11 @@ def parse_Seabird(m):
                     else:
                         d[e.tag] = e.text.strip()
                         d['Timestamp'] = dt2ts(datetime.strptime(e.text.strip(),'%Y-%m-%dT%H:%M:%S'))
+                d['conductivity_seabird'] = d['c1']
+                d['pressure_seabird'] = d['p1']
+                d['salinity_seabird'] = d['sal']
+                d['temperature_seabird'] = d['t1']
+                d['v0_seabird'] = d['v0']
                 return d
     except:
         #traceback.print_exc()
