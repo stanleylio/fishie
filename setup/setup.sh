@@ -68,11 +68,11 @@ sudo pip install pyserial requests pycrypto
 
 # RabbitMQ
 #wget https://github.com/rabbitmq/rabbitmq-server/releases/download/rabbitmq_v3_6_9/rabbitmq-server_3.6.9-1_all.deb
-wget https://www.rabbitmq.com/releases/rabbitmq-server/v3.6.9/rabbitmq-server_3.6.9-1_all.deb
-sudo dpkg -i rabbitmq-server_3.6.9-1_all.deb
+#wget https://www.rabbitmq.com/releases/rabbitmq-server/v3.6.9/rabbitmq-server_3.6.9-1_all.deb
+wget https://github.com/rabbitmq/rabbitmq-server/releases/download/rabbitmq_v3_6_11/rabbitmq-server_3.6.11-1_all.deb
+sudo dpkg -i rabbitmq-server_3.6.11-1_all.deb
 sudo apt -f install -y
-sudo dpkg -i rabbitmq-server_3.6.9-1_all.deb
-#rm rabbitmq-server_3.6.9-1_all.deb
+sudo dpkg -i rabbitmq-server_3.6.11-1_all.deb
 #sudo rabbitmqctl add_user nuc password here
 #sudo rabbitmqctl set_permissions nuc ".*" ".*" ".*"
 #sudo rabbitmqctl set_user_tags nuc administrator
