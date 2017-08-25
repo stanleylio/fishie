@@ -27,7 +27,7 @@ conf = [
         'ub':5000,
     },
     {
-        'dbtag':'Vbatt',
+        'dbtag':'VbattV',
         'dbtype':'DOUBLE',
         'unit':'V',
         'description':'Battery voltage',

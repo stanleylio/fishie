@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
-name = '(TBD)'
-location = 'UH Manoa'
-note = 'Cellular ultrasonic tide gauge'
+name = 'Storm Mākāhā Water Level'
+location = 'Storm Mākāhā'
+note = 'Cellular ultrasonic tide gauge (HW v0.2)'
 
-coreid = '3e0042001951353338363036'
+coreid = '230053001951353338363036'
 
 
 conf = [

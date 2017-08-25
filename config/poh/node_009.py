@@ -1,13 +1,13 @@
 # -*- coding: utf-8 -*-
 # us2
-name = 'Mākāhā 1 Water Level'
-location = 'Mākāhā 1'
+name = 'First Mākāhā Water Level'
+location = 'First Mākāhā'
 note = 'Ultrasonic tide gauge (us2)'
 
-log_dir = './log'
-plot_dir ='../www'
+#log_dir = './log'
+#plot_dir ='../www'
 
-data_source = '/home/nuc/node/www/poh/storage/sensor_data.db'
+#data_source = '/home/nuc/node/www/poh/storage/sensor_data.db'
 
 conf = [
     {

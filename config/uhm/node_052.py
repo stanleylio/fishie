@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-name = '(TBD)'
-location = 'UH Manoa'
+name = 'Waikalua Loko'
+location = 'Waikalua Loko'
 note = 'Cellular ultrasonic tide gauge'
 
 coreid = '4e0029001751353338363036'

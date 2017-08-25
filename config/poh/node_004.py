@@ -26,16 +26,13 @@ conf = [
     },
     {
         'dbtag':'P_180',
-        'dbtype':'DOUBLE',
         'unit':'Pa',
         'description':'Barometric pressure (BMP180)',
-        'plot':True,
         'lb':90e3,
         'ub':110e3,
     },
     {
         'dbtag':'T_180',
-        'dbtype':'DOUBLE',
         'unit':'Deg.C',
         'description':'Enclosure temperature (BMP180)',
         'lb':-10,
@@ -43,7 +40,6 @@ conf = [
     },
     {
         'dbtag':'P_5803',
-        'dbtype':'DOUBLE',
         'unit':'kPa',
         'description':'Water pressure (MS5803-14BA)',
         'lb':80,
@@ -51,7 +47,6 @@ conf = [
     },
     {
         'dbtag':'T_5803',
-        'dbtype':'DOUBLE',
         'unit':'Deg.C',
         'description':'Water temperature (MS5803-14BA)',
         'lb':-10,
@@ -59,7 +54,6 @@ conf = [
     },
     {
         'dbtag':'T_TSYS01',
-        'dbtype':'DOUBLE',
         'unit':'Deg.C',
         'description':'Water temperature (TSYS01)',
         'lb':-10,
@@ -67,7 +61,6 @@ conf = [
     },
     {
         'dbtag':'T_7051',
-        'dbtype':'DOUBLE',
         'unit':'Deg.C',
         'description':'Water temperature (Si7051)',
         'lb':-10,
@@ -75,8 +68,6 @@ conf = [
     },
     {
         'dbtag':'O2Concentration',
-        'dbtype':'DOUBLE',
-        #'comtag':'O2',
         'unit':'uM',
         'description':'Oxygen concentration (4330F)',
         'lb':0,
@@ -84,8 +75,6 @@ conf = [
     },
     {
         'dbtag':'AirSaturation',
-        'dbtype':'DOUBLE',
-        #'comtag':'Air',
         'unit':'%',
         'description':'Air saturation (4330F)',
         'lb':0,
@@ -93,8 +82,6 @@ conf = [
     },
     {
         'dbtag':'Temperature',
-        'dbtype':'DOUBLE',
-        #'comtag':'T_4330f',
         'unit':'Deg.C',
         'description':'Water temperature (4330F)',
         'lb':-20,
@@ -102,49 +89,42 @@ conf = [
     },
     {
         'dbtag':'CalPhase',
-        'dbtype':'DOUBLE',
         'unit':'Deg',
         'description':'CalPhase',
         'plot':False,
     },
     {
         'dbtag':'TCPhase',
-        'dbtype':'DOUBLE',
         'unit':'Deg',
         'description':'TCPhase',
         'plot':False,
     },
     {
         'dbtag':'C1RPh',
-        'dbtype':'DOUBLE',
         'unit':'Deg',
         'description':'C1RPh',
         'plot':False,
     },
     {
         'dbtag':'C2RPh',
-        'dbtype':'DOUBLE',
         'unit':'Deg',
         'description':'C2RPh',
         'plot':False,
     },
     {
         'dbtag':'C1Amp',
-        'dbtype':'DOUBLE',
         'unit':'mV',
         'description':'C1Amp',
         'plot':False,
     },
     {
         'dbtag':'C2Amp',
-        'dbtype':'DOUBLE',
         'unit':'mV',
         'description':'C2Amp',
         'plot':False,
     },
     {
         'dbtag':'RawTemp',
-        'dbtype':'DOUBLE',
         'unit':'mV',
         'description':'RawTemp',
         'plot':False,
