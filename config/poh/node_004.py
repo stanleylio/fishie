@@ -4,7 +4,7 @@ location = 'Mākāhā 1'
 note = 'Beaglebone-based node measuring oxygen, temperature and water depth'
 
 # node stuff
-XBEE_PORT = '/dev/ttyO1'
+XBEE_PORT = '/dev/ttyS2'
 XBEE_BAUD = 115200
 
 XBEELOGDIR = '/var/uhcm/log'
@@ -56,6 +56,7 @@ conf = [
         'dbtag':'T_TSYS01',
         'unit':'Deg.C',
         'description':'Water temperature (TSYS01)',
+        'plot':False,
         'lb':-10,
         'ub':50,
     },
@@ -63,6 +64,7 @@ conf = [
         'dbtag':'T_7051',
         'unit':'Deg.C',
         'description':'Water temperature (Si7051)',
+        'plot':False,
         'lb':-10,
         'ub':50,
     },
