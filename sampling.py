@@ -93,7 +93,7 @@ while True:
     except serial.SerialException:
         logger.warning('USB-to-serial converters are EVIL')
         logger.warning(traceback.format_exc())
-        sps = None
+        port = None
     except:
         logger.exception('Error processing: ' + line)
         logger.warning(traceback.format_exc())

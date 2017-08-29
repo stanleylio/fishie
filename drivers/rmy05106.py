@@ -35,5 +35,5 @@ if '__main__' == __name__:
     
     rmy = RMY05106('/dev/ttyO2')
     while True:
-        print rmy.read()
+        print(rmy.read())
         time.sleep(0.1)
