@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
-name = '(TBD)'
-location = '(TBD)'
-note = 'Cellular ultrasonic tide gauge'
+name = "Moli'i cellular tide gauge"
+location = "Moli'i"
+note = 'Firmware p5b, hardware v0.2. 1 measurement per second; 1 sample = average of 60 measurements; 10 samples per transmission.'
+google_earth_link = 'https://goo.gl/maps/C7bPidpD5Km'
 
 coreid = '4d0057001851353338363036'
 

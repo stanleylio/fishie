@@ -25,7 +25,8 @@ map[base-011]=10031
 RemotePort=${map[$(hostname)]}
 
 # glazerlab-i7nuc
-RemoteHost=128.171.153.115
+#RemoteHost=128.171.153.115
+RemoteHost=grog.soest.hawaii.edu
 # otg-met
 #Host=166.122.96.11
 # kmet-rpi1

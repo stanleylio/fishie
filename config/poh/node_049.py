@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 name = 'First Mākāhā Water Level'
 location = 'First Mākāhā'
-note = 'Cellular ultrasonic tide gauge'
+note = 'Firmware p5b, hardware v0.2. 1 measurement per second; 1 sample = average of 60 measurements; 10 samples per transmission.'
 
 coreid = '3e0042001951353338363036'
 

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 name = '(TBD)'
 location = 'UH Manoa'
-note = 'Ultrasonic tide gauge (Cellular)'
+note = 'Cellular ultrasonic tide gauge'
 
 coreid = '280021001951353338363036'
 
