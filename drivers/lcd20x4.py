@@ -152,7 +152,7 @@ class LCD(object):
 
     
 if '__main__' == __name__:
-    d = LCD(bus=1)
+    d = LCD(bus=1,address=0x3f)
     d.write_lines(['netflix and chill','may contain peanut','Edward Hopper','keep Summer safe'])
 
     while True:

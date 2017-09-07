@@ -35,7 +35,7 @@ class EZO_pH_CALIBRATION(EZO_pH):
 
 
 if '__main__' == __name__:
-    ph = EZO_pH_CALIBRATION(bus=2,lowpower=False)
+    ph = EZO_pH_CALIBRATION(bus=1,lowpower=False)
     print 'Supply voltage:'
     print '{} volt'.format(ph.supply_v())
     print

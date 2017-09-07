@@ -1,5 +1,5 @@
 from ConfigParser import SafeConfigParser,NoSectionError
-from ezo import EZO
+from ezo import EZOPI as EZO
 from os.path import join,dirname
 
 # Driver for the Atlas Scientific EZO EC (Electrical Conductivity) sensor
@@ -96,7 +96,7 @@ class EZO_EC(EZO):
 
 if '__main__' == __name__:
 
-    bus = 2
+    bus = 1
     
     ec = EZO_EC(bus=bus,lowpower=False)
     print 'Device Information (sensor type, firmware version):'

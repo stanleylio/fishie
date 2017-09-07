@@ -1,5 +1,5 @@
 from ConfigParser import SafeConfigParser,NoSectionError
-from ezo import EZO
+from ezo import EZOPI as EZO
 from os.path import join,dirname
 
 # Driver for the Atlas Scientific EZO DO (Dissolved Oxygen) sensor
@@ -137,8 +137,10 @@ class EZO_DO(EZO):
 
 
 if '__main__' == __name__:
+
+    bus = 1
     
-    do = EZO_DO(bus=2,lowpower=False)
+    do = EZO_DO(bus=1,lowpower=False)
     
     print 'Device Information (sensor type, firmware version):'
     print do.device_information()

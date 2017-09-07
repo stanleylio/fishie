@@ -154,7 +154,11 @@ class EZOPI(EZO):
 
         #print ''.join([bin(c) for c in tmp[1:] if 0 != c])
         #print ''.join([chr(c) for c in tmp[1:] if 0 != c])
-        
+
+        # Atlas hack for the RPi
+        tmp = map(lambda x: chr(ord(x) & ~0x80),list(tmp))
+        tmp = ''.join(tmp)
+
         if self.Success == ord(tmp[0]):
             return tmp[1:]
         elif self.Failed == ord(tmp[0]):

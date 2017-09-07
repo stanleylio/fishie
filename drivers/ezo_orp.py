@@ -1,4 +1,4 @@
-from ezo import EZO
+from ezo import EZOPI as EZO
 
 # Driver for the Atlas Scientific EZO ORP sensor
 
@@ -49,7 +49,9 @@ class EZO_ORP(EZO):
 
 if '__main__' == __name__:
 
-    orp = EZO_ORP(bus=2,lowpower=False)
+    bus = 1
+
+    orp = EZO_ORP(bus=bus,lowpower=False)
 
     print 'Device Information (sensor type, firmware version):'
     print orp.device_information()

@@ -1,6 +1,6 @@
 import time
 from ConfigParser import SafeConfigParser,NoSectionError
-from ezo import EZO
+from ezo import EZOPI as EZO
 from os.path import join,dirname
 
 # Driver for the Atlas Scientific EZO pH sensor
@@ -51,7 +51,9 @@ class EZO_pH(EZO):
 
 if '__main__' == __name__:
 
-    ph = EZO_pH(bus=2,lowpower=False)
+    bus = 1
+
+    ph = EZO_pH(bus=bus,lowpower=False)
     
     print 'Device Information (sensor type, firmware version):'
     print ph.device_information()
