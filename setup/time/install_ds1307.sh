@@ -39,11 +39,21 @@ date
 if [ "$PLATFORM" == bbb ] ; then
 	echo "Setting internal RTC..."
 	sudo hwclock --systohc --rtc=/dev/rtc0
-	sudo hwclock --show -f /dev/rtc0
+	sudo hwclock -r -f /dev/rtc0
 
 	echo "Setting external rtc..."
 	sudo hwclock --systohc --rtc=/dev/rtc1
-	sudo hwclock --show --rtc=/dev/rtc1
+	sudo hwclock -r --rtc=/dev/rtc1
+fi
+
+if [ "$PLATFORM" == rpi ] ; then
+	echo "Setting internal RTC..."
+	sudo hwclock --systohc --rtc=/dev/rtc
+	sudo hwclock -r -f /dev/rtc
+
+	echo "Setting external rtc..."
+	sudo hwclock --systohc --rtc=/dev/rtc0
+	sudo hwclock -r --rtc=/dev/rtc0
 fi
 
 #chmod +x clock_init.sh
