@@ -22,6 +22,11 @@ logging.basicConfig(level=logging.DEBUG)
 def is_node(device):
     return not device.startswith('base-')
 
+def find_bounds(x,y):
+    '''Find both the oldest and the latest timestamp where the reading is not None'''
+    tmp = filter(lambda p: p[1] is not None,zip(x,y))
+    return min(tmp,key=lambda p: p[0])[0],max(tmp,key=lambda p: p[0])[0],
+
 
 # db could be empty
 # node may not be defined
@@ -45,7 +50,6 @@ assert exists(plot_dir)
 plot_dir = join(plot_dir,site)
 if not exists(plot_dir):
     makedirs(plot_dir)
-
 
 store = storage()
 list_of_nodes = get_list_of_nodes(site)
@@ -101,8 +105,10 @@ for node in list_of_nodes:
                              ylabel=ylabel,\
                              linelabel=var)
 
-            plot_config = {'time_begin':min(x),
-                           'time_end':max(x),
+            # this sounds like a classic SQL job.
+            tmp = find_bounds(x,y)
+            plot_config = {'time_begin':tmp[0],
+                           'time_end':tmp[1],
                            'plot_generated_at':dt2ts(),
                            'data_point_count':len(filter(lambda yy: yy is not None and not math.isnan(yy),y)),
                            'unit':unit,

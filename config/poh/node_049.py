@@ -9,7 +9,7 @@ coreid = '3e0042001951353338363036'
 conf = [
     {
         'dbtag':'Timestamp',
-        'description':'Sample time (Electron clock)',
+        'description':'Sample time (Electron RTC)',
     },
     {
         'dbtag':'d2w',
