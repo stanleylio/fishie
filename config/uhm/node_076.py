@@ -25,6 +25,13 @@ conf = [
         'lb':3.7,
         'ub':5.5,
     },
+    {
+        'dbtag':'SoC',
+        'unit':'%',
+        'description':'State of Charge',
+        'lb':0,
+        'ub':100,
+    },
 ]
 
 
