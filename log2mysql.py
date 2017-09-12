@@ -37,7 +37,7 @@ nodeid = socket.gethostname()
 # this is asking for trouble. remove this, or move it to config. TODO
 #sources = ['base-001','base-002','base-003','base-004','base-005','glazerlab-e5','node-017','node-027']
 
-credentials = pika.PlainCredentials('nuc',cred['rabbitmq'])
+credentials = pika.PlainCredentials(nodeid,cred['rabbitmq'])
 connection = pika.BlockingConnection(pika.ConnectionParameters('localhost',5672,'/',credentials))
 channel = connection.channel()
 #channel.queue_delete(queue='glazerlab-e5.rabbit2zmq')
