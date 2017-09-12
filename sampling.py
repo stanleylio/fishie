@@ -38,7 +38,7 @@ args = parser.parse_args()
 
 
 def rabbit_init():
-    credentials = pika.PlainCredentials('nuc',cred['rabbitmq'])
+    credentials = pika.PlainCredentials(nodeid,cred['rabbitmq'])
     connection = pika.BlockingConnection(pika.ConnectionParameters('localhost',5672,'/',credentials))
     channel = connection.channel()
     channel.exchange_declare(exchange=exchange,type='topic',durable=True)
