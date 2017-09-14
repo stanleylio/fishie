@@ -3,13 +3,16 @@
 # hlio@hawaii.edu
 # University of Hawaii
 # All Rights Reserved, 2017
-import pika,traceback,sys,logging,argparse
+import pika,traceback,sys,logging,argparse,socket
 from os.path import expanduser,basename
 sys.path.append(expanduser('~'))
 from cred import cred
 
 
 logging.basicConfig(level=logging.INFO)
+
+
+nodeid = socket.gethostname()
 
 
 parser = argparse.ArgumentParser(description="""Redirect RabbitMQ exchange UHCM to STDOUT. Example: python rabbit2stdout.py glazerlab-e5.samples base-004.samples""")
@@ -19,7 +22,7 @@ args = parser.parse_args()
 exchange = 'uhcm'
 sources = args.sources
 
-credentials = pika.PlainCredentials('nuc',cred['rabbitmq'])
+credentials = pika.PlainCredentials(nodeid,cred['rabbitmq'])
 connection = pika.BlockingConnection(pika.ConnectionParameters('localhost',5672,'/',credentials))
 channel = connection.channel()
 channel.exchange_declare(exchange=exchange,type='topic',durable=True)
