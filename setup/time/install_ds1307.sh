@@ -59,6 +59,6 @@ fi
 #chmod +x clock_init.sh
 
 echo "Installing service..."
-sudo cp ~/node/setup/time/rtc-ds1307.service /lib/systemd/system/rtc-ds1307.service
+sudo cp /home/nuc/node/setup/time/rtc-ds1307.service /lib/systemd/system/rtc-ds1307.service
 sudo systemctl enable rtc-ds1307.service
 sudo systemctl start rtc-ds1307.service
