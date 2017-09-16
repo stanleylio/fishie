@@ -1,32 +1,37 @@
 # -*- coding: utf-8 -*-
 name = 'Water Level (unassigned)'
 location = '(unassigned)'
-note = 'Ultrasonic tide gauge. One distance-to-water-surface measurement per second; each sample is the sample mean of 60 measurements. RTC and local storage enabled. Hardware v4.1, firmware us9b.'
+note = 'Ultrasonic tide gauge measuring distance to water surface from fixed structure. One measurement per second, one transmission (average of past minute) per minute. Hardware v4.2, firmware us10b.'
 
 
 conf = [
     {
-        'dbtag':'ts',
-        'description':'Device time',
-        'plot':False,
-        'lb':0,
-    },
-    {
         'dbtag':'d2w',
         'unit':'mm',
-        'description':'Distance from sensor to water surface (sample mean)',
+        'description':'Distance from sensor to water surface',
         'lb':300,
-        'ub':5000,
+        'ub':4999,
+        'interval':60,
     },
     {
         'dbtag':'VbattV',
         'unit':'V',
         'description':'Battery voltage',
-        'lb':2.4,
+        'lb':2.5,
+        'interval':60,
     },
     {
         'dbtag':'ticker',
-        'description':'Message ID',
+        'description':'Monotonic increasing 1Hz ticker',
+        'lb':0,
+        'interval':60,
+    },
+    {
+        'dbtag':'sample_size',
+        'description':'Number of valid readings in the 60 measurements',
+        'lb':0,
+        'ub':60,
+        'interval':60,
     },
 ]
 

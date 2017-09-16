@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 name = 'Waikalua Loko Water Level'
 location = 'Waikalua Loko'
-note = 'Cellular ultrasonic tide gauge. Firmware p5b, hardware v0.2. 1 measurement per second; 1 sample = average of 60 measurements; 10 samples per transmission.'
+note = 'Cellular ultrasonic tide gauge. Each sample is average of 60 measurements, made once a second. Transmission after every 10 samples are collected. Firmware p5b, hardware v0.2.'
 
 coreid = '4e0029001751353338363036'
 

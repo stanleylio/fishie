@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
-name = '(TBD)'
-location = 'UH Manoa'
-note = 'Cellular ultrasonic tide gauge '
+name = '"Next-to-NOAA"'
+location = 'Coconut Island'
+note = 'Cellular ultrasonic tide gauge. Each sample is average of 60 measurements, made once a second. Transmission after every 10 samples are collected. Firmware p5c, hardware v0.2.'
 
 coreid = '360064001951343334363036'
 
@@ -11,6 +11,7 @@ conf = [
         'dbtag':'Timestamp',
         'description':'Sample time (Electron clock)',
         'plot':True,
+        'interval':10*60,
     },
     {
         'dbtag':'d2w',
@@ -18,6 +19,7 @@ conf = [
         'description':'Distance from sensor to water surface',
         'lb':300,
         'ub':5000,
+        'interval':10*60,
     },
     {
         'dbtag':'VbattV',
@@ -25,6 +27,7 @@ conf = [
         'description':'Battery voltage',
         'lb':3.7,
         'ub':5.5,
+        'interval':10*60,
     },
     {
         'dbtag':'SoC',
@@ -32,6 +35,7 @@ conf = [
         'description':'State of Charge',
         'lb':0,
         'ub':100,
+        'interval':10*60,
     },
 ]
 

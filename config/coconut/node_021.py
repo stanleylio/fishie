@@ -14,6 +14,7 @@ conf = [
         'dbtag':'ticker',
         'description':'Broadcast sequence number',
         'lb':0,
+        'interval':60*60,
     },
     {
         'dbtag':'Timestamp',
@@ -25,6 +26,7 @@ conf = [
         'description':'Relay dongle battery voltage',
         'lb':2.5,
         'ub':5.2,
+        'interval':60*60,
     },
     {
         'dbtag':'DATE',

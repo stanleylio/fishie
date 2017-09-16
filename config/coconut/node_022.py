@@ -15,6 +15,7 @@ conf = [
         'dbtype':'INTEGER',
         'description':'Voltage report sequence number',
         'lb':0,
+        'interval':60*60,
     },
     {
         'dbtag':'Vbatt',
@@ -22,6 +23,7 @@ conf = [
         'description':'Relay dongle battery voltage',
         'lb':2.5,
         'ub':5.2,
+        'interval':60*60,
     },
     {
         'dbtag':'DATE',

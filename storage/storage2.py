@@ -111,6 +111,10 @@ class storage():
 
     def read_last_N_minutes(self,table,time_col,N,nonnull):
         """get the latest N-minute worth of readings of the variable 'nonnull' where its readings were not NULL"""
+
+        if nonnull not in self.get_list_of_columns(table):
+            return {time_col:[],nonnull:[]}
+        
         cmd = '''SELECT {time_col},{nonnull} FROM `{table}` WHERE
                 {time_col} >= (SELECT MAX({time_col}) - {N} FROM (SELECT {time_col},{nonnull} FROM `{table}` WHERE {nonnull} IS NOT NULL) AS T)
                 AND

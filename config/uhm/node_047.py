@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 name = 'Test bed'
 location = 'UH Manoa'
-note = 'Cellular ultrasonic tide gauge'
+note = 'Cellular ultrasonic tide gauge. Each sample is average of 60 measurements, made once a second. Transmission after every 10 samples are collected. Firmware p5d, hardware v0.2.'
 
 coreid = '410055001951353338363036'
 
@@ -10,7 +10,6 @@ conf = [
     {
         'dbtag':'Timestamp',
         'description':'Sample time (Electron clock)',
-        'plot':True,
     },
     {
         'dbtag':'d2w',
@@ -53,6 +52,12 @@ conf = [
         'description':'State of Charge',
         'lb':0,
         'ub':100,
+    },
+    {
+        'dbtag':'sample_size',
+        'description':'Number of valid readings in the 60 measurements',
+        'lb':0,
+        'ub':60,
     },
 ]
 

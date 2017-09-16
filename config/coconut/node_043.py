@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
-name = '"Water-Under-The-Bridge"'
-location = 'Coconut Island'
-note = 'Ultrasonic tide gauge (HW v4.2, FW: us10)'
+name = 'Water Level (unassigned)'
+location = '(unassigned)'
+note = 'Ultrasonic tide gauge measuring distance to water surface from fixed structure. One measurement per second, one transmission (average of past minute) per minute. Hardware v4.2, firmware us10b.'
 
 
 conf = [
@@ -16,14 +16,21 @@ conf = [
     {
         'dbtag':'VbattV',
         'unit':'V',
-        'description':'Battery voltage (Vbatt)',
-        'lb':2.4,
+        'description':'Battery voltage',
+        'lb':2.5,
         'interval':60,
     },
     {
         'dbtag':'ticker',
-        'description':'1Hz ticker',
+        'description':'Monotonic increasing 1Hz ticker',
         'lb':0,
+        'interval':60,
+    },
+    {
+        'dbtag':'sample_size',
+        'description':'Number of valid readings in the 60 measurements',
+        'lb':0,
+        'ub':60,
         'interval':60,
     },
 ]

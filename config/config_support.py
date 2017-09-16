@@ -117,6 +117,13 @@ def is_in_range(site,node,variable,reading):
         #traceback.print_exc()
         return True
 
+def get_interval(node,variable):
+    node = import_node_config(node=node)
+    for c in node.conf:
+        if c['dbtag'] == variable:
+            return c.get('interval',30*60)
+    return None
+
 
 if '__main__' == __name__:
     #print config_as_dict()

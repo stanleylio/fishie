@@ -1,3 +1,4 @@
+# python -m unittest discover
 import unittest,sys
 from os.path import expanduser,exists
 sys.path.append(expanduser('~'))
@@ -76,6 +77,14 @@ class TestConfig(unittest.TestCase):
                 self.assertTrue(get_attr(node,'location') is not None)
                 self.assertTrue(get_attr(node,'note') is not None)
 
-            
+    def test_get_interval(self):
+        from node.config.config_support import get_interval
+        c = config_as_dict()
+        for site in sorted(c.keys()):
+            for node in get_list_of_nodes(site):
+                for variable in get_list_of_disp_vars(node):
+                    self.assertTrue(get_interval(node,variable) > 0)
+                    
+
 if __name__ == '__main__':
     unittest.main()

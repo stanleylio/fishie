@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
-name = '(TBD)'
-location = 'UH Manoa'
-note = 'Cellular ultrasonic tide gauge'
+name = 'Jim\'s'
+location = 'SF'
+note = 'Cellular ultrasonic tide gauge. Each sample is average of 60 measurements, made once a second. Transmission after every 10 samples are collected. Firmware p5c, hardware v0.2.'
 
 coreid = '280021001951353338363036'
 
@@ -25,6 +25,13 @@ conf = [
         'description':'Battery voltage',
         'lb':3.7,
         'ub':5.5,
+    },
+    {
+        'dbtag':'SoC',
+        'unit':'%',
+        'description':'State of Charge',
+        'lb':0,
+        'ub':100,
     },
 ]
 
