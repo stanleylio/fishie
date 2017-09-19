@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-name = '(TBD)'
-location = '(TBD)'
+name = 'Maury\'s'
+location = 'Hale o Lono'
 note = 'Cellular ultrasonic tide gauge'
 
 coreid = '25002d001951353338363036'

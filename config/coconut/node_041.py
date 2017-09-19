@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-name = 'Water Level (unassigned)'
+name = '(TBD)'
 location = '(unassigned)'
 note = 'Ultrasonic tide gauge measuring distance to water surface from fixed structure. One measurement per second, one transmission (average of past minute) per minute. Hardware v4.2, firmware us10b.'
 

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 name = '"Next-to-NOAA"'
 location = 'Coconut Island'
-note = 'Cellular ultrasonic tide gauge. Each sample is average of 60 measurements, made once a second. Transmission after every 10 samples are collected. Firmware p5c, hardware v0.2.'
+note = 'Cellular ultrasonic tide gauge. Each sample is average of 60 measurements, made once a second. Transmission after every 10 samples are collected. Firmware p5d, hardware v0.2.'
 
 coreid = '360064001951343334363036'
 
@@ -36,6 +36,12 @@ conf = [
         'lb':0,
         'ub':100,
         'interval':10*60,
+    },
+    {
+        'dbtag':'sample_size',
+        'description':'Number of valid readings in the 60 measurements',
+        'lb':0,
+        'ub':60,
     },
 ]
 
