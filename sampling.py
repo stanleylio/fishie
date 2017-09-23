@@ -27,6 +27,7 @@ reconnection_delay = 5
 # I wonder if I could just get rid of this and let supervisor handle logging.
 #'DEBUG,INFO,WARNING,ERROR,CRITICAL'
 logging.basicConfig(level=logging.INFO)
+logging.getLogger('pika').setLevel(logging.WARNING)
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
 handler = logging.handlers.SysLogHandler(address='/dev/log')
@@ -118,7 +119,7 @@ connection,channel = None,None
 logger.info(__name__ + ' is ready')
 LoopingCall(taskSampling).start(0.001)
 if has_watchdog:
-    LoopingCall(taskWatchdog).start(120)
+    LoopingCall(taskWatchdog).start(150)
 
 reactor.run()
 

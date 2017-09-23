@@ -6,6 +6,9 @@
 import sys,time,os,traceback,smbus,logging
 
 
+logger = logging.getLogger(__name__)
+
+
 class Watchdog(object):
     def __init__(self,addr=0x51,bus=1):
         self.addr = addr
@@ -19,7 +22,7 @@ class Watchdog(object):
 def reset_auto():
     good = [False,False]
     for bus in [1,2]:
-        logging.debug('bus {}...'.format(bus))
+        logger.debug('bus {}...'.format(bus))
         try:
             w = Watchdog(bus=bus)
             for i in range(3):
@@ -32,10 +35,10 @@ def reset_auto():
     if any(good):
         for k,tmp in enumerate(good):
             if tmp:
-                logging.debug('Found watchdog on bus {}'.format(k+1))
+                logger.debug('Found watchdog on bus {}'.format(k+1))
         return True
     else:
-        logging.warning('No WDT found.')
+        logger.warning('No WDT found.')
         return False
 
 
