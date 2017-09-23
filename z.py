@@ -64,7 +64,6 @@ Also checks: 1. checksum and 2. whether this is the recipient."""
         logging.debug(traceback.format_exc())
     return None
 
-
 def send(channel,sample,src=None,dest=None):
     if src is None:
         src = gethostname()

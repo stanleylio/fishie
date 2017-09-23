@@ -41,7 +41,7 @@ def rabbit_init():
     credentials = pika.PlainCredentials(nodeid,cred['rabbitmq'])
     connection = pika.BlockingConnection(pika.ConnectionParameters('localhost',5672,'/',credentials))
     channel = connection.channel()
-    channel.exchange_declare(exchange=exchange,type='topic',durable=True)
+    channel.exchange_declare(exchange=exchange,exchange_type='topic',durable=True)
     return connection,channel
 
 

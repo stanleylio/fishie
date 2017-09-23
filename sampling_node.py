@@ -178,16 +178,16 @@ def taskBlink():
     usr3_off()
     green_off()
 
-logger.info(__name__ + ' is ready')
 LoopingCall(taskSampling).start(0.1)
 LoopingCall(taskTrigger).start(config.INTERVAL)
 LoopingCall(taskSerial).start(0.05,now=False)
 LoopingCall(taskBlink).start(1)
+
+logger.info(__name__ + ' is ready')
 reactor.run()
 
 connection.close()
 ser.close()
 rawf.close()
 indicators_cleanup()
-
 logger.info(__name__ + ' terminated')
