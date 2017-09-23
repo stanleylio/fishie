@@ -30,7 +30,9 @@ def taskHeartbeat():
         if connection is None or channel is None:
             connection,channel = rabbit_init()
 
-        d = {'ts':time.time()}
+        uptime_second = float(open('/proc/uptime').readline().split()[0])
+
+        d = {'system_clock':time.time(),'uptime_second':uptime_second}
         m = send(None,d).strip()
         logging.debug(m)
         
