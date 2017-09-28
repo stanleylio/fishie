@@ -25,7 +25,7 @@ logging.basicConfig(level=logging.INFO)
 credentials = pika.PlainCredentials(nodeid,cred['rabbitmq'])
 connection = pika.BlockingConnection(pika.ConnectionParameters('localhost',5672,'/',credentials))
 channel = connection.channel()
-channel.exchange_declare(exchange=exchange,type='topic',durable=True)
+channel.exchange_declare(exchange=exchange,exchange_type='topic',durable=True)
 result = channel.queue_declare(queue=basename(__file__),
                                durable=True,
                                arguments={'x-message-ttl':72*60*60*1000})

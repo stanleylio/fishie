@@ -43,7 +43,7 @@ channel = connection.channel()
 #channel.queue_delete(queue='glazerlab-e5.rabbit2zmq')
 #exit()
 
-channel.exchange_declare(exchange=exchange,type='topic',durable=True)
+channel.exchange_declare(exchange=exchange,exchange_type='topic',durable=True)
 result = channel.queue_declare(queue=basename(__file__),
                                durable=True,
                                arguments={'x-message-ttl':2**31-1}) # ~24 days.
