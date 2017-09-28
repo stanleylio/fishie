@@ -84,8 +84,9 @@ def callback(ch,method,properties,body):
             # * * * /HACK * * *
             
             # * * * HACK * * *
-            if d['node'] == 'node-007' and 'ts' in d:
-                d['Timestamp'] = d['ts']
+            '''if d['node'] == 'node-007' and 'ts' in d:
+                if 'Timestamp' in d:
+                    d['Timestamp'] = d['ts']'''
             # * * * /HACK * * *
 
             for k in d.keys():
