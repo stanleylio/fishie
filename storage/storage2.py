@@ -3,7 +3,7 @@
 # Stanley H.I. Lio
 # hlio@hawaii.edu
 # All Rights Reserved. 2017
-import time,sys
+import time,sys,logging
 from os.path import expanduser
 sys.path.append(expanduser('~'))
 import MySQLdb  # careful about stale read - sqlalchemy seems to handle this automatically; MySQLdb doesn't.
@@ -109,6 +109,22 @@ class storage():
         else:
             return {c:[] for k,c in enumerate(cols)}
 
+    def read_time_range2(self,table,time_col,cols,begin,end):
+        try:
+            cmd = 'SELECT {} FROM {}.`{}`'.\
+                    format(','.join(cols),
+                           self._dbname,
+                           table)
+            time_range = ' WHERE {time_col} BETWEEN "{begin}" AND "{end}"'.\
+                         format(time_col=time_col,begin=begin,end=end)
+            cmd += time_range
+            self._cur.execute(cmd)
+            self._conn.commit()
+            return self._cur.fetchall()
+        except MySQLdb.OperationalError:
+            logging.exception('read_time_range2() error')
+            return []
+
     def read_last_N_minutes(self,table,time_col,N,nonnull):
         """get the latest N-minute worth of readings of the variable 'nonnull' where its readings were not NULL"""
 
@@ -155,7 +171,8 @@ class storage():
 
 
 if '__main__' == __name__:
-    from node.helper import dt2ts
+    import time
     s = storage()
-    print s.read_time_range('node-010','ReceptionTime',['ReceptionTime','d2w'],dt2ts()-3600,dt2ts())
-    print s.read_last_N_minutes('node-011','ReceptionTime',5,nonnull='d2w')
+    #print(s.read_time_range('node-010','ReceptionTime',['ReceptionTime','d2w'],dt2ts()-3600,dt2ts()))
+    #print(s.read_last_N_minutes('node-011','ReceptionTime',5,nonnull='d2w'))
+    print(s.read_time_range2('node-022','ReceptionTime',['ReceptionTime,PH_EXT'],time.time()-600,time.time()))
