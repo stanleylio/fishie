@@ -10,6 +10,10 @@ import MySQLdb  # careful about stale read - sqlalchemy seems to handle this aut
 from datetime import datetime,timedelta
 
 
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.DEBUG)
+
+
 def auto_time_col(columns):
     for time_col in ['ReceptionTime','Timestamp','ts']:
         if time_col in columns:
@@ -30,7 +34,7 @@ def create_table(conf,table,dbname='uhcm',user='root',password=None,host='localh
 
     tmp = ','.join([' '.join(tmp) for tmp in [(column['dbtag'],column.get('dbtype','DOUBLE')) for column in conf]])
     cmd = 'CREATE TABLE IF NOT EXISTS {}.`{}` ({})'.format(dbname,table,tmp)
-    print(cmd)
+    logger.debug(cmd)
     cur.execute(cmd)
 
 
@@ -41,6 +45,7 @@ class storage():
             from cred import cred
             passwd = cred['mysql']
         self._dbname = dbname
+        self._schema_cache = {}
 
         #print host,user,passwd,dbname
         self._conn = MySQLdb.connect(host=host,
@@ -54,10 +59,12 @@ class storage():
         return [tmp[0] for tmp in self._cur.fetchall()]
 
     def get_list_of_columns(self,table):
-        self._cur.execute('SELECT * FROM {}.`{}` LIMIT 1;'.format(self._dbname,table))
-        return [tmp[0] for tmp in self._cur.description]
+        if table not in self._schema_cache:
+            self._cur.execute('SELECT * FROM {}.`{}` LIMIT 1;'.format(self._dbname,table))
+            self._schema_cache[table] = [tmp[0] for tmp in self._cur.description]
+        return self._schema_cache[table]
     
-    def insert(self,table,sample):
+    def insert(self,table,sample,autocommit=True):
         # strip the keys not defined in the db - SQLite didn't seem to care. MySQL does.
         sample = {k:sample[k] for k in self.get_list_of_columns(table) if k in sample}
         #cur = self._conn.cursor()
@@ -71,7 +78,8 @@ class storage():
                      vals=','.join(['%s']*len(cols)))
         #print(cmd)
         self._cur.execute(cmd,vals)
-        self._conn.commit()
+        if autocommit:
+            self._conn.commit()
 
     def read_time_range(self,table,time_col,cols,begin,end):
         """Retrieve records in the given time period.
@@ -122,7 +130,7 @@ class storage():
             self._conn.commit()
             return self._cur.fetchall()
         except MySQLdb.OperationalError:
-            logging.exception('read_time_range2() error')
+            logger.exception('read_time_range2() error')
             return []
 
     def read_last_N_minutes(self,table,time_col,N,nonnull):
@@ -168,6 +176,9 @@ class storage():
             #return {time_col:r[0][0],var:r[0][1]}
         else:
             return {time_col:None,var:None}
+
+    def commit(self):
+        self._conn.commit()
 
 
 if '__main__' == __name__:

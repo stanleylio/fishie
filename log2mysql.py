@@ -62,6 +62,7 @@ def init_storage():
     return storage()
 store = init_storage()
 
+
 #n6last_stored = 0
 def callback(ch,method,properties,body):
     global store
@@ -104,6 +105,8 @@ def callback(ch,method,properties,body):
     except MySQLdb.OperationalError:
         traceback.print_exc()
         store = init_storage()
+    except KeyboardInterrupt:
+        raise
     except:
         traceback.print_exc()
         logging.exception(body)
