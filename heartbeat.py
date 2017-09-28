@@ -53,5 +53,6 @@ connection,channel = None,None
 logging.info(__name__ + ' is ready')
 LoopingCall(taskHeartbeat).start(60)
 reactor.run()
-connection.close()
+if connection:
+    connection.close()
 logging.info(__name__ + ' terminated')

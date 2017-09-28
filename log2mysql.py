@@ -40,6 +40,7 @@ nodeid = socket.gethostname()
 credentials = pika.PlainCredentials(nodeid,cred['rabbitmq'])
 connection = pika.BlockingConnection(pika.ConnectionParameters('localhost',5672,'/',credentials))
 channel = connection.channel()
+channel.basic_qos(prefetch_count=200)
 #channel.queue_delete(queue='glazerlab-e5.rabbit2zmq')
 #exit()
 
