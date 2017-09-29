@@ -70,3 +70,5 @@ sudo cp /home/nuc/node/setup/time/rtc-ds1307.service /lib/systemd/system/rtc-ds1
 sudo systemctl enable rtc-ds1307.service
 sudo systemctl start rtc-ds1307.service
 sudo systemctl status rtc-ds1307.service
+
+exit 0
