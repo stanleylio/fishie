@@ -3,24 +3,29 @@
 # Stanley H.I. Lio
 # 2017
 
+
 echo "Installing external RTC (DS1307/DS3231)..."
-# pi
-if [ -f /sys/class/i2c-adapter/i2c-1 ]; then
-	sudo i2cdetect -y -r 1
-	echo "using i2c-1"
-	sudo bash -c "echo ds1307 0x68 > /sys/class/i2c-adapter/i2c-1/new_device"
-fi
-# bone
-if [ -f /sys/class/i2c-adapter/i2c-2 ]; then
+if [ -e /sys/class/i2c-adapter/i2c-2 ]; then
+	# bone
 	sudo i2cdetect -y -r 2
 	echo "using i2c-2"
 	sudo bash -c "echo ds1307 0x68 > /sys/class/i2c-adapter/i2c-2/new_device"
+	PLATFORM=bbb
+else
+	# probably pi - only bone has two I2C ports
+	sudo i2cdetect -y -r 1
+	echo "using i2c-1"
+	sudo bash -c "echo ds1307 0x68 > /sys/class/i2c-adapter/i2c-1/new_device"
+	PLATFORM=rpi
 fi
 
-if [ -e /dev/rtc0 ] ; then
+echo "Current platform: " $PLATFORM
+
+echo "Current external RTC time:"
+if [ "rpi" = "$PLATFORM" ] ; then
 	sudo hwclock -r -f /dev/rtc0
 fi
-if [ -e /dev/rtc1 ] ; then
+if [ "bbb" = "$PLATFORM" ] ; then
 	sudo hwclock -r -f /dev/rtc1
 fi
 

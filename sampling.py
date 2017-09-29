@@ -37,6 +37,7 @@ formatter = logging.Formatter('%(asctime)s,%(name)s,%(levelname)s,%(module)s.%(f
 handler.setFormatter(formatter)
 logger.addHandler(handler)
 
+logger.debug('has_watchdog: {}'.format(has_watchdog))
 
 parser = argparse.ArgumentParser(description='sampling.py')
 parser.add_argument('port',metavar='serialport',type=str,
@@ -82,7 +83,7 @@ def taskSampling():
         if len(line.strip()) > 0:
             print(line.strip())
             if connection is None or channel is None:
-                logger.info('Connection to local exchange closed')
+                logger.info('Connection to local exchange not open')
                 connection,channel = rabbit_init()
                 logger.info('Connection to local exchange re-established')
             channel.basic_publish(exchange=exchange,
@@ -119,7 +120,7 @@ connection,channel = None,None
 logger.info(__name__ + ' is ready')
 LoopingCall(taskSampling).start(0.001)
 if has_watchdog:
-    LoopingCall(taskWatchdog).start(150)
+    LoopingCall(taskWatchdog).start(2*60)
 
 reactor.run()
 
