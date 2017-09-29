@@ -13,7 +13,8 @@ logging.getLogger('pika').setLevel(logging.WARNING)
 
 exchange = 'uhcm'
 nodeid = socket.gethostname()
-routing_key = nodeid + '.monitor'
+#routing_key = nodeid + '.monitor'
+routing_key = nodeid + '.samples'
 
 
 def rabbit_init():
