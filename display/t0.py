@@ -56,8 +56,8 @@ store = storage()
 list_of_nodes = get_list_of_devices(site)
 for node in list_of_nodes:
 #for node in ['node-025']:
-    if not is_node(node):   # could be a base station or other stuff in the future
-        continue
+    #if not is_node(node):   # could be a base station or other stuff in the future
+    #    continue
 
     # auto-select a column as time
     #V = get_list_of_disp_vars(site,node)
@@ -81,6 +81,7 @@ for node in list_of_nodes:
     assert end > begin
 
     print(node)
+
     for var in V:
         try:
             r = store.read_time_range(node,time_col,[time_col,var],begin,end)
