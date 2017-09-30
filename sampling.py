@@ -91,7 +91,7 @@ def taskSampling():
                                   body=line,
                                   properties=pika.BasicProperties(delivery_mode=2,
                                                                   content_type='text/plain',
-                                                                  expiration=str(30*24*3600*1000)))
+                                                                  expiration=str(10*24*3600*1000)))
     except pika.exceptions.ConnectionClosed:
         logger.error('connection closed')  # connection to the local exchange closed? wut?
         connection,channel = None,None

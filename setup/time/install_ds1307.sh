@@ -19,6 +19,12 @@ else
 	PLATFORM=rpi
 fi
 
+if [ -e /sys/class/i2c-adapter/i2c-2 ]; then
+	sudo i2cdetect -y -r 2
+else
+	sudo i2cdetect -y -r 1
+fi
+
 echo "- - - - -"
 echo "Current platform:" $PLATFORM
 echo "- - - - -"
