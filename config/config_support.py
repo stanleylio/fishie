@@ -58,6 +58,9 @@ def get_list_of_nodes(site):
 
 def get_list_of_variables(node):
     node = import_node_config(node)
+    conf = getattr(node,'conf',None)
+    if conf is None:
+        return []
     return [c['dbtag'] for c in node.conf]
 
 def get_type(site,node):
@@ -93,6 +96,9 @@ def get_description(node,var):
 def get_list_of_disp_vars(node):
     """Get the list of variables to display."""
     node = import_node_config(node=node)
+    conf = getattr(node,'conf',None)
+    if conf is None:
+        return []
     return [c['dbtag'] for c in node.conf if c.get('plot',True)]
 
 def get_plot_range(node):

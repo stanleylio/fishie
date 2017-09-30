@@ -61,6 +61,7 @@ for node in list_of_nodes:
 
     # auto-select a column as time
     #V = get_list_of_disp_vars(site,node)
+    logging.info(node)
     V = get_list_of_disp_vars(node)
     try:
         columns = store.get_list_of_columns(node)
@@ -80,9 +81,11 @@ for node in list_of_nodes:
     begin = dt2ts(datetime.utcnow() - timedelta(hours=get_plot_range(node)))
     assert end > begin
 
-    print(node)
+    #print(node)
 
     for var in V:
+        #print(var)
+        #continue
         try:
             r = store.read_time_range(node,time_col,[time_col,var],begin,end)
             print('\t' + var)
