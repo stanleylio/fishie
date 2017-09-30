@@ -19,6 +19,16 @@ conf = [
         'dbtag':'uptime_second',
         'description':'Uptime in seconds',
     },
+    {
+        'dbtag':'usedMB',
+        'unit':'MB',
+        'description':'Used disk space',
+    },
+    {
+        'dbtag':'freeMB',
+        'unit':'MB',
+        'description':'Remaining free disk space',
+    },
 ]
 
 
