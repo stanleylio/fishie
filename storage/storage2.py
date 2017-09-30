@@ -45,7 +45,7 @@ class storage():
             from cred import cred
             passwd = cred['mysql']
         self._dbname = dbname
-        self._schema_cache = {}
+        self._schema_cache = {}     # need to restart log2mysql every time new fields are added. annoying.
 
         #print host,user,passwd,dbname
         self._conn = MySQLdb.connect(host=host,
