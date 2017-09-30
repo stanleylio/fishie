@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # us2
-name = 'First Mākāhā Water Level'
-location = 'First Mākāhā'
+name = 'Hīhīmanu Water Level'
+location = 'Hīhīmanu (first mākāhā)'
 note = 'Ultrasonic tide gauge (us2)'
 
 #log_dir = './log'

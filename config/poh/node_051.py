@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
-name = 'Storm Mākāhā Water Level'
-location = 'Storm Mākāhā'
-note = 'Firmware p5b, hardware v0.2. 1 measurement per second; 1 sample = average of 60 measurements; 10 samples per transmission.'
+name = 'Mākāhā Nui Water Level'
+location = 'Mākāhā Nui (Storm Mākāhā)'
+note = 'Cellular ultrasonic tide gauge. Each sample is average of 60 measurements, made once a second. Transmission after every 10 samples are collected. Firmware p5d, hardware v0.2.'
 
 coreid = '230053001951353338363036'
 
@@ -24,6 +24,19 @@ conf = [
         'description':'Battery voltage',
         'lb':3.7,
         'ub':5.5,
+    },
+    {
+        'dbtag':'SoC',
+        'unit':'%',
+        'description':'State of Charge',
+        'lb':0,
+        'ub':100,
+    },
+    {
+        'dbtag':'sample_size',
+        'description':'Number of valid readings in the 60 measurements',
+        'lb':0,
+        'ub':60,
     },
 ]
 

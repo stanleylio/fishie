@@ -13,7 +13,7 @@ from datetime import datetime,timedelta
 from node.display.gen_plot import plot_time_series
 from node.helper import dt2ts
 from node.storage.storage2 import storage,auto_time_col
-from node.config.config_support import get_list_of_nodes,get_list_of_disp_vars,get_description,get_unit,get_plot_range
+from node.config.config_support import get_list_of_devices,get_list_of_disp_vars,get_description,get_unit,get_plot_range
 
 
 logging.basicConfig(level=logging.DEBUG)
@@ -52,7 +52,8 @@ if not exists(plot_dir):
     makedirs(plot_dir)
 
 store = storage()
-list_of_nodes = get_list_of_nodes(site)
+#list_of_nodes = get_list_of_nodes(site)
+list_of_nodes = get_list_of_devices(site)
 for node in list_of_nodes:
 #for node in ['node-025']:
     if not is_node(node):   # could be a base station or other stuff in the future

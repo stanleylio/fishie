@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-name = 'Oxygen and Depth'
-location = 'Mākāhā 1'
+name = 'Hīhīmanu Oxygen and Depth'
+location = 'Hīhīmanu (first mākāhā)'
 note = 'Beaglebone-based node measuring oxygen, temperature and water depth'
 
 # node stuff

@@ -29,7 +29,8 @@ from node.storage.storage2 import storage
 from cred import cred
 
 
-logging.basicConfig(level=logging.INFO)
+logging.basicConfig(level=logging.DEBUG)
+logging.getLogger('pika').setLevel(logging.WARNING)
 
 
 exchange = 'uhcm'

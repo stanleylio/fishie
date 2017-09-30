@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-name = 'River Mākāhā Water Level'
+name = 'Wai 1 Water Level'
 location = 'River Mākāhā'
 note = 'Ultrasonic tide gauge (1st gen PCB)'
 

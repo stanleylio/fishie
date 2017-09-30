@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-name = 'Met. Station'
-location = 'Mākāhā 1'
+name = 'Hīhīmanu Met. Station'
+location = 'Hīhīmanu (first mākāhā)'
 note = 'Meteorological Station'
 
 log_dir = './log'
