@@ -1,4 +1,4 @@
-name = 'PoH Base Station (cold standby)'
+name = 'PoH Base Station (base-003 replica)'
 location = 'Paepae o He\'ei, Oahu, Hawaii'
 google_earth_link = 'https://goo.gl/maps/ECEBgo3UEp82'
 note = 'NUC5CPYH'
