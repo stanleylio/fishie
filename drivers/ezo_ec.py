@@ -1,7 +1,3 @@
-from ConfigParser import SafeConfigParser,NoSectionError
-from ezo import EZOPI as EZO
-from os.path import join,dirname
-
 # Driver for the Atlas Scientific EZO EC (Electrical Conductivity) sensor
 
 # <IMPORTANT>
@@ -13,11 +9,13 @@ from os.path import join,dirname
 
 # Stanley Lio, hlio@usc.edu
 # All Rights Reserved. February 2015
+from ConfigParser import SafeConfigParser,NoSectionError
+from ezo import EZOPI as EZO
+from os.path import join,dirname
+import logging
 
 
-def PRINT(s):
-    print(s)
-    #pass
+logger = logging.getLogger(__name__)
 
 
 # Communication handler for the EZO EC sensor
@@ -34,7 +32,7 @@ class EZO_EC(EZO):
             # the sensor actually store only integer T
             #self.t(round(float(parser.get('ec','t')),0))
         except NoSectionError:
-            PRINT('EZO_EC: configuration file not found. Not syncing K value')
+            logger.warning('EZO_EC: configuration file not found. Not syncing K value')
 
     # see P.39
     def read(self):
@@ -66,17 +64,17 @@ class EZO_EC(EZO):
                 return current
             elif current != new:
                 if new >= 0.1 and new <= 10:
-                    PRINT('update current K = {} to new K = {}'.format(current,new))
+                    logging.debug('update current K = {} to new K = {}'.format(current,new))
                     cmd = 'K,{:.2f}'.format(new)
                     self._r(cmd,0.3)    # ignore the response
                     if self.lowpower:
                         self.sleep()
                 else:
-                    PRINT('EZO_EC: invalid K value supplied')
+                    logging.error('EZO_EC: invalid K value supplied')
             else:
-                PRINT('EZO_EC: supplied K == current K = {}, no update required'.format(current))
+                logging.debug('EZO_EC: supplied K == current K = {}, no update required'.format(current))
         else:
-            PRINT('EZO_EC: cannot retrieve K value from sensor')
+            logging.warning('EZO_EC: cannot retrieve K value from sensor')
         if self.lowpower:
             self.sleep()
 
@@ -99,24 +97,24 @@ if '__main__' == __name__:
     bus = 1
     
     ec = EZO_EC(bus=bus,lowpower=False)
-    print 'Device Information (sensor type, firmware version):'
-    print ec.device_information()
-    print
-    print 'Status:'
-    print ec.status()
-    print
-    print 'Supply voltage:'
-    print '{:.3f} volt'.format(ec.supply_v())
-    print
-    print 'Current K value (of probe):'
-    print ec.k()
-    print
+    print('Device Information (sensor type, firmware version):')
+    print(ec.device_information())
+    print()
+    print('Status:')
+    print(ec.status())
+    print()
+    print('Supply voltage:')
+    print('{:.3f} volt'.format(ec.supply_v()))
+    print()
+    print('Current K value (of probe):')
+    print(ec.k())
+    print()
     #print 'Change K value to...'
     #print ec.k(1.2)    # synced during instantiation, but can be changed during runtime
     #print
-    print 'Current T value (calibration parameter, not measured):'
-    print '{:.0f} Deg.C'.format(ec.t())
-    print
+    print('Current T value (calibration parameter, not measured):')
+    print('{:.0f} Deg.C'.format(ec.t()))
+    print()
     #print 'Change T value to...'
     #print ec.t(25)      # NOT synced during instantiation
     #print
