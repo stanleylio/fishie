@@ -2,7 +2,7 @@ name = '(TBD)'
 location = '(TBD)'
 google_earth_link = '#'
 note = 'bbb-based'
-public_key = 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCyQxlrza6fTfwH4W1HtFsyP8uXRk7g04l4sp/PQ1KgrX92zm8c9pEwGiarMKJAlBaCTl8cMJXlemPmMs4/2WUtkRlgmWfU+HLfw457atOEPgrkJOw8mUb7I26IeAZ8Tz68a3/s4snxE0KGbbvHBidwnjGOztvr3whEYgJJPB3RuB1WTkIreQeIILj0eomyw53PzjT++aleJhmReLyGBzBwetXi8BYwwutn/AfM2nZG4Xso6zvIBidGFaSCPmCWVtsfx1uGiEjxm6/3/Avo/TwXB3+BJ8DyiK8TkzuUBusu9zkR3oRs8llSqngLfLS/GqVd6oBXQuT2ANLqxwQnddIF nuc@base-009'
+public_key = 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDB5JLe9Jw/1N4coVncGZKbCcq3YAr+VoSkHGRxFBoRe+rxbyrsQ5CWdt0a0Vx/xavgs5YaDN6nHdzbAiMjfP5JRQdls2Vy6HYsJR2T6pAlG77Pv/qUJT5BRcQwZbWtgmuffB0f+gHbBqJ1pE0EhSu7p+J0Axp9JWkHTMn2eLpOtlyL9BcSul9yz8q0NV5TLM9klUGgzwqZ1I+J1pHTZU2pBuErIxhb0c4jDOkRtJZ5G91I2fZviUK3FM+fXmEG5Vwb0s6QRPY2wPUWCS621/BlFk1qkdb/aknOq6w7qupIhXAuGxcj8CqCzeA1lrUanZa3/d6CxlgUUy0FXmBMCGdV nuc@base-008'
 
 
 conf = [
