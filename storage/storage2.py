@@ -8,6 +8,7 @@ from os.path import expanduser
 sys.path.append(expanduser('~'))
 import MySQLdb  # careful about stale read - sqlalchemy seems to handle this automatically; MySQLdb doesn't.
 from datetime import datetime,timedelta
+from cred import cred
 
 
 logger = logging.getLogger(__name__)
@@ -25,7 +26,6 @@ def auto_time_col(columns):
 def create_table(conf,table,dbname='uhcm',user='root',password=None,host='localhost',noreceptiontime=False):
     if password is None:
         #password = open(expanduser('~/mysql_cred')).read().strip()
-        from cred import cred
         passwd = cred['mysql']
     if not noreceptiontime:
         conf.insert(0,{'dbtag':'ReceptionTime','dbtype':'DOUBLE PRIMARY KEY'})
@@ -41,30 +41,34 @@ def create_table(conf,table,dbname='uhcm',user='root',password=None,host='localh
 class storage():
     def __init__(self,dbname='uhcm',user='root',passwd=None,host='localhost'):
         if passwd is None:
-            #passwd = open(expanduser('~/mysql_cred')).read().strip()
-            from cred import cred
             passwd = cred['mysql']
         self._dbname = dbname
-        self._schema_cache = {}     # need to restart log2mysql every time new fields are added. annoying.
 
         #print host,user,passwd,dbname
-        self._conn = MySQLdb.connect(host=host,
-                                     user=user,
-                                     passwd=passwd,
-                                     db=dbname)
+        self._conn = MySQLdb.connect(host=host,user=user,passwd=passwd,db=dbname)
         self._cur = self._conn.cursor()
 
-    def get_list_of_tables(self):
-        self._cur.execute('SHOW TABLES;')
-        return [tmp[0] for tmp in self._cur.fetchall()]
+        self._schema_cache = {}
+        self._schema_update()
 
-    def get_list_of_columns(self,table):
+    def get_list_of_tables(self,force_update=False):
+        if force_update:
+            self._schema_update()
+        return self._schema_cache.keys()
+
+    def get_list_of_columns(self,table,force_update=False):
         if table not in self._schema_cache:
-            self._cur.execute('SELECT * FROM {}.`{}` LIMIT 1;'.format(self._dbname,table))
-            self._schema_cache[table] = [tmp[0] for tmp in self._cur.description]
-        return self._schema_cache[table]
+            force_update = True
+        if force_update:
+            self._schema_update()
+        return self._schema_cache.get(table,None)   # or []?
     
     def insert(self,table,sample,autocommit=True):
+        if table not in self.get_list_of_tables():
+            self._schema_update()
+        if table not in self.get_list_of_tables():
+            logger.warning('{} not defined in db. ignore'.format(table))
+            return
         # strip the keys not defined in the db - SQLite didn't seem to care. MySQL does.
         sample = {k:sample[k] for k in self.get_list_of_columns(table) if k in sample}
         #cur = self._conn.cursor()
@@ -165,7 +169,7 @@ class storage():
 
     def read_latest_non_null(self,table,time_col,var):
         """Retrieve the latest row where var is not null."""
-        cmd = '''SELECT * FROM `{table}` WHERE {var} IS NOT NULL ORDER BY {time_col} DESC LIMIT 1;'''.\
+        cmd = 'SELECT * FROM `{table}` WHERE {var} IS NOT NULL ORDER BY {time_col} DESC LIMIT 1;'.\
               format(time_col=time_col,var=var,table=table)
         self._cur.execute(cmd)
         r = self._cur.fetchall()
@@ -179,6 +183,13 @@ class storage():
 
     def commit(self):
         self._conn.commit()
+
+    def _schema_update(self):
+        self._cur.execute('SHOW TABLES;')
+        tables = [tmp[0] for tmp in self._cur.fetchall()]
+        for table in tables:
+            self._cur.execute('SELECT * FROM {}.`{}` LIMIT 1;'.format(self._dbname,table))
+            self._schema_cache[table] = [tmp[0] for tmp in self._cur.description]
 
 
 if '__main__' == __name__:
