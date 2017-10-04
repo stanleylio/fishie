@@ -16,6 +16,7 @@ conf = [
         'description':'Distance from sensor to water surface',
         'lb':300,
         'ub':4999,
+        'interval':1*60,
     },
 ]
 
