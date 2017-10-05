@@ -61,7 +61,7 @@ class storage():
             force_update = True
         if force_update:
             self._schema_update()
-        return self._schema_cache.get(table,None)   # or []?
+        return self._schema_cache.get(table,[])
     
     def insert(self,table,sample,autocommit=True):
         if table not in self.get_list_of_tables():

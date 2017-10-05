@@ -29,11 +29,13 @@ def find_bounds(x,y):
 
 
 # db could be empty
-# node may not be defined
-# variable may not be defined
+# node may not be defined in db
+# node may not be defined in config
+# variable may not be defined in db
+# variable may not be defined in config
 # there may not be any data for the variable
 # there may not be any recent data for the variable
-# the data could be None or NaN
+# the reading could be None or NaN
 # ...
 
 
@@ -63,13 +65,20 @@ for node in list_of_nodes:
     #V = get_list_of_disp_vars(site,node)
     logging.info(node)
     V = get_list_of_disp_vars(node)
+    if len(V) == 0:
+        logging.warning('Nothing to plot for {}'.format(node))
+        continue
     try:
         columns = store.get_list_of_columns(node)
+        if len(columns) == 0:
+            logging.warning('Table for {} is probably not defined'.format(node))
+            continue
     except:
         traceback.print_exc()
         continue
+
     assert set(V) <= set(columns)
-    assert len(V) > 0
+
     time_col = auto_time_col(columns)
 
     # create the output dir
@@ -104,11 +113,13 @@ for node in list_of_nodes:
             # - - -
             x = r[time_col]
             y = r[var]
-            plot_time_series(x,y,\
-                             join(plot_dir,node,var + '.png'),\
-                             title=title,\
-                             ylabel=ylabel,\
-                             linelabel=var)
+            plot_time_series(x,y,
+                             join(plot_dir,node,var + '.png'),
+                             title=title,
+                             ylabel=ylabel,
+                             linestyle='',
+                             linelabel=var,
+                             markersize=6)
 
             # this sounds like a classic SQL job.
             tmp = find_bounds(x,y)

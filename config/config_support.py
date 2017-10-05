@@ -96,10 +96,8 @@ def get_description(node,var):
 def get_list_of_disp_vars(node):
     """Get the list of variables to display."""
     node = import_node_config(node=node)
-    conf = getattr(node,'conf',None)
-    if conf is None:
-        return []
-    return [c['dbtag'] for c in node.conf if c.get('plot',True)]
+    conf = getattr(node,'conf',[])
+    return [c['dbtag'] for c in conf if c.get('plot',True)]
 
 def get_plot_range(node):
 #    try:
@@ -110,9 +108,11 @@ def get_plot_range(node):
 
 def get_range(node,variable):
     node = import_node_config(node=node)
-    for c in node.conf:
+    conf = getattr(node,'conf',[])
+    for c in conf:
         if c['dbtag'] == variable:
-            return [c.get('lb',float('-inf')),c.get('ub',float('inf'))]
+            return [c.get('lb',float('-inf')),
+                    c.get('ub',float('inf'))]
     return None
 
 def is_in_range(site,node,variable,reading):
