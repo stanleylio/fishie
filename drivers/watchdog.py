@@ -29,7 +29,8 @@ def reset_auto():
             w = Watchdog(bus=bus)
             counter = w.reset()
             logging.debug('counter={}'.format(counter))
-            if counter >= 0 and counter <= 30*60:
+            #if counter >= 0 and counter <= 30*60:
+            if counter >= 0:    # still have old WDT capes out there...
                 good[bus-1] = True
                 break
         except IOError:
