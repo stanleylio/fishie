@@ -16,6 +16,7 @@ conf = [
     {
         'dbtag':'uptime_second',
         'description':'Uptime in seconds',
+        'lb':5*60,
         'interval':60,
     },
     {
