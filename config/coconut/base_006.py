@@ -11,21 +11,25 @@ conf = [
     {
         'dbtag':'system_clock',
         'description':'Device clock',
+        'interval':60,
     },
     {
         'dbtag':'uptime_second',
         'description':'Uptime in seconds',
+        'interval':60,
     },
     {
         'dbtag':'usedMB',
         'unit':'MB',
         'description':'Used disk space',
+        'interval':60,
     },
     {
         'dbtag':'freeMB',
         'unit':'MB',
         'description':'Remaining free disk space',
         'lb':800,
+        'interval':60,
     },
 ]
 

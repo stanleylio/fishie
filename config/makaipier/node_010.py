@@ -11,23 +11,27 @@ conf = [
         'description':'Distance from base of sensor to water surface',
         'lb':300,
         'ub':4999,
+        'interval':60,
     },
     {
         'dbtag':'VbattV',
         'unit':'V',
         'description':'Battery voltage',
-        'lb':2.5,
+        'lb':2.7,
+        'interval':60,
     },
     {
         'dbtag':'ticker',
         'description':'Monotonic increasing 1Hz ticker',
         'lb':0,
+        'interval':60,
     },
     {
         'dbtag':'sample_size',
         'description':'Number of valid readings in the 60 measurements',
         'lb':0,
         'ub':60,
+        'interval':60,
     },
 ]
 

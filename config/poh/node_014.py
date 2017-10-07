@@ -10,14 +10,14 @@ conf = [
         'unit':'mm',
         'description':'Distance from sensor to water surface',
         'lb':300,
-        'ub':5000,
+        'ub':4999,
         'interval':400,
     },
     {
         'dbtag':'VbattV',
         'unit':'V',
         'description':'Battery voltage (Vbatt)',
-        'lb':2.4,
+        'lb':2.7,
         'interval':400,
     },
     {
