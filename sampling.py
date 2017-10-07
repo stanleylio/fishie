@@ -120,7 +120,7 @@ connection,channel = None,None
 logger.info(__name__ + ' is ready')
 LoopingCall(taskSampling).start(0.001)
 if has_watchdog:
-    LoopingCall(taskWatchdog).start(2*60)
+    LoopingCall(taskWatchdog).start(1*60)
 
 reactor.run()
 

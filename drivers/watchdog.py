@@ -15,8 +15,10 @@ class Watchdog(object):
         self.bus = smbus.SMBus(bus)
 
     def reset(self):
-        # the return value doesn't work. TODO
-        return self.bus.read_word_data(self.addr,10)
+        return self.bus.read_word_data(self.addr,0xA)
+
+    def wdt_fired(self):
+        return bool(self.bus.read_word_data(self.addr,0xC))
 
 
 def reset_auto():
@@ -25,10 +27,11 @@ def reset_auto():
         logger.debug('bus {}...'.format(bus))
         try:
             w = Watchdog(bus=bus)
-            for i in range(3):
-                w.reset()
-            good[bus-1] = True
-            #break
+            counter = w.reset()
+            logging.debug('counter={}'.format(counter))
+            if counter >= 0 and counter <= 30*60:
+                good[bus-1] = True
+                break
         except IOError:
             #logging.exception(traceback.format_exc())
             pass
@@ -45,3 +48,6 @@ def reset_auto():
 if '__main__' == __name__:
     logging.basicConfig(level=logging.DEBUG)
     reset_auto()
+    #w = Watchdog(bus=2)
+    #print(w.reset())
+    #print(w.wdt_fired())
