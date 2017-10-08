@@ -133,4 +133,4 @@ def get_interval(node,variable):
 
 if '__main__' == __name__:
     #print config_as_dict()
-    print get_list_of_nodes('poh')
+    print(get_list_of_nodes('poh'))

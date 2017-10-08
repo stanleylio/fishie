@@ -67,7 +67,7 @@ def plot_multi_time_series(data,plotfilename,title='',xlabel='',ylabel='',loc='b
         x = d['x']
         y = d['y']
         label = d.get('linelabel',None)
-        color = d.get('color','blue')
+        color = d.get('color','#1f77b4')
         linestyle = d.get('linestyle','')
         marker = d.get('marker','.')
         markersize = d.get('markersize',1)
