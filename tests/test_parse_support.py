@@ -23,6 +23,7 @@ M_poh = [
     'seabird1,46,0,9900,9606,9604,3.203,4.508',
     #'{"from":"node-013","payload":{"d2w":1148.2,"VbattV":4.024,"ticker":12}}4b71f103',
     '{"from":"node-015","payload":{"d2w":1629.3,"VbattV":3.965,"ticker":127800}}e44735ed',
+    '{"from":"node-083","v":1,"payload":{"Timestamp":1507417208,"Temp":22.89,"SpCond":0.424,"Cond":0.407,"Sal":0.20,"Press":14.618,"Depth":-0.056,"Battery":13.3}}ab172b51',
 ]
 
 
@@ -30,7 +31,7 @@ class TestParse(unittest.TestCase):
 
     def test_parse_message(self):
         for m in M_poh:
-            #print m
+            #print(m)
             m = parse_message(m)
             self.assertTrue('node' in m)
 
