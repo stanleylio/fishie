@@ -11,6 +11,7 @@ conf = [
         'dbtag':'Timestamp',
         'description':'Sample time (Electron clock)',
         'plot':True,
+        'interval':10*60,
     },
     {
         'dbtag':'d2w',
@@ -18,6 +19,7 @@ conf = [
         'description':'Distance from sensor to water surface',
         'lb':300,
         'ub':5000,
+        'interval':10*60,
     },
     {
         'dbtag':'VbattV',
@@ -25,6 +27,7 @@ conf = [
         'description':'Battery voltage',
         'lb':3.7,
         'ub':5.5,
+        'interval':10*60,
     },
     {
         'dbtag':'SoC',
@@ -32,12 +35,14 @@ conf = [
         'description':'State of Charge',
         'lb':0,
         'ub':100,
+        'interval':10*60,
     },
     {
         'dbtag':'sample_size',
         'description':'Number of valid readings in the 60 measurements',
         'lb':0,
         'ub':60,
+        'interval':10*60,
     },
 ]
 

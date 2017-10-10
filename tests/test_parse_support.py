@@ -24,6 +24,7 @@ M_poh = [
     #'{"from":"node-013","payload":{"d2w":1148.2,"VbattV":4.024,"ticker":12}}4b71f103',
     '{"from":"node-015","payload":{"d2w":1629.3,"VbattV":3.965,"ticker":127800}}e44735ed',
     '{"from":"node-083","v":1,"payload":{"Timestamp":1507417208,"Temp":22.89,"SpCond":0.424,"Cond":0.407,"Sal":0.20,"Press":14.618,"Depth":-0.056,"Battery":13.3}}ab172b51',
+    '{"from":"node-052","payload":{"Timestamp":1507618102,"d2w":1067.5,"sample_size":60},"v":1}984112e7',
 ]
 
 
