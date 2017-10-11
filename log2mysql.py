@@ -59,6 +59,9 @@ queue_name = result.method.queue
 channel.queue_bind(exchange=exchange,
                    queue=queue_name,
                    routing_key='*.samples')
+channel.queue_bind(exchange=exchange,
+                   queue=queue_name,
+                   routing_key='*.debug')
 
 def init_storage():
     return storage()
