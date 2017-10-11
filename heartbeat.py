@@ -21,8 +21,7 @@ setDebugging(True)
 
 exchange = 'uhcm'
 nodeid = socket.gethostname()
-#routing_key = nodeid + '.monitor'
-routing_key = nodeid + '.samples'
+routing_key = nodeid + '.debug'
 
 
 def rabbit_init():
