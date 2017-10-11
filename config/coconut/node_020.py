@@ -11,6 +11,7 @@ conf = [
         'description':'Tank #1 Water Temperature',
         'lb':22,
         'ub':31,
+        'interval':60,
     },
     {
         'dbtag':'t1',
@@ -18,6 +19,7 @@ conf = [
         'description':'Tank #2 Water Temperature',
         'lb':22,
         'ub':31,
+        'interval':60,
     },
     {
         'dbtag':'t2',
@@ -25,6 +27,7 @@ conf = [
         'description':'Tank #3 Water Temperature',
         'lb':22,
         'ub':31,
+        'interval':60,
     },
     {
         'dbtag':'t3',
@@ -32,6 +35,7 @@ conf = [
         'description':'Tank #4 Water Temperature',
         'lb':22,
         'ub':31,
+        'interval':60,
     },
 ]
 
