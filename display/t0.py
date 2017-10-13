@@ -13,7 +13,7 @@ from datetime import datetime,timedelta
 from node.display.gen_plot import plot_time_series
 from node.helper import dt2ts
 from node.storage.storage2 import storage,auto_time_col
-from node.config.config_support import get_list_of_devices,get_list_of_disp_vars,get_description,get_unit,get_plot_range
+from node.config.config_support import get_list_of_devices,get_list_of_disp_vars,get_description,get_unit,get_config
 
 
 logging.basicConfig(level=logging.DEBUG)
@@ -86,15 +86,17 @@ for node in list_of_nodes:
     if not exists(tmp):
         makedirs(tmp)
 
-    end = dt2ts(datetime.utcnow())
-    begin = dt2ts(datetime.utcnow() - timedelta(hours=get_plot_range(node)))
-    assert end > begin
-
     #print(node)
 
+    end = dt2ts(datetime.utcnow())
+    
     for var in V:
         #print(var)
         #continue
+
+        begin = dt2ts(datetime.utcnow() - timedelta(hours=get_config('plot_range',node,variable_name=var,default=30*24)))
+        assert end > begin
+        
         try:
             r = store.read_time_range(node,time_col,[time_col,var],begin,end)
             print('\t' + var)
