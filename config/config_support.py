@@ -3,7 +3,7 @@
 # Stanley Lio, hlio@usc.edu
 # All Rights Reserved. August 2015
 #from __future__ import absolute_import
-import re,socket,traceback#,imp
+import re,socket,traceback
 from importlib import import_module
 from os import listdir
 from os.path import join,exists,dirname,realpath,basename,splitext,abspath,isfile
@@ -30,105 +30,80 @@ def config_as_dict():
             config[site] = sorted(F)
     return config
 
-def get_site(node):
-    """Meant to be called by the base stations / nodes to find out which site it belongs"""
+def get_site(device):
     C = config_as_dict()
     for site in C:
-        if node in C[site]:
+        if device in C[site]:
             return site
 
-def import_node_config(node=None):
-    """Meant to be called by the base stations / nodes to get its own config file"""
-    if node is None:
+def import_node_config(device=None):
+    if device is None:
         from socket import gethostname
-        node = gethostname()
-    site = get_site(node)
-    node = node.replace('-','_')
-    return import_module('node.config.{site}.{node}'.\
-                         format(site=site,node=node))
+        device = gethostname()
+    site = get_site(device)
+    device = device.replace('-','_')
+    return import_module('node.config.{site}.{device}'.\
+                         format(site=site,device=device))
 
 def get_list_of_devices(site):
     return sorted(config_as_dict().get(site,[]))
 
 def get_list_of_nodes(site):
-    #L = config_as_dict().get(site,[])
-    #L = filter(lambda x: x.startswith('node-'),L)
-    #return sorted(L)
     return filter(lambda x: x.startswith('node-'),get_list_of_devices(site))
 
 def get_list_of_variables(node):
-    node = import_node_config(node)
-    conf = getattr(node,'conf',None)
-    if conf is None:
-        return []
-    return [c['dbtag'] for c in node.conf]
+    config = import_node_config(node)
+    return [c['dbtag'] for c in getattr(config,'conf',[])]
 
-def get_type(site,node):
-    node = import_node_config(node)
-    return [c.get('dbtype','DOUBLE') for c in node.conf]
+def get_config(parameter_name,node_id,variable_name=None,default=None):
+    # note: the parameter COULD be None
+    config = import_node_config(node_id)
 
-#def get_schema(site):
-#    return {node:zip(get_list_of_variables(node),get_type(site,node)) for node in get_list_of_nodes(site)}
+    # variable_name not given, so it's a node-wide parameter
+    if variable_name is None:
+        return getattr(config,parameter_name,default)
+
+    # is it defined for the particular variable?
+    for c in getattr(config,'conf',[]):
+        if c['dbtag'] == variable_name:
+            return c.get(parameter_name,default)
+    return default
 
 
 # STUFF FOR WEB
-def get_attr(node,attr,default=None):
-    m = import_node_config(node)
-    return getattr(m,attr,default)
-
 def get_public_key(node):
-    return get_attr(node,'public_key',default=None)
-
-def get_unit_map(node):
-    node = import_node_config(node=node)
-    return {c['dbtag']:c.get('unit',None) for c in node.conf}
+    return get_config('public_key',node)
 
 def get_unit(node,var):
-    return get_unit_map(node).get(var,None)
-
-def get_description_map(node):
-    node = import_node_config(node=node)
-    return {c['dbtag']:c.get('description','') for c in node.conf}
+    return get_config('unit',node,variable_name=var,default='-')
 
 def get_description(node,var):
-    return get_description_map(node).get(var,'')
+    return get_config('description',node,variable_name=var,default='')
 
-def get_list_of_disp_vars(node):
+# need some work here. time for SQL I'd say...
+def get_list_of_disp_vars(device):
     """Get the list of variables to display."""
-    node = import_node_config(node=node)
-    conf = getattr(node,'conf',[])
+    device = import_node_config(device=device)
+    conf = getattr(device,'conf',[])
     return [c['dbtag'] for c in conf if c.get('plot',True)]
 
-def get_plot_range(node):
-#    try:
-#        return import_node_config(node).plot_range
-#    except AttributeError:
-#        return 30*24    # default: ~30 days
-    return get_attr(node,'plot_range',default=30*24)
+def get_plot_range(node,var):
+    return get_config('plot_range',node,variable_name=var,default=30*24)
 
-def get_range(node,variable):
-    node = import_node_config(node=node)
-    conf = getattr(node,'conf',[])
-    for c in conf:
-        if c['dbtag'] == variable:
-            return [c.get('lb',float('-inf')),
-                    c.get('ub',float('inf'))]
-    return None
+def get_range(node,var):
+    lb = get_config('lb',node,variable_name=var,default=float('-inf'))
+    ub = get_config('ub',node,variable_name=var,default=float('inf'))
+    return [lb,ub]
 
 def is_in_range(site,node,variable,reading):
     try:
         r = get_range(site,node,variable)
         return reading >= min(r) and reading <= max(r)
     except:
-        #traceback.print_exc()
         return True
 
 def get_interval(node,variable):
-    node = import_node_config(node=node)
-    for c in node.conf:
-        if c['dbtag'] == variable:
-            return c.get('interval',30*60)
-    return None
+    return get_config('interval',node,variable_name=variable,default=30*60)
 
 
 if '__main__' == __name__:
