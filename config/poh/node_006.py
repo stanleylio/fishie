@@ -3,9 +3,8 @@ name = 'Windbird'
 location = 'First Mākāhā'
 note = 'RM Young 05106 Anemometer'
 
-INTERVAL = 1
-
 plot_range = 3*24
+
 
 conf = [
     {
@@ -13,12 +12,14 @@ conf = [
         'dbtype':'DOUBLE NOT NULL',
         'description':'Time of sampling',
         'plot':False,
+        'interval':1,
     },
     {
         'dbtag':'wind_mps',
         'description':'Wind speed',
         'unit':'m/s',
         'lb':0,
+        'interval':1,
     },
     {
         'dbtag':'wind_dir_deg',
@@ -26,6 +27,7 @@ conf = [
         'unit':'Deg',
         'lb':0,
         'ub':360,
+        'interval':1,
     },
 ]
 
