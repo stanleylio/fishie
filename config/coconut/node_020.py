@@ -12,6 +12,7 @@ conf = [
         'lb':22,
         'ub':31,
         'interval':60,
+        'plot_range':14*24,
     },
     {
         'dbtag':'t1',
@@ -20,6 +21,7 @@ conf = [
         'lb':22,
         'ub':31,
         'interval':60,
+        'plot_range':14*24,
     },
     {
         'dbtag':'t2',
@@ -28,6 +30,7 @@ conf = [
         'lb':22,
         'ub':31,
         'interval':60,
+        'plot_range':14*24,
     },
     {
         'dbtag':'t3',
@@ -36,6 +39,7 @@ conf = [
         'lb':22,
         'ub':31,
         'interval':60,
+        'plot_range':14*24,
     },
 ]
 
