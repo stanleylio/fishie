@@ -129,8 +129,7 @@ def taskSampling():
                                           body=m,
                                           properties=pika.BasicProperties(delivery_mode=2,
                                                                           content_type='text/plain',
-                                                                          expiration=str(72*3600*1000),
-                                                                          timestamp=time.time()))
+                                                                          expiration=str(72*3600*1000)))
 
                 except pika.exceptions.ConnectionClosed:
                     connection,channel = None,None
