@@ -19,13 +19,16 @@ from node.config.config_support import get_list_of_devices,get_list_of_disp_vars
 logging.basicConfig(level=logging.DEBUG)
 
 
-def is_node(device):
-    return not device.startswith('base-')
+#def is_node(device):
+#    return not device.startswith('base-')
 
 def find_bounds(x,y):
     '''Find both the oldest and the latest timestamp where the reading is not None'''
     tmp = filter(lambda p: p[1] is not None,zip(x,y))
     return min(tmp,key=lambda p: p[0])[0],max(tmp,key=lambda p: p[0])[0],
+
+def count_not_null(x,y):
+    return len(filter(lambda p: p[1] is not None,zip(x,y)))
 
 
 # db could be empty
@@ -44,9 +47,9 @@ parser.add_argument('--site',type=str,default='poh',metavar='site',help='Name of
 args = parser.parse_args()
 
 site = args.site
-logging.info('Site = {}'.format(site))
+print('Site = {}'.format(site))
 plot_dir = '/var/www/uhcm/img'
-logging.info('Output dir = ' + plot_dir)
+print('Output dir = ' + plot_dir)
 
 assert exists(plot_dir)
 plot_dir = join(plot_dir,site)
@@ -56,29 +59,23 @@ if not exists(plot_dir):
 store = storage()
 #list_of_nodes = get_list_of_nodes(site)
 list_of_nodes = get_list_of_devices(site)
+query_end = dt2ts(datetime.utcnow())
 for node in list_of_nodes:
-#for node in ['node-025']:
-    #if not is_node(node):   # could be a base station or other stuff in the future
-    #    continue
+
+    print(node)
 
     # auto-select a column as time
-    #V = get_list_of_disp_vars(site,node)
-    logging.info(node)
-    V = get_list_of_disp_vars(node)
-    if len(V) == 0:
+    list_variables = get_list_of_disp_vars(node)
+    if len(list_variables) == 0:
         logging.warning('Nothing to plot for {}'.format(node))
         continue
-    try:
-        columns = store.get_list_of_columns(node)
-        if len(columns) == 0:
-            logging.warning('Table for {} is probably not defined'.format(node))
-            continue
-    except:
-        traceback.print_exc()
+
+    columns = store.get_list_of_columns(node)
+    if len(columns) == 0:
+        logging.warning('No table for {}'.format(node))
         continue
 
-    assert set(V) <= set(columns)
-
+    assert set(list_variables) <= set(columns)
     time_col = auto_time_col(columns)
 
     # create the output dir
@@ -86,24 +83,22 @@ for node in list_of_nodes:
     if not exists(tmp):
         makedirs(tmp)
 
-    #print(node)
-
-    end = dt2ts(datetime.utcnow())
-    
-    for var in V:
+    for var in list_variables:
         #print(var)
         #continue
 
-        begin = dt2ts(datetime.utcnow() - timedelta(hours=get_config('plot_range',node,variable_name=var,default=30*24)))
-        assert end > begin
+        query_begin = dt2ts(datetime.utcnow() - timedelta(hours=get_config('plot_range',node,variable_name=var,default=30*24)))
+        assert query_end > query_begin
         
         try:
-            r = store.read_time_range(node,time_col,[time_col,var],begin,end)
+            # ... sounds like a classic SQL job...
+            r = store.read_time_range(node,time_col,[time_col,var],query_begin,query_end)
             print('\t' + var)
             #if r is None or len(r[time_col]) <= 0: # should proceed even if it's an empty plot though. TODO
             if r is None or len(r[time_col]) <= 0 or all([tmp is None for tmp in r[var]]):
-                logging.info('No data')
+                logging.warning('No data for {}->{}'.format(node,var))
                 continue
+            
             var_description = get_description(node,var)
             title = '{} ({} of {})'.format(var_description,var,node)
             unit = get_unit(node,var)
@@ -115,18 +110,25 @@ for node in list_of_nodes:
             # - - -
             x = r[time_col]
             y = r[var]
+            if count_not_null(x,y):
+                valid_begin,valid_end = find_bounds(x,y)
+                if time.time() - valid_end > 24*3600:
+                    color = '#9b9b9b'
+                else:
+                    color = '#1f77b4'
+
+            #print(color,time.time() - end,time.time() - max(x))
             plot_time_series(x,y,
                              join(plot_dir,node,var + '.png'),
                              title=title,
                              ylabel=ylabel,
-                             linestyle='',
                              linelabel=var,
+                             color=color,
+                             linestyle='',
                              markersize=6)
 
-            # this sounds like a classic SQL job.
-            tmp = find_bounds(x,y)
-            plot_config = {'time_begin':tmp[0],
-                           'time_end':tmp[1],
+            plot_config = {'time_begin':valid_begin,
+                           'time_end':valid_end,
                            'plot_generated_at':dt2ts(),
                            'data_point_count':len(filter(lambda yy: yy is not None and not math.isnan(yy),y)),
                            'unit':unit,
