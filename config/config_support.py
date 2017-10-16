@@ -45,6 +45,9 @@ def import_node_config(device=None):
     return import_module('node.config.{site}.{device}'.\
                          format(site=site,device=device))
 
+def get_list_of_sites():
+    return config_as_dict().keys()
+
 def get_list_of_devices(site):
     return sorted(config_as_dict().get(site,[]))
 
