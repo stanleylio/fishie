@@ -3,7 +3,7 @@ name = '(TBD)'
 location = '(TBD)'
 note = 'Cellular ultrasonic tide gauge'
 
-coreid = '580052001951353338363036'
+coreid = '230048001951353338363036'
 
 
 conf = [
@@ -24,6 +24,20 @@ conf = [
         'description':'Battery voltage',
         'lb':3.7,
         'ub':5.5,
+    },
+    {
+        'dbtag':'SoC',
+        'unit':'%',
+        'description':'State of Charge',
+        'lb':0,
+        'ub':100,
+        'interval':10*60,
+    },
+    {
+        'dbtag':'sample_size',
+        'description':'Number of valid readings in the 60 measurements',
+        'lb':0,
+        'ub':60,
     },
 ]
 
