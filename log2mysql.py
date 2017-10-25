@@ -68,7 +68,6 @@ def init_storage():
 store = init_storage()
 
 
-#n6last_stored = 0
 def callback(ch,method,properties,body):
     global store
     #print(method.routing_key,body)
@@ -80,20 +79,6 @@ def callback(ch,method,properties,body):
             d['ReceptionTime'] = time.time()
             print('= = = = = = = = = = = = = = =')
             pretty_print(d)
-
-            # * * * HACK * * *
-            '''global n6last_stored
-            if d['node'] == 'node-006' and time.time() - n6last_stored < 60:
-                print('(skipping)')
-                return
-            n6last_stored = time.time()'''
-            # * * * /HACK * * *
-            
-            # * * * HACK * * *
-            '''if d['node'] == 'node-007' and 'ts' in d:
-                if 'Timestamp' in d:
-                    d['Timestamp'] = d['ts']'''
-            # * * * /HACK * * *
 
             for k in d.keys():
                 try:

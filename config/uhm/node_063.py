@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 name = '(TBD)'
 location = '(TBD)'
-note = 'Cellular ultrasonic tide gauge'
+note = 'Cellular ultrasonic tide gauge. Each sample is average of 60 measurements taken every second. One transmission every 10 samples. Firmware p5e, hardware v0.2 (pull-down patch).'
 
 coreid = '3d0058001751353338363036'
 

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 name = 'Cellular test bed'
 location = 'UH Manoa'
-note = 'Cellular ultrasonic tide gauge. Each sample is average of 60 measurements, made once a second. Transmission after every 10 samples are collected. Firmware p5d, hardware v0.2.'
+note = 'Cellular ultrasonic tide gauge. Each sample is average of 60 measurements taken every second. One transmission every 10 samples. Firmware p5d, hardware v0.2.'
 
 coreid = '410055001951353338363036'
 

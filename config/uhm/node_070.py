@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 name = 'Pi`i\'s'
 location = 'Kalahuipuaa'
-note = 'Cellular ultrasonic tide gauge. Each sample is average of 60 measurements, made once a second. Transmission after every 10 samples are collected. Firmware p5d, hardware v0.2.'
+note = 'Cellular ultrasonic tide gauge. Each sample is average of 60 measurements taken every second. One transmission every 10 samples. Firmware p5e, hardware v0.2.'
 
 coreid = '4b002f001951343334363036'
 
@@ -29,7 +29,7 @@ conf = [
         'dbtag':'SoC',
         'unit':'%',
         'description':'State of Charge',
-        'lb':0,
+        'lb':30,    # the meaning has changed: it was a "boundary of sane readings", now it's "warning level"
         'ub':100,
     },
     {

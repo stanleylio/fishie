@@ -67,7 +67,7 @@ conf = [
         'dbtag':'VbattV',
         'unit':'V',
         'description':'Telemetry dongle battery voltage',
-        'lb':3.7,
+        'lb':2.9,
         'ub':5.5,
         'interval':60*60,
     },

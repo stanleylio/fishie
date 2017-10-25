@@ -69,6 +69,8 @@ class storage():
         if table not in self.get_list_of_tables():
             logger.warning('{} not defined in db. ignore'.format(table))
             return
+        #if set(sample.keys()) > set(self.get_list_of_columns(table)):  # TODO
+            #self._schema_update()
         # strip the keys not defined in the db - SQLite didn't seem to care. MySQL does.
         sample = {k:sample[k] for k in self.get_list_of_columns(table) if k in sample}
         #cur = self._conn.cursor()

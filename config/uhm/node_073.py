@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
-name = '(TBD)'
-location = '(TBD)'
-note = 'Cellular ultrasonic tide gauge'
+name = 'Nahoku\'s'
+location = 'Kapalaho Fishpond'
+note = 'Cellular ultrasonic tide gauge. Each sample is average of 60 measurements taken every second. One transmission every 10 samples. Firmware p5e, hardware v0.2.'
 
 coreid = '1d0053000251353337353037'
 
@@ -24,6 +24,19 @@ conf = [
         'description':'Battery voltage',
         'lb':3.7,
         'ub':5.5,
+    },
+    {
+        'dbtag':'SoC',
+        'unit':'%',
+        'description':'State of Charge',
+        'lb':30,    # the meaning has changed: it was a "boundary of sane readings", now it's "warning level"
+        'ub':100,
+    },
+    {
+        'dbtag':'sample_size',
+        'description':'Number of valid readings in the 60 measurements',
+        'lb':0,
+        'ub':60,
     },
 ]
 

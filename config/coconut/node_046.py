@@ -2,7 +2,7 @@
 name = '"Next-to-NOAA"'
 location = 'Coconut Island (21.433037, -157.789814)'
 google_earth_link = 'https://goo.gl/maps/QWuNSn4Ge9m'
-note = 'Cellular ultrasonic tide gauge. Each sample is average of 60 measurements, made once a second. Transmission after every 10 samples are collected. Firmware p5d, hardware v0.2.'
+note = 'Cellular ultrasonic tide gauge. Each sample is average of 60 measurements taken every second. One transmission every 10 samples. Firmware p5e, hardware v0.2.'
 
 coreid = '360064001951343334363036'
 
