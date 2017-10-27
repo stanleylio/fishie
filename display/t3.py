@@ -39,6 +39,8 @@ ends = [dt2ts(tmp) for tmp in ends]
 
 R = {}
 for table in store.get_list_of_tables():
+    #if len(R) >= 10:
+        #break
     print(table)
     time_col = auto_time_col(store.get_list_of_columns(table))
     d = []
@@ -53,17 +55,19 @@ for table in store.get_list_of_tables():
 
 
 # - - - - -
-plt.figure(figsize=(8,120),dpi=80)
+fig,ax = plt.subplots(len(R),1,sharex=True,figsize=(8,120),dpi=80)
 i = 1
 for table,r in sorted(R.iteritems()):
-    plt.subplot(len(R),1,i)
+    ax = plt.subplot(len(R),1,i)
     i += 1
-    plt.plot_date([ts2dt(tmp) - timedelta(hours=10) for tmp in r[0]],r[1],marker=None,linestyle='-')
-    plt.gca().locator_params(nbins=4,axis='y')  # max 4 labels on y axis
-    plt.ylim(0,plt.ylim()[1])                   # y axis lower limit = 0
-    plt.title(table)
-    plt.grid(False)
-    plt.tight_layout()
+    x = [ts2dt(tmp) - timedelta(hours=10) for tmp in r[0]]
+    ax.plot_date(x,r[1],marker=None,linestyle='-',color='#1f77b4')
+    ax.fill_between(x,0,r[1],color='#9ed7ff')
+    ax.locator_params(nbins=4,axis='y')     # max 4 labels on y axis
+    ax.set_ylim(0,plt.ylim()[1])            # y axis lower limit = 0
+    ax.set_title(table)
+    ax.grid(False)
 
-plt.gcf().autofmt_xdate()
+fig.tight_layout()
+fig.autofmt_xdate()
 plt.savefig(plotfilename,dpi=300,bbox_inches='tight')
