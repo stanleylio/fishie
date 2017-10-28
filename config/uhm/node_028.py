@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-name = 'Water Level'
+name = "Amy's"
 location = 'Somewhere in Boston'
 note = 'Cellular. No solar charging.'
 

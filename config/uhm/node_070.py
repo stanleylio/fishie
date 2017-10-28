@@ -10,6 +10,7 @@ conf = [
     {
         'dbtag':'Timestamp',
         'description':'Sample time (device clock)',
+        'interval':10*60,
     },
     {
         'dbtag':'d2w',
@@ -17,6 +18,7 @@ conf = [
         'description':'Distance from sensor to water surface',
         'lb':300,
         'ub':4999,
+        'interval':10*60,
     },
     {
         'dbtag':'VbattV',
@@ -24,6 +26,7 @@ conf = [
         'description':'Battery voltage',
         'lb':3.7,
         'ub':5.5,
+        'interval':10*60,
     },
     {
         'dbtag':'SoC',
@@ -31,12 +34,14 @@ conf = [
         'description':'State of Charge',
         'lb':30,    # the meaning has changed: it was a "boundary of sane readings", now it's "warning level"
         'ub':100,
+        'interval':10*60,
     },
     {
         'dbtag':'sample_size',
         'description':'Number of valid readings in the 60 measurements',
         'lb':0,
         'ub':60,
+        'interval':10*60,
     },
 ]
 

@@ -11,7 +11,6 @@ conf = [
     {
         'dbtag':'Timestamp',
         'description':'Sample time (Electron clock)',
-        'plot':True,
         'interval':10*60,
     },
     {
@@ -19,7 +18,7 @@ conf = [
         'unit':'mm',
         'description':'Distance from sensor to water surface',
         'lb':300,
-        'ub':5000,
+        'ub':4999,
         'interval':10*60,
     },
     {
@@ -34,7 +33,7 @@ conf = [
         'dbtag':'SoC',
         'unit':'%',
         'description':'State of Charge',
-        'lb':0,
+        'lb':30,
         'ub':100,
         'interval':10*60,
     },
@@ -43,6 +42,7 @@ conf = [
         'description':'Number of valid readings in the 60 measurements',
         'lb':0,
         'ub':60,
+        'interval':10*60,
     },
 ]
 
