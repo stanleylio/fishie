@@ -63,7 +63,9 @@ class storage():
             self._schema_update()
         return self._schema_cache.get(table,[])
     
-    def insert(self,table,sample,autocommit=True):
+    def insert(self,table,sample,auto_commit=True,reload_schema=True):
+        if reload_schema:
+            self._schema_update()
         if table not in self.get_list_of_tables():
             self._schema_update()
         if table not in self.get_list_of_tables():
@@ -84,7 +86,7 @@ class storage():
                      vals=','.join(['%s']*len(cols)))
         #print(cmd)
         self._cur.execute(cmd,vals)
-        if autocommit:
+        if auto_commit:
             self._conn.commit()
 
     def read_time_range(self,table,time_col,cols,begin,end):

@@ -17,7 +17,16 @@ class TestConfig(unittest.TestCase):
                 for var in get_list_of_disp_vars(node):
                     self.assertTrue(get_unit(node,var) is not None)
                     self.assertTrue(type(get_description(node,var)) is str)
-                  
+
+    def test_particle_electron_config(self):
+        fish_map = {}
+        for site in sorted(get_list_of_sites()):
+            for node in get_list_of_nodes(site):
+                tmp = get_config('coreid',node)
+                if tmp is not None:
+                    self.assertTrue(tmp not in fish_map)    # uniqueness
+                    fish_map[tmp] = node
+
 
 if __name__ == '__main__':
     unittest.main()
