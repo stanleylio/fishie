@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
-name = '(TBD)'
-location = '(TBD)'
-note = 'Fake news (Particle Electron p5e)'
+name = 'Fake News'
+location = 'On paper'
+note = 'Virtual p5e Particle Electron for testing and monitoring'
 
 coreid = '000000000000000000000099'
 

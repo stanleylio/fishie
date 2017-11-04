@@ -62,7 +62,8 @@ for table,r in sorted(R.iteritems()):
     i += 1
     x = [ts2dt(tmp) - timedelta(hours=10) for tmp in r[0]]
     ax.plot_date(x,r[1],marker=None,linestyle='-',color='#1f77b4')
-    ax.fill_between(x,0,r[1],color='#9ed7ff')
+    #ax.fill_between(x,0,r[1],color='#9ed7ff')
+    ax.fill_between(x,0,r[1],color='#1f77b4',alpha=0.3)
     ax.locator_params(nbins=4,axis='y')     # max 4 labels on y axis
     ax.set_ylim(0,plt.ylim()[1])            # y axis lower limit = 0
     ax.set_title(table)

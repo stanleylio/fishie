@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 name = 'Barbara, Rebecca\'s'
 location = 'Kiholo'
-note = 'Cellular ultrasonic tide gauge. Each sample is average of 60 measurements taken every second. One transmission every 10 samples. Firmware p5e, hardware v0.2 (pull-down patch).'
+note = 'Cellular ultrasonic tide gauge. Each sample is average of 60 measurements taken every second. One transmission every 10 samples. Firmware p5e, hardware v0.2.'
 
 coreid = '2d0055001851353338363036'
 

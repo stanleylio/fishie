@@ -4,6 +4,7 @@ location = '(TBD)'
 note = 'Cellular ultrasonic tide gauge'
 
 coreid = '220026000351353337353037'
+iccid = '8934076500002652998'
 
 
 conf = [
