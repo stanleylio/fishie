@@ -91,7 +91,8 @@ sudo pip install pika
 
 
 # db
-sudo apt install libmysqlclient-dev mysql-server mysql-client python-mysqldb sqlite3 -y --force-yes
+#sudo apt install libmysqlclient-dev -y
+sudo apt install mysql-server mysql-client python-mysqldb sqlite3 -y
 
 
 sudo mkdir /var/uhcm
@@ -103,7 +104,7 @@ if [ "$PLATFORM" == bbb ] ; then
 	sudo echo "cape_enable=bone_capemgr.enable_partno=BB-UART1,BB-UART2,BB-UART4,BB-UART5,BB-I2C1,BB-I2C2" >> /boot/uEnv.txt
 	sudo echo "cape_disable=bone_capemgr.disable_partno=BB-HDMI" >> /boot/uEnv.txt
 	sudo pip install Adafruit_BBIO
-	sudo apt install i2c-tools python-smbus -y --force-yes
+	sudo apt install i2c-tools python-smbus -y
 	source ~/node/setup/time/install_ds1307.sh
 
 	# expand partition to full disk
@@ -113,11 +114,6 @@ if [ "$PLATFORM" == bbb ] ; then
 fi
 
 if [ "$PLATFORM" == rpi ] ; then
-	sudo apt install i2c-tools python-smbus -y --force-yes
+	sudo apt install i2c-tools python-smbus -y
 	source ~/node/setup/time/install_ds1307.sh
-
-	# expand partition to full disk
-	cd /opt/scripts/tools/
-	sudo git pull
-	sudo ./grow_partition.sh
 fi
