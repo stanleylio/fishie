@@ -21,6 +21,11 @@ if [ "$PLATFORM" == bbb ] || [ "$PLATFORM" == rpi ] ; then
 	sudo deluser --remove-home pi
 fi
 
+#reboot
+sudo visudo -f /etc/sudoers.d/nuc
+#nuc ALL=(ALL) NOPASSWD:ALL
+
+
 # RSA keys
 if [ ! -f ~/.ssh/id_rsa ]; then
 	echo "Generating RSA keys..."
@@ -33,7 +38,7 @@ fi
 
 
 sudo apt update && sudo apt upgrade -y
-sudo apt install ntp ntpdate git minicom autossh -y --force-yes
+sudo apt install ntp ntpdate git minicom autossh -y
 #dpkg-reconfigure tzdata
 #sudo nano /etc/ntp.conf
 
@@ -55,12 +60,12 @@ cd
 
 
 # sampling
-sudo apt install supervisor -y --force-yes
+sudo apt install supervisor -y
 sudo systemctl enable supervisor
 sudo systemctl start supervisor
 #sudo update-rc.d supervisor enable
 sudo chown nuc:nuc /etc/supervisor/conf.d
-sudo apt install build-essential python-dev python-setuptools python-pip python-twisted python-zmq -y --force-yes
+sudo apt install build-essential python-dev python-setuptools python-pip python-twisted python-zmq -y
 sudo pip install --upgrade setuptools pip
 sudo pip install pyserial requests pycrypto
 #sudo pip install pyzmq
