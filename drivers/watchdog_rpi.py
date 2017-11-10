@@ -27,7 +27,8 @@ class Watchdog:
         return self.read(0xC)
 
     def read_vbatt(self):
-        return self.read(0xE)
+        """Vin, in volt (nominal 12V)"""
+        return self.read(0xE)/1000.0
 
     def read(self,reg):
         self.fw.write(chr(reg))
@@ -61,8 +62,8 @@ def reset_auto():
 
 if '__main__' == __name__:
     logging.basicConfig(level=logging.DEBUG)
-    #reset_auto()
+    reset_auto()
 
-    w = Watchdog()
-    while True:
-        print(w.read_vbatt())
+    #w = Watchdog()
+    #while True:
+    #    print(w.read_vbatt())
