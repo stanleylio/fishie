@@ -1,44 +1,35 @@
 # -*- coding: utf-8 -*-
-name = 'Fake News'
-location = 'on paper'
-note = 'Virtual p5e Particle Electron for testing and monitoring'
-
-coreid = '000000000000000000000099'
+name = '(TBD)'
+location = 'Somewhere on Molokaʻi'
+google_earth_link = '#'
+note = 'Ultrasonic tide gauge (XBee). Each sample is the sample mean of 60 measurements taken every second (excluding any out-of-range ones). Firmware us10b, hardware v4.2.'
 
 
 conf = [
     {
-        'dbtag':'Timestamp',
-        'description':'Sample time (device clock)',
-        'interval':10*60,
-    },
-    {
         'dbtag':'d2w',
         'unit':'mm',
         'description':'Distance from sensor to water surface',
-        'lb':300,
+        'lb':301,
         'ub':4999,
-        'interval':10*60,
+        'interval':60,
     },
     {
         'dbtag':'VbattV',
         'unit':'V',
-        'description':'Battery voltage',
-        'lb':3.7,
-        'ub':5.5,
-        'interval':10*60,
+        'description':'Battery voltage (Vbatt)',
+        'lb':2.7,
+        'interval':60,
     },
     {
-        'dbtag':'SoC',
-        'unit':'%',
-        'description':'State of Charge',
-        'lb':30,
-        'ub':100,
-        'interval':10*60,
+        'dbtag':'ticker',
+        'description':'1Hz ticker',
+        'lb':0,
+        'interval':60,
     },
     {
         'dbtag':'sample_size',
-        'description':'Number of valid readings in the 60 measurements',
+        'description':'# of valid measurements in the past 60 measurements',
         'lb':0,
         'ub':60,
         'interval':10*60,

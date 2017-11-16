@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 name = 'Cellular test bed'
 location = 'UH Manoa'
-note = 'Cellular ultrasonic tide gauge. Each sample is average of 60 measurements taken every second. One transmission every 10 samples. Firmware p5d, hardware v0.2.'
+note = 'Cellular stream gauge. Each sample is average of 5 measurements taken every 60 seconds. One transmission every 2 samples. Firmware v1, hardware v0.2.'
 
 coreid = '410055001951353338363036'
 
@@ -10,34 +10,47 @@ conf = [
     {
         'dbtag':'Timestamp',
         'description':'Sample time (Electron clock)',
+        'interval':10*60,
     },
     {
-        'dbtag':'d2w',
-        'unit':'mm',
-        'description':'Distance from sensor to water surface',
-        'lb':300,
-        'ub':5000,
-    },
-    {
-        'dbtag':'p',
-        'unit':'hPa',
+        'dbtag':'P280kPa',
+        'unit':'kPa',
         'description':'Barometric pressure (BME280)',
-        'lb':800,
-        'ub':1200,
+        'lb':80,
+        'ub':120,
+        'interval':10*60,
     },
     {
-        'dbtag':'t',
+        'dbtag':'T280DegC',
         'unit':'Deg.C',
         'description':'Air temperature (BME280)',
-        'lb':-10,
-        'ub':60,
+        'lb':10,
+        'ub':50,
+        'interval':10*60,
     },
     {
-        'dbtag':'rh',
+        'dbtag':'RH280',
         'unit':'%',
         'description':'% Relative humidity (BME280)',
         'lb':0,
         'ub':100,
+        'interval':10*60,
+    },
+    {
+        'dbtag':'P5803kPa',
+        'unit':'kPa',
+        'description':'Water pressure (MS5803)',
+        'lb':80,
+        'ub':160,
+        'interval':10*60,
+    },
+    {
+        'dbtag':'T5803DegC',
+        'unit':'Deg.C',
+        'description':'Water temperature (MS5803)',
+        'lb':10,
+        'ub':50,
+        'interval':10*60,
     },
     {
         'dbtag':'VbattV',
@@ -45,19 +58,22 @@ conf = [
         'description':'Battery voltage',
         'lb':3.7,
         'ub':5.5,
+        'interval':10*60,
     },
     {
         'dbtag':'SoC',
         'unit':'%',
         'description':'State of Charge',
-        'lb':0,
+        'lb':30,
         'ub':100,
+        'interval':10*60,
     },
     {
         'dbtag':'sample_size',
-        'description':'Number of valid readings in the 60 measurements',
-        'lb':0,
-        'ub':60,
+        'description':'Number of valid measurements in the group',
+        'lb':1,
+        'ub':10,
+        'interval':10*60,
     },
 ]
 
