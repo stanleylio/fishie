@@ -70,9 +70,9 @@ conf = [
     },
     {
         'dbtag':'sample_size',
-        'description':'Number of valid measurements in the group',
+        'description':'# of valid measurements in the past 5',
         'lb':1,
-        'ub':10,
+        'ub':5,
         'interval':10*60,
     },
 ]

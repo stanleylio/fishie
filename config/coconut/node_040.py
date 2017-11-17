@@ -2,7 +2,7 @@
 name = '"Water-Under-The-Bridge"'
 location = 'Coconut Island (21.435983,-157.788333)'
 google_earth_link = 'https://goo.gl/maps/8gJTDCgVan32'
-note = 'Ultrasonic tide gauge (HW v4.2, FW: us10)'
+note = 'Ultrasonic tide gauge measuring distance to water surface from fixed structure. One measurement per second, one transmission (average of past minute) per minute. Hardware v4.2, firmware us10b.'
 
 
 conf = [
@@ -10,7 +10,7 @@ conf = [
         'dbtag':'d2w',
         'unit':'mm',
         'description':'Distance from sensor to water surface',
-        'lb':300,
+        'lb':301,
         'ub':4999,
         'interval':60,
     },
@@ -18,13 +18,20 @@ conf = [
         'dbtag':'VbattV',
         'unit':'V',
         'description':'Battery voltage (Vbatt)',
-        'lb':2.4,
+        'lb':2.7,
         'interval':60,
     },
     {
         'dbtag':'ticker',
         'description':'1Hz ticker',
         'lb':0,
+        'interval':60,
+    },
+    {
+        'dbtag':'sample_size',
+        'description':'Number of valid readings in the 60 measurements',
+        'lb':0,
+        'ub':60,
         'interval':60,
     },
 ]

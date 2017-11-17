@@ -18,7 +18,7 @@ conf = [
         'dbtag':'VbattV',
         'unit':'V',
         'description':'Battery voltage (Vbatt)',
-        'lb':2.7,
+        'lb':2.8,
         'interval':60,
     },
     {
@@ -29,8 +29,8 @@ conf = [
     },
     {
         'dbtag':'sample_size',
-        'description':'# of valid measurements in the past 60 measurements',
-        'lb':0,
+        'description':'# of valid measurements in the psat 60',
+        'lb':1,
         'ub':60,
         'interval':10*60,
     },
