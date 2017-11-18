@@ -1,11 +1,10 @@
-# Send a string to remote host via HTTP POST
+#!/usr/bin/python3
+# v5:
+# Messages are not signed. HTTP Basic Auth is used instead (rely on SSL).
 #
 # [deprecated] v4:
 # Messages are signed by the private key of the sender device
 # Messages are verified by remote host with the public key of the sender device
-#
-# v5:
-# Messages are not signed. HTTP Basic Auth is used instead (need SSL...).
 #
 # Demo: If arguments are supplied, they are sent as individual messages to glazerlab-i7nuc.
 # If not, a list of sender's IPs is sent.
@@ -26,34 +25,13 @@ nodeid = socket.gethostname()
 def getIP():
     proc = subprocess.Popen(['hostname -I'],stdout=subprocess.PIPE,shell=True)
     out,err = proc.communicate()
-    ips = out.strip().split(' ')
-    #return filter(lambda x: x not in ['192.168.6.2','192.168.7.2'],ips)
+    ips = out.decode().strip().split(' ')
     return ips
 
-'''def prepare_message(m):
-    """Sign, date, add own ID. Return as a dict()"""
-    sig = get_signature(m,prepare_message.privatekey)
-    return {'src':nodeid,
-            'ts':time.time(),
-            'msg':m,
-            'sig':sig,
-            }
-pk = join(expanduser('~'),'.ssh/id_rsa')
-if exists(pk):
-    prepare_message.privatekey = open(pk).read().strip()
 
-# custom public key authentication
-def post4(m,endpoint):
-    r = requests.post(endpoint,data=prepare_message(m))
-    return r.text'''
-# API v4
-#url = 'https://grogdata.soest.hawaii.edu/api/4'
-#print(post4(m,url))
-
-
-# HTTP Basic Auth
 url = 'https://grogdata.soest.hawaii.edu/api/5/raw'
 def post5(m,endpoint,auth):
+    """POST a string to an endpoint"""
     r = requests.post(endpoint,
                       data={'m':m,'ts':time.time(),'src':nodeid},
                       auth=auth)
@@ -68,27 +46,9 @@ if '__main__' == __name__:
     M = []
     if len(sys.argv) == 1:
         print('No argument supplied. Sending own IPs.')
-        m = json.dumps(getIP(),separators=(',',':'))
-        M.insert(0,m)
+        M.append(json.dumps(getIP(),separators=(',',':')))
     else:
         M = sys.argv[1:]
 
     for m in M:
         print(post5(m,url,('uhcm',cred['uhcm'])))
-
-    
-
-    '''raw_input('No argument supplied. Proceed to benchmark?')
-    
-    # profiling v4
-    # manage ~95 POST per minute from BBB to glazerlab-i7nuc
-    # ~557 POST per minute from glazerlab-i7nuc to itself
-    url = 'https://grogdata.soest.hawaii.edu/api/4'
-    start_time = time.time()
-    N = 100
-    for i in range(N):
-        m = '"single digit millionaires have no effective access to the legal system" "It is difficult to get a man to understand something, when his salary depends upon his not understanding it." "Surely, comrades, you don\'t want Jones back?" "Two possibilities exist: either we are alone in the universe, or we are not. Both are equally terrifying."'
-        print(post4(m,url))
-    stop_time = time.time()
-    print('{} to {}, total {} seconds'.format(start_time,stop_time,stop_time-start_time))
-    print('avg {:.1f} call/minute ({:.1f} call/second)'.format(N/(stop_time-start_time)*60,N/(stop_time-start_time)))'''
