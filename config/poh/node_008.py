@@ -24,7 +24,7 @@ conf = [
         'dbtag':'VbattV',
         'unit':'V',
         'description':'Battery voltage (Vbatt)',
-        'lb':2.4,
+        'lb':3.0,
         'interval':60,
     },
     {

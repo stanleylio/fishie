@@ -27,7 +27,7 @@ conf = [
         'dbtype':'INTEGER',
         'unit':'mV',
         'description':'Battery voltage (Vcc)',
-        'lb':2400,
+        'lb':3000,
         'interval':400,
     },
 ]

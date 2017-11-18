@@ -21,6 +21,9 @@ map[base-009]=10029
 map[base-010]=10030
 map[base-011]=10031
 map[base-012]=10032
+map[base-013]=10033
+map[base-014]=10034
+map[base-015]=10035
 
 RemotePort=${map[$(hostname)]}
 

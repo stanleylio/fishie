@@ -9,7 +9,7 @@ conf = [
         'dbtag':'d2w',
         'unit':'mm',
         'description':'Distance from base of sensor to water surface',
-        'lb':300,
+        'lb':301,
         'ub':4999,
         'interval':60,
     },
@@ -17,7 +17,7 @@ conf = [
         'dbtag':'VbattV',
         'unit':'V',
         'description':'Battery voltage',
-        'lb':2.7,
+        'lb':3.0,
         'interval':60,
     },
     {
