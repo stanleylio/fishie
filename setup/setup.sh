@@ -7,7 +7,7 @@ PLATFORM=bbb
 #passwd
 
 #NODE_TAG="base-001"
-#sudo echo $NODE_TAG > /etc/hostname
+#sudo bash -c "echo $NODE_TAG > /etc/hostname"
 #sudo echo "127.0.0.1       $NODE_TAG" >> /etc/hosts
 
 if [ "$PLATFORM" == bbb ] || [ "$PLATFORM" == rpi ] ; then
@@ -15,15 +15,12 @@ if [ "$PLATFORM" == bbb ] || [ "$PLATFORM" == rpi ] ; then
 	sudo usermod -aG sudo nuc
 	sudo usermod -aG dialout nuc
 	sudo usermod -aG i2c nuc
-
-# logout, reboot, login as nuc, then
-	sudo deluser --remove-home debian
-	sudo deluser --remove-home pi
 fi
 
-#reboot
-sudo visudo -f /etc/sudoers.d/nuc
-#nuc ALL=(ALL) NOPASSWD:ALL
+# reboot, login as nuc, then
+sudo bash -c " echo \"nuc ALL=(ALL) NOPASSWD:ALL\" > /etc/sudoers.d/nuc"
+sudo userdel -r -f debian
+sudo userdel -r -f pi
 
 
 # RSA keys
