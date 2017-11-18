@@ -10,7 +10,7 @@ conf = [
         'dbtag':'d2w',
         'unit':'mm',
         'description':'Distance from sensor to water surface',
-        'lb':300,
+        'lb':301,
         'ub':4999,
         'interval':400,
     },

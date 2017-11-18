@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
-name = 'Storm Mākāhā Water Level'
-location = 'Storm Mākāhā'
-note = 'Ultrasonic tide gauge (1st gen PCB)'
+name = '(TBD)'
+location = 'Somewhere on Molokaʻi'
+google_earth_link = '#'
+note = 'Ultrasonic tide gauge (XBee). Each sample is the sample mean of 60 measurements taken every second (excluding any out-of-range ones). Firmware us10b, hardware v4.2.'
 
 
 conf = [
@@ -17,7 +18,7 @@ conf = [
         'dbtag':'VbattV',
         'unit':'V',
         'description':'Battery voltage (Vbatt)',
-        'lb':2.7,
+        'lb':2.8,
         'interval':60,
     },
     {
@@ -26,17 +27,24 @@ conf = [
         'lb':0,
         'interval':60,
     },
+    {
+        'dbtag':'sample_size',
+        'description':'# of valid measurements in the psat 60',
+        'lb':1,
+        'ub':60,
+        'interval':10*60,
+    },
 ]
 
 
 if '__main__' == __name__:
     for c in conf:
-        print '- - -'
+        print('- - -')
         for k,v in c.iteritems():
-            print k, ':' ,v
+            print(k,':',v)
 
     import sys
     sys.path.append('../..')
+    from os.path import basename
     from storage.storage2 import create_table
-    create_table(conf,__file__.split('.')[0].replace('_','-'))
-    
+    create_table(conf,basename(__file__).split('.')[0].replace('_','-'))
