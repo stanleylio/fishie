@@ -44,7 +44,7 @@ class TSYS01(object):
 
 
 if '__main__' == __name__:
-    s = TSYS01(bus=2)
+    s = TSYS01(bus=1)
     print(s._read_prom())
     #exit()
     #print(s._raw_adc())

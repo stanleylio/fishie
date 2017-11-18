@@ -12,7 +12,7 @@ from zlib import crc32
 
 
 def get_checksum(s):
-    return '{:08x}'.format(crc32(s) & 0xffffffff)
+    return '{:08x}'.format(crc32(s.encode()) & 0xffffffff)  # python2-safe?
 
 def check(s):
     try:
@@ -64,9 +64,10 @@ Also checks: 1. checksum and 2. whether this is the recipient."""
         logging.debug(traceback.format_exc())
     return None
 
-
-def send(channel,sample,dest=None):
-    tmp = {'from':gethostname(),'payload':sample}
+def send(channel,sample,src=None,dest=None):
+    if src is None:
+        src = gethostname()
+    tmp = {'from':src,'v':1,'payload':sample}
     if dest is not None:
         tmp['to'] = dest
     tmp = json.dumps(tmp,separators=(',',':'))
@@ -90,6 +91,6 @@ if '__main__' == __name__:
     s7 = '{"to":"base","from":"node_003","payload":{"Thermistor_FLNTU":537,"Temp_MS5803":22.54,"C2Amp_4330f":842.6,"O2Concentration_4330f":272.596,"C1RPh_4330f":34.228,"Chlorophyll_FLNTU":3320,"Pressure_MS5803":80.4mp_4330f":227.0,"AirSaturation_4330f":100.092,"Turbidity_FLNTU":4121,"Timestamp":1441671401.039086,"Temperature_4330f":22.067,"C1Amp_4330f":872.1,"CalPhase_4330f":27.253,"TCPhase_4330f":30.331,"C2RPh_4330f":3.897}}aa6efc3c'
     s8 = '{"to":"base","from":"node_004","payload":{"Timestamp":1443306205.462585,"EZO_EC":4.45}}d74a14c8'
 
-    print check(s7)
+    print(check(s7))
 
 

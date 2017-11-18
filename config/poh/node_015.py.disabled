@@ -1,30 +1,30 @@
 # -*- coding: utf-8 -*-
-name = '(TBD)'
-location = 'UH Manoa'
-note = 'Cellular ultrasonic tide gauge '
-
-coreid = '360064001951343334363036'
+name = 'Storm Mākāhā Water Level'
+location = 'Storm Mākāhā'
+note = 'Ultrasonic tide gauge (1st gen PCB)'
 
 
 conf = [
-    {
-        'dbtag':'Timestamp',
-        'description':'Sample time (Electron clock)',
-        'plot':True,
-    },
     {
         'dbtag':'d2w',
         'unit':'mm',
         'description':'Distance from sensor to water surface',
         'lb':300,
-        'ub':5000,
+        'ub':4999,
+        'interval':60,
     },
     {
         'dbtag':'VbattV',
         'unit':'V',
-        'description':'Battery voltage',
-        'lb':3.7,
-        'ub':5.5,
+        'description':'Battery voltage (Vbatt)',
+        'lb':2.7,
+        'interval':60,
+    },
+    {
+        'dbtag':'ticker',
+        'description':'1Hz ticker',
+        'lb':0,
+        'interval':60,
     },
 ]
 
@@ -37,6 +37,6 @@ if '__main__' == __name__:
 
     import sys
     sys.path.append('../..')
-    from os.path import basename
     from storage.storage2 import create_table
-    create_table(conf,basename(__file__).split('.')[0].replace('_','-'))
+    create_table(conf,__file__.split('.')[0].replace('_','-'))
+    

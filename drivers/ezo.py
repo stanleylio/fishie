@@ -3,11 +3,10 @@ All Rights Reserved. February 2015
 """
 from smbus import SMBus
 from time import sleep
+import logging
 
 
-def PRINT(s):
-    #pass
-    print(s)
+logger = logging.getLogger(__name__)
 
 
 class EZO(object):
@@ -69,20 +68,20 @@ class EZO(object):
                 # NOAA says -2 is the lower limit, but said nothing about the upper limit
                 # but it's not my job to judge so proceed anyway
                 if new >= 50 or new <= -10:
-                    PRINT(from_ + 'warning: strange... are you sure about the new temperature?')
+                    logger.warning(from_ + ': strange... are you sure about the new temperature?')
 
                 # sensor stores only integer T
                 # better be explicit
-                PRINT(from_ + 'update current T = {:.1f} to new T = {:.1f}'.format(current,new))
+                logger.debug(from_ + 'update current T = {:.1f} to new T = {:.1f}'.format(current,new))
                 
                 # inconsistent... sensor accepts only integer but the spec says float.
                 #cmd = 'T,{:.1f}'.format(new)
                 cmd = 'T,{:.1f}'.format(round(new))
                 self._r(cmd,0.3)    # ignore the response
             else:
-                PRINT(from_ + 'supplied T == current T = {:.0f} Deg.C, no update required'.format(current))
+                logger.debug(from_ + 'supplied T == current T = {:.0f} Deg.C, no update required'.format(current))
         else:
-            PRINT(from_ + 'cannot retrieve T value from sensor')
+            logger.debug(from_ + 'cannot retrieve T value from sensor')
         if self.lowpower:
             self.sleep()
 
@@ -111,18 +110,18 @@ class EZO(object):
         if self.Success == tmp[0]:
             return ''.join([chr(c) for c in tmp[1:] if 0 != c])
         elif self.Failed == tmp[0]:
-            PRINT('EZO::_r(): read failed')
-            PRINT(tmp)
+            logger.error('EZO::_r(): read failed')
+            logger.error(tmp)
             return None
         elif self.Pending == tmp[0]:
-            PRINT('EZO::_r(): Pending')
+            logger.error('EZO::_r(): Pending')
             return None
         elif self.NoData == tmp[0]:
-            PRINT('EZO::_r(): NoData')
+            logger.error('EZO::_r(): NoData')
             return None
         else:
-            PRINT('EZO::_r(): error ({})'.format(tmp[0]))
-            PRINT(tmp)
+            logger.error('EZO::_r(): error ({})'.format(tmp[0]))
+            logger.error(tmp)
             return None
 
 
@@ -154,29 +153,33 @@ class EZOPI(EZO):
 
         #print ''.join([bin(c) for c in tmp[1:] if 0 != c])
         #print ''.join([chr(c) for c in tmp[1:] if 0 != c])
-        
+
+        # Atlas hack for the RPi
+        tmp = map(lambda x: chr(ord(x) & ~0x80),list(tmp))
+        tmp = ''.join(tmp)
+
         if self.Success == ord(tmp[0]):
             return tmp[1:]
         elif self.Failed == ord(tmp[0]):
-            PRINT('EZO::_r(): read failed')
-            PRINT(tmp)
+            logger.error('EZO::_r(): read failed')
+            logger.error(tmp)
             return None
         elif self.Pending == ord(tmp[0]):
-            PRINT('EZO::_r(): Pending')
+            logger.error('EZO::_r(): Pending')
             return None
         elif self.NoData == ord(tmp[0]):
-            PRINT('EZO::_r(): NoData')
+            logger.error('EZO::_r(): NoData')
             return None
         else:
-            PRINT('EZO::_r(): error ({})'.format(ord(tmp[0])))
-            PRINT(tmp)
+            logger.error('EZO::_r(): error ({})'.format(ord(tmp[0])))
+            logger.error(tmp)
             return None
 
 
 if '__main__' == __name__:
     e = EZOPI(0x64,bus=2,lowpower=False)
     #e.sleep()
-    print e._r('R')
+    print(e._r('R'))
     
     
     

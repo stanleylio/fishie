@@ -29,7 +29,8 @@ from node.storage.storage2 import storage
 from cred import cred
 
 
-logging.basicConfig(level=logging.INFO)
+logging.basicConfig(level=logging.DEBUG)
+logging.getLogger('pika').setLevel(logging.WARNING)
 
 
 exchange = 'uhcm'
@@ -37,13 +38,14 @@ nodeid = socket.gethostname()
 # this is asking for trouble. remove this, or move it to config. TODO
 #sources = ['base-001','base-002','base-003','base-004','base-005','glazerlab-e5','node-017','node-027']
 
-credentials = pika.PlainCredentials('nuc',cred['rabbitmq'])
+credentials = pika.PlainCredentials(nodeid,cred['rabbitmq'])
 connection = pika.BlockingConnection(pika.ConnectionParameters('localhost',5672,'/',credentials))
 channel = connection.channel()
+channel.basic_qos(prefetch_count=200)
 #channel.queue_delete(queue='glazerlab-e5.rabbit2zmq')
 #exit()
 
-channel.exchange_declare(exchange=exchange,type='topic',durable=True)
+channel.exchange_declare(exchange=exchange,exchange_type='topic',durable=True)
 result = channel.queue_declare(queue=basename(__file__),
                                durable=True,
                                arguments={'x-message-ttl':2**31-1}) # ~24 days.
@@ -57,12 +59,15 @@ queue_name = result.method.queue
 channel.queue_bind(exchange=exchange,
                    queue=queue_name,
                    routing_key='*.samples')
+channel.queue_bind(exchange=exchange,
+                   queue=queue_name,
+                   routing_key='*.debug')
 
 def init_storage():
     return storage()
 store = init_storage()
 
-#n6last_stored = 0
+
 def callback(ch,method,properties,body):
     global store
     #print(method.routing_key,body)
@@ -74,19 +79,6 @@ def callback(ch,method,properties,body):
             d['ReceptionTime'] = time.time()
             print('= = = = = = = = = = = = = = =')
             pretty_print(d)
-
-            # * * * HACK * * *
-            '''global n6last_stored
-            if d['node'] == 'node-006' and time.time() - n6last_stored < 60:
-                print('(skipping)')
-                return
-            n6last_stored = time.time()'''
-            # * * * /HACK * * *
-            
-            # * * * HACK * * *
-            if d['node'] == 'node-007' and 'ts' in d:
-                d['Timestamp'] = d['ts']
-            # * * * /HACK * * *
 
             for k in d.keys():
                 try:
@@ -100,11 +92,15 @@ def callback(ch,method,properties,body):
         # tigher than leaving this at the end.
         # some messages are not meant to be parsed though, like "node-NNN online" etc.
         ch.basic_ack(delivery_tag=method.delivery_tag)
+    except MySQLdb.ProgrammingError as e:
+        logging.exception(body)
     except MySQLdb.OperationalError:
         traceback.print_exc()
         store = init_storage()
+    except KeyboardInterrupt:
+        raise
     except:
-        traceback.print_exc()
+        #traceback.print_exc()
         logging.exception(body)
 
     #ch.basic_ack(delivery_tag=method.delivery_tag)

@@ -4,6 +4,7 @@ location = '(TBD)'
 note = 'Cellular ultrasonic tide gauge'
 
 coreid = '220026000351353337353037'
+iccid = '8934076500002652998'
 
 
 conf = [
@@ -30,9 +31,9 @@ conf = [
 
 if '__main__' == __name__:
     for c in conf:
-        print '- - -'
+        print('- - -')
         for k,v in c.iteritems():
-            print k, ':' ,v
+            print(k,':',v)
 
     import sys
     sys.path.append('../..')

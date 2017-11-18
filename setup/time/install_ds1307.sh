@@ -3,24 +3,37 @@
 # Stanley H.I. Lio
 # 2017
 
+
 echo "Installing external RTC (DS1307/DS3231)..."
-# pi
-if [ -f /sys/class/i2c-adapter/i2c-1 ]; then
-	sudo i2cdetect -y -r 1
-	echo "using i2c-1"
-	sudo bash -c "echo ds1307 0x68 > /sys/class/i2c-adapter/i2c-1/new_device"
-fi
-# bone
-if [ -f /sys/class/i2c-adapter/i2c-2 ]; then
+if [ -e /sys/class/i2c-adapter/i2c-2 ]; then
+	# bone
 	sudo i2cdetect -y -r 2
 	echo "using i2c-2"
 	sudo bash -c "echo ds1307 0x68 > /sys/class/i2c-adapter/i2c-2/new_device"
+	PLATFORM=bbb
+else
+	# probably pi - only bone has two I2C ports
+	sudo i2cdetect -y -r 1
+	echo "using i2c-1"
+	sudo bash -c "echo ds1307 0x68 > /sys/class/i2c-adapter/i2c-1/new_device"
+	PLATFORM=rpi
 fi
 
-if [ -e /dev/rtc0 ] ; then
+if [ -e /sys/class/i2c-adapter/i2c-2 ]; then
+	sudo i2cdetect -y -r 2
+else
+	sudo i2cdetect -y -r 1
+fi
+
+echo "- - - - -"
+echo "Current platform:" $PLATFORM
+echo "- - - - -"
+
+echo "Current external RTC time:"
+if [ "rpi" = "$PLATFORM" ] ; then
 	sudo hwclock -r -f /dev/rtc0
 fi
-if [ -e /dev/rtc1 ] ; then
+if [ "bbb" = "$PLATFORM" ] ; then
 	sudo hwclock -r -f /dev/rtc1
 fi
 
@@ -39,16 +52,29 @@ date
 if [ "$PLATFORM" == bbb ] ; then
 	echo "Setting internal RTC..."
 	sudo hwclock --systohc --rtc=/dev/rtc0
-	sudo hwclock --show -f /dev/rtc0
+	sudo hwclock -r -f /dev/rtc0
 
 	echo "Setting external rtc..."
 	sudo hwclock --systohc --rtc=/dev/rtc1
-	sudo hwclock --show --rtc=/dev/rtc1
+	sudo hwclock -r --rtc=/dev/rtc1
+fi
+
+if [ "$PLATFORM" == rpi ] ; then
+	echo "Setting internal RTC..."
+	sudo hwclock --systohc --rtc=/dev/rtc
+	sudo hwclock -r -f /dev/rtc
+
+	echo "Setting external rtc..."
+	sudo hwclock --systohc --rtc=/dev/rtc0
+	sudo hwclock -r --rtc=/dev/rtc0
 fi
 
 #chmod +x clock_init.sh
 
 echo "Installing service..."
-sudo cp ~/node/setup/time/rtc-ds1307.service /lib/systemd/system/rtc-ds1307.service
+sudo cp /home/nuc/node/setup/time/rtc-ds1307.service /lib/systemd/system/rtc-ds1307.service
 sudo systemctl enable rtc-ds1307.service
 sudo systemctl start rtc-ds1307.service
+sudo systemctl status rtc-ds1307.service
+
+exit 0

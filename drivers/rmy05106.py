@@ -14,6 +14,8 @@ class RMY05106:
 
     def read(self):
         for i in range(3):
+            self._s.flushOutput()
+            self._s.flushInput()
             self._s.write('RMY05106,rfd\r\n')
             line = self._s.readline()
             try:
@@ -35,5 +37,5 @@ if '__main__' == __name__:
     
     rmy = RMY05106('/dev/ttyO2')
     while True:
-        print rmy.read()
+        print(rmy.read())
         time.sleep(0.1)

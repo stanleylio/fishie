@@ -1,8 +1,3 @@
-import time
-from ConfigParser import SafeConfigParser,NoSectionError
-from ezo import EZO
-from os.path import join,dirname
-
 # Driver for the Atlas Scientific EZO pH sensor
 
 # <IMPORTANT>
@@ -14,10 +9,14 @@ from os.path import join,dirname
 
 # Stanley Lio, hlio@usc.edu
 # All Rights Reserved. February 2015
+import time,logging
+from ConfigParser import SafeConfigParser,NoSectionError
+from ezo import EZOPI as EZO
+from os.path import join,dirname
 
-def PRINT(s):
-    #pass
-    print(s)
+
+logger = logging.getLogger(__name__)
+
 
 # Communication handler for the EZO pH sensor
 # T value is set in the .ini file. It is sent to the sensor during
@@ -31,7 +30,7 @@ class EZO_pH(EZO):
             parser.read(join(dirname(__file__),'ezo.ini'))
             self.t(round(float(parser.get('ph','t')),0))
         except NoSectionError:
-            PRINT('configuration file not found. Not syncing T value')
+            logger.warning('configuration file not found. Not syncing T value')
 
     def read(self):
         tmp = self._r('R').strip().split(',')
@@ -42,7 +41,7 @@ class EZO_pH(EZO):
     def pretty_print(self,r=None):
         if r is None:
             r = self.read()
-        print 'pH = {:.2f}'.format(r)
+        print('pH = {:.2f}'.format(r))
         
     # super() and MRO... messy.
     def t(self,new=None):
@@ -51,24 +50,26 @@ class EZO_pH(EZO):
 
 if '__main__' == __name__:
 
-    ph = EZO_pH(bus=2,lowpower=False)
-    
-    print 'Device Information (sensor type, firmware version):'
-    print ph.device_information()
-    print
-    print 'Status:'
-    print ph.status()
-    print
-    print 'Supply voltage:'
-    print '{:.3f} volt'.format(ph.supply_v())
-    print
+    bus = 1
 
-    print 'Current T value (calibration parameter, not measured):'
-    print '{:.0f} Deg.C'.format(ph.t())
-    print
-    #print 'Change T value to...'
-    #print ph.t(25)      # NOT synced during instantiation
-    #print
+    ph = EZO_pH(bus=bus,lowpower=False)
+    
+    print('Device Information (sensor type, firmware version):')
+    print(ph.device_information())
+    print()
+    print('Status:')
+    print(ph.status())
+    print()
+    print('Supply voltage:')
+    print('{:.3f} volt'.format(ph.supply_v()))
+    print()
+
+    print('Current T value (calibration parameter, not measured):')
+    print('{:.0f} Deg.C'.format(ph.t()))
+    print()
+    #print('Change T value to...')
+    #print(ph.t(25))      # NOT synced during instantiation
+    #print()
 
     while True:
         ph.pretty_print()

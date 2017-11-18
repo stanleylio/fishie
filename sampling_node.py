@@ -27,6 +27,8 @@ exchange = 'uhcm'
 nodeid = socket.gethostname()
 config = import_node_config()
 
+NGROUP = getattr(config,'NGROUP',1)
+
 
 #'DEBUG,INFO,WARNING,ERROR,CRITICAL'
 logging.basicConfig(level=logging.INFO)
@@ -48,11 +50,14 @@ ser = serial.Serial(config.XBEE_PORT,config.XBEE_BAUD,timeout=1)
 xbeesend = lambda m: send(ser,m)
 indicators_setup()
 
-xbeesend({'status':'online','INTERVAL':config.INTERVAL,'NGROUP':config.NGROUP,'Timestamp':time.time()})
+xbeesend({'status':'online',
+          'INTERVAL':config.INTERVAL,
+          'NGROUP':NGROUP,
+          'Timestamp':time.time()})
 
 
 def rabbit_init():
-    credentials = pika.PlainCredentials('nuc',cred['rabbitmq'])
+    credentials = pika.PlainCredentials(nodeid,cred['rabbitmq'])
     connection = pika.BlockingConnection(pika.ConnectionParameters('localhost',5672,'/',credentials))
     channel = connection.channel()
     channel.exchange_declare(exchange=exchange,type='topic',durable=True)
@@ -74,7 +79,7 @@ outqueue = []
 def borrow(N=1):
     global debt
     assert debt >= 0
-    if debt < 10*config.NGROUP:     # "debt ceiling"
+    if debt < 10*NGROUP:    # "debt ceiling"
         debt += N
         return True
     return False
@@ -124,8 +129,7 @@ def taskSampling():
                                           body=m,
                                           properties=pika.BasicProperties(delivery_mode=2,
                                                                           content_type='text/plain',
-                                                                          expiration=str(72*3600*1000),
-                                                                          timestamp=time.time()))
+                                                                          expiration=str(72*3600*1000)))
 
                 except pika.exceptions.ConnectionClosed:
                     connection,channel = None,None
@@ -148,7 +152,7 @@ def taskSampling():
 
 def taskTrigger():
     try:
-        if not borrow(config.NGROUP):
+        if not borrow(NGROUP):
             logging.warning('ran out of credit')
         #reactor.callLater(0,taskSampling)
     except:
@@ -178,16 +182,16 @@ def taskBlink():
     usr3_off()
     green_off()
 
-logger.info(__name__ + ' is ready')
 LoopingCall(taskSampling).start(0.1)
 LoopingCall(taskTrigger).start(config.INTERVAL)
 LoopingCall(taskSerial).start(0.05,now=False)
 LoopingCall(taskBlink).start(1)
+
+logger.info(__name__ + ' is ready')
 reactor.run()
 
 connection.close()
 ser.close()
 rawf.close()
 indicators_cleanup()
-
 logger.info(__name__ + ' terminated')

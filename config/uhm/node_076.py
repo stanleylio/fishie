@@ -25,14 +25,21 @@ conf = [
         'lb':3.7,
         'ub':5.5,
     },
+    {
+        'dbtag':'SoC',
+        'unit':'%',
+        'description':'State of Charge',
+        'lb':0,
+        'ub':100,
+    },
 ]
 
 
 if '__main__' == __name__:
     for c in conf:
-        print '- - -'
+        print('- - -')
         for k,v in c.iteritems():
-            print k, ':' ,v
+            print(k,':',v)
 
     import sys
     sys.path.append('../..')

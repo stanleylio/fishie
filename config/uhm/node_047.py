@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
-name = 'Test bed'
+name = 'Cellular test bed'
 location = 'UH Manoa'
-note = 'Cellular ultrasonic tide gauge'
+note = 'Cellular stream gauge. Each sample is average of 5 measurements taken every 60 seconds. One transmission every 2 samples. Firmware v1, hardware v0.2.'
 
 coreid = '410055001951353338363036'
 
@@ -10,14 +10,47 @@ conf = [
     {
         'dbtag':'Timestamp',
         'description':'Sample time (Electron clock)',
-        'plot':True,
+        'interval':10*60,
     },
     {
-        'dbtag':'d2w',
-        'unit':'mm',
-        'description':'Distance from sensor to water surface',
-        'lb':300,
-        'ub':5000,
+        'dbtag':'P280kPa',
+        'unit':'kPa',
+        'description':'Barometric pressure (BME280)',
+        'lb':80,
+        'ub':120,
+        'interval':10*60,
+    },
+    {
+        'dbtag':'T280DegC',
+        'unit':'Deg.C',
+        'description':'Air temperature (BME280)',
+        'lb':10,
+        'ub':50,
+        'interval':10*60,
+    },
+    {
+        'dbtag':'RH280',
+        'unit':'%',
+        'description':'% Relative humidity (BME280)',
+        'lb':0,
+        'ub':100,
+        'interval':10*60,
+    },
+    {
+        'dbtag':'P5803kPa',
+        'unit':'kPa',
+        'description':'Water pressure (MS5803)',
+        'lb':80,
+        'ub':160,
+        'interval':10*60,
+    },
+    {
+        'dbtag':'T5803DegC',
+        'unit':'Deg.C',
+        'description':'Water temperature (MS5803)',
+        'lb':10,
+        'ub':50,
+        'interval':10*60,
     },
     {
         'dbtag':'VbattV',
@@ -25,36 +58,31 @@ conf = [
         'description':'Battery voltage',
         'lb':3.7,
         'ub':5.5,
+        'interval':10*60,
     },
     {
-        'dbtag':'p',
-        'unit':'hPa',
-        'description':'Barometric pressure (BME280)',
-        'lb':800,
-        'ub':1200,
-    },
-    {
-        'dbtag':'t',
-        'unit':'Deg.C',
-        'description':'Air temperature (BME280)',
-        'lb':-10,
-        'ub':60,
-    },
-    {
-        'dbtag':'rh',
+        'dbtag':'SoC',
         'unit':'%',
-        'description':'% Relative humidity (BME280)',
-        'lb':0,
+        'description':'State of Charge',
+        'lb':30,
         'ub':100,
+        'interval':10*60,
+    },
+    {
+        'dbtag':'sample_size',
+        'description':'# of valid measurements in the past 5',
+        'lb':1,
+        'ub':5,
+        'interval':10*60,
     },
 ]
 
 
 if '__main__' == __name__:
     for c in conf:
-        print '- - -'
+        print('- - -')
         for k,v in c.iteritems():
-            print k, ':' ,v
+            print(k,':',v)
 
     import sys
     sys.path.append('../..')

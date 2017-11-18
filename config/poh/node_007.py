@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-name = 'Met. Station'
-location = 'Mākāhā 1'
+name = 'Hīhīmanu Met. Station'
+location = 'Hīhīmanu (first mākāhā)'
 note = 'Meteorological Station'
 
 log_dir = './log'
@@ -91,12 +91,12 @@ conf = [
 
 if '__main__' == __name__:
     for c in conf:
-        print '- - -'
+        print('- - -')
         for k,v in c.iteritems():
-            print k, ':' ,v
+            print(k,':',v)
 
     import sys
     sys.path.append('../..')
+    from os.path import basename
     from storage.storage2 import create_table
-    create_table(conf,__file__.split('.')[0].replace('_','-'))
-    
+    create_table(conf,basename(__file__).split('.')[0].replace('_','-'))

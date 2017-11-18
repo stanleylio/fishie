@@ -29,7 +29,7 @@ class EZO_ORP_CALIBRATION(EZO_ORP):
 
 
 if '__main__' == __name__:
-    orp = EZO_ORP_CALIBRATION(bus=2,lowpower=False)
+    orp = EZO_ORP_CALIBRATION(bus=1,lowpower=False)
     print 'Supply voltage:'
     print '{} volt'.format(orp.supply_v())
     print

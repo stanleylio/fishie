@@ -4,20 +4,18 @@ name = 'Monty'
 location = 'Site #13, Kāneʻohe Bay'
 note = 'SeaFET pH Sensor; giant weight + tiny float'
 
-#interval = 15*60   # second; to be used for presence detection.
-#plot_range = 24*7   # hour.
-#data_source = '/home/nuc/node/www/poh/storage/sensor_data.db'
-
 
 conf = [
     {
         'dbtag':'ticker',
-        'description':'Broadcast sequence number',
+        'description':'Monotonically increasing 1Hz counter',
         'lb':0,
+        'interval':60*60,
     },
     {
         'dbtag':'Timestamp',
         'description':'(derived from DATE and TIME)',
+        'interval':20*60,
     },
     {
         'dbtag':'Vbatt',
@@ -25,6 +23,7 @@ conf = [
         'description':'Relay dongle battery voltage',
         'lb':2.5,
         'ub':5.2,
+        'interval':60*60,
     },
     {
         'dbtag':'DATE',
@@ -42,33 +41,46 @@ conf = [
         'description':'FET|INT calculated pH in total scale',
         'lb':7,
         'ub':8.5,
+        'interval':20*60,
     },
     {
         'dbtag':'PH_EXT',
         'description':'FET|EXT calculated pH in total scale',
         'lb':7,
         'ub':8.5,
+        'interval':20*60,
     },
     {
         'dbtag':'TEMP',
         'unit':'Deg.C',
         'description':'ISFET Thermistor temperature',
+        'lb':10,
+        'ub':50,
+        'interval':20*60,
     },
     {
         'dbtag':'TEMP_CTD',
         'unit':'Deg.C',
         'description':'CTD temperature',
+        'lb':10,
+        'ub':50,
+        'interval':20*60,
     },
     {
         'dbtag':'S_CTD',
         'unit':'psu',
         'description':'CTD salinity',
-        'lb':1,
+        'lb':10,
+        'ub':40,
+        'interval':20*60,
     },
     {
         'dbtag':'O_CTD',
         'unit':'ml/L',
         'description':'CTD oxygen concentration',
+        'lb':0,
+        'ub':10,
+        'interval':20*60,
     },
     {
         'dbtag':'P_CTD',
@@ -110,6 +122,8 @@ conf = [
         'dbtag':'HUMIDITY',
         'unit':'%',
         'description':'Electronics compartment relative humidity',
+        'ub':70,
+        'interval':20*60,
     },
     {
         'dbtag':'V_5V',
@@ -121,6 +135,7 @@ conf = [
         'dbtag':'V_MBATT',
         'unit':'V',
         'description':'Main battery pack voltage',
+        'interval':20*60,
     },
     {
         'dbtag':'V_ISO',
@@ -132,6 +147,7 @@ conf = [
         'dbtag':'V_ISOBATT',
         'unit':'V',
         'description':'Isolated battery pack voltage',
+        'interval':20*60,
     },
     {
         'dbtag':'I_B',
@@ -162,12 +178,12 @@ conf = [
 
 if '__main__' == __name__:
     for c in conf:
-        print '- - -'
+        print('- - -')
         for k,v in c.iteritems():
-            print k, ':' ,v
+            print(k,':',v)
 
     import sys
     sys.path.append('../..')
+    from os.path import basename
     from storage.storage2 import create_table
-    create_table(conf,__file__.split('.')[0].replace('_','-'))
-    
+    create_table(conf,basename(__file__).split('.')[0].replace('_','-'))

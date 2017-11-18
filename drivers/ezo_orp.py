@@ -1,5 +1,3 @@
-from ezo import EZO
-
 # Driver for the Atlas Scientific EZO ORP sensor
 
 # <IMPORTANT>
@@ -11,10 +9,12 @@ from ezo import EZO
 
 # Stanley Lio, hlio@usc.edu
 # All Rights Reserved. February 2015
+from ezo import EZOPI as EZO
+import logging
 
-def PRINT(s):
-    #pass
-    print(s)
+
+logger = logging.getLogger(__name__)
+
 
 # Communication handler for the EZO ORP sensor
 # T value is set in the .ini file. It is sent to the sensor during
@@ -44,22 +44,24 @@ class EZO_ORP(EZO):
     def pretty_print(self,r=None):
         if r is None:
             r = self.read()
-        print 'orp = {:.2f} mV'.format(r)
+        print('orp = {:.2f} mV'.format(r))
         
 
 if '__main__' == __name__:
 
-    orp = EZO_ORP(bus=2,lowpower=False)
+    bus = 1
 
-    print 'Device Information (sensor type, firmware version):'
-    print orp.device_information()
-    print
-    print 'Status:'
-    print orp.status()
-    print
-    print 'Supply voltage:'
-    print '{:.3f} volt'.format(orp.supply_v())
-    print
+    orp = EZO_ORP(bus=bus,lowpower=False)
+
+    print('Device Information (sensor type, firmware version):')
+    print(orp.device_information())
+    print()
+    print('Status:')
+    print(orp.status())
+    print()
+    print('Supply voltage:')
+    print('{:.3f} volt'.format(orp.supply_v()))
+    print()
 
     while True:
         orp.pretty_print()

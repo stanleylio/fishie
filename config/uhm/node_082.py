@@ -1,38 +1,31 @@
 # -*- coding: utf-8 -*-
-name = '(TBD)'
-location = 'UH Manoa'
-note = 'Cellular ultrasonic tide gauge'
-
-coreid = '3e0042001951353338363036'
+name = 'SOEST Open House Demo 2'
+location = 'UHM'
+note = ''
 
 
 conf = [
     {
         'dbtag':'Timestamp',
-        'description':'Sample time (Electron clock)',
+        'description':'Sample time (device clock)',
+        'plot':False,
     },
     {
         'dbtag':'d2w',
         'unit':'mm',
         'description':'Distance from sensor to water surface',
         'lb':300,
-        'ub':5000,
-    },
-    {
-        'dbtag':'VbattV',
-        'unit':'V',
-        'description':'Battery voltage',
-        'lb':3.7,
-        'ub':5.5,
+        'ub':4999,
+        'interval':1*60,
     },
 ]
 
 
 if '__main__' == __name__:
     for c in conf:
-        print '- - -'
+        print('- - -')
         for k,v in c.iteritems():
-            print k, ':' ,v
+            print(k,':',v)
 
     import sys
     sys.path.append('../..')

@@ -67,7 +67,7 @@ def plot_multi_time_series(data,plotfilename,title='',xlabel='',ylabel='',loc='b
         x = d['x']
         y = d['y']
         label = d.get('linelabel',None)
-        color = d.get('color','blue')
+        color = d.get('color',None)
         linestyle = d.get('linestyle','')
         marker = d.get('marker','.')
         markersize = d.get('markersize',1)
@@ -134,13 +134,13 @@ def plot_multi_time_series(data,plotfilename,title='',xlabel='',ylabel='',loc='b
     except:
         traceback.print_exc()
 
-    plt.savefig(plotfilename,bbox_inches='tight',dpi=300)
+    plt.savefig(plotfilename,bbox_inches='tight',dpi=600)
     plt.cla()
     plt.clf()
     plt.close()
 
 
-def plot_time_series(x,y,plotfilename,title='',xlabel='',ylabel='',linelabel=None,linestyle='-',marker='.',markersize=1):
+def plot_time_series(x,y,plotfilename,title='',xlabel='',ylabel='',linelabel=None,color='#1f77b4',linestyle='-',marker='.',markersize=1):
     assert len(x) == len(y)
     assert len(x) > 0
     assert len(plotfilename) > 0
@@ -165,7 +165,7 @@ def plot_time_series(x,y,plotfilename,title='',xlabel='',ylabel='',linelabel=Non
                      format(begin.strftime('%Y-%m-%d'),\
                             end.strftime('%Y-%m-%d'))
 
-    data = [{'x':x,'y':y,'linelabel':linelabel,'linestyle':linestyle,'marker':marker,'markersize':markersize}]
+    data = [{'x':x,'y':y,'linelabel':linelabel,'color':color,'linestyle':linestyle,'marker':marker,'markersize':markersize}]
     
     plot_multi_time_series(data,plotfilename,
                            title=title,

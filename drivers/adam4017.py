@@ -79,7 +79,7 @@ class ADAM4017(object):
             if vr >= v:
                 r = self.SetInputRange(vr)
                 if not r:
-                    print 'ayu'
+                    print('ayu')
                 return r
         logger.warning('SetInputRangeAuto(): the supplied v is too large. Setting input range to maximum {}.'.format(max(vs)))
         return self.SetInputRange(max(vs))
@@ -121,7 +121,7 @@ class ADAM4017(object):
         """This call is costly - takes 7 sec for self-cal after configuration change. P.118
 FCI: Format, Checksum and Integration time. P.117"""
         if NewBaud is not None or FCI is not None:
-            print 'need to do something with the INIT* pin... check the manual.'
+            print('need to do something with the INIT* pin... check the manual.')
             #raise NotImplementedError
         r = self.cmdConfigurationStatus()
         if 10 == len(r) and '!' == r[0] and '\r' == r[-1] and self._address == r[1:3]:
@@ -167,9 +167,9 @@ if '__main__' == __name__:
     
     import os
     with ADAM4017('07','/dev/ttyUSB0',9600) as daq:
-        #print daq.cmdConfigurationStatus()
-        #print daq.cmdReadModuleName()
-        #print daq.cmdReadFirmwareVersion()
+        #print(daq.cmdConfigurationStatus())
+        #print(daq.cmdReadModuleName())
+        #print(daq.cmdReadFirmwareVersion())
 
         if daq.CheckModuleName():
             if daq.SetInputRange(5):

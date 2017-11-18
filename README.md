@@ -13,7 +13,7 @@ In addition to communication and control logic, it contains Python driver/parser
 - Aanderaa 4319A (conductivity/salinity sensor)
 - Seabird CTD 16plusV2
 - SeaFET pH sensor
-- WET Labs ECO FLNTU (Turbidity/Fluorescence sensor)
+- WET Labs ECO FLNTUS (Turbidity/Fluorescence sensor)
 - MS5803-14BA (Water pressure and temperature)
 - BMP280 (Barometric pressure and temperature)
 - BME280 (Barometric pressure, temperature and humidity; code from Adafruit)

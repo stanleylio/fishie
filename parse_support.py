@@ -8,10 +8,12 @@ from z import check
 from drivers.seafet import parse_SeaFET
 from drivers.seabird import parse_Seabird
 from helper import dt2ts
-from config.config_support import get_site
+#from config.config_support import import_node_config
 
 
 #logging.basicConfig(level=logging.DEBUG)
+logger = logging.getLogger(__name__)
+
 
 
 def pretty_print(d):
@@ -70,9 +72,9 @@ def parse_tidegauge(line):
         #         'Vbatt':float(line[3])}    # this reports V, not mV
         #    return d
     except:
-        logging.debug('Not a ultrasonic message:')
-        logging.debug(traceback.format_exc())
-        logging.debug(line)
+        logger.debug('Not a ultrasonic message:')
+        logger.debug(traceback.format_exc())
+        logger.debug(line)
         pass
 
 def parse_message(line):
@@ -115,8 +117,8 @@ parse into dict() if it's from a known node."""
                 d['node'] = 'node-023'  # in Glazer Lab
                 return d
         else:
-            #logging.info('Not a SeaFET message:')
-            #logging.info(line)
+            #logger.info('Not a SeaFET message:')
+            #logger.info(line)
             pass
 
         # is it a Seabird CTD?
@@ -150,8 +152,8 @@ parse into dict() if it's from a known node."""
                 d['node'] = node_id
                 return d'''
         else:
-            #logging.info('Not a Seabird message:')
-            #logging.info(line)
+            #logger.info('Not a Seabird message:')
+            #logger.info(line)
             pass
 
         # is it from one of the Beaglebone nodes?
@@ -163,29 +165,34 @@ parse into dict() if it's from a known node."""
                 d = tmp['payload']
 
                 try:
-                    node = importlib.import_module('node.config.{}.{}'.format(get_site(node_id),node_id.replace('-','_')))
+                    #node = importlib.import_module('node.config.{}.{}'.format(get_site(node_id),node_id.replace('-','_')))
+                    #node = import_node_config(node_id)
                     #d = {c['dbtag']:d[c.get('comtag',c['dbtag'])] for c in node.conf}
                     assert 'node' not in d
                     d['node'] = node_id
                     return d
                 except ImportError:
                     # the JSON messages are self-descriptive with checksum, I don't need no comtag-dbtag conversion.
-                    logging.warning('config file for {} not defined'.format(node_id))
+                    logger.warning('config file for {} not defined'.format(node_id))
                     d['node'] = node_id
                     return d
             elif re.match('^base[-_]\d{3}$',tmp['from']):
-                logging.debug('Command from base station {}; ignore.'.format(tmp['from']))
+                d = tmp.get('payload',None)
+                d['node'] = tmp['from']
+                if d is None:
+                    logger.debug('Don\'t know what that was; ignore.'.format(tmp['from']))
+                return d
             else:
-                logging.debug('Not a BBB node message:')
-                logging.debug(line)
+                logger.debug('Not a BBB node message:')
+                logger.debug(line)
         else:
-            logging.debug('Not a BBB node message (CRC failure):')
-            logging.debug(line)
+            logger.debug('Not a BBB node message (CRC failure):')
+            logger.debug(line)
             #pass
     except:
-        logging.warning('parse_message(): duh')
-        logging.warning(line)
-        logging.warning(traceback.format_exc())
+        logger.warning('parse_message(): duh')
+        logger.warning(line)
+        logger.warning(traceback.format_exc())
     return None
 
 

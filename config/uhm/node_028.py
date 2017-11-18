@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
-name = 'Water Level'
+name = "Amy's"
 location = 'Somewhere in Boston'
 note = 'Cellular. No solar charging.'
+
 coreid = '1f0024001751353338363036'
 
 
@@ -18,9 +19,9 @@ conf = [
 
 if '__main__' == __name__:
     for c in conf:
-        print '- - -'
+        print('- - -')
         for k,v in c.iteritems():
-            print k, ':' ,v
+            print(k,':',v)
 
     import sys
     sys.path.append('../..')

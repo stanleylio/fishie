@@ -1,6 +1,6 @@
 # Send a string to remote host via HTTP POST
 #
-# v4:
+# [deprecated] v4:
 # Messages are signed by the private key of the sender device
 # Messages are verified by remote host with the public key of the sender device
 #
@@ -8,24 +8,32 @@
 # Messages are not signed. HTTP Basic Auth is used instead (need SSL...).
 #
 # Demo: If arguments are supplied, they are sent as individual messages to glazerlab-i7nuc.
+# If not, a list of sender's IPs is sent.
 #
 # Stanley H.I. Lio
 # hlio@hawaii.edu
 # University of Hawaii
 # All Rights Reserved. 2017
 from __future__ import division
-import requests,time,socket
-from authstuff import get_signature
+import requests,time,socket,json,subprocess
+#from authstuff import get_signature
 from os.path import expanduser,join,exists
 
 
-node = socket.gethostname()
+nodeid = socket.gethostname()
 
 
-def prepare_message(m):
+def getIP():
+    proc = subprocess.Popen(['hostname -I'],stdout=subprocess.PIPE,shell=True)
+    out,err = proc.communicate()
+    ips = out.strip().split(' ')
+    #return filter(lambda x: x not in ['192.168.6.2','192.168.7.2'],ips)
+    return ips
+
+'''def prepare_message(m):
     """Sign, date, add own ID. Return as a dict()"""
     sig = get_signature(m,prepare_message.privatekey)
-    return {'src':node,
+    return {'src':nodeid,
             'ts':time.time(),
             'msg':m,
             'sig':sig,
@@ -37,12 +45,17 @@ if exists(pk):
 # custom public key authentication
 def post4(m,endpoint):
     r = requests.post(endpoint,data=prepare_message(m))
-    return r.text
+    return r.text'''
+# API v4
+#url = 'https://grogdata.soest.hawaii.edu/api/4'
+#print(post4(m,url))
+
 
 # HTTP Basic Auth
+url = 'https://grogdata.soest.hawaii.edu/api/5/raw'
 def post5(m,endpoint,auth):
     r = requests.post(endpoint,
-                      data={'m':m,'ts':time.time(),'src':node},
+                      data={'m':m,'ts':time.time(),'src':nodeid},
                       auth=auth)
     return r.text
 
@@ -52,34 +65,18 @@ if '__main__' == __name__:
     sys.path.append(expanduser('~'))
     from cred import cred
 
-    if len(sys.argv) > 1:
-        for m in sys.argv[1:]:
-            
-            # API v4
-            url = 'https://grogdata.soest.hawaii.edu/api/4'
-            print(post4(m,url))
+    M = []
+    if len(sys.argv) == 1:
+        print('No argument supplied. Sending own IPs.')
+        m = json.dumps(getIP(),separators=(',',':'))
+        M.insert(0,m)
+    else:
+        M = sys.argv[1:]
 
-            # API v5
-            url = 'https://grogdata.soest.hawaii.edu/api/5/raw'
-            print(post5(m,url,('uhcm',cred['uhcm'])))
+    for m in M:
+        print(post5(m,url,('uhcm',cred['uhcm'])))
+
     
-        exit()
-
-    print('No argument supplied.')
-
-    import subprocess,json
-    def getIP():
-        proc = subprocess.Popen(['hostname -I'],stdout=subprocess.PIPE,shell=True)
-        out,err = proc.communicate()
-        ips = out.strip().split(' ')
-        #return filter(lambda x: x != '192.168.7.2',ips)
-        return ips
-
-    m = json.dumps(getIP(),separators=(',',':'))
-    url = 'https://grogdata.soest.hawaii.edu/api/4'
-    print(post4(m,url))
-    url = 'https://grogdata.soest.hawaii.edu/api/5/raw'
-    print(post5(m,url,('uhcm',cred['uhcm'])))
 
     '''raw_input('No argument supplied. Proceed to benchmark?')
     
@@ -95,4 +92,3 @@ if '__main__' == __name__:
     stop_time = time.time()
     print('{} to {}, total {} seconds'.format(start_time,stop_time,stop_time-start_time))
     print('avg {:.1f} call/minute ({:.1f} call/second)'.format(N/(stop_time-start_time)*60,N/(stop_time-start_time)))'''
-

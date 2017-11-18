@@ -1,24 +1,22 @@
-from ConfigParser import SafeConfigParser,NoSectionError
-from ezo import EZO
-from os.path import join,dirname
-
 # Driver for the Atlas Scientific EZO DO (Dissolved Oxygen) sensor
-
-
+#
 # <IMPORTANT>
 # SENSOR COMES IN SERIAL MODE. SWITCH TO I2C MODE TO USE WITH BBB
 #
 # See P.31 of the data sheet for instruction
 # Notice on Step 5: "remove the short..." THIS MUST BE DONE WHILE THE LED is still BLUE
 # </IMPORTANT>
-
-
+#
 # Stanley Lio, hlio@usc.edu
 # All Rights Reserved. February 2015
+from ConfigParser import SafeConfigParser,NoSectionError
+from ezo import EZOPI as EZO
+from os.path import join,dirname
+import logging
 
-def PRINT(s):
-    #pass
-    print(s)
+
+logger = logging.getLogger(__name__)
+
 
 # Communication handler for the EZO DO sensor
 # S, P and T values are synced to the sensor during instantiation. They can
@@ -49,11 +47,11 @@ class EZO_DO(EZO):
                 tmp = float(tmp[:-3])
                 self.s(tmp,ppt=True)
             else:
-                PRINT('EZO_DO: invalid stuff in configuration file')
+                logger.debug('EZO_DO: invalid stuff in configuration file')
             self.p(float(parser.get('do','p')))
             self.t(round(float(parser.get('ec','t')),0))    # 0 decimal places is what the sensor actually store
         except NoSectionError:
-            PRINT('EZO_DO: configuration file not found. Not syncing S,P and T value')
+            logger.warning('EZO_DO: configuration file not found. Not syncing S,P and T value')
 
     # see P.38
     # in mg/L
@@ -93,18 +91,18 @@ class EZO_DO(EZO):
                 return current,wasppt
             elif current != new or ppt != wasppt:
                 if ppt:     # in part per thousand
-                    PRINT('update current S = {} to new S = {} ppt'.format(current,new))
+                    logger.info('update current S = {} to new S = {} ppt'.format(current,new))
                     self._r('S,{},PPT'.format(new),0.3) # ignore the response
                 else:       # in microsiemens. integer only
                     if new != int(new):
                         new = int(new)
-                        PRINT('EZO_DO: integer only when in microsiemens (round to {}us)'.format(new))
-                    PRINT('update current S = {} to new S = {} us'.format(current,new))
+                        logger.debug('EZO_DO: integer only when in microsiemens (round to {}us)'.format(new))
+                    logger.info('update current S = {} to new S = {} us'.format(current,new))
                     self._r('S,{}'.format(new),0.3)     # ignore the response
             else:
-                PRINT('EZO_DO: supplied S == current S = {}, no update required'.format(current))
+                logger.debug('EZO_DO: supplied S == current S = {}, no update required'.format(current))
         else:
-            PRINT('EZO_DO: cannot retrieve S value from sensor')
+            logger.error('EZO_DO: cannot retrieve S value from sensor')
 
         if self.lowpower:
             self.sleep()
@@ -120,14 +118,14 @@ class EZO_DO(EZO):
                     self.sleep()
                 return current
             elif current != new:
-                PRINT('update current P = {} kPa to new P = {} kPa'.format(current,new))
+                logger.debug('update current P = {} kPa to new P = {} kPa'.format(current,new))
                 self._r('P,{:.1f}'.format(new),0.3)    # ignore the response
                 if self.lowpower:
                     self.sleep()
             else:
-                PRINT('EZO_DO: supplied P == current P = {} kPa, no update required'.format(current))
+                logger.debug('EZO_DO: supplied P == current P = {} kPa, no update required'.format(current))
         else:
-            PRINT('EZO_DO: cannot retrieve P value from sensor')
+            logger.error('EZO_DO: cannot retrieve P value from sensor')
         if self.lowpower:
             self.sleep()
         
@@ -137,33 +135,35 @@ class EZO_DO(EZO):
 
 
 if '__main__' == __name__:
+
+    bus = 1
     
-    do = EZO_DO(bus=2,lowpower=False)
+    do = EZO_DO(bus=1,lowpower=False)
     
-    print 'Device Information (sensor type, firmware version):'
-    print do.device_information()
-    print
-    print 'Status:'
-    print do.status()
-    print
-    print 'Supply voltage:'
-    print '{} volt'.format(do.supply_v())
-    print
-    print 'Current T value (supplied for calibration, not measured):'
-    print '{:.0f} Deg.C'.format(do.t())
-    print
-    print 'Current S value (salinity, supplied for calibration, not measured):'
+    print('Device Information (sensor type, firmware version):')
+    print(do.device_information())
+    print()
+    print('Status:')
+    print(do.status())
+    print()
+    print('Supply voltage:')
+    print('{} volt'.format(do.supply_v()))
+    print()
+    print('Current T value (supplied for calibration, not measured):')
+    print('{:.0f} Deg.C'.format(do.t()))
+    print()
+    print('Current S value (salinity, supplied for calibration, not measured):')
     tmp = do.s()
     if tmp[1]:
-        print '{} ppt'.format(tmp[0])
+        print('{} ppt'.format(tmp[0]))
     else:
-        print '{} us'.format(tmp[0])
+        print('{} us'.format(tmp[0]))
     #do.s(10,ppt=True)
     #do.s(0)
-    print
-    print 'Current P value (water pressure, supplied for calibration, not measured):'
-    print '{} kPa'.format(do.p())
-    print
+    print()
+    print('Current P value (water pressure, supplied for calibration, not measured):')
+    print('{} kPa'.format(do.p()))
+    print()
     #print 'Change T value to...'
     #do.t(20)      # NOT synced during instantiation
     #print
@@ -176,5 +176,5 @@ if '__main__' == __name__:
     
     while True:
         tmp = do.read()
-        print '= = = = = = = = = ='
-        print do.pretty(tmp)
+        print('= = = = = = = = = =')
+        print(do.pretty(tmp))
