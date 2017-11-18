@@ -1,22 +1,15 @@
 #!/usr/bin/python3
-# mixing 2 and 3... I'm going to regret this.
-# 3 because of shutil.disk_usage()
 # Stanley H.I. Lio
 # hlio@hawaii.edu
 import sys,traceback,logging,pika,socket,time,shutil
 from os.path import expanduser
 sys.path.append(expanduser('~'))
-from twisted.internet.task import LoopingCall
-from twisted.internet import reactor
-from twisted.internet.defer import setDebugging
 from node.z import send
 from cred import cred
 
 
 logging.basicConfig(level=logging.DEBUG)
 logging.getLogger('pika').setLevel(logging.WARNING)
-
-setDebugging(True)
 
 
 exchange = 'uhcm'
@@ -59,11 +52,6 @@ def taskHeartbeat():
 connection,channel = None,None
 
 logging.info(__name__ + ' is ready')
-d = LoopingCall(taskHeartbeat).start(60)
-def duh(e):
-    print(e)
-d.addErrback(duh)
-reactor.run()
-if connection:
-    connection.close()
+taskHeartbeat()
+connection.close()
 logging.info(__name__ + ' terminated')
