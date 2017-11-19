@@ -8,10 +8,11 @@ import sys,time,itertools,MySQLdb
 sys.path.append('/home/nuc')
 from os.path import expanduser
 from datetime import datetime,timedelta
-from node.display.gen_plot import plot_multi_time_series
 from node.storage.storage2 import storage,auto_time_col
 from node.helper import dt2ts,ts2dt
 from cred import cred
+import matplotlib
+matplotlib.use('Agg')
 from matplotlib import pyplot as plt
 
 
@@ -40,7 +41,7 @@ ends = [dt2ts(tmp) for tmp in ends]
 R = {}
 for table in store.get_list_of_tables():
     #if len(R) >= 10:
-        #break
+    #    break
     print(table)
     time_col = auto_time_col(store.get_list_of_columns(table))
     d = []
@@ -60,13 +61,17 @@ i = 1
 for table,r in sorted(R.iteritems()):
     ax = plt.subplot(len(R),1,i)
     i += 1
+
     x = [ts2dt(tmp) - timedelta(hours=10) for tmp in r[0]]
-    ax.plot_date(x,r[1],marker=None,linestyle='-',color='#1f77b4')
-    #ax.fill_between(x,0,r[1],color='#9ed7ff')
-    ax.fill_between(x,0,r[1],color='#1f77b4',alpha=0.3)
-    ax.locator_params(nbins=4,axis='y')     # max 4 labels on y axis
-    ax.set_ylim(0,plt.ylim()[1])            # y axis lower limit = 0
-    ax.set_title(table)
+    y = r[1]
+    ax.plot_date(x, y, marker=None, linestyle='-', color='#1f77b4')
+    #ax.fill_between(x,0,y,color='#9ed7ff')
+    ax.fill_between(x, 0, y, color='#1f77b4', alpha=0.3)
+    # why is vertical alignment always so difficult?
+    ax.text(ts2dt((min(r[0]) + max(r[0]))/2.0), 0, table, fontsize=30, alpha=0.2, verticalalignment='bottom', horizontalalignment='center')
+    ax.locator_params(nbins=3, axis='y')     # max 3+1 labels on y axis
+    ax.set_ylim(0, plt.ylim()[1])            # y axis lower limit = 0
+    #ax.set_title(table)
     ax.grid(False)
 
 fig.tight_layout()
