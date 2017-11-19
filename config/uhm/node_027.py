@@ -6,7 +6,7 @@ public_key = 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC9r/ROdI2KoSGWsizk8fhcUWONAM
 
 XBEE_PORT = '/dev/ttyO2'
 XBEE_BAUD = 115200
-INTERVAL = 10
+INTERVAL = 60
 NGROUP = 1
 XBEELOGDIR = '/var/uhcm/log'
 
