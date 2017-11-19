@@ -20,7 +20,7 @@ if [ "$PLATFORM" == bbb ] || [ "$PLATFORM" == rpi ] ; then
 fi
 
 # reboot, login as nuc, then
-sudo bash -c " echo \"$USERNAME ALL=(ALL) NOPASSWD:ALL\" > /etc/sudoers.d/$USERNAME"
+sudo bash -c "echo \"$USERNAME ALL=(ALL) NOPASSWD:ALL\" > /etc/sudoers.d/$USERNAME"
 sudo userdel -r -f debian
 sudo userdel -r -f pi
 
@@ -65,9 +65,9 @@ sudo systemctl enable supervisor
 sudo systemctl start supervisor
 sudo chown $USERNAME:$USERNAME /etc/supervisor/conf.d
 sudo apt install build-essential python-dev python-setuptools python-pip python-twisted python-zmq -y
-sudo pip install pyserial requests pycrypto
+sudo pip install --upgrade pyserial requests pycrypto
 sudo apt install python3 python3-pip -y
-sudo pip3 install pika twisted
+sudo pip3 install --upgrade pika twisted
 
 
 # RabbitMQ
@@ -87,7 +87,7 @@ sudo rabbitmq-plugins enable rabbitmq_shovel
 sudo rabbitmq-plugins enable rabbitmq_shovel_management
 sudo touch /etc/rabbitmq/rabbitmq.config
 sudo chown $USERNAME:$USERNAME /etc/rabbitmq/rabbitmq.config
-sudo pip install pika
+sudo pip install --upgrade pika
 
 
 # db

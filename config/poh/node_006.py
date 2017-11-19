@@ -10,7 +10,6 @@ conf = [
         'dbtype':'DOUBLE NOT NULL',
         'description':'Time of sampling',
         'plot':False,
-        'plot_range':3*24,
         'interval':1,
     },
     {

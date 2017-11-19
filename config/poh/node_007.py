@@ -28,6 +28,7 @@ conf = [
         'description':'Barometric pressure (BMP180)',
         'lb':80e3,
         'ub':110e3,
+        'plot_range':7*24,
     },
     {
         'dbtag':'T_180',
@@ -35,6 +36,7 @@ conf = [
         'description':'Enclosure temperature (BMP180)',
         'lb':-20,
         'ub':80,
+        'plot_range':7*24,
     },
     {
         'dbtag':'P_280',
@@ -42,6 +44,7 @@ conf = [
         'description':'Barometric pressure (BME280)',
         'lb':80,
         'ub':120,
+        'plot_range':7*24,
     },
     {
         'dbtag':'T_280',
@@ -49,6 +52,7 @@ conf = [
         'description':'Air temperature (BME280)',
         'lb':-10,
         'ub':60,
+        'plot_range':7*24,
     },
     {
         'dbtag':'RH_280',
@@ -56,21 +60,25 @@ conf = [
         'description':'% Relative humidity (BME280)',
         'lb':0,
         'ub':100,
+        'plot_range':7*24,
     },
     {
         'dbtag':'UV_Si1145',
         'unit':'(100x index)',
         'description':'UV Index x 100',
+        'plot_range':7*24,
     },
     {
         'dbtag':'IR_Si1145',
         'unit':'lux',
         'description':'IR',
+        'plot_range':7*24,
     },
     {
         'dbtag':'Amb_Si1145',
         'unit':'lux',
         'description':'Ambient light intensity',
+        'plot_range':7*24,
     },
     {
         'dbtag':'Wind_avg',
@@ -78,6 +86,7 @@ conf = [
         'description':'Average wind speed',
         'lb':0,
         'ub':32.4,
+        'plot_range':7*24,
     },
     {
         'dbtag':'Wind_gust',
@@ -85,6 +94,7 @@ conf = [
         'description':'Wind gust',
         'lb':0,
         'ub':32.4,
+        'plot_range':7*24,
     },
 ]
 

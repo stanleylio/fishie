@@ -8,13 +8,15 @@ cd $HOME/node/display
 echo "PoH"
 #python t0.py --site=poh --dbfile=$HOME/node/www/poh/storage/sensor_data.db --plot_dir=$HOME/node/www/poh
 python t0.py --site=poh
-echo "SF"
-python t0.py --site=sf
+#echo "SF"
+#python t0.py --site=sf
 echo "Coconut"
 python t0.py --site=coconut
 echo "Makai Pier"
 python t0.py --site=makaipier
-echo "UHM/'baseless'"
+echo "Molokai"
+python t0.py --site=molokai
+echo "Mobile/Other"
 python t0.py --site=uhm
 
 
