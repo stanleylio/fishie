@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
-name = '(TBD)'
-location = 'UH Manoa'
+name = 'Kaloko`eli Water Level'
+location = 'Kaloko`eli Fishpond, Molokaʻi (21.079767, -157.000367)'
+google_map_link = 'https://goo.gl/maps/BYAf8xseCEE2'
 note = 'Cellular ultrasonic tide gauge. Each sample is average of 60 measurements taken every second. One transmission every 10 samples. Firmware p5e, hardware v0.2 (pull-down patch).'
 
 coreid = '33002f001851353338363036'
