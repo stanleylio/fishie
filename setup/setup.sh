@@ -1,23 +1,20 @@
 #!/bin/bash
 
-USERNAME=
+
+sudo nano /etc/hostname
+sudo nano /etc/hosts
+
+USERNAME="nuc"
 RABBITMQPASSWORD=
+#HOSTNAME="base-XXX"
 
-PLATFORM=bbb
-#PLATFORM=rpi
-#PLATFORM=nuc
-
-#passwd
-
-sudo bash -c "echo $USERNAME > /etc/hostname"
+#sudo bash -c "echo $HOSTNAME > /etc/hostname"
 #sudo echo "127.0.0.1       $USERNAME" >> /etc/hosts
 
-if [ "$PLATFORM" == bbb ] || [ "$PLATFORM" == rpi ] ; then
-	sudo adduser $USERNAME
-	sudo usermod -aG sudo $USERNAME
-	sudo usermod -aG dialout $USERNAME
-	sudo usermod -aG i2c $USERNAME
-fi
+sudo adduser $USERNAME
+sudo usermod -aG sudo $USERNAME
+sudo usermod -aG dialout $USERNAME
+sudo usermod -aG i2c $USERNAME
 
 # reboot, login as nuc, then
 sudo bash -c "echo \"$USERNAME ALL=(ALL) NOPASSWD:ALL\" > /etc/sudoers.d/$USERNAME"
@@ -65,9 +62,9 @@ sudo systemctl enable supervisor
 sudo systemctl start supervisor
 sudo chown $USERNAME:$USERNAME /etc/supervisor/conf.d
 sudo apt install build-essential python-dev python-setuptools python-pip python-twisted python-zmq -y
-sudo pip install --upgrade pyserial requests pycrypto
+sudo pip install --upgrade pyserial requests pycrypto pika
 sudo apt install python3 python3-pip -y
-sudo pip3 install --upgrade pika twisted
+sudo pip3 install --upgrade pika requests twisted
 
 
 # RabbitMQ
@@ -76,18 +73,23 @@ wget https://github.com/rabbitmq/rabbitmq-server/releases/download/rabbitmq_v3_6
 sudo dpkg -i rabbitmq-server_3.6.12-1_all.deb
 sudo apt -f install -y
 sudo dpkg -i rabbitmq-server_3.6.12-1_all.deb
-sudo rabbitmqctl add_user $USERNAME $RABBITMQPASSWORD
-sudo rabbitmqctl set_permissions $USERNAME ".*" ".*" ".*"
-sudo rabbitmqctl set_user_tags $USERNAME administrator
+sudo rabbitmqctl add_user $(hostname) $RABBITMQPASSWORD
+sudo rabbitmqctl set_permissions $(hostname) ".*" ".*" ".*"
+sudo rabbitmqctl set_user_tags $(hostname) administrator
 sudo rabbitmqctl delete_user guest
 sudo rabbitmqctl list_users
-sudo rabbitmqctl list_user_permissions $USERNAME
+sudo rabbitmqctl list_user_permissions $(hostname)
 sudo rabbitmq-plugins enable rabbitmq_management
 sudo rabbitmq-plugins enable rabbitmq_shovel
 sudo rabbitmq-plugins enable rabbitmq_shovel_management
-sudo touch /etc/rabbitmq/rabbitmq.config
-sudo chown $USERNAME:$USERNAME /etc/rabbitmq/rabbitmq.config
-sudo pip install --upgrade pika
+#sudo touch /etc/rabbitmq/rabbitmq.config
+#sudo chmod 664 /etc/rabbitmq/rabbitmq.config
+sudo chmod g+w /etc/rabbitmq
+sudo usermod -aG rabbitmq $USERNAME
+sudo nano /etc/rabbitmq/rabbitmq.config
+# and create the corresponding RabbitMQ user on server
+
+# and cred.py, and all the reverse-SSH stuff...
 
 
 # db
@@ -100,22 +102,23 @@ sudo mkdir /var/uhcm
 sudo chown $USERNAME:$USERNAME /var/uhcm
 mkdir /var/uhcm/log
 
+sudo pip install Adafruit_BBIO
+sudo apt install i2c-tools python-smbus -y
+source ~/node/setup/time/install_ds1307.sh
 
-if [ "$PLATFORM" == bbb ] ; then
+
+if [ -a /boot/uEnv.txt ]
+then
 	#sudo echo "cape_enable=bone_capemgr.enable_partno=BB-UART1,BB-UART2,BB-UART4,BB-UART5,BB-I2C1,BB-I2C2" >> /boot/uEnv.txt
 	#sudo echo "cape_disable=bone_capemgr.disable_partno=BB-HDMI" >> /boot/uEnv.txt
 	sudo nano /boot/uEnv.txt
-	sudo pip install Adafruit_BBIO
-	sudo apt install i2c-tools python-smbus -y
-	source ~/node/setup/time/install_ds1307.sh
-
-	# expand partition to full disk
-	cd /opt/scripts/tools/
-	sudo git pull
-	sudo ./grow_partition.sh
 fi
 
-if [ "$PLATFORM" == rpi ] ; then
-	sudo apt install i2c-tools python-smbus -y
-	source ~/node/setup/time/install_ds1307.sh
+
+if [ -e "/opt/scripts/tools" ]
+then
+	# expand partition to full disk
+	cd /opt/scripts/tools
+	sudo git pull
+	sudo ./grow_partition.sh
 fi
