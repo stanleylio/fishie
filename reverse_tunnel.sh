@@ -25,6 +25,8 @@ map[base-013]=10033
 map[base-014]=10034
 map[base-015]=10035
 
+map[node-084]=10184
+
 RemotePort=${map[$(hostname)]}
 
 # glazerlab-i7nuc
