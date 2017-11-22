@@ -35,7 +35,7 @@ class RMY05106:
 if '__main__' == __name__:
     import time
     
-    rmy = RMY05106('/dev/ttyO2')
+    rmy = RMY05106('/dev/ttyS0')
     while True:
         print(rmy.read())
         time.sleep(0.1)

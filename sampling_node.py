@@ -28,6 +28,10 @@ nodeid = socket.gethostname()
 config = import_node_config()
 
 NGROUP = getattr(config,'NGROUP',1)
+INTERVAL = getattr(config,'INTERVAL',60)
+XBEE_PORT = getattr(config,'XBEE_PORT',None)
+XBEE_BAUD = getattr(config,'XBEE_BAUD',115200)
+XBEE_LOG_DIR = getattr(config,'XBEE_LOG_DIR',None)
 
 
 #'DEBUG,INFO,WARNING,ERROR,CRITICAL'
@@ -45,13 +49,18 @@ from sampling_core import sampling_core
 
 
 # hardware ports
-assert exists(config.XBEE_PORT)
-ser = serial.Serial(config.XBEE_PORT,config.XBEE_BAUD,timeout=1)
-xbeesend = lambda m: send(ser,m)
+if XBEE_PORT is None:
+    logger.warning('XBEE_PORT not defined, no XBee telemetry!')
+    xbeesend = lambda m: None
+else:
+    assert exists(XBEE_PORT)
+    ser = serial.Serial(xbee_port,xbee_baud,timeout=1)
+    xbeesend = lambda m: send(ser,m)
+
 indicators_setup()
 
 xbeesend({'status':'online',
-          'INTERVAL':config.INTERVAL,
+          'INTERVAL':INTERVAL,
           'NGROUP':NGROUP,
           'Timestamp':time.time()})
 
@@ -60,12 +69,18 @@ def rabbit_init():
     credentials = pika.PlainCredentials(nodeid,cred['rabbitmq'])
     connection = pika.BlockingConnection(pika.ConnectionParameters('localhost',5672,'/',credentials))
     channel = connection.channel()
-    channel.exchange_declare(exchange=exchange,type='topic',durable=True)
+    channel.exchange_declare(exchange=exchange,exchange_type='topic',durable=True)
     return connection,channel
 
 
+if XBEE_LOG_DIR is None:
+    XBEE_LOG_FILE = '/dev/null'
+else:
+    XBEE_LOG_FILE = join(config.XBEELOGDIR,'tsraw.txt')
+
+
 # logging all incoming XBee traffic... just because.
-rawf = open(join(config.XBEELOGDIR,'tsraw.txt'),'a+',0)
+rawf = open(XBEE_LOG_FILE,'a+',0)
 def logtsraw(line):
     dt = datetime.utcnow()
     ts = dt2ts(dt)
@@ -183,8 +198,9 @@ def taskBlink():
     green_off()
 
 LoopingCall(taskSampling).start(0.1)
-LoopingCall(taskTrigger).start(config.INTERVAL)
-LoopingCall(taskSerial).start(0.05,now=False)
+LoopingCall(taskTrigger).start(INTERVAL)
+if XBEE_PORT is not None:
+    LoopingCall(taskSerial).start(0.05,now=False)
 LoopingCall(taskBlink).start(1)
 
 logger.info(__name__ + ' is ready')
