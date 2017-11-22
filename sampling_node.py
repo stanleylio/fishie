@@ -52,6 +52,7 @@ from sampling_core import sampling_core
 if XBEE_PORT is None:
     logger.warning('XBEE_PORT not defined, no XBee telemetry!')
     xbeesend = lambda m: None
+    ser = None
 else:
     assert exists(XBEE_PORT)
     ser = serial.Serial(xbee_port,xbee_baud,timeout=1)
@@ -199,7 +200,7 @@ def taskBlink():
 
 LoopingCall(taskSampling).start(0.1)
 LoopingCall(taskTrigger).start(INTERVAL)
-if XBEE_PORT is not None:
+if ser is not None:
     LoopingCall(taskSerial).start(0.05,now=False)
 LoopingCall(taskBlink).start(1)
 
@@ -207,7 +208,8 @@ logger.info(__name__ + ' is ready')
 reactor.run()
 
 connection.close()
-ser.close()
+if ser is not None:
+    ser.close()
 rawf.close()
 indicators_cleanup()
 logger.info(__name__ + ' terminated')

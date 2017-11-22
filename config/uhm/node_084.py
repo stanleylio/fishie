@@ -4,6 +4,9 @@ location = 'First Mākāhā'
 note = 'RM Young 05106 Anemometer'
 
 
+INTERVAL = 1
+
+
 conf = [
     {
         'dbtag':'Timestamp',
