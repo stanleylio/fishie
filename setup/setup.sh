@@ -102,7 +102,7 @@ sudo mkdir /var/uhcm
 sudo chown $USERNAME:$USERNAME /var/uhcm
 mkdir /var/uhcm/log
 
-sudo pip install Adafruit_BBIO
+sudo pip install Adafruit_BBIO Adafruit_GPIO
 sudo apt install i2c-tools python-smbus -y
 source ~/node/setup/time/install_ds1307.sh
 
