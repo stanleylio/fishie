@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-name = 'Cellular test bed'
-location = 'UH Manoa'
+name = 'Taro Patch'
+location = '(TBD)'
 note = 'Cellular stream gauge. Each sample is average of 5 measurements taken every 60 seconds. One transmission every 2 samples. Firmware v1, hardware v0.2.'
 
 coreid = '410055001951353338363036'

@@ -10,11 +10,17 @@ fi
 sudo rsync -avh --delete /etc/apache2 $DIR
 sudo rsync -avh --delete /etc/supervisor $DIR
 sudo rsync -avh --delete /etc/logrotate.d $DIR
-sudo rsync -avh --delete /etc/rsnapshot $DIR
 sudo rsync -avh --delete /etc/cron.d $DIR
 sudo rsync -avh --delete /etc/rabbitmq $DIR
-sudo rsync -avh --delete /var/lib/connman $DIR
 sudo rsync -avh --delete /etc/wpa_supplicant $DIR
+if [ -e "/var/lib/connman" ]
+then
+	sudo rsync -avh --delete /var/lib/connman $DIR
+fi
+if [ -e "/etc/rsnapshot" ]
+then
+	sudo rsync -avh --delete /etc/rsnapshot $DIR
+fi
 
 crontab -l > $DIR/crontab.txt
 cp /etc/fstab $DIR/fstab
