@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
-name = 'Molokaʻi'
-location = 'Ali`i Fishpond, Molokaʻi'
-google_earth_link = 'https://goo.gl/maps/NQQRgvft5hp'
+name = '(TBD)'
+location = '(TBD)'
+google_earth_link = '#'
 note = 'Cellular ultrasonic tide gauge'
 
 coreid = '470032001951353338363036'

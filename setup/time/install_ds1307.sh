@@ -10,19 +10,15 @@ if [ -e /sys/class/i2c-adapter/i2c-2 ]; then
 	sudo i2cdetect -y -r 2
 	echo "using i2c-2"
 	sudo bash -c "echo ds1307 0x68 > /sys/class/i2c-adapter/i2c-2/new_device"
+	sudo i2cdetect -y -r 2
 	PLATFORM=bbb
 else
 	# probably pi - only bone has two I2C ports
 	sudo i2cdetect -y -r 1
 	echo "using i2c-1"
 	sudo bash -c "echo ds1307 0x68 > /sys/class/i2c-adapter/i2c-1/new_device"
-	PLATFORM=rpi
-fi
-
-if [ -e /sys/class/i2c-adapter/i2c-2 ]; then
-	sudo i2cdetect -y -r 2
-else
 	sudo i2cdetect -y -r 1
+	PLATFORM=rpi
 fi
 
 echo "- - - - -"

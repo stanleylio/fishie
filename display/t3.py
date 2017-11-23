@@ -68,10 +68,10 @@ for table,r in sorted(R.iteritems()):
     #ax.fill_between(x,0,y,color='#9ed7ff')
     ax.fill_between(x, 0, y, color='#1f77b4', alpha=0.3)
     # why is vertical alignment always so difficult?
-    ax.text(ts2dt((min(r[0]) + max(r[0]))/2.0), 0, table, fontsize=30, alpha=0.2, verticalalignment='bottom', horizontalalignment='center')
+    #ax.text(ts2dt((min(r[0]) + max(r[0]))/2.0), 0, table, fontsize=30, alpha=0.2, verticalalignment='bottom', horizontalalignment='center')
     ax.locator_params(nbins=3, axis='y')     # max 3+1 labels on y axis
     ax.set_ylim(0, plt.ylim()[1])            # y axis lower limit = 0
-    #ax.set_title(table)
+    ax.set_title(table)
     ax.grid(False)
 
 fig.tight_layout()

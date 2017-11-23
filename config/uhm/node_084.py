@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-name = 'Windbird'
-location = 'First Mākāhā'
+name = 'MSB Meteological Station'
+location = 'Marine Science Building Rooftop'
 note = 'RM Young 05106 Anemometer'
 
 
@@ -19,7 +19,7 @@ conf = [
         'dbtag':'wind_mps',
         'description':'Wind speed',
         'unit':'m/s',
-        'plot_range':3*24,
+        'plot_range':2*24,
         'lb':0,
         'interval':1,
     },
@@ -27,7 +27,7 @@ conf = [
         'dbtag':'wind_dir_deg',
         'description':'Wind direction',
         'unit':'Deg',
-        'plot_range':3*24,
+        'plot_range':2*24,
         'lb':0,
         'ub':360,
         'interval':1,
@@ -38,7 +38,7 @@ conf = [
         'description':'Barometric pressure (BME280)',
         'lb':80,
         'ub':120,
-        'plot_range':7*24,
+        'plot_range':2*24,
     },
     {
         'dbtag':'T_280',
@@ -46,7 +46,7 @@ conf = [
         'description':'Housing temperature (BME280)',
         'lb':-10,
         'ub':60,
-        'plot_range':7*24,
+        'plot_range':2*24,
     },
     {
         'dbtag':'RH_280',
@@ -54,7 +54,7 @@ conf = [
         'description':'Housing % Relative humidity (BME280)',
         'lb':0,
         'ub':100,
-        'plot_range':7*24,
+        'plot_range':2*24,
     },
 ]
 
