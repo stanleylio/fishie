@@ -4,7 +4,7 @@ location = 'First Mākāhā'
 note = 'RM Young 05106 Anemometer'
 
 
-INTERVAL = 1
+INTERVAL = 0.5
 
 
 conf = [
