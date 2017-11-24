@@ -1,44 +1,61 @@
 #!/usr/bin/python
-#
+# watchdog driver for RPi
+# I2C code lifed from Atlas Scientific's code to deal with RPi's I2C bug
+# source: https://github.com/AtlasScientific/Raspberry-Pi-sample-code/blob/master/i2c.py
 # Stanley H.I. Lio
 # hlio@hawaii.edu
-# All Rights Reserved. 2016
-import sys,time,os,traceback,smbus,logging
+import io,fcntl,struct,logging,traceback
 
 
 logger = logging.getLogger(__name__)
 
 
-class Watchdog(object):
+class Watchdog:
+    """Driver for watchdog (RPi version)"""
     def __init__(self,addr=0x51,bus=1):
+        assert bus in [1,2]
+        
         self.addr = addr
-        self.bus = smbus.SMBus(bus)
+        self.fr = io.open('/dev/i2c-{}'.format(bus),'rb',buffering=0)
+        self.fw = io.open('/dev/i2c-{}'.format(bus),'wb',buffering=0)
+        I2C_SLAVE = 0x703
+        fcntl.ioctl(self.fr,I2C_SLAVE,addr)
+        fcntl.ioctl(self.fw,I2C_SLAVE,addr)
 
     def reset(self):
-        return self.bus.read_word_data(self.addr,0xA)
-
+        return self.read(0xA)
+       
     def wdt_fired(self):
-        return bool(self.bus.read_word_data(self.addr,0xC))
+        return self.read(0xC)
+
+    def read_vbatt(self):
+        """Vin, in volt (nominal 12V)"""
+        return self.read(0xE)/1000.0
+
+    def read(self,reg):
+        self.fw.write(chr(reg))
+        r = self.fr.read(2)
+        r = ''.join([chr(ord(c) & ~0x80) for c in r])   # that mask == RPi hack
+        return struct.unpack('<H',r)[0]     # little endian, uint16_t
+
+    def close(self):
+        self.fr.close()
+        self.fw.close()
 
 
 def reset_auto():
-    good = [False,False]
-    for bus in [1,2]:
-        logger.debug('bus {}...'.format(bus))
-        try:
-            w = Watchdog(bus=bus)
-            counter = w.reset()
+    good = False
+    try:
+        for bus in [1,2]:
+            counter = Watchdog(bus=bus).reset()
             logging.debug('counter={}'.format(counter))
-            if counter >= 0 and counter <= 30*60:
-                good[bus-1] = True
-                break
-        except IOError:
-            #logging.exception(traceback.format_exc())
-            pass
-    if any(good):
-        for k,tmp in enumerate(good):
-            if tmp:
-                logger.debug('Found watchdog on bus {}'.format(k+1))
+            if counter >= 0 and counter <= 5*60:
+                good = True
+    except IOError:
+        #logging.exception(traceback.format_exc())
+        pass
+    if good:
+        logger.debug('Found watchdog.')
         return True
     else:
         logger.warning('No WDT found.')
@@ -48,6 +65,7 @@ def reset_auto():
 if '__main__' == __name__:
     logging.basicConfig(level=logging.DEBUG)
     reset_auto()
-    #w = Watchdog(bus=2)
-    #print(w.reset())
-    #print(w.wdt_fired())
+
+    #w = Watchdog()
+    #while True:
+    #    print(w.read_vbatt())
