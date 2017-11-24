@@ -5,7 +5,7 @@ note = 'RM Young 05106 Anemometer'
 
 
 INTERVAL = 60
-NGROUP = 9
+NGROUP = 7
 
 
 conf = [
