@@ -15,6 +15,8 @@ sudo adduser $USERNAME
 sudo usermod -aG sudo $USERNAME
 sudo usermod -aG dialout $USERNAME
 sudo usermod -aG i2c $USERNAME
+sudo usermod -aG gpio $USERNAME
+#sudo adduser pi gpio
 
 # reboot, login as nuc, then
 sudo bash -c "echo \"$USERNAME ALL=(ALL) NOPASSWD:ALL\" > /etc/sudoers.d/$USERNAME"

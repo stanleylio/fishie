@@ -25,11 +25,12 @@ map[base-013]=10033
 map[base-014]=10034
 map[base-015]=10035
 
+map[node-080]=10180
 map[node-084]=10184
 
 RemotePort=${map[$(hostname)]}
 
-# glazerlab-i7nuc
+# UHM
 RemoteHost=grog.soest.hawaii.edu
 # otg-met
 #Host=166.122.96.11
@@ -39,3 +40,4 @@ RemoteHost=grog.soest.hawaii.edu
 # debug
 #autossh -M 19922 -N -vv -o "PubkeyAuthentication=yes" -o "PasswordAuthentication=no" -R $RemotePort:localhost:22 $(hostname)@$RemoteHost -p 22
 autossh -M 19922 -N -f -o "PubkeyAuthentication=yes" -o "PasswordAuthentication=no" -R $RemotePort:localhost:22 $(hostname)@$RemoteHost -p 22
+autossh -M 19924 -N -f -o "PubkeyAuthentication=yes" -o "PasswordAuthentication=no" -R $RemotePort:localhost:22 $(hostname)@$RemoteHost -p 2222
