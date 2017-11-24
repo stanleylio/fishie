@@ -18,7 +18,7 @@ conf = [
     },
     {
         'dbtag':'wind_mps',
-        'description':'Wind speed',
+        'description':'Wind speed (1-min. avg.)',
         'unit':'m/s',
         'lb':0,
         'plot_range':2*24,
@@ -26,7 +26,7 @@ conf = [
     },
     {
         'dbtag':'wind_dir_deg',
-        'description':'Wind direction',
+        'description':'Wind direction (1-min. avg.)',
         'unit':'Deg',
         'lb':0,
         'ub':360,
