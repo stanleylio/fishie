@@ -75,4 +75,4 @@ if '__main__' == __name__:
     #print d.keys()
     #print d['node']
     for k,v in d.iteritems():
-        print k,v
+        print(k,v)

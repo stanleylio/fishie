@@ -2,12 +2,14 @@
 #
 # Stanley Lio, hlio@usc.edu
 # All Rights Reserved. February 2015
-import traceback,re,json,importlib,logging,binascii,time
+import sys,traceback,re,json,importlib,logging,binascii,time
+from os.path import expanduser
+sys.path.append(expanduser('~'))
 from datetime import datetime
-from z import check
-from drivers.seafet import parse_SeaFET
-from drivers.seabird import parse_Seabird
-from helper import dt2ts
+from node.z import check
+from node.drivers.seafet import parse_SeaFET
+from node.drivers.seabird import parse_Seabird
+from node.helper import dt2ts
 #from config.config_support import import_node_config
 
 
@@ -215,13 +217,13 @@ if '__main__' == __name__:
     #print parse_message('kph2,27,4.785')
     
     t = 'node-003,R,2016-11-02 01:47:14,102.05,24.66,251.400,99.415,26.080,82.988,25.536,3055,4130,b3844b99'
-    print parse_message(t,'poh')
+    print(parse_message(t,'poh'))
     t = 'node-003,R,2016-11-02 01:47:34,102.02,24.65,251.015,99.262,26.079,82.988,25.541,3056,4130,7ad3f9ba'
-    print parse_message(t,'poh')
+    print(parse_message(t,'poh'))
     t = 'node-003,R,2016-11-02 01:47:54,102.10,24.65,250.859,99.191,26.074,82.988,25.555,3056,4130,029d3041'
-    print parse_message(t,'poh')
+    print(parse_message(t,'poh'))
     t = 'node-003,R,2016-11-02 01:48:15,102.04,24.65,250.793,99.168,26.076,82.988,25.565,3056,4130,aa65fdf4'
-    print parse_message(t,'poh')
+    print(parse_message(t,'poh'))
     t = 'node-003,R,2016-11-02 01:48:35,102.03,24.65,251.286,99.342,26.064,82.988,25.579,3056,4130,52510df2'
-    print parse_message(t,'poh')
+    print(parse_message(t,'poh'))
 

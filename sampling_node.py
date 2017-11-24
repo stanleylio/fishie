@@ -81,7 +81,7 @@ else:
 
 
 # logging all incoming XBee traffic... just because.
-rawf = open(XBEE_LOG_FILE,'a+',0)
+rawf = open(XBEE_LOG_FILE,'a+',1)
 def logtsraw(line):
     dt = datetime.utcnow()
     ts = dt2ts(dt)
@@ -129,30 +129,23 @@ def taskSampling():
         outqueue.append(d)
 
         # This turns the "local" sample (a dict) into a message that base
-        # stations expect. This way the base station's log2sqlite.py can
-        # be reused here.
+        # stations expect. This way the base station's log2mysql.py can
+        # be reused.
         # In the future these bbb nodes should ALL double as base stations,
         # listening and parsing all messages in the air.
-        class LocalChannel:
-            def write(self,m):
-                try:
-                    global channel
-                    global connection
-                    if connection is None or channel is None:
-                        connection,channel = rabbit_init()
-                    channel.basic_publish(exchange=exchange,
-                                          routing_key=nodeid + '.samples',
-                                          body=m,
-                                          properties=pika.BasicProperties(delivery_mode=2,
-                                                                          content_type='text/plain',
-                                                                          expiration=str(72*3600*1000)))
 
-                except pika.exceptions.ConnectionClosed:
-                    connection,channel = None,None
-                    logging.error('connection closed')  # connection to the local exchange closed? wut?
-                    
-        send(LocalChannel(),d)
+        m = send(None,d,src=nodeid)
         #socket.send(m)
+
+        global channel,connection
+        if connection is None or channel is None:
+            connection,channel = rabbit_init()
+        channel.basic_publish(exchange=exchange,
+                              routing_key=nodeid + '.samples',
+                              body=m,
+                              properties=pika.BasicProperties(delivery_mode=2,
+                                                              content_type='text/plain',
+                                                              expiration=str(72*3600*1000)))
 
         red_off()
         usr0_off()
@@ -163,6 +156,9 @@ def taskSampling():
             #reactor.callLater(2*random(),taskSampling)
         else:
             logger.debug('all debts are paid')
+    except pika.exceptions.ConnectionClosed:
+        connection,channel = None,None
+        logging.error('connection closed')  # connection to the local exchange closed? wut?
     except:
         logger.error(traceback.format_exc())
 

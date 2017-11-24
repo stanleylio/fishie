@@ -175,7 +175,7 @@ if '__main__' == __name__:
             time.sleep(t)
            
     except KeyboardInterrupt:
-        print 'user interrupted'
+        print('user interrupted')
 
     indicators_cleanup()
 

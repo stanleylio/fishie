@@ -108,11 +108,11 @@ if '__main__' == __name__:
     #s.gain(25)
     #print s.gain()
 
-    print 'gain = {}x'.format(s.gain())
-    print 'integration time = {:.1f}ms'.format(s.integration_time())
+    print('gain = {}x'.format(s.gain()))
+    print('integration time = {:.1f}ms'.format(s.integration_time()))
 
     while True:
         r = s.read()
-        print 'ch0:{:.4f}, ch1:{:.4f}'.format(r[0],r[1])
+        print('ch0:{:.4f}, ch1:{:.4f}'.format(r[0],r[1]))
         sleep(0.1)
 

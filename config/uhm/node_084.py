@@ -4,7 +4,8 @@ location = 'Marine Science Building Rooftop'
 note = 'RM Young 05106 Anemometer'
 
 
-INTERVAL = 0.5
+INTERVAL = 60
+NGROUP = 9
 
 
 conf = [
@@ -19,17 +20,17 @@ conf = [
         'dbtag':'wind_mps',
         'description':'Wind speed',
         'unit':'m/s',
-        'plot_range':2*24,
         'lb':0,
+        'plot_range':2*24,
         'interval':1,
     },
     {
         'dbtag':'wind_dir_deg',
         'description':'Wind direction',
         'unit':'Deg',
-        'plot_range':2*24,
         'lb':0,
         'ub':360,
+        'plot_range':2*24,
         'interval':1,
     },
     {
@@ -38,8 +39,8 @@ conf = [
         'description':'Barometric pressure (BME280)',
         'lb':80,
         'ub':120,
-        'interval':1,
-        'plot_range':2*24,
+        'plot_range':7*24,
+        'interval':60,
     },
     {
         'dbtag':'T_int',
@@ -47,8 +48,8 @@ conf = [
         'description':'Housing temperature (BME280)',
         'lb':-10,
         'ub':60,
-        'interval':1,
-        'plot_range':2*24,
+        'plot_range':7*24,
+        'interval':60,
     },
     {
         'dbtag':'RH_int',
@@ -56,8 +57,8 @@ conf = [
         'description':'Housing % Relative humidity (BME280)',
         'lb':0,
         'ub':100,
-        'interval':1,
-        'plot_range':2*24,
+        'plot_range':7*24,
+        'interval':60,
     },
     {
         'dbtag':'P_ext',
@@ -65,8 +66,8 @@ conf = [
         'description':'Barometric pressure (BME280)',
         'lb':80,
         'ub':120,
-        'interval':1,
-        'plot_range':2*24,
+        'plot_range':7*24,
+        'interval':60,
     },
     {
         'dbtag':'T_ext',
@@ -74,8 +75,8 @@ conf = [
         'description':'Air temperature (BME280)',
         'lb':-10,
         'ub':60,
-        'interval':1,
-        'plot_range':2*24,
+        'plot_range':7*24,
+        'interval':60,
     },
     {
         'dbtag':'RH_ext',
@@ -83,8 +84,8 @@ conf = [
         'description':'% Relative humidity (BME280)',
         'lb':0,
         'ub':100,
-        'interval':1,
-        'plot_range':2*24,
+        'plot_range':7*24,
+        'interval':60,
     },
     {
         'dbtag':'system_clock',

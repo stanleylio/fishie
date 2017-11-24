@@ -1,4 +1,4 @@
-import binascii
+import binascii,traceback
 from serial import Serial
 
 
@@ -16,20 +16,21 @@ class RMY05106:
         for i in range(3):
             self._s.flushOutput()
             self._s.flushInput()
-            self._s.write('RMY05106,rfd\r\n')
-            line = self._s.readline()
+            self._s.write(b'RMY05106,rfd\r\n')
+            bline = self._s.readline()
             try:
+                line = bline.decode()
                 if line.startswith('RMY05106,rfd,'):
                     r = line.strip().split(',')
-                    crc = binascii.crc32(line[0:line.rfind(',')]) & 0xffffffff
+                    crc = binascii.crc32(bline[0:line.rfind(',')]) & 0xffffffff
                     if '%08x' % crc == r[-1]:
                         v = {}
                         v['v'] = round(float(r[2])*0.098,2)
                         v['d'] = round(float(r[3])*360.0,1)%360
                         return v
             except:
-                #traceback.print_exc()
-                pass
+                traceback.print_exc()
+                #pass
 
 
 if '__main__' == __name__:
