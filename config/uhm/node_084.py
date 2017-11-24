@@ -105,7 +105,7 @@ conf = [
     {
         'dbtag':'freeMB',
         'unit':'MB',
-        'description':'Remaining free disk space',
+        'description':'Free disk space',
         'lb':10000,
         'interval':60,
     },
