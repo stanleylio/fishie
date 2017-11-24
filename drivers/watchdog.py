@@ -45,17 +45,17 @@ class Watchdog:
 
 def reset_auto():
     good = False
-    try:
-        for bus in [1,2]:
+    for bus in [1,2]:
+        try:
             w = Watchdog(bus=bus)
             counter = w.reset()
             logging.debug('counter={}'.format(counter))
             logging.debug('Vin={}V'.format(w.read_vbatt()))
             if counter >= 0 and counter <= 5*60:
                 good = True
-    except IOError:
-        #logging.exception(traceback.format_exc())
-        pass
+        except IOError:
+            #logging.exception(traceback.format_exc())
+            pass
     if good:
         logger.debug('Found watchdog.')
         return True
