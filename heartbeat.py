@@ -35,6 +35,12 @@ def taskHeartbeat():
         usage = shutil.disk_usage('/')
         d = {'system_clock':time.time(),'uptime_second':uptime_second,
              'usedMB':int(usage.used/1e6),'freeMB':int(usage.free/1e6)}
+        try:
+            from node.drivers.watchdog import Watchdog
+            w = Watchdog(bus=1)
+            d['VbattV'] = w.read_vbatt()
+        except:
+            traceback.print_exc()
         m = send(None,d).strip()
         logging.debug(m)
         
