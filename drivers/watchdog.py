@@ -30,12 +30,12 @@ class Watchdog:
 
     def read_vbatt(self):
         """Vin, in volt (nominal 12V)"""
-        return self.read(0xE)/1000.0
+        return round(self.read(0xE)/1000.0,3)
 
     def read(self,reg):
-        self.fw.write(chr(reg))
+        self.fw.write(bytearray([reg]))
         r = self.fr.read(2)
-        r = ''.join([chr(ord(c) & ~0x80) for c in r])   # that mask == RPi hack
+        r = bytearray([c & ~0x80 for c in r])          # that mask == RPi hack
         return struct.unpack('<H',r)[0]     # little endian, uint16_t
 
     def close(self):
@@ -47,8 +47,10 @@ def reset_auto():
     good = False
     try:
         for bus in [1,2]:
-            counter = Watchdog(bus=bus).reset()
+            w = Watchdog(bus=bus)
+            counter = w.reset()
             logging.debug('counter={}'.format(counter))
+            logging.debug('Vin={}V'.format(w.read_vbatt()))
             if counter >= 0 and counter <= 5*60:
                 good = True
     except IOError:
