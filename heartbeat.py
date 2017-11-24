@@ -40,7 +40,9 @@ def taskHeartbeat():
             w = Watchdog(bus=1)
             d['VbattV'] = w.read_vbatt()
         except:
-            traceback.print_exc()
+            # some devices don't have WDT, like most pi and all NUC
+            #traceback.print_exc()
+            pass
         m = send(None,d).strip()
         logging.debug(m)
         
