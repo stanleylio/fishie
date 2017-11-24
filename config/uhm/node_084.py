@@ -86,6 +86,37 @@ conf = [
         'interval':1,
         'plot_range':2*24,
     },
+    {
+        'dbtag':'system_clock',
+        'description':'Device clock',
+        'interval':60,
+    },
+    {
+        'dbtag':'uptime_second',
+        'description':'Uptime in seconds',
+        'interval':60,
+    },
+    {
+        'dbtag':'usedMB',
+        'unit':'MB',
+        'description':'Used disk space',
+        'interval':60,
+    },
+    {
+        'dbtag':'freeMB',
+        'unit':'MB',
+        'description':'Remaining free disk space',
+        'lb':10000,
+        'interval':60,
+    },
+    {
+        'dbtag':'VbattV',
+        'unit':'V',
+        'description':'12V SLA battery voltage',
+        'lb':12,
+        'ub':14,
+        'interval':60,
+    },
 ]
 
 
