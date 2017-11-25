@@ -66,7 +66,7 @@ sudo chown $USERNAME:$USERNAME /etc/supervisor/conf.d
 sudo apt install build-essential python-dev python-setuptools python-pip python-twisted python-zmq -y
 sudo pip install --upgrade pyserial requests pycrypto pika
 sudo apt install python3 python3-pip -y
-sudo pip3 install --upgrade pika requests twisted Adafruit_BBIO Adafruit_GPIO
+sudo pip3 install --upgrade pika requests twisted Adafruit_BBIO Adafruit_GPIO RPi.GPIO
 
 
 # RabbitMQ
