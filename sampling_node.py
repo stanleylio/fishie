@@ -23,6 +23,9 @@ from node.config.config_support import import_node_config
 from cred import cred
 
 
+logging.getLogger('pika').setLevel(logging.WARNING)
+
+
 exchange = 'uhcm'
 nodeid = socket.gethostname()
 config = import_node_config()
