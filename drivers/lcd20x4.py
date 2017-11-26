@@ -160,5 +160,3 @@ if '__main__' == __name__:
         time.sleep(0.1)
         d.backlight(False)
         time.sleep(0.1)
-    
-
