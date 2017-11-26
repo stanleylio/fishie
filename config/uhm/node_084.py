@@ -14,7 +14,7 @@ conf = [
         'dbtype':'DOUBLE NOT NULL',
         'description':'Time of sampling',
         'plot':False,
-        'interval':1,
+        'interval':60,
     },
     {
         'dbtag':'wind_mps',
@@ -22,7 +22,7 @@ conf = [
         'unit':'m/s',
         'lb':0,
         'plot_range':2*24,
-        'interval':1,
+        'interval':60,
     },
     {
         'dbtag':'wind_dir_deg',
@@ -31,7 +31,15 @@ conf = [
         'lb':0,
         'ub':360,
         'plot_range':2*24,
-        'interval':1,
+        'interval':60,
+    },
+    {
+        'dbtag':'wind_gust_mps',
+        'description':'Wind gust (max. in past 1-min)',
+        'unit':'m/s',
+        'lb':0,
+        'plot_range':2*24,
+        'interval':60,
     },
     {
         'dbtag':'P_int',
