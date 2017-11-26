@@ -1,22 +1,20 @@
-#!/usr/bin/python3
-import time, struct, traceback, io, fcntl
+#/usr/bin/python
+from __future__ import division
+import time,struct,traceback
+from smbus import SMBus
 
 
-class TSYS01:
+class TSYS01(object):
 
     def __init__(self,address=0x77,bus=1):
+        self.bus = SMBus(bus)
         self.address = address
-        self.fr = io.open('/dev/i2c-{}'.format(bus),'rb',buffering=0)
-        self.fw = io.open('/dev/i2c-{}'.format(bus),'wb',buffering=0)
-        I2C_SLAVE = 0x703
-        fcntl.ioctl(self.fr,I2C_SLAVE,self.address)
-        fcntl.ioctl(self.fw,I2C_SLAVE,self.address)
 
         self.reset()
         self._C = self._read_prom()
 
     def reset(self):
-        self.fw.write(bytearray([0x1E]))
+        self.bus.write_byte(self.address,0x1E)
         time.sleep(0.003)
 
     def read(self):
@@ -34,32 +32,27 @@ class TSYS01:
         return round(t,6)
         
     def _read_prom(self):
-        C = []
-        for i in range(5):
-            self.fw.write(bytearray([0xAA - 2*i]))
-            C.append(self.fr.read(2))
-        return [struct.unpack('>H',c)[0] for c in C]
+        C = [self.bus.read_word_data(self.address,0xAA - 2*i) for i in range(5)]
+        C = [struct.unpack('<H',struct.pack('>H',c))[0] for c in C]
+        return C
 
     def _raw_adc(self):
-        self.fw.write(bytearray([0x48]))
+        self.bus.write_byte(self.address,0x48)
         time.sleep(0.01)
-        self.fw.write(bytearray([0]))
-        tmp = bytearray(b'\0')
-        tmp.extend(self.fr.read(3))
-        return struct.unpack('>I',tmp)[0]
+        tmp = self.bus.read_i2c_block_data(self.address,0,3)
+        tmp.insert(0,0)
+        return struct.unpack('>I',''.join([chr(c) for c in tmp]))[0]
 
 
 if '__main__' == __name__:
     s = TSYS01(bus=1)
     print(s._read_prom())
-    #print(s._raw_adc())
     #exit()
+    #print(s._raw_adc())
     while True:
         try:
             print(s.read())
         except IOError:
             traceback.print_exc()
-        except KeyboardInterrupt:
-            break
-        time.sleep(0.1)
+        time.sleep(0.2)
     
