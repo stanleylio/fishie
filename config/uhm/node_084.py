@@ -126,6 +126,12 @@ conf = [
         'ub':14,
         'interval':60,
     },
+    {
+        'dbtag':'rain_bucket_tipped',
+        'description':'Time when the TR-525I bucket tipped',
+        'lb':0,
+        'interval':365*24*60*60,    # at least rain once a year?
+    },
 ]
 
 
