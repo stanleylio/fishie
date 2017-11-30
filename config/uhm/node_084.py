@@ -1,4 +1,4 @@
-uhhih7iy# -*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
 name = 'MSB Meteological Station'
 location = 'Marine Science Building Rooftop'
 note = 'RM Young 05106 Anemometer'
