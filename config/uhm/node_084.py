@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+uhhih7iy# -*- coding: utf-8 -*-
 name = 'MSB Meteological Station'
 location = 'Marine Science Building Rooftop'
 note = 'RM Young 05106 Anemometer'
@@ -131,6 +131,13 @@ conf = [
         'description':'Time when the TR-525I bucket tipped',
         'lb':0,
         'interval':365*24*60*60,    # at least rain once a year?
+    },
+    {
+        'dbtag':'rain_hourly_count',
+        'description':'Hourly tip count',
+        'lb':0,
+        'ub':3600,
+        'interval':60*60,
     },
 ]
 
