@@ -42,7 +42,8 @@ config = import_node_config()
 output_path = getattr(config,'log2txt_output_path',None)
 assert output_path is not None and exists(output_path)
 
-raw = open(join(output_path,'raw.txt'),'a',0)
+#raw = open(join(output_path,'raw.txt'),'a',0)
+raw = open('/dev/null','a',0)
 tsraw = open(join(output_path,'tsraw.txt'),'a',0)
 
 def callback(ch,method,properties,body):
