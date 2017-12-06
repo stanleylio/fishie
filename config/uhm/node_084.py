@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 name = 'MSB Meteological Station'
 location = 'Marine Science Building Rooftop'
-note = 'RM Young 05106 Anemometer'
+note = 'BME280 and RM Young 05106. 10Hz wind direction and 1Hz wind speed display; logged once a minute. Pi cape v0.3 with WDT.'
 
 
 INTERVAL = 60
