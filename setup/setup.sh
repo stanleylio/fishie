@@ -71,10 +71,10 @@ sudo pip3 install --upgrade pika requests twisted Adafruit_BBIO Adafruit_GPIO RP
 
 # RabbitMQ
 cd
-wget https://github.com/rabbitmq/rabbitmq-server/releases/download/rabbitmq_v3_6_12/rabbitmq-server_3.6.12-1_all.deb
-sudo dpkg -i rabbitmq-server_3.6.12-1_all.deb
+wget https://github.com/rabbitmq/rabbitmq-server/releases/download/v3.7.0/rabbitmq-server_3.7.0-1_all.deb
+sudo dpkg -i rabbitmq-server_3.7.0-1_all.deb
 sudo apt -f install -y
-sudo dpkg -i rabbitmq-server_3.6.12-1_all.deb
+sudo dpkg -i rabbitmq-server_3.7.0-1_all.deb
 sudo rabbitmqctl add_user $(hostname) $RABBITMQPASSWORD
 sudo rabbitmqctl set_permissions $(hostname) ".*" ".*" ".*"
 sudo rabbitmqctl set_user_tags $(hostname) administrator
