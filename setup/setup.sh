@@ -71,6 +71,10 @@ sudo pip3 install --upgrade pika requests twisted Adafruit_BBIO Adafruit_GPIO RP
 
 # RabbitMQ
 cd
+# For the Pi:
+#wget http://packages.erlang-solutions.com/site/esl/esl-erlang/FLAVOUR_1_general/esl-erlang_20.1.7-1~raspbian~stretch_armhf.deb
+#sudo dpkg -i esl-erlang_20.1.7-1~raspbian~stretch_armhf.deb
+#sudo apt -f install -y
 wget https://github.com/rabbitmq/rabbitmq-server/releases/download/v3.7.0/rabbitmq-server_3.7.0-1_all.deb
 sudo dpkg -i rabbitmq-server_3.7.0-1_all.deb
 sudo apt -f install -y
