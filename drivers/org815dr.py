@@ -49,6 +49,6 @@ if '__main__' == __name__:
     
     org = ORG815DR('/dev/ttyUSB6')
     while True:
-        print org.read()
+        print(org.read())
         org.reset_accumulation_if_required()
         time.sleep(0.1)

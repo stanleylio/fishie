@@ -42,5 +42,5 @@ if '__main__' == __name__:
     
     rmy = RMY85106('/dev/ttyUSB4')
     while True:
-        print rmy.read()
+        print(rmy.read())
         time.sleep(0.1)
