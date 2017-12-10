@@ -63,10 +63,10 @@ sudo apt install supervisor -y
 sudo systemctl enable supervisor
 sudo systemctl start supervisor
 sudo chown $USERNAME:$USERNAME /etc/supervisor/conf.d
-sudo apt install build-essential python-dev python-setuptools python-pip python-twisted python-zmq -y
-sudo pip install --upgrade pyserial requests pycrypto pika
+#sudo apt install build-essential python-dev python-setuptools python-pip python-twisted python-zmq -y
+#sudo pip install --upgrade pyserial requests pycrypto pika
 sudo apt install python3 python3-pip python3-scipy python3-smbus -y
-sudo pip3 install --upgrade pika requests twisted Adafruit_BBIO Adafruit_GPIO RPi.GPIO
+sudo pip3 install --upgrade pika requests pycrypto pyserial pyzmq twisted Adafruit_BBIO Adafruit_GPIO RPi.GPIO
 
 
 # RabbitMQ

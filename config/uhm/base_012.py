@@ -1,7 +1,7 @@
-name = '(TBD)'
-location = '(TBD)'
-google_earth_link = '#'
-note = 'bbb-based'
+name = 'Palolo Base Station #1'
+location = 'Chris\''
+google_earth_link = 'https://goo.gl/maps/qXG7NQwCtrw'
+note = 'Beaglebone Black, cape v0.4'
 public_key = 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC5W2A0UY2OZPh6XZlBWrARwBX+Ta+jtWPov364Xu/VVMbo29E4NlVZ01vgVzy/9uGXFivVBZM/bdb/Tc398FO2GC8/96zAJ1AcMcqGEqd2ZIfwXlBxbDbazDb8slpJFZgpfPArq0erVjMJOcQp7JreCvfTBk7Y9KWiRAiqoSiXb9q1amWSIa92yl0shvlPeR42pkKkL2xnQBitDv/PjAn/ll2/OAJwC238xwVvLfKH8v63yLIOOAWWb2AXn3FJIRNxja+kMvG5jjbIyqo2Nc7oJni5by35L2VDK3J5F2PfEeQYls93oOfonnoEM5YslT9girR6KhTECt0+Nxf4lnCR nuc@base-012'
 
 
