@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 name = 'Coral Tank Module 1'
 location = 'Coconut Island'
-note = 'Temperature Control Demo'
+note = 'Temperature control demo'
 
 
 conf = [
