@@ -8,12 +8,12 @@ coreid = '410055001951353338363036'
 
 conf = [
     {
-        'dbtag':'Timestamp',
+        'dbtag':'ts',
         'description':'Sample time (Electron clock)',
         'interval':10*60,
     },
     {
-        'dbtag':'P280kPa',
+        'dbtag':'Pa',
         'unit':'kPa',
         'description':'Barometric pressure (BME280)',
         'lb':80,
@@ -21,7 +21,7 @@ conf = [
         'interval':10*60,
     },
     {
-        'dbtag':'T280DegC',
+        'dbtag':'Ta',
         'unit':'Deg.C',
         'description':'Air temperature (BME280)',
         'lb':10,
@@ -29,7 +29,7 @@ conf = [
         'interval':10*60,
     },
     {
-        'dbtag':'RH280',
+        'dbtag':'RH',
         'unit':'%',
         'description':'% Relative humidity (BME280)',
         'lb':0,
@@ -37,7 +37,7 @@ conf = [
         'interval':10*60,
     },
     {
-        'dbtag':'P5803kPa',
+        'dbtag':'Pw',
         'unit':'kPa',
         'description':'Water pressure (MS5803)',
         'lb':80,
@@ -45,7 +45,7 @@ conf = [
         'interval':10*60,
     },
     {
-        'dbtag':'T5803DegC',
+        'dbtag':'Tw',
         'unit':'Deg.C',
         'description':'Water temperature (MS5803)',
         'lb':10,
