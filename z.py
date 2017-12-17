@@ -72,6 +72,7 @@ def send(channel,sample,src=None,dest=None):
         tmp['to'] = dest
     tmp = json.dumps(tmp,separators=(',',':'))
     m = '{}{}\n'.format(tmp,get_checksum(tmp))
+    m = m.encode()
     if channel is not None:
         channel.write(m)
     return m
