@@ -16,7 +16,6 @@ class MS5803_14BA:
         self.address = address
 
         self.reset()
-        time.sleep(0.05)
         self._C = self._read_prom()
 
     def __enter__(self):
