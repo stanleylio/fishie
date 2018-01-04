@@ -36,12 +36,12 @@ if '__main__' == __name__:
 
     
     for table in sorted(conf):
-        print '- - -'
+        print('- - -')
         print table
         for column in conf[table]:
             assert 'dbtag' in column
             # everything else is optional. dbtype default to DOUBLE
-            print '\t' + column['dbtag']
+            print('\t' + column['dbtag'])
 
     import MySQLdb
     from os.path import expanduser
