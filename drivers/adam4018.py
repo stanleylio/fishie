@@ -48,8 +48,10 @@ class ADAM4018(object):
                 if len(r.strip()):
                     return r
                 logger.debug('_query(): nope')
+        except KeyboardInterrupt:
+            raise
         except:
-            logger.exception(traceback._format_exc())
+            logger.exception(traceback.format_exc())
         return ''
 
     def CheckModuleName(self):
@@ -82,8 +84,8 @@ class ADAM4018(object):
         for vr in vs:
             if vr >= v:
                 r = self.SetInputRange(vr)
-                if not r:
-                    print 'ayu'
+                #if not r:
+                #    print('ayu')
                 return r
         logger.warning('SetInputRangeAuto(): the supplied v is too large. Setting input range to maximum {}.'.format(max(vs)))
         return self.SetInputRange(max(vs))
@@ -162,7 +164,7 @@ class ADAM4018(object):
         """This call is costly - takes 7 sec for self-cal after configuration change. P.118
 FCI: Format, Checksum and Integration time. P.117"""
         if NewBaud is not None or FCI is not None:
-            print 'need to do something with the INIT* pin... check the manual.'
+            print('need to do something with the INIT* pin... check the manual.')
             #raise NotImplementedError
         r = self.cmdConfigurationStatus()
         if 10 == len(r) and '!' == r[0] and '\r' == r[-1] and self._address == r[1:3]:

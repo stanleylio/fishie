@@ -27,6 +27,7 @@ class ORG815DR:
             logging.warning('No response from optical rain gauge')
             return
         line = ''.join(line).rstrip()
+        logging.debug(line)
         return {'weather_condition':line[0:2],
                 'instantaneous_mmphr':float(line[3:7]),
                 'accumulation_mm':float(line[8:15])}
@@ -45,7 +46,9 @@ class ORG815DR:
 
 
 if '__main__' == __name__:
-    import time
+    import time, logging
+
+    logging.basicConfig(level=logging.DEBUG)
     
     org = ORG815DR('/dev/ttyUSB6')
     while True:
