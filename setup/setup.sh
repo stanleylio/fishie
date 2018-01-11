@@ -62,7 +62,7 @@ cd
 sudo apt install supervisor -y
 sudo systemctl enable supervisor
 sudo systemctl start supervisor
-sudo chown $USERNAME:$USERNAME /etc/supervisor/conf.d
+sudo chown $USER:$USER /etc/supervisor/conf.d
 #sudo apt install build-essential python-dev python-setuptools python-pip python-twisted python-zmq -y
 #sudo pip install --upgrade pyserial requests pycrypto pika
 sudo apt install python3 python3-pip python3-scipy python3-smbus -y
@@ -91,8 +91,9 @@ sudo rabbitmq-plugins enable rabbitmq_shovel_management
 #sudo touch /etc/rabbitmq/rabbitmq.config
 #sudo chmod 664 /etc/rabbitmq/rabbitmq.config
 sudo chmod g+w /etc/rabbitmq
-sudo usermod -aG rabbitmq $USERNAME
-sudo nano /etc/rabbitmq/rabbitmq.config
+sudo usermod -aG rabbitmq $USER
+# need to logout and login again for permissions to apply
+#sudo nano /etc/rabbitmq/rabbitmq.config
 # and create the corresponding RabbitMQ user on server
 
 # and cred.py, and all the reverse-SSH stuff...
@@ -105,11 +106,11 @@ sudo apt install sqlite3 -y
 
 
 sudo mkdir /var/uhcm
-sudo chown $USERNAME:$USERNAME /var/uhcm
+sudo chown $USER:$USER /var/uhcm
 mkdir /var/uhcm/log
 
-sudo pip install Adafruit_BBIO Adafruit_GPIO
-sudo apt install i2c-tools python-smbus -y
+#sudo pip install Adafruit_BBIO Adafruit_GPIO
+#sudo apt install i2c-tools python-smbus -y
 source ~/node/setup/time/install_ds1307.sh
 
 
