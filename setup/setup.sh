@@ -18,8 +18,8 @@ sudo usermod -aG i2c $USERNAME
 sudo usermod -aG gpio $USERNAME
 #sudo adduser pi gpio
 
-# reboot, login as nuc, then
 sudo bash -c "echo \"$USERNAME ALL=(ALL) NOPASSWD:ALL\" > /etc/sudoers.d/$USERNAME"
+# reboot, login as nuc, then
 sudo userdel -r -f debian
 sudo userdel -r -f pi
 
@@ -118,6 +118,15 @@ if [ -a /boot/uEnv.txt ]
 then
 	#sudo echo "cape_enable=bone_capemgr.enable_partno=BB-UART1,BB-UART2,BB-UART4,BB-UART5,BB-I2C1,BB-I2C2" >> /boot/uEnv.txt
 	#sudo echo "cape_disable=bone_capemgr.disable_partno=BB-HDMI" >> /boot/uEnv.txt
+	###Overide capes with eeprom
+	#uboot_overlay_addr0=/lib/firmware/BB-I2C1-00A0.dtbo
+	#uboot_overlay_addr1=/lib/firmware/BB-I2C2-00A0.dtbo
+	#uboot_overlay_addr2=/lib/firmware/BB-UART1-00A0.dtbo
+	#uboot_overlay_addr3=/lib/firmware/BB-UART2-00A0.dtbo
+	###
+	###Additional custom capes
+	#uboot_overlay_addr4=/lib/firmware/BB-UART4-00A0.dtbo
+	#uboot_overlay_addr5=/lib/firmware/BB-UART5-00A0.dtbo
 	sudo nano /boot/uEnv.txt
 fi
 
