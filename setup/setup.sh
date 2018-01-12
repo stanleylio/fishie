@@ -75,10 +75,11 @@ cd
 #wget http://packages.erlang-solutions.com/site/esl/esl-erlang/FLAVOUR_1_general/esl-erlang_20.1.7-1~raspbian~stretch_armhf.deb
 #sudo dpkg -i esl-erlang_20.1.7-1~raspbian~stretch_armhf.deb
 #sudo apt -f install -y
-wget https://github.com/rabbitmq/rabbitmq-server/releases/download/v3.7.0/rabbitmq-server_3.7.0-1_all.deb
-sudo dpkg -i rabbitmq-server_3.7.0-1_all.deb
-sudo apt -f install -y
-sudo dpkg -i rabbitmq-server_3.7.0-1_all.deb
+#wget https://github.com/rabbitmq/rabbitmq-server/releases/download/v3.7.0/rabbitmq-server_3.7.0-1_all.deb
+#sudo dpkg -i rabbitmq-server_3.7.0-1_all.deb
+#sudo apt -f install -y
+#sudo dpkg -i rabbitmq-server_3.7.0-1_all.deb
+sudo apt install rabbitmq-server -y
 sudo rabbitmqctl add_user $(hostname) $RABBITMQPASSWORD
 sudo rabbitmqctl set_permissions $(hostname) ".*" ".*" ".*"
 sudo rabbitmqctl set_user_tags $(hostname) administrator
@@ -88,10 +89,10 @@ sudo rabbitmqctl list_user_permissions $(hostname)
 sudo rabbitmq-plugins enable rabbitmq_management
 sudo rabbitmq-plugins enable rabbitmq_shovel
 sudo rabbitmq-plugins enable rabbitmq_shovel_management
-#sudo touch /etc/rabbitmq/rabbitmq.config
+#sudo nano /etc/rabbitmq/rabbitmq.config
 #sudo chmod 664 /etc/rabbitmq/rabbitmq.config
-sudo chmod g+w /etc/rabbitmq
-sudo usermod -aG rabbitmq $USER
+#sudo chmod g+w /etc/rabbitmq
+#sudo usermod -aG rabbitmq $USER
 # need to logout and login again for permissions to apply
 #sudo nano /etc/rabbitmq/rabbitmq.config
 # and create the corresponding RabbitMQ user on server
@@ -138,3 +139,5 @@ then
 	sudo git pull
 	sudo ./grow_partition.sh
 fi
+
+# reboot, then bash ~/node/setup/time/install_ds1307.sh
