@@ -30,7 +30,7 @@ if [ ! -f ~/.ssh/id_rsa ]; then
 	ssh-keygen
 	cat ~/.ssh/id_rsa.pub
 else
-	sudo chmod 700 ~/.ssh/id_rsa
+	sudo chmod 400 ~/.ssh/id_rsa
 fi
 
 
