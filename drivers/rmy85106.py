@@ -14,13 +14,13 @@ class RMY85106:
     def read(self):
         #self._s.write('M0!\r')       # the sensor is slow at processing commands...
         for c in 'M0!\r':
-            self._s.write(c)
+            self._s.write(c.encode())
             self._s.flushOutput()
         line = []
         for i in range(20):     # should be ~17 chr
             c = self._s.read(size=1)
             if len(c):
-                line.extend(c)
+                line.extend(c.decode())
             if c == '\r':
                 break
         #logger.debug(''.join(line))

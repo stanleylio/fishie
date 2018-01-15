@@ -15,12 +15,12 @@ class ORG815DR:
             pass
 
     def read(self):
-        self._s.write('A')
+        self._s.write('A'.encode())
         line = []
         for i in range(30):
             c = self._s.read(size=1)
             if len(c):
-                line.append(c)
+                line.append(c.decode())
             if '\r' == c:
                 break
         if len(line) <= 0:
@@ -37,7 +37,7 @@ class ORG815DR:
         dt = datetime.utcnow()
         if not dt.day == self.last_reset_day:
             logging.info('Accumulation Data Reset')
-            self._s.write('R')
+            self._s.write('R'.encode())
             for i in range(10):
                 r = self._s.read()
                 if len(r):  # whatever it is, as long as the sensor responded
