@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
-name = 'Windbird'
-location = 'First Mākāhā'
-note = 'RM Young 05106 Anemometer'
+name = 'He\'eia Fishpond Wind Sensor'
+location = 'Coast Guard Tower at the He\'eia Fishpond'
+note = 'RM Young 05106 Anemometer with XBee Pro 2.4GHz'
 
 
 conf = [

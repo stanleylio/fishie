@@ -1,7 +1,8 @@
-name = '(TBD)'
-location = '(TBD)'
-google_earth_link = '#'
-note = 'bbb-based'
+# -*- coding: utf-8 -*-
+name = 'Primary PoH Gateway'
+location = 'Paepae o He\'eia, Kaneohe'
+google_earth_link = 'https://goo.gl/maps/ECEBgo3UEp82'
+note = 'Successor to base-003 with dual XBee (900 + 900HP). bbb-based, eMMC'
 public_key = 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDDC+ZgKHDCHMKOOGw8bcOxAC6Fib5OAtBVgPVNq42g58tTddu8XWLjYVwLlt8YZ6IAMUgnMdRrTLJJK+EEy50nXhSm4Zft2A3VU0YdxQJEp/LwyJJawOI0695oliSMVLCKcrGdZ25A7zR+jU2TdO5EELWqpiqdk6Nwfp3/zKrVDtm6MHhh13iH7kP2vTEsXg79yMLtuGuwAL8tPakVjik1/lC0FwMDOCffE8Rfdy4UCcTvqJwPhkL1cpN6z8UPbBePkJWCt2SKqitZYNk0bITh9ZwPHC78cP3IzcKbSJoFEQbKmmcDEvMMSwYsHmKhknPUKBO9Z4CMI3n0I0ljjWxr nuc@base-011'
 
 

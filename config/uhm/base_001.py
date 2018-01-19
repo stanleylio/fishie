@@ -1,15 +1,8 @@
 name = '(TBD)'
 location = '(TBD)'
 google_earth_link = '#'
-note = 'bbb-based, eMMC'
-public_key = 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDUNeHyYu/A3z7pPmXgmR4f6AvCJDtcuSaF1Swf5h/szppdQBrSbXK0L6D6nA+CeGDHmM6OJK0F0JVeq+AHk77c+LZ98ngz0Nd49aagvRJIQJV25PKpyvugsp9MAwYZloiSQuNTObHZlDUhmhoea5cyuZ8xPVi2837X+5kt0ODZuSpqqtGoFiCVuhVfxo6axqsnnjUaMLFGSj0hmYnfKTMxVwl5hyKotarLAioZer2k+aDUm+I1xH3ez/XWo3uoaNx+l4UmDubk5hjRZ0//fl2kIcW6yKAoKl+VyDvBbaOavwQqbS2LIQreBaaOe5qvvMLhvItzboreL2BqJ7R9QpE3 nuc@base-014'
-
-
-XBEE_PORT = '/dev/ttyS1'
-XBEE_BAUD = 115200
-INTERVAL = 10
-NGROUP = 1
-XBEELOGDIR = '/var/uhcm/log'
+note = 'bbb-based'
+public_key = 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDDxQo/IVvzvYQJNif7XDD2UOwrQjbY6azURNA4K6QU7xMvDGJ7cohkib5sneCnLiL836VlT3AJ3Nj1cM/0UftJv1h8H836jfSvtTTdDhDwDg150c32VRq1AN8yoUyQMKsfKduuAAcdpRtTnVO3brNHn9o+pn/p36uepKF+kZUVKf75Bh9VqCldAzCbYx+jhWyRItpEKYqOftlcyyoM1GCIx+1R1143qR+onN1wSa2+N8KO6XFN0lFmaVAUC4guRffESMg6GS12GuJLT8iOYhDMFeMrjS9/Fn14zW7oRIungxHGYPYXsju1UmxaArtWfqj2wK/mioqZFktKUg9IT7Ex root@base-001'
 
 
 conf = [

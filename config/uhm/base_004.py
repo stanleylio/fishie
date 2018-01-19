@@ -1,34 +1,35 @@
-name = 'PoH Base Station (standby)'
-location = "Paepae o He'eia, Kane'ohe"
-google_earth_link = 'https://goo.gl/maps/ECEBgo3UEp82'
-note = 'bbb-based'
-public_key = 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDDxQo/IVvzvYQJNif7XDD2UOwrQjbY6azURNA4K6QU7xMvDGJ7cohkib5sneCnLiL836VlT3AJ3Nj1cM/0UftJv1h8H836jfSvtTTdDhDwDg150c32VRq1AN8yoUyQMKsfKduuAAcdpRtTnVO3brNHn9o+pn/p36uepKF+kZUVKf75Bh9VqCldAzCbYx+jhWyRItpEKYqOftlcyyoM1GCIx+1R1143qR+onN1wSa2+N8KO6XFN0lFmaVAUC4guRffESMg6GS12GuJLT8iOYhDMFeMrjS9/Fn14zW7oRIungxHGYPYXsju1UmxaArtWfqj2wK/mioqZFktKUg9IT7Ex root@base-001'
+name = '(TBD)'
+location = '(TBD)'
+google_earth_link = '#'
+note = 'NUC5CPYH'
+public_key = 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCuAIuai8QXOsi2KTzJrNVBFXvWMvqUQ5QKGYVzo7/Qr6gxj8xZZCcdukFFkTrCvHEsl7J0gHNsdwakTs+jVw8F7km4MPozGAMXoDEV/wWcXIxoaObUjRYsoUjArWrjsw3HlMbM+juKCYOPQsk8nYLpqv3BQ0Vc6p36OVDmIUfqNpwYxb6lpjgGo6j3npg+zgc8wfa5OyOBSEB5nkYN9k2WvJlKRVtDgvb4LA1lvTthPwb8z8jwFI2AV/Dr5SB1+miTQKbLmav/R6Uzpgxlc8mAMg9xz4NVQYm5t/uuCfigSG9S7oYg2FewNElO3zvykuTYHlVlFK6m55LaTE0gLSPr nuc@base-004'
+
+log2txt_output_path = '/var/uhcm/log'
+
+#subscribeto = ['127.0.0.1:9002']
+#zmq2http_url = 'https://grogdata.soest.hawaii.edu/api/5/uhcm'
+#dbfile = '/var/uhcm/storage/sensor_data.db'
 
 
 conf = [
     {
         'dbtag':'system_clock',
         'description':'Device clock',
-        'interval':60,
     },
     {
         'dbtag':'uptime_second',
         'description':'Uptime in seconds',
-        'lb':5*60,
-        'interval':60,
     },
     {
         'dbtag':'usedMB',
         'unit':'MB',
         'description':'Used disk space',
-        'interval':60,
     },
     {
         'dbtag':'freeMB',
         'unit':'MB',
         'description':'Remaining free disk space',
-        'lb':800,
-        'interval':60,
+        'lb':10000,
     },
 ]
 
