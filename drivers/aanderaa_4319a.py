@@ -1,35 +1,54 @@
 # Stanley H.I. Lio
 # hlio@hawaii.edu
-# All Rights Reserved. 2017
+# All Rights Reserved. 2018
 # University of Hawaii
-import serial,traceback,logging
+import serial, logging, time
+
+logger = logging.getLogger(__name__)
 
 
 def parse_4319a(line):
-    tmp = line.strip().split('\t')
+    tmp = line.strip().replace('\x11','').replace('\x13','').split('\t')
+    
     if '4319' not in tmp[0]:
-        logging.debug('4319 tag not found')
-        logging.debug(line)
+        logger.debug('4319 tag not found')
+        logger.debug(line)
         return None
     if len(tmp) != 4:
-        logging.debug('Expected 4 fields')
-        logging.debug(line)
+        logger.debug('Expected 4 fields')
+        logger.debug(line)
         return None
     line = tmp
     tags = ['sn','ec','t']
     line[2] = float(line[2])
     line[3] = float(line[3])
-    return dict(zip(tags,line[1:]))
+    return dict(zip(tags, line[1:]))
 
 def aanderaa_4319a_read(port):
-    with serial.Serial(port,9600,timeout=2) as s:
+    with serial.Serial(port, 9600, timeout=2) as s:
         retry = 3
+        r = None
         for i in range(retry):
-            s.write('\r\ndo sample\r\n')
-            line = s.readline()
-            return parse_4319a(line)
+            s.write('\r\ndo sample\r\n'.encode())
+            line = s.readline().decode().strip()
+            if '#' in line or len(line) <= 0:
+                continue
+            try:
+                r = parse_4319a(line)
+                if r:
+                    break
+            except ValueError:
+                pass
+            time.sleep(0.5)
+        return r
 
 
 if '__main__' == __name__:
+    
+    logging.basicConfig(level=logging.DEBUG)
+    
     while True:
-        print(aanderaa_4319a_read('/dev/ttyUSB0'))
+        try:
+            print(aanderaa_4319a_read('/dev/ttyS0'))
+        except ValueError:
+            pass
