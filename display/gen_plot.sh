@@ -6,18 +6,17 @@ cd $HOME/node/display
 # static plots (raw)
 # - - - - -
 echo "PoH"
-#python t0.py --site=poh --dbfile=$HOME/node/www/poh/storage/sensor_data.db --plot_dir=$HOME/node/www/poh
-python t0.py --site=poh
+python3 t0.py --site=poh
 #echo "SF"
 #python t0.py --site=sf
 echo "Coconut"
-python t0.py --site=coconut
+python3 t0.py --site=coconut
 echo "Makai Pier"
-python t0.py --site=makaipier
+python3 t0.py --site=makaipier
 echo "Molokai"
-python t0.py --site=molokai
+python3 t0.py --site=molokai
 echo "Mobile/Other"
-python t0.py --site=uhm
+python3 t0.py --site=uhm
 
 
 # - - -

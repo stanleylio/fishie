@@ -2,16 +2,16 @@
 #
 # Stanley Lio, hlio@usc.edu
 # All Rights Reserved. February 2015
-import matplotlib,numpy,traceback
+import matplotlib
 matplotlib.use('Agg')
-import sys,logging
+import numpy as np
+import sys, logging
 from os.path import expanduser
 sys.path.append(expanduser('~'))
 from node.helper import ts2dt
 import matplotlib.pyplot as plt
-from datetime import datetime,timedelta
-from matplotlib.dates import DateFormatter,HourLocator
-#from config.config_support import *
+from datetime import datetime, timedelta
+from matplotlib.dates import DateFormatter, HourLocator
 
 
 def auto_tick(ax):
@@ -27,16 +27,16 @@ def auto_tick(ax):
     # For plotting the order doesn't matter because the samples are timestamped.
 
     # "locate the earliest timestamp at which time the sample is not an NaN"
-    # nan in numpy.float64 is not float('nan')... and
+    # nan in np.float64 is not float('nan')... and
     # certainly not None, and "is not" won't work either
-    nonnull = [z[0] for z in zip(x,y) if not numpy.isnan(z[1])]
+    nonnull = [z[0] for z in zip(x,y) if not np.isnan(z[1])]
     if len(nonnull) <= 0:
         logging.debug('no data or all NaNs')
         return
     begin = min(nonnull)
     end = max(x)
     # why not?
-    #end = max([z[0] for z in zip(x,y) if not numpy.isnan(z[1])])
+    #end = max([z[0] for z in zip(x,y) if not np.isnan(z[1])])
 
     # show/hide the date in the time axis labels
     if begin.date() == end.date():
@@ -96,7 +96,7 @@ def plot_multi_time_series(data,plotfilename,title='',xlabel='',ylabel='',loc='b
                           #markersize=15, label='stuff')
         #plt.legend(handles=[blue_line])
 
-    plt.legend(loc=loc,framealpha=0.5)
+    plt.legend(loc=loc, framealpha=0.5)
     plt.title(title)
     plt.grid(True)
 
@@ -109,10 +109,10 @@ def plot_multi_time_series(data,plotfilename,title='',xlabel='',ylabel='',loc='b
         end = begin
         for d in data:
             #x,y = d['x'],d['y']
-            b = min([z[0] for z in zip(x,y) if not numpy.isnan(z[1])])
+            b = min([z[0] for z in zip(x,y) if not np.isnan(z[1])])
             if b < begin:
                 begin = b
-            e = max([z[0] for z in zip(x,y) if not numpy.isnan(z[1])])
+            e = max([z[0] for z in zip(x,y) if not np.isnan(z[1])])
             if e > end:
                 end = e
         plt.gca().set_xlabel('UTC Time ({} to {})'.\
@@ -124,23 +124,21 @@ def plot_multi_time_series(data,plotfilename,title='',xlabel='',ylabel='',loc='b
     plt.gca().set_ylabel(ylabel)
 
     # make the markers in the legend bigger in order to show the color
-    try:
-        tmp = plt.gca().get_legend()
-        if tmp is not None:
-            for h in tmp.legendHandles:
-                h.set_marker('.')
-                #h.set_color('red')
-                h.set_markersize(8)
-    except:
-        traceback.print_exc()
+    tmp = plt.gca().get_legend()
+    if tmp is not None:
+        for h in tmp.legendHandles:
+            h.set_marker('.')
+            #h.set_color('red')
+            h.set_markersize(8)
 
-    plt.savefig(plotfilename,bbox_inches='tight',dpi=600)
+    plt.savefig(plotfilename, bbox_inches='tight', dpi=600)
+    print(plotfilename)
     plt.cla()
     plt.clf()
     plt.close()
 
 
-def plot_time_series(x,y,plotfilename,title='',xlabel='',ylabel='',linelabel=None,color='#1f77b4',linestyle='-',marker='.',markersize=1):
+def plot_time_series(x, y, plotfilename, title='', xlabel='', ylabel='', linelabel=None, color='#1f77b4', linestyle='-', marker='.', markersize=1):
     assert len(x) == len(y)
     assert len(x) > 0
     assert len(plotfilename) > 0
@@ -165,9 +163,16 @@ def plot_time_series(x,y,plotfilename,title='',xlabel='',ylabel='',linelabel=Non
                      format(begin.strftime('%Y-%m-%d'),\
                             end.strftime('%Y-%m-%d'))
 
-    data = [{'x':x,'y':y,'linelabel':linelabel,'color':color,'linestyle':linestyle,'marker':marker,'markersize':markersize}]
+    data = [{'x':x,
+             'y':y,
+             'linelabel':linelabel,
+             'color':color,
+             'linestyle':linestyle,
+             'marker':marker,
+             'markersize':markersize}]
     
-    plot_multi_time_series(data,plotfilename,
+    plot_multi_time_series(data,
+                           plotfilename,
                            title=title,
                            xlabel=xlabel,
                            ylabel=ylabel)
