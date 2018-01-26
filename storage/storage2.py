@@ -115,7 +115,7 @@ class storage():
         r = self._cur.fetchall()
         self._conn.commit() # see: stale read
         if len(r):
-            r = zip(*r)
+            r = list(zip(*r))
             # {a:[],b:[]} vs. [[a0,b0],[a1,b1],[a2,b2]...]
             # this is the former, but the latter is more efficient.
             # once the API is public, it is set in stone. lesson learned.
