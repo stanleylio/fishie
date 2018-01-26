@@ -4,16 +4,16 @@
 # Stanley H.I. Lio
 # hlio@soest.hawaii.edu
 # All Rights Reserved. 2016
-import sys,traceback,json,time,math,logging,argparse
+import sys, traceback, json, time, math, logging, argparse
 from os import makedirs
-from os.path import exists,join,expanduser
+from os.path import exists, join, expanduser
 sys.path.append(expanduser('~'))
-from datetime import datetime,timedelta
+from datetime import datetime, timedelta
 #from scipy.signal import medfilt
 from node.display.gen_plot import plot_time_series
 from node.helper import dt2ts
-from node.storage.storage2 import storage,auto_time_col
-from node.config.config_support import get_list_of_devices,get_list_of_disp_vars,get_description,get_unit,get_config
+from node.storage.storage2 import storage, auto_time_col
+from node.config.config_support import get_list_of_devices, get_list_of_disp_vars, get_description, get_unit, get_config
 
 
 logging.basicConfig(level=logging.DEBUG)
@@ -22,13 +22,13 @@ logging.basicConfig(level=logging.DEBUG)
 #def is_node(device):
 #    return not device.startswith('base-')
 
-def find_bounds(x,y):
+def find_bounds(x, y):
     '''Find both the oldest and the latest timestamp where the reading is not None'''
-    tmp = filter(lambda p: p[1] is not None,zip(x,y))
-    return min(tmp,key=lambda p: p[0])[0],max(tmp,key=lambda p: p[0])[0],
+    tmp = list(filter(lambda p: p[1] is not None, zip(x, y)))
+    return min(tmp, key=lambda p: p[0])[0], max(tmp, key=lambda p: p[0])[0],
 
-def count_not_null(x,y):
-    return len(filter(lambda p: p[1] is not None,zip(x,y)))
+def count_not_null(x, y):
+    return len(list(filter(lambda p: p[1] is not None, zip(x, y))))
 
 
 # db could be empty
@@ -42,8 +42,8 @@ def count_not_null(x,y):
 # ...
 
 
-parser = argparse.ArgumentParser(formatter_class=argparse.RawTextHelpFormatter,description='')
-parser.add_argument('--site',type=str,default='poh',metavar='site',help='Name of the site.')
+parser = argparse.ArgumentParser(formatter_class=argparse.RawTextHelpFormatter, description='')
+parser.add_argument('--site', type=str, metavar='site', help='Name of the site.')
 args = parser.parse_args()
 
 site = args.site
@@ -100,7 +100,7 @@ for node in list_of_nodes:
                 continue
             
             var_description = get_description(node,var)
-            title = '{} ({} of {})'.format(var_description,var,node)
+            title = '{} ({} of {})'.format(var_description, var, node)
             unit = get_unit(node,var)
             if unit is None:
                 ylabel = '(unitless)'
@@ -111,15 +111,16 @@ for node in list_of_nodes:
             x = r[time_col]
             y = r[var]
             if count_not_null(x,y):
-                valid_begin,valid_end = find_bounds(x,y)
+                valid_begin, valid_end = find_bounds(x, y)
                 if time.time() - valid_end > 24*3600:
                     color = '#9b9b9b'
                 else:
                     color = '#1f77b4'
 
             #print(color,time.time() - end,time.time() - max(x))
-            plot_time_series(x,y,
-                             join(plot_dir,node,var + '.png'),
+            plot_time_series(x,
+                             y,
+                             join(plot_dir, node, var + '.png'),
                              title=title,
                              ylabel=ylabel,
                              linelabel=var,
@@ -130,10 +131,10 @@ for node in list_of_nodes:
             plot_config = {'time_begin':valid_begin,
                            'time_end':valid_end,
                            'plot_generated_at':dt2ts(),
-                           'data_point_count':len(filter(lambda yy: yy is not None and not math.isnan(yy),y)),
+                           'data_point_count':len(list(filter(lambda yy: yy is not None and not math.isnan(yy), y))),
                            'unit':unit,
                            'description':var_description}
-            with open(join(plot_dir,node,var + '.json'),'w') as f:
-                json.dump(plot_config,f,separators=(',',':'))
+            with open(join(plot_dir, node, var + '.json'), 'w') as f:
+                json.dump(plot_config, f, separators=(',', ':'))
         except OverflowError:
             traceback.print_exc()
