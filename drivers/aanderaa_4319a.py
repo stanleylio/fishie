@@ -25,6 +25,7 @@ def parse_4319a(line):
     return dict(zip(tags, line[1:]))
 
 def aanderaa_4319a_read(port):
+    """return specific conductivity in mS/cm"""
     with serial.Serial(port, 9600, timeout=2) as s:
         retry = 3
         r = None
