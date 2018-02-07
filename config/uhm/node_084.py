@@ -121,8 +121,8 @@ conf = [
     {
         'dbtag':'VbattV',
         'unit':'V',
-        'description':'12V SLA battery voltage',
-        'lb':12,
+        'description':'12V supply voltage',
+        'lb':11,
         'ub':14,
         'interval':60,
     },
