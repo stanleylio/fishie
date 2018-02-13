@@ -1,34 +1,31 @@
 # -*- coding: utf-8 -*-
-# us2
+# successor to us2
 name = 'Hīhīmanu Water Level'
 location = 'Hīhīmanu (first mākāhā)'
-note = 'Ultrasonic tide gauge (us2)'
+note = 'Ultrasonic tide gauge (v4.2). One sample per minute. Each sample is the sample mean of the past 60 measurements taken at 1Hz. Telemetry only. No RTC.'
 
 
 conf = [
     {
-        'dbtag':'ticker',
-        'dbtype':'INTEGER',
-        'description':'Broadcast sequence number',
-        'lb':0,
-        'interval':400,
-    },
-    {
         'dbtag':'d2w',
-        'dbtype':'REAL',
         'unit':'mm',
         'description':'Distance from sensor to water surface',
         'lb':301,
         'ub':4999,
-        'interval':400,
+        'interval':60,
     },
     {
-        'dbtag':'VbattmV',
-        'dbtype':'INTEGER',
-        'unit':'mV',
-        'description':'Battery voltage (Vcc)',
-        'lb':3000,
-        'interval':400,
+        'dbtag':'VbattV',
+        'unit':'V',
+        'description':'Battery voltage (Vbatt)',
+        'lb':3.0,
+        'interval':60,
+    },
+    {
+        'dbtag':'ticker',
+        'description':'1Hz ticker',
+        'lb':0,
+        'interval':60,
     },
 ]
 
