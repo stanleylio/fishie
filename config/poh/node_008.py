@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
+# successor to us1
 name = 'Kahoʻokele Water Level'
 location = 'Kahoʻokele (second mākāhā)'
-note = 'Ultrasonic tide gauge (v4.1). One sample per minute; each sample is the sample mean of the past 60 measurements taken at 1Hz. Telemetry only. No RTC; 7\'4" to bottom. Deployed May 22, 2017'
+note = 'Ultrasonic tide gauge (v4.1). One sample per minute. Each sample is the sample mean of the past 60 measurements taken at 1Hz. Telemetry only. No RTC. 7\'4" to bottom. Deployed May 22, 2017'
 
 #log_dir = './log'
 #plot_dir ='../www'
