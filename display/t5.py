@@ -3,16 +3,16 @@
 # Stanley H.I. Lio
 # hlio@soest.hawaii.edu
 # All Rights Reserved. 2017
-import sys,traceback,json,time,math,logging,argparse,numpy
+import sys, traceback, json, time, math, logging, argparse, numpy
 from os import makedirs
-from os.path import exists,join,expanduser
+from os.path import exists, join, expanduser
 sys.path.append(expanduser('~'))
-from datetime import datetime,timedelta
+from datetime import datetime, timedelta
 from scipy.signal import medfilt
 from node.helper import dt2ts
 from node.display.gen_plot import plot_time_series
-from node.storage.storage2 import storage,auto_time_col
-from node.config.config_support import get_list_of_nodes,get_list_of_disp_vars,get_description,get_unit
+from node.storage.storage2 import storage, auto_time_col
+from node.config.config_support import get_list_of_nodes, get_list_of_disp_vars, get_description, get_unit
 
 
 logging.basicConfig(level=logging.DEBUG)
@@ -22,7 +22,7 @@ def is_node(device):
     return not device.startswith('base-')
 
 
-def poh_preferred_unit_conversion(node,var,readings):
+def poh_preferred_unit_conversion(node, var, readings):
     if 'node-025' == node and 'salinity_seabird' == var:
         unit = 'ppt'
     elif node in ['node-004'] and 'O2Concentration' == var:
@@ -37,24 +37,24 @@ def poh_preferred_unit_conversion(node,var,readings):
     return readings,unit
 
 
-def p(node,var,time_col,begin,end,outputdir):
-    r = store.read_time_range(node,time_col,[time_col,var],begin,end)
+def p(node, var, time_col, begin, end, outputdir):
+    r = store.read_time_range(node, time_col, [time_col, var], begin, end)
     assert r is not None
     print('\t' + var)
 
     # strip all "None" and "NaN"
-    tmp = zip(r[time_col],r[var])
-    tmp = filter(lambda x: x[1] is not None,tmp)
-    tmp = filter(lambda x: not numpy.isnan(x[1]),tmp)
+    tmp = zip(r[time_col], r[var])
+    tmp = filter(lambda x: x[1] is not None, tmp)
+    tmp = list(filter(lambda x: not numpy.isnan(x[1]), tmp))
     if len(tmp) <= 0:
         logging.info('No data to plot')
         return
     # ... and if there's still stuff left to plot,
-    x,y = zip(*tmp)
+    x, y = zip(*tmp)
     
-    var_description = get_description(node,var)
-    title = '{} ({} of {})'.format(var_description,var,node)
-    y,unit = poh_preferred_unit_conversion(node,var,y)
+    var_description = get_description(node, var)
+    title = '{} ({} of {})'.format(var_description, var, node)
+    y,unit = poh_preferred_unit_conversion(node, var, y)
     if unit is None:
         ylabel = '(unitless)'
     else:
@@ -71,7 +71,7 @@ def p(node,var,time_col,begin,end,outputdir):
     plot_config = {'time_begin':min(x),
                    'time_end':max(x),
                    'plot_generated_at':dt2ts(),
-                   'data_point_count':len(filter(lambda yy: yy is not None and not math.isnan(yy),y)),
+                   'data_point_count':len(list(filter(lambda yy: yy is not None and not math.isnan(yy), y))),
                    'unit':unit,
                    'description':var_description}
     with open(join(outputdir,var + '.json'),'w') as f:

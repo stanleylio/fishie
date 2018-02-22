@@ -3,7 +3,7 @@ name = '(TBD)'
 location = '(TBD)'
 note = 'Cellular ultrasonic tide gauge. Each sample is average of 60 measurements taken every second. One transmission every 10 samples. Firmware p5e, hardware v0.2 (pull-down patch).'
 
-coreid = '23003b000351353337353037'
+coreid = '240046000647363334373734'
 
 
 conf = [

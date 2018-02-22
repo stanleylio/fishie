@@ -32,7 +32,7 @@ store = storage()
 now = datetime.utcnow()
 now = now.replace(minute=0).replace(second=0).replace(microsecond=0)
 
-i = range(Nd*24,0,-1)
+i = range(Nd*24, 0, -1)
 begins = [now - timedelta(hours=tmp) for tmp in i]
 ends = [tmp + timedelta(hours=1) for tmp in begins]
 begins = [dt2ts(tmp) for tmp in begins]
@@ -51,14 +51,14 @@ for table in store.get_list_of_tables():
         #print cmd
         cur.execute(cmd)
         r = cur.fetchall()
-        d.append((end,list(r)[0][0]))
-    R[table] = zip(*d)
+        d.append((end, list(r)[0][0]))
+    R[table] = list(zip(*d))
 
 
 # - - - - -
 fig,ax = plt.subplots(len(R),1,sharex=True,figsize=(8,120),dpi=80)
 i = 1
-for table,r in sorted(R.iteritems()):
+for table,r in sorted(R.items()):
     ax = plt.subplot(len(R),1,i)
     i += 1
 
@@ -76,4 +76,4 @@ for table,r in sorted(R.iteritems()):
 
 fig.tight_layout()
 fig.autofmt_xdate()
-plt.savefig(plotfilename,dpi=300,bbox_inches='tight')
+plt.savefig(plotfilename, dpi=300, bbox_inches='tight')
