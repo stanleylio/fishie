@@ -79,6 +79,11 @@ cd
 #sudo dpkg -i rabbitmq-server_3.7.0-1_all.deb
 #sudo apt -f install -y
 #sudo dpkg -i rabbitmq-server_3.7.0-1_all.deb
+
+# follow these instead:
+#https://www.rabbitmq.com/install-debian.html
+#https://packages.erlang-solutions.com/erlang/#tabs-debian
+
 sudo apt install rabbitmq-server -y
 sudo rabbitmqctl add_user $(hostname) $RABBITMQPASSWORD
 sudo rabbitmqctl set_permissions $(hostname) ".*" ".*" ".*"
