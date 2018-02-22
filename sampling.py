@@ -5,7 +5,7 @@
 # Stanley H.I. Lio
 # hlio@hawaii.edu
 # All Rights Reserved. 2017
-import serial,os,traceback,time,sys,pika,socket,argparse
+import serial, os, traceback, time, sys, pika, socket, argparse
 import logging,logging.handlers
 from twisted.internet.task import LoopingCall
 from twisted.internet import reactor
@@ -40,19 +40,23 @@ logger.addHandler(handler)
 logger.debug('has_watchdog: {}'.format(has_watchdog))
 
 parser = argparse.ArgumentParser(description='sampling.py')
-parser.add_argument('port',metavar='serialport',type=str,
+parser.add_argument('port', metavar='serialport', type=str,
                     help='Path to the serial port')
-parser.add_argument('baud',default=115200,type=int,
+parser.add_argument('baud', default=115200, type=int,
                     help='Baud rate to use')
+parser.add_argument('--brokerip', metavar='broker', type=str,
+                    help='Broker IP', default='localhost')
+parser.add_argument('--brokerport', metavar='port', type=int,
+                    help='Port', default=5672)
 args = parser.parse_args()
 
 
 def rabbit_init():
     credentials = pika.PlainCredentials(nodeid,cred['rabbitmq'])
-    connection = pika.BlockingConnection(pika.ConnectionParameters('localhost',5672,'/',credentials))
+    connection = pika.BlockingConnection(pika.ConnectionParameters(args.brokerip, args.brokerport, '/', credentials))
     channel = connection.channel()
-    channel.exchange_declare(exchange=exchange,exchange_type='topic',durable=True)
-    return connection,channel
+    channel.exchange_declare(exchange=exchange, exchange_type='topic', durable=True)
+    return connection, channel
 
 
 logger.info(__name__ + ' starts')
@@ -61,9 +65,9 @@ def initport():
     if not exists(args.port):
         print('Serial port {} not found. Terminating.'.format(args.port))
         exit()
-    logger.info('Using serial ports {} at {}'.format(args.port,args.baud))
+    logger.info('Using serial ports {} at {}'.format(args.port, args.baud))
     
-    port = serial.Serial(args.port,args.baud,timeout=0.5)
+    port = serial.Serial(args.port, args.baud, timeout=0.5)
     port.flushInput()
     port.flushOutput()
     return port
@@ -71,7 +75,7 @@ def initport():
 
 
 def taskSampling():
-    global port,connection,channel
+    global port, connection, channel
     
     try:
         if port is None:
@@ -94,7 +98,7 @@ def taskSampling():
                                                                   expiration=str(10*24*3600*1000)))
     except pika.exceptions.ConnectionClosed:
         logger.error('connection closed')  # connection to the local exchange closed? wut?
-        connection,channel = None,None
+        connection,channel = None, None
         time.sleep(reconnection_delay)
     except serial.SerialException:
         logger.warning('USB-to-serial converters are EVIL')
@@ -114,7 +118,7 @@ def taskWatchdog():
 
 
 port = None
-connection,channel = None,None
+connection, channel = None, None
 
 
 logger.info(__name__ + ' is ready')
