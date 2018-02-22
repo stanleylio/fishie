@@ -41,7 +41,7 @@ conf = [
         'description':'# of valid measurements in the psat 60',
         'lb':1,
         'ub':60,
-        'interval':10*60,
+        'interval':60,
     },
 ]
 

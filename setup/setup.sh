@@ -18,7 +18,7 @@ sudo usermod -aG i2c $USERNAME
 sudo usermod -aG gpio $USERNAME
 #sudo adduser pi gpio
 
-# reboot, login as nuc, then
+# reboot, login as grid, then
 sudo bash -c "echo \"$USER ALL=(ALL) NOPASSWD:ALL\" > /etc/sudoers.d/$USER"
 sudo userdel -r -f debian
 sudo userdel -r -f pi
