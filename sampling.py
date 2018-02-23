@@ -9,7 +9,7 @@ import serial, os, traceback, time, sys, pika, socket, argparse
 import logging,logging.handlers
 from twisted.internet.task import LoopingCall
 from twisted.internet import reactor
-from os.path import expanduser,exists
+from os.path import expanduser, exists
 sys.path.append(expanduser('~'))
 from cred import cred
 try:
@@ -52,7 +52,7 @@ args = parser.parse_args()
 
 
 def rabbit_init():
-    credentials = pika.PlainCredentials(nodeid,cred['rabbitmq'])
+    credentials = pika.PlainCredentials(nodeid, cred['rabbitmq'])
     connection = pika.BlockingConnection(pika.ConnectionParameters(args.brokerip, args.brokerport, '/', credentials))
     channel = connection.channel()
     channel.exchange_declare(exchange=exchange, exchange_type='topic', durable=True)
@@ -98,7 +98,7 @@ def taskSampling():
                                                                   expiration=str(10*24*3600*1000)))
     except pika.exceptions.ConnectionClosed:
         logger.error('connection closed')  # connection to the local exchange closed? wut?
-        connection,channel = None, None
+        connection, channel = None, None
         time.sleep(reconnection_delay)
     except serial.SerialException:
         logger.warning('USB-to-serial converters are EVIL')
