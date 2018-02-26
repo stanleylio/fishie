@@ -35,11 +35,11 @@ class EZO(object):
         return True
 
     def device_information(self):
-        return self._r('I',0.3)
+        return self._r('I', 0.3)
 
     # the supply voltage field might be useful
     def status(self):
-        return self._r('STATUS',0.3)
+        return self._r('STATUS', 0.3)
 
     # supply voltage at the sensor
     def supply_v(self):
@@ -48,7 +48,7 @@ class EZO(object):
     def sleep(self):
         cmd = 'SLEEP'
         tmp = [ord(c) for c in cmd]
-        self.bus.write_i2c_block_data(self.address,tmp[0],tmp[1:])
+        self.bus.write_i2c_block_data(self.address, tmp[0], tmp[1:])
 
     # set or read the compensation paramter T temperature
     # NOTE: this value is for sensor calibration. it's NOT obtained from the sensor
@@ -85,17 +85,17 @@ class EZO(object):
         if self.lowpower:
             self.sleep()
 
-    def _r(self,cmd,wait=1):
+    def _r(self, cmd, wait=1):
         assert len(cmd) > 0
         if 1 == len(cmd):
-            self.bus.write_byte_data(self.address,ord(cmd),0)    # so arbitrary...
+            self.bus.write_byte_data(self.address, ord(cmd),0)    # so arbitrary...
         else:
             tmp = [ord(c) for c in cmd]
-            self.bus.write_i2c_block_data(self.address,tmp[0],tmp[1:])  # awkward...
+            self.bus.write_i2c_block_data(self.address, tmp[0], tmp[1:])  # awkward...
         
         sleep(wait)
         # WTH... TODO scope this
-        tmp = self.bus.read_i2c_block_data(self.address,self.address,self.MAX_LEN)
+        tmp = self.bus.read_i2c_block_data(self.address, self.address, self.MAX_LEN)
         # this too would not raise error but I have no idea what it is calling.
         # it can access the sensor just fine, except the other EZO on the same
         # bus would kind of react as well (RED light, meaning error)
@@ -105,10 +105,12 @@ class EZO(object):
         if self.lowpower:
             self.sleep()
 
-#        print ''.join([chr(c) for c in tmp[1:] if 0 != c])
-        
         if self.Success == tmp[0]:
-            return ''.join([chr(c) for c in tmp[1:] if 0 != c])
+            tmp = filter(lambda c: '\0' != c, tmp[1:])
+            tmp = [chr(c) for c in tmp]
+            return ''.join(tmp)
+            #return ''.join([chr(c) for c in tmp[1:] if 0 != c])
+            
         elif self.Failed == tmp[0]:
             logger.error('EZO::_r(): read failed')
             logger.error(tmp)
@@ -125,7 +127,7 @@ class EZO(object):
             return None
 
 
-import io,fcntl
+import io, fcntl
 class EZOPI(EZO):
     def __init__(self,address,bus=1,lowpower=False):
         self.address = address
@@ -140,10 +142,10 @@ class EZOPI(EZO):
 
     def sleep(self):
         cmd = 'SLEEP\x00'
-        self.file_write.write(cmd)
+        self.file_write.write(cmd.encode())
 
     def _r(self,cmd,wait=1):
-        self.file_write.write(cmd + '\x00')
+        self.file_write.write((cmd + '\x00').encode())
         sleep(wait)
         tmp = self.file_read.read(self.MAX_LEN)
         tmp = filter(lambda x: x != '\x00',tmp)
@@ -155,11 +157,11 @@ class EZOPI(EZO):
         #print ''.join([chr(c) for c in tmp[1:] if 0 != c])
 
         # Atlas hack for the RPi
-        tmp = map(lambda x: chr(ord(x) & ~0x80),list(tmp))
+        tmp = [chr(x & ~0x80) for x in tmp]
         tmp = ''.join(tmp)
-
+        
         if self.Success == ord(tmp[0]):
-            return tmp[1:]
+            return tmp[1:].replace('\0', '')
         elif self.Failed == ord(tmp[0]):
             logger.error('EZO::_r(): read failed')
             logger.error(tmp)
@@ -177,7 +179,7 @@ class EZOPI(EZO):
 
 
 if '__main__' == __name__:
-    e = EZOPI(0x64,bus=2,lowpower=False)
+    e = EZO(0x64, bus=2, lowpower=False)
     #e.sleep()
     print(e._r('R'))
     

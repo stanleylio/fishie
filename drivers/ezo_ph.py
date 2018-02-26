@@ -9,10 +9,10 @@
 
 # Stanley Lio, hlio@usc.edu
 # All Rights Reserved. February 2015
-import time,logging
-from ConfigParser import SafeConfigParser,NoSectionError
+import time, logging
+from configparser import SafeConfigParser, NoSectionError
 from ezo import EZOPI as EZO
-from os.path import join,dirname
+from os.path import join, dirname
 
 
 logger = logging.getLogger(__name__)

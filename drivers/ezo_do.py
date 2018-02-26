@@ -9,9 +9,9 @@
 #
 # Stanley Lio, hlio@usc.edu
 # All Rights Reserved. February 2015
-from ConfigParser import SafeConfigParser,NoSectionError
+from configparser import SafeConfigParser, NoSectionError
 from ezo import EZOPI as EZO
-from os.path import join,dirname
+from os.path import join, dirname
 import logging
 
 
