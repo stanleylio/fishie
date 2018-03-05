@@ -18,7 +18,7 @@ sudo usermod -aG i2c $USERNAME
 sudo usermod -aG gpio $USERNAME
 #sudo adduser pi gpio
 
-# reboot, login as grid, then
+# reboot, login as USERNAME, then
 sudo bash -c "echo \"$USER ALL=(ALL) NOPASSWD:ALL\" > /etc/sudoers.d/$USER"
 sudo userdel -r -f debian
 sudo userdel -r -f pi
@@ -116,7 +116,8 @@ sudo chown $USER:$USER /var/uhcm
 mkdir /var/uhcm/log
 
 #sudo pip install Adafruit_BBIO Adafruit_GPIO
-#sudo apt install i2c-tools python-smbus -y
+# i2c-tools is needed for python(3) to access i2c without sudo
+sudo apt install i2c-tools python-smbus -y
 source ~/node/setup/time/install_ds1307.sh
 
 
