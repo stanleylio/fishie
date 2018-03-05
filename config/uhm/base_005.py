@@ -1,4 +1,4 @@
-name = 'Base Station (staging bay)'
+name = 'Message Broker'
 location = 'UHM'
 google_earth_link = '#'
 note = 'NUC6CAYS'

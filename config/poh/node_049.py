@@ -2,7 +2,7 @@
 name = 'Hīhīmanu Water Level'
 location = 'Hīhīmanu (first mākāhā) (21.433967,-157.805333)'
 google_earth_link = 'https://goo.gl/maps/eY752oYMdV42'
-note = 'Cellular ultrasonic tide gauge. Each sample is average of 60 measurements taken every second. One transmission every 10 samples. Firmware p5e, hardware v0.2.'
+note = 'Cellular ultrasonic tide gauge. Each sample is average of 60 measurements taken every second. One transmission every 10 samples. Firmware p5e, hardware v0.2 (with US_EN patch).'
 
 coreid = '3e0042001951353338363036'
 
