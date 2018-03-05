@@ -117,7 +117,8 @@ mkdir /var/uhcm/log
 
 #sudo pip install Adafruit_BBIO Adafruit_GPIO
 # i2c-tools is needed for python(3) to access i2c without sudo
-sudo apt install i2c-tools python-smbus -y
+sudo apt install i2c-tools -y
+#sudo apt install python3-smbus -y
 source ~/node/setup/time/install_ds1307.sh
 
 
