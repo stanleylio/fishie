@@ -28,8 +28,6 @@ if [ -a /boot/uEnv.txt ]
 then
 	cp /boot/uEnv.txt $DIR/uEnv.txt
 fi
-#pip freeze > $DIR/pipfreeze.txt
-pip3 freeze > $DIR/pip3freeze.txt
 cp -a /etc/network/interfaces $DIR/interfaces.txt
 cp -a /etc/hostname $DIR/hostname.txt
 cp -a /etc/hosts $DIR/hosts.txt
@@ -37,3 +35,5 @@ cp -a /etc/hosts $DIR/hosts.txt
 cat /etc/resolv.conf > $DIR/resolv.conf.txt
 cp -a /etc/rc.local $DIR/rc.local.txt
 cp -a /etc/ntp.conf $DIR/ntp.conf
+#pip freeze > $DIR/pipfreeze.txt
+#pip3 freeze > $DIR/pip3freeze.txt
