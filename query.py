@@ -1,10 +1,10 @@
-import serial,sys,json,time,socket,config,importlib
-from datetime import datetime,timedelta
+import serial, sys, json, time, socket, importlib
+from datetime import datetime, timedelta
 from os.path import expanduser
 sys.path.append(expanduser('~'))
 from node.z import get_checksum
 from node.config.config_support import *
-from node.parse_support import parse_message,pretty_print
+from node.parse_support import parse_message, pretty_print
 
 
 def get_request_cmd(node_id):
@@ -22,19 +22,18 @@ def get_request_cmd(node_id):
 
 if '__main__' == __name__:
     #with serial.Serial(base.xbee_port,base.xbee_baud,timeout=2) as s:
-    with serial.Serial('/dev/ttyUSB0',115200,timeout=1) as s:
+    with serial.Serial('/dev/ttyUSB0', 115200, timeout=1) as s:
 
         if len(sys.argv) <= 1:
             print('Example: python request.py node-003 to query node-003')
             sys.exit()
 
         IDs = []
-        for i in range(1,len(sys.argv)):
+        for i in range(1, len(sys.argv)):
             IDs.append(sys.argv[i])
 
         for node_id in IDs:        
-            print
-            print '= = = = ='
+            print('\n= = = = =')
             
             #node_id = int(raw_input('\nEnter node ID to request sample from...'))
             '''to_tag = node_id
@@ -46,8 +45,8 @@ if '__main__' == __name__:
             tmp = '{}{}\n'.format(tmp,get_checksum(tmp))'''
 
             tmp = get_request_cmd(node_id)
-            print 'Command:'
-            print tmp
+            print('Command:')
+            print(tmp)
             s.flushInput()
             s.flushOutput()
             s.write(tmp)

@@ -54,7 +54,7 @@ class storage():
     def get_list_of_tables(self,force_update=False):
         if force_update:
             self._schema_update()
-        return self._schema_cache.keys()
+        return list(self._schema_cache.keys())
 
     def get_list_of_columns(self,table,force_update=False):
         if table not in self._schema_cache:
@@ -154,7 +154,7 @@ class storage():
         r = self._cur.fetchall()
         self._conn.commit()
         if len(r):
-            r = zip(*r)
+            r = list(zip(*r))
             return {time_col:list(r[0]),nonnull:list(r[1])}
         else:
             return {time_col:[],nonnull:[]}
