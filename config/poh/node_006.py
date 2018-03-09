@@ -9,7 +9,7 @@ conf = [
         'dbtag':'Timestamp',
         'dbtype':'DOUBLE NOT NULL',
         'description':'Time of sampling',
-        'plot':False,
+        'plot':True,
         'interval':1,
     },
     {
