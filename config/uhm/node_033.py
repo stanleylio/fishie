@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 name = '(TBD)'
-location = '(TBD)'
+location = 'Waikalua'
 google_earth_link = '#'
 note = 'Ultrasonic tide gauge (XBee). Each sample is the sample mean of 60 measurements taken every second (excluding any out-of-range ones). Firmware us10b, hardware v4.2.'
 

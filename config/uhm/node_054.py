@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-name = '(TBD)'
-location = '(TBD)'
+name = 'Kim\'s'
+location = '(TNC)'
 note = 'Cellular ultrasonic tide gauge. Each sample is average of 60 measurements taken every second. One transmission every 10 samples. Firmware p5e, hardware v0.2 (with US_EN patch).'
 
 coreid = '4e0053001851353338363036'

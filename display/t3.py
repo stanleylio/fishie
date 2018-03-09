@@ -4,12 +4,12 @@
 # Stanley H.I. Lio
 # hlio@hawaii.edu
 # All Rights Reserved. 2017
-import sys,time,itertools,MySQLdb
+import sys, time, itertools, MySQLdb
 sys.path.append('/home/nuc')
 from os.path import expanduser
-from datetime import datetime,timedelta
-from node.storage.storage2 import storage,auto_time_col
-from node.helper import dt2ts,ts2dt
+from datetime import datetime, timedelta
+from node.storage.storage2 import storage, auto_time_col
+from node.helper import dt2ts, ts2dt
 from cred import cred
 import matplotlib
 matplotlib.use('Agg')
@@ -56,16 +56,16 @@ for table in store.get_list_of_tables():
 
 
 # - - - - -
-fig,ax = plt.subplots(len(R),1,sharex=True,figsize=(8,120),dpi=80)
+fig, ax = plt.subplots(len(R), 1, sharex=True, figsize=(8, 140), dpi=80)
 i = 1
 for table,r in sorted(R.items()):
-    ax = plt.subplot(len(R),1,i)
+    ax = plt.subplot(len(R), 1, i)
     i += 1
 
     x = [ts2dt(tmp) - timedelta(hours=10) for tmp in r[0]]
     y = r[1]
     ax.plot_date(x, y, marker=None, linestyle='-', color='#1f77b4')
-    #ax.fill_between(x,0,y,color='#9ed7ff')
+    #ax.fill_between(x, 0, y, color='#9ed7ff')
     ax.fill_between(x, 0, y, color='#1f77b4', alpha=0.3)
     # why is vertical alignment always so difficult?
     #ax.text(ts2dt((min(r[0]) + max(r[0]))/2.0), 0, table, fontsize=30, alpha=0.2, verticalalignment='bottom', horizontalalignment='center')

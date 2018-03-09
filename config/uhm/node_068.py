@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-name = '(TBD)'
-location = '(TBD)'
+name = 'Noelani'
+location = 'Alii / Kalokoeli'
 google_earth_link = '#'
 note = 'Cellular ultrasonic tide gauge. Each sample is average of 60 measurements taken every second. One transmission every 10 samples. Firmware p5e, hardware v0.2.'
 
