@@ -103,9 +103,11 @@ def callback(ch, method, properties, body):
         # tigher than leaving this at the end.
         # some messages are not meant to be parsed though, like "node-NNN online" etc.
         ch.basic_ack(delivery_tag=method.delivery_tag)
-    except MySQLdb.ProgrammingError as e:
+    except UnicodeDecodeError:
         logger.exception(body)
-    except MySQLdb.OperationalError:
+        # ignore malformed messages
+        ch.basic_ack(delivery_tag=method.delivery_tag)
+    except (MySQLdb.ProgrammingError, MySQLdb.OperationalError):
         traceback.print_exc()
         store = init_storage()
     except KeyboardInterrupt:
