@@ -34,6 +34,7 @@ cp -a /etc/hosts $DIR/hosts.txt
 #cp -a /etc/resolv.conf $DIR/resolv.conf.txt
 cat /etc/resolv.conf > $DIR/resolv.conf.txt
 cp -a /etc/rc.local $DIR/rc.local.txt
+cp -a /etc/logrotate.conf $DIR/logrotate.conf
 cp -a /etc/ntp.conf $DIR/ntp.conf
 #pip freeze > $DIR/pipfreeze.txt
 #pip3 freeze > $DIR/pip3freeze.txt
