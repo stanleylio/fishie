@@ -148,3 +148,6 @@ then
 fi
 
 # reboot, then bash ~/node/setup/time/install_ds1307.sh
+
+# if on beaglebone, change log rotate frequency: sudo nano /etc/logrotate.d/rabbitmq-server
+
