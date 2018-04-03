@@ -9,7 +9,7 @@
 
 # Stanley Lio, hlio@usc.edu
 # All Rights Reserved. February 2015
-from configparser import SafeConfigParser,NoSectionError
+from configparser import SafeConfigParser, NoSectionError
 from ezo import EZOPI as EZO
 from os.path import join,dirname
 import logging
@@ -23,8 +23,8 @@ logger = logging.getLogger(__name__)
 # during instantiation. Both can be changed during runtime.
 # Sensor is programmed to sleep between commands by default.
 class EZO_EC(EZO):
-    def __init__(self,address=0x64,bus=1,lowpower=False):
-        EZO.__init__(self,address=address,bus=bus,lowpower=lowpower)
+    def __init__(self, address=0x64, bus=1, lowpower=False):
+        EZO.__init__(self, address=address, bus=bus, lowpower=lowpower)
         try:
             parser = SafeConfigParser()
             parser.read(join(dirname(__file__),'ezo.ini'))
@@ -37,10 +37,15 @@ class EZO_EC(EZO):
     # see P.39
     def read(self):
         tmp = self._r('R').strip().split(',')
-        d = {'ec':float(tmp[0]),    # Electrical Conductivity
-             'tds':float(tmp[1]),   # Total Dissolved Solids
-             'sal':float(tmp[2]),   # Salinity
-             'sg':float(tmp[3])}    # Specific Gravity
+        d = {'ec':float(tmp[0])}        # Electrical Conductivity
+        
+        if len(tmp) >= 2:
+            d['tds'] = float(tmp[1])    # Total Dissolved Solids
+        if len(tmp) >= 3:
+            d['sal'] = float(tmp[2])    # Salinity
+        if len(tmp) >= 4:
+            d['sg'] = float(tmp[3])     # Specific Gravity
+
         if self.lowpower:
             self.sleep()
         return d
@@ -86,9 +91,12 @@ class EZO_EC(EZO):
         if r is None:
             r = self.read()
         s = 'Conductivity: {} uS'.format(r['ec'])
-        s = s + '\nSalinity: {}'.format(r['sal'])           # no defined unit, P.7
-        s = s + '\nTotal Dissolved Solid: {} mg/L'.format(r['tds'])
-        s = s + '\nSpecific Gravity: {}'.format(r['sg'])    # unitless, P.7
+        if 'sal' in r:
+            s = s + '\nSalinity: {}'.format(r['sal'])           # no defined unit, P.7
+        if 'tds' in r:
+            s = s + '\nTotal Dissolved Solid: {} mg/L'.format(r['tds'])
+        if 'sg' in r:
+            s = s + '\nSpecific Gravity: {}'.format(r['sg'])    # unitless, P.7
         return s
 
 
