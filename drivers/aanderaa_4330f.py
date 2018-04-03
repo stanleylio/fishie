@@ -2,10 +2,14 @@
 #
 # Stanley Lio, hlio@usc.edu
 # All Rights Reserved. August 2015
-import serial,re,traceback,logging,time
+import serial, re, logging, time
 
 
 logger = logging.getLogger(__name__)
+
+msgfield = ['SN','O2Concentration','AirSaturation','Temperature','CalPhase',\
+            'TCPhase','C1RPh','C2RPh','C1Amp','C2Amp','RawTemp']
+convf = [int,float,float,float,float,float,float,float,float,float,float]
 
 
 def parse_4330f(line):
@@ -39,45 +43,29 @@ def parse_4330f(line):
         r = re.match(r,line)
         if r is not None:
             d = {}
-            for k,c in enumerate(Aanderaa_4330f.msgfield):
-                d[c] = Aanderaa_4330f.convf[k](r.group(c))
+            for k,c in enumerate(msgfield):
+                d[c] = convf[k](r.group(c))
     return d
 
-
-class Aanderaa_4330f(object):
-
-    MAX_RETRY = 3
-    
-    msgfield = ['SN','O2Concentration','AirSaturation','Temperature','CalPhase',\
-                'TCPhase','C1RPh','C2RPh','C1Amp','C2Amp','RawTemp']
-    convf = [int,float,float,float,float,float,float,float,float,float,float]
-
-    def __init__(self,port='/dev/ttyO4'):
-        self._port = port
-        with serial.Serial(self._port,9600,timeout=0.5) as s:
-            s.write(b'\r\nreset\r\n')
-            s.write(b'\r\ndo stop\r\n')
-            s.flushOutput()
-
-    def read(self):
-        with serial.Serial(self._port,9600,timeout=0.2) as s:
-            s.flushInput()
-            s.flushOutput()
-            # optode does not respond immediately after it wake up
-            # so the first few commands will probably be lost
-            # retry several times til a successful read is returned
-
-            for i in range(self.MAX_RETRY):
-                s.write(b'do sample\r\n')
-                logger.debug('trial {}'.format(i))
-                for j in range(15):
-                    logger.debug('nope')
-                    line = s.readline().decode().strip()
-                    d = parse_4330f(line)
-                    if d:
-                        return d
-            logger.error('Aanderaa_4330f::read(): no valid response from optode. (Check the output format setting of the optode?)')
-        return None
+def aanderaa_4330f_read(port):
+    with serial.Serial(port, 9600, timeout=2) as s:
+        retry = 5
+        r = None
+        for i in range(retry):
+            s.write('\r\ndo sample\r\n'.encode())
+            line = s.readline().decode().strip()
+            logger.debug(line)
+            if '#' in line or '*' in line or len(line) <= 0:
+                logger.debug('(# or no response)')
+                continue
+            try:
+                r = parse_4330f(line)
+                if r:
+                    break
+            except ValueError:
+                logger.debug('(valueerror)')
+            time.sleep(0.5)
+        return r
 
 
 if '__main__' == __name__:
@@ -87,15 +75,10 @@ if '__main__' == __name__:
     #w = 'MEASUREMENT	4330F	829	O2Concentration(uM)	263.870	AirSaturation(%)	99.293	Temperature(Deg.C)	23.349	CalPhase(Deg)	27.110	TCPhase(Deg)	30.200	C1RPh(Deg)	34.202	C2RPh(Deg)	4.002	C1Amp(mV)	595.3	C2Amp(mV)	697.2	RawTemp(mV)	185.3	'
     # new firmware, new format
     # w = 'MEASUREMENT	4330F	832	O2Concentration[uM]	299.573	AirSaturation[%]	111.641	Temperature[Deg.C]	22.893	CalPhase[Deg]	26.866	TCPhase[Deg]	28.905	C1RPh[Deg]	36.820	C2RPh[Deg]	7.915	C1Amp[mV]	3048.6	C2Amp[mV]	1312.1	RawTemp[mV]	88.3'
-    #print Aanderaa_4330f.parse_4330f(w)
+    #print(parse_4330f(w))
     #exit()
 
     logger.setLevel(logging.DEBUG)
 
-    optode = Aanderaa_4330f(port='COM33')
-        
     while True:
-        try:
-            print(optode.read())
-        except KeyboardInterrupt:
-            break
+        print(aanderaa_4330f_read('/dev/ttyS0'))
