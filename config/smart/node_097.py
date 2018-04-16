@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
-name = '(TBD)'
+# successor to us2
+name = 'Water Level'
 location = '(TBD)'
-google_earth_link = '#'
-note = 'Ultrasonic tide gauge (XBee). Each sample is the sample mean of 60 measurements taken every second (excluding any out-of-range ones). Firmware us10b, hardware v4.2.'
+note = 'Ultrasonic tide gauge (v4.2). One sample per minute. Each sample is the sample mean of the past 60 measurements taken at 1Hz. Telemetry only. No RTC.'
 
 
 conf = [
@@ -18,7 +18,7 @@ conf = [
         'dbtag':'VbattV',
         'unit':'V',
         'description':'Battery voltage (Vbatt)',
-        'lb':2.8,
+        'lb':3.0,
         'interval':60,
     },
     {
@@ -27,20 +27,13 @@ conf = [
         'lb':0,
         'interval':60,
     },
-    {
-        'dbtag':'sample_size',
-        'description':'# of valid measurements in the psat 60',
-        'lb':1,
-        'ub':60,
-        'interval':10*60,
-    },
 ]
 
 
 if '__main__' == __name__:
     for c in conf:
         print('- - -')
-        for k,v in c.iteritems():
+        for k,v in c.items():
             print(k,':',v)
 
     import sys
