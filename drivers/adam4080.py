@@ -3,17 +3,20 @@
 # Stanley H.I. Lio
 # hlio@hawaii.edu
 # Ocean Technology Group
-# SOEST, University of Hawaii
-# All Rights Reserved, 2016
-import serial,io,time,logging,traceback
+# University of Hawaii
+# All Rights Reserved. 2018
+import serial, io, time, logging, traceback
+
+
+logger = logging.getLogger(__name__)
 
 
 class ADAM4080(object):
-    def __init__(self,address,port,baud=9600):
+    def __init__(self, address, port, baud=9600):
         assert 2 == len(address)
         self._address = address
-        self._s = serial.Serial(port,baud,timeout=1)
-        self._sio = io.TextIOWrapper(io.BufferedRWPair(self._s,self._s,1),
+        self._s = serial.Serial(port, baud, timeout=1)
+        self._sio = io.TextIOWrapper(io.BufferedRWPair(self._s,self._s, 1),
                                      encoding='ascii',
                                      line_buffering=True,
                                      newline='\r')
@@ -21,25 +24,25 @@ class ADAM4080(object):
     def __enter__(self):
         return self
 
-    def __exit__(self,exc_type,exc_value,traceback):
+    def __exit__(self, exc_type, exc_value, traceback):
         self._s.close()
 
     def __del__(self):
         self._s.close()
 
     def ReadAll(self):
-        return [self.ReadFrequency(0),self.ReadFrequency(1)]
+        return [self.ReadFrequency(0), self.ReadFrequency(1)]
 
-    def ReadFrequency(self,channel):
+    def ReadFrequency(self, channel):
         try:
-            if channel not in [0,1]:
+            if channel not in [0, 1]:
                 logging.debug('Channel must be either 0 or 1')
                 return
-            cmd = '#{}{}\r'.format(self._address,channel)
-            r = self._query(channel,delimiter='#')
+            cmd = '#{}{}\r'.format(self._address, channel)
+            r = self._query(channel, delimiter='#')
             r = r.strip()
             if r.startswith('>') and 9 == len(r.strip()):
-                return int(r[1:],base=16)
+                return int(r[1:], base=16)
         except:
             logging.debug(traceback.format_exc())
         return None
@@ -55,7 +58,7 @@ class ADAM4080(object):
 
     def _query(self,cmd,delimiter='$'):
         self._s.flushInput()
-        cmd = u'{}{}{}\r'.format(delimiter,self._address,cmd)
+        cmd = u'{}{}{}\r'.format(delimiter,self._address, cmd)
         #print cmd
         for i in range(2):
             self._sio.write(cmd)
@@ -72,7 +75,7 @@ if '__main__' == __name__:
     logging.basicConfig(level=logging.DEBUG)
     
     #import os
-    with ADAM4080('04','/dev/ttyUSB2',9600) as fc:
+    with ADAM4080('04','/dev/ttyUSB2', 9600) as fc:
         if fc.CheckModuleName():
             while True:
                 #os.system('cls' if os.name == 'nt' else 'clear')

@@ -3,24 +3,24 @@
 # Stanley H.I. Lio
 # hlio@hawaii.edu
 # Ocean Technology Group
-# SOEST, University of Hawaii
-# All Rights Reserved, 2017
-import serial,io,time,logging
+# University of Hawaii
+# All Rights Reserved. 2018
+import serial, io, time, logging
 
 
 logger = logging.getLogger(__name__)
 
 
 class ADAM4017(object):
-    _bauds = {1200:'03',2400:'04',4800:'05',9600:'06',19200:'07',38400:'08'}
-    _ranges = {10:'08',5:'09',1:'0A',500e-3:'0B',150e-3:'0C'}
+    _bauds = {1200:'03',2400:'04', 4800:'05', 9600:'06', 19200:'07', 38400:'08'}
+    _ranges = {10:'08', 5:'09', 1:'0A', 500e-3:'0B', 150e-3:'0C'}
     
-    def __init__(self,address,port,baud=9600):
+    def __init__(self, address, port, baud=9600):
         assert 2 == len(address)
         assert baud in self._bauds.keys()
         self._address = address
         self._s = serial.Serial(port,baud,timeout=1)
-        self._sio = io.TextIOWrapper(io.BufferedRWPair(self._s,self._s,1),
+        self._sio = io.TextIOWrapper(io.BufferedRWPair(self._s, self._s, 1),
                                      encoding='ascii',
                                      line_buffering=True,
                                      newline='\r')
@@ -29,15 +29,15 @@ class ADAM4017(object):
     def __enter__(self):
         return self
 
-    def __exit__(self,exc_type,exc_value,traceback):
+    def __exit__(self, exc_type, exc_value, traceback):
         self._s.close()
 
     def __del__(self):
         self._s.close()
 
-    def _query(self,cmd,delimiter='$'):
+    def _query(self, cmd, delimiter='$'):
         self._s.flushInput()
-        cmd = u'{}{}{}\r'.format(delimiter,self._address,cmd)
+        cmd = u'{}{}{}\r'.format(delimiter, self._address, cmd)
         #print cmd
         for i in range(2):
             self._sio.write(cmd)
@@ -52,7 +52,7 @@ class ADAM4017(object):
         return '!{}4017'.format(self._address) == self.cmdReadModuleName().strip()
 
     def SetInputRange(self,InputRange):
-        logger.debug('SetInputRange(), from {} to {}'.format(self._currentinputrange,InputRange))
+        logger.debug('SetInputRange(), from {} to {}'.format(self._currentinputrange, InputRange))
         assert InputRange in self._ranges.keys(),\
                'InputRange must be one of {}'.format(str(sorted(self._ranges.keys())))
         if not InputRange == self.GetInputRange():
@@ -96,28 +96,28 @@ class ADAM4017(object):
 
     def ReadChannel(self,channel):
         logger.debug('ReadChannel()')
-        r = self._query(cmd='{:01d}'.format(channel),delimiter='#')
+        r = self._query(cmd='{:01d}'.format(channel), delimiter='#')
         if r.startswith('>'):
             if self._currentinputrange < 1:
                 return float(r[1:])/1e3
             return float(r[1:])
 
     def ReadAll(self):
-        r = self._query(cmd='',delimiter='#')
+        r = self._query(cmd='', delimiter='#')
         #print(r)
         if r.startswith('>'):
             r = r[1:]
             if 1+7*8 == len(r): # a '>' plus eight 7-chr fields
                 try:
                     if self._currentinputrange < 1:
-                        return [round(float(r[i*7:i*7+7])/1e3,7) for i in range(8)]
+                        return [round(float(r[i*7:i*7+7])/1e3, 7) for i in range(8)]
                     else:
-                        return [round(float(r[i*7:i*7+7]),7) for i in range(8)]
+                        return [round(float(r[i*7:i*7+7]), 7) for i in range(8)]
                 except ValueError:
                     logger.error('wut? {}'.format(str(r)))
         return None
 
-    def _configuration(self,NewAddress=None,InputRange=None,NewBaud=None,FCI=None):
+    def _configuration(self, NewAddress=None, InputRange=None, NewBaud=None, FCI=None):
         """This call is costly - takes 7 sec for self-cal after configuration change. P.118
 FCI: Format, Checksum and Integration time. P.117"""
         if NewBaud is not None or FCI is not None:
@@ -166,7 +166,7 @@ if '__main__' == __name__:
     logger.setLevel(logging.DEBUG)
     
     import os
-    with ADAM4017('07','/dev/ttyUSB0',9600) as daq:
+    with ADAM4017('07', '/dev/ttyUSB0', 9600) as daq:
         #print(daq.cmdConfigurationStatus())
         #print(daq.cmdReadModuleName())
         #print(daq.cmdReadFirmwareVersion())
