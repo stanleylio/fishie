@@ -1,5 +1,5 @@
-name = '(TBD)'
-location = '(TBD)'
+name = 'Kānewai Base Station'
+location = 'Kānewai'
 google_earth_link = '#'
 note = 'bbb-based, eMMC'
 public_key = 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDwzpUztLLkhhF6ItntZTzgHvFNwtFL5zLuda/vruHcxnBAsS7KtDHR3ugtV5I8BmErDzS/DuYhEdkfvV10dqSKgEuKhHY372thzFYiW+9pKSBlxOLLj0c6b+njIrTENF/h8ghBHRn+K3eeXeUTTzZNrI/DlSTW4Kt7cvpQUD8tN9TdVOUdaYNrsr7DJIHgNIlo8nJ4Thxr1Al/FFjR3BNXRttAg0ROS8ytj46ujYOzEbk0a2L2LFNHX1tpHOQvA4PIjUksfmbh8wgC1KUUCPpCcsXcVEc2ee6vGWt3lXves8aLVxKIAsc4QBdbT67rIwSaFYfZDlDGcVct0saYk04b nuc@base-016'

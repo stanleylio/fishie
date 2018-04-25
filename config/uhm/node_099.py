@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-name = 'Fake News'
+name = '"Fake-News"'
 location = 'on paper'
 note = 'Virtual p5e Particle Electron for testing and monitoring'
 

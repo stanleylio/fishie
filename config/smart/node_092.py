@@ -49,7 +49,7 @@ conf = [
 if '__main__' == __name__:
     for c in conf:
         print('- - -')
-        for k,v in c.iteritems():
+        for k,v in c.items():
             print(k,':',v)
 
     import sys
