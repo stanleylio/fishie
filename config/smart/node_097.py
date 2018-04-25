@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
-name = 'Water Level'
-location = '(TBD)'
-note = 'Ultrasonic tide gauge (v4.2). One sample per minute. Each sample is the sample mean of the past 60 measurements taken at 1Hz. Telemetry only. No RTC.'
+name = 'Manoa Stream (Kanewai) Water Level'
+location = 'Manoa Stream (Kanewai)'
+note = 'Ultrasonic tide gauge (XBee). One measurement every ~3 minutes. No RTC, no storage, telemetry only. Firmware us10c, hardware v4.2.'
 
 
 conf = [

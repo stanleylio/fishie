@@ -1,4 +1,4 @@
-name = 'East West'
+name = 'East West Center Base Station'
 location = 'East West Center'
 google_earth_link = '#'
 note = 'bbb-based, eMMC'

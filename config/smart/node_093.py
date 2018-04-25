@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
-name = '(TBD)'
+name = 'Stream Water Level'
 location = '(TBD)'
 google_earth_link = '#'
-note = 'Ultrasonic tide gauge (XBee). One measurement every ~3 minutes. Firmware us10d, hardware v5.0.'
+note = 'Ultrasonic tide gauge (XBee). One measurement every ~3 minutes. Firmware us11b, hardware v5.0.'
 
 
 conf = [
