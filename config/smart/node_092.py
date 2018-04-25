@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-name = '(TBD)'
-location = '(TBD)'
+name = 'Manoa Stream (UH) Water Level'
+location = 'Manoa Stream (Japanese Garden, UHM)'
 google_earth_link = '#'
 note = 'Ultrasonic tide gauge (XBee). Each sample is the sample mean of 60 measurements taken every second (excluding any out-of-range ones). Firmware us10c, hardware v5.0.'
 
