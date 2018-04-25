@@ -12,7 +12,7 @@ conf = [
         'description':'Distance from sensor to water surface',
         'lb':301,
         'ub':4999,
-        'interval':60,
+        'interval':180,
     },
     {
         'dbtag':'Vsolar',
@@ -20,13 +20,13 @@ conf = [
         'description':'Solar panel voltage',
         'lb':0,
         'ub':5.5,
-        'interval':60,
+        'interval':180,
     },
     {
         'dbtag':'idx',
         'description':'Sample index',
         'lb':0,
-        'interval':60,
+        'interval':180,
     },
 ]
 
