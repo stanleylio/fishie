@@ -1,73 +1,82 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 #
-# Stanley Lio, hlio@usc.edu
-# All Rights Reserved. September 2015
-import serial,re,traceback,logging
+# Stanley H.I. Lio
+# hlio@hawaii.edu
+# All Rights Reserved. 2018
+import serial, re, time, sys, logging
+
+
+logger = logging.getLogger(__name__)
+
+
+msgfield = ['O2Concentration', 'AirSaturation', 'Temperature']
+convf = [float, float, float]
 
 
 def parse_3835(line):
+    
     d = None
-    try:
-        line = line.strip()
-        r = '.*MEASUREMENT\s+3835\s+(?P<SN>\d+)\s+' +\
-              'Oxygen\:\s+(?P<O2Concentration>[+-]*\d+\.*\d*)\s+' +\
-              'Saturation\:\s+(?P<AirSaturation>[+-]*\d+\.*\d*)\s+' +\
-              'Temperature\:\s+(?P<Temperature>[+-]*\d+\.*\d*).*'
-        r = re.match(r,line)
-        if r is not None:
-            d = {}
-            for k,c in enumerate(Aanderaa_3835.msgfield):
-                d[c] = Aanderaa_3835.convf[k](r.group(c))
-    except:
-        logging.debug('parse_3835(): cannot parse: {}'.format(line))
-        logging.debug(traceback.format_exc())
+    line = line.strip()
+    r = '.*MEASUREMENT\s+3835\s+(?P<SN>\d+)\s+' +\
+          'Oxygen\:\s+(?P<O2Concentration>[+-]*\d+\.*\d*)\s+' +\
+          'Saturation\:\s+(?P<AirSaturation>[+-]*\d+\.*\d*)\s+' +\
+          'Temperature\:\s+(?P<Temperature>[+-]*\d+\.*\d*).*'
+    r = re.match(r, line)
+    if r is not None:
+        d = {}
+        for k, c in enumerate(msgfield):
+            d[c] = convf[k](r.group(c))
+    else:
+        logger.debug('Format mismatch: {}'.format(line))
+        print([ord(c) for c in line])
     return d
 
 
-class Aanderaa_3835(object):
+def aanderaa_3835_read(port, max_retry=5):
+    logger.debug('aanderaa_3835_read()')
+    
+    with serial.Serial(port, 9600, timeout=2) as ser:
+        
+        r = None
+        for _ in range(max_retry):
 
-    MAX_RETRY = 3
+            ser.flush()
+            ser.write(b'\r\ndo sample\r\n')
+            try:
+                line = ser.readline()
+                line = filter(lambda c: c <= 0x7f, line)
+                line = bytearray(filter(lambda c: c not in ['\x11', '\x13'], line))    # the control characters
+                line = line.decode().strip()
+                #print([ord(c) for c in line])
 
-    msgfield = ['O2Concentration','AirSaturation','Temperature']
-    convf = [float,float,float]
+                if any([c in line for c in '#*']):
+                    logger.debug('(junk)')
+                    logger.debug(line)
+                    logger.debug([ord(c) for c in line])
+                    continue
+                elif len(line) <= 0:
+                    logger.debug('(no response)') 
+                    continue
+                elif 'SYNTAX ERROR' in line:
+                    logger.debug('(SYNTAX ERROR)')
+                    logger.debug([ord(c) for c in line])
+                    continue
+                else:
+                    try:
+                        r = parse_3835(line)
+                        if r:
+                            break
+                    except ValueError:
+                        logger.debug('(valueerror)')
 
-    def __init__(self,port='/dev/ttyO4'):
-        self._port = port
-        with serial.Serial(self._port,9600,timeout=1) as s:
-            s.write('\r\nreset\r\n')
-            s.write('\r\ndo stop\r\n')
-            s.flushInput()
-            s.flushOutput()
+            except UnicodeDecodeError:
+                logger.exception('UnicodeDecodeError: {}'.format(line))
+                ser.flush()
 
-    def read(self):
-        with serial.Serial(self._port,9600,timeout=1) as s:
-            s.flushInput()
-            s.flushOutput()
-            # optode does not respond immediately after it wake up
-            # so the first few commands will probably be lost
-            # retry several times til a successful read is returned
+            time.sleep(1)
 
-            count = 0
-            s.write('\r\ndo stop\r\n')
-            # should at least get a '#'
-            while len(s.readline().strip()) <= 0:
-                s.write('\r\ndo stop\r\n')
-                count = count + 1
-                # relying on the timeout instead of using time.sleep()
-                if count > self.MAX_RETRY:
-                    logging.debug('Optode not responding to "do stop". Is it connected on {}?'.format(self._port))
-                    return None
-
-            s.write('\r\ndo sample\r\n')
-            for i in range(10):
-                line = s.readline()
-                #print line
-                tmp = parse_3835(line)
-                if tmp is not None:
-                    return tmp
-
-        logging.error('Aanderaa_3835::read(): no valid response from optode. (Check the output format setting of the optode?)')
-        return None
+        ser.flush()
+        return r
 
 
 if '__main__' == __name__:
@@ -79,12 +88,17 @@ if '__main__' == __name__:
     #print parse_3835(c2)
     #print parse_3835(c3)
 
-    import time
-    optode = Aanderaa_3835(port='/dev/ttyO2')
+    logger.setLevel(logging.DEBUG)
+    logging.basicConfig(level=logging.DEBUG)
+
+    DEFAULT_PORT = '/dev/ttyS1'
+    PORT = input('PORT=? (default={})'.format(DEFAULT_PORT)).strip()
+    if len(PORT) <= 0:
+        PORT = DEFAULT_PORT
+
     while True:
         try:
-            print optode.read()
-            time.sleep(1)
+            print(aanderaa_3835_read(PORT))
         except KeyboardInterrupt:
-            print 'user interrupted'
+            print('user interrupted')
             break
