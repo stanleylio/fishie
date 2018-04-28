@@ -3,31 +3,32 @@
 #
 # Stanley H.I. Lio
 # hlio@hawaii.edu
-# All Rights Reserved
-# 2017
-import time, struct, traceback, io, fcntl
+# All Rights Reserved. 2018
+import time, struct, io, fcntl, logging
+
+
+logger = logging.getLogger(__name__)
 
 
 class MS5837_30BA:
 
-    osr = {256:0,512:2,1024:4,2048:6,4096:8,8192:10}
-    conv_time = {256:0.0006,512:0.00117,1024:0.00228,2048:0.00454,4096:0.00904,8192:0.01808}
+    osr = {256:0, 512:2, 1024:4, 2048:6, 4096:8, 8192:10}
+    conv_time = {256:0.0006, 512:0.00117, 1024:0.00228, 2048:0.00454, 4096:0.00904, 8192:0.01808}
 
-    def __init__(self,address=0x76,bus=1):
+    def __init__(self, address=0x76, bus=1):
         self.address = address
-        self.fr = io.open('/dev/i2c-{}'.format(bus),'rb',buffering=0)
-        self.fw = io.open('/dev/i2c-{}'.format(bus),'wb',buffering=0)
+        self.fr = io.open('/dev/i2c-{}'.format(bus), 'rb',buffering=0)
+        self.fw = io.open('/dev/i2c-{}'.format(bus), 'wb',buffering=0)
         I2C_SLAVE = 0x703   # but why?
-        fcntl.ioctl(self.fr,I2C_SLAVE,self.address)
-        fcntl.ioctl(self.fw,I2C_SLAVE,self.address)
+        fcntl.ioctl(self.fr, I2C_SLAVE, self.address)
+        fcntl.ioctl(self.fw, I2C_SLAVE, self.address)
 
         self.reset()
-        self._C = self._read_prom()
 
     def __enter__(self):
         return self
 
-    def __exit__(self,*ignored):
+    def __exit__(self, *ignored):
         return True
 
     def reset(self):
@@ -37,12 +38,13 @@ class MS5837_30BA:
     # {'p':kPa, 't':Deg.C}
     # OverSampling Rate (osr)
     # osr can be one of {256,512,1024,2048,4096,8192}
-    def read(self,osr=8192):
-        self._C = self._read_prom()
+    def read(self, osr=8192):
         
+        assert osr in self.osr
+        
+        C = self._read_prom()
         D1 = self._raw_pressure(osr=osr)
         D2 = self._raw_temperature(osr=osr)
-        C = self._C
         dT = D2 - C[5]*(2**8)
         TEMP = 2000 + dT*C[6]/(2**23)
         OFF = C[2]*(2**16) + (C[4]*dT)/(2**7)
@@ -68,15 +70,15 @@ class MS5837_30BA:
         TEMP2 = (TEMP - Ti)/100                         # Deg.C
         P2 = (((D1*SENS2)/(2**21) - OFF2)/(2**13))/10   # mbar
 
-        TEMP = round(TEMP2,3)
+        TEMP = round(TEMP2, 3)
         P = P2/10                                        # millibar to kilopascal
-        P = round(P,3)
-        return {'p':P,'t':TEMP}
+        P = round(P, 3)
+        return {'p':P, 't':TEMP}
 
-    def pretty(self,r=None,*args,**kwargs):
+    def pretty(self, r=None, *args, **kwargs):
         if r is None:
-            r = self.read(*args,**kwargs)
-        return '{} kPa, {} Deg.C'.format(r['p'],r['t'])
+            r = self.read(*args, **kwargs)
+        return '{} kPa, {} Deg.C'.format(r['p'], r['t'])
 
     def _read_prom(self):
         C = []
@@ -86,31 +88,33 @@ class MS5837_30BA:
         return [struct.unpack('>H',c)[0] for c in C]
 
     # uncompensated pressure, D1
-    def _raw_pressure(self,osr=8192):
+    def _raw_pressure(self, osr=8192):
         self.fw.write(bytes([0x40 + self.osr[osr]]))
         time.sleep(self.conv_time[osr])
         self.fw.write(bytes([0]))
         tmp = bytearray(b'\0')
         tmp.extend(self.fr.read(3))
-        return struct.unpack('>I',tmp)[0]
+        return struct.unpack('>I', tmp)[0]
 
     # temperature, D2
-    def _raw_temperature(self,osr=8192):
+    def _raw_temperature(self, osr=8192):
         self.fw.write(bytes([0x50 + self.osr[osr]]))
         time.sleep(self.conv_time[osr])
         self.fw.write(bytes([0]))
         tmp = bytearray(b'\0')
         tmp.extend(self.fr.read(3))
-        return struct.unpack('>I',tmp)[0]
+        return struct.unpack('>I', tmp)[0]
 
 
 if '__main__' == __name__:
+
+    logger.setLevel(logging.DEBUG)
+    logging.basicConfig(level=logging.DEBUG)
 
     bus = 1
     print('using bus {}'.format(bus))
     ms = MS5837_30BA(bus=bus)
     
-    print(ms._C)
     #print('raw pressure: {}'.format(ms._raw_pressure()))
     #print('raw_temperature: {}'.format(ms._raw_temperature()))
 
