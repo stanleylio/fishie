@@ -2,22 +2,21 @@
 #
 # Stanley Lio, hlio@usc.edu
 # All Rights Reserved. August 2015
-import serial, re, logging, time
+import re, logging
 
 
 logger = logging.getLogger(__name__)
 
 
-msgfield = ['SN', 'O2Concentration', 'AirSaturation', 'Temperature', 'CalPhase',\
-            'TCPhase', 'C1RPh', 'C2RPh', 'C1Amp', 'C2Amp', 'RawTemp']
-convf = [int, float, float, float, float, float, float, float, float, float, float]
-
-
 def parse_4330f(line):
+    msgfield = ['SN', 'O2Concentration', 'AirSaturation', 'Temperature', 'CalPhase',\
+                'TCPhase', 'C1RPh', 'C2RPh', 'C1Amp', 'C2Amp', 'RawTemp']
+    convf = [int, float, float, float, float, float, float, float, float, float, float]
+    convf = dict(zip(msgfield, convf))
     
     d = None
     line = line.strip()
-    '''r = '.*MEASUREMENT\s+4330F\s+(?P<SN>\d+)\s+' +\
+    p1 = '.*MEASUREMENT\s+4330F\s+(?P<SN>\d+)\s+' +\
           'O2Concentration\(uM\)\s+(?P<O2Concentration>[+-]*\d+\.*\d*)\s+' +\
           'AirSaturation\(\%\)\s+(?P<AirSaturation>[+-]*\d+\.*\d*)\s+' +\
           'Temperature\(Deg\.C\)\s+(?P<Temperature>[+-]*\d+\.*\d*)\s+' +\
@@ -28,9 +27,9 @@ def parse_4330f(line):
           'C1Amp\(mV\)\s+(?P<C1Amp>[+-]*\d+\.*\d*)\s+' +\
           'C2Amp\(mV\)\s+(?P<C2Amp>[+-]*\d+\.*\d*)\s+' +\
           'RawTemp\(mV\)\s+(?P<RawTemp>[+-]*\d+\.*\d*).*'
-          '''
+          
     # new firmware, new format
-    r = '.*MEASUREMENT\s+4330F\s+(?P<SN>\d+)\s+' +\
+    p2 = '.*MEASUREMENT\s+4330F\s+(?P<SN>\d+)\s+' +\
           'O2Concentration\[uM\]\s+(?P<O2Concentration>[+-]*\d+\.*\d*)\s+' +\
           'AirSaturation\[%\]\s+(?P<AirSaturation>[+-]*\d+\.*\d*)\s+' +\
           'Temperature\[Deg\.C\]\s+(?P<Temperature>[+-]*\d+\.*\d*)\s+' +\
@@ -41,59 +40,28 @@ def parse_4330f(line):
           'C1Amp\[mV\]\s+(?P<C1Amp>[+-]*\d+\.*\d*)\s+' +\
           'C2Amp\[mV\]\s+(?P<C2Amp>[+-]*\d+\.*\d*)\s+' +\
           'RawTemp\[mV\]\s+(?P<RawTemp>[+-]*\d+\.*\d*).*'
-    r = re.match(r,line)
-    if r is not None:
-        d = {}
-        for k,c in enumerate(msgfield):
-            d[c] = convf[k](r.group(c))
-    return d
+
+    # RawData disabled
+    p3 = '.*MEASUREMENT\s+4330F\s+(?P<SN>\d+)\s+' +\
+          'O2Concentration\[uM\]\s+(?P<O2Concentration>[+-]*\d+\.*\d*)\s+' +\
+          'AirSaturation\[%\]\s+(?P<AirSaturation>[+-]*\d+\.*\d*)\s+' +\
+          'Temperature\[Deg\.C\]\s+(?P<Temperature>[+-]*\d+\.*\d*).*'
+
+    for p in [p3, p2, p1]:
+        r = re.match(p, line)
+        if r:
+            return {k:convf[k](v) for k,v in r.groupdict().items()}
+    else:
+        logger.debug('Format mismatch: {}'.format(line))
+        logger.debug([ord(c) for c in line])
+    return {}
 
 
 def aanderaa_4330f_read(port, max_retry=5):
     logger.debug('aanderaa_4330f_read()')
-    
-    with serial.Serial(port, 9600, timeout=2) as ser:
-        
-        r = None
-        for _ in range(max_retry):
 
-            ser.flush()
-            ser.write(b'\r\ndo sample\r\n')
-            try:
-                line = ser.readline()
-                line = filter(lambda c: c <= 0x7f, line)
-                line = bytearray(filter(lambda c: c not in ['\x11', '\x13'], line))    # the control characters
-                line = line.decode().strip()
-                #print([ord(c) for c in line])
-
-                if any([c in line for c in '#*']):
-                    logger.debug('(junk)')
-                    logger.debug(line)
-                    logger.debug([ord(c) for c in line])
-                    continue
-                elif len(line) <= 0:
-                    logger.debug('(no response)') 
-                    continue
-                elif 'SYNTAX ERROR' in line:
-                    logger.debug('(SYNTAX ERROR)')
-                    logger.debug([ord(c) for c in line])
-                    continue
-                else:
-                    try:
-                        r = parse_4330f(line)
-                        if r:
-                            break
-                    except ValueError:
-                        logger.debug('(valueerror)')
-
-            except UnicodeDecodeError:
-                logger.exception('UnicodeDecodeError: {}'.format(line))
-                ser.flush()
-
-            time.sleep(1)
-
-        ser.flush()
-        return r
+    from . import aanderaa_optode
+    return aanderaa_optode.optode_read_universal(port, max_retry=max_retry, parsers=[parse_4330f])
 
 
 if '__main__' == __name__:

@@ -3,17 +3,16 @@
 # Stanley H.I. Lio
 # hlio@hawaii.edu
 # All Rights Reserved. 2018
-import serial, re, time, sys, logging
+import re, logging
 
 
 logger = logging.getLogger(__name__)
 
 
-msgfield = ['O2Concentration', 'AirSaturation', 'Temperature']
-convf = [float, float, float]
-
-
-def parse_4531(line):
+def parse_4531d(line):
+    msgfield = ['SN', 'O2Concentration', 'AirSaturation', 'Temperature']
+    convf = [int, float, float, float]
+    convf = dict(zip(msgfield, convf))
     
     d = None
     line = line.strip()
@@ -22,62 +21,20 @@ def parse_4531(line):
           'AirSaturation\[%\]\s+(?P<AirSaturation>[+-]*\d+\.*\d*)\s+' +\
           'Temperature\[Deg\.C\]\s+(?P<Temperature>[+-]*\d+\.*\d*).*'
     r = re.match(r, line)
-    if r is not None:
-        d = {}
-        for k, c in enumerate(msgfield):
-            d[c] = convf[k](r.group(c))
+    if r:
+        return {k:convf[k](v) for k,v in r.groupdict().items()}
     else:
         logger.debug('Format mismatch: {}'.format(line))
-        print([ord(c) for c in line])
+        logger.debug([ord(c) for c in line])
     return d
 
 
-def aanderaa_4531_read(port, max_retry=5):
-    logger.debug('aanderaa_4531_read()')
+def aanderaa_4531d_read(port, max_retry=5):
+    logger.debug('aanderaa_4531d_read()')
+
+    from . import aanderaa_optode
+    return aanderaa_optode.optode_read_universal(port, max_retry=max_retry, parsers=[parse_4531d])
     
-    with serial.Serial(port, 9600, timeout=2) as ser:
-        
-        r = None
-        for _ in range(max_retry):
-
-            ser.flush()
-            ser.write(b'\r\ndo sample\r\n')
-            try:
-                line = ser.readline()
-                line = filter(lambda c: c <= 0x7f, line)
-                line = bytearray(filter(lambda c: c not in ['\x11', '\x13'], line))    # the control characters
-                line = line.decode().strip()
-                #print([ord(c) for c in line])
-
-                if any([c in line for c in '#*']):
-                    logger.debug('(junk)')
-                    logger.debug(line)
-                    logger.debug([ord(c) for c in line])
-                    continue
-                elif len(line) <= 0:
-                    logger.debug('(no response)') 
-                    continue
-                elif 'SYNTAX ERROR' in line:
-                    logger.debug('(SYNTAX ERROR)')
-                    logger.debug([ord(c) for c in line])
-                    continue
-                else:
-                    try:
-                        r = parse_4531(line)
-                        if r:
-                            break
-                    except ValueError:
-                        logger.debug('(valueerror)')
-
-            except UnicodeDecodeError:
-                logger.exception('UnicodeDecodeError: {}'.format(line))
-                ser.flush()
-
-            time.sleep(1)
-
-        ser.flush()
-        return r
-
 
 if '__main__' == __name__:
 
@@ -89,6 +46,9 @@ if '__main__' == __name__:
 MEASUREMENT	4531	395	O2Concentration[uM]	259.092	AirSaturation[%]	97.947	Temperature[Deg.C]	23.648
 MEASUREMENT	4531	395	O2Concentration[uM]	258.967	AirSaturation[%]	97.899	Temperature[Deg.C]	23.647
 '''
+
+    #print(parse_4531d(' MEASUREMENT  4531    395     O2Concentration[uM]     261.334 AirSaturation[%]     98.142  Temperature[Deg.C]      23.297'))
+    #exit()
     
     logger.setLevel(logging.DEBUG)
     logging.basicConfig(level=logging.DEBUG)
@@ -100,7 +60,7 @@ if '__main__' == __name__:
 
     while True:
         try:
-            print(aanderaa_4531_read(PORT))
+            print(aanderaa_4531d_read(PORT))
         except KeyboardInterrupt:
             print('user interrupted')
             break
