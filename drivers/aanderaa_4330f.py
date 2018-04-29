@@ -1,7 +1,6 @@
-#!/usr/bin/python
-#
-# Stanley Lio, hlio@usc.edu
-# All Rights Reserved. August 2015
+# Stanley H.I. Lio
+# hlio@hawaii.edu
+# All Rights Reserved. 2018
 import re, logging
 
 
@@ -58,10 +57,8 @@ def parse_4330f(line):
 
 
 def aanderaa_4330f_read(port, max_retry=5):
-    logger.debug('aanderaa_4330f_read()')
-
-    from . import aanderaa_optode
-    return aanderaa_optode.optode_read_universal(port, max_retry=max_retry, parsers=[parse_4330f])
+    from . import aanderaa
+    return aanderaa.aanderaa_read_universal(port, max_retry=max_retry, parsers=[parse_4330f])
 
 
 if '__main__' == __name__:

@@ -1,5 +1,3 @@
-#!/usr/bin/python3
-#
 # Stanley H.I. Lio
 # hlio@hawaii.edu
 # All Rights Reserved. 2018
@@ -30,10 +28,8 @@ def parse_4531d(line):
 
 
 def aanderaa_4531d_read(port, max_retry=5):
-    logger.debug('aanderaa_4531d_read()')
-
-    from . import aanderaa_optode
-    return aanderaa_optode.optode_read_universal(port, max_retry=max_retry, parsers=[parse_4531d])
+    from . import aanderaa
+    return aanderaa.aanderaa_read_universal(port, max_retry=max_retry, parsers=[parse_4531d])
     
 
 if '__main__' == __name__:
