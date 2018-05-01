@@ -1,18 +1,5 @@
-#private_key_file = '/root/.ssh/id_rsa'
-#subscribeto = ['localhost:9002']
-#data_dir = '/var/kmetlog/data'
-#log_dir = '/var/kmetlog/log'
-#service_discovery_port = 9005
-#realtime_port = 9007
-
+subscribeto = ['localhost:9011', 'localhost:9012', 'localhost:9013', 'localhost:9014', 'localhost:9015']
 public_key = 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC40CPr/EP30b046acfH5hxGLpOFWHnGB9/W7EbnpjX+mbPKXt7wvHcDD2VEV6yjg33+T7skh/z1Aepw2kRtb1B8AO6GjSPNmRSKnWZzXDRuN2SqwefOcmDOfHV6betNrkBbnxcXZyLofhII55ffN0sz4/+pl2Pjq8ot1N0SiTZilgVkHKQxI4d/NjJKKLuDKzgydGYCvEaUDiQoRWkOH52gIsx04u+lD6gtVEJZt7WjJkoJITKAYF4WJG5hoKAIHcRrdrkIqa70Fae1kz/wdjdFI3ZnQmXx82m8G4YsLh0/+IIA8og78NWsj/eRl6G+ykElGW846kPsrbBmUiQ6d2H root@kmet-bbb2'
-
-# ADAM-4017
-DAQ_HV_PORT = ('/dev/ttyUSB0',7,9600)    # serial port to DAQ, its RS485 ID, and baud rate
-# ADAM-4018
-DAQ_LV_PORT = ('/dev/ttyUSB1',5,9600)
-# ADAM-4080
-DAQ_F_PORT = ('/dev/ttyUSB2',4,9600)
 
 DAQ_CH_MAP = {'PIR_mV':3,
               'PIR_case_V':4,
@@ -27,12 +14,7 @@ DAQ_CH_MAP = {'PIR_mV':3,
               'RMYRTD_Fan_rpm':1,
               }
 
-USWIND_PORT = ('/dev/ttyUSB6',9600)
-OPTICALRAIN_PORT = ('/dev/ttyUSB7',1200)
-
-# - - -
-
-conf = [
+'''conf = [
     {
         'dbtag':'ts',
         'description':'Sampling time (POSIX Timestamp)',
@@ -108,17 +90,16 @@ conf = [
 #        'dbtag':'StarboardWind_apparent_direction_deg',
 #    },
     ]
+'''
 
 
 if '__main__' == __name__:
-    for c in conf:
-        print('- - -')
-        for k,v in c.iteritems():
-            print(k, ':' ,v)
-
     import sys
-    sys.path.append('../..')
-    from os.path import basename
-    from storage.storage2 import create_table
-    create_table(conf,'kmetlog',dbname='kmetlog')
-    # turns out renaming MySQL database is a pain in the
+    from os.path import expanduser
+    sys.path.append(expanduser('~'))
+    from node.storage.storage2 import create_table
+
+    for table in conf:
+        print(table)
+        create_table(conf[table], table, dbname='kmetlog')
+        
