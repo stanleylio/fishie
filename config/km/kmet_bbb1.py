@@ -1,12 +1,5 @@
-subscribeto = ['localhost:9011','localhost:9012','localhost:9013','localhost:9014','localhost:9015']
+subscribeto = ['localhost:9011', 'localhost:9012', 'localhost:9013', 'localhost:9014', 'localhost:9015']
 public_key = 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDQdchxRE7jkBOEwPQrPXAy9amx8jiuWZcqfC+uB5APAKcVxf9ih3BkTRcyDKY6TY4njWptYMYhsfaNfId+IEJGZ+SWMgCb1hS3AY3MgXi97ti6cBCuJzT8QTGFj2JCmgJLTiK75gtliOs8YhDoK7Q8wHcUDRrI+Xfo64g/v6h5f86pUN6hLng7lm9HWANWgoAc5UPdUpMfJ7vH9BBv1saAZhhjo5RhDz5E2Ea8m9U2DzV1cDeaJQ5Vdykl/kZLt8p3I7izd8smLA5baNdrDbwfu/ARjzrVuhiZkt1KxcnmNTE0ueqHyc4u9xp1hUCwdWBW7VLHZ2xCZOJJ2bm3oKzb root@kmet-bbb1'
-
-# ADAM-4017
-DAQ_HV_PORT = ('/dev/ttyUSB0',7,9600)    # serial port to DAQ, its RS485 ID, and baud rate
-# ADAM-4018
-DAQ_LV_PORT = ('/dev/ttyUSB1',5,9600)
-# ADAM-4080
-DAQ_F_PORT = ('/dev/ttyUSB2',4,9600)
 
 DAQ_CH_MAP = {'PIR_mV':3,
               'PIR_case_V':4,
@@ -21,10 +14,7 @@ DAQ_CH_MAP = {'PIR_mV':3,
               'RMYRTD_Fan_rpm':1,
               }
 
-USWIND_PORT = ('/dev/ttyUSB6',9600)
-OPTICALRAIN_PORT = ('/dev/ttyUSB7',1200)
-
-conf = {}
+'''conf = {}
 
 tmp = [
     {
@@ -178,6 +168,7 @@ conf['Misc'] = tmp
 #    {
 #        'dbtag':'StarboardWind_apparent_direction_deg',
 #    },
+'''
 
 
 if '__main__' == __name__:
@@ -188,5 +179,5 @@ if '__main__' == __name__:
 
     for table in conf:
         print(table)
-        create_table(conf[table],table,dbname='kmetlog')
+        create_table(conf[table], table, dbname='kmetlog')
         
