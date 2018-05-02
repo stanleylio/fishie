@@ -5,7 +5,7 @@ cd node
 git pull
 
 sudo apt update
-sudo apt-get autoremove
+sudo apt-get autoremove -y
 sudo apt upgrade -y
 
 cd ~/node/setup
