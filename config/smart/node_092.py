@@ -2,7 +2,7 @@
 name = 'Manoa Stream (UH) Water Level'
 location = 'Manoa Stream (Japanese Garden, UHM)'
 google_earth_link = '#'
-note = 'Ultrasonic tide gauge (XBee). Each sample is the sample mean of 60 measurements taken every second (excluding any out-of-range ones). Firmware us10c, hardware v5.0.'
+note = 'Ultrasonic tide gauge (XBee). One measurement every ~3 minutes. Firmware us11b, hardware v5.0.'
 
 
 conf = [
@@ -12,15 +12,7 @@ conf = [
         'description':'Distance from sensor to water surface',
         'lb':301,
         'ub':4999,
-        'interval':60,
-    },
-    {
-        'dbtag':'Vcc',
-        'unit':'V',
-        'description':'µC supply voltage',
-        'lb':2.7,
-        'ub':3.6,
-        'interval':60,
+        'interval':180,
     },
     {
         'dbtag':'Vsolar',
@@ -28,20 +20,13 @@ conf = [
         'description':'Solar panel voltage',
         'lb':0,
         'ub':5.5,
-        'interval':60,
+        'interval':180,
     },
     {
-        'dbtag':'ticker',
-        'description':'1Hz ticker',
+        'dbtag':'idx',
+        'description':'Sample index',
         'lb':0,
-        'interval':60,
-    },
-    {
-        'dbtag':'sample_size',
-        'description':'# of valid measurements in the psat 60',
-        'lb':1,
-        'ub':60,
-        'interval':60,
+        'interval':180,
     },
 ]
 
