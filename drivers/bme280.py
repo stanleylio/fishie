@@ -4,7 +4,10 @@
 # Stanley H.I. Lio
 # hlio@hawaii.edu
 # All Rights Reserved. 2018
-import time, struct, io, fcntl
+import time, struct, io, fcntl, logging
+
+
+logger = logging.getLogger(__name__)
 
 
 class BME280:
@@ -161,11 +164,19 @@ class BME280:
 
 if '__main__' == __name__:
 
+    import argparse
+
+    parser = argparse.ArgumentParser(formatter_class=argparse.RawTextHelpFormatter,
+                                     description='''Example: python3 bme280.py --bus=1 --address=0x76''')
+    parser.add_argument('--bus', metavar='bus', type=int, default=1, help='bus, one of {1, 2, ...}')
+    parser.add_argument('--address', metavar='address', type=lambda x: int(x, base=16), default=0x76, help='I2C address')
+    args = parser.parse_args()
+
     while True:
         try:
-            bme = BME280(bus=2, address=0x77)
+            bme = BME280(bus=args.bus, address=args.address)
             print(bme.read())
         except KeyboardInterrupt:
             break
         except:
-            traceback.print_exc()
+            logging.exception('wut?')

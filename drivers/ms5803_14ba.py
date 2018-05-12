@@ -33,7 +33,7 @@ class MS5803_14BA:
         return True
 
     def reset(self):
-        self.fw.write(bytes([0x1E]))
+        self.fw.write(b'\x1E')
         time.sleep(0.05)
 
     # {'p':kPa, 't':Deg.C}
@@ -106,7 +106,7 @@ class MS5803_14BA:
     def _raw_pressure(self, osr=4096):
         self.fw.write(bytes([0x40 + self.osr[osr]]))
         time.sleep(0.02)
-        self.fw.write(bytes([0]))
+        self.fw.write(b'\0')
         tmp = bytearray(b'\0')
         tmp.extend(self.fr.read(3))
         return struct.unpack('>I', tmp)[0]
@@ -128,7 +128,7 @@ if '__main__' == __name__:
 
     bus = 1
     print('using bus {}'.format(bus))
-    ms = MS5803_14BA(bus=bus)
+    ms = MS5803_14BA(bus=bus, address=0x76)
     
     #print('raw pressure: {}'.format(ms._raw_pressure()))
     #print('raw_temperature: {}'.format(ms._raw_temperature()))
