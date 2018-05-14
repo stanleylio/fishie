@@ -12,8 +12,6 @@ XBEELOGDIR = '/var/uhcm/log'
 INTERVAL = 5*60
 NGROUP = 5
 
-#LOGDIR = '/var/uhcm/log'
-dbfile = '/var/uhcm/storage/sensor_data.db'
 subscribeto = ['127.0.0.1:9002']
 
 
@@ -24,28 +22,35 @@ conf = [
         'plot':True,
     },
     {
-        'dbtag':'P_280',
+        'dbtag':'Pa',
         'unit':'kPa',
-        'description':'Barometric pressure (BMP280)',
+        'description':'Barometric pressure (BME280)',
         'lb':90e3,
         'ub':110e3,
     },
     {
-        'dbtag':'T_280',
+        'dbtag':'Ta',
         'unit':'Deg.C',
-        'description':'Enclosure temperature (BMP280)',
+        'description':'Enclosure temperature (BME280)',
         'lb':-10,
         'ub':70,
     },
     {
-        'dbtag':'P_5803',
+        'dbtag':'RH',
+        'unit':'%',
+        'description':'Enclosure humidity (BME280)',
+        'lb':20,
+        'ub':90,
+    },
+    {
+        'dbtag':'Pw',
         'unit':'kPa',
         'description':'Water pressure (MS5803-14BA)',
         'lb':90,
         'ub':150,
     },
     {
-        'dbtag':'T_5803',
+        'dbtag':'Tw',
         'unit':'Deg.C',
         'description':'Water temperature (MS5803-14BA)',
         'lb':-10,
