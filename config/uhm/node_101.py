@@ -25,8 +25,8 @@ conf = [
         'dbtag':'Pa',
         'unit':'kPa',
         'description':'Barometric pressure (BME280)',
-        'lb':90e3,
-        'ub':110e3,
+        'lb':90,
+        'ub':110,
     },
     {
         'dbtag':'Ta',

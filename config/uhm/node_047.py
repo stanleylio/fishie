@@ -3,7 +3,7 @@ name = 'Taro Patch'
 location = '(TBD)'
 note = 'Cellular stream gauge. Each sample is average of 5 measurements taken every 60 seconds. One transmission every 2 samples. Firmware v1, hardware v0.2.'
 
-coreid = '410055001951353338363036'
+coreid = '2c0024000f51363034323832'
 
 
 conf = [
@@ -53,6 +53,20 @@ conf = [
         'interval':10*60,
     },
     {
+        'dbtag':'ssa',
+        'description':'# of valid measurements in mean calculation (BME280)',
+        'lb':1,
+        'ub':5,
+        'interval':10*60,
+    },
+    {
+        'dbtag':'ssw',
+        'description':'# of valid measurements in mean calculation (MS5803)',
+        'lb':1,
+        'ub':5,
+        'interval':10*60,
+    },
+    {
         'dbtag':'VbattV',
         'unit':'V',
         'description':'Battery voltage',
@@ -66,13 +80,6 @@ conf = [
         'description':'State of Charge',
         'lb':30,
         'ub':100,
-        'interval':10*60,
-    },
-    {
-        'dbtag':'sample_size',
-        'description':'# of valid measurements in the past 5',
-        'lb':1,
-        'ub':5,
         'interval':10*60,
     },
 ]
