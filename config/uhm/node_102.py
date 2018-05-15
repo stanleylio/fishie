@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-name = '"Guac-is-Extra"'
+name = '"A-truth-universally-acknowledged"'
 location = '(TBD)'
 note = 'Beaglebone-based node measuring oxygen, temperature, conductivity, and pressure'
 
