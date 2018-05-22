@@ -1,16 +1,14 @@
-#!/usr/bin/python
-#
 # avg() and count() are nice though...
 #
 # Stanley Hou In Lio, hlio@hawaii.edu
 # October, 2015
-import sqlite3,time,traceback,logging
-from os.path import join,dirname,exists
-from datetime import datetime,timedelta
-from node.helper import ts2dt,dt2ts
+import sqlite3, time, traceback, logging
+from os.path import join, dirname, exists
+from datetime import datetime, timedelta
+from node.helper import ts2dt, dt2ts
 
 
-def auto_time_col(store,node_id):
+def auto_time_col(store, node_id):
     time_col = 'Timestamp'
     if 'ReceptionTime' in store.get_list_of_columns(node_id):
         time_col = 'ReceptionTime'
@@ -18,10 +16,10 @@ def auto_time_col(store,node_id):
 
 
 # this one doesn't require database schema on instantiation
-class storage_read_only(object):
-    def __init__(self,dbfile=None,create_if_not_exists=False):  # wait, if it's read-only then it should already exist. TODO
+class storage_read_only:
+    def __init__(self, *, dbfile=None, create_if_not_exists=False):  # wait, if it's read-only then it should already exist. TODO
         if dbfile is None:
-            dbfile = join(dirname(__file__),'sensor_data.db')
+            dbfile = join(dirname(__file__), 'sensor_data.db')
             logging.warning('dbfile not specified. Default to ' + dbfile)
         if not create_if_not_exists and not exists(dbfile):
             raise IOError('{} does not exist.'.format(dbfile))
@@ -41,11 +39,11 @@ class storage_read_only(object):
         cursor = self.c.execute("SELECT name FROM sqlite_master WHERE type='table';")
         return sorted([t[0] for t in cursor.fetchall() if not t[0].startswith('sqlite_')])
 
-    def get_list_of_columns(self,node_id):
+    def get_list_of_columns(self, node_id):
         cursor = self.c.execute('SELECT * FROM `{}`'.format(node_id))
         return [d[0] for d in cursor.description]
 
-    def read_time_range(self,node_id,time_col,cols,begin,end=None):
+    def read_time_range(self, node_id, time_col, cols, begin, *, end=None):
         """Retrieve records in the given time period.
         If end is not specified, end = the moment this is called.
         """
@@ -61,7 +59,7 @@ class storage_read_only(object):
         assert end > begin,'"begin" came after "end"? just swap the two'
 
         time_range = 'WHERE {time_col} BETWEEN "{begin}" AND "{end}"'.\
-                     format(time_col=time_col,begin=begin,end=end)
+                     format(time_col=time_col, begin=begin, end=end)
         # SQLite doesn't have its own datetime type. Datetime ranking by string comparison
         # somehow seems hackish as it relies on comformity to the ISO8601 format.
         cmd = 'SELECT {} FROM `{}` {time_range} ORDER BY {time_col} DESC'.\
@@ -71,7 +69,7 @@ class storage_read_only(object):
                        time_col=time_col)
         return self._execute(cmd)
 
-    def read_latest_non_null(self,node_id,time_col,var):
+    def read_latest_non_null(self, node_id, time_col, var):
         """Retrieve the latest non-null record of var."""
         cols = [time_col,var]
         cmd = 'SELECT {} FROM `{}` WHERE {} IS NOT NULL ORDER BY {} DESC LIMIT 1;'.\
@@ -87,15 +85,15 @@ class storage_read_only(object):
             return None
 
     # who is still using this? get rid of this. TODO
-    def read_past_time_period(self,node_id,time_col,cols,timerange):
+    def read_past_time_period(self, node_id, time_col, cols, timerange):
         """Retrieve records taken in the past timerange (a positive
         datetime.timedelta). (relative to the moment this is called)
         """
         end = datetime.utcnow()
         begin = end - timerange
-        return self.read_time_range(node_id,time_col,cols,begin,end=end)
+        return self.read_time_range(node_id, time_col, cols, begin, end=end)
 
-    def read_last_N(self,node_id,time_col,count=1,cols=None):
+    def read_last_N(self, node_id, time_col, count=1, cols=None):
         """Retrieve the last N records."""
         assert cols is None or type(cols) is list,'storage::read_last_N(): cols, if not None, must be a list of string'
 
@@ -112,7 +110,7 @@ class storage_read_only(object):
                        count)
         return self._execute(cmd)
 
-    def read_last_N_minutes(self,node_id,time_col,N,cols=None,nonnull=None):
+    def read_last_N_minutes(self, node_id, time_col, N, *, cols=None, nonnull=None):
         """Retrieve records within N minutes of the last record in the database.
         "Last N minutes" is relative to the latest record in the database (which could be
         days old in the case of sensor failure), not relative to the time this method is
@@ -124,7 +122,7 @@ class storage_read_only(object):
         10 days ago, records up to N minutes prior to that sample are returned (which are
         all at least 10 days old, even though they are the "latest").
         """
-        assert cols is None or type(cols) is list,'storage::read_last_N_minutes(): cols, if not None, must be a list of string'
+        assert cols is None or type(cols) is list, 'storage::read_last_N_minutes(): cols, if not None, must be a list of string'
 
         if cols is None:
             cols = self.get_list_of_columns(node_id)
@@ -141,7 +139,7 @@ class storage_read_only(object):
                     format(cols=','.join(cols),time_col=time_col,table=table,N=N)
         return self._execute(cmd)
 
-    def read_all(self,node_id,cols=None):
+    def read_all(self, node_id, *, cols=None):
         """Retrieve all records as a dictionary."""
         if cols is None:    # or use * ?
             cols = self.get_list_of_columns(node_id)
@@ -149,7 +147,7 @@ class storage_read_only(object):
               format(cols=','.join(cols),table=node_id)
         return self._execute(cmd)
 
-    def _execute(self,cmd):
+    def _execute(self, cmd):
         try:
             self.c.execute(cmd)
             tmp = self.c.fetchall()
@@ -162,30 +160,6 @@ class storage_read_only(object):
             raise
             #return None
 
-    def OBSOLETE_execute(self,cmd):
-        try:
-            self.c.execute(cmd)
-            tmp = self.c.fetchall()
-            if len(tmp) <= 0:
-                return None
-            cols = [c[0] for c in self.c.description]
-            return {v:tuple(r[v] for r in tmp) for v in cols}
-        except:
-            logging.error(traceback.format_exc())
-            return None
-
-    '''def OBSOLETE_execute(self,cmd):
-        try:
-            self.c.execute(cmd)
-            tmp = self.c.fetchall()
-            if len(tmp) <= 0:
-                return None
-            cols = [c[0] for c in self.c.description]
-            return {v:tuple(r[v] for r in tmp) for v in cols}
-        except:
-            traceback.print_exc()
-            return None'''
-
     def read_schema(self):
         return {t:self.get_list_of_columns(t) for t in self.get_list_of_tables()}
 
@@ -197,17 +171,17 @@ class storage_read_only(object):
 
 
 class storage(storage_read_only):
-    def __init__(self,dbfile,schema=None):
-        super(storage,self).__init__(dbfile=dbfile,create_if_not_exists=schema is not None)
+    def __init__(self, dbfile, *, schema=None):
+        super(storage,self).__init__(dbfile=dbfile, create_if_not_exists=schema is not None)
 
         if schema is not None:
-            for node,v in schema.iteritems():
+            for node, v in schema.items():
                 tmp = '({})'.format(','.join([' '.join(tmp) for tmp in schema[node]]))
-                cmd = 'CREATE TABLE IF NOT EXISTS `{}` {}'.format(node,tmp)
+                cmd = 'CREATE TABLE IF NOT EXISTS `{}` {}'.format(node, tmp)
                 self.c.execute(cmd)
 
     # node is redundant. readings should contains readings['node']. TODO
-    def write(self,readings):
+    def write(self, readings):
         assert 'ReceptionTime' in readings.keys() or 'Timestamp' in readings.keys()
         node = readings['node']
         cols = self.get_list_of_columns(node)
@@ -224,7 +198,7 @@ class storage(storage_read_only):
         vals = [readings[k] for k in keys]
         #cmd = 'INSERT OR REPLACE INTO {} ({}) VALUES ({})'.\
         cmd = 'INSERT INTO `{}` ({}) VALUES ({})'.\
-              format(node,','.join(keys),','.join('?'*len(keys)))
+              format(node, ','.join(keys), ','.join('?'*len(keys)))
         self.c.execute(cmd,vals)
         self.conn.commit()
 

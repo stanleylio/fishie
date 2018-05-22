@@ -1,5 +1,5 @@
 name = 'Casey\'s'
-location = 'MSB, UHM'
+location = '[CLASSIFIED]'
 google_earth_link = '#'
 note = '(TBD)'
 public_key = ''

@@ -59,7 +59,7 @@ def auto_tick(ax):
     plt.tight_layout()
 
 
-def plot_multi_time_series(data,plotfilename,title='',xlabel='',ylabel='',loc='best'):
+def plot_multi_time_series(data, plotfilename, *, title='', xlabel='', ylabel='', loc='best'):
     plt.figure()
 
     for d in data:
@@ -138,7 +138,7 @@ def plot_multi_time_series(data,plotfilename,title='',xlabel='',ylabel='',loc='b
     plt.close()
 
 
-def plot_time_series(x, y, plotfilename, title='', xlabel='', ylabel='', linelabel=None, color='#1f77b4', linestyle='-', marker='.', markersize=1):
+def plot_time_series(x, y, plotfilename, *, title='', xlabel='', ylabel='', linelabel=None, color='#1f77b4', linestyle='-', marker='.', markersize=1):
     assert len(x) == len(y)
     assert len(x) > 0
     assert len(plotfilename) > 0
