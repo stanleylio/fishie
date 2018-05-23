@@ -23,15 +23,16 @@ class BME280:
         time.sleep(0.1)
         #self.check_ID()
         #self._read_prom()
-        
+
+        # humidity oversampling x16
         osrs_h = 0b101
         self.fw.write(bytearray([0xF2, osrs_h]))
 
+        # temperature and pressure oversampling x16
         osrs_t = 0b101
         osrs_p = 0b101
-        mode = 0b11
+        mode = 0b11     # Normal mode
         self.fw.write(bytearray([0xF4, (osrs_t << 5) + (osrs_p << 2) + mode]))
-
 
     def check_ID(self):
         self.fw.write(b'\xD0')
@@ -140,22 +141,22 @@ class BME280:
         return {'t':T, 'p':P, 'rh':var_H}
     
     def read_adc(self):
-        delay_ms = (1.23 + 2.3*16 + 2.3*16 + 0.575 + 2.3*16 + 0.575)/1000
+        delay_ms = (1.25 + 2.3*16 + 2.3*16 + 0.575 + 2.3*16 + 0.575)
         self.fw.write(b'\xFA')
-        time.sleep(delay_ms)
+        time.sleep(delay_ms/1000)
         msb, lsb, xlsb = self.fr.read(3)
         #print(msb, lsb, xlsb)
         xlsb = (xlsb >> 4) & 0b1111
         t_adc = (msb << 12) | (lsb << 4) | xlsb
 
         self.fw.write(b'\xF7')
-        time.sleep(delay_ms)
+        time.sleep(delay_ms/1000)
         msb, lsb, xlsb = self.fr.read(3)
         xlsb = (xlsb >> 4) & 0b1111
         p_adc = (msb << 12) | (lsb << 4) | xlsb
 
         self.fw.write(b'\xFD')
-        time.sleep(delay_ms)
+        time.sleep(delay_ms/1000)
         msb, lsb = self.fr.read(2)
         rh_adc = (msb << 8) + lsb
 
