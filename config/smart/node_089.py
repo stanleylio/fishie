@@ -2,7 +2,7 @@
 name = 'Water Level'
 location = '(TBD)'
 google_earth_link = '#'
-note = 'Ultrasonic tide gauge (XBee). One measurement every ~3 minutes. Firmware us11b, hardware v5.0.'
+note = 'Ultrasonic tide gauge (XBee). One measurement every ~3 minutes. Firmware us12, hardware v5.1.'
 
 
 conf = [
@@ -15,11 +15,43 @@ conf = [
         'interval':180,
     },
     {
-        'dbtag':'Vsolar',
+        'dbtag':'t',
+        'unit':'Deg.C',
+        'description':'Housing temperature (BME280)',
+        'lb':10,
+        'ub':50,
+        'interval':180,
+    },
+    {
+        'dbtag':'p',
+        'unit':'kPa',
+        'description':'Housing (barometric) pressure (BME280)',
+        'lb':80,
+        'ub':120,
+        'interval':180,
+    },
+    {
+        'dbtag':'rh',
+        'unit':'%',
+        'description':'Housing % relative humidity (BME280)',
+        'lb':10,
+        'ub':80,
+        'interval':180,
+    },
+    {
+        'dbtag':'Vb',
+        'unit':'V',
+        'description':'Battery voltage',
+        'lb':0,
+        'ub':4.3,
+        'interval':180,
+    },
+    {
+        'dbtag':'Vs',
         'unit':'V',
         'description':'Solar panel voltage',
         'lb':0,
-        'ub':5.5,
+        'ub':6,
         'interval':180,
     },
     {

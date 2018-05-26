@@ -11,27 +11,44 @@ conf = [
         'description':'Distance from sensor to water surface',
         'lb':301,
         'ub':4999,
-        'interval':60,
+        'interval':180,
     },
     {
+        'dbtag':'Vsolar',
+        'unit':'V',
+        'description':'Solar panel voltage',
+        'lb':0,
+        'ub':5.5,
+        'interval':180,
+    },
+    {
+        'dbtag':'idx',
+        'description':'Sample index',
+        'lb':0,
+        'interval':180,
+    },
+    {   # deprecated after upgrading to firmware us11b on hardware 5.0
         'dbtag':'VbattV',
         'unit':'V',
         'description':'Battery voltage',
         'lb':2.7,
         'interval':60,
+        'plot':False,
     },
-    {
+    {   # deprecated
         'dbtag':'ticker',
         'description':'Monotonic increasing 1Hz ticker',
         'lb':0,
         'interval':60,
+        'plot':False,
     },
-    {
+    {   # deprecated
         'dbtag':'sample_size',
         'description':'Number of valid readings in the 60 measurements',
         'lb':0,
         'ub':60,
         'interval':60,
+        'plot':False,
     },
 ]
 
