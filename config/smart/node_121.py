@@ -34,8 +34,8 @@ conf = [
         'dbtag':'rh',
         'unit':'%',
         'description':'Housing % relative humidity (BME280)',
-        'lb':10,
-        'ub':80,
+        'lb':5,
+        'ub':60,
         'interval':60,
     },
     {

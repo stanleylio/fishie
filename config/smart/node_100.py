@@ -1,29 +1,32 @@
 # -*- coding: utf-8 -*-
-name = '(TBD)'
+name = 'Water Level'
 location = '(TBD)'
-note = 'Cellular ultrasonic tide gauge'
-
-coreid = '290048001951353338363036'
+google_earth_link = '#'
+note = 'Ultrasonic tide gauge (XBee). One measurement every ~3 minutes. Firmware us11b, hardware v5.0.'
 
 
 conf = [
     {
-        'dbtag':'Timestamp',
-        'description':'Sample time (device clock)',
-    },
-    {
         'dbtag':'d2w',
         'unit':'mm',
         'description':'Distance from sensor to water surface',
-        'lb':300,
-        'ub':5000,
+        'lb':301,
+        'ub':4999,
+        'interval':180,
     },
     {
-        'dbtag':'VbattV',
+        'dbtag':'Vsolar',
         'unit':'V',
-        'description':'Battery voltage',
-        'lb':3.7,
+        'description':'Solar panel voltage',
+        'lb':0,
         'ub':5.5,
+        'interval':180,
+    },
+    {
+        'dbtag':'idx',
+        'description':'Sample index',
+        'lb':0,
+        'interval':180,
     },
 ]
 
@@ -31,7 +34,7 @@ conf = [
 if '__main__' == __name__:
     for c in conf:
         print('- - -')
-        for k,v in c.iteritems():
+        for k,v in c.items():
             print(k,':',v)
 
     import sys
