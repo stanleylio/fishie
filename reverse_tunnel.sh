@@ -26,6 +26,14 @@ map[base-014]=10034
 map[base-015]=10035
 map[base-016]=10036
 map[base-017]=10037
+map[base-018]=10038
+map[base-019]=10039
+map[base-020]=10040
+map[base-021]=10041
+map[base-022]=10042
+map[base-023]=10043
+map[base-024]=10044
+map[base-025]=10045
 
 map[node-080]=10180
 map[node-084]=10184

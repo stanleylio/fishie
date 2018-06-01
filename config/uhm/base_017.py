@@ -1,8 +1,8 @@
-name = 'Kānewai Base Station'
-location = 'Kānewai'
+name = '(TBD)'
+location = '(TBD)'
 google_earth_link = '#'
 note = 'bbb-based, eMMC'
-public_key = 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDwzpUztLLkhhF6ItntZTzgHvFNwtFL5zLuda/vruHcxnBAsS7KtDHR3ugtV5I8BmErDzS/DuYhEdkfvV10dqSKgEuKhHY372thzFYiW+9pKSBlxOLLj0c6b+njIrTENF/h8ghBHRn+K3eeXeUTTzZNrI/DlSTW4Kt7cvpQUD8tN9TdVOUdaYNrsr7DJIHgNIlo8nJ4Thxr1Al/FFjR3BNXRttAg0ROS8ytj46ujYOzEbk0a2L2LFNHX1tpHOQvA4PIjUksfmbh8wgC1KUUCPpCcsXcVEc2ee6vGWt3lXves8aLVxKIAsc4QBdbT67rIwSaFYfZDlDGcVct0saYk04b nuc@base-016'
+public_key = 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDw9aDDY50488G3wJ2HHAwGgNrVGssyKWvnHHxxHVc9kM6uqbWrZ007s8gwa8IoOLqtLrEedUDjpSI7oS9dy90UtyibYGn992Dc87Uzgcfd1gmOZyjwe2oF3Z4La6o6UXiAZIkhbbcEThCJmW3DwmnzjJnEbsZK/Pqh/JeMFDw1dWgQbhwaKnyco2T7FlpOkTzBGLJ0tkxpyxYxicuRUfxY6zKO+U8LjjjQFl9D34ypIksqIt/8gCkonX7xB/aN69Hssi8tshMhv6uHvX1i/oPuBII4yQYOOZr8/4kr55bR3ICKbIUduejluMbaWhOZ1TRixr/yGHbmJ6RiDh8/et4f nuc@base-017'
 
 
 XBEE_PORT = '/dev/ttyS1'

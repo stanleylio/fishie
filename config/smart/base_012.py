@@ -21,7 +21,7 @@ conf = [
     {
         'dbtag':'uptime_second',
         'description':'Uptime in seconds',
-        'lb':12*60*60,
+        'lb':24*60*60,
         'interval':60,
     },
     {
@@ -43,11 +43,11 @@ conf = [
 if '__main__' == __name__:
     for c in conf:
         print('- - -')
-        for k,v in c.iteritems():
-            print(k,':',v)
+        for k, v in c.items():
+            print(k, ':', v)
 
     import sys
     sys.path.append('../..')
     from os.path import basename
     from storage.storage2 import create_table
-    create_table(conf,basename(__file__).split('.')[0].replace('_','-'))
+    create_table(conf, basename(__file__).split('.')[0].replace('_', '-'))
