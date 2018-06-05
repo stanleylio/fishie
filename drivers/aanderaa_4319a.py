@@ -17,7 +17,7 @@ def parse_4319a(line):
     line = line.strip()
 
     # Text disabled (measured only, no derived parameters)
-    p1 = '.*4319\s+(?P<SN>\d+)\s+(?P<Conductivity>[+-]?\d+\.*\d*)\s+(?P<Temperature>[+-]?\d+\.*\d*)\s+'
+    p1 = '.*4319\s+(?P<SN>\d+)\s+(?P<Conductivity>[+-]?\d+\.*\d*)\s+(?P<Temperature>[+-]?\d+\.*\d*).*'
 
     # Text enabled (measured only, no derived parameters)
     p2 = '.*MEASUREMENT\s+4319\s+(?P<SN>\d+)\s+' +\
