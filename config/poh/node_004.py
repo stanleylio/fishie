@@ -1,55 +1,48 @@
 # -*- coding: utf-8 -*-
 name = 'Hīhīmanu Oxygen and Depth'
 location = 'Hīhīmanu (first mākāhā)'
-note = 'Beaglebone-based node measuring oxygen, temperature and water depth'
-
-# node stuff
-XBEE_PORT = '/dev/ttyS2'
-XBEE_BAUD = 115200
-
-XBEELOGDIR = '/var/uhcm/log'
-
-INTERVAL = 5*60
-NGROUP = 5
-
-#LOGDIR = '/var/uhcm/log'
-dbfile = '/var/uhcm/storage/sensor_data.db'
-subscribeto = ['127.0.0.1:9002']
+note = 'Beaglebone-based node, measuring oxygen, temperature and water depth'
 
 
 conf = [
     {
-        'dbtag':'Timestamp',
-        'dbtype':'DOUBLE NOT NULL',
-        'description':'Time of sampling',
-        'plot':False,
+        'dbtag':'ts',
+        'description':'Time of sampling (UTC)',
+        'plot':True,
     },
     {
-        'dbtag':'P_180',
+        'dbtag':'Pc',
         'unit':'Pa',
-        'description':'Barometric pressure (BMP180)',
+        'description':'Barometric pressure (BME280)',
         'lb':90e3,
         'ub':110e3,
     },
     {
-        'dbtag':'T_180',
+        'dbtag':'Tc',
         'unit':'Deg.C',
-        'description':'Enclosure temperature (BMP180)',
-        'lb':-10,
+        'description':'Enclosure temperature (BME280)',
+        'lb':10,
+        'ub':50,
+    },
+    {
+        'dbtag':'RHc',
+        'unit':'%RH',
+        'description':'Enclosure humidity (BME280)',
+        'lb':10,
         'ub':80,
     },
     {
-        'dbtag':'P_5803',
+        'dbtag':'Pw',
         'unit':'kPa',
         'description':'Water pressure (MS5803-14BA)',
         'lb':80,
         'ub':150,
     },
     {
-        'dbtag':'T_5803',
+        'dbtag':'Tw',
         'unit':'Deg.C',
         'description':'Water temperature (MS5803-14BA)',
-        'lb':-10,
+        'lb':10,
         'ub':50,
     },
     {
