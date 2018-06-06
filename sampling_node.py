@@ -30,6 +30,7 @@ parser.add_argument('--INTERVAL', default=60, type=int, help='seconds to wait be
 parser.add_argument('--XBEE_PORT', default=None, type=str, help='serial port to XBee')
 parser.add_argument('--XBEE_BAUD', default=115200, type=int, help='XBee baud rate')
 parser.add_argument('--XBEE_LOG_DIR', default=None, type=str, help='where to store XBee traffic overheard')
+parser.add_argument('--RABBITMQ_ENABLED', default=1, type=int, help='0: disabled; 1: enabled')
 
 args = parser.parse_args()
 
@@ -41,6 +42,7 @@ INTERVAL = args.INTERVAL
 XBEE_PORT = args.XBEE_PORT
 XBEE_BAUD = args.XBEE_BAUD
 XBEE_LOG_DIR = args.XBEE_LOG_DIR
+RABBITMQ_ENABLED = args.RABBITMQ_ENABLED
 
 
 #'DEBUG,INFO,WARNING,ERROR,CRITICAL'
@@ -116,7 +118,7 @@ def payback():
     assert debt >= 0
 
 
-connection,channel = rabbit_init()
+connection, channel = None, None
 def taskSampling():
     try:
         if debt <= 0:
@@ -143,18 +145,19 @@ def taskSampling():
         # In the future these bbb nodes should ALL double as base stations,
         # listening and parsing all messages in the air.
 
-        m = send(None,d,src=nodeid)
+        m = send(None, d, src=nodeid)
         #socket.send(m)
 
-        global channel,connection
-        if connection is None or channel is None:
-            connection,channel = rabbit_init()
-        channel.basic_publish(exchange=exchange,
-                              routing_key=nodeid + '.samples',
-                              body=m,
-                              properties=pika.BasicProperties(delivery_mode=2,
-                                                              content_type='text/plain',
-                                                              expiration=str(72*3600*1000)))
+        if RABBITMQ_ENABLED:
+            global channel, connection
+            if connection is None or channel is None:
+                connection, channel = rabbit_init()
+            channel.basic_publish(exchange=exchange,
+                                  routing_key=nodeid + '.samples',
+                                  body=m,
+                                  properties=pika.BasicProperties(delivery_mode=2,
+                                                                  content_type='text/plain',
+                                                                  expiration=str(72*3600*1000)))
 
         red_off()
         usr0_off()
@@ -212,7 +215,8 @@ LoopingCall(taskBlink).start(1)
 logger.info(__name__ + ' is ready')
 reactor.run()
 
-connection.close()
+if connection is not None:
+    connection.close()
 if ser is not None:
     ser.close()
 rawf.close()
