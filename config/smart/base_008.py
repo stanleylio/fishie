@@ -1,5 +1,5 @@
-name = '(TBD)'
-location = '(TBD)'
+name = 'Anuenue School Base Station (Pükele Stream)'
+location = 'Anuenue School'
 google_earth_link = '#'
 note = 'bbb-based'
 public_key = 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDB5JLe9Jw/1N4coVncGZKbCcq3YAr+VoSkHGRxFBoRe+rxbyrsQ5CWdt0a0Vx/xavgs5YaDN6nHdzbAiMjfP5JRQdls2Vy6HYsJR2T6pAlG77Pv/qUJT5BRcQwZbWtgmuffB0f+gHbBqJ1pE0EhSu7p+J0Axp9JWkHTMn2eLpOtlyL9BcSul9yz8q0NV5TLM9klUGgzwqZ1I+J1pHTZU2pBuErIxhb0c4jDOkRtJZ5G91I2fZviUK3FM+fXmEG5Vwb0s6QRPY2wPUWCS621/BlFk1qkdb/aknOq6w7qupIhXAuGxcj8CqCzeA1lrUanZa3/d6CxlgUUy0FXmBMCGdV nuc@base-008'
