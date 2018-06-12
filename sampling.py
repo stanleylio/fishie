@@ -41,13 +41,13 @@ logger.debug('has_watchdog: {}'.format(has_watchdog))
 
 parser = argparse.ArgumentParser(description='sampling.py')
 parser.add_argument('port', metavar='serialport', type=str,
-                    help='Path to the serial port')
-parser.add_argument('baud', default=115200, type=int,
+                    help='Path to the XBee serial port')
+parser.add_argument('--baud', default=115200, type=int,
                     help='Baud rate to use')
 parser.add_argument('--brokerip', metavar='broker', type=str,
                     help='Broker IP', default='localhost')
 parser.add_argument('--brokerport', metavar='port', type=int,
-                    help='Port', default=5672)
+                    help='Broker port', default=5672)
 args = parser.parse_args()
 
 
