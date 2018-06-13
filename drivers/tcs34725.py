@@ -69,7 +69,7 @@ class TCS34725(object):
                 raise AttributeError('gain must be one of {})'.\
                                      format(sorted(ig.keys())))
             self._write(0x0f,ig[gain])
-        return self.AGAIN[self._read(0x0f) | 0b11]
+        return self.AGAIN[self._read(0x0f) & 0b11]
     
     #def duh(self):
     #    print [self._read(0x00),self._read(0x01),self._read(0x0f)]
