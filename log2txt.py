@@ -46,24 +46,23 @@ channel.queue_bind(exchange=exchange,
 
 # product of this script: the raw text file
 config = import_node_config()
-output_path = getattr(config,'log2txt_output_path',None)
+output_path = getattr(config, 'log2txt_output_path', None)
 assert output_path is not None and exists(output_path)
 
-tsraw = open(join(output_path,'tsraw.txt'), 'a', 1)
+tsraw = open(join(output_path, 'tsraw.txt'), 'a', 1)
 
-def callback(ch,method,properties,body):
+def callback(ch, method, properties, body):
     print('= = = = = = = = = =')
     print(body)
 
     dt = datetime.utcnow()
     tsraw.write('{}\t{:6f}\t{}\n'.format(dt.isoformat(), dt2ts(dt), body.strip()))
-
     tsraw.flush()
 
     ch.basic_ack(delivery_tag=method.delivery_tag)
 
 logging.info(__file__ + ' is ready')
-channel.basic_consume(callback,queue=queue_name)    # ,no_ack=True
+channel.basic_consume(callback, queue=queue_name)   # ,no_ack=True
 try:
     channel.start_consuming()
 except KeyboardInterrupt:
