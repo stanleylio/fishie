@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-name = '"A-Truth-Universally-Acknowledged"'
-location = '(TBD)'
+name = 'Pua Pond'
+location = 'Pua Pond, Paepae O He`eia Fishpond (21.439722, -157.809722)'
 note = 'Beaglebone-based node measuring oxygen, temperature, conductivity, and pressure'
 
 # node stuff

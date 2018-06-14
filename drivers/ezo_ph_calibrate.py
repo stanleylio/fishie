@@ -1,4 +1,4 @@
-from ezo_ph import EZO_pH
+from .ezo_ph import EZO_pH
 import re
 
 # script for pH sensor calibration

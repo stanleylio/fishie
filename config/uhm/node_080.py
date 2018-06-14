@@ -1,5 +1,5 @@
-name = 'Dell E3 Exhaust Temperature'
-location = 'MSB228, UHM'
+name = 'MSB228 Air Temperature'
+location = '228 Marine Sciences Building, UH Manoa'
 google_earth_link = '#'
 note = ''
 public_key = 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCdptvYvxiefBlv9nQRSMzKSyYOJnZszmdu3cuw2SLKX9MXLPPGCpW5cGcXwrnqFy5JtBDkt/hiunEc9clt6+KsEMjSVyUmEjGaVwA4aCijJdrOkkFtHuiaGGPnm4KMGp6ynyQ49bbEWZcxY4D5qCsLPqN0/VL62FJEkGy/GHkRTy7Lq9I3EGyLBDSV4oIvfEdYDUEihSps77MdM33sqwa0xCNjolioZQsQWMNeeLcqOtBp/J6OwF9t+o5ZI2JdPUuT49kFXu0cyIIdbDfYcgtn/0OhI4TwMKVfqYrc5vttLwnGhkB13hdyT+yS86JI0muZdHZ4KMT4kGZbbGpHtzOz pi@node-080'
@@ -18,7 +18,6 @@ conf = [
     },
     {
         'dbtag':'tsys0',
-        'dbtype':'DOUBLE',
         'unit':'Deg.C',
         'description':'CH0 TSYS01',
         'lb':-15,
@@ -30,11 +29,11 @@ conf = [
 if '__main__' == __name__:
     for c in conf:
         print('- - -')
-        for k,v in c.iteritems():
-            print(k,':',v)
+        for k, v in c.items():
+            print(k, ':', v)
 
     import sys
     sys.path.append('../..')
     from os.path import basename
     from storage.storage2 import create_table
-    create_table(conf,basename(__file__).split('.')[0].replace('_','-'))
+    create_table(conf,basename(__file__).split('.')[0].replace('_', '-'))

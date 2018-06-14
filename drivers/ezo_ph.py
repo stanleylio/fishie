@@ -11,7 +11,7 @@
 # All Rights Reserved. February 2015
 import time, logging
 from configparser import SafeConfigParser, NoSectionError
-from ezo import EZOPI as EZO
+from .ezo import EZOPI as EZO
 from os.path import join, dirname
 
 

@@ -1,4 +1,4 @@
-from ezo_do import EZO_DO
+from .ezo_do import EZO_DO
 import re
 
 # script for DO sensor CALIBRATION

@@ -1,5 +1,5 @@
-name = '(TBD)'
-location = '(TBD)'
+name = 'MSB Rooftop Base Station'
+location = 'MSB Rooftop, UH Manoa'
 google_earth_link = '#'
 note = 'bbb-based, eMMC'
 public_key = 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDj3Evu2LYdn1UTDeJfnZWgim8ymO1Ke3Jx7Qq8OkX104bj0zwbFsizE3gcFrSjsfw8i1QWlLNaRbx9CRbJYCAFbkBGcXyidozdKTAJr+41WheCDqkIfOf75JLV5/o2zP3hIaEm+V4jQsJWST/i+oYFBbhDlynz5j4zJlTze5SRIRX5wIogKOERNzbYJkyS+8YdUIrmOlaDbB+6xvHDpWwf8yT1GmImg5ZeWAgukr1nv22lTC1NxA+unp2tY550AK/njLCg075nZVvvYC8ck9o22Np0EjRvHxxgKXO62z2svJeRjtMwDuuKgdRG6y/za7fZR8vnphK03b9lOyHU8NNX nuc@base-019'

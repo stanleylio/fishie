@@ -9,7 +9,7 @@
 
 # Stanley Lio, hlio@usc.edu
 # All Rights Reserved. February 2015
-from ezo import EZOPI as EZO
+from .ezo import EZOPI as EZO
 import logging
 
 

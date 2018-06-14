@@ -1,4 +1,4 @@
-from ezo_orp import EZO_ORP
+from .ezo_orp import EZO_ORP
 import re
 
 # script for ORP sensor CALIBRATION

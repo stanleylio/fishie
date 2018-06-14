@@ -22,7 +22,7 @@ def check(s):
         logging.debug(s)
         return False
 
-def get_action(line,_test_myid=None):
+def get_action(line, _test_myid=None):
     """Get the action from a potential command.
 Also checks: 1. checksum and 2. whether this is the recipient."""
     try:
@@ -64,14 +64,16 @@ Also checks: 1. checksum and 2. whether this is the recipient."""
         logging.debug(traceback.format_exc())
     return None
 
-def send(channel,sample,src=None,dest=None):
+def send(channel, sample, src=None, dest=None):
     if src is None:
         src = gethostname()
-    tmp = {'from':src,'v':1,'payload':sample}
+    tmp = {'from':src,
+           'v':1,
+           'payload':sample}
     if dest is not None:
         tmp['to'] = dest
-    tmp = json.dumps(tmp,separators=(',',':'))
-    m = '{}{}\n'.format(tmp,get_checksum(tmp))
+    tmp = json.dumps(tmp,separators=(',', ':'))
+    m = '{}{}\n'.format(tmp, get_checksum(tmp))
     m = m.encode()
     if channel is not None:
         channel.write(m)

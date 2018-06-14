@@ -1,4 +1,4 @@
-from ezo_ec import EZO_EC
+from .ezo_ec import EZO_EC
 import re
 
 # script for EC sensor CALIBRATION
