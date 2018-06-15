@@ -20,6 +20,7 @@ conf = [
         'dbtag':'ts',
         'description':'Time of sampling (device clock)',
         'plot':True,
+        'interval':180,
     },
     {
         'dbtag':'Pa',
@@ -27,6 +28,7 @@ conf = [
         'description':'Barometric pressure (BME280)',
         'lb':90,
         'ub':110,
+        'interval':180,
     },
     {
         'dbtag':'Ta',
@@ -34,6 +36,7 @@ conf = [
         'description':'Enclosure temperature (BME280)',
         'lb':-10,
         'ub':70,
+        'interval':180,
     },
     {
         'dbtag':'RH',
@@ -41,6 +44,7 @@ conf = [
         'description':'Enclosure humidity (BME280)',
         'lb':20,
         'ub':90,
+        'interval':180,
     },
     {
         'dbtag':'Pw',
@@ -48,6 +52,7 @@ conf = [
         'description':'Water pressure (MS5803-14BA)',
         'lb':90,
         'ub':150,
+        'interval':180,
     },
     {
         'dbtag':'Tw',
@@ -55,6 +60,7 @@ conf = [
         'description':'Water temperature (MS5803-14BA)',
         'lb':-10,
         'ub':50,
+        'interval':180,
     },
     {
         'dbtag':'DO',
@@ -62,6 +68,7 @@ conf = [
         'description':'Oxygen concentration',
         'lb':0,
         'ub':400,
+        'interval':180,
     },
     {
         'dbtag':'T_optode',
@@ -69,6 +76,7 @@ conf = [
         'description':'Water temperature (optode)',
         'lb':-10,
         'ub':50,
+        'interval':180,
     },
     {
         'dbtag':'AirSat',
@@ -76,12 +84,14 @@ conf = [
         'description':'Air saturation',
         'lb':0,
         'ub':130,
+        'interval':180,
     },
     {
         'dbtag':'EC',
         'unit':'mS/cm',
         'description':'Electrical Conductivity',
         'lb':0,
+        'interval':180,
     },
     {
         'dbtag':'T_ec',
@@ -89,6 +99,7 @@ conf = [
         'description':'Water temperature (conductivity probe)',
         'lb':-10,
         'ub':50,
+        'interval':180,
     },
 ]
 
