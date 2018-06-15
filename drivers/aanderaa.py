@@ -59,7 +59,7 @@ def aanderaa_read_universal(port, max_retry=3, parsers=[aanderaa_4531d.parse_453
                 logger.exception('UnicodeDecodeError: {}'.format(line))
                 ser.flush()
 
-            if r is not None:
+            if r is not None and len(r.keys()):
                 break
 
             time.sleep(1.17)
