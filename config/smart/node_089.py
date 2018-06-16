@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-name = 'Water Level'
+name = '(TBD)'
 location = '(TBD)'
 google_earth_link = '#'
 note = 'Ultrasonic tide gauge (XBee). ~1Hz measurements; each transmission is average of 60 measurements. Firmware us12b, hardware v5.1.'

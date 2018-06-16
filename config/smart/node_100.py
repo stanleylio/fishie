@@ -25,7 +25,7 @@ conf = [
     {
         'dbtag':'idx',
         'description':'Sample index',
-        'lb':0,
+        'lb':24*60,
         'interval':180,
     },
 ]

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-name = 'Water Level'
-location = '(TBD)'
+name = 'Manoa-Palolo Drainage Water Level'
+location = 'Iolani School'
 google_earth_link = '#'
 note = 'Ultrasonic tide gauge (XBee). One measurement every ~3 minutes. Firmware us11b, hardware v5.0.'
 
