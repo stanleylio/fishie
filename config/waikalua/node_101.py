@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-name = '"Guac-is-Extra"'
+name = 'TBD ("Guac-is-Extra")'
 location = 'Waikalua Loko I`a (21.410463, -157.784278)'
 note = 'Beaglebone-based node measuring oxygen, temperature, conductivity, and pressure'
 
