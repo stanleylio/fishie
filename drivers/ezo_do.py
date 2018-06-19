@@ -9,10 +9,9 @@
 #
 # Stanley Lio, hlio@usc.edu
 # All Rights Reserved. February 2015
-from configparser import SafeConfigParser, NoSectionError
-from .ezo import EZOPI as EZO
+from .ezo import EZO
+import time, logging, json
 from os.path import join, dirname
-import logging
 
 
 logger = logging.getLogger(__name__)
@@ -25,33 +24,47 @@ logger = logging.getLogger(__name__)
 # lowpower mode if the LED is need for debugging purpose.
 class EZO_DO(EZO):
 
-    MAX_LEN = 32    # hum... instance variable... how about class attribute?
-
     # need to think it through. I want to the methods to return the units as well, but
     # I also want to be able to get just the units without instantiating a class
-    units = {'read':'mg/L','read_uM':'uM'}
+    units = {'read':'mg/L', 'read_uM':'uM'}
     # but really, should be able to query the nodes for units too...
     # plotting and processing code shouldn't need to know the existence of THIS driver script.
 
-    def __init__(self,address=0x61,lowpower=False,bus=1):
-        EZO.__init__(self,address=address,bus=bus,lowpower=lowpower)
+    def __init__(self, address=0x61, lowpower=False, bus=1):
+        EZO.__init__(self, address=address, bus=bus, lowpower=lowpower)
         
+        t = None
+        configfn = join(dirname(__file__), 'ezo.json')
         try:
-            parser = SafeConfigParser()
-            parser.read(join(dirname(__file__),'ezo.ini'))
-            tmp = parser.get('do','s')
-            if tmp.endswith('us'):
-                tmp = float(tmp[:-2])
-                self.s(tmp,ppt=False)
-            elif tmp.endswith('ppt'):
-                tmp = float(tmp[:-3])
-                self.s(tmp,ppt=True)
-            else:
-                logger.debug('EZO_DO: invalid stuff in configuration file')
-            self.p(float(parser.get('do','p')))
-            self.t(round(float(parser.get('ec','t')),0))    # 0 decimal places is what the sensor actually store
-        except NoSectionError:
-            logger.warning('EZO_DO: configuration file not found. Not syncing S,P and T value')
+            t = json.load(open(configfn))['ezo_do_t_celsius']
+            self.t(t)
+            logger.info('T value synced to {} Deg.C'.format(t))
+        except:
+            logger.exception('Error loading config file.')
+        if t is None:
+            logger.warning('T value not synced.')
+
+        s = None
+        configfn = join(dirname(__file__), 'ezo.json')
+        try:
+            s = json.load(open(configfn))['ezo_do_s_uS']
+            self.s(s, ppt=False)
+            logger.info('S value synced to {} uS/cm'.format(s))
+        except:
+            logger.exception('Error loading config file.')
+        if s is None:
+            logger.warning('S value not synced.')
+
+        p = None
+        configfn = join(dirname(__file__), 'ezo.json')
+        try:
+            p = json.load(open(configfn))['ezo_do_p_kPa']
+            self.p(p, ppt=False)
+            logger.info('P value synced to {} kPa'.format(p))
+        except:
+            logger.exception('Error loading config file.')
+        if p is None:
+            logger.warning('P value not synced.')
 
     # see P.38
     # in mg/L
@@ -65,21 +78,21 @@ class EZO_DO(EZO):
     # if a reading is passed, return it after unit conversion
     # not used. even with this function, the plotting code will still need to be customized
     # to know to use this function.
-    def read_uM(self,val=None):
+    def read_uM(self, val=None):
         if val is None:
             val = self.read()
         return val/32e-3
 
-    def pretty(self,r=None):
+    def pretty(self, r=None):
         if r is None:
             r = self.read()
-        return '{:.02f}mg/L or {:.02f}uM'.format(r,r/32e-3)
+        return '{:.02f}mg/L or {:.02f}uM'.format(r, r/32e-3)
 
     # see P.40
     # return a tuple, (value,is_ppt)
     # is_ppt is True if the unit is part per thousand, False if the unit is microsiemens
-    def s(self,new=None,ppt=False):
-        tmp = self._r('S,?',0.3)
+    def s(self, new=None, ppt=False):
+        tmp = self._r('S,?', 0.3)
         if tmp.startswith('?S,'):
             tmp = tmp.strip().split(',')
             current = float(tmp[1])
@@ -88,17 +101,17 @@ class EZO_DO(EZO):
             if new is None:         # it's just a read
                 if self.lowpower:
                     self.sleep()
-                return current,wasppt
+                return current, wasppt
             elif current != new or ppt != wasppt:
                 if ppt:     # in part per thousand
-                    logger.info('update current S = {} to new S = {} ppt'.format(current,new))
-                    self._r('S,{},PPT'.format(new),0.3) # ignore the response
+                    logger.info('update current S = {} to new S = {} ppt'.format(current, new))
+                    self._r('S,{},PPT'.format(new), 0.3) # ignore the response
                 else:       # in microsiemens. integer only
                     if new != int(new):
                         new = int(new)
                         logger.debug('EZO_DO: integer only when in microsiemens (round to {}us)'.format(new))
-                    logger.info('update current S = {} to new S = {} us'.format(current,new))
-                    self._r('S,{}'.format(new),0.3)     # ignore the response
+                    logger.info('update current S = {} to new S = {} us'.format(current, new))
+                    self._r('S,{}'.format(new), 0.3)     # ignore the response
             else:
                 logger.debug('EZO_DO: supplied S == current S = {}, no update required'.format(current))
         else:
@@ -109,8 +122,8 @@ class EZO_DO(EZO):
 
     # see P.41
     # unit = kPa
-    def p(self,new=None):
-        tmp = self._r('P,?',0.3)
+    def p(self, new=None):
+        tmp = self._r('P,?', 0.3)
         if tmp.startswith('?P,'):
             current = float(tmp.strip().split(',')[1])
             if new is None:
@@ -118,8 +131,8 @@ class EZO_DO(EZO):
                     self.sleep()
                 return current
             elif current != new:
-                logger.debug('update current P = {} kPa to new P = {} kPa'.format(current,new))
-                self._r('P,{:.1f}'.format(new),0.3)    # ignore the response
+                logger.debug('update current P = {} kPa to new P = {} kPa'.format(current, new))
+                self._r('P,{:.1f}'.format(new), 0.3)    # ignore the response
                 if self.lowpower:
                     self.sleep()
             else:
@@ -130,51 +143,29 @@ class EZO_DO(EZO):
             self.sleep()
         
     # super() and MRO... messy.
-    def t(self,new=None):
-        return super(EZO_DO,self).t(new,from_='EZO_DO: ')
+    def t(self, new=None):
+        return super(EZO_DO, self).t(new, from_='EZO_DO: ')
 
 
 if '__main__' == __name__:
 
     bus = 1
+
+    logging.basicConfig(level=logging.DEBUG)
     
-    do = EZO_DO(bus=1,lowpower=False)
+    do = EZO_DO(bus=1, lowpower=False)
     
-    print('Device Information (sensor type, firmware version):')
-    print(do.device_information())
-    print()
-    print('Status:')
-    print(do.status())
-    print()
-    print('Supply voltage:')
-    print('{} volt'.format(do.supply_v()))
-    print()
-    print('Current T value (supplied for calibration, not measured):')
-    print('{:.0f} Deg.C'.format(do.t()))
-    print()
-    print('Current S value (salinity, supplied for calibration, not measured):')
+    #print('Device Information (sensor type, firmware version): ' + do.device_information())
+    #print('Status: ' + do.status())
+    print('Supply voltage: {:.3f}V'.format(do.supply_v()))
+    print('Current T value (configuration parameter, not measured): {:.1f} Deg.C'.format(do.t()))
+    print('Current P value (configuration parameter, not measured): {:.1f} kPa'.format(do.p()))
     tmp = do.s()
+    print('Current S value (configuration parameter, not measured):', end='')
     if tmp[1]:
-        print('{} ppt'.format(tmp[0]))
+        print('{:.2f} ppt'.format(tmp[0]))
     else:
-        print('{} us'.format(tmp[0]))
-    #do.s(10,ppt=True)
-    #do.s(0)
-    print()
-    print('Current P value (water pressure, supplied for calibration, not measured):')
-    print('{} kPa'.format(do.p()))
-    print()
-    #print 'Change T value to...'
-    #do.t(20)      # NOT synced during instantiation
-    #print
-    #print 'A sample read:'
-    #print '{:.2f} mg/L'.format(do.read())
-    #print do.pretty()
-    #print
-    #do.p(101.3)
-    #print 'Another read, directly in uM: {} uM'.format(do.read_uM())
+        print('{:.1f} uS/cm'.format(tmp[0]))
     
     while True:
-        tmp = do.read()
-        print('= = = = = = = = = =')
-        print(do.pretty(tmp))
+        do.pretty()

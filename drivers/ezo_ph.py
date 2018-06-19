@@ -1,7 +1,7 @@
 # Driver for the Atlas Scientific EZO pH sensor
 
 # <IMPORTANT>
-# SENSOR COMES IN SERIAL MODE. SWITCH TO I2C MODE TO USE WITH BBB
+# SENSOR COMES IN SERIAL MODE. SWITCH TO I2C MODE TO USE WITH RPi/BBB
 #
 # See P.29 of the data sheet for instruction
 # Notice on Step 5: "remove the short..." THIS MUST BE DONE WHILE THE LED is still BLUE
@@ -9,28 +9,35 @@
 
 # Stanley Lio, hlio@usc.edu
 # All Rights Reserved. February 2015
-import time, logging
-from configparser import SafeConfigParser, NoSectionError
-from .ezo import EZOPI as EZO
+from .ezo import EZO
+import time, logging, json
 from os.path import join, dirname
 
 
 logger = logging.getLogger(__name__)
 
 
-# Communication handler for the EZO pH sensor
-# T value is set in the .ini file. It is sent to the sensor during
-# instantiation and can be changed during runtime.
-# Sensor is programmed to sleep between commands by default.
 class EZO_pH(EZO):
-    def __init__(self,address=0x63,lowpower=False,bus=1):
-        EZO.__init__(self,address=address,bus=bus,lowpower=lowpower)
+    '''Communication handler for the EZO pH sensor
+    T value is set in ezo.json. It is sent to the sensor during
+    instantiation and can be changed during runtime.
+    Sensor is programmed to sleep between commands by default.
+    
+    '''
+
+    def __init__(self, address=0x63, lowpower=False, bus=1):
+        EZO.__init__(self, address=address, bus=bus, lowpower=lowpower)
+
+        t = None
+        configfn = join(dirname(__file__), 'ezo.json')
         try:
-            parser = SafeConfigParser()
-            parser.read(join(dirname(__file__),'ezo.ini'))
-            self.t(round(float(parser.get('ph','t')),0))
-        except NoSectionError:
-            logger.warning('configuration file not found. Not syncing T value')
+            t = json.load(open(configfn))['ezo_ph_t_celsius']
+            self.t(t)
+            logger.info('T value synced to {} Deg.C'.format(t))
+        except:
+            logger.exception('Error loading config file.')
+        if t is None:
+            logger.warning('T value not synced.')
 
     def read(self):
         tmp = self._r('R').strip().split(',')
@@ -38,39 +45,28 @@ class EZO_pH(EZO):
             self.sleep()
         return float(tmp[0])
 
-    def pretty_print(self,r=None):
+    def pretty_print(self, r=None):
         if r is None:
             r = self.read()
         print('pH = {:.2f}'.format(r))
         
     # super() and MRO... messy.
-    def t(self,new=None):
-        return super(EZO_pH,self).t(new,from_='EZO_pH: ')
+    def t(self, new=None):
+        return super(EZO_pH, self).t(new, from_='EZO_pH: ')
 
 
 if '__main__' == __name__:
 
     bus = 1
 
-    ph = EZO_pH(bus=bus,lowpower=False)
-    
-    print('Device Information (sensor type, firmware version):')
-    print(ph.device_information())
-    print()
-    print('Status:')
-    print(ph.status())
-    print()
-    print('Supply voltage:')
-    print('{:.3f} volt'.format(ph.supply_v()))
-    print()
+    logging.basicConfig(level=logging.DEBUG)
 
-    print('Current T value (calibration parameter, not measured):')
-    print('{:.0f} Deg.C'.format(ph.t()))
-    print()
-    #print('Change T value to...')
-    #print(ph.t(25))      # NOT synced during instantiation
-    #print()
+    ph = EZO_pH(bus=bus, lowpower=False)
+    
+    #print('Device Information (sensor type, firmware version): ' + ph.device_information())
+    #print('Status: ' + ph.status())
+    print('Supply voltage: {:.3f}V'.format(ph.supply_v()))
+    print('Current T value (calibration parameter, not measured): {:.0f} Deg.C'.format(ph.t()))
 
     while True:
-        ph.pretty_print()
-    
+        print('pH = {}'.format(ph.read()))

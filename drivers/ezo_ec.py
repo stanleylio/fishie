@@ -9,10 +9,9 @@
 
 # Stanley Lio, hlio@usc.edu
 # All Rights Reserved. February 2015
-from configparser import SafeConfigParser, NoSectionError
-from .ezo import EZOPI as EZO
-from os.path import join,dirname
-import logging
+import time, logging, json
+from .ezo import EZO
+from os.path import join, dirname
 
 
 logger = logging.getLogger(__name__)
@@ -25,18 +24,33 @@ logger = logging.getLogger(__name__)
 class EZO_EC(EZO):
     def __init__(self, address=0x64, bus=1, lowpower=False):
         EZO.__init__(self, address=address, bus=bus, lowpower=lowpower)
+
+        t = None
         try:
-            parser = SafeConfigParser()
-            parser.read(join(dirname(__file__),'ezo.ini'))
-            self.k(float(parser.get('ec','k')))
-            # the sensor actually store only integer T
-            #self.t(round(float(parser.get('ec','t')),0))
-        except NoSectionError:
-            logger.warning('EZO_EC: configuration file not found. Not syncing K value')
+            configfn = join(dirname(__file__), 'ezo.json')
+            t = json.load(open(configfn))['ezo_ec_t_celsius']
+            self.t(t)
+            logger.info('T value synced to {} Deg.C'.format(t))
+        except:
+            logger.exception('Error loading config file.')
+        if t is None:
+            logger.warning('T value not synced.')
+
+        k = None
+        try:
+            configfn = join(dirname(__file__), 'ezo.json')
+            k = json.load(open(configfn))['ezo_ec_k']
+            self.k(k)
+            logger.info('K value synced to {}'.format(k))
+        except:
+            logger.exception('Error loading config file.')
+        if k is None:
+            logger.warning('K value not synced.')
 
     # see P.39
     def read(self):
         tmp = self._r('R').strip().split(',')
+
         d = {'ec':float(tmp[0])}        # Electrical Conductivity
         
         if len(tmp) >= 2:
@@ -59,8 +73,8 @@ class EZO_EC(EZO):
     # Implementation Note: I could abstract this into a general function like I did with the
     # other commands, but 1. there are only 'K' and 'T' two choices, and 2. the boundary check
     # of 'K' and 'T' are slightly different.
-    def k(self,new=None):
-        tmp = self._r('K,?',0.3)    # always do a read first
+    def k(self, new=None):
+        tmp = self._r('K,?', 0.3)    # always do a read first
         if tmp.startswith('?K,'):
             current = float(tmp[3:7])
             if new is None:
@@ -69,7 +83,7 @@ class EZO_EC(EZO):
                 return current
             elif current != new:
                 if new >= 0.1 and new <= 10:
-                    logging.debug('update current K = {} to new K = {}'.format(current,new))
+                    logging.debug('update current K = {} to new K = {}'.format(current, new))
                     cmd = 'K,{:.2f}'.format(new)
                     self._r(cmd,0.3)    # ignore the response
                     if self.lowpower:
@@ -84,10 +98,10 @@ class EZO_EC(EZO):
             self.sleep()
 
     # super() and MRO... messy.
-    def t(self,new=None):
-        return super(EZO_EC,self).t(new,from_='EZO_EC: ')
+    def t(self, new=None):
+        return super(EZO_EC, self).t(new, from_='EZO_EC: ')
 
-    def pretty(self,r=None):
+    def pretty(self, r=None):
         if r is None:
             r = self.read()
         s = 'Conductivity: {} uS'.format(r['ec'])
@@ -103,36 +117,17 @@ class EZO_EC(EZO):
 if '__main__' == __name__:
 
     bus = 1
-    
-    ec = EZO_EC(bus=bus,lowpower=False)
-    print('Device Information (sensor type, firmware version):')
-    print(ec.device_information())
-    print()
-    print('Status:')
-    print(ec.status())
-    print()
-    print('Supply voltage:')
-    print('{:.3f} volt'.format(ec.supply_v()))
-    print()
-    print('Current K value (of probe):')
-    print(ec.k())
-    print()
-    #print 'Change K value to...'
-    #print ec.k(1.2)    # synced during instantiation, but can be changed during runtime
-    #print
-    print('Current T value (calibration parameter, not measured):')
-    print('{:.0f} Deg.C'.format(ec.t()))
-    print()
-    #print 'Change T value to...'
-    #print ec.t(25)      # NOT synced during instantiation
-    #print
-    #print 'A sample read:'
 
-    import time
+    logging.basicConfig(level=logging.WARNING)
+    
+    ec = EZO_EC(bus=bus, lowpower=False)
+    
+    #print('Device Information (sensor type, firmware version): ' + ec.device_information())
+    #print('Status: ' + ec.status())
+    print('Supply voltage: {:.3f} volt'.format(ec.supply_v()))
+    print('Current K value (of probe): {}'.format(ec.k()))
+    print('Current T value (calibration parameter, not measured): {} Deg.C'.format(ec.t()))
+
     while True:
         tmp = ec.read()
-        #print('\x1b[2J\x1b[;H')
-        print('= = = = = = = = = =')
-        print(ec.pretty(tmp))
-        #time.sleep(1)
-    
+        print(tmp)

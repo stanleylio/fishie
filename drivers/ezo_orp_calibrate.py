@@ -1,6 +1,3 @@
-from .ezo_orp import EZO_ORP
-import re
-
 # script for ORP sensor CALIBRATION
 # just execute and follow the prompt:
 #   python ezo_orp_calibrate.py
@@ -14,6 +11,9 @@ import re
 
 # Stanley Lio, hlio@usc.edu
 # All Rights Reserved. February 2015
+from .ezo_orp import EZO_ORP
+import sys, json, logging, string
+from os.path import exists, join, dirname
 
 
 class EZO_ORP_CALIBRATION(EZO_ORP):
@@ -30,54 +30,72 @@ class EZO_ORP_CALIBRATION(EZO_ORP):
 
 if '__main__' == __name__:
     
+    logging.basicConfig(level=logging.WARNING)
+
+    MAX_RETRY = 5
+    options = [
+        (1, 'CLEAR calibration data'),
+        (2, 'Calibrate'),
+        (3, 'READ sensor'),
+        (4, 'Print DEBUG info'),
+        (0, 'EXIT'),
+        ]
+
+    prompt = '\n'.join(['\t{}. {}'.format(a, b) for a,b in options])
+    prompt = '\n' + prompt + '\nEnter one of {}:'.format(','.join([str(a) for a,_ in options]))
+
     orp = EZO_ORP_CALIBRATION(bus=1, lowpower=False)
     
-    print('Supply voltage:')
-    print('{} volt'.format(orp.supply_v()))
+    print('\x1b[2J\x1b[;H')
 
-    tmp = orp.cal_status()
-    if tmp.startswith('?CAL,'):
-        tmp = int(tmp.strip().split(',')[-1])
+    while True:
+
+        for i in range(MAX_RETRY):
+            try:
+                tmp = orp.cal_status()
+                if tmp is not None and tmp.startswith('?CAL,'):
+                    tmp = int(tmp.strip().split(',')[-1])
+                    if 0 == tmp:
+                        print('Sensor is NOT calibrated.')
+                        break
+                    elif 1 == tmp:
+                        print('Sensor has been calibrated.')
+                        break
+                    else:
+                        pass
+                else:
+                    pass
+                logging.error('Invalid response from sensor: {}'.format(tmp))
+            except OSError as e:
+                logging.exception('wut?')
+
+        r = input(prompt)
+        try:
+            tmp = int(''.join([c if c in string.digits else '' for c in r]))
+        except ValueError:
+            pass
+
+        print('Your choice: {}'.format(tmp))
+
         if 0 == tmp:
-            print('Sensor is NOT calibrated.')
+            print('Terminated by user.')
+            sys.exit()
         elif 1 == tmp:
-            print('Sensor has been calibrated.')
+            print('Clearing existing calibration data...', end='')
+            orp.cal_clear()
+            print(' done.')
+        elif 2 == tmp:
+            tmp = float(input('Enter calibration value in mV: '))
+            print('Calibratiing...', end='')
+            orp.cal(tmp)
+            print(' done.')
+        elif 3 == tmp:
+            try:
+                while True:
+                    print('{:.2f} mV. Ctrl+C to terminate.'.format(orp.read()))
+            except KeyboardInterrupt:
+                pass
+        elif 4 == tmp:
+            print('Supply voltage: {:.3f}V'.format(orp.supply_v()))
         else:
             print('Huh?')
-    else:
-        print('Huh?')
-
-    print()
-    print('- - - - -')
-
-    s = '''1: CLEAR calibration datum only
-2: Calibrate
-3: Take a READing'''
-    tmp = -1
-    while tmp not in [1, 2, 3]:
-        print(s)
-        tmp = int(input('Enter one of {1, 2, 3}:'))
-
-    if 1 == tmp:
-        print('Clearing old calibration datum...')
-        orp.cal_clear()
-        print('... done.')
-    elif 2 == tmp:
-        tmp = float(input('Enter calibration value in mV:'))
-        print('Calibratiing...')
-        orp.cal(tmp)
-        print('... done.')
-    elif 3 == tmp:
-        print('Reading...')
-        try:
-            while True:
-                print('{:.2f} mV'.format(orp.read()))
-                input('Hit ENTER to read another, Ctrl+C to terminate...')
-        except KeyboardInterrupt:
-            print()
-            pass
-    else:
-        print('Huh?')
-
-    orp.sleep()
-

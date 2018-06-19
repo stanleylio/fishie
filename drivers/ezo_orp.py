@@ -9,8 +9,9 @@
 
 # Stanley Lio, hlio@usc.edu
 # All Rights Reserved. February 2015
-from .ezo import EZOPI as EZO
-import logging
+from .ezo import EZO
+import time, logging, json
+from os.path import join, dirname
 
 
 logger = logging.getLogger(__name__)
@@ -22,8 +23,8 @@ logger = logging.getLogger(__name__)
 # Sensor is programmed to sleep between commands by default.
 class EZO_ORP(EZO):
     
-    def __init__(self,address=0x62,bus=1,lowpower=False):
-        EZO.__init__(self,address=address,bus=bus,lowpower=lowpower)
+    def __init__(self, address=0x62, bus=1, lowpower=False):
+        EZO.__init__(self, address=address, bus=bus, lowpower=lowpower)
 
     def read(self):
         tmp = self._r('R').strip().split(',')
@@ -31,17 +32,11 @@ class EZO_ORP(EZO):
             self.sleep()
         return float(tmp[0])
 
-    # ORP has no T parameter - the only exception in the EZO series
-    # I don't see an elegant solution to this: copy the same t() for
-    # all other sensors, or make one exception in ORP here, neither
-    # solution is perfect
-    def t(self,new=None):
-        # and no I DON'T want to call super()
-        class ParameterNotDefinedError(NotImplementedError):
-            pass
-        raise ParameterNotDefinedError('ORP sensor does not define a T parameter')
+    # ORP has no T parameter
+    def t(self, new=None):
+        logging.warning('ORP sensor has no T parameter')
 
-    def pretty_print(self,r=None):
+    def pretty_print(self, r=None):
         if r is None:
             r = self.read()
         print('orp = {:.2f} mV'.format(r))
@@ -51,18 +46,13 @@ if '__main__' == __name__:
 
     bus = 1
 
-    orp = EZO_ORP(bus=bus,lowpower=False)
+    logging.basicConfig(level=logging.DEBUG)
 
-    print('Device Information (sensor type, firmware version):')
-    print(orp.device_information())
-    print()
-    print('Status:')
-    print(orp.status())
-    print()
-    print('Supply voltage:')
-    print('{:.3f} volt'.format(orp.supply_v()))
-    print()
+    orp = EZO_ORP(bus=bus, lowpower=False)
+
+    #print('Device Information (sensor type, firmware version): ' + orp.device_information())
+    #print('Status: ' + orp.status())
+    print('Supply voltage: {:.3f}V'.format(orp.supply_v()))
 
     while True:
-        orp.pretty_print()
-    
+        print('{} mV'.format(orp.read()))
