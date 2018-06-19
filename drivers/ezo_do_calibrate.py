@@ -87,7 +87,10 @@ if '__main__' == __name__:
 
         print('Your choice: {}'.format(tmp))
 
-        if 1 == tmp:
+        if 0 == tmp:
+            print('Terminated by user.')
+            sys.exit()
+        elif 1 == tmp:
             print('Clearing existing calibration data...', end='')
             do.cal_clear()
             print(' done.')
