@@ -83,7 +83,7 @@ if '__main__' == __name__:
         try:
             tmp = int(''.join([c if c in string.digits else '' for c in r]))
         except ValueError:
-            pass
+            continue
 
         print('Your choice: {}'.format(tmp))
 
