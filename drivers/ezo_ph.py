@@ -59,7 +59,7 @@ if '__main__' == __name__:
 
     bus = 1
 
-    logging.basicConfig(level=logging.DEBUG)
+    logging.basicConfig(level=logging.WARNING)
 
     ph = EZO_pH(bus=bus, lowpower=False)
     

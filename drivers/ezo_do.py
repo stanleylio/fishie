@@ -151,7 +151,7 @@ if '__main__' == __name__:
 
     bus = 1
 
-    logging.basicConfig(level=logging.DEBUG)
+    logging.basicConfig(level=logging.WARNING)
     
     do = EZO_DO(bus=1, lowpower=False)
     
