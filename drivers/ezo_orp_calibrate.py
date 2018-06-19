@@ -29,51 +29,52 @@ class EZO_ORP_CALIBRATION(EZO_ORP):
 
 
 if '__main__' == __name__:
-    orp = EZO_ORP_CALIBRATION(bus=1,lowpower=False)
-    print 'Supply voltage:'
-    print '{} volt'.format(orp.supply_v())
-    print
+    
+    orp = EZO_ORP_CALIBRATION(bus=1, lowpower=False)
+    
+    print('Supply voltage:')
+    print('{} volt'.format(orp.supply_v()))
 
     tmp = orp.cal_status()
     if tmp.startswith('?CAL,'):
         tmp = int(tmp.strip().split(',')[-1])
         if 0 == tmp:
-            print 'Sensor is NOT calibrated.'
+            print('Sensor is NOT calibrated.')
         elif 1 == tmp:
-            print 'Sensor has been calibrated.'
+            print('Sensor has been calibrated.')
         else:
-            print 'Huh?'
+            print('Huh?')
     else:
-        print 'Huh?'
+        print('Huh?')
 
-    print
-    print '- - - - -'
+    print()
+    print('- - - - -')
 
     s = '''1: CLEAR calibration datum only
 2: Calibrate
 3: Take a READing'''
     tmp = -1
-    while tmp not in [1,2,3]:
-        print s
-        tmp = int(raw_input('Enter one of {1,2,3}:'))
+    while tmp not in [1, 2, 3]:
+        print(s)
+        tmp = int(input('Enter one of {1, 2, 3}:'))
 
     if 1 == tmp:
         print('Clearing old calibration datum...')
         orp.cal_clear()
         print('... done.')
     elif 2 == tmp:
-        tmp = float(raw_input('Enter calibration value in mV:'))
+        tmp = float(input('Enter calibration value in mV:'))
         print('Calibratiing...')
         orp.cal(tmp)
         print('... done.')
     elif 3 == tmp:
-        print 'Reading...'
+        print('Reading...')
         try:
             while True:
-                print '{:.2f} mV'.format(orp.read())
-                raw_input('Hit ENTER to read another, Ctrl+C to terminate...')
+                print('{:.2f} mV'.format(orp.read()))
+                input('Hit ENTER to read another, Ctrl+C to terminate...')
         except KeyboardInterrupt:
-            print
+            print()
             pass
     else:
         print('Huh?')

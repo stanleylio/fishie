@@ -35,32 +35,33 @@ class EZO_pH_CALIBRATION(EZO_pH):
 
 
 if '__main__' == __name__:
-    ph = EZO_pH_CALIBRATION(bus=1,lowpower=False)
-    print 'Supply voltage:'
-    print '{} volt'.format(ph.supply_v())
-    print
-    print 'Current T value (supplied for calibration, not measured):'
-    print '{} Deg.C'.format(ph.t())
-    print
+    
+    ph = EZO_pH_CALIBRATION(bus=1, lowpower=False)
+    print('Supply voltage:')
+    print('{} volt'.format(ph.supply_v()))
+    print()
+    print('Current T value (supplied for calibration, not measured):')
+    print('{} Deg.C'.format(ph.t()))
+    print()
 
     tmp = ph.cal_status()
     if tmp.startswith('?CAL,'):
         tmp = int(tmp.strip().split(',')[-1])
         if 0 == tmp:
-            print 'Sensor is NOT calibrated.'
+            print('Sensor is NOT calibrated.')
         elif 1 == tmp:
-            print 'Sensor has been calibrated (SINGLE point).'
+            print('Sensor has been calibrated (SINGLE point).')
         elif 2 == tmp:
-            print 'Sensor has been calibrated (DUAL point).'
+            print('Sensor has been calibrated (DUAL point).')
         elif 3 == tmp:
-            print 'Sensor has been calibrated (THREE point).'
+            print('Sensor has been calibrated (THREE point).')
         else:
-            print 'Huh?'
+            print('Huh?')
     else:
-        print 'Huh?'
+        print('Huh?')
 
-    print
-    print '- - - - -'
+    print()
+    print('- - - - -')
 
     s = '''1: CLEAR calibration data only
 2: Calibrate for pH MIDPOINT (around 7; will clear all calibration)
@@ -71,7 +72,7 @@ if '__main__' == __name__:
     tmp = -1
     while tmp not in [1,2,3,4,5,6]:
         print s
-        tmp = int(raw_input('Enter one of {1,2,3,4,5,6}:'))
+        tmp = int(input('Enter one of {1,2,3,4,5,6}:'))
 
     if 1 == tmp:
         print('Clearing old calibration data...')
@@ -79,7 +80,7 @@ if '__main__' == __name__:
         print('... done.')
     elif 2 == tmp:
         print('Calibrate for pH midpoint...')
-        tmp = float(raw_input('Enter pH value:'))
+        tmp = float(input('Enter pH value:'))
         print('Calibrating to {}...'.format(tmp))
         ph.cal_mid(tmp)
         print('... done.')
@@ -92,7 +93,7 @@ if '__main__' == __name__:
             print('LOW pH calibration NOT performed.')
         else:
             print('Calibrate for LOW pH...')
-            tmp = float(raw_input('Enter pH value:'))
+            tmp = float(input('Enter pH value:'))
             print('Calibrating to {}...'.format(tmp))
             ph.cal_low(tmp)
             print('... done.')
@@ -105,23 +106,23 @@ if '__main__' == __name__:
             print('HIGH pH calibration NOT performed.')
         else:
             print('Calibrate for HIGH pH...')
-            tmp = float(raw_input('Enter pH value:'))
+            tmp = float(input('Enter pH value:'))
             print('Calibrating to {}...'.format(tmp))
             ph.cal_high(tmp)
             print('... done.')
     elif 5 == tmp:
-        tmp = float(raw_input('Enter new T value (in Deg.C):'))
+        tmp = float(input('Enter new T value (in Deg.C):'))
         print('Setting new T value to {} Deg.C...'.format(tmp))
         ph.t(tmp)
         print('... done.')
     elif 6 == tmp:
-        print 'Reading...'
+        print('Reading...')
         try:
             while True:
-                print 'pH = {:.2f}'.format(ph.read())
-                raw_input('Hit ENTER to read another, Ctrl+C to terminate...')
+                print('pH = {:.2f}'.format(ph.read()))
+                input('Hit ENTER to read another, Ctrl+C to terminate...')
         except KeyboardInterrupt:
-            print
+            print()
             pass
     else:
         print('Huh?')
