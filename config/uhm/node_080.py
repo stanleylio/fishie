@@ -14,14 +14,20 @@ conf = [
         'dbtag':'ts',
         'dbtype':'DOUBLE NOT NULL',
         'description':'Time of sampling',
-        'plot':False,
+        'plot':True,
     },
     {
-        'dbtag':'tsys0',
+        'dbtag':'Ta',
         'unit':'Deg.C',
         'description':'CH0 TSYS01',
         'lb':-15,
         'ub':60,
+    },
+    {
+        'dbtag':'light_count',
+        'unit':'-',
+        'description':'Ambient light (raw count, Si1145)'
+        'lb':0,
     },
 ]
 
