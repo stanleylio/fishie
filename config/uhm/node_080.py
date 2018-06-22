@@ -1,12 +1,8 @@
-name = 'MSB228 Air Temperature'
+name = 'MSB228 "Environmentals"'
 location = '228 Marine Sciences Building, UH Manoa'
 google_earth_link = '#'
 note = ''
 public_key = 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCdptvYvxiefBlv9nQRSMzKSyYOJnZszmdu3cuw2SLKX9MXLPPGCpW5cGcXwrnqFy5JtBDkt/hiunEc9clt6+KsEMjSVyUmEjGaVwA4aCijJdrOkkFtHuiaGGPnm4KMGp6ynyQ49bbEWZcxY4D5qCsLPqN0/VL62FJEkGy/GHkRTy7Lq9I3EGyLBDSV4oIvfEdYDUEihSps77MdM33sqwa0xCNjolioZQsQWMNeeLcqOtBp/J6OwF9t+o5ZI2JdPUuT49kFXu0cyIIdbDfYcgtn/0OhI4TwMKVfqYrc5vttLwnGhkB13hdyT+yS86JI0muZdHZ4KMT4kGZbbGpHtzOz pi@node-080'
-
-
-#subscribeto = ['127.0.0.1:9002']
-#log2txt_output_path = '/var/uhcm/log'
 
 
 conf = [
@@ -26,7 +22,7 @@ conf = [
     {
         'dbtag':'light_count',
         'unit':'-',
-        'description':'Ambient light (raw count, Si1145)'
+        'description':'Ambient light (raw count, Si1145)',
         'lb':0,
     },
 ]
