@@ -3,7 +3,7 @@ from smbus import SMBus
 import traceback
 
 
-class Si1145(object):
+class Si1145:
     address = 0x60
 
     # I2C register addresses (P.29)
@@ -131,11 +131,11 @@ if '__main__' == __name__:
     assert s.check_ID()
     #print bin(s.query_param(s.CHLIST))
 
-    s.high_signal_range()
+    #s.high_signal_range()
     
     while True:
         try:
-            print s.read()
+            print(s.read())
             sleep(0.1)
         except IOError:
             pass
