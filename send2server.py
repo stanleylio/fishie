@@ -13,27 +13,24 @@
 # hlio@hawaii.edu
 # University of Hawaii
 # All Rights Reserved. 2017
-from __future__ import division
-import requests,time,socket,json,subprocess
-#from authstuff import get_signature
-from os.path import expanduser,join,exists
+import requests, time, socket, json, subprocess
+from os.path import expanduser, join, exists
 
 
 nodeid = socket.gethostname()
 
 
 def getIP():
-    proc = subprocess.Popen(['hostname -I'],stdout=subprocess.PIPE,shell=True)
+    proc = subprocess.Popen(['hostname -I'], stdout=subprocess.PIPE, shell=True)
     out,err = proc.communicate()
     ips = out.decode().strip().split(' ')
     return ips
-
 
 url = 'https://grogdata.soest.hawaii.edu/api/5/raw'
 def post5(m,endpoint,auth):
     """POST a string to an endpoint"""
     r = requests.post(endpoint,
-                      data={'m':m,'ts':time.time(),'src':nodeid},
+                      data={'m':m, 'ts':time.time(), 'src':nodeid},
                       auth=auth)
     return r.text
 
@@ -46,9 +43,9 @@ if '__main__' == __name__:
     M = []
     if len(sys.argv) == 1:
         print('No argument supplied. Sending own IPs.')
-        M.append(json.dumps(getIP(),separators=(',',':')))
+        M.append(json.dumps(getIP(), separators=(',', ':')))
     else:
         M = sys.argv[1:]
 
     for m in M:
-        print(post5(m,url,('uhcm',cred['uhcm'])))
+        print(post5(m, url, ('uhcm', cred['uhcm'])))
