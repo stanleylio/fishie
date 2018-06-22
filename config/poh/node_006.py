@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 name = 'He\'eia Fishpond Wind Sensor'
-location = 'Coast Guard Tower at the He\'eia Fishpond'
+location = 'Coast Guard Tower, He\'eia Fishpond'
 note = 'RM Young 05106 Anemometer with XBee Pro 2.4GHz'
 
 
@@ -35,11 +35,11 @@ conf = [
 if '__main__' == __name__:
     for c in conf:
         print('- - -')
-        for k,v in c.iteritems():
-            print(k,':',v)
+        for k, v in c.items():
+            print(k, ':', v)
 
     import sys
     sys.path.append('../..')
     from os.path import basename
     from storage.storage2 import create_table
-    create_table(conf,basename(__file__).split('.')[0].replace('_','-'))
+    create_table(conf, basename(__file__).split('.')[0].replace('_', '-'))

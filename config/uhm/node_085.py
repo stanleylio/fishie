@@ -15,11 +15,11 @@ conf = [
     {
         'dbtag':'ts',
         'description':'Time of sampling',
-        'plot':False,
+        'plot':True,
         'interval':60,
     },
     {
-        'dbtag':'tsys0',
+        'dbtag':'t0',
         'unit':'Deg.C',
         'description':'TSYS01 (CH0 0x77)',
         'interval':60,
@@ -27,7 +27,7 @@ conf = [
         'ub':40,
     },
     {
-        'dbtag':'tsys1',
+        'dbtag':'t1',
         'unit':'Deg.C',
         'description':'TSYS01 (CH1 0x77)',
         'interval':60,
@@ -35,7 +35,7 @@ conf = [
         'ub':40,
     },
     {
-        'dbtag':'tsys2',
+        'dbtag':'t2',
         'unit':'Deg.C',
         'description':'TSYS01 (CH2 0x77)',
         'interval':60,
@@ -43,7 +43,7 @@ conf = [
         'ub':40,
     },
     {
-        'dbtag':'tsys3',
+        'dbtag':'t3',
         'unit':'Deg.C',
         'description':'TSYS01 (CH3 0x77)',
         'interval':60,
@@ -51,7 +51,7 @@ conf = [
         'ub':40,
     },
     {
-        'dbtag':'tsys4',
+        'dbtag':'t4',
         'unit':'Deg.C',
         'description':'TSYS01 (CH4 0x77)',
         'interval':60,
@@ -59,7 +59,7 @@ conf = [
         'ub':40,
     },
     {
-        'dbtag':'tsys5',
+        'dbtag':'t5',
         'unit':'Deg.C',
         'description':'TSYS01 (CH5 0x77)',
         'interval':60,
@@ -67,7 +67,7 @@ conf = [
         'ub':40,
     },
     {
-        'dbtag':'tsys6',
+        'dbtag':'t6',
         'unit':'Deg.C',
         'description':'TSYS01 (CH6 0x77)',
         'interval':60,
@@ -75,7 +75,7 @@ conf = [
         'ub':40,
     },
     {
-        'dbtag':'tsys7',
+        'dbtag':'t7',
         'unit':'Deg.C',
         'description':'TSYS01 (CH7 0x77)',
         'interval':60,
