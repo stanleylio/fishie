@@ -6,7 +6,7 @@
 # hlio@hawaii.edu
 # All Rights Reserved. 2017
 import serial, os, traceback, time, sys, pika, socket, argparse
-import logging,logging.handlers
+import logging, logging.handlers
 from twisted.internet.task import LoopingCall
 from twisted.internet import reactor
 from os.path import expanduser, exists
@@ -88,7 +88,7 @@ def taskSampling():
             print(line.strip())
             if connection is None or channel is None:
                 logger.info('Connection to local exchange not open')
-                connection,channel = rabbit_init()
+                connection, channel = rabbit_init()
                 logger.info('Connection to local exchange re-established')
             channel.basic_publish(exchange=exchange,
                                   routing_key=nodeid + '.samples',
