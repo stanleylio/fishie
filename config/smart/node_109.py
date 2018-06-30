@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
-name = '(TBD)'
-location = '(TBD)'
-note = '-'
+name = 'Makiki Weather Station'
+location = 'Halau Ku Mana School (21.313060, -157.829150)'
+note = 'Rain, air temperature, barometric pressure, and humidity. Solar, Arduino + XBee'
 
 
 conf = [
