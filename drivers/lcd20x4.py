@@ -15,7 +15,7 @@ from smbus import SMBus
 # P6(11) DB6(13)
 # P7(12) DB7(14)
 
-class LCD(object):
+class LCD:
     PCF8574T_addr = 0x27
     RS = 0
     RW = 1
@@ -26,7 +26,7 @@ class LCD(object):
     DB6 = 6
     DB7 = 7
     
-    def __init__(self,bus=1,address=0x27):
+    def __init__(self, bus=1, address=0x27):
         self._bus = SMBus(bus)
         self._state = 0
         self.PCF8574T_addr = address
@@ -152,8 +152,8 @@ class LCD(object):
 
     
 if '__main__' == __name__:
-    d = LCD(bus=1,address=0x3f)
-    d.write_lines(['netflix and chill','may contain peanut','Edward Hopper','keep Summer safe'])
+    d = LCD(bus=1, address=0x3f)
+    d.write_lines(['netflix and chill', 'may contain peanut', 'Edward Hopper', 'keep Summer safe'])
 
     while True:
         d.backlight(True)

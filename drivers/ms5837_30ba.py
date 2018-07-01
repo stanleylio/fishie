@@ -17,8 +17,8 @@ class MS5837_30BA:
 
     def __init__(self, address=0x76, bus=1):
         self.address = address
-        self.fr = io.open('/dev/i2c-{}'.format(bus), 'rb',buffering=0)
-        self.fw = io.open('/dev/i2c-{}'.format(bus), 'wb',buffering=0)
+        self.fr = io.open('/dev/i2c-{}'.format(bus), 'rb', buffering=0)
+        self.fw = io.open('/dev/i2c-{}'.format(bus), 'wb', buffering=0)
         I2C_SLAVE = 0x703   # but why?
         fcntl.ioctl(self.fr, I2C_SLAVE, self.address)
         fcntl.ioctl(self.fw, I2C_SLAVE, self.address)
@@ -85,13 +85,13 @@ class MS5837_30BA:
         for i in range(7):
             self.fw.write(bytes([0xA0 + 2*i]))
             C.append(self.fr.read(2))
-        return [struct.unpack('>H',c)[0] for c in C]
+        return [struct.unpack('>H', c)[0] for c in C]
 
     # uncompensated pressure, D1
     def _raw_pressure(self, osr=8192):
         self.fw.write(bytes([0x40 + self.osr[osr]]))
         time.sleep(self.conv_time[osr])
-        self.fw.write(bytes([0]))
+        self.fw.write(b'\0')
         tmp = bytearray(b'\0')
         tmp.extend(self.fr.read(3))
         return struct.unpack('>I', tmp)[0]
@@ -100,7 +100,7 @@ class MS5837_30BA:
     def _raw_temperature(self, osr=8192):
         self.fw.write(bytes([0x50 + self.osr[osr]]))
         time.sleep(self.conv_time[osr])
-        self.fw.write(bytes([0]))
+        self.fw.write(b'\0')
         tmp = bytearray(b'\0')
         tmp.extend(self.fr.read(3))
         return struct.unpack('>I', tmp)[0]
