@@ -9,7 +9,7 @@ conf = [
         'dbtag':'ts',
         'description':'Time of sampling',
         'plot':True,
-        'interval':60,
+        'interval':5*60,
     },
     {
         'dbtag':'p',
@@ -18,7 +18,7 @@ conf = [
         'lb':80,
         'ub':120,
         'plot_range':7*24,
-        'interval':60,
+        'interval':5*60,
     },
     {
         'dbtag':'t',
@@ -27,7 +27,7 @@ conf = [
         'lb':-10,
         'ub':60,
         'plot_range':7*24,
-        'interval':60,
+        'interval':5*60,
     },
     {
         'dbtag':'rh',
@@ -36,7 +36,7 @@ conf = [
         'lb':0,
         'ub':100,
         'plot_range':7*24,
-        'interval':60,
+        'interval':5*60,
     },
     {
         'dbtag':'rain_bucket_tipped',
