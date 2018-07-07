@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
-name = '(Vancouver)'
-location = '(Somewhere in Vancouver, Canada)'
-note = 'Cellular ultrasonic tide gauge. One measurement per minute, one transmission every 10 measurements. Firmware p5f, hardware v0.2 (with US_EN patch).'
+name = '(TBD)'
+location = '(TBD)'
+note = 'Cellular ultrasonic tide gauge. Each sample is average of 60 measurements taken every second. One transmission every 10 samples. Firmware p6c, hardware v0.4.'
 
 coreid = '290047000347363334383136'
 
