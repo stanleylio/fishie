@@ -35,7 +35,7 @@ fi
 
 
 sudo apt update && sudo apt upgrade -y
-sudo apt install ntp ntpdate git minicom autossh -y
+sudo apt install ntp ntpdate git minicom autossh bash-completion -y
 #dpkg-reconfigure tzdata
 #sudo nano /etc/ntp.conf
 
