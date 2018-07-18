@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
-name = 'Water Level'
+name = '(TBD)'
 location = '(TBD)'
 google_earth_link = '#'
-note = 'Ultrasonic tide gauge (XBee). ~1Hz measurements; each transmission is average of 60 measurements. Firmware us12b, hardware v5.1.'
+note = 'Ultrasonic tide gauge (XBee). Each sample is the sample mean of 60 measurements taken every second (excluding any out-of-range ones). Firmware us10b, hardware v4.2.'
 
 
 conf = [
@@ -15,56 +15,24 @@ conf = [
         'interval':60,
     },
     {
-        'dbtag':'t',
-        'unit':'Deg.C',
-        'description':'Housing temperature (BME280)',
-        'lb':10,
-        'ub':50,
+        'dbtag':'VbattV',
+        'unit':'V',
+        'description':'Battery voltage (Vbatt)',
+        'lb':2.8,
         'interval':60,
     },
     {
-        'dbtag':'p',
-        'unit':'kPa',
-        'description':'Housing (barometric) pressure (BME280)',
-        'lb':80,
-        'ub':120,
+        'dbtag':'ticker',
+        'description':'1Hz ticker',
+        'lb':0,
         'interval':60,
     },
     {
-        'dbtag':'rh',
-        'unit':'%',
-        'description':'Housing % relative humidity (BME280)',
-        'lb':5,
+        'dbtag':'sample_size',
+        'description':'# of valid measurements in the psat 60',
+        'lb':1,
         'ub':60,
-        'interval':60,
-    },
-    {
-        'dbtag':'Vb',
-        'unit':'V',
-        'description':'Battery voltage',
-        'lb':0,
-        'ub':4.3,
-        'interval':60,
-    },
-    {
-        'dbtag':'Vs',
-        'unit':'V',
-        'description':'Solar panel voltage',
-        'lb':0,
-        'ub':6,
-        'interval':60,
-    },
-    {
-        'dbtag':'idx',
-        'description':'Sample index',
-        'lb':24*60,
-        'interval':60,
-    },
-    {
-        'dbtag':'sc',
-        'description':'Sample Size (after rejecting invalid measurements)',
-        'lb':0,
-        'interval':60,
+        'interval':10*60,
     },
 ]
 
@@ -72,7 +40,7 @@ conf = [
 if '__main__' == __name__:
     for c in conf:
         print('- - -')
-        for k, v in c.items():
+        for k,v in c.items():
             print(k, ':', v)
 
     import sys
