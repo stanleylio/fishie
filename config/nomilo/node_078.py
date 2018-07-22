@@ -16,7 +16,7 @@ conf = [
         'dbtag':'d2w',
         'unit':'mm',
         'description':'Distance from sensor to water surface',
-        'lb':300,
+        'lb':301,
         'ub':4999,
         'interval':10*60,
     },
@@ -24,7 +24,7 @@ conf = [
         'dbtag':'VbattV',
         'unit':'V',
         'description':'Battery voltage',
-        'lb':3.7,
+        'lb':3.4,
         'ub':5.5,
         'interval':10*60,
     },
@@ -49,7 +49,7 @@ conf = [
 if '__main__' == __name__:
     for c in conf:
         print('- - -')
-        for k,v in c.items():
+        for k, v in c.items():
             print(k, ':', v)
 
     import sys

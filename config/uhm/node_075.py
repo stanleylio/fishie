@@ -10,6 +10,7 @@ conf = [
     {
         'dbtag':'Timestamp',
         'description':'Sample time (device clock)',
+        'interval':10*60,
     },
     {
         'dbtag':'d2w',
@@ -17,26 +18,30 @@ conf = [
         'description':'Distance from sensor to water surface',
         'lb':301,
         'ub':4999,
+        'interval':10*60,
     },
     {
         'dbtag':'VbattV',
         'unit':'V',
         'description':'Battery voltage',
-        'lb':3.7,
+        'lb':3.4,
         'ub':5.5,
+        'interval':10*60,
     },
     {
         'dbtag':'SoC',
         'unit':'%',
         'description':'State of Charge',
-        'lb':0,
+        'lb':30,    # more like a warning than a valid range check
         'ub':100,
+        'interval':10*60,
     },
     {
         'dbtag':'sample_size',
-        'description':'Number of valid readings in the 60 measurements',
+        'description':'Number of valid readings in set of measurements',
         'lb':0,
         'ub':60,
+        'interval':10*60,
     },
 ]
 
