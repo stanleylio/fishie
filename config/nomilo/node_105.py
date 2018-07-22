@@ -1,19 +1,13 @@
 # -*- coding: utf-8 -*-
-name = '(TBD)'
-location = '(TBD)'
-note = 'Beaglebone-based node measuring oxygen, temperature, conductivity, and pressure'
+name = 'South Shore'
+location = 'Nomilo Fishpond, Kauaʻi, Hawai‘i (21.884722, -159.527500)'
+note = 'Surface water quality monitor measuring oxygen, temperature, conductivity, and pressure'
 
 # node stuff
 XBEE_PORT = '/dev/ttyS2'
 XBEE_BAUD = 115200
 
-#XBEELOGDIR = '/var/uhcm/log'
-
 INTERVAL = 5*60
-NGROUP = 5
-
-subscribeto = ['127.0.0.1:9002']
-
 
 conf = [
     {

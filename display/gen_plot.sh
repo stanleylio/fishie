@@ -15,6 +15,8 @@ echo "Makai Pier"
 python3 t0.py --site=makaipier
 echo "Molokai"
 python3 t0.py --site=molokai
+echo "Nomilo"
+python3 t0.py --site=nomilo
 echo "Waikalua"
 python3 t0.py --site=waikalua
 echo "SMART"

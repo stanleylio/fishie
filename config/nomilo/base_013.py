@@ -1,13 +1,13 @@
-name = '(TBD)'
-location = '(TBD)'
+name = 'Nomilo Base Station #1'
+location = 'Boating dock, Nomilo Fishpond, Kauaʻi, Hawai‘i (21.884722, -159.527500)'
 google_earth_link = '#'
-note = 'bbb-based'
+note = 'Beaglebone-based base station. Also handles anemometer and BME280 (as node-130).'
 public_key = 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDbVe7lOZXvuRKbJCBUwg1B6LxwOF2G8Nmu80YnrALcVlr+dGNFlEgosErzc/zlB+LHkrrh+48XCT9llcI8Tib4Ja7q4u0S+XYDIPn2MHdM+waneBJLjGPChS4wx0sp7Q8hTHKwEw5PQAHBEEAHE34mBMIx6RQ8VpyPIRhKP+AkSyZoACnvzysrtuhEXvp0IaE/WTCk/vmQtiBp391iBsYZ2ZMwRRvjWKXoo2fXA4HigfvKBIUsBMTsf5yJvs8St3GTNIld1QVjABgNALAM2jGvZA/yk4J2Beh1ozFu9aC4vXNS7T4OqUNL1+zNLQsWfDi87N0hNZ+syWcP4e/3pXnd nuc@base-013'
 
 
 XBEE_PORT = '/dev/ttyS1'
 XBEE_BAUD = 115200
-INTERVAL = 10
+INTERVAL = 60
 NGROUP = 1
 XBEELOGDIR = '/var/uhcm/log'
 
@@ -43,11 +43,11 @@ conf = [
 if '__main__' == __name__:
     for c in conf:
         print('- - -')
-        for k,v in c.iteritems():
-            print(k,':',v)
+        for k, v in c.items():
+            print(k, ':', v)
 
     import sys
     sys.path.append('../..')
     from os.path import basename
     from storage.storage2 import create_table
-    create_table(conf,basename(__file__).split('.')[0].replace('_','-'))
+    create_table(conf, basename(__file__).split('.')[0].replace('_', '-'))
