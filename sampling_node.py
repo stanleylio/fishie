@@ -23,6 +23,9 @@ from cred import cred
 
 logging.getLogger('pika').setLevel(logging.WARNING)
 
+exchange = 'uhcm'
+nodeid = socket.gethostname()
+routing_key = nodeid + '.samples'
 
 parser = argparse.ArgumentParser(description='ding')
 parser.add_argument('--NGROUP', default=1, type=int, help='number of samples to take every period')
@@ -31,11 +34,9 @@ parser.add_argument('--XBEE_PORT', default=None, type=str, help='serial port to 
 parser.add_argument('--XBEE_BAUD', default=115200, type=int, help='XBee baud rate')
 parser.add_argument('--XBEE_LOG_DIR', default=None, type=str, help='where to store XBee traffic overheard')
 parser.add_argument('--RABBITMQ_ENABLED', default=1, type=int, help='0: disabled; 1: enabled')
+parser.add_argument('--RABBITMQ_ROUTING_KEY', default=routing_key, type=str)
 
 args = parser.parse_args()
-
-exchange = 'uhcm'
-nodeid = socket.gethostname()
 
 NGROUP = args.NGROUP
 INTERVAL = args.INTERVAL
@@ -78,7 +79,7 @@ xbeesend({'status':'online',
 
 
 def rabbit_init():
-    credentials = pika.PlainCredentials(nodeid,cred['rabbitmq'])
+    credentials = pika.PlainCredentials(nodeid, cred['rabbitmq'])
     connection = pika.BlockingConnection(pika.ConnectionParameters('localhost', 5672, '/', credentials))
     channel = connection.channel()
     channel.exchange_declare(exchange=exchange, exchange_type='topic', durable=True)
@@ -153,7 +154,7 @@ def taskSampling():
             if connection is None or channel is None:
                 connection, channel = rabbit_init()
             channel.basic_publish(exchange=exchange,
-                                  routing_key=nodeid + '.samples',
+                                  routing_key=routing_key,
                                   body=m,
                                   properties=pika.BasicProperties(delivery_mode=2,
                                                                   content_type='text/plain',
