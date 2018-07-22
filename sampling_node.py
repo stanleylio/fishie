@@ -34,7 +34,7 @@ parser.add_argument('--XBEE_PORT', default=None, type=str, help='serial port to 
 parser.add_argument('--XBEE_BAUD', default=115200, type=int, help='XBee baud rate')
 parser.add_argument('--XBEE_LOG_DIR', default=None, type=str, help='where to store XBee traffic overheard')
 parser.add_argument('--RABBITMQ_ENABLED', default=1, type=int, help='0: disabled; 1: enabled')
-parser.add_argument('--RABBITMQ_ROUTING_KEY', default=routing_key, type=str)
+parser.add_argument('--SENDER_ID', default=nodeid, type=str)
 
 args = parser.parse_args()
 
@@ -44,6 +44,7 @@ XBEE_PORT = args.XBEE_PORT
 XBEE_BAUD = args.XBEE_BAUD
 XBEE_LOG_DIR = args.XBEE_LOG_DIR
 RABBITMQ_ENABLED = args.RABBITMQ_ENABLED
+SENDER_ID = args.SENDER_ID
 
 
 #'DEBUG,INFO,WARNING,ERROR,CRITICAL'
@@ -146,7 +147,7 @@ def taskSampling():
         # In the future these bbb nodes should ALL double as base stations,
         # listening and parsing all messages in the air.
 
-        m = send(None, d, src=nodeid)
+        m = send(None, d, src=SENDER_ID)
         #socket.send(m)
 
         if RABBITMQ_ENABLED:
