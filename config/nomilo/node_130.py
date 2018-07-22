@@ -9,9 +9,8 @@ INTERVAL = 60
 
 conf = [
     {
-        'dbtag':'Timestamp',
+        'dbtag':'ts',
         'description':'Time of sampling (device clock)',
-        'plot':True,
         'interval':INTERVAL,
     },
     {
@@ -25,7 +24,7 @@ conf = [
     {
         'dbtag':'t',
         'unit':'Deg.C',
-        'description':'Enclosure temperature (BME280)',
+        'description':'Air temperature (BME280)',
         'lb':-10,
         'ub':70,
         'interval':INTERVAL,
@@ -33,7 +32,7 @@ conf = [
     {
         'dbtag':'rh',
         'unit':'%',
-        'description':'Enclosure humidity (BME280)',
+        'description':'Air humidity (BME280)',
         'lb':20,
         'ub':90,
         'interval':INTERVAL,
@@ -43,7 +42,7 @@ conf = [
         'description':'Wind speed (1-min. avg.)',
         'unit':'m/s',
         'lb':0,
-        'plot_range':2*24,
+        'plot_range':3*24,
         'interval':INTERVAL,
     },
     {
@@ -52,7 +51,7 @@ conf = [
         'unit':'Deg',
         'lb':0,
         'ub':360,
-        'plot_range':2*24,
+        'plot_range':3*24,
         'interval':INTERVAL,
     },
     {
@@ -60,7 +59,7 @@ conf = [
         'description':'Wind gust (max. in past 1-min)',
         'unit':'m/s',
         'lb':0,
-        'plot_range':2*24,
+        'plot_range':3*24,
         'interval':INTERVAL,
     },
 ]
