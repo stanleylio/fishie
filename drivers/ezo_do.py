@@ -40,7 +40,7 @@ class EZO_DO(EZO):
             self.t(t)
             logger.info('T value synced to {} Deg.C'.format(t))
         except:
-            logger.exception('Error loading config file.')
+            logger.warning('Error loading config file.')
         if t is None:
             logger.warning('T value not synced.')
 
@@ -51,7 +51,7 @@ class EZO_DO(EZO):
             self.s(s, ppt=False)
             logger.info('S value synced to {} uS/cm'.format(s))
         except:
-            logger.exception('Error loading config file.')
+            logger.warning('Error loading config file.')
         if s is None:
             logger.warning('S value not synced.')
 
