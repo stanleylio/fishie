@@ -10,14 +10,14 @@ NGROUP = 7
 
 conf = [
     {
-        'dbtag':'Timestamp',
+        'dbtag':'ts',
         'dbtype':'DOUBLE NOT NULL',
         'description':'Time of sampling',
         'plot':False,
         'interval':60,
     },
     {
-        'dbtag':'wind_mps',
+        'dbtag':'v',
         'description':'Wind speed (1-min. avg.)',
         'unit':'m/s',
         'lb':0,
@@ -25,7 +25,7 @@ conf = [
         'interval':60,
     },
     {
-        'dbtag':'wind_dir_deg',
+        'dbtag':'d',
         'description':'Wind direction (1-min. avg.)',
         'unit':'Deg',
         'lb':0,
@@ -34,7 +34,7 @@ conf = [
         'interval':60,
     },
     {
-        'dbtag':'wind_gust_mps',
+        'dbtag':'g',
         'description':'Wind gust (max. in past 1-min)',
         'unit':'m/s',
         'lb':0,
