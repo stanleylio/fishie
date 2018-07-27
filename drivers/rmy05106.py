@@ -1,10 +1,12 @@
-import binascii,traceback
+import binascii, logging
 from serial import Serial
 
 
+logger = logging.getLogger(__name__)
+
 class RMY05106:
-    def __init__(self,port,baud=115200):
-        self._s = Serial(port,baud,timeout=0.1)
+    def __init__(self, port, *_, baud=115200):
+        self._s = Serial(port, baud, timeout=0.1)
 
     def __del__(self):
         try:
@@ -29,14 +31,15 @@ class RMY05106:
                         v['d'] = round(float(r[3])*360.0,1)%360
                         return v
             except:
-                traceback.print_exc()
-                #pass
+                logger.exception('rmy')
 
 
 if '__main__' == __name__:
     import time
+
+    logging.basicConfig(level=logging.DEBUG)
     
-    rmy = RMY05106('/dev/ttyS0')
+    rmy = RMY05106('/dev/ttyS0', baud=115200)
     while True:
         print(rmy.read())
         time.sleep(0.1)
