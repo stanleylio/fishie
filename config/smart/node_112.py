@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 name = 'Lyon Arboretum Meteorological Station'
 location = 'Lyon Arboretum, Manoa Valley'
-note = 'BME280 and RM Young 05106. 5Hz wind direction and 1Hz wind speed display; logged once a minute. Pi cape v0.3 with WDT.'
+note = 'RM Young 05106. 5Hz wind direction and 1Hz wind speed display; logged once a minute. Pi cape v0.3 with WDT.'
 
 
 conf = [
@@ -99,6 +99,7 @@ conf = [
     {
         'dbtag':'uptime_second',
         'description':'Uptime in seconds',
+        'lb':24*60*60,
         'interval':60,
     },
     {

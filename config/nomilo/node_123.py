@@ -43,7 +43,7 @@ conf = [
         'unit':'V',
         'description':'Battery voltage',
         'lb':0,
-        'ub':4.3,
+        'ub':6.5,
         'interval':60,
     },
     {
