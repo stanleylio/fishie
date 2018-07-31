@@ -2,7 +2,7 @@ import RPi.GPIO as GPIO
 import time
 
 
-def beep(on=0.1, off=0.9):
+def beep(on=0.1, off=0.9, autocleanup=True):
     pin = 18
 
     try:
@@ -12,9 +12,11 @@ def beep(on=0.1, off=0.9):
         time.sleep(on)
         GPIO.output(pin, GPIO.HIGH)
         time.sleep(off)
-        GPIO.cleanup()
+        if autocleanup:
+            GPIO.cleanup()
     except:
-        GPIO.cleanup()
+        if autocleanup:
+            GPIO.cleanup()
         raise
 
 
