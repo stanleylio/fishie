@@ -48,12 +48,12 @@ git config --global user.name "Stanley Lio"
 git config --global user.email stanleylio@gmail.com
 #git remote set-url origin git@github.com:stanleylio/fishie.git
 
-cd
+#cd
 #git clone git@github.com:stanleylio/kmetlog.git ~/kmetlog
-git clone https://github.com/stanleylio/kmetlog
-cd ~/kmetlog
-git config --global user.name "Stanley Lio"
-git config --global user.email stanleylio@gmail.com
+#git clone https://github.com/stanleylio/kmetlog
+#cd ~/kmetlog
+#git config --global user.name "Stanley Lio"
+#git config --global user.email stanleylio@gmail.com
 #git remote set-url origin git@github.com:stanleylio/kmetlog.git
 
 
