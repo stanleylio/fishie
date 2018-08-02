@@ -34,6 +34,9 @@ map[base-022]=10042
 map[base-023]=10043
 map[base-024]=10044
 map[base-025]=10045
+map[base-026]=10046
+map[base-027]=10047
+map[base-028]=10048
 
 map[node-080]=10180
 map[node-084]=10184
