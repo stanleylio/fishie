@@ -3,7 +3,7 @@ name = 'Pi`i\'s'
 location = 'Kalahuipuaa'
 note = 'Cellular ultrasonic tide gauge. Each sample is average of 60 measurements taken every second. One transmission every 10 samples. Firmware p5e, hardware v0.2.'
 
-coreid = '4b002f001951343334363036'
+coreid = '320021001847373130353638'
 
 
 conf = [
