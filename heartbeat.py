@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 # Stanley H.I. Lio
 # hlio@hawaii.edu
-import sys,traceback,logging,pika,socket,time,shutil
+import sys, traceback, logging, pika, socket, time, shutil
 from os.path import expanduser
 sys.path.append(expanduser('~'))
 from node.z import send
@@ -18,18 +18,18 @@ routing_key = nodeid + '.debug'
 
 
 def rabbit_init():
-    credentials = pika.PlainCredentials(nodeid,cred['rabbitmq'])
-    connection = pika.BlockingConnection(pika.ConnectionParameters('localhost',5672,'/',credentials))
+    credentials = pika.PlainCredentials(nodeid, cred['rabbitmq'])
+    connection = pika.BlockingConnection(pika.ConnectionParameters('localhost', 5672, '/', credentials))
     channel = connection.channel()
-    channel.exchange_declare(exchange=exchange,exchange_type='topic',durable=True)
-    return connection,channel
+    channel.exchange_declare(exchange=exchange, exchange_type='topic', durable=True)
+    return connection, channel
 
 
 def taskHeartbeat():
     try:
-        global channel,connection
+        global channel, connection
         if connection is None or channel is None:
-            connection,channel = rabbit_init()
+            connection, channel = rabbit_init()
 
         uptime_second = float(open('/proc/uptime').readline().split()[0])
         usage = shutil.disk_usage('/')
@@ -43,7 +43,7 @@ def taskHeartbeat():
             # some devices don't have WDT, like most pi and all NUC
             #traceback.print_exc()
             pass
-        m = send(None,d).strip()
+        m = send(None, d).strip()
         logging.debug(m)
         
         channel.basic_publish(exchange=exchange,
@@ -53,11 +53,11 @@ def taskHeartbeat():
                                                               content_type='text/plain',
                                                               expiration=str(5*60*1000)))
     except pika.exceptions.ConnectionClosed:
-        connection,channel = None,None
+        connection, channel = None, None
         logging.error('connection closed')  # connection to the local exchange closed
 
 
-connection,channel = None,None
+connection, channel = None, None
 
 logging.info(__name__ + ' is ready')
 taskHeartbeat()
