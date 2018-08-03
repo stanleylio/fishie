@@ -3,7 +3,7 @@
 # hlio@hawaii.edu
 # University of Hawaii
 # All Rights Reserved, 2017
-import pika, traceback, sys, logging, argparse, socket
+import pika, sys, logging, argparse, socket
 from os.path import expanduser
 sys.path.append(expanduser('~'))
 from cred import cred

@@ -23,6 +23,6 @@ def beep(on=0.1, off=0.9, autocleanup=True):
 if '__main__' == __name__:
     while True:
         try:
-            beep()
+            beep(autocleanup=True)
         except KeyboardInterrupt:
             break
