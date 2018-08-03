@@ -4,30 +4,41 @@ location = 'Coast Guard Tower, He\'eia Fishpond'
 note = 'RM Young 05106 Anemometer with XBee Pro 2.4GHz'
 
 
+INTERVAL = 60
+
+
 conf = [
     {
-        'dbtag':'Timestamp',
+        'dbtag':'ts',
         'dbtype':'DOUBLE NOT NULL',
         'description':'Time of sampling',
         'plot':True,
-        'interval':1,
+        'interval':INTERVAL,
     },
     {
-        'dbtag':'wind_mps',
+        'dbtag':'v',
         'description':'Wind speed',
         'unit':'m/s',
         'plot_range':3*24,
         'lb':0,
-        'interval':1,
+        'interval':INTERVAL,
     },
     {
-        'dbtag':'wind_dir_deg',
-        'description':'Wind direction',
+        'dbtag':'d',
+        'description':'Wind direction (1-min. avg.)',
         'unit':'Deg',
         'plot_range':3*24,
         'lb':0,
         'ub':360,
-        'interval':1,
+        'interval':INTERVAL,
+    },
+    {
+        'dbtag':'g',
+        'description':'Wind gust (max. in past 1-min)',
+        'unit':'m/s',
+        'lb':0,
+        'plot_range':3*24,
+        'interval':INTERVAL,
     },
 ]
 
