@@ -26,11 +26,15 @@ from cred import cred
 logging.getLogger('pika').setLevel(logging.WARNING)
 
 
+exchange = 'uhcm'
+nodeid = socket.gethostname()
+
 parser = argparse.ArgumentParser(description='ding')
 parser.add_argument('--WIND_AVG_WINDOW_SECOND', default=60, type=int, help='')
 parser.add_argument('--WIND_PERIOD_SECOND', default=1, type=float, help='')
 parser.add_argument('--WIND_PORT', default='/dev/ttyS0', type=str, help='')
 parser.add_argument('--WIND_BAUD', default=115200, type=int, help='')
+parser.add_argument('--SENDER_ID', default=nodeid, type=str, help='')
 
 args = parser.parse_args()
 
@@ -38,10 +42,7 @@ WIND_AVG_WINDOW_SECOND = args.WIND_AVG_WINDOW_SECOND
 WIND_PERIOD_SECOND = args.WIND_PERIOD_SECOND
 WIND_PORT = args.WIND_PORT
 WIND_BAUD = args.WIND_BAUD
-
-exchange = 'uhcm'
-nodeid = socket.gethostname()
-sender_id = nodeid
+SENDER_ID = args.SENDER_ID
 
 log = Logger()
 
@@ -103,12 +104,12 @@ def taskRTWind():
         if d is not None:
             #print('\x1b[2J\x1b[;H')
             pretty_print(d)
-            m = send(None, d, src=sender_id).strip()
+            m = send(None, d, src=SENDER_ID).strip()
 
             if connection is None or channel is None:
                 connection, channel = rabbit_init()
             channel.basic_publish(exchange=exchange,
-                                  routing_key=sender_id + '.rt',
+                                  routing_key=SENDER_ID + '.rt',
                                   body=m,
                                   properties=pika.BasicProperties(delivery_mode=1,
                                                                   content_type='text/plain',
