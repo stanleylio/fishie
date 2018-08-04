@@ -20,6 +20,7 @@ conf = [
         'lb':90,
         'ub':110,
         'interval':INTERVAL,
+        'plot':False,
     },
     {
         'dbtag':'t',
@@ -28,6 +29,7 @@ conf = [
         'lb':-10,
         'ub':70,
         'interval':INTERVAL,
+        'plot':False,
     },
     {
         'dbtag':'rh',
@@ -36,6 +38,7 @@ conf = [
         'lb':20,
         'ub':90,
         'interval':INTERVAL,
+        'plot':False,
     },
     {
         'dbtag':'v',
