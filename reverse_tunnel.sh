@@ -37,6 +37,15 @@ map[base-025]=10045
 map[base-026]=10046
 map[base-027]=10047
 map[base-028]=10048
+map[base-029]=10049
+map[base-030]=10050
+map[base-031]=10051
+map[base-032]=10052
+map[base-033]=10053
+map[base-034]=10054
+map[base-035]=10055
+map[base-036]=10056
+
 
 map[node-080]=10180
 map[node-084]=10184
