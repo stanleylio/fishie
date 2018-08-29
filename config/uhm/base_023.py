@@ -1,5 +1,5 @@
-name = '(TBD)'
-location = '(TBD)'
+name = 'WHOI'
+location = 'WHOI'
 google_earth_link = '#'
 note = 'bbb-based, eMMC'
 public_key = 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCxtmw4j27NiKPsVqF/i5JblsN9BVsNFxZwqedSJqkbm5Zem7HSpEVRiLIAiX1vhj0Np8aw03IXGsSak4cvJUfmfpUhLwXZxCuNDEXOZdRfn3WLyP8Yb9GXraykV0DnUwdnMM3nqU11uK1MzsAEeyW06f5MtKSdZthvf07p+hanXgp9DKrzBmTWtetY4gezB8jcuR61fEDZAeJAExxEztIkx5iO8zpFUztam36FU24sM9a9PhHOb7OIKW3qzUpNhmJU6XMx3GBWhD0A6esgRFjj4kJcFt85vTtYw1/mwG19EaRdBaNKWPQOEciGFVp5Tz+YIkfbB8cApNonL1urnbLB nuc@base-023'

@@ -44,7 +44,7 @@ conf = [
         'description':'-',
         'lb':1,
         'plot_range':7*24,
-        'interval':365*24*60*60,
+        'interval':365*24*60*60,    # gotta tip at least once a year?
     },
     {
         'dbtag':'mm',
@@ -52,7 +52,7 @@ conf = [
         'description':'Accumulated per-hour',
         'lb':0,
         'plot_range':7*24,
-        'interval':365*24*60*60,
+        'interval':60*60,
     },
     {
         'dbtag':'da',
@@ -60,7 +60,7 @@ conf = [
         'description':'Accumulated per-day',
         'lb':0,
         'plot_range':7*24,
-        'interval':365*24*60*60,
+        'interval':24*60*60,
     },
 ]
 

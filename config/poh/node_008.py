@@ -1,13 +1,7 @@
 # -*- coding: utf-8 -*-
-# successor to us1
 name = 'Kahoʻokele Water Level'
 location = 'Kahoʻokele (second mākāhā)'
-note = 'Ultrasonic tide gauge (v4). One sample per minute. Each sample is the sample mean of the past 60 measurements taken at 1Hz. Telemetry only. No RTC. 7\'4" to bottom. Deployed May 22, 2017'
-
-#log_dir = './log'
-#plot_dir ='../www'
-
-#data_source = '/home/nuc/node/www/poh/storage/sensor_data.db'
+note = 'XBee ultrasonic tide gauge. One sample per minute. Each sample is the sample mean of the past 60 measurements taken at 1Hz. Telemetry only. No RTC. 7\'4" to bottom. Deployed May 22, 2017. Hardware v5.0, firmware us11c.'
 
 # 20170522
 #UPDATE uhcm.`node-008` SET VbattmV=VbattmV/1000.0;
@@ -22,15 +16,22 @@ conf = [
         'interval':60,
     },
     {
-        'dbtag':'VbattV',
+        'dbtag':'Vs',
         'unit':'V',
-        'description':'Battery voltage (Vbatt)',
-        'lb':3.0,
+        'description':'Solar input voltage',
+        'lb':0,
+        'ub':6.0,
         'interval':60,
     },
     {
-        'dbtag':'ticker',
-        'description':'1Hz ticker',
+        'dbtag':'idx',
+        'description':'Sample index',
+        'lb':0,
+        'interval':60,
+    },
+    {
+        'dbtag':'sc',
+        'description':'Sample Size (after rejecting invalid measurements)',
         'lb':0,
         'interval':60,
     },
@@ -40,11 +41,11 @@ conf = [
 if '__main__' == __name__:
     for c in conf:
         print('- - -')
-        for k,v in c.iteritems():
-            print(k,':',v)
+        for k, v in c.items():
+            print(k, ':', v)
 
     import sys
     sys.path.append('../..')
     from os.path import basename
     from storage.storage2 import create_table
-    create_table(conf,basename(__file__).split('.')[0].replace('_','-'))
+    create_table(conf, basename(__file__).split('.')[0].replace('_', '-'))

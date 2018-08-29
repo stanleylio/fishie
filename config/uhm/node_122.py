@@ -2,7 +2,7 @@
 name = 'Water Level'
 location = '(TBD)'
 google_earth_link = '#'
-note = 'Ultrasonic tide gauge (XBee). ~1Hz measurements; each transmission is average of 60 measurements. Firmware us12b, hardware v5.1.'
+note = 'Ultrasonic tide gauge (XBee). 1Hz measurements; each transmission is average of 60 measurements. Firmware us12c, hardware v5.1.'
 
 
 conf = [
