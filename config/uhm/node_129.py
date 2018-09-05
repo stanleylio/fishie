@@ -3,7 +3,7 @@ name = '"Birdwatcher"'
 location = '(TBD)'
 note = 'Cellular rain gauge. Firmware TBD, hardware also TBD.'
 
-coreid = '310036000f47373136343738'
+coreid = '26003f000b47373130373633'
 
 conf = [
     {

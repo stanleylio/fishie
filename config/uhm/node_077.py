@@ -1,10 +1,9 @@
 # -*- coding: utf-8 -*-
-name = "Moli'i Fishpond Water Level"
-location = "Moli'i Fishpond (21.512417, -157.845883)"
-google_earth_link = 'https://goo.gl/maps/C7bPidpD5Km'
+name = 'Loko i`a Study'
+location = 'Hawaii Wildlife Fund'
 note = 'Cellular ultrasonic tide gauge. Each sample is average of 60 measurements taken every second. One transmission every 10 samples. Firmware p6c, hardware v0.4.'
 
-coreid = '190039000d51363034323832'
+coreid = '4d0058001851353338363036'
 
 
 conf = [
@@ -51,7 +50,7 @@ if '__main__' == __name__:
     for c in conf:
         print('- - -')
         for k, v in c.items():
-            print(k, ':' ,v)
+            print(k, ':', v)
 
     import sys
     sys.path.append('../..')
