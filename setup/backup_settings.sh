@@ -29,6 +29,7 @@ then
 	cp /boot/uEnv.txt $DIR/uEnv.txt
 fi
 cp -a /etc/network/interfaces $DIR/interfaces.txt
+cp -a /etc/dhcpcd.conf $DIR/dhcpcd.conf
 cp -a /etc/hostname $DIR/hostname.txt
 cp -a /etc/hosts $DIR/hosts.txt
 #cp -a /etc/resolv.conf $DIR/resolv.conf.txt
