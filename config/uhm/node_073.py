@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-name = 'Nahoku\'s'
+name = 'Nahoku\'s (Kapalaho)'
 location = 'Kapalaho Fishpond (19.733675, -155.031564)'
 note = 'Cellular ultrasonic tide gauge. Each sample is average of 60 measurements taken every second. One transmission every 10 samples. Firmware p5e, hardware v0.2.'
 

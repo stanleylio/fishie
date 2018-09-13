@@ -54,6 +54,14 @@ map[node-086]=10186
 map[node-112]=10212
 map[node-113]=10213
 map[node-114]=10214
+map[node-140]=10240
+map[node-141]=10241
+map[node-142]=10242
+map[node-143]=10243
+map[node-144]=10244
+map[node-145]=10245
+map[node-146]=10246
+map[node-147]=10247
 
 
 RemotePort=${map[$(hostname)]}

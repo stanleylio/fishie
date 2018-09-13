@@ -46,6 +46,22 @@ conf = [
         'plot_range':7*24,
         'interval':365*24*60*60,
     },
+    {
+        'dbtag':'mm',
+        'unit':'mm/hr',
+        'description':'Accumulated per-hour',
+        'lb':0,
+        'plot_range':7*24,
+        'interval':60*60,
+    },
+    {
+        'dbtag':'da',
+        'unit':'mm/day',
+        'description':'Accumulated per-day',
+        'lb':0,
+        'plot_range':7*24,
+        'interval':24*60*60,
+    },
 ]
 
 

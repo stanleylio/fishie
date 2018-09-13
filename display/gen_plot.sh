@@ -21,6 +21,8 @@ echo "Waikalua"
 python3 t0.py --site=waikalua
 echo "SMART"
 python3 t0.py --site=smart
+echo "Lyon"
+python3 t0.py --site=lyon
 echo "Mobile/Other"
 python3 t0.py --site=uhm
 

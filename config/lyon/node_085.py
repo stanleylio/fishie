@@ -1,4 +1,4 @@
-name = 'Casey\'s'
+name = 'Logger'
 location = '(TBD)'
 google_earth_link = '#'
 note = '(TBD)'
