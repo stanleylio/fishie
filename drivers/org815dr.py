@@ -1,12 +1,12 @@
-import serial,logging
+import serial, logging
 from datetime import datetime
 
 
 class ORG815DR:
     last_reset_day = datetime.utcnow().day
     
-    def __init__(self,port,baud=1200):
-        self._s = serial.Serial(port,baud,timeout=0.1)
+    def __init__(self, port, baud=1200):
+        self._s = serial.Serial(port, baud, timeout=0.1)
 
     def __del__(self):
         try:
@@ -15,7 +15,7 @@ class ORG815DR:
             pass
 
     def read(self):
-        self._s.write('A'.encode())
+        self._s.write(b'A')
         line = []
         for i in range(30):
             c = self._s.read(size=1)
@@ -37,7 +37,7 @@ class ORG815DR:
         dt = datetime.utcnow()
         if not dt.day == self.last_reset_day:
             logging.info('Accumulation Data Reset')
-            self._s.write('R'.encode())
+            self._s.write(b'R')
             for i in range(10):
                 r = self._s.read()
                 if len(r):  # whatever it is, as long as the sensor responded
