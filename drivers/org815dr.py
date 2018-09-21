@@ -42,7 +42,9 @@ class ORG815DR:
                 r = self._s.read()
                 if len(r):  # whatever it is, as long as the sensor responded
                     self.last_reset_day = dt.day
+                    return True
                     break
+        return False
 
 
 if '__main__' == __name__:
