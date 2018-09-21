@@ -24,8 +24,13 @@ get_enable rawdata
 set_passkey(1000)
 set_enable rawdata(No)
 get_enable rawdata
-
 save
+
+
+
+
+
+
 
 
 
@@ -34,8 +39,9 @@ save
 get_interval
 set_protect(1000)
 set_interval(0)
-
 save
+
+
 
 
 
@@ -44,29 +50,32 @@ save
 get enable sleep
 get enable text
 get enable polled mode
+get enable rawdata
 
 set_protect(1000)
 set enable sleep(No)
 set enable text(Yes)
 set enable polled mode(Yes)
+set enable rawdata(No)
 save
 
 get enable sleep
 get enable text
 get enable polled mode
+get enable rawdata
 
 //set_protect(1000)
 //get enable comm indicator
 //set enable comm indicator(No)
 
-set_protect(1000)
-get enable rawdata
-set enable rawdata(No)
-get enable rawdata
+
+
 
 
 
 // 4319A
+// it's "stop" now instead of "do stop" or "do_stop"
+stop
 get enable sleep
 get enable text
 get enable polled mode
@@ -89,5 +98,6 @@ get enable polled mode
 get enable decimalformat
 get enable rawdata
 get enable derived parameters
+get interval
 
 save
