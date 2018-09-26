@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
-name = 'Ala Wai Canal FDOM'
-location = 'Hawaii Yacht Club (21.286437, -157.842810)'
-note = 'Fluorescent dissolved organic matter (FDOM), chlorophyll and turbidity (cellular FDOM 1697)'
+name = 'FDOM (staging)'
+location = '(TBD)'
+note = 'Fluorescent dissolved organic matter (FDOM), chlorophyll and turbidity (cellular FDOM 1720)'
 
-coreid = '3d0041001047373333353132'
+coreid = '580052001951353338363036'
 
 conf = [
     {

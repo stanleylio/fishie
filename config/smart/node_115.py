@@ -3,7 +3,7 @@ name = '"Cromulent"'
 location = '(TBD)'
 note = 'Chlorophyll and Turbidity (cellular FLNTUS)'
 
-#coreid = ''
+#coreid = '580052001951353338363036'
 
 conf = [
     {

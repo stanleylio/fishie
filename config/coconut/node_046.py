@@ -10,7 +10,7 @@ coreid = '1c0038001647373037383634'
 conf = [
     {
         'dbtag':'Timestamp',
-        'description':'Sample time (Electron clock)',
+        'description':'Sample time (device clock)',
         'interval':10*60,
     },
     {

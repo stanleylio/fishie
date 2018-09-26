@@ -1,4 +1,4 @@
-name = 'Logger'
+name = 'Logger (backup)'
 location = '(TBD)'
 google_earth_link = '#'
 note = '(TBD)'

@@ -1,5 +1,5 @@
-name = '(TBD)'
-location = '(TBD)'
+name = 'Mokauea Island Telemetry Relay'
+location = 'Marine Education Training Center, HCC'
 google_earth_link = '#'
 note = 'bbb-based, eMMC'
 public_key = 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDt/+/JZXnpt63qjeQRBCxV0gR6OTKqLYI6yyQUwbC7HQjA6CRtJ15r8zRuBmf2+ytt775syet1ssvTtjUFWwRVb6sqkPAg3sSQDVuVqdXSjCAUOCuzmf3x8lFxMzPGYjlq8fLt5GrinqMnhswv2Xz0mVd1eAheKD2QhWVzXxVdmdMHoc+A2KU7Z/Hjb7RC4SjoCfQk3eUvAVVsfMmia/FRiPxuqh4pGSJ9bbA7CQ6e9BL1EHkRrihgySu/5QI1W7TI6Qy2pBcugTpaG72nIlC5xC6mV6e58BNB0NiCZSBd+ElHmEhYQNL95VFCsQQs5XmRJ0nW9sscUyKzeM3Qgg45 nuc@base-022'
@@ -7,9 +7,6 @@ public_key = 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDt/+/JZXnpt63qjeQRBCxV0gR6OT
 
 XBEE_PORT = '/dev/ttyS1'
 XBEE_BAUD = 115200
-INTERVAL = 10
-NGROUP = 1
-XBEELOGDIR = '/var/uhcm/log'
 
 
 conf = [
