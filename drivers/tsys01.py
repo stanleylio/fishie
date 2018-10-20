@@ -45,7 +45,7 @@ class TSYS01:
     def _raw_adc(self):
         self.fw.write(b'\x48')
         time.sleep(0.01)
-        self.fw.write(bytearray([0]))
+        self.fw.write(b'\0')
         tmp = bytearray(b'\0')
         tmp.extend(self.fr.read(3))
         return struct.unpack('>I', tmp)[0]

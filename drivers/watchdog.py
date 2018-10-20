@@ -4,7 +4,7 @@
 # source: https://github.com/AtlasScientific/Raspberry-Pi-sample-code/blob/master/i2c.py
 # Stanley H.I. Lio
 # hlio@hawaii.edu
-import io,fcntl,struct,logging,traceback
+import io, fcntl, struct, logging, traceback
 
 
 logger = logging.getLogger(__name__)
@@ -12,15 +12,15 @@ logger = logging.getLogger(__name__)
 
 class Watchdog:
     """Driver for watchdog (RPi version)"""
-    def __init__(self,addr=0x51,bus=1):
-        assert bus in [1,2]
+    def __init__(self, addr=0x51, bus=1):
+        assert bus in [1, 2]
         
         self.addr = addr
-        self.fr = io.open('/dev/i2c-{}'.format(bus),'rb',buffering=0)
-        self.fw = io.open('/dev/i2c-{}'.format(bus),'wb',buffering=0)
+        self.fr = io.open('/dev/i2c-{}'.format(bus), 'rb', buffering=0)
+        self.fw = io.open('/dev/i2c-{}'.format(bus), 'wb', buffering=0)
         I2C_SLAVE = 0x703
-        fcntl.ioctl(self.fr,I2C_SLAVE,addr)
-        fcntl.ioctl(self.fw,I2C_SLAVE,addr)
+        fcntl.ioctl(self.fr, I2C_SLAVE, addr)
+        fcntl.ioctl(self.fw, I2C_SLAVE, addr)
 
     def reset(self):
         return self.read(0xA)
@@ -30,13 +30,13 @@ class Watchdog:
 
     def read_vbatt(self):
         """Vin, in volt (nominal 12V)"""
-        return round(self.read(0xE)/1000.0,3)
+        return round(self.read(0xE)/1000.0, 3)
 
     def read(self,reg):
         self.fw.write(bytearray([reg]))
         r = self.fr.read(2)
         r = bytearray([c & ~0x80 for c in r])          # that mask == RPi hack
-        return struct.unpack('<H',r)[0]     # little endian, uint16_t
+        return struct.unpack('<H', r)[0]     # little endian, uint16_t
 
     def close(self):
         self.fr.close()
@@ -45,7 +45,7 @@ class Watchdog:
 
 def reset_auto():
     good = False
-    for bus in [1,2]:
+    for bus in [1, 2]:
         try:
             w = Watchdog(bus=bus)
             counter = w.reset()

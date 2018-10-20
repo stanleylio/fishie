@@ -2,7 +2,7 @@ import RPi.GPIO as GPIO
 import time
 
 
-def beep(on=0.1, off=0.9, autocleanup=True):
+def beep(on=0.1, off=0.9):
     pin = 18
 
     try:
@@ -12,17 +12,15 @@ def beep(on=0.1, off=0.9, autocleanup=True):
         time.sleep(on)
         GPIO.output(pin, GPIO.HIGH)
         time.sleep(off)
-        if autocleanup:
-            GPIO.cleanup()
+        GPIO.cleanup(pin)
     except:
-        if autocleanup:
-            GPIO.cleanup()
+        GPIO.cleanup(pin)
         raise
 
 
 if '__main__' == __name__:
     while True:
         try:
-            beep(autocleanup=True)
+            beep()
         except KeyboardInterrupt:
             break
