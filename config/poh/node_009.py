@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # successor to us2
 name = 'Hīhīmanu Water Level'
-location = 'Hīhīmanu (first mākāhā)'
+location = 'Hīhīmanu (first mākāhā; 21.433912, -157.805338)'
 note = 'Ultrasonic tide gauge (v4.2). One sample per minute. Each sample is the sample mean of the past 60 measurements taken at 1Hz. Telemetry only. No RTC.'
 
 

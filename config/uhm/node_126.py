@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-name = '(TBD)'
-location = '(TBD)'
+name = 'Water Level (Lilipuna Rd)'
+location = 'Lilipuna Rd Yacht Club (21.424772, -157.798617)'
 google_earth_link = '#'
 note = 'Ultrasonic tide gauge (XBee). 1Hz measurements; each transmission is average of 60 measurements. Firmware us12c, hardware v5.2.'
 

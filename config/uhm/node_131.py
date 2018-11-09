@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
-name = '"Yang"'
+name = '-'
 location = '(TBD)'
 note = 'Cellular ultrasonic tide gauge. Each sample is average of 60 measurements taken every second. One transmission every 10 samples. Firmware p6c, hardware v0.4.'
 
-coreid = '1f0024001751353338363036'
+coreid = '420030001751353338363036'
 
 conf = [
     {
