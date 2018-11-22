@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 name = 'Ala Wai Canal FDOM'
 location = 'Hawaii Yacht Club (21.286437, -157.842810)'
-note = 'Fluorescent dissolved organic matter (FDOM), chlorophyll and turbidity (cellular FDOM 1697)'
+note = 'Fluorescent dissolved organic matter (FDOM), chlorophyll and turbidity (cellular FDOM 1720)'
 
 coreid = '3d0041001047373333353132'
 
@@ -18,7 +18,7 @@ conf = [
         'description':'Chlorophyll (EX/EM: 470/695nm)',
         'unit':'ug/L',
         'lb':0,
-        'ub':0.0303*(4130 - 49),
+        'ub':0.0306*(4130 - 49),
         'plot_range':7*24,
         'interval':12*60,
     },
@@ -27,7 +27,7 @@ conf = [
         'description':'Turbidity (700nm)',
         'unit':'NTU',
         'lb':0,
-        'ub':0.0807*(4130 - 50),
+        'ub':0.0848*(4130 - 50),
         'plot_range':7*24,
         'interval':12*60,
     },
@@ -36,7 +36,7 @@ conf = [
         'description':'FDOM (EX/EM: 370/460nm)',
         'unit':'ppb',
         'lb':0,
-        'ub':0.0911*(4130 - 49),
+        'ub':0.0909*(4130 - 48),
         'plot_range':7*24,
         'interval':12*60,
     },

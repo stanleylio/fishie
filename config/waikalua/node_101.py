@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-name = 'TBD ("Guac-is-Extra")'
-location = 'Waikalua Loko I`a (21.410463, -157.784278)'
+name = 'Limu Wai CTD-O2'
+location = 'Waikalua Loko I`a (21.411111, -157.784167)'
 note = 'Beaglebone-based node measuring oxygen, temperature, conductivity, and pressure'
 
 # node stuff

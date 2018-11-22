@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 name = 'FDOM (staging)'
 location = '(TBD)'
-note = 'Fluorescent dissolved organic matter (FDOM), chlorophyll and turbidity (cellular FDOM 1720)'
+note = 'Fluorescent dissolved organic matter (FDOM), chlorophyll and turbidity (cellular FDOM 1697)'
 
 coreid = '580052001951353338363036'
 

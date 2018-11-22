@@ -19,6 +19,7 @@ conf = [
         'interval':60,
         'lb':10,
         'ub':40,
+        'plot':False,
     },
     {
         'dbtag':'t1',
@@ -27,6 +28,7 @@ conf = [
         'interval':60,
         'lb':10,
         'ub':40,
+        'plot':False,
     },
     {
         'dbtag':'t2',
@@ -35,6 +37,7 @@ conf = [
         'interval':60,
         'lb':10,
         'ub':40,
+        'plot':False,
     },
     {
         'dbtag':'t3',
@@ -43,6 +46,7 @@ conf = [
         'interval':60,
         'lb':10,
         'ub':40,
+        'plot':False,
     },
     {
         'dbtag':'t4',
@@ -51,6 +55,7 @@ conf = [
         'interval':60,
         'lb':10,
         'ub':40,
+        'plot':False,
     },
     # - - -
     {

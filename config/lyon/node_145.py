@@ -1,4 +1,4 @@
-name = 'Logger'
+name = 'Logger (decommissioned)'
 location = 'Lyon Arboretum'
 google_earth_link = '#'
 note = '(TBD)'
