@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-name = '(TBD)'
-location = '(TBD)'
+name = 'Ruby\'s'
+location = 'Hanapepe'
 note = 'Cellular ultrasonic tide gauge. Each sample is average of 60 measurements taken every second. One transmission every 10 samples. Firmware p6c, hardware v0.4.'
 
 coreid = '2d0025000347363334383136'
@@ -49,11 +49,11 @@ conf = [
 if '__main__' == __name__:
     for c in conf:
         print('- - -')
-        for k,v in c.iteritems():
-            print(k,':',v)
+        for k, v in c.items():
+            print(k, ':', v)
 
     import sys
     sys.path.append('../..')
     from os.path import basename
     from storage.storage2 import create_table
-    create_table(conf,basename(__file__).split('.')[0].replace('_','-'))
+    create_table(conf, basename(__file__).split('.')[0].replace('_', '-'))

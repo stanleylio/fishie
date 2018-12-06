@@ -1,15 +1,14 @@
 # -*- coding: utf-8 -*-
-name = '(TBD)'
+name = '"Morrowind"'
 location = '(TBD)'
 note = 'Cellular ultrasonic tide gauge. Each sample is average of 60 measurements taken every second. One transmission every 10 samples. Firmware p6c, hardware v0.4.'
 
-coreid = '290047000347363334383136'
-
+coreid = '320035000f47363334373734'
 
 conf = [
     {
         'dbtag':'Timestamp',
-        'description':'Sample time (device clock)',
+        'description':'Sample time (Electron clock)',
         'interval':10*60,
     },
     {
@@ -24,7 +23,7 @@ conf = [
         'dbtag':'VbattV',
         'unit':'V',
         'description':'Battery voltage',
-        'lb':3.4,
+        'lb':3.7,
         'ub':5.5,
         'interval':10*60,
     },
@@ -38,7 +37,7 @@ conf = [
     },
     {
         'dbtag':'sample_size',
-        'description':'Number of valid readings in set of measurements',
+        'description':'Number of valid readings in the 60 measurements',
         'lb':0,
         'ub':60,
         'interval':10*60,
@@ -50,7 +49,7 @@ if '__main__' == __name__:
     for c in conf:
         print('- - -')
         for k, v in c.items():
-            print(k, ':', v)
+            print(k, ':' ,v)
 
     import sys
     sys.path.append('../..')

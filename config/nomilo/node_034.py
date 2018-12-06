@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
-name = 'Water Level'
-location = '(TBD)'
-google_earth_link = '#'
+name = 'Auwai (beach) Water Level'
+location = 'Nomilo Fishpond, Kauaʻi, Hawai‘i (21.884722, -159.528333)'
+#google_earth_link = '#'
 note = 'Ultrasonic tide gauge (XBee). 1Hz measurements; each transmission is average of 60 measurements. Firmware us11c, hardware v5.0.'
 
 

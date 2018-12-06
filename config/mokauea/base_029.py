@@ -1,5 +1,5 @@
-name = '(TBD)'
-location = '(TBD)'
+name = 'Mokauea Island Telemetry Gateway'
+location = 'Mokauea Island (21.308333, -157.891944)'
 google_earth_link = '#'
 note = 'bbb-based, eMMC, v0.5.1 cape'
 public_key = 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDSSpJWf2tzhTsqRJLDXKZ/3MknFl1C9LMUHxCeWi8TvyRBFglSbFr1axO0B9eQenHCg6EXjehIMLURIuM84Oz9Zs+jJyiEp2aMrttlicc6wF7vtsZf0ORYS/Snq4i6KuYE8R09OFxByeBM3NZkz8YXOrxxaIwnawpJDFCgtJkln89j/5IbGrKPviGlfehyVqehT1aIwRiMfCD9YJNFBmb3xln0X2B0ZZfCkANSILA3xe9pcCw7kerqSeFNghC3gQgZ5YwkMJSvqZxowtl8Bsd20ckJaacrUr0sPLP+jxgzzDkwxW481AkUzRdFYT2nIfSExAaf2jGtc+wvMejIHh+L nuc@base-029'

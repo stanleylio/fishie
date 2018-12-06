@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
-name = '"Zuko"'
+name = '"Zaku"'
 location = '(TBD)'
 google_earth_link = '#'
-note = 'Ultrasonic tide gauge (XBee). 1Hz measurements. Each transmission is average of 60 measurements. Firmware us12d, hardware v5.1.'
+note = 'Ultrasonic tide gauge (XBee). 1Hz measurements. Each transmission is average of 60 measurements. Firmware us12d, hardware v5.2.'
 
 
 conf = [
@@ -12,30 +12,6 @@ conf = [
         'description':'Distance from sensor to water surface',
         'lb':301,
         'ub':4999,
-        'interval':60,
-    },
-    {
-        'dbtag':'t',
-        'unit':'Deg.C',
-        'description':'Housing temperature (BME280)',
-        'lb':10,
-        'ub':50,
-        'interval':60,
-    },
-    {
-        'dbtag':'p',
-        'unit':'kPa',
-        'description':'Housing (barometric) pressure (BME280)',
-        'lb':80,
-        'ub':120,
-        'interval':60,
-    },
-    {
-        'dbtag':'rh',
-        'unit':'%',
-        'description':'Housing % relative humidity (BME280)',
-        'lb':10,
-        'ub':80,
         'interval':60,
     },
     {

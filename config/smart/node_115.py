@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
-name = '"Cromulent"'
+name = 'FLNTUS (staging)'
 location = '(TBD)'
-note = 'Chlorophyll and Turbidity (cellular FLNTUS)'
+note = 'Chlorophyll and Turbidity (cellular FLNTUS 5113)'
 
-#coreid = '580052001951353338363036'
+coreid = '3a0038001751353338363036'
 
 conf = [
     {
@@ -18,7 +18,7 @@ conf = [
         'description':'Chlorophyll (EX/EM: 470/695nm)',
         'unit':'mg/L',
         'lb':0,
-        'ub':0.0121*(4130 - 46),
+        'ub':0.0121*(4130 - 48),
         'plot_range':7*24,
         'interval':12*60,
     },

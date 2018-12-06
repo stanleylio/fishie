@@ -2,7 +2,7 @@
 name = 'Mokauea Tide'
 location = 'Mokauea Island'
 google_earth_link = '#'
-note = 'Ultrasonic tide gauge (XBee). One measurement every ~3 minutes. Firmware us11b, hardware v5.0.'
+note = 'Ultrasonic tide gauge (XBee). One measurement every ~3 minutes. Firmware us11b, hardware v5.0. 108cm to bottom.'
 
 
 conf = [

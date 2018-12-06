@@ -4,7 +4,7 @@ location = 'TNC'
 google_earth_link = '#'
 note = 'Cellular ultrasonic tide gauge. Each sample is average of 60 measurements taken every second. One transmission every 10 samples. Firmware p5e, hardware v0.2.'
 
-coreid = '470032001951353338363036'
+coreid = '230048001951353338363036'
 
 
 conf = [
@@ -50,11 +50,11 @@ conf = [
 if '__main__' == __name__:
     for c in conf:
         print('- - -')
-        for k,v in c.iteritems():
-            print(k,':',v)
+        for k, v in c.items():
+            print(k, ':', v)
 
     import sys
     sys.path.append('../..')
     from os.path import basename
     from storage.storage2 import create_table
-    create_table(conf,basename(__file__).split('.')[0].replace('_','-'))
+    create_table(conf,basename(__file__).split('.')[0].replace('_', '-'))

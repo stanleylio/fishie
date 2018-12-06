@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
-name = 'Ala Moana buoy SeapHOx + CTD'
-location = 'Ala Moana buoy'
-note = 'SeapHOx + CTD 02026'
+name = 'SeapHOx (staging)'
+location = '(TBD)'
+note = 'SeapHOx TBD'
 
-coreid = '5d003e001951353338363036'
+coreid = '2f002f001951353338363036'
 
 conf = [
     {

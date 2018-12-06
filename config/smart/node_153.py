@@ -1,9 +1,7 @@
 # -*- coding: utf-8 -*-
 name = 'FLNTUSB (staging)'
 location = '(TBD)'
-note = 'FLNTUSB, chlorophyll and turbidity (cellular FLNTUSB 5117)'
-
-coreid = '180033001951353338363036'
+note = 'FLNTUSB, chlorophyll and turbidity (XBee FLNTUSB 5101)'
 
 conf = [
     {
@@ -18,7 +16,7 @@ conf = [
         'description':'Chlorophyll (EX/EM: 470/695nm)',
         'unit':'ug/L',
         'lb':0,
-        'ub':0.0121*(4130 - 47),
+        'ub':0.0121*(4130 - 48),
         'plot_range':7*24,
         'interval':12*60,
     },
@@ -27,7 +25,7 @@ conf = [
         'description':'Turbidity (700nm)',
         'unit':'NTU',
         'lb':0,
-        'ub':0.0061*(4130 - 50),
+        'ub':0.0060*(4130 - 43),
         'plot_range':7*24,
         'interval':12*60,
     },
@@ -58,11 +56,11 @@ conf = [
         'interval':12*60,
     },
     {
-        'dbtag':'SoC',
-        'unit':'%',
-        'description':'State of Charge (telemetry relay\'s)',
-        'lb':30,
-        'ub':100,
+        'dbtag':'Vs',
+        'unit':'V',
+        'description':'Solar input voltage (telemetry relay\'s)',
+        'lb':0,
+        'ub':6,
         'interval':12*60,
     },
 ]
