@@ -56,7 +56,7 @@ for table in store.get_list_of_tables():
 
 
 # - - - - -
-fig, ax = plt.subplots(len(R), 1, sharex=True, figsize=(8, 140), dpi=80)
+fig, ax = plt.subplots(len(R), 1, sharex=True, figsize=(8, 240), dpi=80)
 i = 1
 for table,r in sorted(R.items()):
     ax = plt.subplot(len(R), 1, i)

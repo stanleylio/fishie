@@ -23,6 +23,8 @@ echo "SMART"
 python3 t0.py --site=smart
 echo "Lyon"
 python3 t0.py --site=lyon
+echo "Mokauea"
+python3 t0.py --site=mokauea
 echo "Mobile/Other"
 python3 t0.py --site=uhm
 
