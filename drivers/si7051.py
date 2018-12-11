@@ -1,6 +1,6 @@
-from __future__ import division
+# Stanley H.I. Lio
 from smbus import SMBus
-import traceback,time
+import traceback, time
 
 
 class Si7051(object):
@@ -21,7 +21,7 @@ class Si7051(object):
     def read(self):
         # http://wiki.erazor-zone.de/wiki:linux:python:smbus:doc
         # default 14-bit
-        tmp = self.bus.read_i2c_block_data(self.address,self.TEMP_HOLD)
+        tmp = self.bus.read_i2c_block_data(self.address, self.TEMP_HOLD)
         tmp = (tmp[0] << 8) + tmp[1]
         return round(175.72*tmp/65536 - 46.85,6)
 

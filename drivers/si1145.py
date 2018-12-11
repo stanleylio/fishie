@@ -1,3 +1,4 @@
+# Stanley H.I. Lio
 import logging, time, io, fcntl, struct
 
 
@@ -30,8 +31,8 @@ class Si1145:
     
     def __init__(self, bus=1, address=0x60):
         self.address = address
-        self.fr = io.open('/dev/i2c-{}'.format(bus), 'rb',buffering=0)
-        self.fw = io.open('/dev/i2c-{}'.format(bus), 'wb',buffering=0)
+        self.fr = io.open('/dev/i2c-{}'.format(bus), 'rb', buffering=0)
+        self.fw = io.open('/dev/i2c-{}'.format(bus), 'wb', buffering=0)
         I2C_SLAVE = 0x703   # but why?
         fcntl.ioctl(self.fr, I2C_SLAVE, self.address)
         fcntl.ioctl(self.fw, I2C_SLAVE, self.address)

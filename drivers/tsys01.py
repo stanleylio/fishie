@@ -1,6 +1,4 @@
 # Stanley H.I. Lio
-# hlio@hawaii.edu
-# All Rights Reserved. 2018
 import time, struct, traceback, io, fcntl
 
 

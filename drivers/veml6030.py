@@ -1,43 +1,8 @@
-'''import smbus, time
-
-
-i2c = smbus.SMBus(1)
-
-address = 0x48
-
-command = 0
-lsb = 0
-msb = 0
-i2c.write_i2c_block_data(address, command, [lsb,msb])
-
-command = 4
-while True:
-    i2c.write_i2c_block_data(address, command, [0])
-    data = i2c.read_i2c_block_data(address, command, 2)
-    print(data)
-    
-    time.sleep(0.1)
-
-
-
-
-
-
-
-exit()'''
-
-
-
-
-
-
-#!/usr/bin/python3
 # Driver for VEML6030 ambient light sensor
 #
+# Written for using the VEML6030 quickly, not extensively tested or complete implemented.
+#
 # Stanley H.I. Lio
-# hlio@hawaii.edu
-# All Rights Reserved
-# 2017
 import smbus, time, struct, traceback
 
 
@@ -47,7 +12,7 @@ class VEML6030:
     ALS_IT = {25:0b1100, 50:0b1000, 100:0, 200:1, 400:0b10, 800:0b11}
     ALS_PES = {1:0, 2:1, 4:2, 8:3}
 
-    def __init__(self,address=0x48,bus=1):
+    def __init__(self, address=0x48, bus=1):
         self.address = address
         self.i2c = smbus.SMBus(bus)
         # This won't do. It doesn't do Repeated Start.
@@ -86,7 +51,7 @@ class VEML6030:
 
     def set_psm(self):
 #!! WHAT?
-        self._write(3,0b0,0)
+        self._write(3, 0b0, 0)
         return self
 
     def power_on(self):
@@ -100,7 +65,7 @@ class VEML6030:
         return self
 
     def _write(self, command, lsb, msb):
-        self.i2c.write_i2c_block_data(self.address, command, [lsb,msb])
+        self.i2c.write_i2c_block_data(self.address, command, [lsb, msb])
 
     def _read(self, command):
         self.i2c.write_byte(self.address, command)
