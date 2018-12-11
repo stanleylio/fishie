@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 # kph1
-name = 'Monty'
+name = '(decommissioned; previously Monty)'
 location = 'Site #13, Kāneʻohe Bay'
 note = 'SeaFET pH Sensor; giant weight + tiny float'
 

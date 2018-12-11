@@ -27,6 +27,8 @@ echo "Mokauea"
 python3 t0.py --site=mokauea
 echo "Mobile/Other"
 python3 t0.py --site=uhm
+echo "Staging/Dev"
+python3 t0.py --site=staging
 
 
 # - - -

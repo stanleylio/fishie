@@ -24,7 +24,7 @@ host = 'localhost'
 user = 'root'
 password = cred['mysql']
 dbname = 'uhcm'
-conn = MySQLdb.connect(host=host,user=user,passwd=password,db=dbname)
+conn = MySQLdb.connect(host=host, user=user, passwd=password, db=dbname)
 cur = conn.cursor()
 
 store = storage()
@@ -45,9 +45,9 @@ for table in store.get_list_of_tables():
     print(table)
     time_col = auto_time_col(store.get_list_of_columns(table))
     d = []
-    for begin,end in zip(begins,ends):
+    for begin, end in zip(begins,ends):
         cmd = 'SELECT COUNT(*) FROM {dbname}.`{table}` WHERE {time_col} >= {begin} AND {time_col} <= {end}'.\
-              format(dbname=dbname,table=table,time_col=time_col,begin=begin,end=end)
+              format(dbname=dbname, table=table, time_col=time_col, begin=begin, end=end)
         #print cmd
         cur.execute(cmd)
         r = cur.fetchall()
@@ -56,7 +56,7 @@ for table in store.get_list_of_tables():
 
 
 # - - - - -
-fig, ax = plt.subplots(len(R), 1, sharex=True, figsize=(8, 240), dpi=80)
+fig, ax = plt.subplots(len(R), 1, sharex=True, figsize=(4, 200), dpi=80)
 i = 1
 for table,r in sorted(R.items()):
     ax = plt.subplot(len(R), 1, i)

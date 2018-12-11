@@ -13,8 +13,8 @@ conf = [
         'interval':16*8,
     },
     {
-        'dbtag':'t76',
-        'description':'Temperature (ch76)',
+        'dbtag':'t0',
+        'description':'Temperature (0x76)',
         'unit':'Deg.C',
         'lb':0,
         'ub':40,
@@ -22,8 +22,8 @@ conf = [
         'interval':16*8,
     },
     {
-        'dbtag':'t77',
-        'description':'Temperature (ch77)',
+        'dbtag':'t1',
+        'description':'Temperature (0x77)',
         'unit':'Deg.C',
         'lb':0,
         'ub':40,

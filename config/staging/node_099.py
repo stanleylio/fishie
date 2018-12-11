@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 name = '"Fake-News"'
-location = 'on paper'
+location = 'Tannhauser Gate'
 note = 'Virtual p5e Particle Electron for testing and monitoring'
 
 coreid = '000000000000000000000099'
