@@ -1,10 +1,5 @@
 #!/usr/bin/python3
-# Driver for VEML6040 RGBW light sensor
-#
 # Stanley H.I. Lio
-# hlio@hawaii.edu
-# All Rights Reserved
-# 2017
 import smbus, time, struct, traceback
 
 

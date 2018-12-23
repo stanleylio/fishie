@@ -1,8 +1,4 @@
-"""Driver for TSL2591 light sensor
-
-Stanley Lio, hlio@soest.hawaii.edu
-All Rights Reserved. February 2016
-"""
+# Stanley H.I. Lio
 from time import sleep
 from smbus import SMBus
 
@@ -10,10 +6,10 @@ from smbus import SMBus
 class TSL2591(object):
     address = 0x29
 
-    AGAIN = {0:1,1:25,2:428,3:9876}
-    ATIME = {0:100,1:200,2:300,3:400,4:500,5:600}
+    AGAIN = {0:1, 1:25, 2:428, 3:9876}
+    ATIME = {0:100, 1:200, 2:300, 3:400, 4:500, 5:600}
 
-    def __init__(self,bus=1,gain=1,integration_time=100):
+    def __init__(self, bus=1, gain=1, integration_time=100):
         self.bus = SMBus(bus)
         #self._reset()
         self.gain(gain)
@@ -33,7 +29,7 @@ class TSL2591(object):
         return self._read(0x13)
 
     def read(self):
-        r = self.bus.read_i2c_block_data(self.address,0x80 + 0x14,4)
+        r = self.bus.read_i2c_block_data(self.address, 0x80 + 0x14, 4)
         mc = 65535
         if self._it == 0:
             mc = 37888
@@ -70,7 +66,7 @@ class TSL2591(object):
             tmp = self._read(0x01)
             tmp = tmp & 0b11001111
             tmp = tmp | ig[gain] << 4
-            self._write(0x01,tmp)
+            self._write(0x01, tmp)
 
         # always return a fresh copy
         tmp = self._read(0x01)
@@ -80,12 +76,12 @@ class TSL2591(object):
     #def _reset(self):
     #    self._write(1,0x80)
 
-    def _read(self,reg):
+    def _read(self, reg):
         # so this would be a so-called "combined protocol"
         return self.bus.read_byte_data(self.address,0x80 | reg)
         
-    def _write(self,reg,value):
-        self.bus.write_byte_data(self.address,0x80 | reg,value)
+    def _write(self, reg, value):
+        self.bus.write_byte_data(self.address, 0x80 | reg, value)
 
     def __del__(self):
         #self.disable()
@@ -113,6 +109,6 @@ if '__main__' == __name__:
 
     while True:
         r = s.read()
-        print('ch0:{:.4f}, ch1:{:.4f}'.format(r[0],r[1]))
+        print('ch0:{:.4f}, ch1:{:.4f}'.format(r[0], r[1]))
         sleep(0.1)
 
