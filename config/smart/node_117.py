@@ -2,6 +2,8 @@
 name = 'FDOM (staging)'
 location = '(TBD)'
 note = 'Fluorescent dissolved organic matter (FDOM), chlorophyll and turbidity (cellular FDOM 1697)'
+latitude = 21.279889
+longitude = -157.848611
 
 coreid = '580052001951353338363036'
 

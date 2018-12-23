@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
 name = 'Pükele Stream Water Level'
-location = 'Pükele Stream, Palolo (21.30529, -157.78932)'
+location = 'Pükele Stream, Palolo'
 google_earth_link = '#'
 note = 'Ultrasonic tide gauge (XBee). One measurement every ~3 minutes. Firmware us11b, hardware v5.0.'
+latitude = 21.30529
+longitude = -157.78932
 
 
 conf = [

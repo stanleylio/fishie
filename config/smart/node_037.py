@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
 name = 'Chris\' (Wai‘ōma‘o Stream)'
-location = 'Wai‘ōma‘o Stream, Palolo Valley (21.303289, -157.785434)'
+location = 'Wai‘ōma‘o Stream, Palolo Valley'
 note = 'Ultrasonic tide gauge measuring distance to water surface from fixed structure. One measurement per second, one transmission (average of past minute) per minute. Hardware v4.2, firmware us10b. (low-cost charger, welded battery tabs)'
+latitude = 21.303289
+longitude = -157.785434
 
 
 conf = [
@@ -56,11 +58,11 @@ conf = [
 if '__main__' == __name__:
     for c in conf:
         print('- - -')
-        for k,v in c.iteritems():
-            print(k,':',v)
+        for k, v in c.items():
+            print(k, ':', v)
 
     import sys
     sys.path.append('../..')
     from os.path import basename
     from storage.storage2 import create_table
-    create_table(conf,basename(__file__).split('.')[0].replace('_','-'))
+    create_table(conf, basename(__file__).split('.')[0].replace('_', '-'))

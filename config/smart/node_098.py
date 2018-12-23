@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
 name = 'Makiki Stream Water Level'
-location = 'Halau Ku Mana School, Makiki Stream (21.312750, -157.829150)'
+location = 'Halau Ku Mana School, Makiki Stream'
 google_earth_link = '#'
 note = 'Ultrasonic tide gauge (XBee). One measurement every ~3 minutes. Firmware us11b, hardware v5.0.'
+latitude = 21.312750
+longitude = -157.829150
 
 
 conf = [

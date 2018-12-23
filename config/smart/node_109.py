@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
 name = 'Makiki Weather Station'
-location = 'Halau Ku Mana School (21.313060, -157.829150)'
+location = 'Halau Ku Mana School'
 note = 'Rain, air temperature, barometric pressure, and humidity. Solar, Arduino + XBee'
+latitude = 21.313060
+longitude = -157.829150
 
 
 conf = [

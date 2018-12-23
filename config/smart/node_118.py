@@ -2,6 +2,8 @@
 name = 'Ala Moana buoy SeapHOx + CTD'
 location = 'Ala Moana buoy'
 note = 'SeapHOx + CTD 02026'
+latitude = 21.279889
+longitude = -157.848611
 
 coreid = '5d003e001951353338363036'
 
