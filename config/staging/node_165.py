@@ -34,7 +34,7 @@ conf = [
         'dbtag':'Vb',
         'unit':'V',
         'description':'Battery voltage',
-        'lb':2.7,
+        'lb':3.0,
         'ub':4.2,
         'interval':16*8,
     },
@@ -43,7 +43,7 @@ conf = [
         'unit':'V',
         'description':'Solar panel voltage',
         'lb':0,
-        'ub':7,
+        'ub':7.5,
         'interval':16*8,
     },
 ]

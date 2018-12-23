@@ -5,7 +5,8 @@ note = 'SeapHOx + CTD 02026'
 latitude = 21.279889
 longitude = -157.848611
 
-coreid = '5d003e001951353338363036'
+#coreid = '5d003e001951353338363036'
+coreid = '23003b000351353337353037'
 
 conf = [
     {
