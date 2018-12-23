@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
-name = 'FDOM (staging)'
-location = '(TBD)'
+name = 'Ala Moana buoy FDOM'
+location = 'Ala Moana buoy'
 note = 'Fluorescent dissolved organic matter (FDOM), chlorophyll and turbidity (cellular FDOM 1697)'
 
-coreid = '580052001951353338363036'
+#coreid = '580052001951353338363036'
+coreid = '1e0029001751353338363036'
 
 conf = [
     {

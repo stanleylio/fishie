@@ -3,7 +3,8 @@ name = 'FLNTUSB (staging)'
 location = '(TBD)'
 note = 'FLNTUSB, chlorophyll and turbidity (cellular FLNTUSB 5117)'
 
-coreid = '180033001951353338363036'
+#coreid = '180033001951353338363036'
+coreid = '25002d001951353338363036'
 
 conf = [
     {

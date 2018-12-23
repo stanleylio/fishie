@@ -3,7 +3,8 @@ name = 'Ala Moana buoy SeapHOx + CTD'
 location = 'Ala Moana buoy'
 note = 'SeapHOx + CTD 02026'
 
-coreid = '5d003e001951353338363036'
+#coreid = '5d003e001951353338363036'
+coreid = '23003b000351353337353037'
 
 conf = [
     {
