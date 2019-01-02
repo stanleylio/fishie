@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
 name = 'Folly Island'
-location = 'Charleston, South Carolina (32.648056, -79.961389)'
+location = 'Charleston, South Carolina'
 note = 'Cellular ultrasonic tide gauge. Each sample is average of 60 measurements taken every second. One transmission every 10 samples. Firmware p5d, hardware v0.2 (with US_EN patch).'
+latitude = 32.648056
+longitude = -79.961389
 
 coreid = '4a0037000251363131363432'
 

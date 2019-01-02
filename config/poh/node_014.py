@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
 name = 'Wai 1 Water Level'
-location = 'River Mākāhā (21.439750, -157.809800)'
+location = 'River Mākāhā'
 google_earth_link = 'https://goo.gl/maps/ha2pmE8hEir'
 note = 'Ultrasonic tide gauge (1st gen PCB)'
+latitude = 21.439750
+longitude = -157.809800
 
 
 conf = [
@@ -33,11 +35,11 @@ conf = [
 if '__main__' == __name__:
     for c in conf:
         print('- - -')
-        for k,v in c.iteritems():
-            print(k,':',v)
+        for k, v in c.items():
+            print(k, ':', v)
 
     import sys
     sys.path.append('../..')
     from os.path import basename
     from storage.storage2 import create_table
-    create_table(conf,basename(__file__).split('.')[0].replace('_','-'))
+    create_table(conf, basename(__file__).split('.')[0].replace('_', '-'))

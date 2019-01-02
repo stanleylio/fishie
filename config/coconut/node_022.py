@@ -3,6 +3,8 @@
 name = 'Coco'
 location = 'Site #4, Kāneʻohe Bay'
 note = 'SeaFET pH Sensor; pole on a pole on a reef'
+latitude = 21.434699
+longitude = -157.798988
 
 
 conf = [
@@ -179,11 +181,11 @@ conf = [
 if '__main__' == __name__:
     for c in conf:
         print('- - -')
-        for k,v in c.iteritems():
-            print(k,':',v)
+        for k, v in c.items():
+            print(k, ':', v)
 
     import sys
     sys.path.append('../..')
     from os.path import basename
     from storage.storage2 import create_table
-    create_table(conf,basename(__file__).split('.')[0].replace('_','-'))
+    create_table(conf, basename(__file__).split('.')[0].replace('_', '-'))

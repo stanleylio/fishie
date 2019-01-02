@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
 name = '(TBD)'
-location = 'Mokauea Island (21.308056, -157.891944)'
+location = 'Mokauea Island'
 note = 'Twin-TSYS'
+latitude = 21.308056
+longitude = -157.891944
 
 conf = [
     {

@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
 name = '"Next-to-NOAA"'
-location = 'Coconut Island (21.433037, -157.789814)'
+location = 'Coconut Island'
 google_earth_link = 'https://goo.gl/maps/QWuNSn4Ge9m'
 note = 'Cellular ultrasonic tide gauge. Each sample is average of 60 measurements taken every second. One transmission every 10 samples. Firmware p5e, hardware v0.2.'
+latitude = 21.433037
+longitude = -157.789814
 
 coreid = '1c0038001647373037383634'
 
@@ -50,11 +52,11 @@ conf = [
 if '__main__' == __name__:
     for c in conf:
         print('- - -')
-        for k,v in c.iteritems():
-            print(k,':',v)
+        for k, v in c.items():
+            print(k, ':', v)
 
     import sys
     sys.path.append('../..')
     from os.path import basename
     from storage.storage2 import create_table
-    create_table(conf,basename(__file__).split('.')[0].replace('_','-'))
+    create_table(conf, basename(__file__).split('.')[0].replace('_', '-'))

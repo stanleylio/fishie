@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
 name = '"Water-Under-The-Bridge"'
-location = 'Coconut Island (21.435983, -157.788333)'
+location = 'Coconut Island'
 google_earth_link = 'https://goo.gl/maps/8gJTDCgVan32'
 note = 'Ultrasonic tide gauge measuring distance to water surface from fixed structure. One measurement per second, one transmission (average of past minute) per minute. Hardware v4.2, firmware us10b.'
+latitude = 21.435983
+longitude = -157.788333
 
 
 conf = [

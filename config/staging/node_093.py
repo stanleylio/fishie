@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
-name = 'Mokauea Tide'
-location = 'Mokauea Island'
+name = '(TBD)'
+location = '(TBD)'
 google_earth_link = '#'
-note = 'Ultrasonic tide gauge (XBee). One measurement every ~3 minutes. Firmware us11b, hardware v5.0. 108cm to bottom.'
+note = 'Ultrasonic tide gauge (XBee). 1Hz measurements. Each transmission is average of 60 measurements. Firmware us11d, hardware v5.0.'
 
 
 conf = [
@@ -15,17 +15,17 @@ conf = [
         'interval':180,
     },
     {
-        'dbtag':'Vsolar',
+        'dbtag':'Vs',
         'unit':'V',
         'description':'Solar panel voltage',
         'lb':0,
-        'ub':5.5,
+        'ub':7.5,
         'interval':180,
     },
     {
         'dbtag':'idx',
         'description':'Sample index',
-        'lb':0,
+        'lb':24*60,
         'interval':180,
     },
 ]

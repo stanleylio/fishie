@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
 # successor to us2
 name = 'Hīhīmanu Water Level'
-location = 'Hīhīmanu (first mākāhā; 21.433912, -157.805338)'
+location = 'Hīhīmanu (first mākāhā)'
 note = 'Ultrasonic tide gauge (v4.2). One sample per minute. Each sample is the sample mean of the past 60 measurements taken at 1Hz. Telemetry only. No RTC.'
+latitude = 21.433912
+longitude = -157.805338
 
 
 conf = [
@@ -33,11 +35,11 @@ conf = [
 if '__main__' == __name__:
     for c in conf:
         print('- - -')
-        for k,v in c.iteritems():
-            print(k,':',v)
+        for k, v in c.items():
+            print(k, ':', v)
 
     import sys
     sys.path.append('../..')
     from os.path import basename
     from storage.storage2 import create_table
-    create_table(conf,basename(__file__).split('.')[0].replace('_','-'))
+    create_table(conf, basename(__file__).split('.')[0].replace('_', '-'))

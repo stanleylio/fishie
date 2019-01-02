@@ -2,6 +2,8 @@
 name = 'Lyon Arboretum Meteorological Station'
 location = 'Lyon Arboretum, Manoa Valley'
 note = 'RM Young 05106. 5Hz wind direction and 1Hz wind speed display; logged once a minute. Pi cape v0.3 with WDT.'
+latitude = 21.333127
+longitude = -157.801550
 
 
 conf = [

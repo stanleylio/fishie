@@ -1,10 +1,7 @@
 # -*- coding: utf-8 -*-
-name = 'Water Level (Lilipuna Rd)'
-location = 'Lilipuna Rd Yacht Club'
-google_earth_link = '#'
-note = 'Ultrasonic tide gauge (XBee). 1Hz measurements; each transmission is average of 60 measurements. Firmware us12c, hardware v5.2.'
-latitude = 21.424772
-longitude = -157.798617
+name = '"Komorebi"'
+location = 'Staging Bay, Flyover State'
+note = 'Ultrasonic tide gauge (XBee). 1Hz measurements. Each transmission is average of 60 measurements. Firmware us13a, hardware v5.3.'
 
 
 conf = [
@@ -35,13 +32,19 @@ conf = [
     {
         'dbtag':'idx',
         'description':'Sample index',
-        'lb':24*60,
+        'lb':0,
         'interval':60,
     },
     {
         'dbtag':'sc',
         'description':'Sample Size (after rejecting invalid measurements)',
-        'lb':0,
+        'lb':48,
+        'interval':60,
+    },
+    {
+        'dbtag':'c',
+        'description':'Internal 1Hz counter',
+        'lb':24*3600,
         'interval':60,
     },
 ]

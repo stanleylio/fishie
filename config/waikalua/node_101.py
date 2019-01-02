@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
 name = 'Limu Wai CTD-O2'
-location = 'Waikalua Loko I`a (21.411111, -157.784167)'
+location = 'Waikalua Loko I`a'
 note = 'Beaglebone-based node measuring oxygen, temperature, conductivity, and pressure'
+latitude = 21.411111
+longitude = -157.784167
 
 # node stuff
 XBEE_PORT = '/dev/ttyS2'

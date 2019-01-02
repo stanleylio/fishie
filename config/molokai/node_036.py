@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
 name = 'Ali`i Water Level'
-location = 'Ali`i Fishpond, Molokaʻi (21.073033, -156.981083)'
+location = 'Ali`i Fishpond, Molokaʻi'
 google_earth_link = 'https://goo.gl/maps/FTXJBZtAAhH2'
 note = 'Ultrasonic tide gauge (XBee). Each sample is the sample mean of 60 measurements taken every second (excluding any out-of-range ones). Firmware us10b, hardware v4.2.'
+latitude = 21.073033
+longitude = -156.981083
 
 
 conf = [
@@ -40,11 +42,11 @@ conf = [
 if '__main__' == __name__:
     for c in conf:
         print('- - -')
-        for k,v in c.iteritems():
-            print(k,':',v)
+        for k, v in c.items():
+            print(k, ':', v)
 
     import sys
     sys.path.append('../..')
     from os.path import basename
     from storage.storage2 import create_table
-    create_table(conf,basename(__file__).split('.')[0].replace('_','-'))
+    create_table(conf, basename(__file__).split('.')[0].replace('_', '-'))

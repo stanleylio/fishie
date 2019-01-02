@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
 name = 'Kahoʻokele Water Level'
-location = 'Kahoʻokele (second mākāhā; 21.435435, -157.805250)'
+location = 'Kahoʻokele (second mākāhā)'
 note = 'XBee ultrasonic tide gauge. One sample per minute. Each sample is the sample mean of the past 60 measurements taken at 1Hz. Telemetry only. No RTC. 7\'4" to bottom. Deployed May 22, 2017. Hardware v5.0, firmware us11c.'
+latitude = 21.435435
+longitude = -157.805250
 
 # 20170522
 #UPDATE uhcm.`node-008` SET VbattmV=VbattmV/1000.0;

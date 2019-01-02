@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
 name = 'South Shore'
-location = 'Nomilo Fishpond, Kauaʻi, Hawai‘i (21.884722, -159.527500)'
+location = 'Nomilo Fishpond, Kauaʻi, Hawai‘i'
 note = 'Surface water quality monitor measuring oxygen, temperature, conductivity, and pressure'
+latitude = 21.884722
+longitude = -159.527500
 
 # node stuff
 XBEE_PORT = '/dev/ttyS2'

@@ -2,10 +2,10 @@
 name = 'Wind sensor'
 location = 'South Shore, Nomilo Fishpond, Kauaʻi, Hawai‘i'
 note = 'Software running on base-013 (no dedicated physical controller)'
-
+latitude = 21.884722
+longitude = -159.527500
 
 INTERVAL = 60
-
 
 conf = [
     {

@@ -3,6 +3,8 @@ name = 'Manoa Stream (UH) Water Level'
 location = 'Manoa Stream (Japanese Garden, UHM)'
 google_earth_link = '#'
 note = 'Ultrasonic tide gauge (XBee). One measurement every ~3 minutes. Firmware us11b, hardware v5.0.'
+latitude = 21.299363
+longitude = -157.813624
 
 
 conf = [

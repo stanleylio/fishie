@@ -2,6 +2,8 @@
 name = 'He\'eia Fishpond Wind Sensor'
 location = 'Coast Guard Tower, He\'eia Fishpond'
 note = 'RM Young 05106 Anemometer with XBee Pro 2.4GHz'
+latitude = 21.434779
+longitude = -157.805064
 
 
 INTERVAL = 60

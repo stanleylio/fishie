@@ -3,6 +3,8 @@ location = 'Lyon Arboretum'
 google_earth_link = '#'
 note = '(TBD)'
 public_key = ''
+latitude = 21.333127
+longitude = -157.801550
 
 
 conf = [

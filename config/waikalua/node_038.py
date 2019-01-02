@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
 name = 'Ku Ula Kai Water Level'
-location = '"Tank Inlet", Waikalua, Kaneohe (21.411389, -157.784167)'
+location = '"Tank Inlet", Waikalua, Kaneohe'
 google_earth_link = '#'
 note = 'Ultrasonic tide gauge (XBee). Each sample is the sample mean of 60 measurements taken every second (excluding any out-of-range ones). Firmware us10b, hardware v4.2.'
+latitude = 21.411389
+longitude = -157.784167
 
 
 conf = [
@@ -40,11 +42,11 @@ conf = [
 if '__main__' == __name__:
     for c in conf:
         print('- - -')
-        for k,v in c.items():
-            print(k,':',v)
+        for k, v in c.items():
+            print(k, ':', v)
 
     import sys
     sys.path.append('../..')
     from os.path import basename
     from storage.storage2 import create_table
-    create_table(conf,basename(__file__).split('.')[0].replace('_','-'))
+    create_table(conf, basename(__file__).split('.')[0].replace('_', '-'))
