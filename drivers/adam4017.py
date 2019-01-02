@@ -12,14 +12,14 @@ logger = logging.getLogger(__name__)
 
 
 class ADAM4017(object):
-    _bauds = {1200:'03',2400:'04', 4800:'05', 9600:'06', 19200:'07', 38400:'08'}
+    _bauds = {1200:'03', 2400:'04', 4800:'05', 9600:'06', 19200:'07', 38400:'08'}
     _ranges = {10:'08', 5:'09', 1:'0A', 500e-3:'0B', 150e-3:'0C'}
     
     def __init__(self, address, port, baud=9600):
         assert 2 == len(address)
         assert baud in self._bauds.keys()
         self._address = address
-        self._s = serial.Serial(port,baud,timeout=1)
+        self._s = serial.Serial(port, baud, timeout=1)
         self._sio = io.TextIOWrapper(io.BufferedRWPair(self._s, self._s, 1),
                                      encoding='ascii',
                                      line_buffering=True,
@@ -51,7 +51,7 @@ class ADAM4017(object):
     def CheckModuleName(self):
         return '!{}4017'.format(self._address) == self.cmdReadModuleName().strip()
 
-    def SetInputRange(self,InputRange):
+    def SetInputRange(self, InputRange):
         logger.debug('SetInputRange(), from {} to {}'.format(self._currentinputrange, InputRange))
         assert InputRange in self._ranges.keys(),\
                'InputRange must be one of {}'.format(str(sorted(self._ranges.keys())))

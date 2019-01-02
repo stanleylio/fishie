@@ -8,12 +8,12 @@ class TestStorage2(unittest.TestCase):
 
     def test_read_latest_non_null(self):
         s = storage()
-        self.assertTrue(s.read_latest_non_null('node-008','ReceptionTime','ticker'))
+        self.assertTrue(s.read_latest_non_null('node-008', 'ReceptionTime', 'idx'))
         #self.assertTrue(parse_SeaFET(m) is not None)
 
     def test_read_last_N_minutes(self):
         s = storage()
-        self.assertTrue(s.read_last_N_minutes('node-007','ReceptionTime',1,'T_280'))
+        self.assertTrue(s.read_last_N_minutes('node-007', 'ReceptionTime', 1, 'T_280'))
 
 
 if __name__ == '__main__':

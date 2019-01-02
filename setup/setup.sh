@@ -5,23 +5,39 @@ sudo nano /etc/hostname
 sudo nano /etc/hosts
 
 USERNAME="nuc"
-RABBITMQPASSWORD=
-#HOSTNAME="base-XXX"
+RABBITMQPASSWORD=""
+HOSTNAME="base-XXX"
 
 #sudo bash -c "echo $HOSTNAME > /etc/hostname"
 #sudo echo "127.0.0.1       $USERNAME" >> /etc/hosts
+
+
 
 sudo adduser $USERNAME
 sudo usermod -aG sudo $USERNAME
 sudo usermod -aG dialout $USERNAME
 sudo usermod -aG i2c $USERNAME
 sudo usermod -aG gpio $USERNAME
-#sudo adduser pi gpio
+
+sudo bash -c "echo \"$USERNAME ALL=(ALL) NOPASSWD:ALL\" > /etc/sudoers.d/$USERNAME"
 
 # reboot, login as USERNAME, then
-sudo bash -c "echo \"$USER ALL=(ALL) NOPASSWD:ALL\" > /etc/sudoers.d/$USER"
+sudo reboot
 sudo userdel -r -f debian
 sudo userdel -r -f pi
+
+cd
+touch $(hostname)
+sudo chmod 400 $(hostname)
+
+if [ ! -f ~/cred.py ]; then
+	touch cred.py
+	sudo chmod 600 cred.py
+fi
+
+sudo mkdir /var/uhcm
+sudo chown $USER:$USER /var/uhcm
+mkdir /var/uhcm/log
 
 
 # RSA keys
@@ -29,13 +45,14 @@ if [ ! -f ~/.ssh/id_rsa ]; then
 	echo "Generating RSA keys..."
 	ssh-keygen
 	cat ~/.ssh/id_rsa.pub
+	cat ~/.ssh/id_rsa
 else
 	sudo chmod 400 ~/.ssh/id_rsa
 fi
 
 
 sudo apt update && sudo apt upgrade -y
-sudo apt install ntp ntpdate git minicom autossh bash-completion -y
+sudo apt install chrony git i2c-tools minicom autossh bash-completion build-essential -y
 #dpkg-reconfigure tzdata
 #sudo nano /etc/ntp.conf
 
@@ -63,10 +80,9 @@ sudo apt install supervisor -y
 sudo systemctl enable supervisor
 sudo systemctl start supervisor
 sudo chown $USER:$USER /etc/supervisor/conf.d
-#sudo apt install build-essential python-dev python-setuptools python-pip python-twisted python-zmq -y
-#sudo pip install --upgrade pyserial requests pycrypto pika
-sudo apt install python3 python3-pip python3-scipy python3-smbus -y
-sudo pip3 install --upgrade pika requests pycrypto pyserial pyzmq twisted Adafruit_BBIO Adafruit_GPIO RPi.GPIO
+
+sudo apt install python3 python3-pip python3-scipy python3-smbus sqlite3 -y
+sudo pip3 install --upgrade pika requests pycrypto pyserial pyzmq twisted RPi.GPIO
 
 
 # RabbitMQ
@@ -85,19 +101,21 @@ cd
 #https://packages.erlang-solutions.com/erlang/#tabs-debian
 
 sudo apt install rabbitmq-server -y
+sudo systemctl enable rabbitmq-server
+sudo systemctl start rabbitmq-server
+sudo rabbitmq-plugins enable rabbitmq_management
+sudo rabbitmq-plugins enable rabbitmq_shovel
+sudo rabbitmq-plugins enable rabbitmq_shovel_management
 sudo rabbitmqctl add_user $(hostname) $RABBITMQPASSWORD
 sudo rabbitmqctl set_permissions $(hostname) ".*" ".*" ".*"
 sudo rabbitmqctl set_user_tags $(hostname) administrator
 sudo rabbitmqctl delete_user guest
 sudo rabbitmqctl list_users
 sudo rabbitmqctl list_user_permissions $(hostname)
-sudo rabbitmq-plugins enable rabbitmq_management
-sudo rabbitmq-plugins enable rabbitmq_shovel
-sudo rabbitmq-plugins enable rabbitmq_shovel_management
-#sudo nano /etc/rabbitmq/rabbitmq.config
-#sudo chmod 664 /etc/rabbitmq/rabbitmq.config
-#sudo chmod g+w /etc/rabbitmq
-#sudo usermod -aG rabbitmq $USER
+sudo echo "[]." > /etc/rabbitmq/rabbitmq.config
+sudo chmod 664 /etc/rabbitmq/rabbitmq.config
+sudo chmod g+w /etc/rabbitmq
+sudo usermod -aG rabbitmq $USER
 # need to logout and login again for permissions to apply
 #sudo nano /etc/rabbitmq/rabbitmq.config
 # and create the corresponding RabbitMQ user on server
@@ -108,18 +126,13 @@ sudo rabbitmq-plugins enable rabbitmq_shovel_management
 # db
 #sudo apt install libmysqlclient-dev -y
 #sudo apt install mysql-server mysql-client python-mysqldb sqlite3 -y
-sudo apt install sqlite3 -y
 
 
-sudo mkdir /var/uhcm
-sudo chown $USER:$USER /var/uhcm
-mkdir /var/uhcm/log
-
+# time
 #sudo pip install Adafruit_BBIO Adafruit_GPIO
 # i2c-tools is needed for python(3) to access i2c without sudo
-sudo apt install i2c-tools -y
 #sudo apt install python3-smbus -y
-source ~/node/setup/time/install_ds1307.sh
+#source ~/node/setup/time/install_ds1307.sh
 
 
 if [ -a /boot/uEnv.txt ]
