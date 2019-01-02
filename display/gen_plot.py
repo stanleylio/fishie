@@ -5,13 +5,13 @@
 import matplotlib
 matplotlib.use('Agg')
 import numpy as np
-import sys, logging
+import sys, logging, pytz
 from os.path import expanduser
 sys.path.append(expanduser('~'))
 from node.helper import ts2dt
 import matplotlib.pyplot as plt
 from datetime import datetime, timedelta
-from matplotlib.dates import DateFormatter, HourLocator
+from matplotlib.dates import DateFormatter, HourLocator, num2date
 
 
 def auto_tick(ax):
@@ -66,11 +66,12 @@ def plot_multi_time_series(data, plotfilename, *, title='', xlabel='', ylabel=''
         # maybe use python's own kargs instead? TODO
         x = d['x']
         y = d['y']
-        label = d.get('linelabel',None)
-        color = d.get('color',None)
-        linestyle = d.get('linestyle','')
-        marker = d.get('marker','.')
-        markersize = d.get('markersize',1)
+        sun = d['sun']
+        label = d.get('linelabel', None)
+        color = d.get('color', None)
+        linestyle = d.get('linestyle', '')
+        marker = d.get('marker', '.')
+        markersize = d.get('markersize', 1)
 
         #print x[0]
         #print type(x[0])
@@ -80,12 +81,45 @@ def plot_multi_time_series(data, plotfilename, *, title='', xlabel='', ylabel=''
         
         #print(color,linestyle,marker,markersize)
 
-        plt.plot_date(x,y,
-                      linestyle=linestyle,
-                      label=label,
-                      color=color,
-                      marker=marker,
-                      markersize=markersize)
+        ax = plt.subplot()
+        ax.plot_date(x,
+                     y,
+                     linestyle=linestyle,
+                     label=label,
+                     color=color,
+                     marker=marker,
+                     markersize=markersize)
+
+        if sun is not None:
+            #print(sun)
+            #for tmp in sun:
+            #    print(tmp)
+            xmin, xmax = ax.get_xlim()
+            xmin = num2date(xmin)
+            xmax = num2date(xmax)
+            #print(xmin, xmax)
+            # Easier to just trim the ends. In dense plot the X limits sometimes
+            # extend past the previous sunrise / next sunset, so only take the
+            # newly added sunrise/sunset limits up to the X limits.
+            sun = sorted(sun, key=lambda tmp: tmp[0])
+            if not sun[0][1]:   # first item is a sunset
+                #sun.pop(0)
+                tmp = min(x).replace(tzinfo=pytz.utc)
+                tmp = max(tmp, xmin)
+                sun.insert(0, (tmp, True))
+            if sun[-1][1]:      # last item is a sunrise
+                #sun.pop(len(sun) - 1)
+                tmp = max(x).replace(tzinfo=pytz.utc)
+                tmp = min(tmp, xmax)
+                sun.append((tmp, False))
+            #print()
+            #for tmp in sun:
+            #    print(tmp)
+
+            # assert: not len(sun) % 2
+
+            for a, b in zip(sun[0::2], sun[1::2]):
+                ax.axvspan(a[0], b[0], facecolor='lightskyblue', alpha=0.2)
 
         #import matplotlib.patches as mpatches
         #red_patch = mpatches.Patch()
@@ -132,13 +166,13 @@ def plot_multi_time_series(data, plotfilename, *, title='', xlabel='', ylabel=''
             h.set_markersize(8)
 
     plt.savefig(plotfilename, bbox_inches='tight', dpi=600)
-    print(plotfilename)
+    #print(plotfilename)
     plt.cla()
     plt.clf()
     plt.close()
 
 
-def plot_time_series(x, y, plotfilename, *, title='', xlabel='', ylabel='', linelabel=None, color='#1f77b4', linestyle='-', marker='.', markersize=1):
+def plot_time_series(x, y, plotfilename, *_, sun=None, title='', xlabel='', ylabel='', linelabel=None, color='#1f77b4', linestyle='-', marker='.', markersize=1):
     assert len(x) == len(y)
     assert len(x) > 0
     assert len(plotfilename) > 0
@@ -148,7 +182,7 @@ def plot_time_series(x, y, plotfilename, *, title='', xlabel='', ylabel='', line
 
     # locate the start and end dates on which the data is not float('nan')
     if '' == xlabel:
-        z = zip(x,y)
+        z = zip(x, y)
         z = [zz[0] for zz in z]
         begin = min(z)
         end = max(z)
@@ -165,6 +199,7 @@ def plot_time_series(x, y, plotfilename, *, title='', xlabel='', ylabel='', line
 
     data = [{'x':x,
              'y':y,
+             'sun':sun,
              'linelabel':linelabel,
              'color':color,
              'linestyle':linestyle,
