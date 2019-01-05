@@ -35,8 +35,8 @@ class Watchdog:
     def read(self,reg):
         self.fw.write(bytearray([reg]))
         r = self.fr.read(2)
-        r = bytearray([c & ~0x80 for c in r])          # that mask == RPi hack
-        return struct.unpack('<H', r)[0]     # little endian, uint16_t
+        #r = bytearray([c & ~0x80 for c in r])   # that mask == RPi hack
+        return struct.unpack('<H', r)[0]        # little endian, uint16_t
 
     def close(self):
         self.fr.close()
@@ -51,7 +51,7 @@ def reset_auto():
             counter = w.reset()
             logging.debug('counter={}'.format(counter))
             logging.debug('Vin={}V'.format(w.read_vbatt()))
-            if counter >= 0 and counter <= 5*60:
+            if counter >= 0 and counter <= 10*60:
                 good = True
         except IOError:
             #logging.exception(traceback.format_exc())
