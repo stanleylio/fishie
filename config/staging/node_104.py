@@ -101,6 +101,13 @@ conf = [
         'interval':180,
     },
     {
+        'dbtag':'Vb',
+        'description':'Battery voltage (nominal 12V)',
+        'lb':12.2,
+        'ub':14.2,
+        'interval':180,
+    },
+    {
         'dbtag':'uts',
         'description':'Uptime in seconds',
         'lb':24*60*60,
