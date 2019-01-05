@@ -52,7 +52,7 @@ fi
 
 
 sudo apt update && sudo apt upgrade -y
-sudo apt install chrony git i2c-tools minicom autossh bash-completion build-essential -y
+sudo apt install chrony git i2c-tools minicom autossh bash-completion build-essential python3-pika -y
 #dpkg-reconfigure tzdata
 #sudo nano /etc/ntp.conf
 
@@ -82,7 +82,7 @@ sudo systemctl start supervisor
 sudo chown $USER:$USER /etc/supervisor/conf.d
 
 sudo apt install python3 python3-pip python3-scipy python3-smbus sqlite3 -y
-sudo pip3 install --upgrade pika requests pycrypto pyserial pyzmq twisted RPi.GPIO
+sudo pip3 install --upgrade requests pycrypto pyserial pyzmq twisted Adafruit_BBIO RPi.GPIO
 
 
 # RabbitMQ

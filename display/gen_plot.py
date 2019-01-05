@@ -90,7 +90,7 @@ def plot_multi_time_series(data, plotfilename, *, title='', xlabel='', ylabel=''
                      marker=marker,
                      markersize=markersize)
 
-        if sun is not None:
+        if sun is not None and len(sun):
             #print(sun)
             #for tmp in sun:
             #    print(tmp)

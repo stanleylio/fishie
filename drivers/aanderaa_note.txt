@@ -45,28 +45,33 @@ save
 
 
 
-// 4531D
+// 4531A / 4531D
+stop
+
 // Disable sleep mode, enable text, enable polled mode
 get enable sleep
 get enable text
 get enable polled mode
+get enable decimalformat
 get enable rawdata
 
 set_protect(1000)
 set enable sleep(No)
 set enable text(Yes)
 set enable polled mode(Yes)
+set enable decimalformat(Yes)
 set enable rawdata(No)
-save
 
 get enable sleep
 get enable text
 get enable polled mode
+get enable decimalformat
 get enable rawdata
 
 //set_protect(1000)
 //get enable comm indicator
 //set enable comm indicator(No)
+save
 
 
 
