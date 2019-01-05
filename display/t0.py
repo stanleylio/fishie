@@ -1,7 +1,7 @@
 # Generate static plots for a given site
 #
 # Stanley H.I. Lio
-import sys, traceback, json, time, math, logging, argparse, pytz
+import sys, json, time, math, logging, argparse, pytz
 from os import makedirs
 from os.path import exists, join, expanduser
 sys.path.append(expanduser('~'))
@@ -158,17 +158,21 @@ for site in sites:
                         color = '#1f77b4'
 
                 sun = None
-                if latitude is not None and longitude is not None:
-                    #print(latitude, longitude, valid_begin, valid_end)
-                    tmp = api.Topos(latitude_degrees=latitude, longitude_degrees=longitude)
-                    # epsilon is in unit of Julian days - down to the minute is fine.
-                    risesettimes, isrise = almanac.find_discrete(timescale.utc(ts2dt(valid_begin).replace(tzinfo=pytz.utc)),
-                                                 timescale.utc(ts2dt(valid_end).replace(tzinfo=pytz.utc)),
-                                                 almanac.sunrise_sunset(planets, tmp),
-                                                 epsilon=1/24/60)
-                    #print(t.utc_iso())
-                    sun = list(zip([tmp.utc_datetime() for tmp in risesettimes], isrise))
-                #continue
+                try:
+                    if latitude is not None and longitude is not None and valid_end - valid_begin > 24*3600:
+                        #print(latitude, longitude, valid_begin, valid_end)
+                        tmp = api.Topos(latitude_degrees=latitude, longitude_degrees=longitude)
+                        # epsilon is in unit of Julian days - down to the minute is fine.
+                        risesettimes, isrise = almanac.find_discrete(
+                                                    timescale.utc(ts2dt(valid_begin).replace(tzinfo=pytz.utc)),
+                                                    timescale.utc(ts2dt(valid_end).replace(tzinfo=pytz.utc)),
+                                                    almanac.sunrise_sunset(planets, tmp),
+                                                    epsilon=1/24/60)
+                        #print(t.utc_iso())
+                        sun = list(zip([tmp.utc_datetime() for tmp in risesettimes], isrise))
+                    #continue
+                except ValueError:
+                    logging.debug('Probably nothing. Should clear once there are more than a day of data.')
 
                 #print(color,time.time() - end,time.time() - max(x))
                 plot_time_series(x,
@@ -191,4 +195,4 @@ for site in sites:
                 with open(join(plot_dir, node, var + '.json'), 'w') as f:
                     json.dump(plot_config, f, separators=(',', ':'))
             except (OverflowError, RuntimeError):
-                traceback.print_exc()
+                logging.exception('wut?')
