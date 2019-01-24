@@ -1,5 +1,5 @@
 # Stanley H.I. Lio
-import time, struct, traceback, io, fcntl
+import time, struct, io, fcntl, logging
 
 
 class TSYS01:
@@ -50,15 +50,22 @@ class TSYS01:
 
 
 if '__main__' == __name__:
-    s = TSYS01(bus=1)
-    print(s._read_prom())
+    import argparse
+
+    parser = argparse.ArgumentParser(formatter_class=argparse.RawTextHelpFormatter,
+                                     description='''Example: python3 tsys01.py --bus=1 --address=0x76''')
+    parser.add_argument('--bus', metavar='bus', type=int, default=1, help='bus, one of {1, 2, ...}')
+    parser.add_argument('--address', metavar='address', type=lambda x: int(x, base=16), default=0x77, help='I2C address')
+    args = parser.parse_args()
+
+    #print(s._read_prom())
     #print(s._raw_adc())
     #exit()
     while True:
         try:
-            print(s.read())
+            print(TSYS01(bus=args.bus, address=args.address).read())
         except IOError:
-            traceback.print_exc()
+            logging.exception('Cant\'t reach sensor on bus {} channel {:x}'.format(args.bus, args.address))
         except KeyboardInterrupt:
             break
         time.sleep(0.1)
