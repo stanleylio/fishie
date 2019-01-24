@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
-name = '(TBD)'
+name = 'Octo-TSYS'
 location = '(TBD)'
-note = 'Octo-TSYS'
+note = 'Experimental XBee 8x TSYS01'
 
 conf = [
     {

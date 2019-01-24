@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
-name = '(TBD)'
+name = 'DO + Salinity'
 location = '(TBD)'
-note = 'bone-based oxygen, temperature, conductivity, and pressure'
+note = 'bone-based dissolved oxygen and salinity'
 latitude = 21.41
 longitude = -157.78
 
@@ -36,22 +36,6 @@ conf = [
         'description':'Enclosure humidity (BME280)',
         'lb':20,
         'ub':90,
-        'interval':180,
-    },
-    {
-        'dbtag':'Pw',
-        'unit':'kPa',
-        'description':'Water pressure (MS5803-14BA)',
-        'lb':90,
-        'ub':150,
-        'interval':180,
-    },
-    {
-        'dbtag':'Tw',
-        'unit':'Deg.C',
-        'description':'Water temperature (MS5803-14BA)',
-        'lb':-10,
-        'ub':50,
         'interval':180,
     },
     {
@@ -103,7 +87,7 @@ conf = [
     {
         'dbtag':'Vb',
         'description':'Battery voltage (nominal 12V)',
-        'lb':12.2,
+        'lb':12.1,
         'ub':14.2,
         'interval':180,
     },

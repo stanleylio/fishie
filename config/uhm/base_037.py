@@ -1,9 +1,10 @@
-name = '(TBD)'
-location = '(TBD)'
+name = 'Miloli\'i, Hawaii Kai'
+location = 'Miloli\'i, Hawaii Kai'
 google_earth_link = '#'
 note = 'RPi3 16GB'
 #public_key = ''
-
+latitude = 21.287222
+longitude = -157.717500
 
 conf = [
     {

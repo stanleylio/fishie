@@ -21,7 +21,7 @@ conf = [
         'interval':60,
         'lb':10,
         'ub':40,
-        'plot':False,
+        'plot':True,
     },
     {
         'dbtag':'t1',
@@ -78,13 +78,14 @@ conf = [
         'interval':60,
         'lb':10,
         'ub':40,
-        'plot':False,
+        'plot':True,
     },
 # - - -
     {
         'dbtag':'system_clock',
         'description':'Device clock',
         'interval':60,
+        'plot':False,
     },
     {
         'dbtag':'uptime_second',
@@ -97,6 +98,7 @@ conf = [
         'unit':'MB',
         'description':'Used disk space',
         'interval':60,
+        'plot':False,
     },
     {
         'dbtag':'freeMB',
