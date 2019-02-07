@@ -61,6 +61,8 @@ set enable text(Yes)
 set enable polled mode(Yes)
 set enable decimalformat(Yes)
 set enable rawdata(No)
+set flow control(None)
+set interval(600)
 
 get enable sleep
 get enable text
