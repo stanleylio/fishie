@@ -22,12 +22,12 @@ nodeid = socket.gethostname()
 
 def getIP():
     proc = subprocess.Popen(['hostname -I'], stdout=subprocess.PIPE, shell=True)
-    out,err = proc.communicate()
+    out, err = proc.communicate()
     ips = out.decode().strip().split(' ')
     return ips
 
 url = 'https://grogdata.soest.hawaii.edu/api/5/raw'
-def post5(m,endpoint,auth):
+def post5(m, endpoint, auth):
     """POST a string to an endpoint"""
     r = requests.post(endpoint,
                       data={'m':m, 'ts':time.time(), 'src':nodeid},

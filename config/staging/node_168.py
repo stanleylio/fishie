@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-name = '"Ursula"'
+name = '"Constanze"'
 location = '"Room 101"'
 note = 'Experimental XBee 8x TSYS01'
 

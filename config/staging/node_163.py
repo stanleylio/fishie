@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-name = '(TBD)'
+name = '"Nabuca"'
 location = '(TBD)'
 note = 'Twin-TSYS'
 

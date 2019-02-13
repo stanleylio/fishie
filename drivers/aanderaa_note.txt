@@ -97,6 +97,7 @@ set enable polled mode(Yes)
 set enable decimalformat(Yes)
 set enable rawdata(No)
 set enable derived parameters(Yes)
+set flow control(None)
 set interval(600)
 
 get enable sleep

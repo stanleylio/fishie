@@ -15,7 +15,7 @@ conf = [
         'interval':16*8,
     },
     {
-        'dbtag':'t76',
+        'dbtag':'t0',
         'description':'Surface temperature (ch76)',
         'unit':'Deg.C',
         'lb':0,
@@ -24,7 +24,7 @@ conf = [
         'interval':16*8,
     },
     {
-        'dbtag':'t77',
+        'dbtag':'t1',
         'description':'Bottom temperature (ch77)',
         'unit':'Deg.C',
         'lb':0,

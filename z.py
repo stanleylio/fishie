@@ -5,7 +5,7 @@
 # Stanley H.I. Lio
 # hlio@hawaii.edu
 # All Rights Reserved. 2016
-import struct,json,re,traceback,logging
+import struct, json, re, traceback, logging
 from socket import gethostname
 from zlib import crc32
 # see also: hashlib
