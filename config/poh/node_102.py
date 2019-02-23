@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-name = 'Pua Pond'
+name = 'Pua Pond (decommissioned)'
 location = 'Pua Pond, Paepae O He`eia Fishpond'
 note = 'Beaglebone-based node measuring oxygen, temperature, conductivity, and pressure'
 latitude = 21.439722

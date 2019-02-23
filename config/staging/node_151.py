@@ -35,7 +35,7 @@ conf = [
         'unit':'%',
         'description':'Housing % relative humidity (BME280)',
         'lb':5,
-        'ub':60,
+        'ub':50,
         'interval':60,
     },
     {

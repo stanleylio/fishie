@@ -1,5 +1,5 @@
-name = '(TBD)'
-location = '"Greek"'
+name = 'Temperature Monitor (WiFi)'
+location = 'Lyon Arboretum'
 note = 'WiFi-only node'
 public_key = ''
 latitude = 21.333127
@@ -23,7 +23,7 @@ conf = [
     {
         'dbtag':'t0',
         'unit':'Deg.C',
-        'description':'TSYS01 (CH0 0x77, depth at X cm)',
+        'description':'TSYS01 (CH0 0x77, depth at 60 cm)',
         'interval':60,
         'lb':10,
         'ub':40,
@@ -31,7 +31,7 @@ conf = [
     {
         'dbtag':'t1',
         'unit':'Deg.C',
-        'description':'TSYS01 (CH1 0x77, depth at X cm)',
+        'description':'TSYS01 (CH1 0x77, depth at 100 cm)',
         'interval':60,
         'lb':10,
         'ub':40,
@@ -39,7 +39,7 @@ conf = [
     {
         'dbtag':'t2',
         'unit':'Deg.C',
-        'description':'TSYS01 (CH2 0x77, depth at X cm)',
+        'description':'TSYS01 (CH2 0x77, depth at 80 cm)',
         'interval':60,
         'lb':10,
         'ub':40,
@@ -47,7 +47,7 @@ conf = [
     {
         'dbtag':'t3',
         'unit':'Deg.C',
-        'description':'TSYS01 (CH3 0x77, depth at X cm)',
+        'description':'TSYS01 (CH3 0x77, depth at 20 cm)',
         'interval':60,
         'lb':10,
         'ub':40,
@@ -55,7 +55,7 @@ conf = [
     {
         'dbtag':'t4',
         'unit':'Deg.C',
-        'description':'TSYS01 (CH4 0x77, depth at X cm)',
+        'description':'TSYS01 (CH4 0x77, depth at 40 cm)',
         'interval':60,
         'lb':10,
         'ub':40,
@@ -63,7 +63,7 @@ conf = [
     {
         'dbtag':'t5',
         'unit':'Deg.C',
-        'description':'TSYS01 (CH5 0x77, depth at X cm)',
+        'description':'TSYS01 (CH5 0x77, depth at 50 cm)',
         'interval':60,
         'lb':10,
         'ub':40,
@@ -75,11 +75,12 @@ conf = [
         'interval':60,
         'lb':10,
         'ub':40,
+        'plot':False,
     },
     {
         'dbtag':'t7',
         'unit':'Deg.C',
-        'description':'TSYS01 (CH7 0x77, depth at X cm)',
+        'description':'TSYS01 (CH7 0x77, depth at 60 cm)',
         'interval':60,
         'lb':10,
         'ub':40,

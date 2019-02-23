@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 name = 'Liljestrand House Rain Gauge'
 location = 'Liljestrand House'
-note = 'Cellular rain gauge. Firmware TBD, hardware also TBD.'
+note = 'Cellular rain gauge. Firmware uc0.2, hardware v0.4 (cellular).'
 latitude = 21.3237992
 longitude = -157.8311465
 

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 name = '"Itaboraí"'
 location = 'Room 101'
-note = 'Wireless Aanderaa'
+note = 'Aanderaa conductivity sensor 4319. Hardware v5.4, firmware aa1.'
 latitude = 21.41
 longitude = -157.78
 

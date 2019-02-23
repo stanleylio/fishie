@@ -52,7 +52,7 @@ fi
 
 
 sudo apt update && sudo apt upgrade -y
-sudo apt install chrony git i2c-tools minicom autossh bash-completion build-essential python3-pika -y
+sudo apt install ntp git i2c-tools minicom autossh bash-completion build-essential python3-pika -y
 #dpkg-reconfigure tzdata
 #sudo nano /etc/ntp.conf
 
