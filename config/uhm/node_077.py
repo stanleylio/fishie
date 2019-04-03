@@ -1,7 +1,10 @@
 # -*- coding: utf-8 -*-
-name = 'Loko i`a Study'
-location = 'Hawaii Wildlife Fund'
+name = 'Hoonoua Anchialine Pool Water Level'
+location = 'Wai\'ohinu ahupua\'a, SE Hawai’i Island'
+#location = 'Hawaii Wildlife Fund'
 note = 'Cellular ultrasonic tide gauge. Each sample is average of 60 measurements taken every second. One transmission every 10 samples. Firmware p6c, hardware v0.4.'
+latitude = 18.973874
+longitude = -155.601263
 
 coreid = '4d0058001851353338363036'
 

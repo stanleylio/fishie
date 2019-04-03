@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-name = '(TBD)'
-location = '(TBD)'
+name = 'Ānuenue School Rain Gauge'
+location = 'Ānuenue School'
 note = 'Rain, air temperature, barometric pressure, and humidity. Solar, Arduino + XBee'
 
 
@@ -9,7 +9,7 @@ conf = [
         'dbtag':'ts',
         'description':'Time of sampling',
         'plot':True,
-        'interval':5*60,
+        'interval':60*60,
     },
     {
         'dbtag':'p',
@@ -19,6 +19,7 @@ conf = [
         'ub':120,
         'plot_range':7*24,
         'interval':5*60,
+        'plot':False,
     },
     {
         'dbtag':'t',
@@ -28,6 +29,7 @@ conf = [
         'ub':60,
         'plot_range':7*24,
         'interval':5*60,
+        'plot':False,
     },
     {
         'dbtag':'rh',
@@ -37,6 +39,7 @@ conf = [
         'ub':100,
         'plot_range':7*24,
         'interval':5*60,
+        'plot':False,
     },
     {
         'dbtag':'rain_bucket_tipped',

@@ -1,5 +1,5 @@
-name = '(TBD)'
-location = '(TBD)'
+name = 'Iolani Sullivan Center Base Station'
+location = 'Iolani Sullivan Center'
 google_earth_link = '#'
 note = 'pi-based'
 public_key = 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDiq0j+vKL7sqqsxKdzVdNKG9jQPQGzFdrM9RRUsN1OoaAMzLcm8Q9+LKQ0Sc8INx1bC164pUe9CjJ+MlGj5WJoZpXioXH6xelSVL8FXvCtuOaIfAK5YBsRgw+B6UyrwUMl4e8KCoC8uTCuB3BXlioIkEAnrKpiBXO2DAFrV0X5+7wR7xiN8uReuYnBZ/zYbV/aIVuSidff/EcmnIl7cECnHU9mhLiKyyXTN7fiXgp/Q3/mFcZn0eBNOIre237zbwcg3IIjTiN/pQ2z0pBkTFTjaEZid8oHO6CMzY3wjOy0KCSqQOkgiAqnwbaTWSCxQcDJLMOhsRlHLNZ1I+D1ggFX nuc@base-026'

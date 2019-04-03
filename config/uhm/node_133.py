@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-name = '"Hildegard"'
-location = '(TBD)'
+name = 'Brian\'s'
+location = 'Miloli\'i, Hawaii Kai'
 note = 'Cellular ultrasonic tide gauge. Each sample is average of 60 measurements taken every second. One transmission every 10 samples. Firmware p6c, hardware v0.4.'
 
 coreid = '360064001951343334363036'

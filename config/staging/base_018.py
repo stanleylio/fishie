@@ -1,4 +1,4 @@
-name = 'Iolani Sullivan Center Base Station'
+name = 'Iolani Sullivan Center Base Station (decommissioned)'
 location = 'Iolani Sullivan Center'
 google_earth_link = '#'
 note = 'bbb-based, eMMC'

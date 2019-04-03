@@ -82,7 +82,7 @@ sudo systemctl start supervisor
 sudo chown $USER:$USER /etc/supervisor/conf.d
 
 sudo apt install python3 python3-pip python3-scipy python3-smbus sqlite3 -y
-sudo pip3 install --upgrade requests pycrypto pyserial pyzmq twisted Adafruit_BBIO RPi.GPIO
+sudo pip3 install --upgrade requests pycrypto pyserial pyzmq twisted Adafruit_BBIO RPi.GPIO paho-mqtt
 
 
 # RabbitMQ

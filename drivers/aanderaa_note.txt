@@ -1,29 +1,23 @@
 // in minicom, use Ctrl+M, Ctrl+J instead of the RETURN key
 
 // 4330F
-// Enable text (field labels)
 get_enable text
+get_enable sleep
+get_enable polled mode
+get_enable rawdata
+
 set_passkey(1000)
 set_enable text(Yes)
-get_enable text
-
-// Disable sleep
-set_passkey(1000)
-get_enable sleep
 set_enable sleep(No)
-get_enable sleep
-
-// Disable auto sampling
-get_enable polled mode
-set_passkey(1000)
 set_enable polled mode(Yes)
-get_enable polled mode
-
-// Disable raw data
-get_enable rawdata
-set_passkey(1000)
 set_enable rawdata(No)
+set flow control(None)
+
+get_enable text
+get_enable sleep
+get_enable polled mode
 get_enable rawdata
+
 save
 
 
@@ -54,6 +48,7 @@ get enable text
 get enable polled mode
 get enable decimalformat
 get enable rawdata
+get enable comm indicator
 
 set_protect(1000)
 set enable sleep(No)
@@ -63,16 +58,15 @@ set enable decimalformat(Yes)
 set enable rawdata(No)
 set flow control(None)
 set interval(600)
+set enable comm indicator(No)
 
 get enable sleep
 get enable text
 get enable polled mode
 get enable decimalformat
 get enable rawdata
+get enable comm indicator
 
-//set_protect(1000)
-//get enable comm indicator
-//set enable comm indicator(No)
 save
 
 

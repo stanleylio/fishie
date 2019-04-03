@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 name = '"Akko"'
 location = '"Luna Nova"'
-note = 'Aanderaa oxygen optode 4531. Hardware v5.4, firmware aa1.'
+note = 'Aanderaa oxygen optode 4531. Hardware v5.4, firmware aa2.'
 latitude = 21.41
 longitude = -157.78
 
