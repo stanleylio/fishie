@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
-name = 'Pükele Stream Water Level'
-location = 'Pükele Stream, Palolo'
+name = 'Water Level'
+location = ''
 google_earth_link = '#'
-note = 'Replacing node-087. Ultrasonic tide gauge (XBee). 1Hz measurements; each transmission is average of 60 measurements. Firmware us12c, hardware v5.1.'
-latitude = 21.30529
-longitude = -157.78932
+note = 'Ultrasonic tide gauge (XBee). 1Hz measurements. Each transmission is average of 60 measurements. Firmware us13b, hardware v5.3.'
+latitude = 21.299363
+longitude = -157.813624
 
 
 conf = [
@@ -14,30 +14,6 @@ conf = [
         'description':'Distance from sensor to water surface',
         'lb':301,
         'ub':4999,
-        'interval':60,
-    },
-    {
-        'dbtag':'t',
-        'unit':'Deg.C',
-        'description':'Housing temperature (BME280)',
-        'lb':10,
-        'ub':50,
-        'interval':60,
-    },
-    {
-        'dbtag':'p',
-        'unit':'kPa',
-        'description':'Housing (barometric) pressure (BME280)',
-        'lb':80,
-        'ub':120,
-        'interval':60,
-    },
-    {
-        'dbtag':'rh',
-        'unit':'%',
-        'description':'Housing % relative humidity (BME280)',
-        'lb':5,
-        'ub':60,
         'interval':60,
     },
     {
@@ -53,7 +29,7 @@ conf = [
         'unit':'V',
         'description':'Solar panel voltage',
         'lb':0,
-        'ub':6,
+        'ub':7.0,
         'interval':60,
     },
     {
@@ -65,7 +41,13 @@ conf = [
     {
         'dbtag':'sc',
         'description':'Sample Size (after rejecting invalid measurements)',
-        'lb':0,
+        'lb':48,
+        'interval':60,
+    },
+    {
+        'dbtag':'c',
+        'description':'Internal 1Hz counter',
+        'lb':24*60*60,
         'interval':60,
     },
 ]

@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
-name = '"Zaku"'
-location = '(TBD)'
+name = 'Water Level'
+location = ''
 google_earth_link = '#'
-note = 'Ultrasonic tide gauge (XBee). 1Hz measurements. Each transmission is average of 60 measurements. Firmware us12d, hardware v5.2.'
+note = 'Ultrasonic tide gauge (XBee). 1Hz measurements. Each transmission is average of 60 measurements. Firmware us13b, hardware v5.3.'
+latitude = 21.299363
+longitude = -157.813624
 
 
 conf = [
@@ -27,19 +29,25 @@ conf = [
         'unit':'V',
         'description':'Solar panel voltage',
         'lb':0,
-        'ub':6,
+        'ub':7.0,
         'interval':60,
     },
     {
         'dbtag':'idx',
         'description':'Sample index',
-        'lb':0,
+        'lb':24*60,
         'interval':60,
     },
     {
         'dbtag':'sc',
         'description':'Sample Size (after rejecting invalid measurements)',
-        'lb':0,
+        'lb':48,
+        'interval':60,
+    },
+    {
+        'dbtag':'c',
+        'description':'Internal 1Hz counter',
+        'lb':24*60*60,
         'interval':60,
     },
 ]

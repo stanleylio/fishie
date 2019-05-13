@@ -1,7 +1,7 @@
 name = 'Halau Ku Mana Base Station'
 location = 'Halau Ku Mana School (Makiki)'
 google_earth_link = '#'
-note = 'bbb-based, eMMC, v0.5.1 cape'
+note = 'bbb-based, eMMC, v0.5.1 cape. Replacing base-007.'
 public_key = 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDHucGXfEnuws7Y76/FLgegW0e0LZdz8OdbrRBjkZEllfFvhtVxuuEUaA/ocL1WO8uDBAuyxpyDRvsg1zIoHDqqGq4SXSWCsI+uegEZlRzyPk/683VdikFyFJ1pSP8LBb/j55oGoIAmkjsQyT5r2inbIlM7SAqeI98jukYiZWoe+LD1SmOT+6ZoOlKUD1fPVDj0ifQ9S6WGKOmd5SlvAdHo0rs/J67w5fBJ7M7e+Sq+WOgOI2X/Foz3nj0KlG5Ky8rJ1Ppd9TAY1lfg+BiFYKJVfeL5xT49K/ZSG8/aXptBEj+yqwTn4k+4/I16CHlcYD6u65j46DhiVGVlIacOwX/7 nuc@base-027'
 
 
