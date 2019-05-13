@@ -5,6 +5,7 @@ get_enable text
 get_enable sleep
 get_enable polled mode
 get_enable rawdata
+get_enable comm indicator
 
 set_passkey(1000)
 set_enable text(Yes)
@@ -12,6 +13,8 @@ set_enable sleep(No)
 set_enable polled mode(Yes)
 set_enable rawdata(No)
 set flow control(None)
+set_enable comm indicator(No)
+set_Comm Timeout(Always On)
 
 get_enable text
 get_enable sleep
