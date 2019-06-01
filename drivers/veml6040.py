@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 # Stanley H.I. Lio
-import smbus, time, struct, traceback
+import smbus, time, struct, traceback, logging
 
 
 class VEML6040:
@@ -72,9 +72,14 @@ if '__main__' == __name__:
 
     bus = 1
     print('using bus {}'.format(bus))
-    veml = VEML6040(bus=bus)
-    veml.enable_sensor().set_mode_auto(True).set_integration_time(40)
 
     while True:
-        print(veml.read())
+        try:
+            veml = VEML6040(bus=bus)
+            veml.enable_sensor().set_mode_auto(True).set_integration_time(40)
+            print(veml.read())
+        except IOError:
+            logging.exception('Cant\'t reach sensor on bus {}'.format(bus))
+        except KeyboardInterrupt:
+            break
         time.sleep(0.1)
