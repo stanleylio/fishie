@@ -14,6 +14,7 @@ sudo rsync -avh --delete /etc/cron.d $DIR
 sudo rsync -avh --delete /etc/rabbitmq $DIR
 sudo rsync -avh --delete /etc/default $DIR
 sudo rsync -avh --delete /etc/wpa_supplicant $DIR
+sudo rsync -avh --delete /etc/rsnapshot $DIR
 if [ -e "/var/lib/connman" ]
 then
 	sudo rsync -avh --delete /var/lib/connman $DIR
