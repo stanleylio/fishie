@@ -45,30 +45,29 @@ save
 // 4531A / 4531D
 stop
 
-// Disable sleep mode, enable text, enable polled mode
+set_protect(1000)
+
 get enable sleep
 get enable text
+get interval
 get enable polled mode
 get enable decimalformat
 get enable rawdata
-get enable comm indicator
+get enable derived parameters
+get flow control
+get_enable comm indicator
+get_Comm Timeout
 
 set_protect(1000)
 set enable sleep(No)
 set enable text(Yes)
+set interval(600)
 set enable polled mode(Yes)
 set enable decimalformat(Yes)
 set enable rawdata(No)
 set flow control(None)
-set interval(600)
-set enable comm indicator(No)
-
-get enable sleep
-get enable text
-get enable polled mode
-get enable decimalformat
-get enable rawdata
-get enable comm indicator
+set_enable comm indicator(No)
+set_Comm Timeout(Always On)
 
 save
 
@@ -80,29 +79,30 @@ save
 // 4319A
 // it's "stop" now instead of "do stop" or "do_stop"
 stop
+
+set_protect(1000)
+
 get enable sleep
 get enable text
+get interval
 get enable polled mode
 get enable decimalformat
 get enable rawdata
 get enable derived parameters
+get flow control
+get_enable comm indicator
+get_Comm Timeout
 
 set_protect(1000)
 set enable sleep(No)
 set enable text(Yes)
+set interval(600)
 set enable polled mode(Yes)
 set enable decimalformat(Yes)
 set enable rawdata(No)
 set enable derived parameters(Yes)
 set flow control(None)
-set interval(600)
-
-get enable sleep
-get enable text
-get enable polled mode
-get enable decimalformat
-get enable rawdata
-get enable derived parameters
-get interval
+set_enable comm indicator(No)
+set_Comm Timeout(Always On)
 
 save

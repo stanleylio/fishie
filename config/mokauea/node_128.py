@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
-name = 'Mokauea Tide'
+name = 'Makaha Water Level'
 location = 'Mokauea Island'
 google_earth_link = '#'
 note = 'Ultrasonic tide gauge (XBee). 1Hz measurements; each transmission is average of 60 measurements. Firmware us12c, hardware v5.2.'
+latitude = 21.307799
+longitude = -157.891319
 
 
 conf = [
@@ -27,7 +29,7 @@ conf = [
         'unit':'V',
         'description':'Solar panel voltage',
         'lb':0,
-        'ub':6,
+        'ub':7.0,
         'interval':60,
     },
     {

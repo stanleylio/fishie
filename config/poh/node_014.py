@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-name = 'Wai 1 Water Level'
+name = 'Water Level (Wai 1)'
 location = 'River Mākāhā'
 google_earth_link = 'https://goo.gl/maps/ha2pmE8hEir'
 note = 'Ultrasonic tide gauge (1st gen PCB)'

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
-name = '(TBD)'
+name = 'Mid-pond Surface + Bottom Temperature'
 location = 'Mokauea Island'
-note = 'Twin-TSYS'
+note = 'Dual temperature probes (surface + bottom)'
 latitude = 21.308056
 longitude = -157.891944
 

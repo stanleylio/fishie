@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-name = 'Water Level'
+name = 'Water Level (decommissioned)'
 location = 'Makai Research Pier'
 note = 'Ultrasonic tide gauge measuring distance to water surface from fixed structure. One measurement per second, one transmission (average of past minute) per minute. Hardware v4.2, firmware us10b.'
 latitude = 21.319522

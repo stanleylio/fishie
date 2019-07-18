@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
-name = 'Oxygen (Pua Pond)'
-location = 'Pua Pond, Paepae O He`eia Fishpond'
-note = 'Aanderaa oxygen optode 4531. Hardware v5.4, firmware aa1.'
-latitude = 21.439722
-longitude = -157.809722
+name = 'Salinity (Hīhīmanu)'
+location = ''
+note = 'Aanderaa conductivity sensor 4319. Hardware v5.4, firmware aa2.'
+latitude = 21.433912
+longitude = -157.805338
 
 conf = [
     {
@@ -13,26 +13,41 @@ conf = [
         'interval':5*60,
     },
     {
-        'dbtag':'O2',
-        'unit':'uM',
-        'description':'Dissolved oxygen',
-        'lb':100,
-        'ub':300,
+        'dbtag':'ec',
+        'unit':'mS/cm',
+        'description':'Electrical Conductivity',
+        'lb':0,
         'interval':5*60,
     },
     {
-        'dbtag':'air',
-        'unit':'%',
-        'description':'Air saturation',
-        'lb':50,
-        'interval':5*60,
-    },
-    {
-        'dbtag':'Tw',
+        'dbtag':'t',
         'unit':'Deg.C',
         'description':'Water temperature',
-        'lb':-5,
-        'ub':40,
+        'lb':-10,
+        'ub':50,
+        'interval':5*60,
+    },
+    {
+        'dbtag':'sal',
+        'unit':'PSU',
+        'description':'Salinity',
+        'lb':0,
+        'interval':5*60,
+    },
+    {
+        'dbtag':'sg',
+        'unit':'kg/m^3',
+        'description':'Density',
+        'lb':900,
+        'ub':1100,
+        'interval':5*60,
+    },
+    {
+        'dbtag':'sv',
+        'unit':'Sound speed',
+        'description':'m/s',
+        'lb':1000,
+        'ub':2000,
         'interval':5*60,
     },
     {

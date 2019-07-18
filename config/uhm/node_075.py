@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-name = 'Maury\'s'
+name = 'Maury\'s (Hale o Lono)'
 location = 'Hale o Lono'
 note = 'Cellular ultrasonic tide gauge. Each sample is average of 60 measurements taken every second. One transmission every 10 samples. Firmware p6e, hardware v0.3.'
 

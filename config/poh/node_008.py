@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-name = 'Kahoʻokele Water Level'
+name = 'Water Level (Kahoʻokele)'
 location = 'Kahoʻokele (second mākāhā)'
 note = 'XBee ultrasonic tide gauge. One sample per minute. Each sample is the sample mean of the past 60 measurements taken at 1Hz. Telemetry only. No RTC. 7\'4" to bottom. Deployed May 22, 2017. Hardware v5.0, firmware us11c.'
 latitude = 21.435435

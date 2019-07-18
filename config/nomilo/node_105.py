@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
-name = 'South Shore'
-location = 'Nomilo Fishpond, Kauaʻi, Hawai‘i'
-note = 'Surface water quality monitor measuring oxygen, temperature, conductivity, and pressure'
+name = '(decommissioned)'
+location = 'South Shore, Nomilo Fishpond, Kauaʻi, Hawai‘i'
+note = 'Surface water quality monitor measuring oxygen, temperature, conductivity, and pressure. Replaced by node-184 and node-185 since 20190619.'
 latitude = 21.884722
 longitude = -159.527500
 

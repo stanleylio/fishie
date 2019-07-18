@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
-name = 'Oxygen (Pua Pond)'
-location = 'Pua Pond, Paepae O He`eia Fishpond'
-note = 'Aanderaa oxygen optode 4531. Hardware v5.4, firmware aa1.'
-latitude = 21.439722
-longitude = -157.809722
+name = 'Dissolved Oxygen'
+location = 'South Shore, Nomilo Fishpond, Kauaʻi, Hawai‘i'
+note = 'Aanderaa oxygen optode 4531. Hardware v5.4, firmware aa2.'
+latitude = 21.884722
+longitude = -159.527500
 
 conf = [
     {

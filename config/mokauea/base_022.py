@@ -1,4 +1,4 @@
-name = 'Mokauea Island Telemetry Gateway (METC)'
+name = 'METC Telemetry Gateway'
 location = 'Marine Education Training Center, HCC'
 google_earth_link = '#'
 note = 'bbb-based, eMMC'

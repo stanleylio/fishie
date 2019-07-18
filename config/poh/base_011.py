@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-name = 'Primary PoH Gateway'
+name = 'Primary Gateway'
 location = 'Paepae o He\'eia, Kaneohe'
 google_earth_link = 'https://goo.gl/maps/ECEBgo3UEp82'
 note = 'Successor to base-003 with dual XBee (900 + 900HP). bbb-based, eMMC'

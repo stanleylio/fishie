@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
-name = '(TBD)'
+name = '(decommissioned)'
 location = 'Mokauea Island'
-note = 'Twin-TSYS'
+note = 'Dual temperature probes (surface + bottom)'
 latitude = 21.307778
 longitude = -157.891389
 

@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
-name = '"Itaboraí"'
-location = 'Room 101'
-note = 'Aanderaa conductivity sensor 4319. Hardware v5.4, firmware aa1.'
-latitude = 21.41
-longitude = -157.78
+name = 'Salinity'
+location = 'South Shore, Nomilo Fishpond, Kauaʻi, Hawai‘i'
+note = 'Aanderaa conductivity sensor 4319. Hardware v5.4, firmware aa2.'
+latitude = 21.439722
+longitude = -157.809722
 
 conf = [
     {

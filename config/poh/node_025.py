@@ -1,12 +1,7 @@
 # -*- coding: utf-8 -*-
-# seabird1
-#tag = 'node-025'
-name = 'Seabird CTD #1'
+name = 'CTD'
 location = 'First Makaha'
-note = 'Seabird CTD #1 (white Delrin)'
-
-#plot_range = 24*7
-#data_source = '/home/nuc/node/www/poh/storage/sensor_data.db'
+note = 'Seabird 16plus V2 CTD (white Delrin)'
 
 # ***field names not verified*** can't find the manual
 conf = [
@@ -17,35 +12,44 @@ conf = [
         'lb':0,
     },
     {
-        'dbtag':'Vbatt',
-        'unit':'V',
+        'dbtag':'Vb',
         'description':'Relay dongle battery voltage',
-        'lb':2.5,
+        'lb':3.0,
+        'ub':4.3,
+        'interval':5*60,
     },
     {
-        'dbtag':'salinity_seabird',
+        'dbtag':'Vs',
+        'description':'Solar panel voltage (after rectifier)',
+        'lb':0,
+        'ub':7.5,
+        'interval':5*60,
+    },
+    {
+        'dbtag':'s',
         'unit':'psu',
         'description':'Salinity',
     },
     {
-        'dbtag':'pressure_seabird',
+        'dbtag':'d',
         'unit':'dbar',
         'description':'Pressure',
     },
     {
-        'dbtag':'temperature_seabird',
+        'dbtag':'t',
         'unit':'Deg.C',
         'description':'Temperature',
     },
     {
-        'dbtag':'conductivity_seabird',
+        'dbtag':'c',
         'unit':'S/m',
         'description':'Conductivity',
         'lb':0,
     },
     {
-        'dbtag':'v0_seabird',
-        'description':'Turbidity (unconverted volt)',
+        'dbtag':'v0',
+        'unit':'V',
+        'description':'Turbidity (raw volt)',
     },
     {
         'dbtag':'dt_seabird',

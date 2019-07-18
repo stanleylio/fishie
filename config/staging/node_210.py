@@ -1,31 +1,41 @@
 # -*- coding: utf-8 -*-
-name = '"Harvester"'
-location = 'City 17'
-note = 'Cellular ultrasonic tide gauge. Each sample is average of 60 measurements taken every second. One transmission every 10 samples. Firmware p6c, hardware v0.4.'
+name = 'Rain Gauge'
+location = '(TBD)'
+note = 'Cellular rain gauge. Firmware uc0.3, hardware v0.4 (cellular).'
+latitude = 21.297875
+longitude = -157.815704
 
-coreid = '270043001847373333353132'
+coreid = '220026000351353337353037'
 
 conf = [
     {
-        'dbtag':'Timestamp',
+        'dbtag':'ts',
         'description':'Sample time (Electron clock)',
-        'interval':10*60,
+        'interval':60*60,
     },
     {
-        'dbtag':'d2w',
-        'unit':'mm',
-        'description':'Distance from sensor to water surface',
-        'lb':301,
-        'ub':4999,
-        'interval':10*60,
+        'dbtag':'mm',
+        'unit':'mm/hr',
+        'description':'Hourly rain fall',
+        'lb':0,
+        'ub':433,   # annual average, can't be higher than that...
+        'interval':60*60,
     },
     {
-        'dbtag':'VbattV',
+        'dbtag':'da',
+        'unit':'mm/day',
+        'description':'Daily rain fall',
+        'lb':0,
+        'ub':433,   # annual average, can't be higher than that...
+        'interval':24*60*60,
+    },
+    {
+        'dbtag':'Vb',
         'unit':'V',
         'description':'Battery voltage',
         'lb':3.7,
         'ub':5.5,
-        'interval':10*60,
+        'interval':60*60,
     },
     {
         'dbtag':'SoC',
@@ -33,14 +43,7 @@ conf = [
         'description':'State of Charge',
         'lb':30,    # more like a warning than a valid range check
         'ub':100,
-        'interval':10*60,
-    },
-    {
-        'dbtag':'sample_size',
-        'description':'Number of valid readings in the 60 measurements',
-        'lb':0,
-        'ub':60,
-        'interval':10*60,
+        'interval':60*60,
     },
 ]
 

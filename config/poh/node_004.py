@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-name = 'Hīhīmanu Oxygen and Depth'
+name = '(decommissioned)'
 location = 'Hīhīmanu (first mākāhā)'
 note = 'Beaglebone-based node, measuring oxygen, temperature and water depth'
 latitude = 21.433912

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
-name = 'He\'eia Fishpond Wind Sensor'
+name = 'Wind Monitor'
 location = 'Coast Guard Tower, He\'eia Fishpond'
-note = 'RM Young 05106 Anemometer with XBee Pro 2.4GHz'
+note = 'RM Young 05106 Anemometer (2.4GHz)'
 latitude = 21.434779
 longitude = -157.805064
 

@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
-name = 'Hawaii Kai Water Level'
-location = 'Hawaii Kai Marina'
+name = '(TBD)'
+location = 'Northeastern'
 note = 'Cellular ultrasonic tide gauge. Each sample is average of 60 measurements taken every second. One transmission every 10 samples. Firmware p6c, hardware v0.4.'
 
-coreid = '450057000a51343334363138'
+coreid = '270043001847373333353132'
 
 conf = [
     {

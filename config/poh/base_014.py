@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-name = 'Fūjin (2.4)'
+name = 'Backup Gateway (2.4GHz)'
 location = 'Paepae o He\'eia, Kaneohe'
 google_earth_link = 'https://goo.gl/maps/ECEBgo3UEp82'
 note = 'XBee 900HP (cold standby) and 2.4GHz (anemometer controller for node-006). bbb-based, eMMC'

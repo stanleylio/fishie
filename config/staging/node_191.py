@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-name = 'Water Level'
-location = ''
+name = '"Senua"'
+location = 'Helheim'
 google_earth_link = '#'
 note = 'Ultrasonic tide gauge (XBee). 1Hz measurements; each transmission is average of 60 measurements. Firmware us12f, hardware v5.1.'
 #latitude = 21.424772

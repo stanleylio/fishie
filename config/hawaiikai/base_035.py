@@ -1,8 +1,10 @@
-name = '(TBD)'
-location = '(TBD)'
+name = 'Telemetry Gateway'
+location = 'Hawaii Kai, Miloli\'i'
 google_earth_link = '#'
 note = 'bbb-based, eMMC, v0.5.1 cape'
 public_key = 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDEDEkaSbt9dUzGB9m6f1MNj3Kopt3uMQSlnX5mzpgki4sdGLjOr7idKnLHFj9oBFfkN/7bHABbTPL78DAGzZlJ1yTVLihU4pdQ1+JrhnToxHn36SLJBSntAKXpcCzTSZ0O7sUNjT5VkfOpcs37CgHc4zHXIQhY2SRUY7Wl2epxOWrW1l1JGhMPrll7HBsnl+mOC96IALZVGm4YH1YXbF4IJ6WG3g0wJYf2Tyni0HnqAv3nVtlzNtSTUYzDCCQ6Dru33ifFCdwMn5jUyK9SD0/qeE0rz1vtbI2KIz/9hXWX2cjFJhgi1hQqDAeHHf0mC2ONX4Nn3Q+p2oKuzmY+Fl7Z nuc@base-035'
+latitude = 21.287222
+longitude = -157.717500
 
 
 conf = [

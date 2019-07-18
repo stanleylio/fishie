@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-name = 'Pua Pond Conductivity'
+name = 'Salinity (Pua Pond)'
 location = 'Pua Pond, Paepae O He`eia Fishpond'
 note = 'Aanderaa conductivity sensor 4319. Hardware v5.4, firmware aa1.'
 latitude = 21.439722

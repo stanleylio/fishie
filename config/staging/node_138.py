@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 name = '"Gris"'
-location = 'Tavern at the End of World'
+location = '"Barcelona"'
 note = 'Cellular ultrasonic tide gauge. Each sample is average of 60 measurements taken every second. One transmission every 10 samples. Firmware p6c, hardware v0.4.'
 
 coreid = '18002a000747373336373936'
