@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
-name = '"Syracuse"'
+name = '(TBD)'
 location = '(TBD)'
-note = 'Cellular ultrasonic tide gauge. Each sample is average of 60 measurements taken every second. One transmission every 10 samples. Firmware p6c, hardware v0.4.'
+note = 'Ultrasonic tide gauge (cellular; 10m version). Each sample is average of 60 measurements taken every second. One transmission every 10 samples. Firmware p6d, hardware v0.4.'
 
-coreid = '210025001947373333353132'
+coreid = '3a0038001751353338363036'
 
 conf = [
     {
@@ -16,7 +16,7 @@ conf = [
         'unit':'mm',
         'description':'Distance from sensor to water surface',
         'lb':301,
-        'ub':4999,
+        'ub':9998,
         'interval':10*60,
     },
     {
@@ -31,7 +31,7 @@ conf = [
         'dbtag':'SoC',
         'unit':'%',
         'description':'State of Charge',
-        'lb':30,    # more like a warning than a valid range check
+        'lb':40,    # more like a warning than a valid range check
         'ub':100,
         'interval':10*60,
     },

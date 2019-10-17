@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
-name = 'Palolo Stream Height (decommissioned)'
-location = 'previously at Saint Louis School'
+name = 'Water Level (cellular)'
+location = 'TBD, Lānaʻi'
 note = 'Cellular ultrasonic tide gauge. Each sample is average of 60 measurements taken every second. One transmission every 10 samples. Firmware p6c, hardware v0.4.'
-latitude = 21.28851
-longitude = -157.80540
+latitude = 21.30
+longitude = -157.81
 
-#coreid = '240046000647363334373734'
+coreid = '210025001947373333353132'
 
 conf = [
     {

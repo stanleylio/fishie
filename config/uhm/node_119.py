@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
-name = 'SeapHOx (staging)'
+name = 'SeapHOx'
 location = '(TBD)'
-note = 'SeapHOx TBD'
+note = 'SeapHOx 02024. One sample per hour.'
 
 coreid = '2f002f001951353338363036'
 
@@ -11,7 +11,7 @@ conf = [
         'dbtype':'DOUBLE NOT NULL',
         'description':'Sensor clock (POSIX)',
         'plot':True,
-        'interval':6*60,
+        'interval':60*60,
     },
     {
         'dbtag':'idx',
@@ -19,7 +19,7 @@ conf = [
         'unit':'-',
         'lb':0,
         'plot_range':7*24,
-        'interval':6*60,
+        'interval':60*60,
     },
     {
         'dbtag':'tC',
@@ -28,7 +28,7 @@ conf = [
         'lb':0,
         'ub':40,
         'plot_range':7*24,
-        'interval':6*60,
+        'interval':60*60,
     },
     {
         'dbtag':'epH',
@@ -37,7 +37,7 @@ conf = [
         'lb':7,
         'ub':11,
         'plot_range':7*24,
-        'interval':6*60,
+        'interval':60*60,
     },
     {
         'dbtag':'ipH',
@@ -46,7 +46,7 @@ conf = [
         'lb':7,
         'ub':11,
         'plot_range':7*24,
-        'interval':6*60,
+        'interval':60*60,
     },
     {
         'dbtag':'pHC',
@@ -55,7 +55,7 @@ conf = [
         'lb':0,
         'ub':40,
         'plot_range':7*24,
-        'interval':6*60,
+        'interval':60*60,
     },
     {
         'dbtag':'dbar',
@@ -64,7 +64,7 @@ conf = [
         'lb':0,
         'ub':100,
         'plot_range':7*24,
-        'interval':6*60,
+        'interval':60*60,
     },
     {
         'dbtag':'psu',
@@ -73,7 +73,7 @@ conf = [
         'lb':25,
         'ub':35,
         'plot_range':7*24,
-        'interval':6*60,
+        'interval':60*60,
     },
     {
         'dbtag':'ec_S_m',
@@ -82,7 +82,7 @@ conf = [
         'lb':0,
         'ub':100,
         'plot_range':7*24,
-        'interval':6*60,
+        'interval':60*60,
     },
     {
         'dbtag':'o2_mg_L',
@@ -91,7 +91,7 @@ conf = [
         'lb':0,
         'ub':10,
         'plot_range':7*24,
-        'interval':6*60,
+        'interval':60*60,
     },
     {
         'dbtag':'rh',
@@ -100,7 +100,7 @@ conf = [
         'lb':0,
         'ub':50,
         'plot_range':7*24,
-        'interval':6*60,
+        'interval':60*60,
     },
     {
         'dbtag':'iC',
@@ -109,7 +109,7 @@ conf = [
         'lb':0,
         'ub':40,
         'plot_range':7*24,
-        'interval':6*60,
+        'interval':60*60,
     },
     {
         'dbtag':'Vb',
@@ -117,7 +117,7 @@ conf = [
         'description':'Battery voltage (telemetry relay\'s)',
         'lb':3.7,
         'ub':5.5,
-        'interval':12*60,
+        'interval':60*60,
     },
     {
         'dbtag':'SoC',
@@ -125,7 +125,7 @@ conf = [
         'description':'State of Charge (telemetry relay\'s)',
         'lb':30,
         'ub':100,
-        'interval':12*60,
+        'interval':60*60,
     },
 ]
 

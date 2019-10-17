@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
-name = 'Liljestrand House Rain Gauge'
-location = 'Liljestrand House'
-note = 'Cellular rain gauge. Firmware uc0.2, hardware v0.4 (cellular).'
-latitude = 21.3237992
-longitude = -157.8311465
+name = 'Rain Gauge'
+location = '(TBD)'
+note = 'Cellular rain gauge. Firmware uc0.3, hardware v0.4 (cellular).'
+latitude = 21.297875
+longitude = -157.815704
 
-coreid = '26003f000b47373130373633'
+coreid = '2f002a001550483553353620'
 
 conf = [
     {

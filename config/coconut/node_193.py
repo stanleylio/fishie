@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
-name = '"Agro"'
-location = 'The Forbidden Land'
+name = '"Water-Under-The-Bridge 2"'
+location = 'Coconut Island'
 google_earth_link = '#'
 note = 'Ultrasonic tide gauge (XBee). 1Hz measurements. Each transmission is average of 60 measurements. Firmware us13b, hardware v5.3.'
-latitude = 21.299363
-longitude = -157.813624
+latitude = 21.435983
+longitude = -157.788333
 
 
 conf = [

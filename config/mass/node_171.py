@@ -1,16 +1,14 @@
 # -*- coding: utf-8 -*-
-name = 'Palolo Stream Height (decommissioned)'
-location = 'previously at Saint Louis School'
+name = 'Water Level'
+location = 'Massachusetts Maritime Academy'
 note = 'Cellular ultrasonic tide gauge. Each sample is average of 60 measurements taken every second. One transmission every 10 samples. Firmware p6c, hardware v0.4.'
-latitude = 21.28851
-longitude = -157.80540
 
-#coreid = '240046000647363334373734'
+coreid = '29002b001550483553353620'
 
 conf = [
     {
         'dbtag':'Timestamp',
-        'description':'Sample time (Electron clock)',
+        'description':'Sample time (Device clock)',
         'interval':10*60,
     },
     {

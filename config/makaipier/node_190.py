@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-name = 'Water Level'
-location = 'Makai Research Pier'
+name = 'Water Level (decommissioned)'
+location = 'Makai Research Pier. Replacing node-010.'
 google_earth_link = '#'
 note = 'Ultrasonic tide gauge (XBee). 1Hz measurements; each transmission is average of 60 measurements. Firmware us12f, hardware v5.2. +202mm from node-010.'
 latitude = 21.319522

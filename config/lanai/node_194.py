@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 name = 'Water Level'
-location = ''
+location = 'TBD, Lānaʻi'
 google_earth_link = '#'
 note = 'Ultrasonic tide gauge (XBee). 1Hz measurements. Each transmission is average of 60 measurements. Firmware us13b, hardware v5.3.'
-latitude = 21.299363
-longitude = -157.813624
+latitude = 21.30
+longitude = -157.81
 
 
 conf = [

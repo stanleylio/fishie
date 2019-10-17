@@ -1,14 +1,14 @@
 # -*- coding: utf-8 -*-
-name = 'Water Level (Woods Hole)'
-location = 'Woods Hole'
+name = '(TBD)'
+location = '(TBD)'
 note = 'Cellular ultrasonic tide gauge. Each sample is average of 60 measurements taken every second. One transmission every 10 samples. Firmware p6c, hardware v0.4.'
 
-coreid = '29002b001550483553353620'
+coreid = '280047001847373333353132'
 
 conf = [
     {
         'dbtag':'Timestamp',
-        'description':'Sample time (Device clock)',
+        'description':'Sample time (Electron clock)',
         'interval':10*60,
     },
     {

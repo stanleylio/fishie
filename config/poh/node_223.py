@@ -1,16 +1,15 @@
 # -*- coding: utf-8 -*-
-name = 'Liljestrand House Rain Gauge'
-location = 'Liljestrand House'
-note = 'Cellular rain gauge. Firmware uc0.2, hardware v0.4 (cellular).'
-latitude = 21.3237992
-longitude = -157.8311465
+name = 'Rainfall'
+location = 'Coast Guard Tower, He\'eia Fishpond'
+note = 'Bucket rain gauge (XBee). Firmware rain0.1, hardware v0.2.'
+latitude = 21.434779
+longitude = -157.805064
 
-coreid = '26003f000b47373130373633'
 
 conf = [
     {
         'dbtag':'ts',
-        'description':'Sample time (Electron clock)',
+        'description':'Sample time',
         'interval':60*60,
     },
     {
@@ -18,16 +17,8 @@ conf = [
         'unit':'mm/hr',
         'description':'Hourly rain fall',
         'lb':0,
-        'ub':10,
+        'ub':433,   # annual average
         'interval':60*60,
-    },
-    {
-        'dbtag':'da',
-        'unit':'mm/day',
-        'description':'Daily rain fall',
-        'lb':0,
-        'ub':433,   # annual average, not likely to be higher than that...
-        'interval':24*60*60,
     },
     {
         'dbtag':'Vb',
@@ -38,11 +29,25 @@ conf = [
         'interval':60*60,
     },
     {
-        'dbtag':'SoC',
-        'unit':'%',
-        'description':'State of Charge',
-        'lb':30,    # more like a warning than a valid range check
-        'ub':100,
+        'dbtag':'Vs',
+        'unit':'V',
+        'description':'Solar panel voltage',
+        'lb':0,
+        'ub':7.0,
+        'interval':60*60,
+    },
+    {
+        'dbtag':'tc',
+        'unit':'-',
+        'description':'Tip count (all-time cumulative)',
+        'lb':0,
+        'interval':60*60,
+    },
+    {
+        'dbtag':'idx',
+        'unit':'-',
+        'description':'Sample index',
+        'lb':2*24,
         'interval':60*60,
     },
 ]

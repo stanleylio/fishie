@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
-name = '(TBD)'
-location = '-'
+name = 'Palolo Mauka Rainfall'
+location = 'Palolo Valley'
 note = 'Rain. Solar, Arduino + XBee'
-latitude = 21.313060
-longitude = -157.829150
+latitude = 21.33494
+longitude = -157.77570
 
 
 conf = [
