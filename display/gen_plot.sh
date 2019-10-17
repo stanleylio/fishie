@@ -27,6 +27,10 @@ echo "Mokauea"
 python3 t0.py --site=mokauea
 echo "Hawaii Kai"
 python3 t0.py --site=hawaiikai
+echo "S. Carolina"
+python3 t0.py --site=sc
+echo "Mass"
+python3 t0.py --site=mass
 echo "Mobile/Other"
 python3 t0.py --site=uhm
 echo "Staging/Dev"
