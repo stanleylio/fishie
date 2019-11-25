@@ -1,21 +1,22 @@
 # -*- coding: utf-8 -*-
 name = '(TBD)'
-location = 'Woods Hole'
-note = 'Cellular ultrasonic tide gauge. Each sample is average of 60 measurements taken every second. One transmission every 10 samples. Firmware p6c, hardware v0.4.'
+location = '(TBD)'
+note = 'Cellular ultrasonic tide gauge. Each sample is average of 60 measurements taken every second. One transmission every 10 samples. Firmware p5e, hardware v0.2 (pull-down patch).'
 
-coreid = '320035000f47363334373734'
+coreid = '3d0058001751353338363036'
+
 
 conf = [
     {
         'dbtag':'Timestamp',
-        'description':'Sample time (Device clock)',
+        'description':'Sample time (device clock)',
         'interval':10*60,
     },
     {
         'dbtag':'d2w',
         'unit':'mm',
         'description':'Distance from sensor to water surface',
-        'lb':301,
+        'lb':300,
         'ub':4999,
         'interval':10*60,
     },
@@ -31,7 +32,7 @@ conf = [
         'dbtag':'SoC',
         'unit':'%',
         'description':'State of Charge',
-        'lb':30,    # more like a warning than a valid range check
+        'lb':30,
         'ub':100,
         'interval':10*60,
     },
@@ -48,11 +49,11 @@ conf = [
 if '__main__' == __name__:
     for c in conf:
         print('- - -')
-        for k, v in c.items():
-            print(k, ':' ,v)
+        for k,v in c.iteritems():
+            print(k,':',v)
 
     import sys
     sys.path.append('../..')
     from os.path import basename
     from storage.storage2 import create_table
-    create_table(conf, basename(__file__).split('.')[0].replace('_', '-'))
+    create_table(conf,basename(__file__).split('.')[0].replace('_','-'))

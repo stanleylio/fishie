@@ -1,10 +1,9 @@
 # -*- coding: utf-8 -*-
-name = 'Palolo Mauka Rainfall'
-location = 'Palolo Valley'
+name = 'Palolo Rainfall (St Louis)'
+location = 'Saint Louis School, Oahu, HI'
 note = 'Rain. Solar, Arduino + XBee'
-latitude = 21.33494
-longitude = -157.77570
-
+latitude = 21.28909
+longitude = -157.80499
 
 conf = [
     {

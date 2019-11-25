@@ -28,7 +28,7 @@ def create_table(conf, table, *, dbname='uhcm', user='root', password=None, host
         #password = open(expanduser('~/mysql_cred')).read().strip()
         passwd = cred['mysql']
     if not noreceptiontime:
-        conf.insert(0,{'dbtag':'ReceptionTime','dbtype':'DOUBLE PRIMARY KEY'})
+        conf.insert(0,{'dbtag':'ReceptionTime', 'dbtype':'DOUBLE PRIMARY KEY'})
     conn = MySQLdb.connect(host=host, user=user, passwd=passwd, db=dbname)
     cur = conn.cursor()
 

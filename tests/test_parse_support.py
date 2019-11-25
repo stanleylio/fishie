@@ -25,6 +25,16 @@ M_poh = [
     '{"from":"node-015","payload":{"d2w":1629.3,"VbattV":3.965,"ticker":127800}}e44735ed',
     '{"from":"node-083","v":1,"payload":{"Timestamp":1507417208,"Temp":22.89,"SpCond":0.424,"Cond":0.407,"Sal":0.20,"Press":14.618,"Depth":-0.056,"Battery":13.3}}ab172b51',
     '{"from":"node-052","payload":{"Timestamp":1507618102,"d2w":1067.5,"sample_size":60},"v":1}984112e7',
+    '{"payload":{"sample_size":60,"Timestamp":1572000025,"d2w":1157.9},"from":"node-200","v":1}2fe6b01a',
+    '{"payload":{"sample_size":60,"Timestamp":1572000145,"d2w":1342.7},"from":"node-200","v":1}f8205fe3',
+    '{"payload":{"sample_size":60,"Timestamp":1572000265,"d2w":500.0},"from":"node-200","v":1}72b436c4',
+    '{"payload":{"SoC":80.42,"Timestamp":1572000383,"VbattV":4.026},"from":"node-200","v":1}7a64a6a6',
+    '{"from":"node-004","payload":{"Tc":29.877,"Pc":101.286,"ts":952335153.3735255,"RHc":69.13},"v":1}b00ce11f',
+    '{"from":"node-004","payload":{"Tc":29.877,"Pc":101.286,"ts":952335153.3735255,"RHc":69.13},"v":1}b00ce11f',
+    '{"from":"node-033","payload":{"d2w":827.17,"sample_size":60,"VbattV":4.037,"ticker":55571100}}b88fea95',
+    '{"from":"node-033","payload":{"d2w":827.17,"sample_size":60,"VbattV":4.037,"ticker":55571100}}b88fea95',
+    '{"payload":{"ts":1572000388.1463666,"Ta":21.853515},"v":1,"from":"node-106"}6382decf',
+    '{"from":"node-192","payload":{"d2w":1624.09,"Vb":4.077,"Vs":0.000,"idx":254029,"sc":11}}fc944524',
 ]
 
 
@@ -32,9 +42,9 @@ class TestParse(unittest.TestCase):
 
     def test_parse_message(self):
         for m in M_poh:
-            #print(m)
             m = parse_message(m)
-            self.assertTrue('node' in m)
+            #print(m)
+            self.assertTrue(m is None or 'node' in m)
 
     def test_pretty_print(self):
         for m in M_poh:

@@ -50,75 +50,46 @@ def pretty_print(d):
 
 def parse_message(line):
     """Identify the origin of a given message;
-parse into dict() if it's from a known node."""
+parse into dict() if it's from a known device."""
     try:
         line = line.strip()
 
-        # is it one of the SeaFET pH sensors?
-        d = parse_SeaFET(line)
-        if d is not None:
-            if ('HEADER' in d and 'SATPHA0358' == d['HEADER']) or ('tag' in d and 'kph1' == d['tag']):
-                d['node'] = 'node-021'  # Monty @ Site #13
-                return d
-            if ('HEADER' in d and 'SATPHA0371' == d['HEADER']) or ('tag' in d and 'kph2' == d['tag']):
-                d['node'] = 'node-022'  # Coco @ Site #4
-                return d
-            if ('HEADER' in d and 'SATPHA0381' == d['HEADER']) or ('tag' in d and 'kph3' == d['tag']):
-                d['node'] = 'node-023'  # in Glazer Lab
-                return d
-        else:
-            #logger.info('Not a SeaFET message:')
-            #logger.info(line)
-            pass
-
-        # is it a Seabird CTD?
-        d = parse_Seabird(line)
-        if d is not None:
-            if ('sn' in d and d['sn'] == '01607354') or ('tag' in d and 'seabird1' == d['tag']):
-                node_id = 'node-025'
-                assert 'node' not in d
-                d['node'] = node_id
-                return d
-        else:
-            #logger.info('Not a Seabird message:')
-            #logger.info(line)
-            pass
-
-        # is it from one of the Beaglebone nodes?
-        if check(line):
-            line = line[:-8]
-            tmp = json.loads(line)
-            if re.match('^node[-_]\d{3}$', tmp['from']):
-                node_id = tmp['from']
-                d = tmp['payload']
-
-                try:
-                    #node = importlib.import_module('node.config.{}.{}'.format(get_site(node_id), node_id.replace('-', '_')))
-                    #node = import_node_config(node_id)
-                    #d = {c['dbtag']:d[c.get('comtag', c['dbtag'])] for c in node.conf}
-                    assert 'node' not in d
-                    d['node'] = node_id
-                    return d
-                except ImportError:
-                    # the JSON messages are self-descriptive with checksum, I don't need no comtag-dbtag conversion.
-                    logger.warning('config file for {} not defined'.format(node_id))
-                    d['node'] = node_id
-                    return d
-            elif re.match('^base[-_]\d{3}$', tmp['from']):
-                d = tmp.get('payload', None)
-                d['node'] = tmp['from']
-                if d is None:
-                    logger.debug('Don\'t know what that was; ignore.'.format(tmp['from']))
-                return d
-            else:
-                logger.debug('Not a BBB node message (unrecognized node ID):')
-                logger.debug(line)
-        else:
-            logger.debug('Not a BBB node message (CRC failure):')
+        if not check(line):
+            logger.debug('CRC failure:')
             logger.debug(line)
-            #pass
+            return None
+
+        # strip the CRC and try to parse as JSON string
+        line = line[:-8]
+        msg = json.loads(line)
+        if 'from' not in msg:
+            logger.debug('Sender ID missing.')
+            logger.debug(line)
+            return None
+
+        if not re.match('^node|base[-_]\d{3,32}$', msg['from']):
+            logger.debug('Neither a node nor a base station.')
+            logger.debug(line)
+            return None
+        
+        # payload is now optional
+        d = {}
+        if 'payload' in msg:
+            d = msg['payload']
+        elif 'p' in msg:
+            d = msg['p']
+
+        if 'node' in d:
+            logger.warning('Malformed message: key "node" already exists.')
+            logger.warning(line)
+
+        d['node'] = msg['from']
+        return d
+    except json.decoder.JSONDecodeError:
+        logger.debug('Not a JSON msg.')
+        logger.debug(line)
     except:
-        logger.warning('parse_message(): duh')
+        logger.exception('parse_message(): duh')
         logger.exception(line)
     return None
 

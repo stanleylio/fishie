@@ -1,14 +1,14 @@
 # -*- coding: utf-8 -*-
 name = 'Water Level'
-location = '(TBD)'
-note = 'Ultrasonic tide gauge (cellular; 10m version). Each sample is average of 60 measurements taken every second. One transmission every 10 samples. Hardware v0.4.'
+location = 'Woods Hole'
+note = 'Cellular ultrasonic tide gauge. Each sample is average of 60 measurements taken every second. One transmission every 10 samples. Hardware v0.4.'
 
-coreid = '3a0038001751353338363036'
+coreid = '220026000351353337353037'
 
 conf = [
     {
         'dbtag':'Timestamp',
-        'description':'Sample time (Electron clock)',
+        'description':'Sample time (Device clock)',
         'interval':10*60,
     },
     {
@@ -16,7 +16,7 @@ conf = [
         'unit':'mm',
         'description':'Distance from sensor to water surface',
         'lb':301,
-        'ub':9998,
+        'ub':4999,
         'interval':10*60,
     },
     {
@@ -31,7 +31,7 @@ conf = [
         'dbtag':'SoC',
         'unit':'%',
         'description':'State of Charge',
-        'lb':40,    # more like a warning than a valid range check
+        'lb':30,    # more like a warning than a valid range check
         'ub':100,
         'interval':10*60,
     },
