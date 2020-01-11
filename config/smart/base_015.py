@@ -1,5 +1,5 @@
 name = 'East West Center Base Station'
-location = 'East West Center'
+location = 'East West Center, UH Manoa'
 google_earth_link = '#'
 note = 'bbb-based, eMMC'
 public_key = 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDRX98c1j9j217yMprVfIJr3S+Vp3u4ss1FP9d49o+ckNLYihBulKg7Tp92HLUqzVrTD0AqSb2AnBhX7kGXRnr9kxHfTxzK33IKmWE5pbOVV/VsKJrnawPwh61fSMWucGnfdefgcz/pbcvU01LpqR3jApZLuw95qjXUh8keZiUbhOJe5UwAbVeYTacflxNxUBiHhfJM5wf3cVgp46m9iRdfDWMq42QWxkPgj5zldAuEciH7xg80Pgm/75dPXKPejgwOv4Oru3MYTK3QBxwij1pJpucnysJigWI4EoYgDHNiXV9Rc6SgWIJHFE/Cf72mR2kmDNSYKS2GaqgGHXQ2cTZx nuc@base-015'

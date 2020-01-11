@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
-name = 'Dissolved Oxygen (Hīhīmanu)'
-location = ''
-note = 'Aanderaa oxygen optode 4531. Hardware v5.4.'
-latitude = 21.433912
-longitude = -157.805338
+name = 'Oxygen (TBD)'
+location = 'TBD, Paepae O He`eia Fishpond'
+note = 'Aanderaa oxygen optode 4531. Hardware v5.4. Renamed from node-183.'
+#latitude = 21.439722
+#longitude = -157.809722
 
 conf = [
     {

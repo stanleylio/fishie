@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
-name = 'Ku Ula Kai Water Level'
+name = 'Mākāhā 3 Water Level'
 location = '"Ku Ula Kai", Waikalua, Kaneohe'
 google_earth_link = '#'
-note = 'Ultrasonic tide gauge (XBee). Each sample is the sample mean of 60 measurements taken every second (excluding any out-of-range ones). Firmware us10b, hardware v4.2.'
+note = 'Ultrasonic tide gauge (XBee). Each sample is the sample mean of 60 measurements taken every second (excluding any out-of-range ones). Firmware us13b, hardware v5.3.'
 latitude = 21.411389
 longitude = -157.784167
 
@@ -17,21 +17,36 @@ conf = [
         'interval':60,
     },
     {
-        'dbtag':'VbattV',
+        'dbtag':'Vb',
         'unit':'V',
-        'description':'Battery voltage (Vbatt)',
-        'lb':2.8,
+        'description':'Battery voltage',
+        'lb':0,
+        'ub':4.3,
         'interval':60,
     },
     {
-        'dbtag':'ticker',
+        'dbtag':'Vs',
+        'unit':'V',
+        'description':'Solar panel voltage',
+        'lb':0,
+        'ub':6,
+        'interval':60,
+    },
+    {
+        'dbtag':'c',
         'description':'1Hz ticker',
         'lb':0,
         'interval':60,
     },
     {
-        'dbtag':'sample_size',
-        'description':'# of valid measurements in the past 60',
+        'dbtag':'idx',
+        'description':'Sample index',
+        'lb':24*60,
+        'interval':60,
+    },
+    {
+        'dbtag':'sc',
+        'description':'Sample Size (after rejecting invalid measurements)',
         'lb':1,
         'ub':60,
         'interval':60,

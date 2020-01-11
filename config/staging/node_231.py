@@ -1,38 +1,31 @@
 # -*- coding: utf-8 -*-
-name = '"Knack II"'
-location = '(TBD)'
-note = 'Ultrasonic tide gauge (cellular; 0.5~10m). Hardware v0.5.'
+name = '"Sprezzatura"'
+location = '"Per aspera ad astra"'
+note = 'Ultrasonic tide gauge (cellular; 0.3~5.0 meter). Each sample is average of N_AVG measurements taken every second. Hardware v1.0.'
 
-coreid = '350020001047373334363431'
+coreid = 'e00fce685f4afafdcde95e75'
 
 conf = [
     {
         'dbtag':'ts',
         'description':'Sample time (Device clock)',
-        'interval':2*6*60,
+        'interval':15*60,
     },
     {
         'dbtag':'d2w',
         'unit':'mm',
         'description':'Distance from sensor to water surface',
-        'lb':501,
-        'ub':9998,
-        'interval':2*6*60,
-    },
-    {
-        'dbtag':'std',
-        'unit':'mm',
-        'description':'Sample standard deviation',
-        'lb':0,
-        'interval':2*6*60,
+        'lb':301,
+        'ub':4999,
+        'interval':15*60,
     },
     {
         'dbtag':'Vb',
         'unit':'V',
         'description':'Battery voltage',
         'lb':3.7,
-        'ub':4.2,
-        'interval':2*6*60,
+        'ub':5.5,
+        'interval':15*60,
     },
     {
         'dbtag':'SoC',
@@ -40,14 +33,21 @@ conf = [
         'description':'State of Charge',
         'lb':40,    # more like a warning than a valid range check
         'ub':100,
-        'interval':2*6*60,
+        'interval':15*60,
+    },
+    {
+        'dbtag':'std',
+        'description':'Sample standard deviation',
+        'lb':0,
+        #'ub':?,
+        'interval':15*60,
     },
     {
         'dbtag':'sc',
-        'description':'# of measurements within 3\u03c3',
-        'lb':91,
+        'description':'Sample count',
+        'lb':0,
         'ub':181,
-        'interval':2*6*60,
+        'interval':15*60,
     },
 ]
 
