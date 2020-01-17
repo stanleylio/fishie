@@ -8,7 +8,7 @@ coreid = '000000000000000000000099'
 
 conf = [
     {
-        'dbtag':'Timestamp',
+        'dbtag':'ts',
         'description':'Sample time (device clock)',
         'interval':10*60,
     },
@@ -21,7 +21,15 @@ conf = [
         'interval':10*60,
     },
     {
-        'dbtag':'VbattV',
+        'dbtag':'std',
+        'unit':'mm',
+        'description':'Sample standard deviation',
+        #'lb':?,
+        #'ub':?,
+        'interval':10*60,
+    },
+    {
+        'dbtag':'Vb',
         'unit':'V',
         'description':'Battery voltage',
         'lb':3.7,
@@ -37,7 +45,7 @@ conf = [
         'interval':10*60,
     },
     {
-        'dbtag':'sample_size',
+        'dbtag':'sc',
         'description':'Number of valid readings in the 60 measurements',
         'lb':0,
         'ub':60,
