@@ -10,7 +10,7 @@ from datetime import datetime, timedelta
 from node.display.gen_plot import plot_time_series
 from node.helper import ts2dt, dt2ts
 from node.storage.storage2 import storage, auto_time_col
-from node.config.config_support import get_list_of_sites, get_list_of_devices, get_list_of_disp_vars, get_description, get_unit, get_config
+from node.config.config_support import get_list_of_sites, get_list_of_devices, get_list_of_disp_vars, get_description, get_unit, get_config, get_site
 
 from skyfield import api
 load = api.Loader('~/skyfield-data', verbose=False)
@@ -45,17 +45,17 @@ def count_not_null(x, y):
 
 
 parser = argparse.ArgumentParser(formatter_class=argparse.RawTextHelpFormatter, description='')
-parser.add_argument('--site', type=str, metavar='site', help='Name of the site.')
+parser.add_argument('--site', type=str, default=None, metavar='site', help='Name of the site.')
 parser.add_argument('--node', type=str, default=None, metavar='node', help='Name of a node.')
 parser.add_argument('--var', type=str, default=None, metavar='var', help='Name of a variable.')
 
 args = parser.parse_args()
 
-# if var is specified, then site and node must also be specified.
-# if node is specified, then site must also be specified.
-# site can be given on its own.
-if args.site:
-    print('Site = {}'.format(args.site))
+# if var is specified, then node must also be specified.
+# site can be given on its own. If site is not give, call get_site() to figure it out from the config.
+if args.site is None:
+    args.site = get_site(args.node)
+print('Site = {}'.format(args.site))
 if args.node:
     print('node = {}'.format(args.node))
     assert args.site is not None
