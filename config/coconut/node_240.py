@@ -36,6 +36,13 @@ conf = [
         'interval':60,
         'plot_range':14*24,
     },
+    {
+        'dbtag':'k',
+        'unit':'-',
+        'description':'Tank number',
+        'interval':60,
+        'plot_range':14*24,
+    },
 ]
 
 

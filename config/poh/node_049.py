@@ -2,18 +2,19 @@
 name = 'Water Level (Hīhīmanu)'
 location = 'Hīhīmanu (first mākāhā)'
 google_earth_link = 'https://goo.gl/maps/eY752oYMdV42'
-note = 'Cellular ultrasonic tide gauge. Each sample is average of 60 measurements taken every second. One transmission every 10 samples. Firmware p5e, hardware v0.2 (with US_EN patch).'
+note = 'Cellular ultrasonic tide gauge. Each sample is average of 60 measurements taken every second. One transmission every 9 samples. Hardware upgraded from v0.4 to v0.5 on 20200124.'
 latitude = 21.433967
 longitude = -157.805333
 
 coreid = '3e0042001951353338363036'
 
+INTERVAL_S = 10*60
 
 conf = [
     {
-        'dbtag':'Timestamp',
-        'description':'Sample time (Electron clock)',
-        'interval':10*60,
+        'dbtag':'ts',
+        'description':'Sample time (Device clock)',
+        'interval':INTERVAL_S,
     },
     {
         'dbtag':'d2w',
@@ -21,15 +22,23 @@ conf = [
         'description':'Distance from sensor to water surface',
         'lb':301,
         'ub':4999,
-        'interval':10*60,
+        'interval':INTERVAL_S,
     },
     {
-        'dbtag':'VbattV',
+        'dbtag':'std',
+        'unit':'mm',
+        'description':'Sample standard deviation',
+        #'lb':?,
+        #'ub':?,
+        'interval':INTERVAL_S,
+    },
+    {
+        'dbtag':'Vb',
         'unit':'V',
         'description':'Battery voltage',
         'lb':3.7,
         'ub':5.5,
-        'interval':10*60,
+        'interval':INTERVAL_S,
     },
     {
         'dbtag':'SoC',
@@ -37,17 +46,16 @@ conf = [
         'description':'State of Charge',
         'lb':30,    # more like a warning than a valid range check
         'ub':100,
-        'interval':10*60,
+        'interval':INTERVAL_S,
     },
     {
-        'dbtag':'sample_size',
-        'description':'Number of valid readings in the 60 measurements',
-        'lb':0,
+        'dbtag':'sc',
+        'description':'# of measurements within 3\u03c3',
+        'lb':40,
         'ub':60,
-        'interval':10*60,
+        'interval':INTERVAL_S,
     },
 ]
-
 
 if '__main__' == __name__:
     for c in conf:

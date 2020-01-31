@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
-name = 'Water Level'
-location = 'Woods Hole Oceanographic Institute'
+name = 'Water Level (Barnstable Harbor)'
+location = 'Barnstable Harbor'
 note = 'Ultrasonic tide gauge (cellular; 0.5~10m). Hardware v0.5.'
+latitude = 41.706183
+longitude = -70.298800
 
 coreid = '3a0038001751353338363036'
 

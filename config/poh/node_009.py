@@ -1,8 +1,6 @@
-# -*- coding: utf-8 -*-
-# successor to us2
 name = 'Water Level (Hīhīmanu)'
 location = 'Hīhīmanu (first mākāhā)'
-note = 'Ultrasonic tide gauge (v4.2). One sample per minute. Each sample is the sample mean of the past 60 measurements taken at 1Hz. Telemetry only. No RTC.'
+note = 'Ultrasonic tide gauge (XBee). One measurement/second, one transmission/minute. Upgraded to hardware v5.3, firmware us14 on 20200128.'
 latitude = 21.433912
 longitude = -157.805338
 
@@ -17,16 +15,40 @@ conf = [
         'interval':60,
     },
     {
-        'dbtag':'VbattV',
-        'unit':'V',
-        'description':'Battery voltage (Vbatt)',
-        'lb':3.0,
+        'dbtag':'std',
+        'unit':'mm',
+        'description':'Sample standard deviation',
+        #'lb':?,
+        #'ub':?,
         'interval':60,
     },
     {
-        'dbtag':'ticker',
-        'description':'1Hz ticker',
+        'dbtag':'Vb',
+        'unit':'V',
+        'description':'Battery voltage',
+        'lb':3.7,
+        'ub':4.2,
+        'interval':60,
+    },
+    {
+        'dbtag':'Vs',
+        'unit':'V',
+        'description':'Solar input voltage',
         'lb':0,
+        'ub':6.0,
+        'interval':60,
+    },
+    {
+        'dbtag':'idx',
+        'description':'Sample index',
+        'lb':7*24*60,
+        'interval':60,
+    },
+    {
+        'dbtag':'sc',
+        'description':'# of measurements within 3\u03c3',
+        'lb':30,
+        'ub':60,
         'interval':60,
     },
 ]

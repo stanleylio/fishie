@@ -2,8 +2,8 @@
 name = 'Rain Fall'
 location = '2nd Makaha, Waikalua'
 note = 'XBee rain gauge. Firmware rain0.1, hardware v0.2.'
-#latitude = 21.3237992
-#longitude = -157.8311465
+latitude = 21.410463
+longitude = -157.784278
 
 
 conf = [

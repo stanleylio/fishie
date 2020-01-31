@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-name = 'Limu Wai CTD-O2'
+name = 'Limu Wai CTD-O2 (decommissioned)'
 location = 'Waikalua Loko I`a'
 note = 'Beaglebone-based node measuring oxygen, temperature, conductivity, and pressure'
 latitude = 21.411111

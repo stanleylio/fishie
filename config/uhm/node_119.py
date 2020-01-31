@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-name = 'SeapHOx'
+name = 'SeapHOx (Kapapa NOAA buoy)'
 location = '(TBD)'
 note = 'SeapHOx 02024. One sample per hour.'
 

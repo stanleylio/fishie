@@ -1,7 +1,6 @@
-# -*- coding: utf-8 -*-
 name = 'Water Level (Kahoʻokele)'
 location = 'Kahoʻokele (second mākāhā)'
-note = 'XBee ultrasonic tide gauge. One sample per minute. Each sample is the sample mean of the past 60 measurements taken at 1Hz. Telemetry only. No RTC. 7\'4" to bottom. Deployed May 22, 2017. Hardware v5.0, firmware us11c.'
+note = 'Ultrasonic tide gauge (XBee). One measurement/second, one transmission/minute. 7\'4" to bottom. Deployed 20170522. Upgraded to hardware v5.3, firmware us14 on 20200128.'
 latitude = 21.435435
 longitude = -157.805250
 
@@ -18,6 +17,22 @@ conf = [
         'interval':60,
     },
     {
+        'dbtag':'std',
+        'unit':'mm',
+        'description':'Sample standard deviation',
+        #'lb':?,
+        #'ub':?,
+        'interval':60,
+    },
+    {
+        'dbtag':'Vb',
+        'unit':'V',
+        'description':'Battery voltage',
+        'lb':3.7,
+        'ub':4.2,
+        'interval':60,
+    },
+    {
         'dbtag':'Vs',
         'unit':'V',
         'description':'Solar input voltage',
@@ -28,13 +43,14 @@ conf = [
     {
         'dbtag':'idx',
         'description':'Sample index',
-        'lb':0,
+        'lb':7*24*60,
         'interval':60,
     },
     {
         'dbtag':'sc',
-        'description':'Sample Size (after rejecting invalid measurements)',
-        'lb':0,
+        'description':'# of measurements within 3\u03c3',
+        'lb':30,
+        'ub':60,
         'interval':60,
     },
 ]
