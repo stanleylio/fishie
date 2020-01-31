@@ -104,7 +104,7 @@ class EZO_EC(EZO):
     def pretty(self, r=None):
         if r is None:
             r = self.read()
-        s = 'Conductivity: {} uS'.format(r['ec'])
+        s = 'Conductivity: {} uS/cm'.format(r['ec'])
         if 'sal' in r:
             s = s + '\nSalinity: {}'.format(r['sal'])           # no defined unit, P.7
         if 'tds' in r:
