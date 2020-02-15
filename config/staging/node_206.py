@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
-name = '"Sprezzatura"'
-location = '"Per aspera ad astra"'
-note = 'Ultrasonic tide gauge (cellular; 0.3~5m). Hardware v1.0.'
+name = '"Knack II"'
+location = '(TBD)'
+note = 'Ultrasonic tide gauge (cellular; 0.5~10m). Hardware v0.5.'
 
-coreid = 'e00fce685f4afafdcde95e75'
+coreid = '25002d001951353338363036'
 
 INTERVAL_S = 2*6*60
 
@@ -17,12 +17,13 @@ conf = [
         'dbtag':'d2w',
         'unit':'mm',
         'description':'Distance from sensor to water surface',
-        'lb':301,
-        'ub':4999,
+        'lb':501,
+        'ub':9998,
         'interval':INTERVAL_S,
     },
     {
         'dbtag':'std',
+        'unit':'mm',
         'description':'Sample standard deviation',
         #'lb':?,
         #'ub':?,

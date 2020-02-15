@@ -1,14 +1,13 @@
 # -*- coding: utf-8 -*-
-name = 'Water Level (Hīhīmanu)'
-location = 'Hīhīmanu (first mākāhā)'
-google_earth_link = 'https://goo.gl/maps/eY752oYMdV42'
-note = 'Cellular ultrasonic tide gauge. Each sample is average of 60 measurements taken every second. One transmission every 10 samples. Hardware upgraded from v0.4 to v0.5 on 20200124.'
-latitude = 21.433967
-longitude = -157.805333
+name = 'Water Level'
+location = 'Makai Research Pier.'
+note = 'Ultrasonic tide gauge (cellular; 0.3~5m). Hardware v1.0. Replacing node-195.'
+latitude = 21.319522
+longitude = -157.668328
 
-coreid = '3e0042001951353338363036'
+coreid = 'e00fce685f4afafdcde95e75'
 
-INTERVAL_S = 10*60
+INTERVAL_S = 2*6*60
 
 conf = [
     {
@@ -26,7 +25,6 @@ conf = [
     },
     {
         'dbtag':'std',
-        'unit':'mm',
         'description':'Sample standard deviation',
         #'lb':?,
         #'ub':?,
@@ -37,25 +35,26 @@ conf = [
         'unit':'V',
         'description':'Battery voltage',
         'lb':3.7,
-        'ub':5.5,
+        'ub':4.2,
         'interval':INTERVAL_S,
     },
     {
         'dbtag':'SoC',
         'unit':'%',
         'description':'State of Charge',
-        'lb':30,    # more like a warning than a valid range check
+        'lb':40,    # more like a warning than a valid range check
         'ub':100,
         'interval':INTERVAL_S,
     },
     {
         'dbtag':'sc',
         'description':'# of measurements within 3\u03c3',
-        'lb':40,
-        'ub':60,
+        'lb':91,
+        'ub':181,
         'interval':INTERVAL_S,
     },
 ]
+
 
 if '__main__' == __name__:
     for c in conf:

@@ -1,7 +1,8 @@
-# -*- coding: utf-8 -*-
-name = 'Water Level'
+name = 'Water Level (Barnstable Harbor)'
 location = 'Massachusetts Maritime Academy'
 note = 'Cellular ultrasonic tide gauge. Each sample is average of 60 measurements taken every second. One transmission every 10 samples. Hardware v0.4.'
+latitude = 41.706183
+longitude = -70.298800
 
 coreid = '29002b001550483553353620'
 

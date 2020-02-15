@@ -1,5 +1,4 @@
-# -*- coding: utf-8 -*-
-name = 'Water Level (Barnstable Harbor)'
+name = 'Water Level'
 location = 'Barnstable Harbor'
 note = 'Ultrasonic tide gauge (cellular; 0.5~10m). Hardware v0.5.'
 latitude = 41.706183
