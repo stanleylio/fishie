@@ -62,7 +62,7 @@ def callback(ch, method, properties, body):
     ch.basic_ack(delivery_tag=method.delivery_tag)
 
 logging.info(__file__ + ' is ready')
-channel.basic_consume(callback, queue=queue_name)   # ,no_ack=True
+channel.basic_consume(queue_name, callback)   # ,no_ack=True
 try:
     channel.start_consuming()
 except KeyboardInterrupt:

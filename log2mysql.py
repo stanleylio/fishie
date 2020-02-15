@@ -70,7 +70,7 @@ def mq_init():
     channel.queue_bind(exchange=exchange,
                        queue=queue_name,
                        routing_key='*.debug')
-    channel.basic_consume(callback, queue=queue_name)    # ,no_ack=True
+    channel.basic_consume(queue_name, callback)    # ,no_ack=True
     return connection, channel
 
 def init_storage():
