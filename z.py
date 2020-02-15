@@ -69,7 +69,7 @@ def send(channel, sample, src=None, dest=None):
         src = gethostname()
     tmp = {'from':src,
            'v':1,
-           'payload':sample}
+           'p':sample}
     if dest is not None:
         tmp['to'] = dest
     tmp = json.dumps(tmp,separators=(',', ':'))
