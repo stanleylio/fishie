@@ -17,8 +17,8 @@ nodeid = socket.gethostname()
 routing_key = nodeid + '.debug'
 
 
-def rabbit_init():
-    credentials = pika.PlainCredentials(nodeid, cred['rabbitmq'])
+def rabbit_init(name, password):
+    credentials = pika.PlainCredentials(name, password)
     connection = pika.BlockingConnection(pika.ConnectionParameters('localhost', 5672, '/', credentials))
     channel = connection.channel()
     channel.exchange_declare(exchange=exchange, exchange_type='topic', durable=True)
@@ -29,14 +29,15 @@ def taskHeartbeat():
     try:
         global channel, connection
         if connection is None or channel is None:
-            connection, channel = rabbit_init()
+            connection, channel = rabbit_init(nodeid, cred['rabbitmq'])
 
         uptime_second = float(open('/proc/uptime').readline().split()[0])
         usage = shutil.disk_usage('/')
         d = {'system_clock':time.time(),
              'uptime_second':uptime_second,
              'usedMB':int(usage.used/1e6),
-             'freeMB':int(usage.free/1e6)}
+             'freeMB':int(usage.free/1e6),
+             }
         try:
             from node.drivers.watchdog import Watchdog
             w = Watchdog(bus=1)
