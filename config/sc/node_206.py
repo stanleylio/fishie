@@ -1,16 +1,17 @@
-name = 'Water Level (Barnstable Harbor)'
-location = 'Barnstable Harbor'
+# -*- coding: utf-8 -*-
+name = 'Water Level'
+location = 'TBD'
 note = 'Ultrasonic tide gauge (cellular; 0.5~10m). Hardware v0.5.'
-latitude = 41.706183
-longitude = -70.298800
 
-coreid = '3a0038001751353338363036'
+coreid = '25002d001951353338363036'
+
+INTERVAL_S = 2*6*60
 
 conf = [
     {
         'dbtag':'ts',
         'description':'Sample time (Device clock)',
-        'interval':2*6*60,
+        'interval':INTERVAL_S,
     },
     {
         'dbtag':'d2w',
@@ -18,14 +19,15 @@ conf = [
         'description':'Distance from sensor to water surface',
         'lb':501,
         'ub':9998,
-        'interval':2*6*60,
+        'interval':INTERVAL_S,
     },
     {
         'dbtag':'std',
         'unit':'mm',
         'description':'Sample standard deviation',
-        'lb':0,
-        'interval':2*6*60,
+        #'lb':?,
+        #'ub':?,
+        'interval':INTERVAL_S,
     },
     {
         'dbtag':'Vb',
@@ -33,7 +35,7 @@ conf = [
         'description':'Battery voltage',
         'lb':3.7,
         'ub':4.2,
-        'interval':2*6*60,
+        'interval':INTERVAL_S,
     },
     {
         'dbtag':'SoC',
@@ -41,14 +43,14 @@ conf = [
         'description':'State of Charge',
         'lb':40,    # more like a warning than a valid range check
         'ub':100,
-        'interval':2*6*60,
+        'interval':INTERVAL_S,
     },
     {
         'dbtag':'sc',
         'description':'# of measurements within 3\u03c3',
         'lb':91,
         'ub':181,
-        'interval':2*6*60,
+        'interval':INTERVAL_S,
     },
 ]
 

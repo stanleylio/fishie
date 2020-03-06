@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
-name = '"Knack II"'
-location = '(TBD)'
+name = 'Water Level'
+location = ''
 note = 'Ultrasonic tide gauge (cellular; 0.5~10m). Hardware v0.5.'
 
-coreid = '25002d001951353338363036'
+coreid = '440036001247373333353132'
 
 INTERVAL_S = 2*6*60
 

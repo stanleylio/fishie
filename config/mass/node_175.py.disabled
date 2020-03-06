@@ -1,5 +1,5 @@
-name = 'Water Level'
-location = 'Massachusetts Maritime Academy, Bourne, MA'
+name = 'Water Level (Barnstable Harbor)'
+location = 'Barnstable Harbor'
 note = 'Cellular ultrasonic tide gauge. Each sample is average of 60 measurements taken every second. One transmission every 10 samples. Hardware v0.4.'
 latitude = 41.706183
 longitude = -70.298800

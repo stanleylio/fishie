@@ -35,7 +35,7 @@ conf = [
         'unit':'V',
         'description':'Solar input voltage',
         'lb':0,
-        'ub':6.0,
+        'ub':7.0,
         'interval':60,
     },
     {

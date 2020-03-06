@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
-name = '"Knack II"'
-location = '(TBD)'
+name = '"Hypatia"'
+location = 'Dunwall Tower'
 note = 'Ultrasonic tide gauge (cellular; 0.5~10m). Hardware v0.5.'
+status = 'staging'
+tags = ['tide gauge', 'cellular', 'MB7388', '181m179s']
 
 coreid = '350020001047373334363431'
 

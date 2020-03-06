@@ -58,7 +58,7 @@ def get_list_of_variables(node):
     config = import_node_config(node)
     return [c['dbtag'] for c in getattr(config, 'conf', [])]
 
-def get_config(parameter_name, node_id, variable_name=None, default=None):
+def get_config(parameter_name, node_id, *, variable_name=None, default=None):
     # note: None could mean 1. the parameter is not defined, or 2. its value IS None
     config = import_node_config(node_id)
 
