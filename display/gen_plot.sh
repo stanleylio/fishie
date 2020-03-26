@@ -31,10 +31,13 @@ echo "S. Carolina"
 python3 t0.py --site=sc
 echo "Mass"
 python3 t0.py --site=mass
+echo "Keawanui"
+python3 t0.py --site=keawanui
 echo "Mobile/Other"
 python3 t0.py --site=uhm
 echo "Staging/Dev"
 python3 t0.py --site=staging
+
 
 
 # - - -
