@@ -7,7 +7,7 @@
 # Stanley H.I. Lio
 # hlio@hawaii.edu
 # All Rights Reserved. 2018
-import serial, sys, time, traceback, logging, json, pika, socket, argparse
+import serial, sys, time, logging, json, pika, socket, argparse
 from os.path import join, exists, expanduser
 sys.path.append(expanduser('~'))
 import logging, logging.handlers
@@ -17,13 +17,13 @@ from twisted.internet import reactor
 from node.helper import dt2ts
 from node.parse_support import pretty_print
 from node.z import send, get_action
-from node.drivers.indicators import *
 from cred import cred
+from node.helper import is_rpi, init_rabbit
 
 
 logging.getLogger('pika').setLevel(logging.WARNING)
 
-exchange = 'uhcm'
+exchange='uhcm'
 nodeid = socket.gethostname()
 routing_key = nodeid + '.samples'
 
@@ -71,20 +71,10 @@ else:
     ser = serial.Serial(XBEE_PORT, XBEE_BAUD, timeout=1)
     xbeesend = lambda m: send(ser, m)
 
-indicators_setup()
-
 xbeesend({'status':'online',
           'INTERVAL':INTERVAL,
           'NGROUP':NGROUP,
           'Timestamp':time.time()})
-
-
-def rabbit_init():
-    credentials = pika.PlainCredentials(nodeid, cred['rabbitmq'])
-    connection = pika.BlockingConnection(pika.ConnectionParameters('localhost', 5672, '/', credentials))
-    channel = connection.channel()
-    channel.exchange_declare(exchange=exchange, exchange_type='topic', durable=True)
-    return connection, channel
 
 
 if XBEE_LOG_DIR is None:
@@ -125,9 +115,10 @@ def taskSampling():
     try:
         if debt <= 0:
             return
-        
-        red_on()
-        usr0_on()
+
+        if not is_rpi():
+            red_on()
+            usr0_on()
 
         d = sampling_core()
         if d is None or len(d) <= 0:
@@ -153,7 +144,7 @@ def taskSampling():
         if RABBITMQ_ENABLED:
             global channel, connection
             if connection is None or channel is None:
-                connection, channel = rabbit_init()
+                connection, channel = init_rabbit(nodeid, cred['rabbitmq'])
             channel.basic_publish(exchange=exchange,
                                   routing_key=routing_key,
                                   body=m,
@@ -161,8 +152,9 @@ def taskSampling():
                                                                   content_type='text/plain',
                                                                   expiration=str(72*3600*1000)))
 
-        red_off()
-        usr0_off()
+        if not is_rpi():
+            red_off()
+            usr0_off()
 
         payback()
         if debt > 0:
@@ -174,7 +166,7 @@ def taskSampling():
         connection, channel = None, None
         logging.error('connection closed')  # connection to the local exchange closed? wut?
     except:
-        logger.error(traceback.format_exc())
+        logger.exception('')
 
 def taskTrigger():
     try:
@@ -182,7 +174,7 @@ def taskTrigger():
             logging.warning('ran out of credit')
         #reactor.callLater(0, taskSampling)
     except:
-        logger.error(traceback.format_exc())
+        logger.exception('')
 
 def taskSerial():
     try:
@@ -199,7 +191,7 @@ def taskSerial():
         if len(outqueue):
             xbeesend(outqueue.pop(0))
     except:
-        logger.error(traceback.format_exc())
+        logger.exception('')
 
 def taskBlink():
     usr3_on()
@@ -208,19 +200,27 @@ def taskBlink():
     usr3_off()
     green_off()
 
-LoopingCall(taskSampling).start(0.1)
-LoopingCall(taskTrigger).start(INTERVAL)
-if ser is not None:
-    LoopingCall(taskSerial).start(0.05, now=False)
-LoopingCall(taskBlink).start(1)
 
-logger.info(__name__ + ' is ready')
-reactor.run()
+if '__main__' == __name__:
 
-if connection is not None:
-    connection.close()
-if ser is not None:
-    ser.close()
-rawf.close()
-indicators_cleanup()
-logger.info(__name__ + ' terminated')
+    if not is_rpi():
+        from node.drivers.indicators import *
+        indicators_setup()
+    
+    LoopingCall(taskSampling).start(0.1)
+    LoopingCall(taskTrigger).start(INTERVAL)
+    if ser is not None:
+        LoopingCall(taskSerial).start(0.05, now=False)
+    if not is_rpi():
+        LoopingCall(taskBlink).start(1)
+
+    logger.info(__name__ + ' is ready')
+    reactor.run()
+
+    if connection is not None:
+        connection.close()
+    if ser is not None:
+        ser.close()
+    rawf.close()
+    indicators_cleanup()
+    logger.info(__name__ + ' terminated')

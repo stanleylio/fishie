@@ -1,10 +1,6 @@
-# goal: get rid of this whole file.
-import calendar
+import calendar, subprocess, logging, pika
 from datetime import datetime
-#from numpy import diff,mean,median,size,flatnonzero,append,insert,absolute
-import subprocess, logging
 from os.path import exists
-
 
 def dt2ts(dt=None):
     if dt is None:
@@ -27,3 +23,13 @@ def getsize(path):
     if len(err):
         logging.warning(err)
     return out.split('\t')[0]
+
+def is_rpi():
+    return exists('/etc/os-release') and 'Raspbian' in open('/etc/os-release').readline()
+
+def init_rabbit(name, password, *, exchange='uhcm', host='localhost'):
+    credentials = pika.PlainCredentials(name, password)
+    connection = pika.BlockingConnection(pika.ConnectionParameters(host, 5672, '/', credentials))
+    channel = connection.channel()
+    channel.exchange_declare(exchange=exchange, exchange_type='topic', durable=True)
+    return connection, channel
