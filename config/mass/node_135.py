@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 name = 'Water Level'
-location = 'Woods Hole Oceanographic Institute'
+location = '-'
 note = 'Ultrasonic tide gauge (cellular; 0.3~5m). Hardware v0.5.'
 
 coreid = '220026000351353337353037'

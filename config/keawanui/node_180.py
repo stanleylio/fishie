@@ -1,9 +1,13 @@
 # -*- coding: utf-8 -*-
 name = 'Conductivity'
-location = 'Hawaii Kai, Miloli\'i'
+location = 'Keawanui Fishpond, Moloka‘i'
 note = 'Aanderaa conductivity sensor 4319. Hardware v5.4, firmware aa1.'
-latitude = 21.287222
-longitude = -157.717500
+# Keawanui
+latitude = 21.05478
+longitude = -156.85012
+# Hawaii Kai
+#latitude = 21.287222
+#longitude = -157.717500
 
 conf = [
     {
