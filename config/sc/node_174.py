@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-name = '(TBD)'
-location = '(TBD)'
+name = 'Water Level (DeBordieu Colony)'
+location = 'DeBordieu Colony'
 note = 'Ultrasonic tide gauge (cellular; 0.3~5m). Hardware v0.5.'
 #latitude = 21.28851
 #longitude = 157.80540

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-name = '(TBD)'
-location = '(TBD)'
+name = 'Water Level (Edisto Beach)'
+location = 'Edisto Beach'
 note = 'Ultrasonic tide gauge (cellular; 0.5~10m). Hardware v0.5.'
 
 coreid = '410039000247373334363431'

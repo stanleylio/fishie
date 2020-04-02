@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-name = '(TBD)'
-location = '(TBD)'
+name = 'Water Level (Kiawah Island)'
+location = 'Kiawah Island'
 note = 'Ultrasonic tide gauge (cellular; 0.3~5m). Hardware v0.5.'
 
 coreid = '18002a000747373336373936'

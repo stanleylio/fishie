@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-name = '(TBD)'
-location = '(TBD)'
+name = 'Water Level (Seabrook Island)'
+location = 'Seabrook Island'
 note = 'Ultrasonic tide gauge (cellular; 0.3~5m). Hardware v0.5.'
 
 coreid = '280047001847373333353132'

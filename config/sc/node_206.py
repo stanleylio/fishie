@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-name = 'Water Level'
-location = 'TBD'
+name = 'Water Level (Georgetown County)'
+location = 'Georgetown County'
 note = 'Ultrasonic tide gauge (cellular; 0.5~10m). Hardware v0.5.'
 
 coreid = '25002d001951353338363036'

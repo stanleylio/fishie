@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
-name = "(TBD)"
-location = "(TBD)"
-#google_earth_link = 'https://goo.gl/maps/C7bPidpD5Km'
+name = 'Water Level (Isle of Palms)'
+location = 'Isle of Palms'
 note = 'Ultrasonic tide gauge (cellular; 0.3~5m). Hardware v0.5.'
 #latitude = 21.512417
 #longitude = -157.845883
