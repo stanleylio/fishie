@@ -21,7 +21,7 @@ conf = [
     },
     {
         'dbtag':'t',
-        'unit':'Deg.C',
+        'unit':'\u2103',
         'description':'Water temperature',
         'lb':-10,
         'ub':50,
@@ -53,6 +53,7 @@ conf = [
     {
         'dbtag':'Vb',
         'description':'Battery voltage',
+        'unit':'V',
         'lb':3.0,
         'ub':4.3,
         'interval':5*60,
@@ -60,6 +61,7 @@ conf = [
     {
         'dbtag':'Vs',
         'description':'Solar panel voltage (after rectifier)',
+        'unit':'V',
         'lb':0,
         'ub':7.5,
         'interval':5*60,
