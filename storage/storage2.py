@@ -15,6 +15,7 @@ logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
 
 
+# there is ALWAYS a ReceptionTime now. This should be removed.
 def auto_time_col(columns):
     for time_col in ['ReceptionTime', 'Timestamp', 'ts']:
         if time_col in columns:
@@ -38,7 +39,7 @@ def create_table(conf, table, *, dbname='uhcm', user='root', password=None, host
     cur.execute(cmd)
 
 
-class storage():
+class Storage():
     def __init__(self, *, dbname='uhcm', user='root', passwd=None, host='localhost'):
         if passwd is None:
             passwd = cred['mysql']
@@ -61,7 +62,7 @@ class storage():
             force_update = True
         if force_update:
             self._schema_update()
-        return self._schema_cache.get(table,[])
+        return self._schema_cache.get(table, [])
     
     def insert(self, table, sample, *, auto_commit=True, reload_schema=True):
         if reload_schema or table not in self.get_list_of_tables():
@@ -159,16 +160,6 @@ class storage():
         else:
             return {time_col:[], nonnull:[]}
 
-    '''def read_latest_non_null(self,table,time_col,var):
-        """Retrieve the latest non-null record of var."""
-        r = self.read_last_N_minutes(table,time_col,1,var)
-        if len(r[time_col]):
-            L = zip(r[time_col],r[var])
-            L.sort(key=lambda x: x[0])
-            return {time_col:L[-1][0],var:L[-1][1]}
-        else:
-            return {time_col:[],var:[]}'''
-
     def read_latest_non_null(self, table, time_col, var):
         """Retrieve the latest row where var is not null."""
         cmd = 'SELECT * FROM `{table}` WHERE {var} IS NOT NULL ORDER BY {time_col} DESC LIMIT 1;'.\
@@ -196,7 +187,7 @@ class storage():
 
 if '__main__' == __name__:
     import time
-    s = storage()
+    s = Storage()
     #print(s.read_time_range('node-010','ReceptionTime',['ReceptionTime','d2w'],dt2ts()-3600,dt2ts()))
     #print(s.read_last_N_minutes('node-011','ReceptionTime',5,nonnull='d2w'))
     print(s.read_time_range2('node-097', 'ReceptionTime', ['ReceptionTime', 'd2w'], time.time()-600, time.time()))

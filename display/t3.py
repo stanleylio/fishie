@@ -8,7 +8,7 @@ import sys, time, itertools, MySQLdb
 sys.path.append('/home/nuc')
 from os.path import expanduser
 from datetime import datetime, timedelta
-from node.storage.storage2 import storage, auto_time_col
+from node.storage.storage2 import Storage, auto_time_col
 from node.helper import dt2ts, ts2dt
 from cred import cred
 import matplotlib
@@ -27,7 +27,7 @@ dbname = 'uhcm'
 conn = MySQLdb.connect(host=host, user=user, passwd=password, db=dbname)
 cur = conn.cursor()
 
-store = storage()
+store = Storage()
 
 now = datetime.utcnow()
 now = now.replace(minute=0).replace(second=0).replace(microsecond=0)

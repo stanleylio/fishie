@@ -58,9 +58,10 @@ def get_list_of_variables(node):
     config = import_node_config(node)
     return [c['dbtag'] for c in getattr(config, 'conf', [])]
 
-def get_config(parameter_name, node_id, *, variable_name=None, default=None):
-    # note: None could mean 1. the parameter is not defined, or 2. its value IS None
-    config = import_node_config(node_id)
+def get_config(parameter_name, node_id, *, variable_name=None, default=None, config=None):
+    # note: if default is None, then None could mean either the parameter is not defined, or its value IS None
+    if config is None:
+        config = import_node_config(node_id)
 
     # variable_name not given, so it's a node-wide parameter
     if variable_name is None:
@@ -79,7 +80,7 @@ def get_config(parameter_name, node_id, *, variable_name=None, default=None):
 #get_public_key = lambda node: get_config('public_key',node)
 get_unit = lambda node, var: get_config('unit', node, variable_name=var, default='-')
 get_description = lambda node, var:  get_config('description',node, variable_name=var, default='')
-get_interval = lambda node, variable: get_config('interval', node, variable_name=variable, default=30*60)
+get_interval = lambda node, variable: get_config('interval', node, variable_name=variable, default=60*60)
 get_plot_range = lambda node, var: get_config('plot_range', node, variable_name=var, default=30*24)
 
 # need some work here. time for SQL I'd say...

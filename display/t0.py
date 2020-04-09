@@ -9,7 +9,7 @@ from datetime import datetime, timedelta
 #from scipy.signal import medfilt
 from node.display.gen_plot import plot_time_series
 from node.helper import ts2dt, dt2ts
-from node.storage.storage2 import storage, auto_time_col
+from node.storage.storage2 import Storage, auto_time_col
 from node.config.config_support import get_list_of_sites, get_list_of_devices, get_list_of_disp_vars, get_description, get_unit, get_config, get_site
 
 from skyfield import api
@@ -66,7 +66,7 @@ root_plot_dir = '/var/www/uhcm/img'
 print('Output dir = ' + root_plot_dir)
 assert exists(root_plot_dir)
 
-store = storage()
+store = Storage()
 
 if args.site:
     sites = [args.site]

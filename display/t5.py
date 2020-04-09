@@ -11,7 +11,7 @@ from datetime import datetime, timedelta
 from scipy.signal import medfilt
 from node.helper import dt2ts
 from node.display.gen_plot import plot_time_series
-from node.storage.storage2 import storage, auto_time_col
+from node.storage.storage2 import Storage, auto_time_col
 from node.config.config_support import get_list_of_nodes, get_list_of_disp_vars, get_description, get_unit
 
 

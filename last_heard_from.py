@@ -3,13 +3,13 @@
 # Stanley H.I. Lio
 # hlio@hawaii.edu
 # All Rights Reserved. 2017
-from storage.storage2 import storage,auto_time_col
-import time,traceback
+from storage.storage2 import Storage, auto_time_col
+import time, traceback
 from datetime import timedelta
 
 
 time_cols = ['ReceptionTime','Timestamp','ts']
-store = storage()
+store = Storage()
 
 while True:
     print('\x1b[2J\x1b[;H')
