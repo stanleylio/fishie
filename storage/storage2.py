@@ -29,7 +29,7 @@ def create_table(conf, table, *, dbname='uhcm', user='root', password=None, host
         #password = open(expanduser('~/mysql_cred')).read().strip()
         passwd = cred['mysql']
     if not noreceptiontime:
-        conf.insert(0,{'dbtag':'ReceptionTime', 'dbtype':'DOUBLE PRIMARY KEY'})
+        conf.insert(0, {'dbtag':'ReceptionTime', 'dbtype':'DOUBLE PRIMARY KEY'})
     conn = MySQLdb.connect(host=host, user=user, passwd=passwd, db=dbname)
     cur = conn.cursor()
 
@@ -39,7 +39,7 @@ def create_table(conf, table, *, dbname='uhcm', user='root', password=None, host
     cur.execute(cmd)
 
 
-class Storage():
+class Storage:
     def __init__(self, *, dbname='uhcm', user='root', passwd=None, host='localhost'):
         if passwd is None:
             passwd = cred['mysql']
@@ -70,20 +70,15 @@ class Storage():
         if table not in self.get_list_of_tables():
             logger.warning('{} not defined in db. ignore'.format(table))
             return
-        #if set(sample.keys()) > set(self.get_list_of_columns(table)):  # TODO (new var?)
-            #self._schema_update()
-        # strip the keys not defined in the db - SQLite didn't seem to care. MySQL does.
-        sample = {k:sample[k] for k in self.get_list_of_columns(table) if k in sample}
-        #cur = self._conn.cursor()
-        #sample = [(k,v) for k,v in sample.iteritems()]
-        #cols,vals = zip(*sample)
-        cols,vals = zip(*sample.items())
+        # Strip the fields not defined in the db - SQLite doesn't seem to care, but MySQL does.
+        known_cols = self.get_list_of_columns(table)
+        cols = set(known_cols) & set(sample.keys())
+        vals = [sample[c] for c in cols]
         cmd = 'INSERT IGNORE INTO {}.`{table}` ({cols}) VALUES ({vals})'.\
               format(self._dbname,
                      table=table,
                      cols=','.join(cols),
                      vals=','.join(['%s']*len(cols)))
-        #print(cmd)
         self._cur.execute(cmd, vals)
         if auto_commit:
             self._conn.commit()

@@ -61,7 +61,7 @@ def init_rabbit():
 
 store = Storage()
 redis_server = redis.StrictRedis(host='localhost', port=6379, db=0)
-redis_server.flushall()
+#redis_server.flushall()
 
 def callback(ch, method, properties, body):
     global store, redis_server
@@ -82,7 +82,7 @@ def callback(ch, method, properties, body):
                 except TypeError:
                     pass
 
-            store.insert(d['node'], d)
+            store.insert(d['node'], d, reload_schema=False)
 
         ch.basic_ack(delivery_tag=method.delivery_tag)
 
@@ -90,7 +90,7 @@ def callback(ch, method, properties, body):
         for k,v in d.items():
             #print(k,v)
             # frigging json everywhere... "impedance mismatch"...
-            redis_server.set('latest:{}:{}'.format(d['node'], k), json.dumps((d['ReceptionTime'], v)), ex=int(timedelta(minutes=60).total_seconds()))
+            redis_server.set('latest:{}:{}'.format(d['node'], k), json.dumps((d['ReceptionTime'], v)), ex=int(timedelta(days=1).total_seconds()))
         
     except UnicodeDecodeError:
         # ignore malformed messages
