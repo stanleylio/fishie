@@ -1,11 +1,14 @@
 # -*- coding: utf-8 -*-
-name = 'Water Level'
-location = 'Makai Research Pier.'
-note = 'Ultrasonic tide gauge (cellular; 0.3~5m). Hardware v1.0. Replacing node-195.'
-latitude = 21.319522
-longitude = -157.668328
+name = 'Water Level (Kiawah Island)'
+location = 'Kiawah Island'
+note = 'Ultrasonic tide gauge (cellular; 0.3~5m). Hardware v0.5.'
+# South Carolina State Plane, Zone 3900, WGS84 Datum
+# Original from NAD83 (ift)
+latitude = 32.617490079
+longitude = -80.023008665
+elev = (5.846, 'ft', 'NAVD88')
 
-coreid = 'e00fce685f4afafdcde95e75'
+coreid = '18002a000747373336373936'
 
 INTERVAL_S = 2*6*60
 
@@ -25,6 +28,7 @@ conf = [
     },
     {
         'dbtag':'std',
+        'unit':'mm',
         'description':'Sample standard deviation',
         #'lb':?,
         #'ub':?,

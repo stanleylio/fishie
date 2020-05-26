@@ -3,7 +3,7 @@ location = '(TBD)'
 google_earth_link = '#'
 note = 'bbb-based, eMMC, v0.5.1 cape'
 public_key = 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC3Y+1uSKeSuS5sfX4YTCDncjfOpbOFik3jcweS3lkNe48LRFu+1JmzZXGEFW9dFY0c2ozHRwgndAwncylQ9LyeSEHBlD/Q3iUUPsmNTjC0X8bqCPI/TbPN/qPkntYfXHS+GVU2VEDlYytD7QGxKcp4ADDK4mBErj0nD9TGHPGICTUtEwB6tb41gMYF9uYv+Y6hG2uiquYux4fl1UhUnIpMaMhqlclBE9P0VU5NT3UnvNFxLG7u/SvBsNF8Ya/7c6ymd1HgbSHFGH/YsTD6G9Y/wpzmfxGCJduixdfXdH7dANseQBjhsssumXRu1HApqYzaFsiwGYQUfRALbijCX/8h nuc@base-032'
-
+tags = ['gateway', 'beaglebone']
 
 conf = [
     {

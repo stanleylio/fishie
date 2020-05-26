@@ -5,7 +5,7 @@ note = 'Fluorescent dissolved organic matter (FDOM), chlorophyll and turbidity (
 latitude = 21.286437
 longitude = -157.842810
 
-coreid = '3d0041001047373333353132'
+#coreid = '3d0041001047373333353132'
 
 conf = [
     {

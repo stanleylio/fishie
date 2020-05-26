@@ -11,7 +11,7 @@ conf = [
         'dbtag':'ts',
         'description':'Time of sampling',
         'plot':True,
-        'interval':5*60,
+        'interval':60*60,
     },
     {
         'dbtag':'rain_bucket_tipped',
@@ -33,6 +33,7 @@ conf = [
         'dbtag':'da',
         'unit':'mm/day',
         'description':'Accumulated per-day',
+        'plot':False,
         'lb':0,
         'plot_range':7*24,
         'interval':24*60*60,

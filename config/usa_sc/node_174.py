@@ -1,11 +1,13 @@
 # -*- coding: utf-8 -*-
-name = 'Water Level (Isle of Palms)'
-location = 'Isle of Palms'
+name = 'Water Level (DeBordieu Colony)'
+location = 'DeBordieu Colony'
 note = 'Ultrasonic tide gauge (cellular; 0.3~5m). Hardware v0.5.'
-#latitude = 21.512417
-#longitude = -157.845883
+# South Carolina State Plane, Zone 3900, WGS84 Datum
+# Original from NAD83 (ift)
+latitude = 33.375011859
+longitude = -79.156143144
 
-coreid = '190039000d51363034323832'
+coreid = '240046000647363334373734'
 
 INTERVAL_S = 2*6*60
 

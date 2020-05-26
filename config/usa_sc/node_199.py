@@ -1,9 +1,13 @@
 # -*- coding: utf-8 -*-
-name = 'Water Level (Kiawah Island)'
-location = 'Kiawah Island'
-note = 'Ultrasonic tide gauge (cellular; 0.3~5m). Hardware v0.5.'
+name = 'Water Level (Edisto Beach)'
+location = 'Edisto Beach'
+note = 'Ultrasonic tide gauge (cellular; 0.5~10m). Hardware v0.5.'
+# South Carolina State Plane, Zone 3900, WGS84 Datum
+# Original from NAD83 (ift)
+latitude = 32.493718292
+longitude = -80.339030382
 
-coreid = '18002a000747373336373936'
+coreid = '410039000247373334363431'
 
 INTERVAL_S = 2*6*60
 
@@ -17,8 +21,8 @@ conf = [
         'dbtag':'d2w',
         'unit':'mm',
         'description':'Distance from sensor to water surface',
-        'lb':301,
-        'ub':4999,
+        'lb':501,
+        'ub':9998,
         'interval':INTERVAL_S,
     },
     {

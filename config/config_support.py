@@ -104,5 +104,5 @@ def is_in_range(site, node, variable, reading):
 
 
 if '__main__' == __name__:
-    #print config_as_dict()
+    print(config_as_dict())
     print(get_list_of_nodes('poh'))

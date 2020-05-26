@@ -3,7 +3,7 @@ location = '(TBD)'
 google_earth_link = '#'
 note = 'RPi3 16GB'
 #public_key = ''
-
+tags = ['gateway', 'rpi']
 
 conf = [
     {

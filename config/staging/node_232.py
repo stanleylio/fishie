@@ -1,9 +1,11 @@
 # -*- coding: utf-8 -*-
-name = 'Water Level (Edisto Beach)'
-location = 'Edisto Beach'
-note = 'Ultrasonic tide gauge (cellular; 0.5~10m). Hardware v0.5.'
+name = '"Reflection"'
+location = '-'
+note = 'Ultrasonic tide gauge (cellular; 0.3~5m). Hardware v1.0. Replacing node-195.'
+#latitude = 21.319522
+#longitude = -157.668328
 
-coreid = '410039000247373334363431'
+coreid = 'e00fce685f4afafdcde95e75'
 
 INTERVAL_S = 2*6*60
 
@@ -17,13 +19,12 @@ conf = [
         'dbtag':'d2w',
         'unit':'mm',
         'description':'Distance from sensor to water surface',
-        'lb':501,
-        'ub':9998,
+        'lb':301,
+        'ub':4999,
         'interval':INTERVAL_S,
     },
     {
         'dbtag':'std',
-        'unit':'mm',
         'description':'Sample standard deviation',
         #'lb':?,
         #'ub':?,

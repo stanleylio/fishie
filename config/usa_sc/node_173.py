@@ -1,11 +1,14 @@
 # -*- coding: utf-8 -*-
-name = 'Water Level (DeBordieu Colony)'
-location = 'DeBordieu Colony'
+name = 'Water Level (Seabrook Island)'
+location = 'Seabrook Island'
 note = 'Ultrasonic tide gauge (cellular; 0.3~5m). Hardware v0.5.'
-#latitude = 21.28851
-#longitude = 157.80540
+# South Carolina State Plane, Zone 3900, WGS84 Datum
+# Original from NAD83 (ift)
+latitude = 32.579278137
+longitude = -80.157553129
+elev = (5.112, 'ft', 'NAVD88')
 
-coreid = '240046000647363334373734'
+coreid = '280047001847373333353132'
 
 INTERVAL_S = 2*6*60
 

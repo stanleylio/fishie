@@ -1,11 +1,13 @@
 # -*- coding: utf-8 -*-
-name = 'Water Level (Seabrook Island)'
-location = 'Seabrook Island'
-note = 'Ultrasonic tide gauge (cellular; 0.3~5m). Hardware v0.5.'
+name = '"Birth of a Wish"'
+location = '-'
+note = 'Ultrasonic tide gauge (cellular).'
+#latitude = 21.319522
+#longitude = -157.668328
 
-coreid = '280047001847373333353132'
+coreid = '210027001550483553353620'
 
-INTERVAL_S = 2*6*60
+INTERVAL_S = 2*10*60
 
 conf = [
     {
@@ -23,9 +25,8 @@ conf = [
     },
     {
         'dbtag':'std',
-        'unit':'mm',
         'description':'Sample standard deviation',
-        #'lb':?,
+        'lb':0,
         #'ub':?,
         'interval':INTERVAL_S,
     },
