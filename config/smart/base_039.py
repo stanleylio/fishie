@@ -1,5 +1,5 @@
-name = '(TBD)'
-location = '(TBD)'
+name = 'East West Center Base Station III'
+location = 'East West Center, UH Manoa'
 google_earth_link = '#'
 note = 'RPi3 16GB'
 #public_key = ''

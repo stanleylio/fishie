@@ -1,11 +1,9 @@
-# -*- coding: utf-8 -*-
 name = 'Manoa-Palolo Drainage Water Level'
 location = 'Iolani School'
 google_earth_link = '#'
-note = 'Ultrasonic tide gauge (XBee). 1Hz measurements. Each transmission is average of 60 measurements. Firmware us13b, hardware v5.3.'
-#latitude = 21.299363
-#longitude = -157.813624
-
+note = 'Ultrasonic tide gauge (XBee). 1Hz measurements. Each transmission is average of 60 measurements. Firmware us14, hardware v5.3.'
+latitude = 21.28316
+longitude = -157.82394
 
 conf = [
     {
@@ -39,15 +37,14 @@ conf = [
         'interval':60,
     },
     {
-        'dbtag':'sc',
-        'description':'Sample Size (after rejecting invalid measurements)',
-        'lb':48,
+        'dbtag':'std',
+        'description':'Standard Deviation (after rejecting invalid measurements)',
         'interval':60,
     },
     {
-        'dbtag':'c',
-        'description':'Internal 1Hz counter',
-        'lb':24*60*60,
+        'dbtag':'sc',
+        'description':'Sample Size (after rejecting invalid measurements)',
+        'lb':48,
         'interval':60,
     },
 ]

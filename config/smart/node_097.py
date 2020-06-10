@@ -1,9 +1,9 @@
-# -*- coding: utf-8 -*-
 name = 'Manoa Stream (Kanewai) Water Level'
 location = 'Manoa Stream (Kanewai)'
 google_earth_link = '#'
 note = 'Ultrasonic tide gauge (XBee). One measurement every ~3 minutes. No RTC, no storage, telemetry only. Firmware us10c, hardware v4.2.'
-
+latitude = 21.29527
+longitude = -157.81317
 
 conf = [
     {

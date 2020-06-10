@@ -1,11 +1,9 @@
-# -*- coding: utf-8 -*-
 name = 'Palolo Stream Height'
 location = 'St. Louis School'
 google_earth_link = '#'
 note = 'Ultrasonic tide gauge (XBee). 1Hz measurements; each transmission is average of 60 measurements. Firmware us12c, hardware v5.2.'
-latitude = 21.28851
-longitude = -157.80540
-
+latitude = 21.28816
+longitude = -157.80569
 
 conf = [
     {

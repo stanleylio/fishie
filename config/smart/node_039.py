@@ -3,7 +3,8 @@ name = 'Aihualama Stream Water Level'
 location = 'Lyon Arboretum'
 google_earth_link = '#'
 note = 'Ultrasonic tide gauge (XBee). ~1Hz measurements; each transmission is average of 60 measurements. Firmware us12b, hardware v5.1.'
-
+latitude = 21.33408
+longitude = -157.80179
 
 conf = [
     {

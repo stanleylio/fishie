@@ -1,8 +1,8 @@
 name = 'Water Level (Barnstable Harbor)'
-location = 'Barnstable Harbor'
+location = 'Town Pier, Barnstable Harbor, Barnstable, MA'
 note = 'Ultrasonic tide gauge (cellular; 0.5~10m). Hardware v0.5.'
-latitude = 41.706183
-longitude = -70.298800
+latitude = 41.705519
+longitude = -70.299377
 
 coreid = '3a0038001751353338363036'
 
