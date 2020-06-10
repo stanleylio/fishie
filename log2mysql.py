@@ -18,7 +18,7 @@
 # Stanley H.I. Lio
 # hlio@hawaii.edu
 # University of Hawaii, 2020
-import pika, socket, sys, time, math, MySQLdb, logging, argparse, redis, json
+import pika, socket, sys, time, math, MySQLdb, logging, argparse, redis, json, random
 from datetime import timedelta
 from os.path import expanduser, basename
 sys.path.append(expanduser('~'))
@@ -82,7 +82,7 @@ def callback(ch, method, properties, body):
                 except TypeError:
                     pass
 
-            store.insert(d['node'], d, reload_schema=False)
+            store.insert(d['node'], d, reload_schema=random.random() > 0.95)
 
         ch.basic_ack(delivery_tag=method.delivery_tag)
 
