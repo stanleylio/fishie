@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 name = 'Dissolved Oxygen'
 location = 'Hawaii Kai, Miloli\'i'
 note = 'Aanderaa oxygen optode 4531. Hardware v5.4, firmware aa2.'

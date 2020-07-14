@@ -1,4 +1,4 @@
-name = 'Water Level'
+name = 'Water Level (MA Maritime Academy)'
 location = 'Massachusetts Maritime Academy, Buzzards Bay, MA'
 note = 'Cellular ultrasonic tide gauge. Each sample is average of 60 measurements taken every second. One transmission every 10 samples. Hardware v0.4.'
 latitude = 41.737653

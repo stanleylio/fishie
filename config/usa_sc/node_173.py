@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 name = 'Water Level (Seabrook Island)'
 location = 'Seabrook Island'
 note = 'Ultrasonic tide gauge (cellular; 0.3~5m). Hardware v0.5.'

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 name = 'MSB Meteorological Station'
 location = 'Marine Science Building Rooftop'
 note = 'BME280 and RM Young 05106. 10Hz wind direction and 1Hz wind speed display; logged once a minute. Pi cape v0.3 with WDT.'

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 name = '"Fever-Dream"'
 location = '-'
 note = 'Ultrasonic tide gauge (cellular). Hardware v0.6. Experimental.'

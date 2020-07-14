@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 name = 'Water Level'
 location = 'Hawaii Kai, Miloli\'i'
 google_earth_link = '#'

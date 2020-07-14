@@ -1,13 +1,11 @@
-# -*- coding: utf-8 -*-
-name = '"Reflection"'
-location = '-'
-note = 'Ultrasonic tide gauge (cellular; 0.3~5m). Hardware v1.0. Replacing node-195.'
-#latitude = 21.319522
-#longitude = -157.668328
+name = '(TBD)'
+location = '(TBD)'
+note = 'Cellular ultrasonic tide gauge'
 
-coreid = 'e00fce685f4afafdcde95e75'
+coreid = '2e0056001751353338363036'
 
-INTERVAL_S = 2*6*60
+
+INTERVAL_S = 12*60
 
 conf = [
     {
@@ -26,7 +24,7 @@ conf = [
     {
         'dbtag':'std',
         'description':'Sample standard deviation',
-        #'lb':?,
+        'lb':0,
         #'ub':?,
         'interval':INTERVAL_S,
     },
@@ -59,11 +57,11 @@ conf = [
 if '__main__' == __name__:
     for c in conf:
         print('- - -')
-        for k, v in c.items():
-            print(k, ':' ,v)
+        for k,v in c.iteritems():
+            print(k,':',v)
 
     import sys
     sys.path.append('../..')
     from os.path import basename
     from storage.storage2 import create_table
-    create_table(conf, basename(__file__).split('.')[0].replace('_', '-'))
+    create_table(conf,basename(__file__).split('.')[0].replace('_','-'))

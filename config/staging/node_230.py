@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 name = '"Twisted-Pair"'
 location = '(TBD)'
 note = 'Ultrasonic tide gauge (cellular; 0.3~5m). Hardware v1.0.'

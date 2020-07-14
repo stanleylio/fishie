@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 name = '"Birth of a Wish"'
 location = '-'
 note = 'Ultrasonic tide gauge (cellular).'
@@ -7,7 +6,7 @@ note = 'Ultrasonic tide gauge (cellular).'
 
 coreid = '210027001550483553353620'
 
-INTERVAL_S = 2*10*60
+INTERVAL_S = 12*60
 
 conf = [
     {

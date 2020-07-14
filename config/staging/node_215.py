@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 name = 'Rain Gauge'
 location = '(TBD)'
 note = 'Cellular rain gauge. Firmware uc0.3, hardware v0.4 (cellular).'

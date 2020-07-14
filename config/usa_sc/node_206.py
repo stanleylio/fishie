@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 name = 'Water Level (Georgetown County)'
 location = 'Georgetown County'
 note = 'Ultrasonic tide gauge (cellular; 0.5~10m). Hardware v0.5.'

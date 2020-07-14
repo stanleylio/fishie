@@ -1,7 +1,8 @@
-# -*- coding: utf-8 -*-
-name = 'Water Level'
-location = '-'
+name = 'Water Level (Quissett Harbor)'
+location = 'Quissett Harbor, Falmouth, MA'
 note = 'Ultrasonic tide gauge (cellular; 0.3~5m). Hardware v0.5.'
+latitude = 41.544122
+longitude = -70.652712
 
 coreid = '220026000351353337353037'
 

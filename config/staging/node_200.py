@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 name = '"Hypatia"'
 location = 'Dunwall Tower'
 note = 'Ultrasonic tide gauge (cellular; 0.5~10m). Hardware v0.5.'

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 name = '"Nightmare-fuel"'
 location = 'Furi'
 note = 'XBee rain gauge. Firmware rain0.1, hardware v0.2.'

@@ -1,9 +1,8 @@
-name = '"Spinel"'
-location = '(TBD)'
-note = 'SeaFET pH Sensor'
+name = '"Plaster-of-paris"'
+location = '"A booth in the Midwest"'
+note = 'SeapHOx pH Sensor'
 #latitude = 21.451592
 #longitude = -157.796580
-
 
 conf = [
     {
@@ -11,6 +10,93 @@ conf = [
         'description':'(derived from date_code and time_code)',
         'interval':20*60,
     },
+    {
+        'dbtag':'idx',
+        'unit':'-',
+        'description':'-',
+        'lb':0,
+        'interval':20*60,
+    },
+    {
+        'dbtag':'tC',
+        'unit':'\u2103',
+        'description':'CTD temperature',
+        'lb':10,
+        'ub':50,
+        'interval':20*60,
+    },
+    {
+        'dbtag':'epH',
+        'description':'FET|EXT calculated pH in total scale',
+        'lb':7,
+        'ub':8.5,
+        'interval':20*60,
+    },
+    {
+        'dbtag':'ipH',
+        'description':'FET|INT calculated pH in total scale',
+        'lb':7,
+        'ub':8.5,
+        'interval':20*60,
+    },
+    {
+        'dbtag':'pHC',
+        'unit':'\u2103',
+        'description':'ISFET Thermistor temperature',
+        'lb':10,
+        'ub':50,
+        'interval':20*60,
+    },
+    {
+        'dbtag':'dbar',
+        'unit':'dbar',
+        'description':'Pressure',
+        'lb':0,
+        'interval':20*60,
+    },
+    {
+        'dbtag':'psu',
+        'unit':'psu',
+        'description':'CTD salinity',
+        'lb':10,
+        'ub':40,
+        'interval':20*60,
+    },
+    {
+        'dbtag':'ec_S_m',
+        'unit':'S/m',
+        'description':'Conductivity (CTD)',
+        'lb':10,
+        'ub':60,
+        'interval':20*60,
+    },
+    {
+        'dbtag':'o2_mg_L',
+        'unit':'mg/L',
+        'description':'Dissolved oxygen',
+        'lb':0,
+        'ub':10,
+        'interval':20*60,
+    },
+    {
+        'dbtag':'rh',
+        'unit':'%',
+        'description':'Electronics compartment relative humidity',
+        'ub':70,
+        'interval':20*60,
+    },
+    {
+        'dbtag':'iC',
+        'unit':'\u2103',
+        'description':'Internal temperature',
+        'interval':20*60,
+    },
+    {
+        'dbtag':'sn',
+        'description':'Serial Number',
+        'interval':20*60,
+    },
+
     {
         'dbtag':'Vb',
         'unit':'V',
@@ -25,94 +111,6 @@ conf = [
         'description':'Solar panel voltage',
         'lb':0,
         'ub':7.5,
-        'interval':20*60,
-    },
-    {
-        'dbtag':'date_code',
-        'description':'Sample Date (UTC) in format, YYYYDDD',
-        'plot':False,
-        'interval':20*60,
-    },
-    {
-        'dbtag':'time_code',
-        'description':'Sample Time (UTC) in format, DESCIMALHOUR',
-        'plot':False,
-        'interval':20*60,
-    },
-    {
-        'dbtag':'ipH',
-        'description':'FET|INT calculated pH in total scale',
-        'lb':7,
-        'ub':8.5,
-        'interval':20*60,
-    },
-    {
-        'dbtag':'epH',
-        'description':'FET|EXT calculated pH in total scale',
-        'lb':7,
-        'ub':8.5,
-        'interval':20*60,
-    },
-    {
-        'dbtag':'pHC',
-        'unit':'Deg\u00b0C',
-        'description':'ISFET Thermistor temperature',
-        'lb':10,
-        'ub':50,
-        'interval':20*60,
-    },
-    {
-        'dbtag':'tC',
-        'unit':'Deg.C',
-        'description':'CTD temperature',
-        'lb':10,
-        'ub':50,
-        'interval':20*60,
-    },
-    {
-        'dbtag':'psu',
-        'unit':'psu',
-        'description':'CTD salinity',
-        'lb':10,
-        'ub':40,
-        'interval':20*60,
-    },
-    {
-        'dbtag':'o2_mg_L',
-        'unit':'ml/L',
-        'description':'CTD oxygen concentration',
-        'lb':0,
-        'ub':10,
-        'interval':20*60,
-    },
-#    {
-#        'dbtag':'P_CTD',
-#        'unit':'dbar',
-#        'description':'CTD pressure',
-#        'plot':False,
-#    },
-    {
-        'dbtag':'rh',
-        'unit':'%',
-        'description':'Electronics compartment relative humidity',
-        'ub':70,
-        'interval':20*60,
-    },
-    {
-        'dbtag':'Vbm',
-        'unit':'V',
-        'description':'Main battery pack voltage',
-        'interval':20*60,
-    },
-    {
-        'dbtag':'Vbiso',
-        'unit':'V',
-        'description':'Isolated battery pack voltage',
-        'interval':20*60,
-    },
-    {
-        'dbtag':'sn',
-        'description':'Serial Number',
         'interval':20*60,
     },
 ]
