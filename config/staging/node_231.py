@@ -1,6 +1,6 @@
 name = '"Fellow-Kid"'
 location = '-'
-note = 'Ultrasonic tide gauge (cellular; 0.3~5m). Hardware v1.0. Replacing node-195.'
+note = 'Ultrasonic tide gauge (cellular; 0.3~5m). Hardware v1.1.'
 #latitude = 21.319522
 #longitude = -157.668328
 
@@ -43,7 +43,7 @@ conf = [
         'description':'State of Charge',
         'lb':40,    # more like a warning than a valid range check
         'ub':100,
-        'interval':INTERVAL_S,
+        'interval':10*INTERVAL_S,
     },
     {
         'dbtag':'sc',

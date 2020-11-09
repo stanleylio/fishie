@@ -1,12 +1,10 @@
-name = '"Birth of a Wish"'
-location = '-'
-note = 'Ultrasonic tide gauge (cellular).'
-#latitude = 21.319522
-#longitude = -157.668328
+name = 'Water Level'
+location = '(TBD)'
+note = 'Ultrasonic tide gauge (cellular; 0.5~10m). Hardware v0.5.'
 
-coreid = '210027001550483553353620'
+coreid = '2f0057000251383133363636'
 
-INTERVAL_S = 12*60
+INTERVAL_S = 2*6*60
 
 conf = [
     {
@@ -18,14 +16,15 @@ conf = [
         'dbtag':'d2w',
         'unit':'mm',
         'description':'Distance from sensor to water surface',
-        'lb':301,
-        'ub':4999,
+        'lb':501,
+        'ub':9998,
         'interval':INTERVAL_S,
     },
     {
         'dbtag':'std',
+        'unit':'mm',
         'description':'Sample standard deviation',
-        'lb':0,
+        #'lb':?,
         #'ub':?,
         'interval':INTERVAL_S,
     },
@@ -43,7 +42,7 @@ conf = [
         'description':'State of Charge',
         'lb':40,    # more like a warning than a valid range check
         'ub':100,
-        'interval':INTERVAL_S,
+        'interval':10*INTERVAL_S,
     },
     {
         'dbtag':'sc',

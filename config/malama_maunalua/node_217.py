@@ -4,7 +4,7 @@ note = 'Cellular rain gauge. Firmware uc0.3, hardware v0.4 (cellular).'
 latitude = 21.297875
 longitude = -157.815704
 
-coreid = '32002b000647373334363431'
+coreid = '58003b0008504d5555393920'
 
 conf = [
     {

@@ -1,9 +1,8 @@
-name = '(TBD)'
+name = 'Water Level'
 location = '(TBD)'
-note = 'Cellular ultrasonic tide gauge'
+note = 'Ultrasonic tide gauge (cellular; 0.3~5m). v0.6 board.'
 
 coreid = '2e0056001751353338363036'
-
 
 INTERVAL_S = 12*60
 
@@ -42,7 +41,7 @@ conf = [
         'description':'State of Charge',
         'lb':40,    # more like a warning than a valid range check
         'ub':100,
-        'interval':INTERVAL_S,
+        'interval':10*INTERVAL_S,
     },
     {
         'dbtag':'sc',

@@ -1,4 +1,4 @@
-name = '"Spinel"'
+name = 'pH, O2, conductivity (maintenance)'
 location = '(TBD)'
 note = 'SeaFET pH Sensor'
 #latitude = 21.451592

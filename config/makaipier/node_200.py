@@ -1,5 +1,5 @@
-name = '"Hypatia"'
-location = 'Dunwall Tower'
+name = 'Water Level'
+location = 'Makai Pier, Oahu'
 note = 'Ultrasonic tide gauge (cellular; 0.5~10m). Hardware v0.5.'
 status = 'staging'
 tags = ['tide gauge', 'cellular', 'MB7388', '181m179s']
@@ -44,7 +44,7 @@ conf = [
         'description':'State of Charge',
         'lb':40,    # more like a warning than a valid range check
         'ub':100,
-        'interval':INTERVAL_S,
+        'interval':10*INTERVAL_S,
     },
     {
         'dbtag':'sc',

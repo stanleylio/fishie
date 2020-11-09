@@ -1,6 +1,5 @@
-# -*- coding: utf-8 -*-
-name = 'Oxygen (TBD)'
-location = 'TBD, Paepae O He`eia Fishpond'
+name = 'Dissolved oxygen'
+location = '(TBD)'
 note = 'Aanderaa oxygen optode 4531. Hardware v5.4. Renamed from node-183.'
 #latitude = 21.439722
 #longitude = -157.809722

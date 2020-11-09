@@ -1,8 +1,8 @@
-name = 'Water Level (Georgetown County)'
+name = 'Water Level (decommissioned)'
 location = 'Georgetown County'
 note = 'Ultrasonic tide gauge (cellular; 0.5~10m). Hardware v0.5.'
 
-coreid = '25002d001951353338363036'
+#coreid = '25002d001951353338363036'
 
 INTERVAL_S = 2*6*60
 
@@ -42,7 +42,7 @@ conf = [
         'description':'State of Charge',
         'lb':40,    # more like a warning than a valid range check
         'ub':100,
-        'interval':INTERVAL_S,
+        'interval':10*INTERVAL_S,
     },
     {
         'dbtag':'sc',

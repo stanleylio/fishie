@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 name = '"Water-Under-The-Bridge" (decommissioned)'
 location = 'Coconut Island'
 google_earth_link = 'https://goo.gl/maps/8gJTDCgVan32'

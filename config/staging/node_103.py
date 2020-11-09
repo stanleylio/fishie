@@ -1,13 +1,10 @@
-name = 'Water Level (DeBordieu Colony)'
-location = 'DeBordieu Colony'
-note = 'Ultrasonic tide gauge (cellular; 0.3~5m). Hardware v0.5.'
-# South Carolina State Plane, Zone 3900, WGS84 Datum
-# Original from NAD83 (ift)
-latitude = 33.375011859
-longitude = -79.156143144
+name = 'Water Level'
+location = '(TBD)'
+note = 'Ultrasonic tide gauge (cellular; 0.3~5m). v0.6 board.'
+#latitude = 33.375011859
+#longitude = -79.156143144
 
-#coreid = '240046000647363334373734'
-coreid = '210027001550483553353620'
+coreid = '1b002f001847373333353132'
 
 INTERVAL_S = 2*6*60
 
@@ -29,8 +26,6 @@ conf = [
         'dbtag':'std',
         'unit':'mm',
         'description':'Sample standard deviation',
-        #'lb':?,
-        #'ub':?,
         'interval':INTERVAL_S,
     },
     {

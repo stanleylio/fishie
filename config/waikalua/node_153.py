@@ -1,7 +1,6 @@
-# -*- coding: utf-8 -*-
-name = 'FLNTUSB (staging)'
+name = 'Turbidity and chlorophyll'
 location = '(TBD)'
-note = 'FLNTUSB, chlorophyll and turbidity (XBee FLNTUSB 5101)'
+note = 'FLNTUSB SN#5101 (XBee)'
 
 conf = [
     {
@@ -60,7 +59,7 @@ conf = [
         'unit':'V',
         'description':'Solar input voltage (telemetry relay\'s)',
         'lb':0,
-        'ub':6,
+        'ub':7.5,
         'interval':12*60,
     },
 ]

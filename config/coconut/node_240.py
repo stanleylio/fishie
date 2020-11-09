@@ -1,5 +1,4 @@
-# -*- coding: utf-8 -*-
-name = 'controller01'
+name = 'controller01 (decommissioned)'
 location = 'Coconut Island'
 note = "v0 code: {'neutral':0, 'heating':1, 'cooling':2, 'flush':3}"
 latitude = 21.434699

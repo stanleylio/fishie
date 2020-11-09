@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 name = 'Ala Moana buoy SeapHOx + CTD'
 location = 'Ala Moana buoy'
 note = 'SeapHOx + CTD 02026'

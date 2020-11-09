@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 name = 'Water Level'
 location = 'Keawanui Fishpond, Moloka‘i'
 google_earth_link = '#'
@@ -53,7 +52,7 @@ conf = [
         'unit':'V',
         'description':'Solar panel voltage',
         'lb':0,
-        'ub':6,
+        'ub':7.5,
         'interval':60,
     },
     {

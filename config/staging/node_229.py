@@ -1,13 +1,8 @@
-name = 'Water Level (DeBordieu Colony)'
-location = 'DeBordieu Colony'
-note = 'Ultrasonic tide gauge (cellular; 0.3~5m). Hardware v0.5.'
-# South Carolina State Plane, Zone 3900, WGS84 Datum
-# Original from NAD83 (ift)
-latitude = 33.375011859
-longitude = -79.156143144
+name = 'Water Level'
+location = '(TBD)'
+note = 'Ultrasonic tide gauge (cellular; 0.3~5m). v0.6 board.'
 
-#coreid = '240046000647363334373734'
-coreid = '210027001550483553353620'
+coreid = '290039000251383133363636'
 
 INTERVAL_S = 2*6*60
 
@@ -21,8 +16,8 @@ conf = [
         'dbtag':'d2w',
         'unit':'mm',
         'description':'Distance from sensor to water surface',
-        'lb':301,
-        'ub':4999,
+        'lb':501,
+        'ub':9998,
         'interval':INTERVAL_S,
     },
     {

@@ -55,9 +55,8 @@ def get_node_attribute(nodeid, attribute):
     c = conn.cursor()
     c.execute("SELECT {} from uhcm.`devices` WHERE nodeid=%s".format(attribute), (nodeid,))
     row = c.fetchone()
-    L = row[0] if row is not None else None
     conn.close()
-    return L
+    return row[0] if row else None
 
 def get_variable_attribute(nodeid, variable, attribute):
     conn = MySQLdb.connect(host='localhost', user='webapp', passwd='', db='uhcm', charset='utf8mb4')
@@ -75,6 +74,14 @@ def get_list_of_disp_vars(nodeid):
     L = [row[0] for row in c.fetchall()]
     conn.close()
     return L
+
+def coreid2nodeid(coreid):
+    conn = MySQLdb.connect(host='localhost', user='webapp', passwd='', db='uhcm', charset='utf8mb4')
+    c = conn.cursor()
+    c.execute("SELECT nodeid from uhcm.`devices` WHERE coreid=%s", (coreid,))
+    row = c.fetchone()
+    conn.close()
+    return row[0] if row else None
 
 
 if '__main__' == __name__:

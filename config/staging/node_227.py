@@ -1,4 +1,4 @@
-name = '"Plaster-of-paris"'
+name = '(TBD)'
 location = '"A booth in the Midwest"'
 note = 'SeapHOx pH Sensor'
 #latitude = 21.451592
