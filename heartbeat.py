@@ -1,11 +1,11 @@
-#!/usr/bin/python3
 # Stanley H.I. Lio
 # hlio@hawaii.edu
-import sys, traceback, logging, pika, socket, time, shutil
+import sys, traceback, logging, pika, socket, time, shutil, json
 from os.path import expanduser
 sys.path.append(expanduser('~'))
 from node.z import send
 from cred import cred
+from send2server import getIP
 
 
 logging.basicConfig(level=logging.DEBUG)
@@ -37,6 +37,7 @@ def taskHeartbeat():
              'uptime_second':uptime_second,
              'usedMB':int(usage.used/1e6),
              'freeMB':int(usage.free/1e6),
+             'IPs':getIP(),
              }
         try:
             from node.drivers.watchdog import Watchdog
