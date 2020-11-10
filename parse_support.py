@@ -61,6 +61,10 @@ parse into dict() if it's from a known device."""
 
         # strip the CRC and try to parse as JSON string
         line = line[:-8]
+        #HACK
+        if '"node-226"' in line:
+            line = line.replace('nan', 'NaN')
+        #/HACK
         msg = json.loads(line)
         if 'from' not in msg:
             logger.debug('Sender ID missing.')
@@ -85,9 +89,10 @@ parse into dict() if it's from a known device."""
 
         d['node'] = msg['from']
         return d
-    except json.decoder.JSONDecodeError:
+    except json.decoder.JSONDecodeError as e:
         logger.debug('Not a JSON msg.')
         logger.debug(line)
+        logger.debug(e)
     except:
         logger.exception('parse_message(): duh')
         logger.exception(line)

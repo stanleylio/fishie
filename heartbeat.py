@@ -1,6 +1,6 @@
 # Stanley H.I. Lio
 # hlio@hawaii.edu
-import sys, traceback, logging, pika, socket, time, shutil, json
+import sys, logging, pika, socket, time, shutil, json
 from os.path import expanduser
 sys.path.append(expanduser('~'))
 from node.z import send
@@ -44,8 +44,7 @@ def taskHeartbeat():
             w = Watchdog(bus=1)
             d['VbattV'] = w.read_vbatt()
         except:
-            # some devices don't have WDT, like most pi and all NUC
-            #traceback.print_exc()
+            # some devices don't have WDT
             pass
         m = send(None, d).strip()
         logging.debug(m)
