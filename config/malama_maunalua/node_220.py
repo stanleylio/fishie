@@ -1,8 +1,8 @@
-name = 'Rain Gauge'
-location = '(TBD)'
+name = 'Wailupe Fire Station Rainfall'
+location = 'Wailupe Fire Station, Wailupe'
 note = 'Cellular rain gauge. Firmware uc0.3, hardware v0.4 (cellular).'
-latitude = 21.297875
-longitude = -157.815704
+latitude = 21.277108
+longitude = -157.759887
 
 coreid = '1c0029001550483553353620'
 

@@ -1,8 +1,8 @@
-name = 'Rain Gauge'
-location = '(TBD)'
+name = 'Wiliwilinui Ridge Rainfall'
+location = 'Wiliwilinui Ridge, Wailupe'
 note = 'Cellular rain gauge. Firmware uc0.3, hardware v0.4 (cellular).'
-latitude = 21.297875
-longitude = -157.815704
+latitude = 21.32727
+longitude = -157.75383
 
 coreid = '58003b0008504d5555393920'
 

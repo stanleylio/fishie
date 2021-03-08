@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 name = 'Water Level (Hīhīmanu)'
 location = 'Hīhīmanu (first mākāhā)'
 google_earth_link = 'https://goo.gl/maps/eY752oYMdV42'

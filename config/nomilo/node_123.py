@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 name = 'Auwai (beach) Water Level'
 location = 'Nomilo Fishpond, Kauaʻi, Hawai‘i'
 google_earth_link = '#'

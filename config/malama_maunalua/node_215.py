@@ -1,8 +1,8 @@
-name = 'Rain Gauge'
-location = '(TBD)'
+name = "Hawai'i Loa Ridge Rainfall"
+location = "Hawai'i Loa Ridge, Niu//Wailupe"
 note = 'Cellular rain gauge. Firmware uc0.3, hardware v0.4 (cellular).'
-latitude = 21.297875
-longitude = -157.815704
+latitude = 21.323903
+longitude = -157.741675
 
 coreid = '440029001550483553353620'
 

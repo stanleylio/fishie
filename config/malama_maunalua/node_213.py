@@ -1,8 +1,8 @@
-name = 'Rain Gauge'
-location = '(TBD)'
+name = 'Kuli‘ou‘ou 350 BWS Rainfall'
+location = 'Kuli‘ou‘ou 350 BWS, Kamilo Nui'
 note = 'Cellular rain gauge. Firmware uc0.3, hardware v0.4 (cellular).'
-latitude = 21.297875
-longitude = -157.815704
+latitude = 21.303844
+longitude = -157.723133
 
 coreid = '230027001550483553353620'
 

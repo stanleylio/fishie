@@ -1,12 +1,9 @@
+# hardware renamed to replace node-051; node ID can be reused.
 name = 'Water Level'
-location = 'Makai Pier, Oahu'
-note = 'Ultrasonic tide gauge (cellular; 0.5~10m). Hardware v0.5.'
-status = 'staging'
-tags = ['tide gauge', 'cellular', 'MB7388', '181m179s']
-latitude = 21.319522
-longitude = -157.668328
+location = '(TBD)'
+note = 'Ultrasonic tide gauge (cellular; 0.3~5m). v0.6 board.'
 
-coreid = '350020001047373334363431'
+coreid = '3e00580006504b3842323220'
 
 INTERVAL_S = 2*6*60
 

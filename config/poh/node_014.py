@@ -1,8 +1,7 @@
-# -*- coding: utf-8 -*-
 name = 'Water Level (Wai 1)'
 location = 'River Mākāhā'
 google_earth_link = 'https://goo.gl/maps/ha2pmE8hEir'
-note = 'Ultrasonic tide gauge (1st gen PCB)'
+note = 'Ultrasonic tide gauge (XBee). 1Hz measurements. Each transmission is average of 60 measurements. Firmware us14, hardware v5.3. Redeployed 20201202.'
 latitude = 21.439750
 longitude = -157.809800
 
@@ -14,20 +13,43 @@ conf = [
         'description':'Distance from sensor to water surface',
         'lb':301,
         'ub':4999,
-        'interval':400,
+        'interval':60,
     },
     {
-        'dbtag':'VbattV',
+        'dbtag':'Vb',
         'unit':'V',
-        'description':'Battery voltage (Vbatt)',
-        'lb':3.0,
-        'interval':400,
+        'description':'Battery voltage',
+        'lb':0,
+        'ub':4.3,
+        'interval':60,
     },
     {
-        'dbtag':'ticker',
-        'description':'1Hz ticker',
+        'dbtag':'Vs',
+        'unit':'V',
+        'description':'Solar panel voltage',
         'lb':0,
-        'interval':400,
+        'ub':7.0,
+        'interval':60,
+    },
+    {
+        'dbtag':'idx',
+        'description':'Sample index',
+        'lb':24*60,
+        'interval':60,
+    },
+    {
+        'dbtag':'sc',
+        'description':'Sample Size (after rejecting invalid measurements)',
+        'lb':48,
+        'interval':60,
+    },
+    {
+        'dbtag':'std',
+        'unit':'mm',
+        'description':'Sample standard deviation',
+        #'lb':?,
+        #'ub':?,
+        'interval':60,
     },
 ]
 

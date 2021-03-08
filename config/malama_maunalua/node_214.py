@@ -1,8 +1,8 @@
-name = 'Rain Gauge'
-location = '(TBD)'
+name = 'Alamuka Street BWS Rainfall'
+location = 'Alamuka Street BWS, Wailupe'
 note = 'Cellular rain gauge. Firmware uc0.3, hardware v0.4 (cellular).'
-latitude = 21.297875
-longitude = -157.815704
+latitude = 21.291206
+longitude = -157.753514
 
 coreid = '37001e000947373432363837'
 

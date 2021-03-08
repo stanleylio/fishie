@@ -1,5 +1,4 @@
-# -*- coding: utf-8 -*-
-name = 'Manoa Stream (UH) Water Level'
+name = 'Water Level (Manoa Stream) (decommissioned)'
 location = 'Manoa Stream (Japanese Garden, UHM)'
 google_earth_link = '#'
 note = 'Ultrasonic tide gauge (XBee). 1Hz measurements. Each transmission is average of 60 measurements. Firmware us13a, hardware v5.3.'

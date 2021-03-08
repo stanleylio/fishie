@@ -1,6 +1,5 @@
-# -*- coding: utf-8 -*-
-name = '"Gaius"'
-location = '(TBD)'
+name = 'Conductivity'
+location = 'Waikalua fishpond'
 note = 'Aanderaa conductivity sensor 4319. Hardware v5.4, firmware aa2.'
 latitude = 21.433912
 longitude = -157.805338

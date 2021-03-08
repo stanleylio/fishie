@@ -4,7 +4,7 @@
 # Stanley H.I. Lio
 # hlio@hawaii.edu
 # All Rights Reserved. 2017
-import sys, time, itertools, MySQLdb
+import sys, time, itertools, MySQLdb, re
 sys.path.append('/home/nuc')
 from os.path import expanduser
 from datetime import datetime, timedelta
@@ -40,6 +40,8 @@ ends = [dt2ts(tmp) for tmp in ends]
 
 R = {}
 for table in store.get_list_of_tables():
+    if not re.match('^node|base[-_]\d{3,32}$', table):
+        continue
     #if len(R) >= 10:
     #    break
     print(table)

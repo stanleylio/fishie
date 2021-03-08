@@ -2,7 +2,7 @@ name = 'Water Level'
 location = '(TBD)'
 note = 'Ultrasonic tide gauge (cellular; 0.3~5m). v0.6 board.'
 
-coreid = '3e00580006504b3842323220'
+coreid = '4e0053001851353338363036'
 
 INTERVAL_S = 2*6*60
 

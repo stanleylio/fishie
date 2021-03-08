@@ -1,8 +1,8 @@
-name = 'Rain Gauge'
-location = '(TBD)'
+name = "Niu Valley BWS Rainfall"
+location = 'Niu Valley BWS, Pia'
 note = 'Cellular rain gauge. Firmware uc0.3, hardware v0.4 (cellular).'
-latitude = 21.297875
-longitude = -157.815704
+latitude = 21.2943204181663
+longitude = -157.741788869476
 
 coreid = '2f002a001550483553353620'
 

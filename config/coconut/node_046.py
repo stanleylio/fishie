@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 name = '"Next-to-NOAA"'
 location = 'Coconut Island'
 google_earth_link = 'https://goo.gl/maps/QWuNSn4Ge9m'

@@ -1,8 +1,8 @@
-name = 'Rain Gauge'
-location = '(TBD)'
+name = "Lunalilo Homes Rainfall"
+location = "Lunalilo Homes, Kaimilo Iki"
 note = 'Cellular rain gauge. Firmware uc0.3, hardware v0.4 (cellular).'
-latitude = 21.297875
-longitude = -157.815704
+latitude = 21.2828227
+longitude = -157.697485
 
 coreid = '230031000c47373334363431'
 

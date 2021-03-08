@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 name = 'Noelani\'s; Kaloko`eli Water Level'
 location = 'Kaloko`eli Fishpond, Molokaʻi'
 google_map_link = 'https://goo.gl/maps/BYAf8xseCEE2'

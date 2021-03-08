@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 name = '"Water-Under-The-Bridge 2"'
 location = 'Coconut Island'
 google_earth_link = '#'

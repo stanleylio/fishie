@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 name = 'Water Level (decommissioned)'
 location = 'Makai Research Pier. Replacing node-190.'
 google_earth_link = '#'

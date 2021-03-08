@@ -1,8 +1,7 @@
-# -*- coding: utf-8 -*-
-name = '"Blinker-fluid"'
+name = '"Blinker-fluid" (decommissioned)'
 location = '(TBD)'
 google_earth_link = '#'
-note = 'Firmware rh1, hardware v5.1 with BME280.'
+note = 'Pelican monitor. Firmware rh1, hardware v5.1 with BME280.'
 
 
 conf = [

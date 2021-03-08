@@ -1,4 +1,4 @@
-name = 'T16'
+name = 'T16 (decommissioned)'
 location = 'MSB, UHM'
 google_earth_link = '#'
 note = 'Tube in a tube in a tube in a tube (TSYS01 stability test)'
