@@ -1,5 +1,5 @@
 name = 'Turbidity and chlorophyll'
-location = '(TBD)'
+location = 'Waikalua'
 note = 'FLNTUSB SN#5101 (XBee)'
 
 conf = [
@@ -7,7 +7,7 @@ conf = [
         'dbtag':'ts',
         'dbtype':'DOUBLE NOT NULL',
         'description':'Sensor clock (POSIX)',
-        'plot':True,
+        'plot':False,
         'interval':12*60,
     },
     {

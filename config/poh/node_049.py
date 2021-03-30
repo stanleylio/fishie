@@ -1,13 +1,14 @@
 name = 'Water Level (Hīhīmanu)'
 location = 'Hīhīmanu (first mākāhā)'
 google_earth_link = 'https://goo.gl/maps/eY752oYMdV42'
-note = 'Cellular ultrasonic tide gauge. Each sample is average of 60 measurements taken every second. One transmission every 10 samples. Hardware upgraded from v0.4 to v0.5 on 20200124.'
+note = 'Cellular ultrasonic tide gauge. Hardware upgraded from v0.4 to v0.5 on 20200124. Firmware upgraded on 20210316.'
 latitude = 21.433967
 longitude = -157.805333
 
 coreid = '3e0042001951353338363036'
 
-INTERVAL_S = 10*60
+# expected transmission interval in seconds
+INTERVAL_S = 2*6*60
 
 conf = [
     {
@@ -27,7 +28,7 @@ conf = [
         'dbtag':'std',
         'unit':'mm',
         'description':'Sample standard deviation',
-        #'lb':?,
+        'lb':0,
         #'ub':?,
         'interval':INTERVAL_S,
     },
@@ -45,13 +46,13 @@ conf = [
         'description':'State of Charge',
         'lb':30,    # more like a warning than a valid range check
         'ub':100,
-        'interval':INTERVAL_S,
+        'interval':10*INTERVAL_S,   # this is transmitted with ~10% chance. not an important or reliable parameter.
     },
     {
         'dbtag':'sc',
-        'description':'# of measurements within 3\u03c3',
-        'lb':40,
-        'ub':60,
+        'description':'# of measurements within 3σ',
+        'lb':90,
+        'ub':181,
         'interval':INTERVAL_S,
     },
 ]

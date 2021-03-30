@@ -1,7 +1,7 @@
 name = 'Water Level (Mākāhā Nui)'
 location = 'Mākāhā Nui ("Storm Mākāhā")'
 google_earth_link = 'https://goo.gl/maps/74uCxGwoAJB2'
-note = 'Cellular ultrasonic tide gauge. Each sample is average of 60 measurements taken every second. One transmission every 10 samples. v0.6 board. Replaced 20201112.'
+note = 'Cellular ultrasonic tide gauge. v0.6 board.'
 latitude = 21.437250
 longitude = -157.805850
 

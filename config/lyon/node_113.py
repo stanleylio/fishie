@@ -1,4 +1,4 @@
-name = 'Heater Controller'
+name = '5-channel Soil Heater'
 location = 'Lyon Arboretum'
 google_earth_link = '#'
 note = '-'
@@ -15,49 +15,85 @@ conf = [
         'interval':60,
     },
     {
-        'dbtag':'t0',
+        'dbtag':'pv0',
         'unit':'Deg.C',
-        'description':'CH0 feedback (heater temperature)',
+        'description':'Heater #0 temperature',
         'interval':60,
         'lb':10,
         'ub':40,
-        'plot':False,
     },
     {
-        'dbtag':'t1',
+        'dbtag':'pv1',
         'unit':'Deg.C',
-        'description':'CH1 feedback (heater temperature)',
+        'description':'Heater #1 temperature',
         'interval':60,
         'lb':10,
         'ub':40,
-        'plot':False,
     },
     {
-        'dbtag':'t2',
+        'dbtag':'pv2',
         'unit':'Deg.C',
-        'description':'CH2 feedback (heater temperature)',
+        'description':'Heater #2 temperature',
         'interval':60,
         'lb':10,
         'ub':40,
-        'plot':False,
     },
     {
-        'dbtag':'t3',
+        'dbtag':'pv3',
         'unit':'Deg.C',
-        'description':'CH3 feedback (heater temperature)',
+        'description':'Heater #3 temperature',
         'interval':60,
         'lb':10,
         'ub':40,
-        'plot':False,
     },
     {
-        'dbtag':'t4',
+        'dbtag':'pv4',
         'unit':'Deg.C',
-        'description':'CH4 feedback (heater temperature)',
+        'description':'Heater #4 temperature',
         'interval':60,
         'lb':10,
         'ub':40,
-        'plot':False,
+    },
+    # - - -
+    {
+        'dbtag':'sp0',
+        'unit':'-',
+        'description':'CH0 setpoint',
+        'interval':60,
+        'lb':-10,
+        'ub':35,
+    },
+    {
+        'dbtag':'sp1',
+        'unit':'-',
+        'description':'CH1 setpoint',
+        'interval':60,
+        'lb':-10,
+        'ub':35,
+    },
+    {
+        'dbtag':'sp2',
+        'unit':'-',
+        'description':'CH2 setpoint',
+        'interval':60,
+        'lb':-10,
+        'ub':35,
+    },
+    {
+        'dbtag':'sp3',
+        'unit':'-',
+        'description':'CH3 setpoint',
+        'interval':60,
+        'lb':-10,
+        'ub':35,
+    },
+    {
+        'dbtag':'sp4',
+        'unit':'-',
+        'description':'CH4 setpoint',
+        'interval':60,
+        'lb':-10,
+        'ub':35,
     },
     # - - -
     {
@@ -67,6 +103,7 @@ conf = [
         'interval':60,
         'lb':-10,
         'ub':10,
+        'plot':False,
     },
     {
         'dbtag':'s1',
@@ -75,6 +112,7 @@ conf = [
         'interval':60,
         'lb':-10,
         'ub':10,
+        'plot':False,
     },
     {
         'dbtag':'s2',
@@ -83,6 +121,7 @@ conf = [
         'interval':60,
         'lb':-10,
         'ub':10,
+        'plot':False,
     },
     {
         'dbtag':'s3',
@@ -91,6 +130,7 @@ conf = [
         'interval':60,
         'lb':-10,
         'ub':10,
+        'plot':False,
     },
     {
         'dbtag':'s4',
@@ -99,6 +139,7 @@ conf = [
         'interval':60,
         'lb':-10,
         'ub':10,
+        'plot':False,
     },
 ]
 

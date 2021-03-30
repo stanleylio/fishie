@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 name = 'Salinity (TBD)'
 location = 'TBD, Paepae O He`eia Fishpond'
 note = 'Aanderaa conductivity sensor 4319. Hardware v5.4. Renamed from node-182.'

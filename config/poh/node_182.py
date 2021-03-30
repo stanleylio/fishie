@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 name = 'Salinity (decommissioned)'
 location = 'Pua Pond, Paepae O He`eia Fishpond'
 note = 'Aanderaa conductivity sensor 4319. Hardware v5.4, firmware aa1. Renamed to node-224.'

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 name = 'Salinity (Hīhīmanu)'
 location = ''
 note = 'Aanderaa conductivity sensor 4319. Hardware v5.4, firmware aa2.'

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 name = 'Rainfall'
 location = 'Coast Guard Tower, He\'eia Fishpond'
 note = 'Bucket rain gauge (XBee). Firmware rain0.1, hardware v0.2.'
@@ -33,7 +32,7 @@ conf = [
         'unit':'V',
         'description':'Solar panel voltage',
         'lb':0,
-        'ub':7.0,
+        'ub':7.5,
         'interval':60*60,
     },
     {

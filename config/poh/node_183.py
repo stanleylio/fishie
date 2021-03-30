@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 name = 'Oxygen (decommissioned)'
 location = 'Pua Pond, Paepae O He`eia Fishpond'
 note = 'Aanderaa oxygen optode 4531. Hardware v5.4, firmware aa1. Renamed to node-225.'
