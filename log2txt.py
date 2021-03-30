@@ -7,7 +7,7 @@
 # University of Hawaii
 # All Rights Reserved. 2018
 import sys, pika, socket, logging, argparse
-from os.path import exists, join, expanduser, basename
+from os.path import exists, join, expanduser, basename, splitext
 sys.path.append(expanduser('~'))
 from datetime import datetime
 from helper import dt2ts
@@ -21,12 +21,13 @@ logger.setLevel(logging.INFO)
 
 exchange = 'uhcm'
 nodeid = socket.gethostname()
-reconnection_delay = 5
+reconnection_delay = 7
 
 parser = argparse.ArgumentParser(description='log2txt.py')
 parser.add_argument('--brokerip', metavar='broker', type=str, help='Broker IP', default='localhost')
 parser.add_argument('--brokerport', metavar='port', type=int, help='Port', default=5672)
 args = parser.parse_args()
+
 
 def init_rabbit():
     credentials = pika.PlainCredentials(nodeid, cred['rabbitmq'])
@@ -35,11 +36,12 @@ def init_rabbit():
     channel.basic_qos(prefetch_count=50)
     
     channel.exchange_declare(exchange=exchange, exchange_type='topic', durable=True)
-    result = channel.queue_declare(queue=basename(__file__),
+    queue_name = "{}_{}".format(nodeid, splitext(basename(__file__))[0])
+    result = channel.queue_declare(queue=queue_name,
                                    durable=True,
                                    arguments={'x-message-ttl':72*60*60*1000})
 
-    queue_name = result.method.queue
+    #queue_name = result.method.queue
     tags = ['*.samples', '*.s', '*.debug', '*.d']
     for tag in tags:
         channel.queue_bind(exchange=exchange, queue=queue_name, routing_key=tag)

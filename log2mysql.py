@@ -1,8 +1,5 @@
 """Move sensor data from broker to database.
 
-TODO: remove the redis stuff now that you have a dedicated script for
-it.
-
 So publish/subscribe doesn't revolve around queues (except when used as
 a work queue). Fanout is done on the exchange level, so each consumer
 should have its own queue to receive a copy of the same message.
@@ -23,7 +20,7 @@ before data loss.
 
 Stanley H.I. Lio
 """
-import pika, socket, sys, time, math, MySQLdb, logging, argparse, redis, json, random
+import pika, socket, sys, time, math, MySQLdb, logging, argparse, json, random
 from datetime import timedelta
 from os.path import expanduser, basename, splitext
 sys.path.append(expanduser('~'))
@@ -67,19 +64,18 @@ def init_rabbit():
 
 
 store = Storage()
-redis_server = redis.StrictRedis(host='localhost', port=6379, db=0)
-#redis_server.flushall()
 
 
 def callback(ch, method, properties, body):
-    global store, redis_server
+    global store
     try:
+        rt = time.time()
         body = body.decode()
         d = parse_message(body)
         if d is None:
             logger.warning('Unrecognized: ' + body)
         else:
-            d['ReceptionTime'] = time.time()
+            d['ReceptionTime'] = rt
             print('= = = = = = = = = = = = = = =')
             pretty_print(d)
 
@@ -93,13 +89,6 @@ def callback(ch, method, properties, body):
             store.insert(d['node'], d, reload_schema=random.random() > 0.95)
 
         ch.basic_ack(delivery_tag=method.delivery_tag)
-
-        # optional cache (after acknowledgement - presumably broker can
-        # drop the message and it's in the db now)
-        for k,v in d.items():
-            #print(k,v)
-            # frigging json everywhere... "impedance mismatch"...
-            redis_server.set('latest:{}:{}'.format(d['node'], k), json.dumps((d['ReceptionTime'], v)), ex=int(timedelta(days=1).total_seconds()))
         
     except UnicodeDecodeError:
         # ignore malformed messages

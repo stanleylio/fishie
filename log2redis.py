@@ -67,7 +67,7 @@ def callback(ch, method, properties, body):
         if d is None:
             logger.warning('Unrecognized: ' + body)
         else:
-            d['rt'] = rt
+            d['ReceptionTime'] = rt
             print('= = = = = = = = = = = = = = =')
             pretty_print(d)
 
@@ -78,16 +78,16 @@ def callback(ch, method, properties, body):
                 except TypeError:
                     pass
 
+            for k,v in d.items():
+                #print(k,v)
+                # frigging json everywhere... "impedance mismatch"...
+                redis_server.set('latest:{}:{}'.format(d['node'], k),
+                                 json.dumps((d['ReceptionTime'], v)),
+                                 ex=int(redis_TTL_second),
+                                 )
+
         ch.basic_ack(delivery_tag=method.delivery_tag)
 
-        for k,v in d.items():
-            #print(k,v)
-            # frigging json everywhere... "impedance mismatch"...
-            redis_server.set('latest:{}:{}'.format(d['node'], k),
-                             json.dumps((d['rt'], v)),
-                             ex=int(redis_TTL_second),
-                             )
-        
     except UnicodeDecodeError:
         # ignore malformed messages
         logger.warning(body)
