@@ -2,6 +2,10 @@
 #
 # Relay incoming serial messages to local RabbitMQ exchange "uhcm"
 #
+# You only have a few tasks, and the latest Pis all have new Python with
+# asyncio. You should rewrite this with asyncio to remove the twisted
+# dependancy. TODO
+#
 # Stanley H.I. Lio
 # hlio@hawaii.edu
 # All Rights Reserved. 2017

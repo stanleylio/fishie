@@ -1,4 +1,5 @@
 # compared to storage.py: this uses MySQL instead of SQLite
+# a poorly-made ORM training wheel is what this is. To be removed.
 #
 # Stanley H.I. Lio
 # hlio@hawaii.edu
