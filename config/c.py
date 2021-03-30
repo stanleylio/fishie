@@ -53,7 +53,7 @@ def get_list_of_variables(nodeid):
 def get_node_attribute(nodeid, attribute):
     conn = MySQLdb.connect(host='localhost', user='webapp', passwd='', db='uhcm', charset='utf8mb4')
     c = conn.cursor()
-    c.execute("SELECT {} from uhcm.`devices` WHERE nodeid=%s".format(attribute), (nodeid,))
+    c.execute("SELECT `{}` from uhcm.`devices` WHERE nodeid=%s".format(attribute), (nodeid,))
     row = c.fetchone()
     conn.close()
     return row[0] if row else None
@@ -61,7 +61,7 @@ def get_node_attribute(nodeid, attribute):
 def get_variable_attribute(nodeid, variable, attribute):
     conn = MySQLdb.connect(host='localhost', user='webapp', passwd='', db='uhcm', charset='utf8mb4')
     c = conn.cursor()
-    c.execute("SELECT {} from uhcm.`variables` WHERE nodeid=%s AND name=%s".format(attribute), (nodeid, variable,))
+    c.execute("SELECT `{}` from uhcm.`variables` WHERE nodeid=%s AND name=%s".format(attribute), (nodeid, variable,))
     row = c.fetchone()
     L = row[0] if row is not None else None
     conn.close()
