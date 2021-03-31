@@ -21,7 +21,7 @@ logger.setLevel(logging.DEBUG)
 
 # - - - - -
 reconnection_delay_second = 11
-redis_TTL_second = 3*60
+redis_TTL_second = 24*60*60
 exchange = 'uhcm'
 # - - - - -
 
