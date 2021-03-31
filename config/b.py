@@ -13,12 +13,12 @@ from datetime import timedelta
 def f(p, d):
     return [ff for ff in Path(p).iterdir() if ff.is_dir() == d]
 
-conn = MySQLdb.connect(host='localhost', user='s', passwd='', db='uhcm', charset='utf8mb4')
+conn = MySQLdb.connect(host='localhost', user='s', db='uhcm', charset='utf8mb4')
 c = conn.cursor()
 
 
 # nothing beats hard-coded magic consts...
-attributes = ['nodeid', 'name', 'site', 'note', 'status', 'longitude', 'latitude', 'altitude_meter', 'location', 'tags', 'coreid', ]
+attributes = ['nodeid', 'name', 'site', 'note', 'status', 'longitude', 'latitude', 'altitude_meter', 'location', 'tags', 'coreid', 'time_col', ]
 M = {'nodeid': 'VARCHAR(64) UNIQUE NOT NULL',
      'latitude': 'FLOAT',
      'longitude': 'FLOAT',
@@ -70,6 +70,26 @@ for folder in f(r'.', True):
             d['tags'] = ','.join(d['tags'])
         if d.get('location', None) in ['(TBD)', '-', '']:
             d['location'] = ''
+        # If time_col is explicitly defined, use that. If not, then look
+        # into the variables to see if either 'ts' or 'Timestamp' is
+        # defined. If neither is, then default to 'ReceptionTime'.
+        #
+        # Design note: having a default here means the auto_time_col
+        # code in the webapp won't work since it'd never be NULL/'' when
+        # undefined. But if you do all the auto stuff here then you
+        # won't need an auto_time_col to begin with. Of course then this
+        # becomes yet another precond you need to test. Also without a
+        # live ts vs. ReceptionTime sanity check, a broken RTC on the
+        # instruments will not be detected.
+        # (note: manually define time_col to override default)
+        if 0 == len(d.get('time_col', '')):     # Note: getattr() above defaults to '' if None
+            for t in ['ts', 'Timestamp']:
+                if t in [c['dbtag'] for c in getattr(PYCONFIGS[nodeid], 'conf', [])]:   # (some don't have any variables)
+                    d['time_col'] = t
+                    break
+            else:
+                # "neither 'ts' nor 'Timestamp' is defined. Default to 'ReceptionTime'"
+                d['time_col'] = 'ReceptionTime'
 
         cmd = "INSERT INTO uhcm.`devices` VALUES ({})".format(','.join(['%s']*len(attributes)))
         d = [F.get(k, lambda x: x)(d[k]) for k in attributes]
