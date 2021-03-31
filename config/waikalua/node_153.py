@@ -2,6 +2,8 @@ name = 'Turbidity and chlorophyll'
 location = 'Waikalua'
 note = 'FLNTUSB SN#5101 (XBee)'
 
+time_col = 'ReceptionTime'
+
 conf = [
     {
         'dbtag':'ts',

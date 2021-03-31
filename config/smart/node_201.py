@@ -1,9 +1,9 @@
-# -*- coding: utf-8 -*-
 name = 'Ala Wai Canal Rainfall'
 location = 'Iolani School'
 note = 'Rain. Solar, Arduino + XBee'
 latitude = 21.283240
 longitude = -157.824570
+time_col = 'ReceptionTime'
 
 
 conf = [
