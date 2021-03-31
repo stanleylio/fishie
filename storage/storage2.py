@@ -16,16 +16,16 @@ logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
 
 
-# there is ALWAYS a ReceptionTime now. This should be removed.
+'''# there is ALWAYS a ReceptionTime now. This should be removed.
 def auto_time_col(columns):
     for time_col in ['ReceptionTime', 'Timestamp', 'ts']:
         if time_col in columns:
             return time_col
-    assert False
+    assert False'''
 
 # 'dbtag' is mandatory; everything else is optional.
 # 'dbtype' defaults to DOUBLE
-def create_table(conf, table, *, dbname='uhcm', user='root', password=None, host='localhost', noreceptiontime=False):
+def create_table(conf, table, *, dbname='uhcm', user='s', password=None, host='localhost', noreceptiontime=False):
     if password is None:
         #password = open(expanduser('~/mysql_cred')).read().strip()
         passwd = cred['mysql']
@@ -35,19 +35,14 @@ def create_table(conf, table, *, dbname='uhcm', user='root', password=None, host
     cur = conn.cursor()
 
     tmp = ','.join([' '.join(tmp) for tmp in [(column['dbtag'], column.get('dbtype', 'DOUBLE')) for column in conf]])
-    cmd = 'CREATE TABLE IF NOT EXISTS {}.`{}` ({})'.format(dbname, table, tmp)
+    cmd = 'CREATE TABLE IF NOT EXISTS uhcm.`{}` ({})'.format(table, tmp)
     logger.debug(cmd)
     cur.execute(cmd)
 
 
 class Storage:
-    def __init__(self, *, dbname='uhcm', user='root', passwd=None, host='localhost'):
-        if passwd is None:
-            passwd = cred['mysql']
-        self._dbname = dbname
-
-        #print host,user,passwd,dbname
-        self._conn = MySQLdb.connect(host=host, user=user, passwd=passwd, db=dbname)
+    def __init__(self, *, user='s', passwd='', host='localhost'):
+        self._conn = MySQLdb.connect(host=host, user=user, passwd=passwd, db='uhcm')
         self._cur = self._conn.cursor()
 
         self._schema_cache = {}
@@ -71,13 +66,13 @@ class Storage:
         if table not in self.get_list_of_tables():
             logger.warning('{} not defined in db. ignore'.format(table))
             return
-        # Strip the fields not defined in the db - SQLite doesn't seem to care, but MySQL does.
+        # Strip the fields not defined in the db - SQLite doesn't seem
+        # to care, but MySQL does.
         known_cols = self.get_list_of_columns(table)
         cols = set(known_cols) & set(sample.keys())
         vals = [sample[c] for c in cols]
-        cmd = 'INSERT IGNORE INTO {}.`{table}` ({cols}) VALUES ({vals})'.\
-              format(self._dbname,
-                     table=table,
+        cmd = 'INSERT IGNORE INTO uhcm.`{table}` ({cols}) VALUES ({vals})'.\
+              format(table=table,
                      cols=','.join(cols),
                      vals=','.join(['%s']*len(cols)))
         self._cur.execute(cmd, vals)
@@ -86,9 +81,11 @@ class Storage:
 
     def read_time_range(self, table, time_col, cols, begin, end):
         """Retrieve records in the given time period.
-        If end is not specified, end = the moment this is called.
-        Would be nice to auto-convert begin and end to suit the type of column time_col
-        but that would mean doing a query just to find out the type... not worth it.
+
+        If end is not specified, end = the moment this is called. Would
+        be nice to auto-convert begin and end to suit the type of column
+        time_col but that would mean doing a query just to find out the
+        type... not worth it.
         """
         assert type(cols) is list, 'cols must be a list of string'
         assert time_col in self.get_list_of_columns(table),'no such time_col: {}'.format(time_col)
@@ -100,9 +97,8 @@ class Storage:
         # also require type(end) == type(begin) == type(stuff in column time_col)
 
         #cmd = 'SELECT {} FROM {}.`{}` {time_range} ORDER BY {time_col} DESC'.\
-        cmd = 'SELECT {} FROM {}.`{}`'.\
+        cmd = 'SELECT {} FROM uhcm.`{}`'.\
                 format(','.join(cols),
-                       self._dbname,
                        table)
         time_range = ' WHERE {time_col} BETWEEN "{begin}" AND "{end}"'.\
                      format(time_col=time_col, begin=begin, end=end)
@@ -122,10 +118,8 @@ class Storage:
 
     def read_time_range2(self, table, time_col, cols, begin, end):
         try:
-            cmd = 'SELECT {} FROM {}.`{}`'.\
-                    format(','.join(cols),
-                           self._dbname,
-                           table)
+            cmd = 'SELECT {} FROM uhcm.`{}`'.\
+                    format(','.join(cols), table)
             time_range = ' WHERE {time_col} BETWEEN "{begin}" AND "{end}"'.\
                          format(time_col=time_col, begin=begin, end=end)
             cmd += time_range
@@ -159,6 +153,7 @@ class Storage:
 
     def read_latest_non_null(self, table, time_col, var):
         """Retrieve the latest row where var is not null."""
+        
         cmd = 'SELECT * FROM `{table}` WHERE {var} IS NOT NULL ORDER BY {time_col} DESC LIMIT 1;'.\
               format(time_col=time_col, var=var, table=table)
         self._cur.execute(cmd)
@@ -178,7 +173,7 @@ class Storage:
         self._cur.execute('SHOW TABLES;')
         tables = [tmp[0] for tmp in self._cur.fetchall()]
         for table in tables:
-            self._cur.execute('SELECT * FROM {}.`{}` LIMIT 1;'.format(self._dbname, table))
+            self._cur.execute('SELECT * FROM uhcm.`{}` LIMIT 1;'.format(table))
             self._schema_cache[table] = [tmp[0] for tmp in self._cur.description]
 
 
