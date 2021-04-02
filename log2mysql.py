@@ -86,7 +86,7 @@ def callback(ch, method, properties, body):
                 except TypeError:
                     pass
 
-            store.insert(d['node'], d, reload_schema=random.random() > 0.95)
+            store.insert(d['node'], d)
 
         ch.basic_ack(delivery_tag=method.delivery_tag)
         
