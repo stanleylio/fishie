@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 name = 'Mid-pond Surface + Bottom Temperature'
 location = 'Mokauea Island'
 note = 'Dual temperature probes (surface + bottom)'

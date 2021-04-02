@@ -18,12 +18,13 @@ c = conn.cursor()
 
 
 # nothing beats hard-coded magic consts...
-attributes = ['nodeid', 'name', 'site', 'note', 'status', 'longitude', 'latitude', 'altitude_meter', 'location', 'tags', 'coreid', 'time_col', ]
+attributes = ['nodeid', 'name', 'site', 'note', 'status', 'longitude', 'latitude', 'altitude_meter', 'location', 'tags', 'coreid', 'time_col', 'deployment_status', ]
 M = {'nodeid': 'VARCHAR(64) UNIQUE NOT NULL',
      'latitude': 'FLOAT',
      'longitude': 'FLOAT',
      'altitude_meter': 'FLOAT',
      'coreid': 'VARCHAR(32) UNIQUE',
+     'deployment_status': 'VARCHAR(64)',
      }
 def cf(x):
     try:

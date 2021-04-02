@@ -1,9 +1,9 @@
-# -*- coding: utf-8 -*-
-name = '(decommissioned)'
+name = 'Water Temperature'
 location = 'Mokauea Island'
 note = 'Dual temperature probes (surface + bottom)'
 latitude = 21.307778
 longitude = -157.891389
+deployment_status = 'decommissioned'
 
 conf = [
     {

@@ -3,6 +3,7 @@ location = 'Quissett Harbor, Falmouth, MA'
 note = 'Ultrasonic tide gauge (cellular; 0.3~5m). Hardware v0.5.'
 latitude = 41.544122
 longitude = -70.652712
+deployment_status = 'decommissioned'
 
 coreid = '220026000351353337353037'
 

@@ -1,10 +1,10 @@
-# -*- coding: utf-8 -*-
-name = 'Water Level (Limu Wai; decommissioned)'
+name = 'Limu Wai Water Level'
 location = '"Limu Wai", Waikalua, Kaneohe'
 google_earth_link = '#'
 note = 'Ultrasonic tide gauge (XBee). Each sample is the sample mean of 60 measurements taken every second (excluding any out-of-range ones). Firmware us10b, hardware v4.2.'
 latitude = 21.411389
 longitude = -157.781667
+deployment_status = 'decommissioned'
 
 
 conf = [

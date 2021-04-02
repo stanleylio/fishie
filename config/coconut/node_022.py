@@ -1,10 +1,10 @@
-# -*- coding: utf-8 -*-
 # kph2
-name = 'Coco (decommissioned)'
+name = '"Coco"'
 location = 'Site #4, Kāneʻohe Bay'
 note = 'SeaFET pH Sensor; pole on a pole on a reef'
 latitude = 21.434699
 longitude = -157.798988
+deployment_status = 'decommissioned'
 
 
 conf = [

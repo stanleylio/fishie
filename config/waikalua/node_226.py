@@ -1,8 +1,9 @@
-name = 'pH, O2, conductivity (maintenance)'
+name = 'pH, O2, conductivity'
 location = '(TBD)'
 note = 'SeaFET pH Sensor'
 #latitude = 21.451592
 #longitude = -157.796580
+deployment_status = 'decommissioned'
 
 
 conf = [

@@ -23,23 +23,31 @@ def get_site(nodeid):
     conn.close()
     return site
 
-def get_list_of_sites():
-    conn = MySQLdb.connect(host='localhost', user='webapp', passwd='', db='uhcm', charset='utf8mb4')
+def get_list_of_sites(*, conn=None):
+    should_close = False
+    if conn is None:
+        conn = MySQLdb.connect(host='localhost', user='webapp', charset='utf8mb4')
+        should_close = True
     c = conn.cursor()
     c.execute("SELECT DISTINCT site FROM uhcm.`devices`")
     L = [row[0] for row in c.fetchall()]
-    conn.close()
+    if should_close:
+        conn.close()
     return L
 
-def get_list_of_devices(*, site=None):
-    conn = MySQLdb.connect(host='localhost', user='webapp', passwd='', db='uhcm', charset='utf8mb4')
+def get_list_of_devices(*, site=None, conn=None):
+    should_close = False
+    if conn is None:
+        conn = MySQLdb.connect(host='localhost', user='webapp', charset='utf8mb4')
+        should_close = True
     c = conn.cursor()
     if site is None:
         c.execute("SELECT nodeid FROM uhcm.`devices` ORDER BY `nodeid`")
     else:
         c.execute("SELECT nodeid FROM uhcm.`devices` WHERE site=%s ORDER BY `nodeid`", (site,))
     L = [row[0] for row in c.fetchall()]
-    conn.close()
+    if should_close:
+        conn.close()
     return L
 
 def get_list_of_variables(nodeid):
@@ -50,29 +58,41 @@ def get_list_of_variables(nodeid):
     conn.close()
     return L
 
-def get_node_attribute(nodeid, attribute):
-    conn = MySQLdb.connect(host='localhost', user='webapp', passwd='', db='uhcm', charset='utf8mb4')
+def get_node_attribute(nodeid, attribute, *, conn=None):
+    should_close = False
+    if conn is None:
+        conn = MySQLdb.connect(host='localhost', user='webapp', charset='utf8mb4')
+        should_close = True
     c = conn.cursor()
     c.execute("SELECT `{}` from uhcm.`devices` WHERE nodeid=%s".format(attribute), (nodeid,))
     row = c.fetchone()
-    conn.close()
+    if should_close:
+        conn.close()
     return row[0] if row else None
 
-def get_variable_attribute(nodeid, variable, attribute):
-    conn = MySQLdb.connect(host='localhost', user='webapp', passwd='', db='uhcm', charset='utf8mb4')
+def get_variable_attribute(nodeid, variable, attribute, *, conn=None):
+    should_close = False
+    if conn is None:
+        conn = MySQLdb.connect(host='localhost', user='webapp', charset='utf8mb4')
+        should_close = True
     c = conn.cursor()
     c.execute("SELECT `{}` from uhcm.`variables` WHERE nodeid=%s AND name=%s".format(attribute), (nodeid, variable,))
     row = c.fetchone()
     L = row[0] if row is not None else None
-    conn.close()
+    if should_close:
+        conn.close()
     return L
 
-def get_list_of_disp_vars(nodeid):
-    conn = MySQLdb.connect(host='localhost', user='webapp', passwd='', db='uhcm', charset='utf8mb4')
+def get_list_of_disp_vars(nodeid, *, conn=None):
+    should_close = False
+    if conn is None:
+        conn = MySQLdb.connect(host='localhost', user='webapp', charset='utf8mb4')
+        should_close = True
     c = conn.cursor()
     c.execute("SELECT `name` FROM uhcm.`variables` WHERE nodeid=%s AND plot=%s", (nodeid, True,))
     L = [row[0] for row in c.fetchall()]
-    conn.close()
+    if should_close:
+        conn.close()
     return L
 
 def coreid2nodeid(coreid):

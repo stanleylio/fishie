@@ -1,8 +1,9 @@
-name = 'Water Level (decommissioned)'
+name = 'Water Level'
 location = 'Hawaii Kai, Miloli\'i'
 note = 'Cellular ultrasonic tide gauge. Each sample is average of 60 measurements taken every second. One transmission every 10 samples. Firmware p6c, hardware v0.4.'
 latitude = 21.287222
 longitude = -157.717500
+deployment_status = 'decommissioned'
 
 coreid = '360064001951343334363036'
 

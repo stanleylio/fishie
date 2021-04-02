@@ -1,8 +1,9 @@
-name = 'T16 (decommissioned)'
+name = 'T16'
 location = 'MSB, UHM'
 google_earth_link = '#'
 note = 'Tube in a tube in a tube in a tube (TSYS01 stability test)'
 public_key = ''
+deployment_status = 'decommissioned'
 
 XBEE_PORT = '/dev/ttyUSB0'
 XBEE_BAUD = 115200
