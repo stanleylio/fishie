@@ -8,7 +8,6 @@ import sys, MySQLdb
 sys.path.append('/home/nuc')
 from os.path import expanduser
 from datetime import datetime, timedelta
-from node.storage.storage2 import auto_time_col
 from node.helper import dt2ts, ts2dt
 import matplotlib
 matplotlib.use('Agg')
@@ -38,7 +37,7 @@ for table in tables:
         # no variable
         continue
     columns, = tmp
-    time_col = auto_time_col(columns)
+    time_col = 'ReceptionTime'
 
     # this is fast, but you miss all the nodes that did not report
     # anything in the plot.

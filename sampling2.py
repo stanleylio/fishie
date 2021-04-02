@@ -7,7 +7,7 @@ a Pi you could try the overlay filesystem, but that's basically
 delivery_mode==1.
 
 You might end up needing the overlay filesystem anyway because of
-random, frequent power outages on the field stations.
+random, frequent power outages in the field.
 
 Stanley H.I. Lio
 """
@@ -44,7 +44,7 @@ logger.addHandler(handler)
 
 logger.debug(f'has_watchdog: {has_watchdog}')
 
-parser = argparse.ArgumentParser(description='sampling.py')
+parser = argparse.ArgumentParser(description='sampling2.py')
 parser.add_argument('--port', metavar='serialport', type=str,
                     help='Path to the XBee serial port')
 parser.add_argument('--baud', default=115200, type=int,

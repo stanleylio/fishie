@@ -1,5 +1,7 @@
 """
-Relay stuff received from the RabbitMQ exchange into Redis.
+Cache stuff received from the RabbitMQ exchange in Redis. This keeps the
+latest readings from the instruments in redis to speed up dashboard
+creation.
 
 RabbitMQ is a godsend.
 
@@ -21,7 +23,7 @@ logger.setLevel(logging.DEBUG)
 
 # - - - - -
 reconnection_delay_second = 11
-redis_TTL_second = 24*60*60
+redis_TTL_second = int(timedelta(days=1).total_seconds())
 exchange = 'uhcm'
 # - - - - -
 

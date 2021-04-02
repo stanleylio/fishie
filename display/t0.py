@@ -6,10 +6,9 @@ from os import makedirs
 from os.path import exists, join, expanduser
 sys.path.append(expanduser('~'))
 from datetime import datetime, timedelta
-#from scipy.signal import medfilt
 from node.display.gen_plot import plot_time_series
 from node.helper import ts2dt, dt2ts
-from node.storage.storage2 import Storage, auto_time_col
+from node.storage.storage2 import Storage
 from node.config.c import get_list_of_sites, get_list_of_devices, get_list_of_disp_vars, get_node_attribute, get_variable_attribute
 
 #from skyfield import api
@@ -18,11 +17,9 @@ from node.config.c import get_list_of_sites, get_list_of_devices, get_list_of_di
 #planets = load('de421.bsp')
 #from skyfield import almanac
 
+
 logging.basicConfig(level=logging.DEBUG)
 
-
-#def is_node(device):
-#    return not device.startswith('base-')
 
 def find_bounds(x, y):
     '''Find both the oldest and the latest timestamp where the reading is not None'''
@@ -40,7 +37,8 @@ def count_not_null(x, y):
 # variable may not be defined in config
 # there may not be any data for the variable
 # there may not be any recent data for the variable
-# the reading could be None or NaN
+# the latest reading could be None/NaN
+# the only readings might be None/NaN
 # ...
 
 
@@ -108,11 +106,10 @@ for site in sites:
             continue
 
         assert set(list_variables) <= set(columns)
-        time_col = auto_time_col(columns)
+        time_col = 'ReceptionTime'
 
         latitude = get_node_attribute(node, 'latitude')
         longitude = get_node_attribute(node, 'longitude')
-        #continue
 
         # create the output dir
         tmp = join(plot_dir, node)
@@ -120,17 +117,10 @@ for site in sites:
             makedirs(tmp)
 
         for var in list_variables:
-            #print(var)
-            #continue
-
-            #if 'node-126' != node or 'd2w' != var:
-            #    continue
-
             query_begin = dt2ts(datetime.utcnow() - timedelta(seconds=get_variable_attribute(node, var, 'plot_range_second')))
             assert query_end > query_begin
             
             try:
-                # ... sounds like a classic SQL job...
                 r = store.read_time_range(node, time_col, [time_col, var], query_begin, query_end)
                 print('\t' + var)
                 #if r is None or len(r[time_col]) <= 0: # should proceed even if it's an empty plot though. TODO
@@ -185,7 +175,7 @@ for site in sites:
                                  linelabel=var,
                                  color=color,
                                  linestyle='',
-                                 markersize=6)
+                                 markersize=4)
 
                 plot_config = {'time_begin':valid_begin,
                                'time_end':valid_end,
