@@ -1,9 +1,9 @@
-# -*- coding: utf-8 -*-
 name = 'DO + Salinity'
 location = '(TBD)'
 note = 'bone-based dissolved oxygen and salinity'
 latitude = 21.41
 longitude = -157.78
+deployment_status = 'decommissioned'
 
 #XBEELOGDIR = '/var/uhcm/log'
 

@@ -3,6 +3,7 @@ location = 'Hawaii Kai, Miloli\'i'
 note = 'Aanderaa oxygen optode 4531. Hardware v5.4, firmware aa2.'
 latitude = 21.287222
 longitude = -157.717500
+deployment_status = 'decommissioned'
 
 conf = [
     {

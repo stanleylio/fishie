@@ -19,7 +19,7 @@ conf = [
         'unit':'V',
         'description':'Solar panel voltage',
         'lb':0,
-        'ub':5.5,
+        'ub':7.5,
         'interval':180,
     },
     {
