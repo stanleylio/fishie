@@ -1,9 +1,9 @@
-# -*- coding: utf-8 -*-
-name = '(decommissioned)'
+name = 'multi-parameter prototype'
 location = 'Hīhīmanu (first mākāhā)'
 note = 'Beaglebone-based node, measuring oxygen, temperature and water depth'
 latitude = 21.433912
 longitude = -157.805338
+deployment_status = 'decommissioned'
 
 conf = [
     {

@@ -1,9 +1,9 @@
-# -*- coding: utf-8 -*-
-name = '(decommissioned)'
+name = 'Water Level'
 location = 'Nomilo Fishpond, Kauaʻi, Hawai‘i'
 note = 'Cellular ultrasonic tide gauge. Each sample is average of 60 measurements taken every second. One transmission every 10 samples. Firmware p5e, hardware v0.2 (with US_EN patch).'
 latitude = 21.884722
 longitude = -159.528333
+deployment_status = 'decommissioned'
 
 # Decommissioned
 # Replaced by XBee node-064

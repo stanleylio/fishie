@@ -1,6 +1,7 @@
 name = 'Water Level'
 location = ''
 note = 'Ultrasonic tide gauge (cellular; 0.5~10m). Hardware v0.5.'
+deployment_status = 'decommissioned'
 
 coreid = '440036001247373333353132'
 

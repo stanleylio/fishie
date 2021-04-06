@@ -1,8 +1,9 @@
-name = 'Oxygen (decommissioned)'
+name = 'Oxygen'
 location = 'Pua Pond, Paepae O He`eia Fishpond'
 note = 'Aanderaa oxygen optode 4531. Hardware v5.4, firmware aa1. Renamed to node-225.'
 latitude = 21.439722
 longitude = -157.809722
+deployment_status = 'decommissioned'
 
 conf = [
     {

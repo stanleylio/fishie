@@ -1,7 +1,8 @@
-name = '"Blinker-fluid" (decommissioned)'
+name = '"Blinker-fluid"'
 location = '(TBD)'
 google_earth_link = '#'
 note = 'Pelican monitor. Firmware rh1, hardware v5.1 with BME280.'
+deployment_status = 'decommissioned'
 
 
 conf = [

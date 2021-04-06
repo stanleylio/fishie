@@ -1,10 +1,10 @@
-# -*- coding: utf-8 -*-
 name = 'Manoa Stream Water Level'
 location = 'Manoa Stream (UHM)'
 google_earth_link = '#'
 note = 'Ultrasonic tide gauge (XBee). 1Hz measurements. Each transmission is average of 60 measurements. Firmware us12d, hardware v5.2.'
 latitude = 21.30037
 longitude = -157.81302
+deployment_status = 'decommissioned'
 
 conf = [
     {

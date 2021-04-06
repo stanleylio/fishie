@@ -39,7 +39,7 @@ if '__main__' == __name__:
 
     logging.basicConfig(level=logging.DEBUG)
     
-    rmy = RMY05106('/dev/ttyS2', baud=115200, serialtimeout=1)
+    rmy = RMY05106('/dev/ttyS0', baud=9600, serialtimeout=1)
     while True:
         print(rmy.read())
         time.sleep(0.1)

@@ -1,10 +1,10 @@
-# -*- coding: utf-8 -*-
 # kph1
-name = 'Monty (decommissioned)'
+name = '"Monty"'
 location = 'Site #13, Kāneʻohe Bay'
 note = 'SeaFET pH Sensor; giant weight + tiny float'
 latitude = 21.451592
 longitude = -157.796580
+deployment_status = 'decommissioned'
 
 
 conf = [

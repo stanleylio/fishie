@@ -4,6 +4,7 @@ note = 'WiFi-only node'
 public_key = ''
 latitude = 21.333127
 longitude = -157.801550
+deployment_status = 'decommissioned'
 
 coreid = '1c003a001147343438323536'
 

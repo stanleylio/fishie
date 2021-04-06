@@ -1,9 +1,9 @@
-# -*- coding: utf-8 -*-
 name = 'CTD (under maintenance)'
 location = 'First Makaha'
 note = 'Seabird 16plus V2 CTD (white Delrin)'
 latitude = 21.433912
 longitude = -157.805338
+deployment_status = 'decommissioned'
 
 
 # ***field names not verified*** can't find the manual

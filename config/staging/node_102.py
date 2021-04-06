@@ -1,9 +1,9 @@
-# -*- coding: utf-8 -*-
-name = 'Pua Pond (decommissioned)'
+name = 'Pua Pond'
 location = 'Pua Pond, Paepae O He`eia Fishpond'
 note = 'Beaglebone-based node measuring oxygen, temperature, conductivity, and pressure'
 latitude = 21.439722
 longitude = -157.809722
+deployment_status = 'decommissioned'
 
 # node stuff
 XBEE_PORT = '/dev/ttyS2'

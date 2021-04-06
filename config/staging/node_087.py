@@ -1,9 +1,9 @@
-# -*- coding: utf-8 -*-
-name = 'Pükele Stream (decommissioned. Replaced by node-120)'
+name = 'Pükele Stream (Replaced by node-120)'
 location = 'Pükele Stream, Palolo'
 note = 'Ultrasonic tide gauge (XBee). One measurement every ~3 minutes. Firmware us11b, hardware v5.0.'
 latitude = 21.30529
 longitude = -157.78932
+deployment_status = 'decommissioned'
 
 
 conf = [

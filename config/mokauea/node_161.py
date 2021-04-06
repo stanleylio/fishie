@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 name = 'Mid-pond Surface + Bottom Temperature'
 location = 'Mokauea Island'
 note = 'Dual temperature probes (surface + bottom)'
@@ -45,7 +44,7 @@ conf = [
         'unit':'V',
         'description':'Solar panel voltage',
         'lb':0,
-        'ub':7,
+        'ub':7.5,
         'interval':16*8,
     },
 ]

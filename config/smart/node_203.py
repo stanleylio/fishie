@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 name = 'Palolo Rainfall (St Louis)'
 location = 'Saint Louis School, Oahu, HI'
 note = 'Rain. Solar, Arduino + XBee'
@@ -10,7 +9,7 @@ conf = [
         'dbtag':'ts',
         'description':'Time of sampling',
         'plot':True,
-        'interval':5*60,
+        'interval':60*60,
     },
     {
         'dbtag':'rain_bucket_tipped',

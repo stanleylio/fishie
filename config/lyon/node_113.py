@@ -1,7 +1,7 @@
-name = '5-channel Soil Heater'
+name = '5-channel Thermostat'
 location = 'Lyon Arboretum'
 google_earth_link = '#'
-note = '-'
+note = 'Soil Warming'
 public_key = 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC4IAGIJjwLEyy9SN71MW08UXmMqS8dkuURGyBX1xjiFiYUrIySkec7oxf9JMXU4d2PmIWpqpUqXKOh5JN90HK60R6Ip3PohnoGqyNIBrNKOD/iHpmSh/MmgyyMYKkmC7my6pR/xHFcUx9ITyHExIWbe2H4KMw8K12VZWyVLooVC5djH3mmtdLx7iZqy0xLK3K+LA4ByP4isxP0ToKN4/ykMpQ5G/hSPDG37gy5Ps3PiDR6dDDPRXLUF5RiFJWlhvdPaRXPL5L27rfPyXGsRppzEsi1MusW8691Iamg+E5s3Gd4bscq9MKsUGRTA5Ko8pyvjCgWxxWs+9zmHhIzkfxv pi@node-113'
 latitude = 21.333127
 longitude = -157.801550

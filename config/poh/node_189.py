@@ -3,6 +3,7 @@ location = ''
 note = 'Aanderaa oxygen optode 4531. Hardware v5.4.'
 latitude = 21.433912
 longitude = -157.805338
+deployment_status = 'decommissioned'
 
 conf = [
     {

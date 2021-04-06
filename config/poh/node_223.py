@@ -10,6 +10,7 @@ conf = [
         'dbtag':'ts',
         'description':'Sample time',
         'interval':60*60,
+        'plot_range': 7*24,
     },
     {
         'dbtag':'mm',
@@ -18,6 +19,7 @@ conf = [
         'lb':0,
         'ub':433,   # annual average
         'interval':60*60,
+        'plot_range': 3*30*24,
     },
     {
         'dbtag':'Vb',
@@ -26,6 +28,7 @@ conf = [
         'lb':3.7,
         'ub':5.5,
         'interval':60*60,
+        'plot_range': 7*24,
     },
     {
         'dbtag':'Vs',
@@ -34,6 +37,7 @@ conf = [
         'lb':0,
         'ub':7.5,
         'interval':60*60,
+        'plot_range': 7*24,
     },
     {
         'dbtag':'tc',
@@ -41,6 +45,7 @@ conf = [
         'description':'Tip count (all-time cumulative)',
         'lb':0,
         'interval':60*60,
+        'plot_range': 3*30*24,
     },
     {
         'dbtag':'idx',
@@ -48,6 +53,7 @@ conf = [
         'description':'Sample index',
         'lb':2*24,
         'interval':60*60,
+        'plot_range': 7*24,
     },
 ]
 

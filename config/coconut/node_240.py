@@ -1,8 +1,9 @@
-name = 'controller01 (decommissioned)'
+name = 'Coral Tank controller01'
 location = 'Coconut Island'
 note = "v0 code: {'neutral':0, 'heating':1, 'cooling':2, 'flush':3}"
 latitude = 21.434699
 longitude = -157.798988
+deployment_status = 'decommissioned'
 
 conf = [
     {

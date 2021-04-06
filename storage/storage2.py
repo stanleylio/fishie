@@ -1,43 +1,28 @@
-# compared to storage.py: this uses MySQL instead of SQLite
-# a poorly-made ORM training wheel is what this is. To be removed.
-#
-# Stanley H.I. Lio
-# hlio@hawaii.edu
-# All Rights Reserved. 2017
-import time, sys, logging
+"""A poorly-made ORM training wheel is what this is. Should go track
+down all the callers and get rid of this script.
+
+Stanley H.I. Lio
+"""
+import time, sys, logging, MySQLdb
 from os.path import expanduser
 sys.path.append(expanduser('~'))
-import MySQLdb  # careful about stale read - sqlalchemy seems to handle this automatically; MySQLdb doesn't.
-from datetime import datetime, timedelta
-from cred import cred
 
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
 
 
-'''# there is ALWAYS a ReceptionTime now. This should be removed.
-def auto_time_col(columns):
-    for time_col in ['ReceptionTime', 'Timestamp', 'ts']:
-        if time_col in columns:
-            return time_col
-    assert False'''
-
 # 'dbtag' is mandatory; everything else is optional.
 # 'dbtype' defaults to DOUBLE
-def create_table(conf, table, *, dbname='uhcm', user='s', password=None, host='localhost', noreceptiontime=False):
-    if password is None:
-        #password = open(expanduser('~/mysql_cred')).read().strip()
-        passwd = cred['mysql']
+def create_table(conf, table, *, dbname='uhcm', user='s', password='', host='localhost', noreceptiontime=False):
     if not noreceptiontime:
         conf.insert(0, {'dbtag':'ReceptionTime', 'dbtype':'DOUBLE PRIMARY KEY'})
     conn = MySQLdb.connect(host=host, user=user, passwd=passwd, db=dbname)
-    cur = conn.cursor()
-
-    tmp = ','.join([' '.join(tmp) for tmp in [(column['dbtag'], column.get('dbtype', 'DOUBLE')) for column in conf]])
-    cmd = 'CREATE TABLE IF NOT EXISTS uhcm.`{}` ({})'.format(table, tmp)
-    logger.debug(cmd)
-    cur.execute(cmd)
+    with conn:
+        cur = conn.cursor()
+        tmp = ','.join([' '.join(tmp) for tmp in [(column['dbtag'], column.get('dbtype', 'DOUBLE')) for column in conf]])
+        cmd = """CREATE TABLE IF NOT EXISTS uhcm.`{}` ({})""".format(table, tmp)
+        cur.execute(cmd)
 
 
 class Storage:
@@ -45,29 +30,26 @@ class Storage:
         self._conn = MySQLdb.connect(host=host, user=user, passwd=passwd, db='uhcm')
         self._cur = self._conn.cursor()
 
-        self._schema_cache = {}
-        self._schema_update()
+    def has_such_node(self, nodeid):
+        self._cur.execute("""SELECT * FROM uhcm.devices WHERE nodeid=%s""", (nodeid, ))
+        return self._cur.fetchone() is not None
 
-    def get_list_of_tables(self, *, force_update=False):
-        if force_update:
-            self._schema_update()
-        return list(self._schema_cache.keys())
+# who's still using these?
+    def get_list_of_tables(self):
+        self._cur.execute("""SELECT nodeid FROM uhcm.devices ORDER BY nodeid""")
+        return list(zip(*self._cur.fetchall()))[0]
 
-    def get_list_of_columns(self, table, *, force_update=False):
-        if table not in self._schema_cache:
-            force_update = True
-        if force_update:
-            self._schema_update()
-        return self._schema_cache.get(table, [])
+    def get_list_of_columns(self, table):
+        self._cur.execute("""SELECT name FROM uhcm.variables
+                             WHERE nodeid=%s""", (table, ))
+        return list(zip(*self._cur.fetchall()))[0]
     
-    def insert(self, table, sample, *, auto_commit=True, reload_schema=True):
-        if reload_schema or table not in self.get_list_of_tables():
-            self._schema_update()
-        if table not in self.get_list_of_tables():
+    def insert(self, table, sample):
+        if not self.has_such_node(table):
             logger.warning('{} not defined in db. ignore'.format(table))
             return
         # Strip the fields not defined in the db - SQLite doesn't seem
-        # to care, but MySQL does.
+        # to care; MySQLdb does.
         known_cols = self.get_list_of_columns(table)
         cols = set(known_cols) & set(sample.keys())
         vals = [sample[c] for c in cols]
@@ -76,11 +58,11 @@ class Storage:
                      cols=','.join(cols),
                      vals=','.join(['%s']*len(cols)))
         self._cur.execute(cmd, vals)
-        if auto_commit:
-            self._conn.commit()
+        self._conn.commit()
 
     def read_time_range(self, table, time_col, cols, begin, end):
-        """Retrieve records in the given time period.
+        """Retrieve records in the given time period. Return a dict with
+        cols as keys and lists of readings as values.
 
         If end is not specified, end = the moment this is called. Would
         be nice to auto-convert begin and end to suit the type of column
@@ -88,51 +70,34 @@ class Storage:
         type... not worth it.
         """
         assert type(cols) is list, 'cols must be a list of string'
-        assert time_col in self.get_list_of_columns(table),'no such time_col: {}'.format(time_col)
-        assert type(end) in [float, int]
-        if end is None:
-            end = time.time()
+        assert type(end) in [float, int] and type(begin) in [float, int]
+        assert time_col in self.get_list_of_columns(table), 'no such time_col: {}'.format(time_col)
 
-        assert type(end) in [float,int] and type(begin) in [float,int]
-        # also require type(end) == type(begin) == type(stuff in column time_col)
-
-        #cmd = 'SELECT {} FROM {}.`{}` {time_range} ORDER BY {time_col} DESC'.\
-        cmd = 'SELECT {} FROM uhcm.`{}`'.\
-                format(','.join(cols),
-                       table)
-        time_range = ' WHERE {time_col} BETWEEN "{begin}" AND "{end}"'.\
-                     format(time_col=time_col, begin=begin, end=end)
-        cmd = cmd + time_range
-        #print(cmd)
-        self._cur.execute(cmd)
-        r = self._cur.fetchall()
-        self._conn.commit() # see: stale read
+        r = self.read_time_range2(table, time_col, cols, begin, end)
         if len(r):
-            r = list(zip(*r))
-            # {a:[],b:[]} vs. [[a0,b0],[a1,b1],[a2,b2]...]
-            # this is the former, but the latter is more efficient.
-            # once the API is public, it is set in stone. lesson learned.
-            return {c:r[k] for k,c in enumerate(cols)}
+            return dict(zip(cols, zip(*r)))
         else:
-            return {c:[] for k,c in enumerate(cols)}
+            return {c:[] for c in cols}
 
     def read_time_range2(self, table, time_col, cols, begin, end):
+        """I don't know why I didn't start with this version. The caller
+        provided cols so they know what the variables are and in what
+        order. There is no point putting data result in a dictionary.
+        """
         try:
-            cmd = 'SELECT {} FROM uhcm.`{}`'.\
-                    format(','.join(cols), table)
-            time_range = ' WHERE {time_col} BETWEEN "{begin}" AND "{end}"'.\
-                         format(time_col=time_col, begin=begin, end=end)
-            cmd += time_range
-            self._cur.execute(cmd)
-            self._conn.commit()
-            return self._cur.fetchall()
+            cmd = """SELECT {} FROM uhcm.`{}`
+                     WHERE {} BETWEEN %s AND %s""".format(','.join(cols), table, time_col)
+            self._cur.execute(cmd, (begin, end, ))
+            return list(self._cur.fetchall())
         except MySQLdb.OperationalError:
-            logger.exception('read_time_range2() error')
-            return []
+            logger.exception('{} {} {} {} {}'.format(table, time_col, cols, begin, end))
+        return []
 
+# who's still using these?
     def read_last_N_minutes(self, table, time_col, N, nonnull):
-        """get the latest N-minute worth of readings of the variable
-        'nonnull' where its readings were not NULL"""
+        """Get the latest N-minute worth of readings of the variable
+        'nonnull' where its readings were not NULL
+        """
 
         if nonnull not in self.get_list_of_columns(table):
             return {time_col:[], nonnull:[]}
@@ -151,6 +116,7 @@ class Storage:
         else:
             return {time_col:[], nonnull:[]}
 
+# who's still using these?
     def read_latest_non_null(self, table, time_col, var):
         """Retrieve the latest row where var is not null."""
         
@@ -162,19 +128,11 @@ class Storage:
         if len(r):
             cols = self.get_list_of_columns(table)
             return dict(zip(cols, r[0]))
-            #return {time_col:r[0][0], var:r[0][1]}
         else:
             return {time_col:None, var:None}
 
     def commit(self):
         self._conn.commit()
-
-    def _schema_update(self):
-        self._cur.execute('SHOW TABLES;')
-        tables = [tmp[0] for tmp in self._cur.fetchall()]
-        for table in tables:
-            self._cur.execute('SELECT * FROM uhcm.`{}` LIMIT 1;'.format(table))
-            self._schema_cache[table] = [tmp[0] for tmp in self._cur.description]
 
 
 if '__main__' == __name__:
