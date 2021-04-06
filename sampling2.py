@@ -7,14 +7,14 @@ a Pi you could try the overlay filesystem, but that's basically
 delivery_mode==1.
 
 You might end up needing the overlay filesystem anyway because of
-random, frequent power outages on the field stations.
+random, frequent power outages in the field.
 
 Stanley H.I. Lio
 """
 import logging, serial, os, time, sys, pika, socket, argparse, asyncio
 import logging.handlers
-from os.path import expanduser, exists
-sys.path.append(expanduser('~'))
+from os.path import exists
+from helper import init_rabbit
 from cred import cred
 try:
     from node.drivers.watchdog import reset_auto
@@ -44,7 +44,7 @@ logger.addHandler(handler)
 
 logger.debug(f'has_watchdog: {has_watchdog}')
 
-parser = argparse.ArgumentParser(description='sampling.py')
+parser = argparse.ArgumentParser(description='sampling2.py')
 parser.add_argument('--port', metavar='serialport', type=str,
                     help='Path to the XBee serial port')
 parser.add_argument('--baud', default=115200, type=int,
@@ -54,14 +54,6 @@ parser.add_argument('--brokerip', metavar='broker', type=str,
 parser.add_argument('--brokerport', metavar='port', type=int,
                     help='Broker port', default=5672)
 args = parser.parse_args()
-
-
-def rabbit_init():
-    credentials = pika.PlainCredentials(nodeid, cred['rabbitmq'])
-    connection = pika.BlockingConnection(pika.ConnectionParameters(args.brokerip, args.brokerport, '/', credentials))
-    channel = connection.channel()
-    channel.exchange_declare(exchange=exchange, exchange_type='topic', durable=True)
-    return connection, channel
 
 
 logger.info(__name__ + ' starts')
@@ -94,7 +86,7 @@ async def taskSampling():
                 
                 if connection is None or channel is None:
                     logger.info('Connection to local exchange is not open.')
-                    connection, channel = rabbit_init()
+                    connection, channel = init_rabbit(nodeid, cred['rabbitmq'], host=args.brokerip)
                     logger.info('Connection to local exchange re-established.')
 
                 channel.basic_publish(exchange=exchange,
