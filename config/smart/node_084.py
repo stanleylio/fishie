@@ -1,6 +1,7 @@
 name = 'MSB Meteorological Station'
 location = 'Marine Science Building Rooftop'
 note = 'BME280 and RM Young 05106. 10Hz wind direction and 1Hz wind speed display; logged once a minute. Pi cape v0.3 with WDT.'
+time_col = 'ReceptionTime'
 
 
 INTERVAL = 60
@@ -26,7 +27,7 @@ conf = [
     {
         'dbtag':'d',
         'description':'Wind direction (1-min. avg.)',
-        'unit':'Deg',
+        'unit':'Degree',
         'lb':0,
         'ub':360,
         'plot_range':2*24,
@@ -51,7 +52,7 @@ conf = [
     },
     {
         'dbtag':'T_int',
-        'unit':'Deg.C',
+        'unit':'°C',
         'description':'Housing temperature (BME280)',
         'lb':-10,
         'ub':60,
@@ -73,13 +74,13 @@ conf = [
         'description':'Barometric pressure (BME280)',
         'lb':80,
         'ub':120,
-        'plot_range':7*24,
+        'plot':False,
         'interval':60,
     },
     {
         'dbtag':'T_ext',
-        'unit':'Deg.C',
-        'description':'Air temperature (BME280)',
+        'unit':'°C',
+        'description':'Air temperature',
         'lb':-10,
         'ub':60,
         'plot_range':7*24,
@@ -91,7 +92,7 @@ conf = [
         'description':'% Relative humidity (BME280)',
         'lb':15,
         'ub':85,
-        'plot_range':7*24,
+        'plot':False,
         'interval':60,
     },
     {
@@ -115,7 +116,7 @@ conf = [
         'dbtag':'freeMB',
         'unit':'MB',
         'description':'Free disk space',
-        'lb':10000,
+        'lb':2000,
         'interval':60,
     },
     {
@@ -130,6 +131,7 @@ conf = [
         'dbtag':'rain_bucket_tipped',
         'description':'Time when the TR-525I bucket tipped',
         'lb':0,
+        'plot':False,
         'interval':365*24*60*60,    # at least rain once a year?
     },
     {
@@ -137,6 +139,7 @@ conf = [
         'description':'Hourly tip count',
         'lb':0,
         'ub':3600,
+        'plot':False,
         'interval':60*60,
     },
 ]

@@ -3,6 +3,7 @@ location = 'Wai‘ōma‘o Stream, Palolo Valley'
 note = 'Ultrasonic tide gauge measuring distance to water surface from fixed structure. One measurement per second, one transmission (average of past minute) per minute. Hardware v4.2, firmware us10b. (low-cost charger, welded battery tabs)'
 latitude = 21.3034
 longitude = -157.7855
+deployment_status = 'decommissioned'
 
 conf = [
     {

@@ -1,9 +1,9 @@
-# -*- coding: utf-8 -*-
 name = 'Ala Wai Canal FDOM'
 location = 'Hawaii Yacht Club'
 note = 'Fluorescent dissolved organic matter (FDOM), chlorophyll and turbidity (cellular FDOM 1720)'
 latitude = 21.286437
 longitude = -157.842810
+deployment_status = 'decommissioned'
 
 #coreid = '3d0041001047373333353132'
 

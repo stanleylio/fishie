@@ -3,7 +3,7 @@ from os import getcwd
 from os.path import realpath, join, dirname
 
 def config_as_dict():
-    conn = MySQLdb.connect(host='localhost', user='webapp', passwd='', db='uhcm', charset='utf8mb4')
+    conn = MySQLdb.connect(host='localhost', user='webapp', charset='utf8mb4')
     c = conn.cursor()
     c.execute("SELECT site,nodeid FROM uhcm.`devices` ORDER BY `nodeid`")
     config = {}
@@ -15,7 +15,7 @@ def config_as_dict():
     return config
 
 def get_site(nodeid):
-    conn = MySQLdb.connect(host='localhost', user='webapp', passwd='', db='uhcm', charset='utf8mb4')
+    conn = MySQLdb.connect(host='localhost', user='webapp', charset='utf8mb4')
     c = conn.cursor()
     c.execute("SELECT site FROM uhcm.`devices` WHERE nodeid=%s", (nodeid,))
     row = c.fetchone()
@@ -51,7 +51,7 @@ def get_list_of_devices(*, site=None, conn=None):
     return L
 
 def get_list_of_variables(nodeid):
-    conn = MySQLdb.connect(host='localhost', user='webapp', passwd='', db='uhcm', charset='utf8mb4')
+    conn = MySQLdb.connect(host='localhost', user='webapp', charset='utf8mb4')
     c = conn.cursor()
     c.execute("SELECT name FROM uhcm.`variables` WHERE nodeid=%s", (nodeid,))
     L = [row[0] for row in c.fetchall()]

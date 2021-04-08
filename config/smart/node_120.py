@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 name = 'Pükele Stream Water Level'
 location = 'Pükele Stream, Palolo'
 google_earth_link = '#'
@@ -37,7 +36,7 @@ conf = [
         'unit':'%',
         'description':'Housing % relative humidity (BME280)',
         'lb':5,
-        'ub':60,
+        'ub':70,
         'interval':60,
     },
     {
@@ -53,7 +52,7 @@ conf = [
         'unit':'V',
         'description':'Solar panel voltage',
         'lb':0,
-        'ub':6,
+        'ub':7.5,
         'interval':60,
     },
     {

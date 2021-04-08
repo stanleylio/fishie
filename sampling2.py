@@ -13,8 +13,8 @@ Stanley H.I. Lio
 """
 import logging, serial, os, time, sys, pika, socket, argparse, asyncio
 import logging.handlers
-from os.path import expanduser, exists
-sys.path.append(expanduser('~'))
+from os.path import exists
+from helper import init_rabbit
 from cred import cred
 try:
     from node.drivers.watchdog import reset_auto
@@ -56,14 +56,6 @@ parser.add_argument('--brokerport', metavar='port', type=int,
 args = parser.parse_args()
 
 
-def rabbit_init():
-    credentials = pika.PlainCredentials(nodeid, cred['rabbitmq'])
-    connection = pika.BlockingConnection(pika.ConnectionParameters(args.brokerip, args.brokerport, '/', credentials))
-    channel = connection.channel()
-    channel.exchange_declare(exchange=exchange, exchange_type='topic', durable=True)
-    return connection, channel
-
-
 logger.info(__name__ + ' starts')
 
 
@@ -94,7 +86,7 @@ async def taskSampling():
                 
                 if connection is None or channel is None:
                     logger.info('Connection to local exchange is not open.')
-                    connection, channel = rabbit_init()
+                    connection, channel = init_rabbit(nodeid, cred['rabbitmq'], host=args.brokerip)
                     logger.info('Connection to local exchange re-established.')
 
                 channel.basic_publish(exchange=exchange,

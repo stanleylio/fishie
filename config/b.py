@@ -1,6 +1,7 @@
 # Note 1: ReceptionTime is not listed in the .py files. It is added here as ReceptionTime DOUBLE NOT NULL. The PRIMARY KEY() part can only be added at MySQL table creation.
 # Note 2: Some columns have been dropped; some have been renamed; default values have been made explicit.
 # Note 3: Some units have been standardized (e.g. Deg.C, \u00b0C -> \u2103).
+# Note 4: If deployment_status is not defined for a node, default to 'deployed'.
 import sys, re, json, MySQLdb, math
 from pathlib import Path
 from os.path import join, split
@@ -91,6 +92,9 @@ for folder in f(r'.', True):
             else:
                 # "neither 'ts' nor 'Timestamp' is defined. Default to 'ReceptionTime'"
                 d['time_col'] = 'ReceptionTime'
+
+        if d.get('deployment_status', '') in ['']:
+            d['deployment_status'] = 'deployed'
 
         cmd = "INSERT INTO uhcm.`devices` VALUES ({})".format(','.join(['%s']*len(attributes)))
         d = [F.get(k, lambda x: x)(d[k]) for k in attributes]

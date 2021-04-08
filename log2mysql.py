@@ -35,7 +35,8 @@ logger.setLevel(logging.DEBUG)
 
 exchange = 'uhcm'
 nodeid = socket.gethostname()
-reconnection_delay = 5
+reconnection_delay = 3
+
 
 parser = argparse.ArgumentParser(description='wut')
 parser.add_argument('--brokerip', metavar='broker', type=str, help='Broker IP', default='localhost')
@@ -97,10 +98,9 @@ def callback(ch, method, properties, body):
     except (MySQLdb.ProgrammingError, MySQLdb.OperationalError):
         logger.exception('db error')
         store = Storage()
-    except KeyboardInterrupt:
-        raise
     except:
         logger.exception(body)
+        raise
 
 
 if '__main__' == __name__:
@@ -121,6 +121,7 @@ if '__main__' == __name__:
             logger.exception('broker stuff')
             connection, channel = None, None
         except:
-            logging.exception('wut?')
+            logger.exception('wut?')
+            raise
 
         time.sleep(reconnection_delay)

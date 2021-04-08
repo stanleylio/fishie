@@ -3,6 +3,7 @@ location = 'East West Center, UH Manoa'
 google_earth_link = '#'
 note = 'RPi3 16GB'
 tags = ['gateway', 'rpi']
+deployment_status = 'decommissioned'
 
 
 conf = [
