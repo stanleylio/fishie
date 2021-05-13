@@ -17,7 +17,7 @@ logger.setLevel(logging.DEBUG)
 def create_table(conf, table, *, dbname='uhcm', user='s', password='', host='localhost', noreceptiontime=False):
     if not noreceptiontime:
         conf.insert(0, {'dbtag':'ReceptionTime', 'dbtype':'DOUBLE PRIMARY KEY'})
-    conn = MySQLdb.connect(host=host, user=user, passwd=passwd, db=dbname)
+    conn = MySQLdb.connect(host=host, user=user, passwd=password, db=dbname)
     with conn:
         cur = conn.cursor()
         tmp = ','.join([' '.join(tmp) for tmp in [(column['dbtag'], column.get('dbtype', 'DOUBLE')) for column in conf]])

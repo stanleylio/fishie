@@ -7,7 +7,7 @@ Project website: https://grogdata.soest.hawaii.edu/project_info/
 
 I'm using this mostly for synchronizing the software and configurations on our gateways, loggers, and servers; I'm not using this to track issues or updates. More like "Dropbox for source code" than "git for source control".
 
-That said, the drivers/ folder does contain Python drivers/helpers for sensors commonly used in environmental/oceanographic monitoring projects that *might* be reusable:
+That said, the [drivers/](https://github.com/stanleylio/fishie/tree/master/drivers) folder does contain Python drivers/helpers for sensors commonly used in environmental/oceanographic monitoring projects that *might* be reusable:
 
 - Oxygen optodes, salinity/conductivity, pH, plus various submersible, bulky, and/or expensive stuff
   - Aanderaa 3835 (Dissolved Oxygen)
@@ -21,7 +21,7 @@ That said, the drivers/ folder does contain Python drivers/helpers for sensors c
 - Temperature, humidity, pressure
   - TSYS01 (Temperature)
   - MS5803/MS5837 (Water pressure and temperature)
-  - HTU21D (Humidity/Temperature sensor; code from Adafruit)
+  - HTU21D (Humidity/Temperature sensor; code from [Adafruit](https://www.adafruit.com/))
   - BMP280 (Barometric pressure and temperature)
   - BME280 (Barometric pressure, temperature and humidity; code from Adafruit)
   - BMP180 (Barometric pressure and temperature; code from Adafruit)

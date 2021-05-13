@@ -12,13 +12,32 @@ from os.path import expanduser, exists
 sys.path.append(expanduser('~'))
 from scipy.stats import circmean
 import numpy as np
-from z import send
-from drivers.rmy05106 import RMY05106
-from helper import init_rabbit
+from .z import send
+from .drivers.rmy05106 import RMY05106
+from .helper import init_rabbit
 from cred import cred
 
 
 logger = logging.getLogger(__name__)
+
+
+def summary(t, v, d, ):
+    # on "average direction":
+    # "... but only for those samples where wind_mps > some threshold"
+    #http://www.ndbc.noaa.gov/wndav.shtml
+    # The RMY05106 has a threshold sensitivity of 1.1 m/s;
+    # the Davis 6410 doesn't specify one. In practice I
+    # guess any air movement strong enough to turn and align
+    # the vane should count. It's true that 0.5 m/s here is
+    # arbitrary, but that's below RMY05106's sensitivity
+    # threshold, and is much better than 0 m/s.
+    _,tmp = zip(*filter(lambda p: p[0] >= 0.5 and p[1] == p[1], zip(v,d)))      # also strips NaNs
+    #logger.debug('sample count for direction avg={}'.format(len(tmp)))
+    C = {'v': round(np.nanmean(v).item() if len(v) else float('nan'), 3),
+         'd': round(circmean(tmp, high=360, low=0).item() if len(tmp) else float('nan'), 1),
+         'g': round(np.nanmax(v) if len(v) else float('nan'), 3),
+         }
+    return C
 
 
 async def taskSummary():
@@ -41,26 +60,9 @@ async def taskSummary():
 
                 logger.debug('len(windhistory)={}'.format(len(windhistory)))
 
-                C = {}
+                C = summary(t, v, d)
                 #C['ts'] = np.nanmean(t).item() if len(t) else float('nan')
                 C['ts'] = ts    # !
-                # average wind speed
-                C['v'] = round(np.nanmean(v).item() if len(v) else float('nan'), 3)
-                # average direction
-                # "... but only for those samples where wind_mps > some threshold"
-                #http://www.ndbc.noaa.gov/wndav.shtml
-                # The RMY05106 has a threshold sensitivity of 1.1 m/s;
-                # the Davis 6410 doesn't specify one. In practice I
-                # guess any air movement strong enough to turn and align
-                # the vane should count. It's true that 0.5 m/s here is
-                # arbitrary, but that's below RMY05106's sensitivity
-                # threshold, and is much better than 0 m/s.
-                _,tmp = zip(*filter(lambda p: p[0] >= 0.5 and p[1] == p[1], zip(v,d)))      # also strips NaNs
-                logger.debug('sample count for direction avg={}'.format(len(tmp)))
-                C['d'] = round(circmean(tmp, high=360, low=0).item() if len(tmp) else float('nan'), 1)
-                # gust
-                C['g'] = round(np.nanmax(v) if len(v) else float('nan'), 3)
-
                 logger.info(C)
                 
                 if connection is None or channel is None:
