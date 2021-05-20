@@ -24,6 +24,7 @@ conf = [
     },
     {
         'dbtag':'std',
+        'unit':'mm',
         'description':'Sample standard deviation',
         'lb':0,
         #'ub':?,

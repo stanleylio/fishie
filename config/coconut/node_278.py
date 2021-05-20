@@ -21,6 +21,15 @@ conf = [
         'plot_range':14*24,
     },
     {
+        'dbtag':'c0',
+        'unit':'\u00b0C',
+        'description':'Probe offset',
+        'lb':-1,
+        'ub':1,
+        'interval':60,
+        'plot_range':14*24,
+    },
+    {
         'dbtag':'s0',
         'unit':'\u00b0C',
         'description':'Setpoint',
