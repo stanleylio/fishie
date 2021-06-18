@@ -11,7 +11,6 @@ from os.path import exists, join, expanduser, basename, splitext
 sys.path.append(expanduser('~'))
 from datetime import datetime
 from helper import dt2ts
-from node.config.config_support import import_node_config
 from cred import cred
 
 
@@ -26,6 +25,7 @@ reconnection_delay = 7
 parser = argparse.ArgumentParser(description='log2txt.py')
 parser.add_argument('--brokerip', metavar='broker', type=str, help='Broker IP', default='localhost')
 parser.add_argument('--brokerport', metavar='port', type=int, help='Port', default=5672)
+parser.add_argument('--output_path', type=str, help='Directory for the output txt file', default='/var/uhcm/log')
 args = parser.parse_args()
 
 
@@ -52,10 +52,9 @@ def init_rabbit():
 if '__main__' == __name__:
 
     # product of this script: the raw text file
-    config = import_node_config()
-    output_path = getattr(config, 'log2txt_output_path', None)
-    assert output_path is not None and exists(output_path)
-    tsraw = open(join(output_path, 'tsraw.txt'), 'a', 1)
+    
+    assert args.output_path is not None and exists(args.output_path)
+    tsraw = open(join(args.output_path, 'tsraw.txt'), 'a', 1)
 
     def callback(ch, method, properties, body):
         print('= = = = =')
