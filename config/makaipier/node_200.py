@@ -1,10 +1,10 @@
 name = 'Water Level'
 location = 'Makai Pier, Oahu'
 note = 'Ultrasonic tide gauge (cellular; 0.5~10m). Hardware v0.5.'
-status = 'staging'
-tags = ['tide gauge', 'cellular', 'MB7388', '181m179s']
+#tags = ['tide gauge', 'cellular', 'MB7388', '181m179s']
 latitude = 21.319522
 longitude = -157.668328
+deployment_status = 'deployed'
 
 coreid = '350020001047373334363431'
 

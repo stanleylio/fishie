@@ -1,9 +1,9 @@
-name = 'controller08'
+name = 'controller24'
 location = 'Coconut Island'
 note = "v0 code: {'neutral':0, 'heating':1, 'cooling':2, 'flush':3}"
 latitude = 21.4347
 longitude = -157.7990
-deployment_status = 'deployed'
+deployment_status = 'deplyed'
 
 conf = [
     {
@@ -89,4 +89,4 @@ if '__main__' == __name__:
     sys.path.append('../..')
     from os.path import basename
     from storage.storage2 import create_table
-    create_table(conf, basename(__file__).split('.')[0].replace('_','-'))
+    create_table(conf,basename(__file__).split('.')[0].replace('_','-'))

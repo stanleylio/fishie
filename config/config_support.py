@@ -2,7 +2,7 @@
 #
 # Stanley Lio, hlio@usc.edu
 # All Rights Reserved. August 2015
-import re, socket, traceback
+import re, socket, logging
 from importlib import import_module
 from os import listdir
 from os.path import join, exists, dirname, realpath, basename, splitext, abspath, isfile
@@ -42,8 +42,12 @@ def import_node_config(device=None):
         device = gethostname()
     site = get_site(device)
     device = device.replace('-', '_')
-    return import_module('node.config.{site}.{device}'.\
-                         format(site=site, device=device))
+    try:
+        return import_module('node.config.{site}.{device}'.\
+                             format(site=site, device=device))
+    except:
+        logging.exception('site={}, device={}'.format(site, device))
+        return None
 
 def get_list_of_sites():
     return config_as_dict().keys()

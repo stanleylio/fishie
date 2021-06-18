@@ -14,12 +14,25 @@ from datetime import timedelta
 def f(p, d):
     return [ff for ff in Path(p).iterdir() if ff.is_dir() == d]
 
+
 conn = MySQLdb.connect(host='localhost', user='s', db='uhcm', charset='utf8mb4')
 c = conn.cursor()
 
 
 # nothing beats hard-coded magic consts...
-attributes = ['nodeid', 'name', 'site', 'note', 'status', 'longitude', 'latitude', 'altitude_meter', 'location', 'tags', 'coreid', 'time_col', 'deployment_status', ]
+attributes = ['nodeid',
+              'name',
+              'site',
+              'note',
+              'longitude',
+              'latitude',
+              'altitude_meter',
+              'location',
+              'tags',
+              'coreid',
+              'time_col',
+              'deployment_status',
+              ]
 M = {'nodeid': 'VARCHAR(64) UNIQUE NOT NULL',
      'latitude': 'FLOAT',
      'longitude': 'FLOAT',

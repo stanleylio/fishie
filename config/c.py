@@ -36,10 +36,9 @@ def get_list_of_sites(*, conn=None):
     return L
 
 def get_list_of_devices(*, site=None, conn=None):
-    should_close = False
+    should_close = conn is None
     if conn is None:
         conn = MySQLdb.connect(host='localhost', user='webapp', charset='utf8mb4')
-        should_close = True
     c = conn.cursor()
     if site is None:
         c.execute("SELECT nodeid FROM uhcm.`devices` ORDER BY `nodeid`")

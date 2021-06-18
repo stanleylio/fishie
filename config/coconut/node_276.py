@@ -1,4 +1,4 @@
-name = 'controller08'
+name = 'controller06'
 location = 'Coconut Island'
 note = "v0 code: {'neutral':0, 'heating':1, 'cooling':2, 'flush':3}"
 latitude = 21.4347
