@@ -165,7 +165,7 @@ def plot_multi_time_series(data, plotfilename, *, title='', xlabel='', ylabel=''
             #h.set_color('red')
             h.set_markersize(8)
 
-    plt.savefig(plotfilename, bbox_inches='tight', dpi=600, facecolor='#f2f2f2')
+    plt.savefig(plotfilename, bbox_inches='tight', dpi=600, facecolor='#f7f7f7')
     #print(plotfilename)
     plt.cla()
     plt.clf()
