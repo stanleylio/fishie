@@ -1,5 +1,5 @@
-name = 'Water Level'
-location = 'Folly Island, Charleston, South Carolina'
+name = 'Folly Island Water Level'
+location = 'Folly Island, Charleston, SC'
 note = 'Cellular ultrasonic tide gauge. Each sample is average of 60 measurements taken every second. One transmission every 10 samples. Firmware p5d, hardware v0.2 (with US_EN patch).'
 latitude = 32.648056
 longitude = -79.961389

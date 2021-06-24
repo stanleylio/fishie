@@ -1,5 +1,5 @@
-name = 'Water Level (Edisto Beach)'
-location = 'Edisto Beach'
+name = 'Edisto Beach Water Level'
+location = 'Edisto Beach, SC'
 note = 'Ultrasonic tide gauge (cellular; 0.5~10m). Hardware v0.5.'
 # South Carolina State Plane, Zone 3900, WGS84 Datum
 # Original from NAD83 (ift)

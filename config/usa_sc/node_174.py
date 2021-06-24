@@ -1,5 +1,5 @@
-name = 'Water Level (DeBordieu Colony)'
-location = 'DeBordieu Colony'
+name = 'DeBordieu Colony Water Level'
+location = 'DeBordieu Colony, SC'
 note = 'Ultrasonic tide gauge (cellular; 0.3~5m). Hardware v0.5.'
 # South Carolina State Plane, Zone 3900, WGS84 Datum
 # Original from NAD83 (ift)

@@ -109,6 +109,9 @@ for folder in f(r'.', True):
         if d.get('deployment_status', '') in ['']:
             d['deployment_status'] = 'deployed'
 
+        assert d['deployment_status'] in {'staging', 'deployed', 'decommissioned', 'reserved', },\
+               f"{nodeid}: unknown deployment_status"
+
         cmd = "INSERT INTO uhcm.`devices` VALUES ({})".format(','.join(['%s']*len(attributes)))
         d = [F.get(k, lambda x: x)(d[k]) for k in attributes]
         c.execute(cmd, d)

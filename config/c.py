@@ -14,6 +14,14 @@ def config_as_dict():
     conn.close()
     return config
 
+def config_as_list():
+    conn = MySQLdb.connect(host='localhost', user='webapp', charset='utf8mb4')
+    c = conn.cursor()
+    c.execute("SELECT nodeid,site,name,location,deployment_status FROM uhcm.`devices` ORDER BY `site`")
+    config = list(c.fetchall())
+    conn.close()
+    return config
+
 def get_site(nodeid):
     conn = MySQLdb.connect(host='localhost', user='webapp', charset='utf8mb4')
     c = conn.cursor()

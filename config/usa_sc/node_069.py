@@ -1,5 +1,5 @@
-name = 'Water Level (Isle of Palms)'
-location = 'Isle of Palms'
+name = 'Isle of Palms Water Level'
+location = 'Isle of Palms, SC'
 note = 'Ultrasonic tide gauge (cellular; 0.3~5m). Hardware v0.5.'
 # South Carolina State Plane, Zone 3900, WGS84 Datum
 # Original from NAD83 (ift)

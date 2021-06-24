@@ -3,7 +3,7 @@ location = 'Coconut Island'
 note = "v0 code: {'neutral':0, 'heating':1, 'cooling':2, 'flush':3}"
 latitude = 21.4347
 longitude = -157.7990
-deployment_status = 'deplyed'
+deployment_status = 'deployed'
 
 conf = [
     {

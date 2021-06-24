@@ -1,5 +1,5 @@
-name = 'Water Level (Kiawah Island)'
-location = 'Kiawah Island'
+name = 'Kiawah Island Water Level'
+location = 'Kiawah Island, SC'
 note = 'Ultrasonic tide gauge (cellular; 0.3~5m). Hardware v0.5.'
 # South Carolina State Plane, Zone 3900, WGS84 Datum
 # Original from NAD83 (ift)

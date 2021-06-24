@@ -1,6 +1,9 @@
-name = 'Water Level'
-location = '(TBD)'
+name = 'Chesapeake City Water Level'
+location = 'Chesapeake City, MD'
 note = 'Ultrasonic tide gauge (cellular; 0.5~10m). Hardware v0.5.'
+latitude = 39.527531
+longitude = -75.810164
+elev = (8.0839895, 'ft', 'NAVD88')
 
 coreid = '25002d001951353338363036'
 
