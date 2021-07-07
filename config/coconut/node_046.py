@@ -1,9 +1,10 @@
 name = '"Next-to-NOAA"'
-location = 'Coconut Island'
+location = 'Kāneʻohe Bay, Oahu, Hawaii'
 google_earth_link = 'https://goo.gl/maps/QWuNSn4Ge9m'
 note = 'Cellular ultrasonic tide gauge. Each sample is average of 60 measurements taken every second. One transmission every 10 samples. Firmware p5e, hardware v0.2.'
 latitude = 21.433037
 longitude = -157.789814
+deployment_status = 'deployed'
 
 coreid = '1c0038001647373037383634'
 
@@ -27,14 +28,14 @@ conf = [
         'unit':'V',
         'description':'Battery voltage',
         'lb':3.7,
-        'ub':5.5,
+        'ub':4.2,
         'interval':10*60,
     },
     {
         'dbtag':'SoC',
         'unit':'%',
         'description':'State of Charge',
-        'lb':30,
+        'lb':40,
         'ub':100,
         'interval':10*60,
     },

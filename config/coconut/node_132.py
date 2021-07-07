@@ -1,8 +1,9 @@
-name = 'Water Level'
-location = '(TBD)'
-#note = 'Cellular ultrasonic tide gauge. Each sample is average of 60 measurements taken every second. One transmission every 10 samples. Firmware p6c, hardware v0.4.'
+name = '"Right-Next-to-NOAA"'
+location = 'Kāneʻohe Bay, Oahu, Hawaii'
 note = 'Ultrasonic tide gauge (cellular; 0.3~5m). v0.6 board.'
-#deployment_status = 'decommissioned'
+latitude = 21.433037
+longitude = -157.789814
+deployment_status = 'deployed'
 
 coreid = '450057000a51343334363138'
 
@@ -11,7 +12,7 @@ INTERVAL_S = 2*6*60
 conf = [
     {
         'dbtag':'ts',
-        'description':'Sample time (Electron clock)',
+        'description':'Sample time (device clock)',
         'interval':INTERVAL_S,
     },
     {

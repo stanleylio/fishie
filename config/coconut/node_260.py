@@ -1,7 +1,6 @@
-name = '(TBD)'
-location = 'Lyon Arboretum'
+name = 'Octo-TSYS'
+location = 'Coral Resilience Lab, HIMB'
 note = '(TBD)'
-public_key = ''
 #latitude = 21.333127
 #longitude = -157.801550
 
