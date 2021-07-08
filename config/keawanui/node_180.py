@@ -1,7 +1,6 @@
-# -*- coding: utf-8 -*-
 name = 'Conductivity'
 location = 'Keawanui Fishpond, Moloka‘i'
-note = 'Aanderaa conductivity sensor 4319. Hardware v5.4, firmware aa1.'
+note = 'Aanderaa conductivity sensor 4319. Hardware v5.4, firmware aa3.'
 # Keawanui
 latitude = 21.05478
 longitude = -156.85012
@@ -56,6 +55,7 @@ conf = [
     },
     {
         'dbtag':'Vb',
+        'unit':'V',
         'description':'Battery voltage',
         'lb':3.0,
         'ub':4.3,
@@ -63,6 +63,7 @@ conf = [
     },
     {
         'dbtag':'Vs',
+        'unit':'V',
         'description':'Solar panel voltage (after rectifier)',
         'lb':0,
         'ub':7.5,
@@ -70,12 +71,14 @@ conf = [
     },
     {
         'dbtag':'idx',
+        'unit':'-',
         'description':'Sample index',
         'lb':24*60*60/(5*60),
         'interval':5*60,
     },
     {
         'dbtag':'c',
+        'unit':'-',
         'description':'1Hz ticker',
         'lb':24*60*60,
         'interval':5*60,

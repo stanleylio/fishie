@@ -1,7 +1,7 @@
 name = 'Water Level'
 location = 'Keawanui Fishpond, Moloka‘i'
 google_earth_link = '#'
-note = 'Ultrasonic tide gauge (XBee). 1Hz measurements; each transmission is average of 60 measurements. Firmware us12c, hardware v5.1.'
+note = 'Ultrasonic tide gauge (XBee). Firmware us14, hardware v5.4.'
 latitude = 21.05478
 longitude = -156.85012
 
@@ -22,6 +22,7 @@ conf = [
         'lb':10,
         'ub':50,
         'interval':60,
+        'plot': False,
     },
     {
         'dbtag':'p',
@@ -30,6 +31,7 @@ conf = [
         'lb':80,
         'ub':120,
         'interval':60,
+        'plot': False,
     },
     {
         'dbtag':'rh',
@@ -38,6 +40,7 @@ conf = [
         'lb':5,
         'ub':60,
         'interval':60,
+        'plot': False,
     },
     {
         'dbtag':'Vb',
