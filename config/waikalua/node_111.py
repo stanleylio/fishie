@@ -54,14 +54,6 @@ conf = [
         'lb':2000,
         'interval':60,
     },
-    {
-        'dbtag':'VbattV',
-        'unit':'V',
-        'description':'12V supply voltage',
-        'lb':11,
-        'ub':14,
-        'interval':60,
-    },
 ]
 
 

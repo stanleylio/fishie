@@ -22,7 +22,7 @@ logger = logging.getLogger(__name__)
 
 
 def summary(t, v, d, ):
-    # on "average direction":
+    # On "average direction":
     # "... but only for those samples where wind_mps > some threshold"
     #http://www.ndbc.noaa.gov/wndav.shtml
     # The RMY05106 has a threshold sensitivity of 1.1 m/s;
@@ -31,8 +31,17 @@ def summary(t, v, d, ):
     # the vane should count. It's true that 0.5 m/s here is
     # arbitrary, but that's below RMY05106's sensitivity
     # threshold, and is much better than 0 m/s.
-    _,tmp = zip(*filter(lambda p: p[0] >= 0.5 and p[1] == p[1], zip(v,d)))      # also strips NaNs
-    #logger.debug('sample count for direction avg={}'.format(len(tmp)))
+    try:
+        _,tmp = zip(*filter(lambda p: p[0] >= 0.5 and p[1] == p[1], zip(v,d)))      # also strips NaNs
+    except ValueError:
+        # So none of the samples passes the min-speed requirement.
+        # What's the next best thing? blindly take the average (I mean,
+        # if there is no wind, and the vane is not spinning, then NaN
+        # and the current heading are just as good as direction).
+        # You can always detect this in post (i.e. v == 0) so no
+        # information loss there.
+        tmp = d
+    
     C = {'v': round(np.nanmean(v).item() if len(v) else float('nan'), 3),
          'd': round(circmean(tmp, high=360, low=0).item() if len(tmp) else float('nan'), 1),
          'g': round(np.nanmax(v) if len(v) else float('nan'), 3),
