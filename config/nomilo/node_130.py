@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 name = 'Wind sensor'
 location = 'South Shore, Nomilo Fishpond, Kauaʻi, Hawai‘i'
 note = 'Software running on base-013 (no dedicated physical controller)'

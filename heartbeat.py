@@ -33,7 +33,7 @@ def taskHeartbeat():
 
         uptime_second = float(open('/proc/uptime').readline().split()[0])
         usage = shutil.disk_usage('/')
-        d = {'system_clock':time.time(),
+        d = {'ts':time.time(),
              'uptime_second':uptime_second,
              'usedMB':int(usage.used/1e6),
              'freeMB':int(usage.free/1e6),
