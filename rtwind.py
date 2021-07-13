@@ -108,7 +108,7 @@ async def taskRTWind():
             r = rmy.read()
             d = None
             if r is not None:
-                d = {'ts':time.time()}
+                d = {'ts':round(time.time(), 3)}
                 d.update(r)
                 windhistory.append([d['ts'], d['v'], d['d']])
             else:
