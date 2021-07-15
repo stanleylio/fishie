@@ -7,20 +7,15 @@ tags = ['gateway', 'beaglebone']
 
 conf = [
     {
-        'dbtag':'system_clock',
+        'dbtag':'ts',
         'description':'Device clock',
         'interval':60,
     },
     {
         'dbtag':'uptime_second',
-        'description':'Uptime in seconds',
+        'description':'Uptime',
+        'unit':'seconds',
         'lb':24*60*60,
-        'interval':60,
-    },
-    {
-        'dbtag':'usedMB',
-        'unit':'MB',
-        'description':'Used disk space',
         'interval':60,
     },
     {
