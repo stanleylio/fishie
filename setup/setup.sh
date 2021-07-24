@@ -52,37 +52,24 @@ fi
 
 
 sudo apt update && sudo apt upgrade -y
-sudo apt install ntp git i2c-tools minicom autossh bash-completion build-essential python3-pika -y
-#dpkg-reconfigure tzdata
-#sudo nano /etc/ntp.conf
+sudo apt install ntp git i2c-tools minicom autossh build-essential python3-pika -y
+sudo dpkg-reconfigure tzdata
+sudo nano /etc/ntp.conf
 
 
 cd
-#git clone git@github.com:stanleylio/fishie.git ~/node
 git clone https://github.com/stanleylio/fishie ~/node
 cd ~/node
-git config --global user.name "Stanley Lio"
-git config --global user.email stanleylio@gmail.com
-#git remote set-url origin git@github.com:stanleylio/fishie.git
-
-#cd
-#git clone git@github.com:stanleylio/kmetlog.git ~/kmetlog
-#git clone https://github.com/stanleylio/kmetlog
-#cd ~/kmetlog
-#git config --global user.name "Stanley Lio"
-#git config --global user.email stanleylio@gmail.com
-#git remote set-url origin git@github.com:stanleylio/kmetlog.git
 
 
 # sampling
 cd
 sudo apt install supervisor -y
 sudo systemctl enable supervisor
-sudo systemctl start supervisor
 sudo chown $USER:$USER /etc/supervisor/conf.d
 
-sudo apt install python3 python3-pip python3-scipy python3-smbus sqlite3 -y
-sudo pip3 install --upgrade requests pycrypto pyserial pyzmq twisted Adafruit_BBIO RPi.GPIO paho-mqtt
+sudo apt install python3-pip sqlite3 -y
+python3 -m pip install --upgrade requests pyserial twisted Adafruit_BBIO RPi.GPIO
 
 
 # RabbitMQ
@@ -117,9 +104,7 @@ sudo chmod 664 /etc/rabbitmq/rabbitmq.config
 sudo chmod g+w /etc/rabbitmq
 sudo usermod -aG rabbitmq $USER
 # need to logout and login again for permissions to apply
-#sudo nano /etc/rabbitmq/rabbitmq.config
 # and create the corresponding RabbitMQ user on server
-
 # and cred.py, and all the reverse-SSH stuff...
 
 
@@ -139,13 +124,10 @@ if [ -a /boot/uEnv.txt ]
 then
 	#sudo echo "cape_enable=bone_capemgr.enable_partno=BB-UART1,BB-UART2,BB-UART4,BB-UART5,BB-I2C1,BB-I2C2" >> /boot/uEnv.txt
 	#sudo echo "cape_disable=bone_capemgr.disable_partno=BB-HDMI" >> /boot/uEnv.txt
-	###Overide capes with eeprom
 	#uboot_overlay_addr0=/lib/firmware/BB-I2C1-00A0.dtbo
 	#uboot_overlay_addr1=/lib/firmware/BB-I2C2-00A0.dtbo
 	#uboot_overlay_addr2=/lib/firmware/BB-UART1-00A0.dtbo
 	#uboot_overlay_addr3=/lib/firmware/BB-UART2-00A0.dtbo
-	###
-	###Additional custom capes
 	#uboot_overlay_addr4=/lib/firmware/BB-UART4-00A0.dtbo
 	#uboot_overlay_addr5=/lib/firmware/BB-UART5-00A0.dtbo
 	sudo nano /boot/uEnv.txt

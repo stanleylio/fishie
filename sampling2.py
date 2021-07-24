@@ -14,7 +14,7 @@ Stanley H.I. Lio
 import logging, serial, os, time, sys, pika, socket, argparse, asyncio
 import logging.handlers
 from os.path import exists
-from helper import init_rabbit
+from .helper import init_rabbit
 from cred import cred
 try:
     from node.drivers.watchdog import reset_auto
