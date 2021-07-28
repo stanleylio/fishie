@@ -61,10 +61,10 @@ parse into dict() if it's from a known device."""
 
         # strip the CRC and try to parse as JSON string
         line = line[:-8]
-        #HACK
-        if '"node-226"' in line:
-            line = line.replace('nan', 'NaN')
-        #/HACK
+
+        # known offenders: {node-226, node-122}
+        line = line.replace(':nan', ':NaN')
+
         msg = json.loads(line)
         if 'from' not in msg:
             logger.debug('Sender ID missing.')
