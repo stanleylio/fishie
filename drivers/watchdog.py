@@ -1,6 +1,6 @@
 #!/usr/bin/python
 # watchdog driver for RPi
-# I2C code lifed from Atlas Scientific's code to deal with RPi's I2C bug
+# I2C code lifted from Atlas Scientific's code to deal with RPi's I2C bug
 # source: https://github.com/AtlasScientific/Raspberry-Pi-sample-code/blob/master/i2c.py
 # Stanley H.I. Lio
 # hlio@hawaii.edu
