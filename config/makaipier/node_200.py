@@ -6,7 +6,8 @@ latitude = 21.319522
 longitude = -157.668328
 deployment_status = 'deployed'
 
-coreid = '350020001047373334363431'
+#coreid = '350020001047373334363431'
+coreid = '360031000251383133363636'     # 20210726
 
 INTERVAL_S = 2*6*60
 

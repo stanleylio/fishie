@@ -70,6 +70,14 @@ conf = [
         'lb':0,
         'interval':60,
     },
+    {
+        'dbtag':'std',
+        'unit':'mm',
+        'description':'Sample standard deviation',
+        #'lb':?,
+        #'ub':?,
+        'interval':60,
+    },
 ]
 
 
