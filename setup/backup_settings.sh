@@ -1,6 +1,6 @@
 #!/bin/bash
 
-DIR="./backup"
+DIR=$HOME/backup
 
 if ! [ -e "$DIR" ]
 then
@@ -39,5 +39,5 @@ cat /etc/resolv.conf > $DIR/resolv.conf.txt
 cp -a /etc/rc.local $DIR/rc.local.txt
 cp -a /etc/logrotate.conf $DIR/logrotate.conf
 cp -a /etc/ntp.conf $DIR/ntp.conf
-#pip freeze > $DIR/pipfreeze.txt
-#pip3 freeze > $DIR/pip3freeze.txt
+
+pip3 freeze > $DIR/requirements.txt
