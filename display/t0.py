@@ -11,11 +11,11 @@ from node.helper import ts2dt, dt2ts
 from node.storage.storage2 import Storage
 from node.config.c import get_list_of_sites, get_list_of_devices, get_list_of_disp_vars, get_node_attribute, get_variable_attribute
 
-#from skyfield import api
-#load = api.Loader('~/skyfield-data', verbose=False)
-#timescale = load.timescale()
-#planets = load('de421.bsp')
-#from skyfield import almanac
+from skyfield import api
+load = api.Loader('/tmp/skyfield-data', verbose=False)
+timescale = load.timescale()
+planets = load('de421.bsp')
+from skyfield import almanac
 
 
 logging.basicConfig(level=logging.DEBUG)
@@ -149,7 +149,7 @@ for site in sites:
 
                 sun = None
                 try:
-                    '''if latitude is not None and longitude is not None and valid_end - valid_begin > 24*3600:
+                    if latitude is not None and longitude is not None and valid_end - valid_begin > 24*3600:
                         #print(latitude, longitude, valid_begin, valid_end)
                         tmp = api.Topos(latitude_degrees=latitude, longitude_degrees=longitude)
                         # epsilon is in unit of Julian days - down to the minute is fine.
@@ -159,7 +159,7 @@ for site in sites:
                                                     almanac.sunrise_sunset(planets, tmp),
                                                     epsilon=1/24/60)
                         #print(t.utc_iso())
-                        sun = list(zip([tmp.utc_datetime() for tmp in risesettimes], isrise))'''
+                        sun = list(zip([tmp.utc_datetime() for tmp in risesettimes], isrise))
                     pass
                     #continue
                 except ValueError:
