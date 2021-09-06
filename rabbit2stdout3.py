@@ -30,13 +30,16 @@ def init_rabbit():
     channel.basic_qos(prefetch_count=32)
 
     channel.exchange_declare(exchange=exchange, exchange_type='topic', durable=True)
-    queue_name = "{}_{}".format(nodeid, splitext(basename(__file__))[0])
+    #queue_name = "{}_{}".format(nodeid, splitext(basename(__file__))[0])
+    queue_name = ''
     result = channel.queue_declare(queue=queue_name,
-                                   durable=True,
-                                   arguments={'x-message-ttl':2**31-1}) # ~24 days.
+                                   durable=False,
+                                   auto_delete=True,
+                                   arguments={'x-message-ttl':60*60*1000}) # ~24 days.
 
-    #queue_name = result.method.queue
-    tags = ['*.samples', '*.s', '*.debug', '*.d', '*.rt']
+    queue_name = result.method.queue
+#    tags = ['*.samples', '*.s', '*.debug', '*.d', '*.rt']
+    tags = ['*.samples', '*.s', '*.debug', '*.d', ]
     for tag in tags:
         channel.queue_bind(exchange=exchange, queue=queue_name, routing_key=tag)
     channel.basic_consume(queue_name, callback, auto_ack=False)
