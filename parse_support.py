@@ -62,7 +62,8 @@ parse into dict() if it's from a known device."""
         # strip the CRC and try to parse as JSON string
         line = line[:-8]
 
-        # known offenders: {node-226, node-122}
+        # known offenders: {node-226, node-122}. Pretty much any uC
+        # nodes on firmware us14.
         line = line.replace(':nan', ':NaN')
 
         msg = json.loads(line)

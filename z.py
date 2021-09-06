@@ -4,7 +4,7 @@
 #
 # Stanley H.I. Lio
 # hlio@hawaii.edu
-# All Rights Reserved. 2016
+# 2016
 import struct, json, re, traceback, logging
 from socket import gethostname
 from zlib import crc32
@@ -72,7 +72,7 @@ def send(channel, sample, src=None, dest=None):
            'p':sample}
     if dest is not None:
         tmp['to'] = dest
-    tmp = json.dumps(tmp,separators=(',', ':'))
+    tmp = json.dumps(tmp, separators=(',', ':'))
     m = '{}{}\n'.format(tmp, get_checksum(tmp))
     m = m.encode()
     if channel is not None:
