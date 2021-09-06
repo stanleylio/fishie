@@ -1,10 +1,9 @@
-# Stanley H.I. Lio
-import time, struct, io, fcntl, logging
+import time, struct, io, fcntl
 
 
 class TSYS01:
 
-    def __init__(self, address=0x77, bus=1):
+    def __init__(self, *, address=0x77, bus=1, validate_checksum=False):
         self.address = address
         self.fr = io.open('/dev/i2c-{}'.format(bus), 'rb', buffering=0)
         self.fw = io.open('/dev/i2c-{}'.format(bus), 'wb', buffering=0)
@@ -13,7 +12,15 @@ class TSYS01:
         fcntl.ioctl(self.fw, I2C_SLAVE, self.address)
 
         self.reset()
-        self._C = self._read_prom()
+        self._prom = self._read_prom()
+        # extract the calibration factors
+        self._CF = struct.unpack('>HHHHHHH', self._prom)[:-2][::-1]
+        # and the serial number
+        tmp = struct.unpack('>HH', self._prom[-4:])
+        self.SN = (2**8)*tmp[0] + (tmp[1] >> 8)
+        
+        if validate_checksum and (0 != sum(self._prom) % 0x100):
+            raise RuntimeError(f"Invalid checksum. PROM={self._prom}")
 
     def reset(self):
         self.fw.write(b'\x1E')
@@ -25,20 +32,25 @@ class TSYS01:
         # datasheet's example
         #k4,k3,k2,k1,k0 = 28446,24926,36016,32791,40781
         #adc16 = 36636
-        k0, k1, k2, k3, k4 = self._C[0], self._C[1], self._C[2], self._C[3], self._C[4]
+        k0, k1, k2, k3, k4 = self._CF[0:5]
         t = -2*k4*1e-21*(adc16**4) + \
             4*k3*1e-16*(adc16**3) + \
             -2*k2*1e-11*(adc16**2) + \
             1*k1*1e-6*adc16 + \
             -1.5*k0*1e-2
-        return round(t, 6)
+        return round(t, 9)
         
     def _read_prom(self):
-        C = []
-        for i in range(5):
-            self.fw.write(bytearray([0xAA - 2*i]))
-            C.append(self.fr.read(2))
-        return [struct.unpack('>H', c)[0] for c in C]
+        # 5 uint16_t, plus a 24-bit serial number, then a 8-bit checksum
+        # Checksum: assert 0 == sum(r) % 0x100
+        # Reading from 0xA2 up, you get k4 to k0, then SN23..8, and SN7..0 | checksum.
+        C = bytearray()
+        # it doesn't auto-increment the pointer, so you can't read more
+        # than 2-byte each call.
+        for addr in range(0xA2, 0xAE + 2, 2):
+            self.fw.write(bytearray([addr]))
+            C += self.fr.read(2)
+        return bytes(C)
 
     def _raw_adc(self):
         self.fw.write(b'\x48')
@@ -50,7 +62,7 @@ class TSYS01:
 
 
 if '__main__' == __name__:
-    import argparse
+    import argparse, sys, logging
 
     parser = argparse.ArgumentParser(formatter_class=argparse.RawTextHelpFormatter,
                                      description='''Example: python3 tsys01.py --bus=1 --address=0x76''')
@@ -58,14 +70,19 @@ if '__main__' == __name__:
     parser.add_argument('--address', metavar='address', type=lambda x: int(x, base=16), default=0x77, help='I2C address')
     args = parser.parse_args()
 
-    #print(s._read_prom())
-    #print(s._raw_adc())
-    #exit()
+    #sensor = TSYS01()
+    # In terms of serial number, you could use the Serial Number field:
+    #print(hex(sensor.SN))
+    # ... or you could just use the whole PROM, since the calibration
+    # factors are not expected to change and are likely to be unique
+    # (yay free entropy):
+    #print(''.join([f"{b:02x}" for b in sensor._prom]))
+
     while True:
         try:
             print(TSYS01(bus=args.bus, address=args.address).read())
         except IOError:
-            logging.exception('Cant\'t reach sensor on bus {} channel {:x}'.format(args.bus, args.address))
+            logging.exception('Can\'t reach sensor on bus {} channel {:x}'.format(args.bus, args.address))
         except KeyboardInterrupt:
             break
         time.sleep(0.1)
