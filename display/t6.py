@@ -46,7 +46,6 @@ def hourly():
     conn = MySQLdb.connect(host='localhost', user='webapp', charset='utf8mb4')
     cur = conn.cursor()
 
-
     cur.execute(f"""select nodeid from uhcm.devices order by nodeid""")
     nodes = [x[0] for x in list(cur.fetchall())]
 
