@@ -1,17 +1,18 @@
-# -*- coding: utf-8 -*-
 name = 'Kim\'s'
 location = 'TNC'
 google_earth_link = '#'
-note = 'Cellular ultrasonic tide gauge. Each sample is average of 60 measurements taken every second. One transmission every 10 samples. Firmware p5e, hardware v0.2.'
+note = 'Ultrasonic tide gauge (cellular; 0.5~10m). Hardware v0.6.'
+latitude = 21.431470
+longitude = -157.81703
+coreid = '550040000251383133363636'
 
-coreid = '230048001951353338363036'
-
+INTERVAL_S = 2*6*60
 
 conf = [
     {
-        'dbtag':'Timestamp',
+        'dbtag':'ts',
         'description':'Sample time (device clock)',
-        'interval':10*60,
+        'interval':INTERVAL_S,
     },
     {
         'dbtag':'d2w',
@@ -19,30 +20,39 @@ conf = [
         'description':'Distance from sensor to water surface',
         'lb':301,
         'ub':4999,
-        'interval':10*60,
+        'interval':INTERVAL_S,
     },
     {
-        'dbtag':'VbattV',
+        'dbtag':'std',
+        'unit':'mm',
+        'description':'Sample standard deviation',
+        #'lb':?,
+        #'ub':?,
+        'interval':INTERVAL_S,
+    },
+    {
+        'dbtag':'Vb',
         'unit':'V',
         'description':'Battery voltage',
         'lb':3.7,
         'ub':5.5,
-        'interval':10*60,
+        'interval':INTERVAL_S,
     },
     {
         'dbtag':'SoC',
         'unit':'%',
         'description':'State of Charge',
-        'lb':30,
+        'lb':40,
         'ub':100,
-        'interval':10*60,
+        'interval':10*INTERVAL_S,
+        'plot':False,
     },
     {
-        'dbtag':'sample_size',
-        'description':'Number of valid readings in the 60 measurements',
-        'lb':0,
-        'ub':60,
-        'interval':10*60,
+        'dbtag':'sc',
+        'description':'# of measurements within 3\u03c3',
+        'lb':91,
+        'ub':181,
+        'interval':INTERVAL_S,
     },
 ]
 

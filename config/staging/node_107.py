@@ -1,28 +1,26 @@
-name = 'Water Level'
-location = 'Makai Pier, Oahu'
-note = 'Ultrasonic tide gauge (cellular; 0.5~10m). Hardware v0.5.'
-#tags = ['tide gauge', 'cellular', 'MB7388', '181m179s']
-latitude = 21.319522
-longitude = -157.668328
-deployment_status = 'deployed'
+name = '(TBD)'
+location = '(TBD)'
+note = 'Ultrasonic tide gauge (cellular; 0.3~5m). v0.6 board.'
+#latitude = 21.433037
+#longitude = -157.789814
+deployment_status = 'staging'
 
-#coreid = '350020001047373334363431'
-coreid = '360031000251383133363636'     # 20210726
+coreid = '350020001047373334363431'
 
-INTERVAL_S = 9*60
+INTERVAL_S = 10*60
 
 conf = [
     {
         'dbtag':'ts',
-        'description':'Sample time (Device clock)',
+        'description':'Sample time (device clock)',
         'interval':INTERVAL_S,
     },
     {
         'dbtag':'d2w',
         'unit':'mm',
         'description':'Distance from sensor to water surface',
-        'lb':501,
-        'ub':9998,
+        'lb':301,
+        'ub':4999,
         'interval':INTERVAL_S,
     },
     {
@@ -51,9 +49,9 @@ conf = [
     },
     {
         'dbtag':'sc',
-        'description':'# of measurements within 3σ',
-        'lb':30,
-        'ub':60,
+        'description':'Number of valid readings in the 60 measurements',
+        'lb':91,
+        'ub':181,
         'interval':INTERVAL_S,
     },
 ]
