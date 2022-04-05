@@ -152,11 +152,13 @@ class LCD:
 
     
 if '__main__' == __name__:
+    
     d = LCD(bus=1, address=0x3f)
-    d.write_lines(['netflix and chill', 'may contain peanut', 'Edward Hopper', 'keep Summer safe'])
+
+    d.write_lines(['Line ONE', 'Line TWO', 'Line THREE', 'Line FOUR'])
 
     while True:
         d.backlight(True)
-        time.sleep(0.1)
+        time.sleep(1)
         d.backlight(False)
-        time.sleep(0.1)
+        time.sleep(1)
