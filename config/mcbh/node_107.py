@@ -1,9 +1,9 @@
-name = '(TBD)'
-location = '(TBD)'
+name = 'Water Level'
+location = 'Marine Corps Base Hawaii'
 note = 'Ultrasonic tide gauge (cellular; 0.3~5m). v0.6 board.'
-#latitude = 21.433037
-#longitude = -157.789814
-deployment_status = 'staging'
+latitude = 21.434098
+longitude = -157.757516
+deployment_status = 'deployed'
 
 coreid = '350020001047373334363431'
 
@@ -46,12 +46,13 @@ conf = [
         'lb':40,    # more like a warning than a valid range check
         'ub':100,
         'interval':10*INTERVAL_S,
+        'plot':False,
     },
     {
         'dbtag':'sc',
         'description':'Number of valid readings in the 60 measurements',
-        'lb':91,
-        'ub':181,
+        'lb':30,
+        'ub':60,
         'interval':INTERVAL_S,
     },
 ]

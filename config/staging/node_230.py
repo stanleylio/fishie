@@ -1,10 +1,10 @@
 name = 'Water Level'
 location = '(TBD)'
-note = 'Ultrasonic tide gauge (cellular; 0.3~5m; Boron). Hardware v1.1.'
+note = 'Ultrasonic tide gauge (cellular; 0.3~5m; Boron). Hardware v2.0.'
 
 coreid = 'e00fce681bc8435ceb6a9458'
 
-INTERVAL_S = 2*6*60
+INTERVAL_S = 12*60
 
 conf = [
     {
@@ -42,6 +42,7 @@ conf = [
         'lb':40,    # more like a warning than a valid range check
         'ub':100,
         'interval':10*INTERVAL_S,
+        'plot':False,
     },
     {
         'dbtag':'sc',

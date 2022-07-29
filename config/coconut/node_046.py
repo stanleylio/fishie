@@ -6,14 +6,16 @@ latitude = 21.433037
 longitude = -157.789814
 deployment_status = 'deployed'
 
-coreid = '1c0038001647373037383634'
+#coreid = '1c0038001647373037383634'
+coreid = '49005a0006504b3842323220'
 
+INTERVAL_S = 9*60
 
 conf = [
     {
-        'dbtag':'Timestamp',
+        'dbtag':'ts',
         'description':'Sample time (device clock)',
-        'interval':10*60,
+        'interval':INTERVAL_S,
     },
     {
         'dbtag':'d2w',
@@ -21,15 +23,23 @@ conf = [
         'description':'Distance from sensor to water surface',
         'lb':300,
         'ub':4999,
-        'interval':10*60,
+        'interval':INTERVAL_S,
     },
     {
-        'dbtag':'VbattV',
+        'dbtag':'std',
+        'unit':'mm',
+        'description':'Sample standard deviation',
+        #'lb':?,
+        #'ub':?,
+        'interval':INTERVAL_S,
+    },
+    {
+        'dbtag':'Vb',
         'unit':'V',
         'description':'Battery voltage',
         'lb':3.7,
         'ub':4.2,
-        'interval':10*60,
+        'interval':INTERVAL_S,
     },
     {
         'dbtag':'SoC',
@@ -37,14 +47,15 @@ conf = [
         'description':'State of Charge',
         'lb':40,
         'ub':100,
-        'interval':10*60,
+        'interval':INTERVAL_S,
+        'plot': False,
     },
     {
-        'dbtag':'sample_size',
+        'dbtag':'sc',
         'description':'Number of valid readings in the 60 measurements',
         'lb':0,
         'ub':60,
-        'interval':10*60,
+        'interval':INTERVAL_S,
     },
 ]
 
